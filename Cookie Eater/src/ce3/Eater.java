@@ -157,12 +157,16 @@ public class Eater{
 		}
 		x+=x_velocity;
 		y+=y_velocity;
-		if(x_velocity>0) {
+		if(Math.abs(x_velocity)<FRICTION){
+			x_velocity=0;
+		}else if(x_velocity>0) {
 			x_velocity-=FRICTION;
 		}else if(x_velocity<0) {
 			x_velocity+=FRICTION;
 		}
-		if(y_velocity>0) {
+		if(Math.abs(y_velocity)<FRICTION){
+			y_velocity=0;
+		}else if(y_velocity>0) {
 			y_velocity-=FRICTION;
 		}else if(x_velocity<0) {
 			y_velocity+=FRICTION;
