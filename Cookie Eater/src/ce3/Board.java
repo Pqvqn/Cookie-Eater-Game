@@ -76,7 +76,22 @@ public class Board extends JFrame implements ActionListener{
 	public void makeCookies() {
 		currFloor.placeCookies();
 	}
-	
+	public void nextLevel() {
+		walls = new ArrayList<Wall>();
+		currFloor=currFloor.getNext();
+		score = 0;
+		buildBoard();
+		cookies = new ArrayList<Cookie>();
+		makeCookies();
+	}
+	public void resetLevel() {
+		walls = new ArrayList<Wall>();
+		currFloor = floors.getLast();
+		score = 0;
+		buildBoard();
+		cookies = new ArrayList<Cookie>();
+		makeCookies();
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

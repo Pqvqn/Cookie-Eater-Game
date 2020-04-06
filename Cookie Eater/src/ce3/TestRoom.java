@@ -11,7 +11,6 @@ public class TestRoom extends Level{
 		next = nextFloor;
 		scale = 1;
 		board = frame;
-		System.out.println(scale);
 	}
 	
 	public void build() {

@@ -11,7 +11,6 @@ public class Floor1_Entrance extends Level{
 		next = nextFloor;
 		scale = 1;
 		board = frame;
-		System.out.println(scale);
 	}
 	
 	public void build() {
@@ -23,8 +22,8 @@ public class Floor1_Entrance extends Level{
 	
 	public void placeCookies() {
 		int cooks = 0;
-		for(int pY = board.BORDER_THICKNESS+50; pY<board.Y_RESOL-board.BORDER_THICKNESS-50; pY+=90) {
-			for(int pX = board.BORDER_THICKNESS+50; pX<board.X_RESOL-board.BORDER_THICKNESS-50; pX+=90) {
+		for(int pY = board.BORDER_THICKNESS+500; pY<board.Y_RESOL-board.BORDER_THICKNESS-50; pY+=1000) {
+			for(int pX = board.BORDER_THICKNESS+50; pX<board.X_RESOL-board.BORDER_THICKNESS-50; pX+=50) {
 				board.cookies.add(new Cookie(board,pX,pY));
 				cooks++;
 			}

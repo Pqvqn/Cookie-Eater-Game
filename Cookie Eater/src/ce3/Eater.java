@@ -108,15 +108,27 @@ public class Eater{
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
+		try {
+			Thread.sleep(200);
+		}catch(InterruptedException e){};
+		board.resetLevel();
+		reset();
 	}
 	public void win() {
 		coloration = Color.green;
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
+		try {
+			Thread.sleep(200);
+		}catch(InterruptedException e){};
+		board.nextLevel();
+		reset();
 	}
 	public void reset() {
 		coloration = Color.blue.brighter();
+		x_velocity=0;
+		y_velocity=0;
 		x = START_X;
 		y = START_Y;
 		dO = true;

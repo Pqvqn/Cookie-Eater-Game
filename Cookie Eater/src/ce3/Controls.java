@@ -34,10 +34,7 @@ public class Controls implements KeyListener{
 				player.setDir(player.RIGHT);
 				break;
 			case KeyEvent.VK_SPACE:
-				player.reset();
-				board.score = 0;
-				board.cookies = new ArrayList<Cookie>();
-				board.makeCookies();
+				player.kill();
 				break;
 		}
 		
