@@ -37,7 +37,7 @@ public class Controls implements KeyListener{
 				player.reset();
 				board.score = 0;
 				board.cookies = new ArrayList<Cookie>();
-				board.makeCookies(board.scoreToWin);
+				board.makeCookies();
 				break;
 		}
 		

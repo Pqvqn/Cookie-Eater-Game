@@ -18,6 +18,8 @@ public class Board extends JFrame implements ActionListener{
 	public ArrayList<Wall> walls;
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin;
+	private LinkedList<Level> floors;
+	private Level currFloor;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -44,10 +46,17 @@ public class Board extends JFrame implements ActionListener{
 		add(draw);
 		pack();
 		
+		floors = new LinkedList<Level>();
+		currFloor = new TestRoom(this, null);
+		floors.add(currFloor);
+		currFloor = new Floor1_Entrance(this,currFloor);
+		floors.add(currFloor);
+		
+		
 		buildBoard();
 		score = 0;
 		scoreToWin = 20;
-		makeCookies(scoreToWin);
+		makeCookies();
 		
 		while(true)
 			run(15);
@@ -61,21 +70,11 @@ public class Board extends JFrame implements ActionListener{
 	}
 	
 	public void buildBoard() {
-		walls.add(new Wall(this,0,0,X_RESOL,BORDER_THICKNESS));
-		walls.add(new Wall(this,0,0,BORDER_THICKNESS,Y_RESOL));
-		walls.add(new Wall(this,0,Y_RESOL-BORDER_THICKNESS,X_RESOL,BORDER_THICKNESS));
-		walls.add(new Wall(this,X_RESOL-BORDER_THICKNESS,0,BORDER_THICKNESS,Y_RESOL));
-		
-		walls.add(new Wall(this,800,500,400,100));
+		currFloor.build();
 	}
 	
-	public void makeCookies(int num) {
-		int wid = (BORDER_THICKNESS+Cookie.DEFAULT_RADIUS);
-		for(int i=0; i<num; i++) {
-			cookies.add(new Cookie(this,
-					(int)(Math.random()*(X_RESOL-2*wid))+wid,
-					(int)(Math.random()*(Y_RESOL-2*wid))+wid));
-		}
+	public void makeCookies() {
+		currFloor.placeCookies();
 	}
 	
 	@Override
