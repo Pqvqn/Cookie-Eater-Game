@@ -25,12 +25,13 @@ public class FloorEntrance extends Level{
 		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
 		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
 		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		
 	}
 	
 	public void placeCookies() {
 		int cooks = 0;
-		/*for(int pY = board.BORDER_THICKNESS+50; pY<board.Y_RESOL-board.BORDER_THICKNESS-75; pY+=90) {
-			for(int pX = board.BORDER_THICKNESS+50; pX<board.X_RESOL-board.BORDER_THICKNESS-75; pX+=90) {
+		/*for(int pY = board.BORDER_THICKNESS+70; pY<board.Y_RESOL-board.BORDER_THICKNESS-75; pY+=100) {
+			for(int pX = board.BORDER_THICKNESS+70; pX<board.X_RESOL-board.BORDER_THICKNESS-75; pX+=100) {
 				board.cookies.add(new Cookie(board,pX,pY));
 				cooks++;
 			}

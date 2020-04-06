@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
+import levels.*;
+
 public class Eater{
 	
 	private Queue<Double> x_positions;
@@ -92,14 +94,15 @@ public class Eater{
 	public boolean collidesWithRect(int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
 				(y + radius > oY && y - radius < oY + oH);*/
-		return (Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
+		return Level.collidesCircleAndRect((int)x,(int)y,radius,oX,oY,oW,oH);
+			/*(Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
 				(Math.abs(x - (oX+oW)) <= radius && y>=oY && y<=oY+oH)||
 				(Math.abs(y - oY) <= radius && x>=oX && x<=oX+oW) ||
 				(Math.abs(y - (oY+oH)) <= radius && x>=oX && x<=oX+oW) ||
 				(Math.sqrt((x-oX)*(x-oX) + (y-oY)*(y-oY))<=radius) ||
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-oY)*(y-oY))<=radius) ||
 				(Math.sqrt((x-oX)*(x-oX) + (y-(oY+oH))*(y-(oY+oH)))<=radius) ||
-				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);
+				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
 	public void kill() {
