@@ -1,6 +1,9 @@
-package ce3;
+package levels;
 
-public class Floor1_Entrance extends Level{
+
+import ce3.*;
+
+public class FloorEntrance extends Level{
 
 	//public double scale;
 	private Level next;
@@ -8,7 +11,7 @@ public class Floor1_Entrance extends Level{
 	//public double startx;
 	//public double starty;
 	
-	public Floor1_Entrance(Board frame, Level nextFloor) {
+	public FloorEntrance(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
 		scale = 1;

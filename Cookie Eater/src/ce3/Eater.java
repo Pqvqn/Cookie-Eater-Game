@@ -14,7 +14,7 @@ public class Eater{
 	private int radius;
 	public static final int DEFAULT_RADIUS = 40;
 	private double x, y;
-	public static final int UP=0, RIGHT=1, DOWN=2, LEFT=3;
+	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
 	private double x_velocity, y_velocity;
 	private final double ACCELERATION = .5;
@@ -30,7 +30,7 @@ public class Eater{
 		board = frame;
 		x=board.X_RESOL/2;
 		y=board.Y_RESOL/2;
-		direction = RIGHT;
+		direction = NONE;
 		x_velocity = 0;
 		y_velocity = 0;
 		radius=DEFAULT_RADIUS;
@@ -130,13 +130,10 @@ public class Eater{
 		coloration = Color.blue.brighter();
 		x_velocity=0;
 		y_velocity=0;
-		board.currFloor.say();
-		System.out.println(x);
-		System.out.println("start "+board.currFloor.startx);
 		x = board.currFloor.startx;
 		y = board.currFloor.starty;
 		dO = true;
-		direction = RIGHT;
+		direction = NONE;
 	}
 	
 	public void runUpdate() {

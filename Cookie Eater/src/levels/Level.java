@@ -1,4 +1,6 @@
-package ce3;
+package levels;
+
+import ce3.*;
 
 public abstract class Level{
 	
@@ -26,6 +28,4 @@ public abstract class Level{
 	public void setNext(Level newNext) {
 		next = newNext;
 	}
-	public void say() {}
-
 }

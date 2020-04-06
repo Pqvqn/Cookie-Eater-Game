@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import levels.*;
+
 import java.util.*;
 
 public class Board extends JFrame implements ActionListener{
@@ -49,7 +51,7 @@ public class Board extends JFrame implements ActionListener{
 		floors = new LinkedList<Level>();
 		currFloor = new TestRoom(this, null);
 		floors.add(currFloor);
-		currFloor = new Floor1_Entrance(this,currFloor);
+		currFloor = new FloorEntrance(this,currFloor);
 		floors.add(currFloor);
 		
 		

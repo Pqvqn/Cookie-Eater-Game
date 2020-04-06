@@ -1,4 +1,6 @@
-package ce3;
+package levels;
+
+import ce3.*;
 
 public class TestRoom extends Level{
 
@@ -35,8 +37,5 @@ public class TestRoom extends Level{
 					(int)(Math.random()*(board.Y_RESOL-2*wid))+wid));
 		}
 		board.scoreToWin = 20;
-	}
-	public void say() {
-		System.out.println("say");
 	}
 }
