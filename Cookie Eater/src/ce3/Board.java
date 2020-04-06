@@ -20,6 +20,7 @@ public class Board extends JFrame implements ActionListener{
 	public ArrayList<Wall> walls;
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin;
+	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this,null), new Floor2(this,null)};
 	private LinkedList<Level> floors;
 	public Level currFloor;
 	
@@ -49,10 +50,12 @@ public class Board extends JFrame implements ActionListener{
 		pack();
 		
 		floors = new LinkedList<Level>();
-		currFloor = new TestRoom(this, null);
-		floors.add(currFloor);
-		currFloor = new FloorEntrance(this,currFloor);
-		floors.add(currFloor);
+		for(int i=FLOOR_SEQUENCE.length-1; i>=0; i--) {
+			floors.add(FLOOR_SEQUENCE[i]);
+			if(i<FLOOR_SEQUENCE.length-1) 
+				FLOOR_SEQUENCE[i].setNext(FLOOR_SEQUENCE[i+1]);
+		}
+		currFloor = floors.getLast();
 		
 		
 		buildBoard();
