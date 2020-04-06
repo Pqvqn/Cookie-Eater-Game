@@ -2,9 +2,11 @@ package ce3;
 
 public abstract class Level{
 	
-	private double scale;
+	public double scale;
 	private Level next;
 	private Board board;
+	public double startx;
+	public double starty;
 	
 	public Level(Board frame, Level nextFloor) {
 		next = nextFloor;
@@ -24,5 +26,6 @@ public abstract class Level{
 	public void setNext(Level newNext) {
 		next = newNext;
 	}
+	public void say() {}
 
 }

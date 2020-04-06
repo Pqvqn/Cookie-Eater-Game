@@ -2,9 +2,11 @@ package ce3;
 
 public class TestRoom extends Level{
 
-	private double scale;
+	//public double scale;
 	private Level next;
 	private Board board;
+	//public double startx;
+	//public double starty;
 	
 	public TestRoom(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
@@ -14,6 +16,8 @@ public class TestRoom extends Level{
 	}
 	
 	public void build() {
+		startx = board.player.getX();
+		starty = board.player.getY();
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS));
 		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
 		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
@@ -32,5 +36,7 @@ public class TestRoom extends Level{
 		}
 		board.scoreToWin = 20;
 	}
-
+	public void say() {
+		System.out.println("say");
+	}
 }

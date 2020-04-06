@@ -19,7 +19,7 @@ public class Board extends JFrame implements ActionListener{
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin;
 	private LinkedList<Level> floors;
-	private Level currFloor;
+	public Level currFloor;
 	
 	public Board() {
 		super("Cookie Eater");
