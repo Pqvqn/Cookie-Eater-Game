@@ -20,7 +20,7 @@ public class FloorEntrance extends Level{
 	
 	public void build() {
 		super.build();
-		startx = board.X_RESOL/2;
+		startx = board.X_RESOL/2; //start in middle of board
 		starty = board.Y_RESOL/2;
 	}
 	

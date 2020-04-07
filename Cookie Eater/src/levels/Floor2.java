@@ -24,16 +24,17 @@ public class Floor2 extends Level{
 		genWalls(2);
 		
 	}
+	//creates random walls
 	public void genWalls(int num) {
 		for(int i=0; i<num; i++) {
-			int x=-1,y=-1,w=-1,h=-1;
+			int x=-1,y=-1,w=-1,h=-1; //regenerate wall until it doesn't overlap player start
 			while(x<0 || collidesCircleAndRect((int)(startx+.5),(int)(starty+.5),board.player.getRadius()*3,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)) {
 				x=(int)(Math.random()*board.X_RESOL);
 				y=(int)(Math.random()*board.Y_RESOL);
 				w=(int)(Math.random()*300)+200;
 				h=(int)(Math.random()*300)+200;
 			}
-			board.walls.add(new Wall(board,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h));
+			board.walls.add(new Wall(board,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)); //adds wall to list of walls
 		}
 	}
 	public void placeCookies() {

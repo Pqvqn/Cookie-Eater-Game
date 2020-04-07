@@ -19,6 +19,7 @@ public class Draw extends JPanel{
 		
 	}
 	
+	//update all objects
 	public void runUpdate() {
 		player.runUpdate();
 		for(int i=0; i<board.cookies.size(); i++) {
@@ -27,6 +28,7 @@ public class Draw extends JPanel{
 		repaint();
 	}
 	
+	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		player.paint(g);

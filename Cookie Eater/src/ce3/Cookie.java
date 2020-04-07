@@ -19,18 +19,20 @@ public class Cookie {
 	}
 	
 	public void runUpdate() {
-		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius())) {
+		//delete self on collision with player
+		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius())) { 
 			kill();
 		}
 	}
 	
+	//test if collides with a circle
 	public boolean collidesWithCircle(int oX, int oY, int oRad) {
 		int xDiff = Math.abs(oX - x);
 		int yDiff = Math.abs(oY - y);
 		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currFloor.scale;
 	}
 	
-	
+	//delete self and increase score
 	public void kill() {
 		board.score++;
 		board.cookies.remove(board.cookies.indexOf(this));

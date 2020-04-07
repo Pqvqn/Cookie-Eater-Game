@@ -10,24 +10,24 @@ import levels.*;
 
 public class Eater{
 	
-	private Queue<Double> x_positions;
-	private Queue<Double> y_positions;
-	private final int TRAIL_LENGTH = 10;
+	//private Queue<Double> x_positions; //previous positions for trail effect
+	//private Queue<Double> y_positions;
+	//private final int TRAIL_LENGTH = 10;
 	private int radius;
 	public static final int DEFAULT_RADIUS = 40;
 	private double x, y;
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
-	private double x_velocity, y_velocity;
-	private final double ACCELERATION = .5;
-	private final double MAX_VELOCITY = 10;
-	private final double FRICTION = .1;
+	private double x_velocity, y_velocity; //current dimensional speed
+	private final double ACCELERATION = .5; //added to dimensional speed depending on direction
+	private final double MAX_VELOCITY = 10; //cap on dimensional speed
+	private final double FRICTION = .1; //removed from dimensional speed
 	private double accel;
 	private double maxvel;
 	private double fric;
 	private Color coloration;
-	private boolean dO;
-	private double scale;
+	private boolean dO; //continue movement
+	private double scale; //zoom in/out of screen
 	
 	private Board board;
 	
@@ -59,7 +59,14 @@ public class Eater{
 	public int getY() {
 		return (int)(y+.5);
 	}
-	public int getTrailX() {
+	public void setDir(int dir) {
+		direction = dir;
+	}
+	public int getRadius() {
+		return radius;
+	}
+	//currently unused trail stuff
+	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
 			return -1;
 		}
@@ -78,13 +85,8 @@ public class Eater{
 	public int getTrailLength() {
 		return TRAIL_LENGTH;
 	}
-	public void setDir(int dir) {
-		direction = dir;
-	}
-	public int getRadius() {
-		return radius;
-	}
-	/*public String getTrailLists() {
+
+	public String getTrailLists() {
 		String ret = "";
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
 			double yes = x_positions.remove();
@@ -99,6 +101,8 @@ public class Eater{
 		}
 		return ret;
 	}*/
+	
+	//tests if hits rectangle
 	public boolean collidesWithRect(int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
 				(y + radius > oY && y - radius < oY + oH);*/
@@ -113,6 +117,7 @@ public class Eater{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
+	//reset back to first level
 	public void kill() {
 		coloration = Color.black;
 		board.draw.repaint();
@@ -120,23 +125,25 @@ public class Eater{
 		y_velocity = 0;
 		dO = false;
 		try {
-			Thread.sleep(200);
+			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetLevel();
 		reset();
 	}
+	//move to next level
 	public void win() {
 		coloration = Color.green;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
-		try {
+		try { //movement freeze
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		board.nextLevel();
 		reset();
 	}
+	//resets player to floor-beginning state
 	public void reset() {
 		coloration = Color.blue.brighter();
 		x_velocity=0;
@@ -153,11 +160,11 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
-		if(!dO)return;
+		if(!dO)return; //if paused
 		switch(direction) {
-			case UP:
-				if(y_velocity>-maxvel)
-					y_velocity-=accel;
+			case UP: //if up
+				if(y_velocity>-maxvel) //if below speed cap
+					y_velocity-=accel; //increase speed upward
 				break;
 			case RIGHT:
 				if(x_velocity<maxvel)
@@ -172,13 +179,13 @@ public class Eater{
 					x_velocity-=accel;
 				break;
 		}
-		x+=x_velocity;
+		x+=x_velocity; //move
 		y+=y_velocity;
-		if(Math.abs(x_velocity)<fric){
+		if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
 			x_velocity=0;
-		}else if(x_velocity>0) {
+		}else if(x_velocity>0) { //if positive speed, subtract friction
 			x_velocity-=fric;
-		}else if(x_velocity<0) {
+		}else if(x_velocity<0) { //if negative speed, add friction
 			x_velocity+=fric;
 		}
 		if(Math.abs(y_velocity)<fric){
@@ -192,10 +199,10 @@ public class Eater{
 		y_positions.add(y);
 		x_positions.remove();
 		y_positions.remove();*/
-		if(board.score>=board.scoreToWin)
+		if(board.score>=board.scoreToWin) //win if all cookies eaten
 			win();
 		
-		for(int i=0; i<board.walls.size(); i++) {
+		for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
 			Wall rect = board.walls.get(i);
 			if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
 				i=board.walls.size();
