@@ -25,11 +25,11 @@ public class FloorEntrance extends Level{
 	}
 	
 	public void placeCookies() {
-		super.placeCookies(70,100);
-		/*int cooks = 0;
+		//super.placeCookies(70,100);
+		int cooks = 0;
 		board.cookies.add(new Cookie(board,1400,400));
 		cooks++;
-		board.scoreToWin = cooks;*/
+		board.scoreToWin = cooks;
 	}
 
 }

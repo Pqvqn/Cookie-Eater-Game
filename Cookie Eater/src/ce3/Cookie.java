@@ -9,6 +9,7 @@ public class Cookie {
 	public static final int DEFAULT_RADIUS=30;
 	private int radius;
 	private Board board;
+	private boolean accessible;
 	
 	public Cookie(Board frame, int startx, int starty) {
 		board = frame;
@@ -16,6 +17,7 @@ public class Cookie {
 		x=startx;
 		y=starty;
 		radius=DEFAULT_RADIUS;
+		accessible=false;
 	}
 	
 	public void runUpdate() {
@@ -37,6 +39,12 @@ public class Cookie {
 		board.score++;
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
+	
+	public void setAccess(boolean a) {accessible = a;}
+	
+	public boolean getAccess() {return accessible;}
+	public int getX() {return x;}
+	public int getY() {return y;}
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.ORANGE.darker());

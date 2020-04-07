@@ -21,7 +21,7 @@ public class Floor2 extends Level{
 	
 	public void build() {
 		super.build();
-		genWalls(2);
+		genWalls(6);
 		
 	}
 	//creates random walls
@@ -38,7 +38,7 @@ public class Floor2 extends Level{
 		}
 	}
 	public void placeCookies() {
-		super.placeCookies(50,120);
+		super.placeCookies(10,120);
 	}
 
 }
