@@ -15,7 +15,7 @@ public class Floor2 extends Level{
 	public Floor2(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
-		scale = 1;
+		scale = .95;
 		board = frame;
 		cookieClearance = 75;
 	}

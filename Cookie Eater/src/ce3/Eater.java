@@ -22,8 +22,12 @@ public class Eater{
 	private final double ACCELERATION = .5;
 	private final double MAX_VELOCITY = 10;
 	private final double FRICTION = .1;
+	private double accel;
+	private double maxvel;
+	private double fric;
 	private Color coloration;
 	private boolean dO;
+	private double scale;
 	
 	private Board board;
 	
@@ -37,6 +41,10 @@ public class Eater{
 		y_velocity = 0;
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
+		scale = 1;
+		accel = ACCELERATION;
+		maxvel = MAX_VELOCITY;
+		fric = FRICTION;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -94,7 +102,7 @@ public class Eater{
 	public boolean collidesWithRect(int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
 				(y + radius > oY && y - radius < oY + oH);*/
-		return Level.collidesCircleAndRect((int)x,(int)y,radius,oX,oY,oW,oH);
+		return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius,oX,oY,oW,oH);
 			/*(Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
 				(Math.abs(x - (oX+oW)) <= radius && y>=oY && y<=oY+oH)||
 				(Math.abs(y - oY) <= radius && x>=oX && x<=oX+oW) ||
@@ -135,6 +143,11 @@ public class Eater{
 		y_velocity=0;
 		x = board.currFloor.startx;
 		y = board.currFloor.starty;
+		scale = board.currFloor.scale;
+		accel = ACCELERATION*scale;
+		maxvel = MAX_VELOCITY*scale;
+		fric = FRICTION*scale;
+		radius = (int)(.5+DEFAULT_RADIUS*scale);
 		dO = true;
 		direction = NONE;
 	}
@@ -143,37 +156,37 @@ public class Eater{
 		if(!dO)return;
 		switch(direction) {
 			case UP:
-				if(y_velocity>-MAX_VELOCITY)
-					y_velocity-=ACCELERATION;
+				if(y_velocity>-maxvel)
+					y_velocity-=accel;
 				break;
 			case RIGHT:
-				if(x_velocity<MAX_VELOCITY)
-					x_velocity+=ACCELERATION;
+				if(x_velocity<maxvel)
+					x_velocity+=accel;
 				break;
 			case DOWN:
-				if(y_velocity<MAX_VELOCITY)
-					y_velocity+=ACCELERATION;
+				if(y_velocity<maxvel)
+					y_velocity+=accel;
 				break;
 			case LEFT:
-				if(x_velocity>-MAX_VELOCITY)
-					x_velocity-=ACCELERATION;
+				if(x_velocity>-maxvel)
+					x_velocity-=accel;
 				break;
 		}
 		x+=x_velocity;
 		y+=y_velocity;
-		if(Math.abs(x_velocity)<FRICTION){
+		if(Math.abs(x_velocity)<fric){
 			x_velocity=0;
 		}else if(x_velocity>0) {
-			x_velocity-=FRICTION;
+			x_velocity-=fric;
 		}else if(x_velocity<0) {
-			x_velocity+=FRICTION;
+			x_velocity+=fric;
 		}
-		if(Math.abs(y_velocity)<FRICTION){
+		if(Math.abs(y_velocity)<fric){
 			y_velocity=0;
 		}else if(y_velocity>0) {
-			y_velocity-=FRICTION;
+			y_velocity-=fric;
 		}else if(x_velocity<0) {
-			y_velocity+=FRICTION;
+			y_velocity+=fric;
 		}
 		/*x_positions.add(x);
 		y_positions.add(y);
@@ -193,7 +206,7 @@ public class Eater{
 	
 	public void paint(Graphics g) {
 		g.setColor(coloration);
-		g.fillOval((int)(x-radius), (int)(y-radius), radius*2, radius*2);
+		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		/*int rate = 5;
 		int x=0, y=0;
 		int diam = player.getRadius()*2-player.getTrailLength()*rate;

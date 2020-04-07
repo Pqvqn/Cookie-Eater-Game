@@ -27,7 +27,7 @@ public class Cookie {
 	public boolean collidesWithCircle(int oX, int oY, int oRad) {
 		int xDiff = Math.abs(oX - x);
 		int yDiff = Math.abs(oY - y);
-		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius;
+		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currFloor.scale;
 	}
 	
 	
@@ -38,6 +38,6 @@ public class Cookie {
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.ORANGE.darker());
-		g.fillOval((int)(x-radius), (int)(y-radius), radius*2, radius*2);
+		g.fillOval((int)(.5+x-radius*board.currFloor.scale), (int)(.5+y-radius*board.currFloor.scale), (int)(.5+radius*board.currFloor.scale*2), (int)(.5+radius*board.currFloor.scale*2));
 	}
 }
