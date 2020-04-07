@@ -17,16 +17,10 @@ public class Floor2 extends Level{
 		next = nextFloor;
 		scale = .95;
 		board = frame;
-		cookieClearance = 75;
 	}
 	
 	public void build() {
-		startx = board.player.getX();
-		starty = board.player.getY();
-		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS));
-		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
-		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		super.build();
 		genWalls(2);
 		
 	}
@@ -43,22 +37,7 @@ public class Floor2 extends Level{
 		}
 	}
 	public void placeCookies() {
-		int cooks = 0;
-		for(int pY = board.BORDER_THICKNESS+50; pY<board.Y_RESOL-board.BORDER_THICKNESS-75; pY+=90) {
-			for(int pX = board.BORDER_THICKNESS+50; pX<board.X_RESOL-board.BORDER_THICKNESS-75; pX+=90) {
-				boolean place = true;
-				for(Wall w : board.walls) {
-					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+cookieClearance+.5),w.getX(),w.getY(),w.getW(),w.getH())) 
-						place = false;
-					
-				}
-				if(place) {
-					board.cookies.add(new Cookie(board,pX,pY));
-					cooks++;
-				}
-			}
-		}
-		board.scoreToWin = cooks;
+		super.placeCookies(50,120);
 	}
 
 }
