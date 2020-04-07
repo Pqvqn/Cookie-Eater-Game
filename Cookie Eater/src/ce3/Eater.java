@@ -19,10 +19,10 @@ public class Eater{
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
 	private double x_velocity, y_velocity; //current dimensional speed
-	private final double ACCELERATION = .5; //added to dimensional speed depending on direction
-	private final double MAX_VELOCITY = 10; //cap on dimensional speed
-	private final double FRICTION = .1; //removed from dimensional speed
-	private double accel;
+	private double acceleration = .5; //added to dimensional speed depending on direction
+	private double max_velocity = 10; //cap on dimensional speed
+	private double friction = .1; //removed from dimensional speed
+	private double accel; //scalable movement stats
 	private double maxvel;
 	private double fric;
 	private Color coloration;
@@ -42,9 +42,10 @@ public class Eater{
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
 		scale = 1;
-		accel = ACCELERATION;
-		maxvel = MAX_VELOCITY;
-		fric = FRICTION;
+		randomizeStats();
+		accel = acceleration*scale;
+		maxvel = max_velocity*scale;
+		fric = friction*scale;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -128,6 +129,7 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetLevel();
+		randomizeStats();
 		reset();
 	}
 	//move to next level
@@ -145,18 +147,26 @@ public class Eater{
 	}
 	//resets player to floor-beginning state
 	public void reset() {
-		coloration = Color.blue.brighter();
+		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
 		x = board.currFloor.startx;
 		y = board.currFloor.starty;
 		scale = board.currFloor.scale;
-		accel = ACCELERATION*scale;
-		maxvel = MAX_VELOCITY*scale;
-		fric = FRICTION*scale;
+		accel = acceleration*scale;
+		maxvel = max_velocity*scale;
+		fric = friction*scale;
 		radius = (int)(.5+DEFAULT_RADIUS*scale);
 		dO = true;
 		direction = NONE;
+	}
+	
+	//gives the player a random set of movement stats and colors accordingly
+	public void randomizeStats() {
+		acceleration = Math.random()*1+.2;
+		max_velocity = Math.random()*15+5;
+		friction = Math.random()*.25+.05;
+		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 	}
 	
 	public void runUpdate() {
@@ -164,19 +174,19 @@ public class Eater{
 		switch(direction) {
 			case UP: //if up
 				if(y_velocity>-maxvel) //if below speed cap
-					y_velocity-=accel; //increase speed upward
+					y_velocity-=accel+fric; //increase speed upward
 				break;
 			case RIGHT:
 				if(x_velocity<maxvel)
-					x_velocity+=accel;
+					x_velocity+=accel+fric;
 				break;
 			case DOWN:
 				if(y_velocity<maxvel)
-					y_velocity+=accel;
+					y_velocity+=accel+fric;
 				break;
 			case LEFT:
 				if(x_velocity>-maxvel)
-					x_velocity-=accel;
+					x_velocity-=accel+fric;
 				break;
 		}
 		x+=x_velocity; //move
@@ -192,7 +202,7 @@ public class Eater{
 			y_velocity=0;
 		}else if(y_velocity>0) {
 			y_velocity-=fric;
-		}else if(x_velocity<0) {
+		}else if(y_velocity<0) {
 			y_velocity+=fric;
 		}
 		/*x_positions.add(x);
