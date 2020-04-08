@@ -5,8 +5,8 @@ import ce3.*;
 public class TestRoom extends Level{
 
 	//public double scale;
-	private Level next;
-	private Board board;
+	//private Level next;
+	//private Board board;
 	//public double startx;
 	//public double starty;
 	

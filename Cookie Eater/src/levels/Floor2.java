@@ -6,8 +6,8 @@ import ce3.*;
 public class Floor2 extends Level{
 
 	//public double scale;
-	private Level next;
-	private Board board;
+	//private Level next;
+	//private Board board;
 	//public double startx;
 	//public double starty;
 	
@@ -17,6 +17,8 @@ public class Floor2 extends Level{
 		next = nextFloor;
 		scale = .95;
 		board = frame;
+		minDecay = 60;
+		maxDecay = 3600;
 	}
 	
 	public void build() {

@@ -4,11 +4,13 @@ import ce3.*;
 
 public abstract class Level{
 	
-	public double scale; //zoom in/out of level
-	private Level next; //level to move to once completed
-	private Board board;
-	public double startx; //player start pos.
-	public double starty;
+	protected double scale; //zoom in/out of level
+	protected Level next; //level to move to once completed
+	protected Board board;
+	protected double startx; //player start pos.
+	protected double starty;
+	protected int minDecay; //frames for cookie at edge corner to decay fully
+	protected int maxDecay; //frames for cookie at center to decay fully
 	
 	public Level(Board frame, Level nextFloor) {
 		next = nextFloor;
@@ -50,7 +52,6 @@ public abstract class Level{
 		}
 		
 		//remove cookies that player can't access
-		int h =0;
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
 			if(splitSight((int)(board.player.getRadius()*scale*1.5),currCookie.getX(),currCookie.getY(),board.player.getX(),board.player.getY())) {
@@ -92,6 +93,17 @@ public abstract class Level{
 	}
 	public void setNext(Level newNext) {
 		next = newNext;
+	}
+	public int getStartX() {return (int)(.5+startx);}
+	public int getStartY() {return (int)(.5+starty);}
+	public double getScale() {return scale;}
+	public int getMinDecay() {return minDecay;}
+	public int getMaxDecay() {return maxDecay;}
+	
+	
+	//gives length of line rom start/end points
+	public static double lineLength(int x1, int y1, int x2, int y2) {
+		return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 	}
 	
 	//tests if a circle and a rectangle overlap

@@ -1,7 +1,7 @@
 package ce3;
 
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -9,9 +9,10 @@ import levels.*;
 
 import java.util.*;
 
-public class Board extends JFrame implements ActionListener{
+public class Board extends JFrame{
 
-	//private JPanel board;
+
+	private static final long serialVersionUID = 1L;
 	private Controls keyListener;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	public Eater player;
@@ -20,6 +21,7 @@ public class Board extends JFrame implements ActionListener{
 	public ArrayList<Wall> walls;
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
+	public int cash; //cookies to spend
 	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this,null), new Floor2(this,null)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
@@ -105,11 +107,6 @@ public class Board extends JFrame implements ActionListener{
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
-	}
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

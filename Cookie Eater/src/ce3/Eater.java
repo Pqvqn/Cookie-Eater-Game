@@ -1,10 +1,10 @@
 package ce3;
 
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 
-import javax.swing.*;
-import java.util.*;
+//import javax.swing.*;
+//import java.util.*;
 
 import levels.*;
 
@@ -59,6 +59,9 @@ public class Eater{
 	}
 	public int getY() {
 		return (int)(y+.5);
+	}
+	public int getDir() {
+		return direction;
 	}
 	public void setDir(int dir) {
 		direction = dir;
@@ -150,9 +153,9 @@ public class Eater{
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
-		x = board.currFloor.startx;
-		y = board.currFloor.starty;
-		scale = board.currFloor.scale;
+		x = board.currFloor.getStartX();
+		y = board.currFloor.getStartY();
+		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
