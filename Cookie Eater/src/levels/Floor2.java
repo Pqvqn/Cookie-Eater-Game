@@ -23,7 +23,7 @@ public class Floor2 extends Level{
 	
 	public void build() {
 		super.build();
-		genWalls(6);
+		genWalls(3);
 		
 	}
 	//creates random walls
