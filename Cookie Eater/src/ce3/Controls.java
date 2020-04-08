@@ -36,7 +36,7 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_SPACE:
 				player.kill();
 				break;
-			case KeyEvent.VK_TAB:
+			case KeyEvent.VK_ENTER:
 				player.win();
 				break;
 		}

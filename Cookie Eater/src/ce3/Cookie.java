@@ -61,6 +61,10 @@ public class Cookie {
 	public boolean getAccess() {return accessible;}
 	public int getX() {return x;}
 	public int getY() {return y;}
+	public void shift(int xS, int yS) {
+		x+=xS;
+		y+=yS;
+	}
 	
 	public void paint(Graphics g) {
 		if(decayed) {g.setColor(new Color(120,80,20,100));}

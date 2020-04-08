@@ -27,7 +27,7 @@ public class FloorEntrance extends Level{
 	}
 	
 	public void placeCookies() {
-		super.placeCookies(70,100);
+		super.placeCookies(90,100);
 		/*int cooks = 0;
 		board.cookies.add(new Cookie(board,1400,400));
 		cooks++;

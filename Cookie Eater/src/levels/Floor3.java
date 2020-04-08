@@ -9,7 +9,7 @@ public class Floor3 extends Level{
 	public Floor3(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
-		scale = .95;
+		scale = .9;
 		board = frame;
 		minDecay = 60;
 		maxDecay = 3600;
@@ -25,7 +25,7 @@ public class Floor3 extends Level{
 		
 	}
 	public void placeCookies() {
-		super.placeCookies(10,120);
+		super.placeCookies(5,(int)(100*scale));
 	}
 
 }

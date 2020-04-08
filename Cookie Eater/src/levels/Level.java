@@ -36,8 +36,16 @@ public abstract class Level{
 	public void placeCookies(int clearance, int separation) { //clearance between cookies and walls, separation between cookies
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
-		for(int pY = board.BORDER_THICKNESS+clearance+10; pY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
-			for(int pX = board.BORDER_THICKNESS+clearance+10; pX<board.X_RESOL-board.BORDER_THICKNESS-clearance; pX+=separation) {
+		//vars for first/last cookie in line
+		int xOrig = board.BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1, yOrig = board.BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1;
+		int tY = 0, tX = 0;
+		//adjust cookie grid to be centered
+		for(tY = yOrig; tY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; tY+=separation);
+		for(tX = xOrig; tX<board.X_RESOL-board.BORDER_THICKNESS-clearance; tX+=separation);
+		xOrig+=(board.X_RESOL-tX-xOrig)/2;
+		yOrig+=(board.Y_RESOL-tY-yOrig)/2;
+		for(int pY = yOrig; pY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
+			for(int pX = xOrig; pX<board.X_RESOL-board.BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
 				for(Wall w : board.walls) { //only place if not too close to any walls
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH())) 
@@ -50,7 +58,6 @@ public abstract class Level{
 				}
 			}
 		}
-		
 		//remove cookies that player can't access
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
@@ -86,8 +93,10 @@ public abstract class Level{
 				i--;
 			}
 		}
+		
 		board.scoreToWin = cooks;
 	}
+	
 	public Level getNext() {
 		return next;
 	}
