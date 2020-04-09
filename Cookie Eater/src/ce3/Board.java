@@ -29,6 +29,7 @@ public class Board extends JFrame{
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	private UIFpsCount fps;
+	private UIScoreCount scoreboard;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -74,6 +75,8 @@ public class Board extends JFrame{
 		//ui
 		fps = new UIFpsCount(this,10,10,Color.WHITE);
 		draw.addUI(fps);
+		scoreboard = new UIScoreCount(this,X_RESOL-150,Y_RESOL-100);
+		draw.addUI(scoreboard);
 		
 		//run the game
 		while(true)
@@ -81,13 +84,21 @@ public class Board extends JFrame{
 	}
 	
 	public void run(int time) {
-		fps.update(lastFrame,System.currentTimeMillis());
-		lastFrame = System.currentTimeMillis();
+		updateUI();
 		draw.runUpdate(); //update all game objects
-		
 		try {
 			Thread.sleep(time); //time between updates
 		}catch(InterruptedException e){};
+	}
+	
+	public void updateUI() {
+		//fps counter
+		fps.update(lastFrame,System.currentTimeMillis());
+		lastFrame = System.currentTimeMillis();
+		
+		//scoreboard
+		scoreboard.update(cash,score,scoreToWin);
+		
 	}
 	
 	//create walls
@@ -116,6 +127,7 @@ public class Board extends JFrame{
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		score = 0;
+		cash = 0;
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
