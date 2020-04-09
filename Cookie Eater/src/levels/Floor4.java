@@ -2,6 +2,8 @@ package levels;
 
 
 import ce3.*;
+
+import java.awt.Color;
 import java.util.*;
 
 public class Floor4 extends Level{
@@ -24,6 +26,8 @@ public class Floor4 extends Level{
 		shieldCost = 95;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
+		bgColor = new Color(50,60,60);
+		wallColor = new Color(200,210,210);
 	}
 	
 	public void build() {

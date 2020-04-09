@@ -1,6 +1,8 @@
 package levels;
 
 
+import java.awt.Color;
+
 import ce3.*;
 
 public class Floor2 extends Level{
@@ -22,6 +24,8 @@ public class Floor2 extends Level{
 		minDecay = 120;
 		maxDecay = 7200;
 		shieldCost = 60;
+		bgColor = new Color(100,100,100);
+		wallColor = new Color(50,40,30);
 	}
 	
 	public void build() {

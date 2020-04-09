@@ -1,6 +1,8 @@
 package levels;
 
 
+import java.awt.Color;
+
 import ce3.*;
 
 public class FloorEntrance extends Level{
@@ -21,6 +23,8 @@ public class FloorEntrance extends Level{
 		minDecay = 60;
 		maxDecay = 1800;
 		shieldCost = 50;
+		bgColor = new Color(40,70,40);
+		wallColor = new Color(50,30,10);
 	}
 	
 	public void build() {

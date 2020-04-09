@@ -74,6 +74,7 @@ public class Board extends JFrame{
 		score = 0;
 		scoreToWin = 20;
 		makeCookies();
+		draw.updateBG();
 		
 		//ui
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
@@ -117,7 +118,7 @@ public class Board extends JFrame{
 	public void nextLevel() {
 		walls = new ArrayList<Wall>();
 		shields+=cash/currFloor.getShieldCost();
-		cash=cash%50;
+		cash=cash%currFloor.getShieldCost();
 		currFloor=currFloor.getNext();
 		score = 0;
 		buildBoard();
