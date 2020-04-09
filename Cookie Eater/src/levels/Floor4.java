@@ -2,6 +2,8 @@ package levels;
 
 
 import ce3.*;
+
+import java.awt.*;
 import java.util.*;
 
 public class Floor4 extends Level{
@@ -23,6 +25,8 @@ public class Floor4 extends Level{
 		maxDecay = 3600;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
+		bgColor = new Color(30,0,30);
+		wallColor = new Color(200,50,0);
 	}
 	
 	public void build() {

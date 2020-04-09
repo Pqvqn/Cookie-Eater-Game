@@ -46,8 +46,8 @@ public class Board extends JFrame{
 		setFocusable(true);
 		addKeyListener(keyListener);
 		requestFocus();
-		setBackground(Color.GRAY);
-		setForeground(Color.GRAY);
+		//setBackground(Color.GRAY);
+		//setForeground(Color.GRAY);
 		
 		add(draw);
 		pack();
@@ -82,6 +82,7 @@ public class Board extends JFrame{
 	//create walls
 	public void buildBoard() {
 		currFloor.build();
+		draw.updateBG();
 	}
 	
 	//add cookies to board

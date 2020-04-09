@@ -1,6 +1,7 @@
 package levels;
 
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import ce3.*;
@@ -14,6 +15,8 @@ public abstract class Level{
 	protected double starty;
 	protected int minDecay; //frames for cookie at edge corner to decay fully
 	protected int maxDecay; //frames for cookie at center to decay fully
+	protected Color bgColor;
+	protected Color wallColor;
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> lines;
@@ -26,6 +29,8 @@ public abstract class Level{
 		next = nextFloor;
 		scale = 1;
 		board = frame;
+		bgColor = Color.GRAY;
+		wallColor = Color.red.darker();
 	}
 	
 	//put walls in floor
@@ -118,6 +123,8 @@ public abstract class Level{
 	public double getScale() {return scale;}
 	public int getMinDecay() {return minDecay;}
 	public int getMaxDecay() {return maxDecay;}
+	public Color getBGColor() {return bgColor;}
+	public Color getWallColor() {return wallColor;}
 	
 	
 	//gives length of line rom start/end points
@@ -300,6 +307,22 @@ public abstract class Level{
 							w++;h++;
 						}
 						w-=10;h-=10;
+						while(rectOK(x,y,w,h,max)) { //move side until it cant be moved
+							x--;
+						}
+						x++;
+						while(rectOK(x,y,w,h,max)) {
+							y--;
+						}
+						y++;
+						while(rectOK(x,y,w,h,max)) {
+							w++;
+						}
+						w--;
+						while(rectOK(x,y,w,h,max)) {
+							h++;
+						}
+						h--;
 						if(h>=min && w>=min) //remove small walls
 							board.walls.add(new Wall(board,x,y,w,h));
 					}

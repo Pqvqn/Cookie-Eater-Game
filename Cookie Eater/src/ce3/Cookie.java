@@ -67,8 +67,8 @@ public class Cookie {
 	}
 	
 	public void paint(Graphics g) {
-		if(decayed) {g.setColor(new Color(120,80,20,100));}
-		else {g.setColor(new Color(120,80,20,255));}
+		if(decayed) {g.setColor(board.draw.blendColors(new Color(140,100,40),board.currFloor.getBGColor()));}
+		else {g.setColor(new Color(140,100,40));}
 		g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
 	}
 }

@@ -1,6 +1,5 @@
 package ce3;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Wall {
@@ -18,7 +17,7 @@ public class Wall {
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(Color.RED.darker());
+		g.setColor(board.currFloor.getWallColor());
 		g.fillRect(x,y,w,h);
 		//System.out.println(x+" "+y+" "+w+" "+h);
 	}

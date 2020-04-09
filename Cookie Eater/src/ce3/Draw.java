@@ -30,6 +30,14 @@ public class Draw extends JPanel{
 		repaint();
 	}
 	
+	//returns average of two colors
+	public Color blendColors(Color a, Color b) {
+		return new Color((int)(.5+(a.getRed()+b.getRed())/2),(int)(.5+(a.getGreen()+b.getGreen())/2),(int)(.5+(a.getBlue()+b.getBlue())/2));
+	}
+	
+	//replaces floor color with correct one
+	public void updateBG() {setBackground(board.currFloor.getBGColor());}
+	
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
