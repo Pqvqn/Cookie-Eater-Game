@@ -20,6 +20,7 @@ public class Wall {
 	public void paint(Graphics g) {
 		g.setColor(Color.RED.darker());
 		g.fillRect(x,y,w,h);
+		//System.out.println(x+" "+y+" "+w+" "+h);
 	}
 	public int getX() {return x;}
 	public int getY() {return y;}

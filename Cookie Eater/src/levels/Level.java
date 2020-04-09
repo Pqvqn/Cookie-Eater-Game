@@ -1,5 +1,6 @@
 package levels;
 
+
 import ce3.*;
 
 public abstract class Level{
@@ -144,13 +145,12 @@ public abstract class Level{
 		double y = Math.abs(x1-x2);
 		double h = rad;
 		double r = Math.sqrt((h*h)/(x*x+y*y));
-		if(x1==x2 || (y1-y2)/(x1-x2)<0) {
+		if(x1==x2 || ((double)y1-y2)/(x1-x2)<0) {
 			return lineOfSight((int)(.5+x1-x*r), (int)(.5+y1-y*r), (int)(.5+x2-x*r), (int)(.5+y2-y*r)) && lineOfSight((int)(.5+x1+x*r), (int)(.5+y1+y*r), (int)(.5+x2+x*r), (int)(.5+y2+y*r)); 
 		}else {
-			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r)) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r)); 
+			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r)) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r)); 
 		}
 	}
-	
 	//tests if a line and a rectangle overlap
 	public static boolean collidesLineAndRect(int x1, int y1, int x2, int y2, int rX, int rY, int rW, int rH) {
 		return collidesLineAndLine(x1,y1,x2,y2,rX,rY,rX+rW,rY) || //top
