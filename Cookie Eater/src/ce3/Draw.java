@@ -2,8 +2,11 @@ package ce3;
 
 import java.awt.*;
 //import java.awt.event.*;
+import java.util.*;
 
 import javax.swing.*;
+
+import ui.*;
 
 public class Draw extends JPanel{
 	
@@ -11,6 +14,7 @@ public class Draw extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Board board;
 	private Eater player;
+	private ArrayList<UIElement> ui;
 	
 	public Draw(Board frame) {
 		super();
@@ -18,7 +22,7 @@ public class Draw extends JPanel{
 		setPreferredSize(new Dimension(board.X_RESOL, board.Y_RESOL));
 		player = board.player;
 		setBackground(Color.GRAY);
-		
+		ui = new ArrayList<UIElement>();
 	}
 	
 	//update all objects
@@ -28,6 +32,10 @@ public class Draw extends JPanel{
 			board.cookies.get(i).runUpdate();
 		}
 		repaint();
+	}
+	
+	public void addUI(UIElement thing) {
+		ui.add(thing);
 	}
 	
 	//returns average of two colors
@@ -49,7 +57,9 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.walls.size(); i++) {
 			board.walls.get(i).paint(g);
 		}
-		
+		for(int i=0; i<ui.size(); i++) {
+			ui.get(i).paint(g);
+		}
 		
 	}
 

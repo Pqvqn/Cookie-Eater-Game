@@ -1,12 +1,14 @@
 package ce3;
 
-import java.awt.*;
+//import java.awt.*;
 //import java.awt.event.*;
 
 import javax.swing.*;
 
 import levels.*;
+import ui.*;
 
+import java.awt.*;
 import java.util.*;
 
 public class Board extends JFrame{
@@ -25,6 +27,8 @@ public class Board extends JFrame{
 	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this), new Floor2(this), new Floor3(this), new Floor4(this)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
+	private long lastFrame; //time of last frame
+	private UIFpsCount fps;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -67,13 +71,20 @@ public class Board extends JFrame{
 		scoreToWin = 20;
 		makeCookies();
 		
+		//ui
+		fps = new UIFpsCount(this,10,10,Color.WHITE);
+		draw.addUI(fps);
+		
 		//run the game
 		while(true)
 			run(15);
 	}
 	
 	public void run(int time) {
+		fps.update(lastFrame,System.currentTimeMillis());
+		lastFrame = System.currentTimeMillis();
 		draw.runUpdate(); //update all game objects
+		
 		try {
 			Thread.sleep(time); //time between updates
 		}catch(InterruptedException e){};
