@@ -253,8 +253,8 @@ public abstract class Level{
 		
 	}
 	//creates nodes and connections
-		public void genPaths(int num, int nrad, int lrad, int ldiv, int[][] areas) {
-			nodes.add(new int[] {(int)startx,(int)starty,nrad}); //add start area to nodes
+		public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
+			nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes
 			ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
 			for(int i=0; i<areas.length; i++) {
 				ranges.add(areas[i]);
@@ -262,9 +262,9 @@ public abstract class Level{
 			for(int i=1; i<=num; i++) { //make num of extra nodes
 				if(i<=areas.length) { //if some region empty
 					int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
-					nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),nrad}); //add randomly in region
+					nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
 				}else{
-					nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),nrad}); //add random node
+					nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 				}
 				int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
 				lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
@@ -353,7 +353,7 @@ public abstract class Level{
 				if( (y>wl.getY()+10 && y<wl.getY()+wl.getH()-10) && (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10))num++;
 				if( (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10) && (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10))num++;
 				if( (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10) && (x>wl.getX()+10 && x<wl.getX()+wl.getW()-10))num++;
-				if(num>=3) 
+				if(num>=1) 
 					return false; //false if at least 3 corners are within another wall
 			}
 			return true;
