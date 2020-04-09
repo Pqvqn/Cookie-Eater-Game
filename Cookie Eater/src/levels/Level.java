@@ -1,6 +1,8 @@
 package levels;
 
 
+import java.util.ArrayList;
+
 import ce3.*;
 
 public abstract class Level{
@@ -12,6 +14,13 @@ public abstract class Level{
 	protected double starty;
 	protected int minDecay; //frames for cookie at edge corner to decay fully
 	protected int maxDecay; //frames for cookie at center to decay fully
+
+	protected ArrayList<int[]> nodes;
+	protected ArrayList<int[]> lines;
+	
+	public Level(Board frame) {
+		this(frame,null);
+	}
 	
 	public Level(Board frame, Level nextFloor) {
 		next = nextFloor;
@@ -236,4 +245,85 @@ public abstract class Level{
 				(y>=Math.min(y1b, y2b) && y<=Math.max(y1b, y2b)); //intersections within bounds
 		
 	}
+	//creates nodes and connections
+		public void genPaths(int num, int nrad, int lrad, int ldiv, int[][] areas) {
+			nodes.add(new int[] {(int)startx,(int)starty,nrad}); //add start area to nodes
+			ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
+			for(int i=0; i<areas.length; i++) {
+				ranges.add(areas[i]);
+			}
+			for(int i=1; i<=num; i++) { //make num of extra nodes
+				if(i<=areas.length) { //if some region empty
+					int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
+					nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),nrad}); //add randomly in region
+				}else{
+					nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),nrad}); //add random node
+				}
+				int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
+				lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
+				//splitLine(lineRad,nodes.get(c)[0],nodes.get(c)[1],nodes.get(i)[0],nodes.get(i)[1]);//make two lines for path
+			}
+			for(int[] b : lines) { //add lineDiv number of nodes along lines
+				double diffX = b[0]-b[2], diffY = b[1]-b[3];
+				double currX = b[2], currY=b[3];
+				for(int i=0; i<ldiv; i++) {
+					currX+=diffX/ldiv;
+					currY+=diffY/ldiv;
+					nodes.add(new int[] {(int)(currX+.5),(int)(currY+.5),lrad});
+				}
+			}
+		}
+		
+		
+		//places walls that don't touch paths or nodes
+		public void genWalls(int sep, int min, int max) {
+			//for(int i=0; i<num; i++) { //make num of walls
+			for(int i=board.BORDER_THICKNESS; i<board.Y_RESOL; i+=sep) {
+				for(int j=board.BORDER_THICKNESS; j<board.X_RESOL; j+=sep) {
+					//int cX = (int)(Math.random()*board.X_RESOL), cY = (int)(Math.random()*board.Y_RESOL); //choose wall center
+					int x=j,y=i,w=1,h=1;
+					if(rectOK(x,y,w,h,max)) { //if center is valid
+					
+						while(rectOK(x,y,w,h,max)) { //move corner until it cant be moved
+							x--;h++;
+						}
+						x+=10;h-=10;
+						while(rectOK(x,y,w,h,max)) {
+							x--;y--;
+						}
+						x+=10;y+=10;
+						while(rectOK(x,y,w,h,max)) {
+							w++;y--;
+						}
+						w-=10;y+=10;
+						while(rectOK(x,y,w,h,max)) {
+							w++;h++;
+						}
+						w-=10;h-=10;
+						if(h>=min && w>=min) //remove small walls
+							board.walls.add(new Wall(board,x,y,w,h));
+					}
+				}
+			}
+		}  
+		
+		//are any rectangle corners colliding with nodes
+		public boolean rectOK(int x, int y, int w, int h, int max) {
+			if(w>max || h>max) {
+				return false; //false if wall too big
+			}
+			if(x<=0 || x+w>=board.X_RESOL || y<=0 || y+h>=board.Y_RESOL) {
+				return false; //false if some point is outside board
+			}
+			for(int[] node : nodes) {
+				if(collidesCircleAndRect((int)(node[0]+.5),(int)(node[1]+.5),node[2],x,y,w,h)) {
+					return false; //false if wall hits node with side
+				}
+				if((lineLength(node[0],node[1],x,y)<node[2] || lineLength(node[0],node[1],x+w,y)<node[2]) ||
+				lineLength(node[0],node[1],x,y+h)<node[2] || lineLength(node[0],node[1],x+w,y+h)<node[2]) {
+					return false; //false if any edge is in a node radius
+				}
+			}
+			return true;
+		}
 }

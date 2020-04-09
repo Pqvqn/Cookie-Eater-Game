@@ -10,7 +10,9 @@ public class FloorEntrance extends Level{
 	//private Board board;
 	//public double startx;
 	//public double starty;
-	
+	public FloorEntrance(Board frame) {
+		this(frame,null);
+	}
 	public FloorEntrance(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;

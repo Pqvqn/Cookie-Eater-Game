@@ -22,7 +22,7 @@ public class Board extends JFrame{
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public int cash; //cookies to spend
-	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this,null), new Floor2(this,null), new Floor3(this,null)}; //order of floors
+	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this), new Floor2(this), new Floor3(this), new Floor4(this)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
 	

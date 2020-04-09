@@ -11,7 +11,9 @@ public class Floor2 extends Level{
 	//public double startx;
 	//public double starty;
 	
-	
+	public Floor2(Board frame) {
+		this(frame,null);
+	}
 	public Floor2(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
