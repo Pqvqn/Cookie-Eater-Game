@@ -11,7 +11,9 @@ public class Floor3 extends Level{
 	private int nodeRad; //radius around nodes where no walls exist
 	private int lineRad; //radius around line nodes where no walls exist
 	private int lineDiv; //number of nodes on lines between nodes
-	private int wallCutoff; //min wall size
+	private int wallMin; //min wall size
+	private int wallMax; //max wall size
+	private int wallSep; //separation between wall placements
 	private final int[][] AREAS = {{0,board.X_RESOL/2,0,board.Y_RESOL/2}, //regions of board - one node per until all filled
 			{0,board.X_RESOL/2,board.Y_RESOL/2,board.Y_RESOL},
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
@@ -29,13 +31,15 @@ public class Floor3 extends Level{
 		nodeRad = 150;
 		lineRad = 100;
 		lineDiv = 10;
-		wallCutoff = 50;
+		wallMin = 50;
+		wallMax = 600;
+		wallSep = 200;
 	}
 	
 	public void build() {
 		super.build();
 		genPaths(4);
-		genWalls(200);
+		genWalls();
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -70,36 +74,42 @@ public class Floor3 extends Level{
 	
 	
 	//places walls that don't touch paths or nodes
-	public void genWalls(int num) {
-		for(int i=0; i<num; i++) { //make num of walls
-			int cX = (int)(Math.random()*board.X_RESOL), cY = (int)(Math.random()*board.Y_RESOL); //choose wall center
-			int x=cX,y=cY,w=1,h=1;
-			if(rectOK(x,y,w,h)) { //if center is valid
+	public void genWalls() {
+		//for(int i=0; i<num; i++) { //make num of walls
+		for(int i=board.BORDER_THICKNESS; i<board.Y_RESOL; i+=wallSep) {
+			for(int j=board.BORDER_THICKNESS; j<board.X_RESOL; j+=wallSep) {
+				//int cX = (int)(Math.random()*board.X_RESOL), cY = (int)(Math.random()*board.Y_RESOL); //choose wall center
+				int x=j,y=i,w=1,h=1;
+				if(rectOK(x,y,w,h)) { //if center is valid
 				
-				while(rectOK(x,y,w,h)) { //move corner until it cant be moved
-					x--;h++;
+					while(rectOK(x,y,w,h)) { //move corner until it cant be moved
+						x--;h++;
+					}
+					x+=10;h-=10;
+					while(rectOK(x,y,w,h)) {
+						x--;y--;
+					}
+					x+=10;y+=10;
+					while(rectOK(x,y,w,h)) {
+						w++;y--;
+					}
+					w-=10;y+=10;
+					while(rectOK(x,y,w,h)) {
+						w++;h++;
+					}
+					w-=10;h-=10;
+					if(h>=wallMin && w>=wallMin) //remove small walls
+						board.walls.add(new Wall(board,x,y,w,h));
 				}
-				x+=10;h-=10;
-				while(rectOK(x,y,w,h)) {
-					x--;y--;
-				}
-				x+=10;y+=10;
-				while(rectOK(x,y,w,h)) {
-					w++;y--;
-				}
-				w-=10;y+=10;
-				while(rectOK(x,y,w,h)) {
-					w++;h++;
-				}
-				w-=10;h-=10;
-				if(h>=wallCutoff && w>=wallCutoff) //remove small walls
-					board.walls.add(new Wall(board,x,y,w,h));
 			}
 		}
 	}  
 	
 	//are any rectangle corners colliding with nodes
 	public boolean rectOK(int x, int y, int w, int h) {
+		if(w>wallMax || h>wallMax) {
+			return false; //false if wall too big
+		}
 		if(x<=0 || x+w>=board.X_RESOL || y<=0 || y+h>=board.Y_RESOL) {
 			return false; //false if some point is outside board
 		}
