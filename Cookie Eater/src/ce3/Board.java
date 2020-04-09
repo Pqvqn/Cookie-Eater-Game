@@ -24,12 +24,14 @@ public class Board extends JFrame{
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public int cash; //cookies to spend
+	public int shields; //shields owned
 	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this), new Floor2(this), new Floor3(this), new Floor4(this)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	private UIFpsCount fps;
 	private UIScoreCount scoreboard;
+	private UIShields shieldDisp;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -68,15 +70,15 @@ public class Board extends JFrame{
 		
 		//create floor 1
 		buildBoard();
+		shields = 3;
 		score = 0;
 		scoreToWin = 20;
 		makeCookies();
 		
 		//ui
-		fps = new UIFpsCount(this,10,10,Color.WHITE);
-		draw.addUI(fps);
-		scoreboard = new UIScoreCount(this,X_RESOL-150,Y_RESOL-100);
-		draw.addUI(scoreboard);
+		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
+		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-150,Y_RESOL-100));
+		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-150,100));
 		
 		//run the game
 		while(true)
@@ -95,10 +97,10 @@ public class Board extends JFrame{
 		//fps counter
 		fps.update(lastFrame,System.currentTimeMillis());
 		lastFrame = System.currentTimeMillis();
-		
 		//scoreboard
 		scoreboard.update(cash,score,scoreToWin);
-		
+		//shields
+		shieldDisp.update(shields);
 	}
 	
 	//create walls
@@ -128,6 +130,7 @@ public class Board extends JFrame{
 		currFloor = floors.getLast();
 		score = 0;
 		cash = 0;
+		shields = 3;
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();

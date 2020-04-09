@@ -9,13 +9,15 @@ public class UIText  extends UIElement{
 	private String text;
 	private int xPos, yPos;
 	private Color color;
+	private Font font;
 
-	public UIText(Board frame, int x, int y, String t, Color c) {
+	public UIText(Board frame, int x, int y, String t, Color c, Font f) {
 		super(frame);
 		text = t;
 		xPos = x;
 		yPos = y;
 		color = c;
+		font = f;
 	}
 	
 	public int getxPos() {return xPos;}
@@ -32,6 +34,7 @@ public class UIText  extends UIElement{
 
 	public void paint(Graphics g) {
 		g.setColor(color);
+		g.setFont(font);
 		g.drawString(text,xPos,yPos);
 	}
 	

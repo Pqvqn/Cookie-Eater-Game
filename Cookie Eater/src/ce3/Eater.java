@@ -28,6 +28,10 @@ public class Eater{
 	private Color coloration;
 	private boolean dO; //continue movement
 	private double scale; //zoom in/out of screen
+	private boolean shielded; //in stun after shield use
+	private int shield_frames; //stun length
+	private int frames_passed; //counting how deep into shield
+	private double recoil; //recoil speed from hit
 	
 	private Board board;
 	
@@ -46,6 +50,10 @@ public class Eater{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
+		shielded = false;
+		shield_frames = 60;
+		frames_passed = 0;
+		recoil = 10;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -150,6 +158,8 @@ public class Eater{
 	}
 	//resets player to floor-beginning state
 	public void reset() {
+		shielded = false;
+		frames_passed = 0;
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
@@ -163,7 +173,24 @@ public class Eater{
 		dO = true;
 		direction = NONE;
 	}
-	
+	//uses shield instead of killing
+	public void bounce(Wall w) {
+		shielded = true;
+		//frames_passed/=1.1;
+		if(y>w.getY()+w.getH()) {
+			y_velocity=recoil*scale;
+			y+=y_velocity;
+		}else if(y<w.getY()) {
+			y_velocity=-recoil*scale;
+			y+=y_velocity;
+		}else if(x>w.getX()+w.getW()) {
+			x_velocity=recoil*scale;
+			x+=x_velocity;
+		}else if(x<w.getX()) {
+			x_velocity=-recoil*scale;
+			x+=x_velocity;
+		}
+	}
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {
 		acceleration = Math.random()*1+.2;
@@ -174,6 +201,12 @@ public class Eater{
 	
 	public void runUpdate() {
 		if(!dO)return; //if paused
+		if(shielded) {
+			if(frames_passed++>shield_frames) {
+				shielded=false;
+				frames_passed = 0;
+			}
+		}
 		switch(direction) {
 			case UP: //if up
 				if(y_velocity>-maxvel) //if below speed cap
@@ -219,13 +252,24 @@ public class Eater{
 			Wall rect = board.walls.get(i);
 			if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
 				i=board.walls.size();
-				kill();}
+				if(board.shields<=0) { //kill if no shields, otherwise bounce
+					kill();
+				}else {
+					if(!shielded) //only remove shields if not in stun
+						board.shields--;
+					bounce(rect);
+				}
+			}
 		}
 		
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(coloration);
+		if(shielded) { //invert color if shielded
+			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));
+		}else {
+			g.setColor(coloration);
+		}
 		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		/*int rate = 5;
 		int x=0, y=0;
