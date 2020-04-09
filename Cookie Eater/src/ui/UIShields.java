@@ -24,7 +24,6 @@ public class UIShields extends UIElement{
 			shields.add(newOne);
 			parts.add(newOne);
 		}else if(shields.size()>s) {
-			System.out.println("rem");
 			UIOval kill = shields.get(shields.size()-1);
 			shields.remove(kill);
 			parts.remove(kill);

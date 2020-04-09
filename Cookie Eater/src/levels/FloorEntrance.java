@@ -20,6 +20,7 @@ public class FloorEntrance extends Level{
 		board = frame;
 		minDecay = 60;
 		maxDecay = 1800;
+		shieldCost = 50;
 	}
 	
 	public void build() {

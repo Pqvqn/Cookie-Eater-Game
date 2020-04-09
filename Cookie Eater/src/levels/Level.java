@@ -17,6 +17,7 @@ public abstract class Level{
 	protected int maxDecay; //frames for cookie at center to decay fully
 	protected Color bgColor;
 	protected Color wallColor;
+	protected int shieldCost;
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> lines;
@@ -125,6 +126,7 @@ public abstract class Level{
 	public int getMaxDecay() {return maxDecay;}
 	public Color getBGColor() {return bgColor;}
 	public Color getWallColor() {return wallColor;}
+	public int getShieldCost() {return shieldCost;}
 	
 	
 	//gives length of line rom start/end points

@@ -2,8 +2,6 @@ package levels;
 
 
 import ce3.*;
-
-import java.awt.*;
 import java.util.*;
 
 public class Floor4 extends Level{
@@ -19,20 +17,19 @@ public class Floor4 extends Level{
 	public Floor4(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
-		scale = .3;
+		scale = .85;
 		board = frame;
-		minDecay = 60;
-		maxDecay = 3600;
+		minDecay = 240;
+		maxDecay = 14400;
+		shieldCost = 95;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
-		bgColor = new Color(30,0,30);
-		wallColor = new Color(200,50,0);
 	}
 	
 	public void build() {
 		super.build();
-		genPaths(15, 75, 200, 50, 20, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
-		genWalls(50, 10, 600); //wall separation, wall min size, wall max size
+		genPaths(7, 100, 150, 70, 10, areas); //num nodes, radius around nodes, radius around lines, nodes per line, board regions to fill
+		genWalls(100, 40, 600); //wall separation, wall min size, wall max size
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -40,7 +37,7 @@ public class Floor4 extends Level{
 	
 	
 	public void placeCookies() {
-		super.placeCookies(1,(int)(100*scale));
+		super.placeCookies(5,(int)(100*scale));
 	}
 
 }

@@ -19,8 +19,9 @@ public class Floor2 extends Level{
 		next = nextFloor;
 		scale = .95;
 		board = frame;
-		minDecay = 60;
-		maxDecay = 3600;
+		minDecay = 120;
+		maxDecay = 7200;
+		shieldCost = 60;
 	}
 	
 	public void build() {

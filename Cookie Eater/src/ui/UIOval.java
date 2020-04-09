@@ -8,7 +8,6 @@ public class UIOval extends UIElement{
 	
 	private int wRad, hRad;
 	private Color color;
-	private Font font;
 
 	public UIOval(Board frame, int x, int y, int w, int h, Color c) {
 		super(frame,x,y);
