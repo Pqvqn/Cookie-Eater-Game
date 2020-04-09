@@ -104,7 +104,6 @@ public class Board extends JFrame{
 	//create walls
 	public void buildBoard() {
 		currFloor.build();
-		draw.updateBG();
 	}
 	
 	//add cookies to board
@@ -120,6 +119,7 @@ public class Board extends JFrame{
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
+		draw.updateBG();
 	}
 	
 	//go back to first level
@@ -131,6 +131,7 @@ public class Board extends JFrame{
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
+		draw.updateBG();
 	}
 
 

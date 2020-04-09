@@ -347,6 +347,15 @@ public abstract class Level{
 					return false; //false if any edge is in a node radius
 				}
 			}
+			for(Wall wl : board.walls) {
+				int num = 0;
+				if( (x>wl.getX()+10 && x<wl.getX()+wl.getW()-10) && (y>wl.getY()+10 && y<wl.getY()+wl.getH()-10))num++;
+				if( (y>wl.getY()+10 && y<wl.getY()+wl.getH()-10) && (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10))num++;
+				if( (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10) && (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10))num++;
+				if( (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10) && (x>wl.getX()+10 && x<wl.getX()+wl.getW()-10))num++;
+				if(num>=3) 
+					return false; //false if at least 3 corners are within another wall
+			}
 			return true;
 		}
 }
