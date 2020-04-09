@@ -4,28 +4,21 @@ import java.awt.*;
 
 import ce3.*;
 
-public class UIText  extends UIElement{
+public class UIText extends UIElement{
 	
 	private String text;
-	private int xPos, yPos;
 	private Color color;
 	private Font font;
 
 	public UIText(Board frame, int x, int y, String t, Color c, Font f) {
-		super(frame);
+		super(frame, x, y);
 		text = t;
 		xPos = x;
 		yPos = y;
 		color = c;
 		font = f;
 	}
-	
-	public int getxPos() {return xPos;}
-	public void setxPos(int xPos) {this.xPos = xPos;}
 
-	public int getyPos() {return yPos;}
-	public void setyPos(int yPos) {this.yPos = yPos;}
-	
 	public String getText() {return text;}
 	public void setText(String text) {this.text = text;}
 

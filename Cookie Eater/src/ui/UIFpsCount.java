@@ -7,11 +7,11 @@ import ce3.*;
 
 public class UIFpsCount extends UIElement{
 
-	UIText text;
+	private UIText text;
 	
 	public UIFpsCount(Board frame, int x, int y, Color c) {
-		super(frame);
-		text = new UIText(board,x,y,"",c,new Font(Font.MONOSPACED,Font.PLAIN,10));
+		super(frame,x,y);
+		text = new UIText(board,x,y,"",c,new Font(Font.MONOSPACED,Font.PLAIN,15));
 		parts.add(text);
 	}
 	public double update(long last, long curr) {

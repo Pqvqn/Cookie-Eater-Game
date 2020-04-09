@@ -6,10 +6,10 @@ import ce3.*;
 
 public class UIScoreCount extends UIElement{
 
-	UIText cash, cooks;
+	private UIText cash, cooks;
 	
 	public UIScoreCount(Board frame, int x, int y) {
-		super(frame);
+		super(frame,x,y);
 		parts.add(cash = new UIText(board,x+20,y+40,"",Color.GRAY.brighter(),new Font("Arial",Font.BOLD,30)));
 		parts.add(cooks = new UIText(board,x,y,"",Color.WHITE,new Font("Arial",Font.BOLD,40)));
 	}

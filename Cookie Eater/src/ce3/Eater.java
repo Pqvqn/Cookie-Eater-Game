@@ -176,7 +176,6 @@ public class Eater{
 	//uses shield instead of killing
 	public void bounce(Wall w) {
 		shielded = true;
-		//frames_passed/=1.1;
 		if(y>w.getY()+w.getH()) {
 			y_velocity=recoil*scale;
 			y+=y_velocity;
@@ -252,7 +251,7 @@ public class Eater{
 			Wall rect = board.walls.get(i);
 			if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
 				i=board.walls.size();
-				if(board.shields<=0) { //kill if no shields, otherwise bounce
+				if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
 					kill();
 				}else {
 					if(!shielded) //only remove shields if not in stun

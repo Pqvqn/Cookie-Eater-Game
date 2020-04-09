@@ -78,7 +78,7 @@ public class Board extends JFrame{
 		//ui
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
 		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-150,Y_RESOL-100));
-		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-150,100));
+		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
 		
 		//run the game
 		while(true)
