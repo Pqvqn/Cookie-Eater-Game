@@ -32,6 +32,8 @@ public class Eater{
 	private int shield_frames; //stun length
 	private int frames_passed; //counting how deep into shield
 	private double recoil; //recoil speed from hit
+	private final int LIVE = 0, DEAD =-1, WIN = 1; //states
+	private int state;
 	
 	private Board board;
 	
@@ -54,6 +56,7 @@ public class Eater{
 		shield_frames = 60;
 		frames_passed = 0;
 		recoil = 10;
+		state = LIVE;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -131,7 +134,8 @@ public class Eater{
 	}
 	//reset back to first level
 	public void kill() {
-		coloration = Color.black;
+		//coloration = Color.black;
+		state = DEAD;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
@@ -145,7 +149,8 @@ public class Eater{
 	}
 	//move to next level
 	public void win() {
-		coloration = Color.green;
+		//coloration = Color.green;
+		state = WIN;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
@@ -158,6 +163,7 @@ public class Eater{
 	}
 	//resets player to floor-beginning state
 	public void reset() {
+		state = LIVE;
 		shielded = false;
 		frames_passed = 0;
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
@@ -264,6 +270,13 @@ public class Eater{
 	}
 	
 	public void paint(Graphics g) {
+		if(state==DEAD) {
+			g.setColor(new Color(0,0,0,100));
+			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
+		}else if(state==WIN) {
+			g.setColor(new Color(255,255,255,100));
+			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
+		}
 		if(shielded) { //invert color if shielded
 			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));
 		}else {

@@ -21,8 +21,8 @@ public class Floor3 extends Level{
 		next = nextFloor;
 		scale = .9;
 		board = frame;
-		minDecay = 180;
-		maxDecay = 10800;
+		minDecay = 90;
+		maxDecay = 3000;
 		shieldCost = 75;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();

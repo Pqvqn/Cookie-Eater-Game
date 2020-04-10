@@ -21,8 +21,8 @@ public class Floor4 extends Level{
 		next = nextFloor;
 		scale = .85;
 		board = frame;
-		minDecay = 240;
-		maxDecay = 14400;
+		minDecay = 90;
+		maxDecay = 3000;
 		shieldCost = 95;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -32,7 +32,7 @@ public class Floor4 extends Level{
 	
 	public void build() {
 		super.build();
-		genPaths(7, 100, 150, 70, 10, areas); //num nodes, radius around nodes, radius around lines, nodes per line, board regions to fill
+		genPaths(7, 100, 150, 80, 10, areas); //num nodes, radius around nodes, radius around lines, nodes per line, board regions to fill
 		genWalls(100, 40, 600); //wall separation, wall min size, wall max size
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();

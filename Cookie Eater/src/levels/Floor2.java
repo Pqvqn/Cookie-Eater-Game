@@ -21,8 +21,8 @@ public class Floor2 extends Level{
 		next = nextFloor;
 		scale = .95;
 		board = frame;
-		minDecay = 120;
-		maxDecay = 7200;
+		minDecay = 90;
+		maxDecay = 3000;
 		shieldCost = 60;
 		bgColor = new Color(100,100,100);
 		wallColor = new Color(50,40,30);
