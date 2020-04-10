@@ -5,6 +5,7 @@ package ce3;
 
 import javax.swing.*;
 
+import items.*;
 import levels.*;
 import ui.*;
 
@@ -81,6 +82,8 @@ public class Board extends JFrame{
 		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-170,Y_RESOL-100));
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
 		
+		player.addItem(new ItemBoost(this));
+		
 		//run the game
 		while(true)
 			run(15);
@@ -129,6 +132,7 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetLevel() {
+		player.addItem(new ItemBoost(this));
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		score = 0;

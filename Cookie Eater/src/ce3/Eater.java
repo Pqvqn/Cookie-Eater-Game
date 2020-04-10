@@ -1,10 +1,12 @@
 package ce3;
 
 import java.awt.*;
+import java.util.*;
 //import java.awt.event.*;
 
+import items.*;
+
 //import javax.swing.*;
-//import java.util.*;
 
 import levels.*;
 
@@ -29,11 +31,15 @@ public class Eater{
 	private boolean dO; //continue movement
 	private double scale; //zoom in/out of screen
 	private boolean shielded; //in stun after shield use
-	private int shield_frames; //stun length
-	private int frames_passed; //counting how deep into shield
+	private int shield_length; //stun length
+	private int shield_frames; //counting how deep into shield
+	private int special_length; //stun length
+	private int special_frames; //counting how deep into shield
+	private int special_cooldown; //frames between uses of special
 	private double recoil; //recoil speed from hit
-	private final int LIVE = 0, DEAD =-1, WIN = 1; //states
+	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIALA = 2; //states
 	private int state;
+	private ArrayList<Item> powerups;
 	
 	private Board board;
 	
@@ -53,10 +59,14 @@ public class Eater{
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
 		shielded = false;
-		shield_frames = 60;
-		frames_passed = 0;
+		shield_length = 60;
+		shield_frames = 0;
+		special_length = 60;
+		special_frames = 0;
+		special_cooldown = 60;
 		recoil = 10;
 		state = LIVE;
+		powerups = new ArrayList<Item>();
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -65,21 +75,21 @@ public class Eater{
 		}*/
 	}
 	
-	public int getX() {
-		return (int)(x+.5);
-	}
-	public int getY() {
-		return (int)(y+.5);
-	}
-	public int getDir() {
-		return direction;
-	}
-	public void setDir(int dir) {
-		direction = dir;
-	}
-	public int getRadius() {
-		return radius;
-	}
+	public int getX() {return (int)(x+.5);}
+	public void setX(double xP) {x=xP;}
+	public int getY() {return (int)(y+.5);}
+	public void setY(double yP) {x=yP;}
+	public int getDir() {return direction;}
+	public void setDir(int dir) {direction = dir;}
+	public int getRadius() {return radius;}
+	public double getMaxVel() {return maxvel;}
+	public double getXVel() {return x_velocity;}
+	public void setXVel(double a) {x_velocity = a;}
+	public double getYVel() {return y_velocity;}
+	public void setYVel(double a) {y_velocity = a;}
+	
+	
+	public void addItem(Item i) {powerups.add(i);}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -132,9 +142,19 @@ public class Eater{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
+	//activates special A (all powerups tied to A)
+	public void specialA() {
+		if(special_frames>special_length)return;
+		for(int i=0; i<powerups.size(); i++) {
+			powerups.get(i).initialize();
+		}
+		state=SPECIALA;
+		//special_frames=0;
+	}
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
+		powerups = new ArrayList<Item>();
 		state = DEAD;
 		board.draw.repaint();
 		x_velocity = 0;
@@ -165,7 +185,7 @@ public class Eater{
 	public void reset() {
 		state = LIVE;
 		shielded = false;
-		frames_passed = 0;
+		shield_frames = 0;
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
@@ -206,10 +226,27 @@ public class Eater{
 	
 	public void runUpdate() {
 		if(!dO)return; //if paused
+		if(state == SPECIALA) {
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).execute();
+			}
+			if(special_frames++>special_length) {
+				state = LIVE;
+				for(int i=0; i<powerups.size(); i++) {
+					powerups.get(i).end(false);
+				}
+			}
+		}
+		if(special_frames>special_length) {
+			special_frames++;
+			if(special_frames>special_length+special_cooldown) {
+				special_frames=0;
+			}
+		}
 		if(shielded) {
-			if(frames_passed++>shield_frames) {
+			if(shield_frames++>shield_length) {
 				shielded=false;
-				frames_passed = 0;
+				shield_frames = 0;
 			}
 		}
 		switch(direction) {
@@ -276,6 +313,9 @@ public class Eater{
 		}else if(state==WIN) {
 			g.setColor(new Color(255,255,255,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
+		}else if(state==SPECIALA) {
+			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue(),100));
+			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
 		}
 		if(shielded) { //invert color if shielded
 			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));

@@ -39,6 +39,9 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_ENTER:
 				player.win();
 				break;
+			case KeyEvent.VK_SHIFT:
+				player.specialA();
+				break;
 		}
 		
 	}
