@@ -20,4 +20,7 @@ public class ItemShield extends Item{
 	public void end(boolean interrupted) {
 
 	}
+	public String name() {
+		return "Shield";
+	}
 }

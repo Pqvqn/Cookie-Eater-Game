@@ -91,6 +91,7 @@ public class Eater{
 	
 	
 	public void addItem(Item i) {powerups.add(i);}
+	public ArrayList<Item> getItems() {return powerups;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -321,7 +322,7 @@ public class Eater{
 			g.setColor(new Color(255,255,255,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
 		}else if(state==SPECIALA) {
-			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue(),100));
+			g.setColor(new Color(coloration.getRed(),coloration.getGreen(),coloration.getBlue(),100));
 			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
 		}
 		if(shielded) { //invert color if shielded

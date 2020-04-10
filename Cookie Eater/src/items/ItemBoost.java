@@ -19,6 +19,24 @@ public class ItemBoost extends Item{
 	}
 	
 	public void execute() {	
+		if (player.getXVel()==0 && player.getYVel()==0 && dir!=Eater.NONE) {
+			switch(dir) {
+			case(Eater.UP):
+				player.setYVel(-1);
+				break;
+			case(Eater.RIGHT):
+				player.setXVel(1);
+				break;
+			case(Eater.DOWN):
+				player.setYVel(1);
+				break;
+			case(Eater.LEFT):
+				player.setXVel(-1);
+				break;
+			}
+			x_vel=player.getXVel();
+			y_vel=player.getYVel();
+		}
 		if(x_vel!=0 && player.getXVel()/x_vel<0) //if direction has changed (hit wall) change accordingly
 			x_vel=player.getXVel();
 		if(y_vel!=0 && player.getYVel()/y_vel<0)
@@ -39,5 +57,8 @@ public class ItemBoost extends Item{
 	
 	public void end(boolean interrupted) {
 		player.setDir(dir); //set dir back
+	}
+	public String name() {
+		return "Boost";
 	}
 }

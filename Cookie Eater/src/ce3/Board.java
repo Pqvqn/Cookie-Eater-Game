@@ -33,6 +33,7 @@ public class Board extends JFrame{
 	private UIFpsCount fps;
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
+	private UIItems itemDisp;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -76,8 +77,8 @@ public class Board extends JFrame{
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
 		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-170,Y_RESOL-100));
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
+		draw.addUI(itemDisp = new UIItems(this,50,Y_RESOL-50));
 		
-		player.addItem(new ItemBoost(this));
 		
 		//run the game
 		while(true)
@@ -85,19 +86,21 @@ public class Board extends JFrame{
 	}
 	
 	//go back to first level
-		public void resetGame() {
-			player.addItem(new ItemShield(this));
-			player.addItem(new ItemBoost(this));
-			walls = new ArrayList<Wall>();
-			currFloor = floors.getLast();
-			score = 0;
-			cash = 0;
-			shields = 1;
-			buildBoard();
-			cookies = new ArrayList<Cookie>();
-			makeCookies();
-			draw.updateBG();
-		}
+	public void resetGame() {
+		player.addItem(new ItemShield(this));
+		player.addItem(new ItemHold(this));
+		player.addItem(new ItemBoost(this));
+
+		walls = new ArrayList<Wall>();
+		currFloor = floors.getLast();
+		score = 0;
+		cash = 0;
+		shields = 1;
+		buildBoard();
+		cookies = new ArrayList<Cookie>();
+		makeCookies();
+		draw.updateBG();
+	}
 			
 	//advances level
 	public void nextLevel() {
@@ -128,6 +131,8 @@ public class Board extends JFrame{
 		scoreboard.update(cash,score,scoreToWin);
 		//shields
 		shieldDisp.update(shields);
+		//items
+		itemDisp.update(player.getItems());
 	}
 	
 	//create walls
