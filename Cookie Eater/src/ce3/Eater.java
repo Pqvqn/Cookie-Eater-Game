@@ -87,6 +87,7 @@ public class Eater{
 	public void setXVel(double a) {x_velocity = a;}
 	public double getYVel() {return y_velocity;}
 	public void setYVel(double a) {y_velocity = a;}
+	public void setShielded(boolean s) {shielded = s;}
 	
 	
 	public void addItem(Item i) {powerups.add(i);}
@@ -163,9 +164,20 @@ public class Eater{
 		try {
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
-		board.resetLevel();
+		board.resetGame();
 		randomizeStats();
 		reset();
+	}
+	//kill, but only if no bounce
+	public void killBounce(Wall rect, boolean breakShield) {
+		if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
+			kill();
+		}else if(breakShield){//only remove shields if not in stun and shield to be broken
+			board.shields--;
+			bounce(rect);
+		}else {
+			bounce(rect);
+		}
 	}
 	//move to next level
 	public void win() {
@@ -186,6 +198,7 @@ public class Eater{
 		state = LIVE;
 		shielded = false;
 		shield_frames = 0;
+		special_frames = 0;
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
@@ -294,13 +307,7 @@ public class Eater{
 			Wall rect = board.walls.get(i);
 			if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
 				i=board.walls.size();
-				if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
-					kill();
-				}else {
-					if(!shielded) //only remove shields if not in stun
-						board.shields--;
-					bounce(rect);
-				}
+				killBounce(rect,!shielded);
 			}
 		}
 		

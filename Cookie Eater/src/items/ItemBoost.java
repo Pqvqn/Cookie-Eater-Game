@@ -27,7 +27,12 @@ public class ItemBoost extends Item{
 		double x = x_vel;
 		double y = y_vel;
 		double h = speedy;
-		double r = Math.sqrt((h*h)/(x*x+y*y)); //ratio of normal dimensional velocity to new velocity
+		double r; 
+		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
+			r = 0;
+		}else {
+			r = Math.sqrt((h*h)/(x*x+y*y));
+		}
 		player.setXVel(x*r); //make fast
 		player.setYVel(y*r);
 	}

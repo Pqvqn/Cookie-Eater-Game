@@ -67,15 +67,10 @@ public class Board extends JFrame{
 			if(i<FLOOR_SEQUENCE.length-1) 
 				FLOOR_SEQUENCE[i].setNext(FLOOR_SEQUENCE[i+1]);
 		}
-		currFloor = floors.getLast(); //set pointer
 		
 		//create floor 1
-		buildBoard();
-		shields = 1;
-		score = 0;
-		scoreToWin = 20;
-		makeCookies();
-		draw.updateBG();
+		resetGame();
+		
 		
 		//ui
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
@@ -89,6 +84,34 @@ public class Board extends JFrame{
 			run(15);
 	}
 	
+	//go back to first level
+		public void resetGame() {
+			player.addItem(new ItemShield(this));
+			player.addItem(new ItemBoost(this));
+			walls = new ArrayList<Wall>();
+			currFloor = floors.getLast();
+			score = 0;
+			cash = 0;
+			shields = 1;
+			buildBoard();
+			cookies = new ArrayList<Cookie>();
+			makeCookies();
+			draw.updateBG();
+		}
+			
+	//advances level
+	public void nextLevel() {
+		walls = new ArrayList<Wall>();
+		shields+=cash/currFloor.getShieldCost();
+		cash=cash%currFloor.getShieldCost();
+		currFloor=currFloor.getNext();
+		score = 0;
+		buildBoard();
+		cookies = new ArrayList<Cookie>();
+		makeCookies();
+		draw.updateBG();
+	}
+		
 	public void run(int time) {
 		updateUI();
 		draw.runUpdate(); //update all game objects
@@ -117,32 +140,7 @@ public class Board extends JFrame{
 		currFloor.placeCookies();
 	}
 	
-	//advances level
-	public void nextLevel() {
-		walls = new ArrayList<Wall>();
-		shields+=cash/currFloor.getShieldCost();
-		cash=cash%currFloor.getShieldCost();
-		currFloor=currFloor.getNext();
-		score = 0;
-		buildBoard();
-		cookies = new ArrayList<Cookie>();
-		makeCookies();
-		draw.updateBG();
-	}
 	
-	//go back to first level
-	public void resetLevel() {
-		player.addItem(new ItemBoost(this));
-		walls = new ArrayList<Wall>();
-		currFloor = floors.getLast();
-		score = 0;
-		cash = 0;
-		shields = 1;
-		buildBoard();
-		cookies = new ArrayList<Cookie>();
-		makeCookies();
-		draw.updateBG();
-	}
 
 
 }
