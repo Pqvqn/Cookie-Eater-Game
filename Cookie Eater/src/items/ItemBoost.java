@@ -33,8 +33,8 @@ public class ItemBoost extends Item{
 				break;
 			}
 		}
-		double x = player.getXVel();
-		double y = player.getYVel();
+		double x = player.getXVel()+player.getFriction()*Math.signum(player.getXVel());
+		double y = player.getYVel()+player.getFriction()*Math.signum(player.getYVel());
 		double h = speedy;
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity

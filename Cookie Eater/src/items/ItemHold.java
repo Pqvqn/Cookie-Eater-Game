@@ -10,12 +10,14 @@ public class ItemHold extends Item{
 	}
 	//run on special start
 	public void initialize() {
-		player.setXVel(0);
-		player.setYVel(0);
+
 		player.lockControl(true);
+		player.setXVel(Math.signum(player.getXVel()));
+		player.setYVel(Math.signum(player.getYVel()));
 	}
 	//run while special is active
 	public void execute() {
+
 	}
 	//run when special ends
 	public void end(boolean interrupted) {

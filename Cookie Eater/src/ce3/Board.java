@@ -89,8 +89,12 @@ public class Board extends JFrame{
 	public void resetGame() {
 		//player.addItem(new ItemShield(this));
 		//player.addItem(new ItemHold(this));
-		player.addItem(new ItemCircle(this));
+		
+		
+		//player.addItem(new ItemCircle(this));
 		player.addItem(new ItemBoost(this));
+
+		
 	
 
 		walls = new ArrayList<Wall>();
