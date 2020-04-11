@@ -5,6 +5,7 @@ public class ItemBoost extends Item{
 	
 	double speedy;
 	int dir;
+	double initx, inity;
 	
 	public ItemBoost(Board frame) {
 		super(frame);
@@ -14,6 +15,8 @@ public class ItemBoost extends Item{
 		dir=player.getDir(); //store direction for later
 		speedy = 30*board.currFloor.getScale(); //speed of boost
 		player.lockControl(true);
+		initx = player.getXVel();
+		inity = player.getYVel();
 	}
 	
 	public void execute() {	
@@ -33,8 +36,8 @@ public class ItemBoost extends Item{
 				break;
 			}
 		}
-		double x = player.getXVel()+player.getFriction()*Math.signum(player.getXVel());
-		double y = player.getYVel()+player.getFriction()*Math.signum(player.getYVel());
+		double x = initx;
+		double y = inity;
 		double h = speedy;
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
@@ -42,12 +45,17 @@ public class ItemBoost extends Item{
 		}else {
 			r = Math.sqrt((h*h)/(x*x+y*y));
 		}
-		player.setXVel(x*r); //make fast
-		player.setYVel(y*r);
+		//player.setXVel(x*r); //make fast
+		//player.setYVel(y*r);
+		player.averageVels(x*r, y*r);
 	}
 	
 	public void end(boolean interrupted) {
 		player.lockControl(false);
+	}
+	public void bounce(boolean x, boolean y) {
+		if(x)initx*=-1;
+		if(y)inity*=-1;
 	}
 	public String name() {
 		return "Boost";

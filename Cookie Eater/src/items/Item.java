@@ -25,4 +25,7 @@ public abstract class Item {
 	public String name() {
 		return null;
 	}
+	public void bounce(boolean x, boolean y) {
+		
+	}
 }

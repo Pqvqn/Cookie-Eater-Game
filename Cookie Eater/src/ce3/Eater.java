@@ -41,6 +41,7 @@ public class Eater{
 	private int state;
 	private ArrayList<Item> powerups;
 	boolean lock; //if player can move
+	int countVels;
 	
 	private Board board;
 	
@@ -156,6 +157,12 @@ public class Eater{
 		state=SPECIALA;
 		//special_frames=0;
 	}
+	//
+	public void averageVels(double xVel, double yVel) {
+		countVels++;
+		setXVel((getXVel()*(countVels-1)+xVel)/countVels);
+		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
+	}
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
@@ -223,18 +230,28 @@ public class Eater{
 	//uses shield instead of killing
 	public void bounce(Wall w) {
 		shielded = true;
+		boolean xB=false,yB=false;
 		if(y>w.getY()+w.getH()) {
 			y_velocity=recoil*scale;
 			y+=y_velocity;
+			yB=true;
 		}else if(y<w.getY()) {
 			y_velocity=-recoil*scale;
 			y+=y_velocity;
+			yB=true;
 		}else if(x>w.getX()+w.getW()) {
 			x_velocity=recoil*scale;
 			x+=x_velocity;
+			xB=true;
 		}else if(x<w.getX()) {
 			x_velocity=-recoil*scale;
 			x+=x_velocity;
+			xB=true;
+		}
+		if(state==SPECIALA) {
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).bounce(xB,yB);
+			}
 		}
 	}
 	//gives the player a random set of movement stats and colors accordingly
@@ -247,6 +264,7 @@ public class Eater{
 	
 	public void runUpdate() {
 		if(!dO)return; //if paused
+		countVels=0;
 		if(state == SPECIALA) {
 			for(int i=0; i<powerups.size(); i++) {
 				powerups.get(i).execute();
