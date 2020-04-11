@@ -40,6 +40,7 @@ public class Eater{
 	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIALA = 2; //states
 	private int state;
 	private ArrayList<Item> powerups;
+	boolean lock; //if player can move
 	
 	private Board board;
 	
@@ -92,6 +93,8 @@ public class Eater{
 	
 	public void addItem(Item i) {powerups.add(i);}
 	public ArrayList<Item> getItems() {return powerups;}
+	public void lockControl(boolean l) {lock = l;}
+	public double getFriction() {return friction;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -146,7 +149,7 @@ public class Eater{
 	}
 	//activates special A (all powerups tied to A)
 	public void specialA() {
-		if(special_frames>special_length)return;
+		if(special_frames>special_length || direction==NONE)return;
 		for(int i=0; i<powerups.size(); i++) {
 			powerups.get(i).initialize();
 		}
@@ -156,6 +159,8 @@ public class Eater{
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
+		for(int i=0; i<powerups.size(); i++) //stop special
+			powerups.get(i).end(true);
 		powerups = new ArrayList<Item>();
 		state = DEAD;
 		board.draw.repaint();
@@ -183,6 +188,8 @@ public class Eater{
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
+		for(int i=0; i<powerups.size(); i++) //stop special
+			powerups.get(i).end(true);
 		state = WIN;
 		board.draw.repaint();
 		x_velocity = 0;
@@ -263,23 +270,25 @@ public class Eater{
 				shield_frames = 0;
 			}
 		}
-		switch(direction) {
-			case UP: //if up
-				if(y_velocity>-maxvel) //if below speed cap
-					y_velocity-=accel+fric; //increase speed upward
-				break;
-			case RIGHT:
-				if(x_velocity<maxvel)
-					x_velocity+=accel+fric;
-				break;
-			case DOWN:
-				if(y_velocity<maxvel)
-					y_velocity+=accel+fric;
-				break;
-			case LEFT:
-				if(x_velocity>-maxvel)
-					x_velocity-=accel+fric;
-				break;
+		if(!lock) {
+			switch(direction) {
+				case UP: //if up
+					if(y_velocity>-maxvel) //if below speed cap
+						y_velocity-=accel+fric; //increase speed upward
+					break;
+				case RIGHT:
+					if(x_velocity<maxvel)
+						x_velocity+=accel+fric;
+					break;
+				case DOWN:
+					if(y_velocity<maxvel)
+						y_velocity+=accel+fric;
+					break;
+				case LEFT:
+					if(x_velocity>-maxvel)
+						x_velocity-=accel+fric;
+					break;
+			}
 		}
 		x+=x_velocity; //move
 		y+=y_velocity;

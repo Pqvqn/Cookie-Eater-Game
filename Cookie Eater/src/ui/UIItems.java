@@ -23,6 +23,9 @@ public class UIItems extends UIElement{
 		if(pItems.size()!=itemDisplays.size()) {
 			backing.sethLen(pItems.size()*(SEPARATION)+10);
 			backing.setyPos(yPos+10-backing.gethLen());
+			for(int i=0; i<itemDisplays.size(); i++) {
+				parts.remove(itemDisplays.remove(i));
+			}
 			for(int i=0; i<pItems.size(); i++) {
 				UIText newOne = new UIText(board,xPos,yPos-i*SEPARATION,pItems.get(i).name(),new Color(255,255,255,50),new Font("Arial",Font.BOLD,SIZE));
 				itemDisplays.add(newOne);

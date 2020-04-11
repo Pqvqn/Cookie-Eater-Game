@@ -12,15 +12,14 @@ public class ItemHold extends Item{
 	public void initialize() {
 		player.setXVel(0);
 		player.setYVel(0);
-		dir = player.getDir();
+		player.lockControl(true);
 	}
 	//run while special is active
 	public void execute() {
-		player.setDir(Eater.NONE);
 	}
 	//run when special ends
 	public void end(boolean interrupted) {
-		player.setDir(dir);
+		player.lockControl(false);
 	}
 	public String name() {
 		return "Hold";

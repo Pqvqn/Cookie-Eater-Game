@@ -5,7 +5,6 @@ public class ItemBoost extends Item{
 	
 	double speedy;
 	int dir;
-	double x_vel,y_vel;
 	
 	public ItemBoost(Board frame) {
 		super(frame);
@@ -14,8 +13,7 @@ public class ItemBoost extends Item{
 	public void initialize() {
 		dir=player.getDir(); //store direction for later
 		speedy = 30*board.currFloor.getScale(); //speed of boost
-		x_vel=player.getXVel();
-		y_vel=player.getYVel();
+		player.lockControl(true);
 	}
 	
 	public void execute() {	
@@ -34,16 +32,9 @@ public class ItemBoost extends Item{
 				player.setXVel(-1);
 				break;
 			}
-			x_vel=player.getXVel();
-			y_vel=player.getYVel();
 		}
-		if(x_vel!=0 && player.getXVel()/x_vel<0) //if direction has changed (hit wall) change accordingly
-			x_vel=player.getXVel();
-		if(y_vel!=0 && player.getYVel()/y_vel<0)
-			y_vel=player.getYVel();
-		player.setDir(Eater.NONE); //reset direction
-		double x = x_vel;
-		double y = y_vel;
+		double x = player.getXVel();
+		double y = player.getYVel();
 		double h = speedy;
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
@@ -56,7 +47,7 @@ public class ItemBoost extends Item{
 	}
 	
 	public void end(boolean interrupted) {
-		player.setDir(dir); //set dir back
+		player.lockControl(false);
 	}
 	public String name() {
 		return "Boost";
