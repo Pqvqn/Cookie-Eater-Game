@@ -35,12 +35,14 @@ public class Board extends JFrame{
 	private UIShields shieldDisp;
 	private UIItems itemDisp;
 	private int cycletime;
+	private int fpscheck;
 	
 	public Board() {
 		super("Cookie Eater");
-	
+		cycletime=5;
+		fpscheck=0;
 		//initializing classes
-		player = new Eater(this);
+		player = new Eater(this,cycletime);
 		draw = new Draw(this);
 		
 		cookies = new ArrayList<Cookie>();
@@ -80,7 +82,6 @@ public class Board extends JFrame{
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
 		draw.addUI(itemDisp = new UIItems(this,50,Y_RESOL-50));
 		
-		cycletime=15;
 		
 		//run the game
 		while(true)
@@ -93,15 +94,12 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		player.addItem(new ItemShield(this));
+		//player.addItem(new ItemShield(this));
 		//player.addItem(new ItemHold(this));
 		player.addItem(new ItemCircle(this));
-		player.addItem(new ItemBoost(this));
-		player.addItem(new ItemCookieChain(this));
-		player.addItem(new ItemSlowmo(this));
-		
-		
-	
+		//player.addItem(new ItemBoost(this));
+		//player.addItem(new ItemCookieChain(this));
+		//player.addItem(new ItemSlowmo(this));
 
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
@@ -137,8 +135,11 @@ public class Board extends JFrame{
 	
 	public void updateUI() {
 		//fps counter
-		fps.update(lastFrame,System.currentTimeMillis());
-		lastFrame = System.currentTimeMillis();
+		if(fpscheck--<=0) {
+			fps.update(lastFrame,System.currentTimeMillis());
+			lastFrame = System.currentTimeMillis();
+			fpscheck=10;
+		}
 		//scoreboard
 		scoreboard.update(cash,score,scoreToWin);
 		//shields

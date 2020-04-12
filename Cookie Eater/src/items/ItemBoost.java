@@ -13,7 +13,7 @@ public class ItemBoost extends Item{
 
 	public void initialize() {
 		dir=player.getDir(); //store direction for later
-		speedy = 30*board.currFloor.getScale(); //speed of boost
+		speedy = (board.getCycle()/15.0)*30*board.currFloor.getScale(); //speed of boost
 		player.lockControl(true);
 		initx = player.getXVel();
 		inity = player.getYVel();

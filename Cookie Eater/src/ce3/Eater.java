@@ -21,9 +21,9 @@ public class Eater{
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
 	private double x_velocity, y_velocity; //current dimensional speed
-	private double acceleration = .5; //added to dimensional speed depending on direction
-	private double max_velocity = 10; //cap on dimensional speed
-	private double friction = .1; //removed from dimensional speed
+	private double acceleration; //added to dimensional speed depending on direction
+	private double max_velocity; //cap on dimensional speed
+	private double friction; //removed from dimensional speed
 	private double accel; //scalable movement stats
 	private double maxvel;
 	private double fric;
@@ -40,12 +40,14 @@ public class Eater{
 	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIALA = 2; //states
 	private int state;
 	private ArrayList<Item> powerups;
-	boolean lock; //if player can move
-	int countVels;
+	private boolean lock; //if player can move
+	private int countVels;
+	private double calibration_ratio;
 	
 	private Board board;
 	
-	public Eater(Board frame) {
+	public Eater(Board frame, int cycletime) {
+		calibration_ratio = cycletime/15.0;
 		dO= true;
 		board = frame;
 		x=board.X_RESOL/2;
@@ -57,16 +59,19 @@ public class Eater{
 		coloration = Color.blue.brighter();
 		scale = 1;
 		randomizeStats();
+		acceleration = .5*calibration_ratio*calibration_ratio;
+		max_velocity = 10*calibration_ratio;
+		friction = .1*calibration_ratio;
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
 		shielded = false;
-		shield_length = 60;
+		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
-		special_length = 60;
+		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = 0;
-		special_cooldown = 60;
-		recoil = 10;
+		special_cooldown = (int)(.5+60*(1/calibration_ratio));
+		recoil = 10*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<Item>();
 		/*x_positions = new LinkedList<Double>();
@@ -97,6 +102,7 @@ public class Eater{
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {if(special_frames>time)special_frames-=time;}
+	public int getSpecialLength() {return special_length;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -219,7 +225,7 @@ public class Eater{
 		shielded = false;
 		shield_frames = 0;
 		special_frames = 0;
-		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
+		coloration = new Color((int)((friction/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
 		x = board.currFloor.getStartX();
@@ -265,6 +271,9 @@ public class Eater{
 		max_velocity = Math.random()*15+5;
 		friction = Math.random()*.25+.05;
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
+		acceleration*=calibration_ratio*calibration_ratio;
+		max_velocity*=calibration_ratio;
+		friction*=calibration_ratio;
 	}
 	
 	public void runUpdate() {

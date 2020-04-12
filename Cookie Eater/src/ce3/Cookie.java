@@ -27,7 +27,8 @@ public class Cookie {
 				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
 						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
 		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),startx,starty)/farthestCorner))
-				*(board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay());
+				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
+				*(15.0/board.getCycle()));
 		decayed=false;
 	}
 	

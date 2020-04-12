@@ -19,7 +19,7 @@ public class ItemCircle extends Item{
 		count = 0;
 		lastxpos=-1;
 		lastypos=-1;
-		radius = 200*board.currFloor.getScale();
+		radius = 100*board.currFloor.getScale();
 		player.lockControl(true);
 		initx=player.getXVel();
 		inity=-1*player.getYVel();
@@ -47,8 +47,8 @@ public class ItemCircle extends Item{
 	
 	public void execute() {
 		if(count<=Math.PI*2) {
-			count+=.1;
-			radians+=.1;
+			count+=.1*(board.getCycle()/15.0);
+			radians+=.1*(board.getCycle()/15.0);
 			/*if(player.getXVel()!=0 && (radius*Math.cos(radians)-radius*Math.cos(radians-.1))/player.getXVel()<0)//if direction has changed (hit wall) change accordingly
 				radians += Math.PI;
 			if(player.getYVel()!=0 && (-(radius*Math.sin(radians)-radius*Math.sin(radians-.1)))/player.getYVel()<0)
@@ -58,7 +58,7 @@ public class ItemCircle extends Item{
 					player.getXVel()+player.getFriction()*Math.signum(player.getXVel()),
 					player.getYVel()+player.getFriction()*Math.signum(player.getYVel()));*/
 					
-			player.averageVels(radius*Math.cos(radians+.1)-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1)));
+			player.averageVels(radius*Math.cos(radians+.1*(board.getCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getCycle()/15.0))));
 
 		}else {
 			//radians+=Math.PI/2; //idea 1
