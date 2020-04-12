@@ -40,9 +40,11 @@ public class Controls implements KeyListener{
 				player.win();
 				break;
 			case KeyEvent.VK_SHIFT:
+				e.consume();
 				player.special(0); 
 				break;
 			case KeyEvent.VK_CONTROL:
+				e.consume();
 				player.special(1); 
 				break;
 			case KeyEvent.VK_ALT:

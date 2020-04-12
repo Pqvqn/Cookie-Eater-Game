@@ -36,6 +36,7 @@ public class Eater{
 	private int special_length; //stun length
 	private ArrayList<Integer> special_frames; //counting how deep into shield
 	private int special_cooldown; //frames between uses of special
+	private ArrayList<Color> special_colors; //color associated with each special
 	private double recoil; //recoil speed from hit
 	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
 	private int state;
@@ -73,6 +74,8 @@ public class Eater{
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = new ArrayList<Integer>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
+		special_colors = new ArrayList<Color>();
+		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
 		recoil = 15*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
@@ -123,17 +126,19 @@ public class Eater{
 	public int getSpecialLength() {return special_length;}
 	public int getSpecialCooldown() {return special_cooldown;}
 	public ArrayList<Integer> getSpecialFrames() {return special_frames;}
+	public ArrayList<Color> getSpecialColors() {return special_colors;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if((int)calrat==(int)calibration_ratio)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		friction/=calibration_ratio*calibration_ratio;
+		recoil /= calibration_ratio;
 		calibration_ratio = calrat;
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		recoil = 15*calibration_ratio;
+		recoil *= calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
@@ -143,6 +148,8 @@ public class Eater{
 	}
 	public boolean getGrabDecay() {return grabDecayed;}
 	public void setGrabDecay(boolean d) {grabDecayed=d;}
+	public double getRecoil() {return recoil*scale;}
+	public void setRecoil(double r) {recoil = r;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -207,6 +214,10 @@ public class Eater{
 	}
 	//takes velocity changes from items and averages them
 	public void averageVels(double xVel, double yVel) {
+		if(countVels==0) {
+			setXVel(0);
+			setYVel(0);
+		}
 		countVels++;
 		setXVel((getXVel()*(countVels-1)+xVel)/countVels);
 		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
@@ -408,7 +419,8 @@ public class Eater{
 			g.setColor(new Color(255,255,255,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
 		}else if(state==SPECIAL) {
-			g.setColor(new Color(coloration.getRed(),coloration.getGreen(),coloration.getBlue(),100));
+			Color meh = special_colors.get(currSpecial);
+			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
 			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
 		}
 		if(shielded) { //invert color if shielded

@@ -26,7 +26,7 @@ public class UIItems extends UIElement{
 		parts.add(list_backing = new UIRectangle(board,xPos+50,yPos-SEPARATION,SIZE*5,SEPARATION+10,new Color(0,0,0,100)));
 		parts.add(new UIRectangle(board,xPos-10,yPos+10-100,50,100,new Color(0,0,0,100))); //bar backing
 		parts.add(new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,255,255,10))); //bar unfill
-		parts.add(bar = new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,255,255,100)));
+		parts.add(bar = new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,0,0,100)));
 		barHeight = bar.gethLen();
 		barY = bar.getyPos();
 		myIndex = index;
@@ -48,14 +48,14 @@ public class UIItems extends UIElement{
 			}
 		}
 		if(framecount == 0) { //special charged
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),200).brighter());
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),200).brighter());
 			bar.sethLen(barHeight);
 		}else if(framecount <= duration) { //special use
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),150));
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),150));
 			if(duration>0)
 				bar.sethLen((int)(.5+barHeight-((double)framecount/duration)*barHeight));
 		}else { //special recharge
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),50).darker());
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),50).darker());
 			if(cooldown>0)
 				bar.sethLen((int)(.5+(((double)framecount-duration)/cooldown)*barHeight));
 		}
