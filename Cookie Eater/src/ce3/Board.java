@@ -149,7 +149,7 @@ public class Board extends JFrame{
 		//shields
 		shieldDisp.update(shields);
 		//items
-		itemDisp.update(player.getItems());
+		itemDisp.update(player.getItems(),player.getSpecialFrames(),player.getSpecialCooldown(),player.getSpecialLength());
 
 	}
 	

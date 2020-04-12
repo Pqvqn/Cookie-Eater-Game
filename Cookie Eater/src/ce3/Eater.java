@@ -70,7 +70,7 @@ public class Eater{
 		shield_frames = 0;
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = 0;
-		special_cooldown = (int)(.5+60*(1/calibration_ratio));
+		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		recoil = 15*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<Item>();
@@ -109,6 +109,8 @@ public class Eater{
 		}
 	}
 	public int getSpecialLength() {return special_length;}
+	public int getSpecialCooldown() {return special_cooldown;}
+	public int getSpecialFrames() {return special_frames;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if((int)calrat==(int)calibration_ratio)return;
@@ -118,7 +120,7 @@ public class Eater{
 		calibration_ratio = calrat;
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_cooldown = (int)(.5+60*(1/calibration_ratio));
+		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		recoil = 15*calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
