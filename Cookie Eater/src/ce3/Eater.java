@@ -101,10 +101,16 @@ public class Eater{
 	public ArrayList<Item> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
-	public void extendSpecial(double time) {if(special_frames>time)special_frames-=time;}
+	public void extendSpecial(double time) {
+		if(special_frames>time) {
+			special_frames-=time;
+		}else {
+			special_frames=1;
+		}
+	}
 	public int getSpecialLength() {return special_length;}
 	
-	public void setCalibration(double calrat) {
+	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if((int)calrat==(int)calibration_ratio)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
@@ -202,7 +208,7 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
-		//randomizeStats();
+		randomizeStats();
 		reset();
 	}
 	//kill, but only if no bounce

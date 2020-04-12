@@ -139,8 +139,8 @@ public class Board extends JFrame{
 		//fps counter
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
-			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/10;
-			player.setCalibration(true_cycle/15.0);
+			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/10; 
+			player.setCalibration(true_cycle/15.0); //give player more acurrate cycle time
 			lastFrame = System.currentTimeMillis();
 			fpscheck=10;
 		}
