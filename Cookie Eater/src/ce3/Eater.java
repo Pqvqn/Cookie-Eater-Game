@@ -42,7 +42,8 @@ public class Eater{
 	private ArrayList<Item> powerups;
 	private boolean lock; //if player can move
 	private int countVels;
-	private double calibration_ratio;
+	private double calibration_ratio; //framerate ratio
+	private boolean grabDecayed;
 	
 	private Board board;
 	
@@ -74,6 +75,7 @@ public class Eater{
 		recoil = 15*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<Item>();
+		grabDecayed = false;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -125,7 +127,12 @@ public class Eater{
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
+		for(int i=0; i<board.cookies.size(); i++) {
+			board.cookies.get(i).recalibrate();
+		}
 	}
+	public boolean getGrabDecay() {return grabDecayed;}
+	public void setGrabDecay(boolean d) {grabDecayed=d;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {

@@ -41,7 +41,15 @@ public class Cookie {
 			decayed=true;
 		}
 	}
-	
+	public void recalibrate() {
+		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
+				Level.lineLength(0,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())),
+				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
+						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
+		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
+				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
+				*(15.0/board.getAdjustedCycle()));
+	}
 	//test if collides with a circle
 	public boolean collidesWithCircle(int oX, int oY, int oRad) {
 		int xDiff = Math.abs(oX - x);
@@ -52,7 +60,7 @@ public class Cookie {
 	//delete self and increase score
 	public void kill() {
 		board.score++;
-		if(!decayed)
+		if(!decayed || board.player.getGrabDecay())
 			board.cash++;
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
