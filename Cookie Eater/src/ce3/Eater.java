@@ -96,6 +96,7 @@ public class Eater{
 	public ArrayList<Item> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
+	public void extendSpecial(double time) {special_frames-=time;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -157,7 +158,7 @@ public class Eater{
 		state=SPECIALA;
 		//special_frames=0;
 	}
-	//
+	//takes velocity changes from items and averages them
 	public void averageVels(double xVel, double yVel) {
 		countVels++;
 		setXVel((getXVel()*(countVels-1)+xVel)/countVels);

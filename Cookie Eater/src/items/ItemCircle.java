@@ -7,6 +7,7 @@ public class ItemCircle extends Item{
 	private double radius;
 	private double radians;
 	private double initx,inity;
+	private double lastxpos,lastypos;
 	
 	public ItemCircle(Board frame) {
 		super(frame);
@@ -15,6 +16,9 @@ public class ItemCircle extends Item{
 	}
 
 	public void initialize() {
+		count = 0;
+		lastxpos=-1;
+		lastypos=-1;
 		radius = 200*board.currFloor.getScale();
 		player.lockControl(true);
 		initx=player.getXVel();
@@ -56,7 +60,21 @@ public class ItemCircle extends Item{
 					
 			player.averageVels(radius*Math.cos(radians+.1)-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1)));
 
-		}
+		}else {
+			//radians+=Math.PI/2; //idea 1
+			count=0;}
+			/*if(lastxpos<0 || lastypos<0) { //idea 2
+				lastxpos=player.getX();
+				lastypos=player.getY();
+			}
+			if(Math.sqrt(Math.pow(lastxpos-player.getX(), 2)+Math.pow(lastypos-player.getY(), 2))<radius*2) {
+				
+			}else {
+				count = 0;
+				lastxpos=-1;
+				lastypos=-1;
+			}
+		}*/
 	}
 	/*public double[] relativeVel(double x, double y, double hX, double hY) {
 		double h = Math.sqrt(hX*hX+hY*hY);
@@ -74,6 +92,8 @@ public class ItemCircle extends Item{
 	public void end(boolean interrupted) {
 		player.lockControl(false);
 		count = 0;
+		lastxpos=-1;
+		lastypos=-1;
 		player.setXVel(initx);
 		player.setYVel(inity*-1);
 	}

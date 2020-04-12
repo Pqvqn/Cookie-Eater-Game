@@ -17,7 +17,7 @@ public class UIItems extends UIElement{
 	public UIItems(Board frame, int x, int y) {
 		super(frame,x,y);
 		itemDisplays = new ArrayList<UIText>();
-		parts.add(backing = new UIRectangle(board,xPos-10,yPos+10,SIZE*5,SIZE,new Color(0,0,0,50)));
+		parts.add(backing = new UIRectangle(board,xPos-10,yPos+10,SIZE*5,SIZE,new Color(0,0,0,100)));
 	}
 	public void update(ArrayList<Item> pItems) {
 		if(pItems.size()!=itemDisplays.size()) {
@@ -27,7 +27,7 @@ public class UIItems extends UIElement{
 				parts.remove(itemDisplays.remove(i));
 			}
 			for(int i=0; i<pItems.size(); i++) {
-				UIText newOne = new UIText(board,xPos,yPos-i*SEPARATION,pItems.get(i).name(),new Color(255,255,255,50),new Font("Arial",Font.BOLD,SIZE));
+				UIText newOne = new UIText(board,xPos,yPos-i*SEPARATION,pItems.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
 				itemDisplays.add(newOne);
 				parts.add(newOne);
 			}
