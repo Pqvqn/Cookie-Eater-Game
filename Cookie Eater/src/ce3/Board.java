@@ -33,7 +33,7 @@ public class Board extends JFrame{
 	private UIFpsCount fps;
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
-	private UIItems itemDisp;
+	private UIItemsAll itemDisp;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
@@ -81,7 +81,7 @@ public class Board extends JFrame{
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
 		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-170,Y_RESOL-100));
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
-		draw.addUI(itemDisp = new UIItems(this,50,Y_RESOL-50));
+		draw.addUI(itemDisp = new UIItemsAll(this,50,Y_RESOL-50));
 		
 		
 		//run the game
@@ -96,13 +96,13 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		//player.addItem(new ItemShield(this));
-		//player.addItem(new ItemHold(this));
-		//player.addItem(new ItemCircle(this));
-		//player.addItem(new ItemBoost(this));
-		player.addItem(new ItemCookieChain(this));
-		player.addItem(new ItemRecycle(this));
-		//player.addItem(new ItemSlowmo(this));
+		player.addItem(0, new ItemShield(this));
+		player.addItem(2, new ItemHold(this));
+		player.addItem(1, new ItemCircle(this));
+		player.addItem(0, new ItemBoost(this));
+		player.addItem(0, new ItemCookieChain(this));
+		//player.addItem(0, new ItemRecycle(this));
+		//player.addItem(0, new ItemSlowmo(this));
 
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();

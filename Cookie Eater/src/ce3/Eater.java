@@ -34,12 +34,13 @@ public class Eater{
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
 	private int special_length; //stun length
-	private int special_frames; //counting how deep into shield
+	private ArrayList<Integer> special_frames; //counting how deep into shield
 	private int special_cooldown; //frames between uses of special
 	private double recoil; //recoil speed from hit
-	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIALA = 2; //states
+	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
 	private int state;
-	private ArrayList<Item> powerups;
+	private ArrayList<ArrayList<Item>> powerups;
+	private int currSpecial;
 	private boolean lock; //if player can move
 	private int countVels;
 	private double calibration_ratio; //framerate ratio
@@ -70,11 +71,16 @@ public class Eater{
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_frames = 0;
+		special_frames = new ArrayList<Integer>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		recoil = 15*calibration_ratio;
 		state = LIVE;
-		powerups = new ArrayList<Item>();
+		powerups = new ArrayList<ArrayList<Item>>();
+		for(int i=0; i<3; i++) {
+			powerups.add(new ArrayList<Item>());
+			special_frames.add(0);
+		}
+		currSpecial = -1;
 		grabDecayed = false;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
@@ -99,20 +105,24 @@ public class Eater{
 	public void setShielded(boolean s) {shielded = s;}
 	
 	
-	public void addItem(Item i) {powerups.add(i);}
-	public ArrayList<Item> getItems() {return powerups;}
+	public void addItem(int index, Item i) {powerups.get(index).add(i);}
+	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {
-		if(special_frames>time) {
-			special_frames-=time;
-		}else {
-			special_frames=1;
+		for(int i=0; i<special_frames.size(); i++) {
+			if(special_frames.get(i)<special_length && special_frames.get(i)!=0) {
+				if(special_frames.get(i)>time) {
+					special_frames.set(i,(int)(.5+special_frames.get(i)-time));
+				}else {
+					special_frames.set(i, 1);
+				}
+			}
 		}
 	}
 	public int getSpecialLength() {return special_length;}
 	public int getSpecialCooldown() {return special_cooldown;}
-	public int getSpecialFrames() {return special_frames;}
+	public ArrayList<Integer> getSpecialFrames() {return special_frames;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if((int)calrat==(int)calibration_ratio)return;
@@ -186,12 +196,13 @@ public class Eater{
 						
 	}
 	//activates special A (all powerups tied to A)
-	public void specialA() {
-		if(special_frames!=0 || direction==NONE)return;
-		for(int i=0; i<powerups.size(); i++) {
-			powerups.get(i).initialize();
+	public void special(int index) {
+		if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE)return;
+		for(int i=0; i<powerups.get(index).size(); i++) {
+			powerups.get(index).get(i).initialize();
 		}
-		state=SPECIALA;
+		state=SPECIAL;
+		currSpecial = index;
 		//special_frames=0;
 	}
 	//takes velocity changes from items and averages them
@@ -203,11 +214,11 @@ public class Eater{
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
-		if(state==SPECIALA) {
-			for(int i=0; i<powerups.size(); i++) //stop special
-				powerups.get(i).end(true);
+		if(state==SPECIAL) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
+				powerups.get(currSpecial).get(i).end(true);
 		}
-		powerups = new ArrayList<Item>();
+		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
 		state = DEAD;
 		board.draw.repaint();
 		x_velocity = 0;
@@ -234,9 +245,9 @@ public class Eater{
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
-		if(state==SPECIALA) {
-			for(int i=0; i<powerups.size(); i++) //stop special
-				powerups.get(i).end(true);
+		if(state==SPECIAL) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
+				powerups.get(currSpecial).get(i).end(true);
 		}
 		state = WIN;
 		board.draw.repaint();
@@ -254,7 +265,7 @@ public class Eater{
 		state = LIVE;
 		shielded = false;
 		shield_frames = 0;
-		special_frames = 0;
+		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0);
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
@@ -289,9 +300,9 @@ public class Eater{
 			x+=x_velocity;
 			xB=true;
 		}
-		if(state==SPECIALA) {
-			for(int i=0; i<powerups.size(); i++) {
-				powerups.get(i).bounce(xB,yB);
+		if(state==SPECIAL) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).bounce(xB,yB);
 			}
 		}
 	}
@@ -309,21 +320,25 @@ public class Eater{
 	public void runUpdate() {
 		if(!dO)return; //if paused
 		countVels=0;
-		if(state == SPECIALA) {
-			for(int i=0; i<powerups.size(); i++) {
-				powerups.get(i).execute();
+		if(state == SPECIAL) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).execute();
 			}
-			if(special_frames++>special_length) {
+			special_frames.set(currSpecial,special_frames.get(currSpecial)+1);
+			if(special_frames.get(currSpecial)>special_length) {
 				state = LIVE;
-				for(int i=0; i<powerups.size(); i++) {
-					powerups.get(i).end(false);
+				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+					powerups.get(currSpecial).get(i).end(false);
 				}
+				currSpecial = -1;
 			}
 		}
-		if(special_frames>special_length) {
-			special_frames++;
-			if(special_frames>special_length+special_cooldown) {
-				special_frames=0;
+		for(int i=0; i<special_frames.size(); i++) {
+			if(special_frames.get(i)>special_length) {
+				special_frames.set(i,special_frames.get(i)+1);
+				if(special_frames.get(i)>special_length+special_cooldown) {
+					special_frames.set(i,0);
+				}
 			}
 		}
 		if(shielded) {
@@ -392,7 +407,7 @@ public class Eater{
 		}else if(state==WIN) {
 			g.setColor(new Color(255,255,255,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
-		}else if(state==SPECIALA) {
+		}else if(state==SPECIAL) {
 			g.setColor(new Color(coloration.getRed(),coloration.getGreen(),coloration.getBlue(),100));
 			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
 		}

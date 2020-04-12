@@ -40,7 +40,14 @@ public class Controls implements KeyListener{
 				player.win();
 				break;
 			case KeyEvent.VK_SHIFT:
-				player.specialA();
+				player.special(0); 
+				break;
+			case KeyEvent.VK_CONTROL:
+				player.special(1); 
+				break;
+			case KeyEvent.VK_ALT:
+				e.consume();
+				player.special(2); 
 				break;
 			case KeyEvent.VK_C:
 				board.cash++;

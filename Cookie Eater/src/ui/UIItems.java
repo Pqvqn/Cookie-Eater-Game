@@ -17,41 +17,47 @@ public class UIItems extends UIElement{
 	//private UIRectangle bar_unfill;
 	private UIRectangle bar;
 	private int barHeight, barY;
+	private int myIndex;
+	private Color theme_color;
 	
-	public UIItems(Board frame, int x, int y) {
+	public UIItems(Board frame, int x, int y, int index, Color c) {
 		super(frame,x,y);
 		itemDisplays = new ArrayList<UIText>();
-		parts.add(list_backing = new UIRectangle(board,xPos+50,yPos+10,SIZE*5,SIZE,new Color(0,0,0,100)));
+		parts.add(list_backing = new UIRectangle(board,xPos+50,yPos-SEPARATION,SIZE*5,SEPARATION+10,new Color(0,0,0,100)));
 		parts.add(new UIRectangle(board,xPos-10,yPos+10-100,50,100,new Color(0,0,0,100))); //bar backing
 		parts.add(new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,255,255,10))); //bar unfill
 		parts.add(bar = new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,255,255,100)));
 		barHeight = bar.gethLen();
 		barY = bar.getyPos();
+		myIndex = index;
+		theme_color = c;
 	}
-	public void update(ArrayList<Item> pItems, int frames, int cooldown, int duration) {
-		if(pItems.size()!=itemDisplays.size()) { //add all items into list
-			list_backing.sethLen(pItems.size()*(SEPARATION)+10);
+	public void update(ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration) {
+		ArrayList<Item> list = pItems.get(myIndex);
+		int framecount = frames.get(myIndex);
+		if(list.size()!=itemDisplays.size()) { //add all items into list
+			list_backing.sethLen((list.size()>0) ? list.size()*(SEPARATION)+10 : SEPARATION+10);
 			list_backing.setyPos(yPos+10-list_backing.gethLen());
 			for(int i=0; i<itemDisplays.size(); i++) {
 				parts.remove(itemDisplays.remove(i));
 			}
-			for(int i=0; i<pItems.size(); i++) {
-				UIText newOne = new UIText(board,xPos+60,yPos-i*SEPARATION,pItems.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
+			for(int i=0; i<list.size(); i++) {
+				UIText newOne = new UIText(board,xPos+60,yPos-i*SEPARATION,list.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
 				itemDisplays.add(newOne);
 				parts.add(newOne);
 			}
 		}
-		if(frames == 0) { //special charged
-			bar.setColor(new Color(200,255,255,200));
+		if(framecount == 0) { //special charged
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),200).brighter());
 			bar.sethLen(barHeight);
-		}else if(frames <= duration) { //special use
-			bar.setColor(new Color(0,255,255,150));
+		}else if(framecount <= duration) { //special use
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),150));
 			if(duration>0)
-				bar.sethLen((int)(.5+barHeight-((double)frames/duration)*barHeight));
+				bar.sethLen((int)(.5+barHeight-((double)framecount/duration)*barHeight));
 		}else { //special recharge
-			bar.setColor(new Color(100,255,255,50));
+			bar.setColor(new Color(theme_color.getRed(),theme_color.getBlue(),theme_color.getGreen(),50).darker());
 			if(cooldown>0)
-				bar.sethLen((int)(.5+(((double)frames-duration)/cooldown)*barHeight));
+				bar.sethLen((int)(.5+(((double)framecount-duration)/cooldown)*barHeight));
 		}
 		bar.setyPos(barY+barHeight-bar.gethLen());
 	}
