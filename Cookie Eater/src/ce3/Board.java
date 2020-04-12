@@ -36,6 +36,7 @@ public class Board extends JFrame{
 	private UIItems itemDisp;
 	private int cycletime;
 	private int fpscheck;
+	private int true_cycle;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -89,16 +90,17 @@ public class Board extends JFrame{
 	}
 	
 	public int getCycle() {return cycletime;}
+	public int getAdjustedCycle() {return true_cycle;}
 	public void setCycle(int tim) {cycletime=tim;}
 	
 	
 	//go back to first level
 	public void resetGame() {
-		//player.addItem(new ItemShield(this));
+		player.addItem(new ItemShield(this));
 		//player.addItem(new ItemHold(this));
-		player.addItem(new ItemCircle(this));
-		//player.addItem(new ItemBoost(this));
-		//player.addItem(new ItemCookieChain(this));
+		//player.addItem(new ItemCircle(this));
+		player.addItem(new ItemBoost(this));
+		player.addItem(new ItemCookieChain(this));
 		//player.addItem(new ItemSlowmo(this));
 
 		walls = new ArrayList<Wall>();
@@ -137,6 +139,8 @@ public class Board extends JFrame{
 		//fps counter
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
+			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/10;
+			player.setCalibration(true_cycle/15.0);
 			lastFrame = System.currentTimeMillis();
 			fpscheck=10;
 		}

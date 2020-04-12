@@ -61,7 +61,7 @@ public class Eater{
 		randomizeStats();
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
-		friction = .1*calibration_ratio;
+		friction = .1*calibration_ratio*calibration_ratio;
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
@@ -71,7 +71,7 @@ public class Eater{
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = 0;
 		special_cooldown = (int)(.5+60*(1/calibration_ratio));
-		recoil = 10*calibration_ratio;
+		recoil = 15*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<Item>();
 		/*x_positions = new LinkedList<Double>();
@@ -103,6 +103,21 @@ public class Eater{
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {if(special_frames>time)special_frames-=time;}
 	public int getSpecialLength() {return special_length;}
+	
+	public void setCalibration(double calrat) {
+		if((int)calrat==(int)calibration_ratio)return;
+		acceleration/=calibration_ratio*calibration_ratio;
+		max_velocity/=calibration_ratio;
+		friction/=calibration_ratio*calibration_ratio;
+		calibration_ratio = calrat;
+		shield_length = (int)(.5+60*(1/calibration_ratio));
+		special_length = (int)(.5+60*(1/calibration_ratio));
+		special_cooldown = (int)(.5+60*(1/calibration_ratio));
+		recoil = 15*calibration_ratio;
+		acceleration*=calibration_ratio*calibration_ratio;
+		max_velocity*=calibration_ratio;
+		friction*=calibration_ratio*calibration_ratio;
+	}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -187,7 +202,7 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
-		randomizeStats();
+		//randomizeStats();
 		reset();
 	}
 	//kill, but only if no bounce
@@ -225,7 +240,7 @@ public class Eater{
 		shielded = false;
 		shield_frames = 0;
 		special_frames = 0;
-		coloration = new Color((int)((friction/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
 		x_velocity=0;
 		y_velocity=0;
 		x = board.currFloor.getStartX();
@@ -273,7 +288,7 @@ public class Eater{
 		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
-		friction*=calibration_ratio;
+		friction*=calibration_ratio*calibration_ratio;
 	}
 	
 	public void runUpdate() {
