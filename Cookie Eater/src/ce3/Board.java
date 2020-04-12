@@ -93,10 +93,10 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		//player.addItem(new ItemShield(this));
+		player.addItem(new ItemShield(this));
 		//player.addItem(new ItemHold(this));
-		//player.addItem(new ItemCircle(this));
-		//player.addItem(new ItemBoost(this));
+		player.addItem(new ItemCircle(this));
+		player.addItem(new ItemBoost(this));
 		player.addItem(new ItemCookieChain(this));
 		player.addItem(new ItemSlowmo(this));
 		

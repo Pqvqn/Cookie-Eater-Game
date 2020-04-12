@@ -96,7 +96,7 @@ public class Eater{
 	public ArrayList<Item> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
-	public void extendSpecial(double time) {special_frames-=time;}
+	public void extendSpecial(double time) {if(special_frames>time)special_frames-=time;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -151,7 +151,7 @@ public class Eater{
 	}
 	//activates special A (all powerups tied to A)
 	public void specialA() {
-		if(special_frames>0 || direction==NONE)return;
+		if(special_frames!=0 || direction==NONE)return;
 		for(int i=0; i<powerups.size(); i++) {
 			powerups.get(i).initialize();
 		}
