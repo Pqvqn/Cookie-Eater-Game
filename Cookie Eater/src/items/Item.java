@@ -22,9 +22,11 @@ public abstract class Item {
 	public void end(boolean interrupted) {
 		
 	}
+	//string that names this item
 	public String name() {
 		return null;
 	}
+	//what to do when bounced off wall (mainly movement items)
 	public void bounce(boolean x, boolean y) {
 		
 	}

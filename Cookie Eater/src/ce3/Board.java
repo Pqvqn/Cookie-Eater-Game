@@ -34,6 +34,7 @@ public class Board extends JFrame{
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
 	private UIItems itemDisp;
+	private int cycletime;
 	
 	public Board() {
 		super("Cookie Eater");
@@ -79,19 +80,25 @@ public class Board extends JFrame{
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
 		draw.addUI(itemDisp = new UIItems(this,50,Y_RESOL-50));
 		
+		cycletime=15;
 		
 		//run the game
 		while(true)
-			run(15);
+			run(cycletime);
 	}
+	
+	public int getCycle() {return cycletime;}
+	public void setCycle(int tim) {cycletime=tim;}
+	
 	
 	//go back to first level
 	public void resetGame() {
-		player.addItem(new ItemShield(this));
+		//player.addItem(new ItemShield(this));
 		//player.addItem(new ItemHold(this));
-		player.addItem(new ItemCircle(this));
+		//player.addItem(new ItemCircle(this));
 		//player.addItem(new ItemBoost(this));
 		player.addItem(new ItemCookieChain(this));
+		player.addItem(new ItemSlowmo(this));
 		
 		
 	

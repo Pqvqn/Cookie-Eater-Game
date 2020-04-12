@@ -167,8 +167,10 @@ public class Eater{
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
-		for(int i=0; i<powerups.size(); i++) //stop special
-			powerups.get(i).end(true);
+		if(state==SPECIALA) {
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).end(true);
+		}
 		powerups = new ArrayList<Item>();
 		state = DEAD;
 		board.draw.repaint();
@@ -196,8 +198,10 @@ public class Eater{
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
-		for(int i=0; i<powerups.size(); i++) //stop special
-			powerups.get(i).end(true);
+		if(state==SPECIALA) {
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).end(true);
+		}
 		state = WIN;
 		board.draw.repaint();
 		x_velocity = 0;
