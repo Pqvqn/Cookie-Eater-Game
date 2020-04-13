@@ -9,7 +9,8 @@ public class ItemSlowmo extends Item{
 	public ItemSlowmo(Board frame) {
 		super(frame);
 		prop = .5;
-		initTime = board.getCycle();;
+		initTime = board.getCycle();
+		name = "Slowmo";
 	}
 	public void initialize() {
 		initTime=board.getCycle();
@@ -20,7 +21,12 @@ public class ItemSlowmo extends Item{
 	public void end(boolean interrupted) {
 		board.setCycle(initTime);
 	}
-	public String name() {
-		return "Slowmo";
+	public void amplify() {
+		super.amplify();
+		prop-=.2;
+	}
+	public void deamplify() {
+		super.deamplify();
+		prop-=.2;
 	}
 }

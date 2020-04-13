@@ -45,7 +45,7 @@ public class Eater{
 	private boolean lock; //if player can move
 	private int countVels;
 	private double calibration_ratio; //framerate ratio
-	private boolean grabDecayed;
+	private double decayedValue;
 	
 	private Board board;
 	
@@ -61,7 +61,7 @@ public class Eater{
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
 		scale = 1;
-		randomizeStats();
+		//randomizeStats();
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		friction = .1*calibration_ratio*calibration_ratio;
@@ -84,7 +84,7 @@ public class Eater{
 			special_frames.add(0);
 		}
 		currSpecial = -1;
-		grabDecayed = false;
+		decayedValue = 0;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -108,7 +108,17 @@ public class Eater{
 	public void setShielded(boolean s) {shielded = s;}
 	
 	
-	public void addItem(int index, Item i) {powerups.get(index).add(i);}
+	public void addItem(int index, Item i) {
+		boolean add = true;
+		for(int j=0; j<powerups.get(index).size(); j++) { //see if item already in list
+			Item test = powerups.get(index).get(j);
+			if(i.name().contentEquals(test.getName())) { //if duplicate, amplify instead of adding
+				add = false;
+				test.amplify();
+			}
+		}
+		if(add)powerups.get(index).add(i);
+	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
@@ -129,12 +139,15 @@ public class Eater{
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
+
 		if((int)calrat==(int)calibration_ratio)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		friction/=calibration_ratio*calibration_ratio;
 		recoil /= calibration_ratio;
+		
 		calibration_ratio = calrat;
+		
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
@@ -145,10 +158,11 @@ public class Eater{
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).recalibrate();
 		}
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
 	}
-	public boolean getGrabDecay() {return grabDecayed;}
-	public void setGrabDecay(boolean d) {grabDecayed=d;}
-	public double getRecoil() {return recoil*scale;}
+	public double getDecayedValue() {return decayedValue;}
+	public void setDecayedValue(double dv) {decayedValue=dv;}
+	public double getRecoil() {return recoil;}
 	public void setRecoil(double r) {recoil = r;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
@@ -239,7 +253,7 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
-		randomizeStats();
+		//randomizeStats();
 		reset();
 	}
 	//kill, but only if no bounce
@@ -329,6 +343,7 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
+		if(board.getAdjustedCycle()==0 || board.getAdjustedCycle()>=10000)direction=NONE;
 		if(!dO)return; //if paused
 		countVels=0;
 		if(state == SPECIAL) {

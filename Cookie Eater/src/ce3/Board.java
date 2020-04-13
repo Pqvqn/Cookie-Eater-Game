@@ -24,7 +24,7 @@ public class Board extends JFrame{
 	public ArrayList<Wall> walls;
 	public final int BORDER_THICKNESS = 20;
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
-	public int cash; //cookies to spend
+	public double cash; //cookies to spend
 	public int shields; //shields owned
 	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this), new Floor2(this), new Floor3(this), new Floor4(this), new FloorBiggy(this)}; //order of floors
 	private LinkedList<Level> floors;
@@ -41,7 +41,7 @@ public class Board extends JFrame{
 	public Board() {
 		super("Cookie Eater");
 		cycletime=5;
-		fpscheck=0;
+		fpscheck=100;
 		//initializing classes
 		player = new Eater(this,cycletime);
 		draw = new Draw(this);
@@ -96,14 +96,17 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		player.addItem(1, new ItemShield(this));
-		//player.addItem(2, new ItemHold(this));
-		//player.addItem(1, new ItemCircle(this));
-		player.addItem(1, new ItemBoost(this));
+		player.addItem(0, new ItemShield(this));
+		player.addItem(1, new ItemHold(this));
+		player.addItem(2, new ItemCircle(this));
+		player.addItem(0, new ItemShield(this));
+		player.addItem(1, new ItemHold(this));
+		player.addItem(2, new ItemCircle(this));
+		//player.addItem(1, new ItemBoost(this));
 		//player.addItem(1, new ItemCookieChain(this));
 		//player.addItem(0, new ItemRecycle(this));
 		//player.addItem(0, new ItemSlowmo(this));
-		player.addItem(1, new ItemBounce(this));
+		//player.addItem(1, new ItemBounce(this));
 
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
@@ -141,10 +144,10 @@ public class Board extends JFrame{
 		//fps counter
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
-			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/10; 
+			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/100; 
 			player.setCalibration(true_cycle/15.0); //give player more acurrate cycle time
 			lastFrame = System.currentTimeMillis();
-			fpscheck=10;
+			fpscheck=100;
 		}
 		//scoreboard
 		scoreboard.update(cash,score,scoreToWin);

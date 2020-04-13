@@ -9,11 +9,12 @@ public class ItemBoost extends Item{
 	
 	public ItemBoost(Board frame) {
 		super(frame);
+		speedy = 30;
+		name = "Boost";
 	}
 
 	public void initialize() {
 		dir=player.getDir(); //store direction for later
-		speedy = (board.getAdjustedCycle()/15.0)*30*board.currFloor.getScale(); //speed of boost
 		player.lockControl(true);
 		initx = player.getXVel();
 		inity = player.getYVel();
@@ -38,7 +39,7 @@ public class ItemBoost extends Item{
 		}
 		double x = initx;
 		double y = inity;
-		double h = speedy;
+		double h = (board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale(); //speed of boost
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
 			r = 0;
@@ -57,7 +58,12 @@ public class ItemBoost extends Item{
 		if(x)initx*=-1;
 		if(y)inity*=-1;
 	}
-	public String name() {
-		return "Boost";
+	public void amplify() {
+		super.amplify();
+		speedy+=30;
+	}
+	public void deamplify() {
+		super.deamplify();
+		speedy-=30;
 	}
 }

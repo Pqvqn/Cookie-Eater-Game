@@ -10,6 +10,7 @@ public class ItemBounce extends Item{
 	public ItemBounce(Board frame) {
 		super(frame);
 		consta = 2;
+		name = "Bounce";
 	}
 	public void initialize() {
 		storex=0;
@@ -30,7 +31,12 @@ public class ItemBounce extends Item{
 		if(x)storex=player.getXVel()*consta;
 		if(y)storey=player.getYVel()*consta;
 	}
-	public String name() {
-		return "Bounce";
+	public void amplify() {
+		super.amplify();
+		consta+=1;
+	}
+	public void deamplify() {
+		super.deamplify();
+		consta-=1;
 	}
 }

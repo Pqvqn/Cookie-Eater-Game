@@ -60,8 +60,11 @@ public class Cookie {
 	//delete self and increase score
 	public void kill() {
 		board.score++;
-		if(!decayed || board.player.getGrabDecay())
+		if(!decayed) {
 			board.cash++;
+		}else { //less value for decayed cookies
+			board.cash+=board.player.getDecayedValue();
+		}
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
 	

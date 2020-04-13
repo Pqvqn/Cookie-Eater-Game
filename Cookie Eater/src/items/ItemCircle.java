@@ -5,6 +5,7 @@ public class ItemCircle extends Item{
 
 	private double count;
 	private double radius;
+	private double radiusunadjust;
 	private double radians;
 	private double initx,inity;
 	
@@ -12,11 +13,13 @@ public class ItemCircle extends Item{
 		super(frame);
 		count = 0;
 		radians = 0;
+		name = "Circle";
+		radiusunadjust = 100;
 	}
 
 	public void initialize() {
+		radius=radiusunadjust*board.currFloor.getScale();
 		count = 0;
-		radius = 100*board.currFloor.getScale();
 		player.lockControl(true);
 		initx=player.getXVel();
 		inity=-1*player.getYVel();
@@ -96,7 +99,12 @@ public class ItemCircle extends Item{
 		if(x)radians*=-1;
 		if(y)radians=Math.PI-radians;
 	}
-	public String name() {
-		return "Circle";
+	public void amplify() {
+		super.amplify();
+		radiusunadjust+=100;
+	}
+	public void deamplify() {
+		super.deamplify();
+		radiusunadjust-=100;
 	}
 }

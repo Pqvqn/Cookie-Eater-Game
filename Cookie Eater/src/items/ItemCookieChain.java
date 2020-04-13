@@ -10,6 +10,7 @@ public class ItemCookieChain extends Item{
 	public ItemCookieChain(Board frame) {
 		super(frame);
 		time = player.getSpecialLength()/4;
+		name = "Chain";
 	}
 	public void initialize() {
 		count = 0;
@@ -29,7 +30,12 @@ public class ItemCookieChain extends Item{
 	public void end(boolean interrupted) {
 		
 	}
-	public String name() {
-		return "Chain";
+	public void amplify() {
+		super.amplify();
+		time*=2;
+	}
+	public void deamplify() {
+		super.deamplify();
+		time/=2;
 	}
 }
