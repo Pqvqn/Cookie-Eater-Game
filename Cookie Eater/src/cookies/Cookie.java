@@ -1,19 +1,21 @@
-package ce3;
+package cookies;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
+import ce3.Board;
+import ce3.Eater;
 import levels.Level;
 
 public class Cookie {
 
-	private int x,y;
+	protected int x,y;
 	public static final int DEFAULT_RADIUS=30;
-	private int radius;
-	private Board board;
-	private boolean accessible;
-	private int decayTime; //frames passed before decaying
-	private boolean decayed; //if cookies is decayed (unable to earn currency from)
+	protected int radius;
+	protected Board board;
+	protected boolean accessible;
+	protected int decayTime; //frames passed before decaying
+	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
 	
 	public Cookie(Board frame, int startx, int starty) {
 		board = frame;

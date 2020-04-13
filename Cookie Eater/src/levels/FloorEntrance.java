@@ -20,8 +20,8 @@ public class FloorEntrance extends Level{
 		next = nextFloor;
 		scale = 1;
 		board = frame;
-		minDecay = 60;
-		maxDecay = 1800;
+		minDecay = Integer.MAX_VALUE;
+		maxDecay = Integer.MAX_VALUE;
 		shieldCost = 50;
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
