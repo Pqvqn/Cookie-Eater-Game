@@ -27,6 +27,7 @@ public class Eater{
 	private double accel; //scalable movement stats
 	private double maxvel;
 	private double fric;
+	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
 	private boolean dO; //continue movement
 	private double scale; //zoom in/out of screen
@@ -64,7 +65,7 @@ public class Eater{
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		friction = .1*calibration_ratio*calibration_ratio;
-		randomizeStats();
+		averageStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
@@ -157,12 +158,25 @@ public class Eater{
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).recalibrate();
 		}
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
 	public double getDecayedValue() {return decayedValue;}
 	public void setDecayedValue(double dv) {decayedValue=dv;}
 	public double getRecoil() {return recoil;}
 	public void setRecoil(double r) {recoil = r;}
+	public double[][] getMovementRand() {return MR;}
+	public void addToMovement(double a, double v, double f) {
+		acceleration += a*calibration_ratio*calibration_ratio;
+		if(acceleration>(MR[0][0]+MR[0][1])*calibration_ratio*calibration_ratio)acceleration=(MR[0][0]+MR[0][1])*calibration_ratio*calibration_ratio;
+		if(acceleration<(MR[0][0])*calibration_ratio*calibration_ratio)acceleration=(MR[0][0])*calibration_ratio*calibration_ratio;
+		max_velocity += v*calibration_ratio;
+		if(max_velocity>(MR[1][0]+MR[1][1])*calibration_ratio)max_velocity=(MR[1][0]+MR[1][1])*calibration_ratio;
+		if(max_velocity<(MR[1][0])*calibration_ratio)max_velocity=(MR[1][0])*calibration_ratio;
+		friction += f*calibration_ratio*calibration_ratio;
+		if(friction>(MR[2][0]+MR[2][1])*calibration_ratio*calibration_ratio)friction=(MR[2][0]+MR[2][1])*calibration_ratio*calibration_ratio;
+		if(friction<(MR[2][0])*calibration_ratio*calibration_ratio)friction=(MR[2][0])*calibration_ratio*calibration_ratio;
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+	}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -252,7 +266,8 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
-		randomizeStats();
+		//randomizeStats();
+		averageStats();
 		reset();
 	}
 	//kill, but only if no bounce
@@ -290,7 +305,7 @@ public class Eater{
 		shielded = false;
 		shield_frames = 0;
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0);
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-.05)/.25*255),(int)((max_velocity/calibration_ratio-5)/15*255),(int)((acceleration/calibration_ratio/calibration_ratio-.2)/1*255));
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		x_velocity=0;
 		y_velocity=0;
 		x = board.currFloor.getStartX();
@@ -332,10 +347,19 @@ public class Eater{
 	}
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {
-		acceleration = Math.random()*1+.2;
-		max_velocity = Math.random()*15+5;
-		friction = Math.random()*.25+.05;
-		coloration = new Color((int)((friction-.05)/.25*255),(int)((max_velocity-5)/15*255),(int)((acceleration-.2)/1*255));
+		acceleration = Math.random()*MR[0][1]+MR[0][0];
+		max_velocity = Math.random()*MR[1][1]+MR[1][0];
+		friction = Math.random()*MR[2][1]+MR[2][0];
+		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
+		acceleration*=calibration_ratio*calibration_ratio;
+		max_velocity*=calibration_ratio;
+		friction*=calibration_ratio*calibration_ratio;
+	}
+	public void averageStats() {
+		acceleration=MR[0][1]/2+MR[0][0];
+		max_velocity=MR[1][1]/2+MR[1][0];
+		friction=MR[2][1]/2+MR[2][0];
+		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
