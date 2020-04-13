@@ -96,17 +96,15 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		player.addItem(0, new ItemShield(this));
-		player.addItem(1, new ItemHold(this));
-		player.addItem(2, new ItemCircle(this));
-		player.addItem(0, new ItemShield(this));
-		player.addItem(1, new ItemHold(this));
-		player.addItem(2, new ItemCircle(this));
+		//player.addItem(0, new ItemShield(this));
+		//player.addItem(2, new ItemCircle(this));
+		//player.addItem(1, new ItemHold(this));
 		//player.addItem(1, new ItemBoost(this));
 		//player.addItem(1, new ItemCookieChain(this));
 		//player.addItem(0, new ItemRecycle(this));
 		//player.addItem(0, new ItemSlowmo(this));
-		//player.addItem(1, new ItemBounce(this));
+		//player.addItem(0, new ItemBounce(this));
+		
 
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();

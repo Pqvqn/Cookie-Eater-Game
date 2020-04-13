@@ -9,7 +9,7 @@ public class ItemCookieChain extends Item{
 	
 	public ItemCookieChain(Board frame) {
 		super(frame);
-		time = player.getSpecialLength()/4;
+		time = player.getSpecialLength()/8;
 		name = "Chain";
 	}
 	public void initialize() {

@@ -61,10 +61,10 @@ public class Eater{
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
 		scale = 1;
-		//randomizeStats();
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		friction = .1*calibration_ratio*calibration_ratio;
+		randomizeStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
@@ -139,7 +139,6 @@ public class Eater{
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-
 		if((int)calrat==(int)calibration_ratio)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
@@ -253,7 +252,7 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
-		//randomizeStats();
+		randomizeStats();
 		reset();
 	}
 	//kill, but only if no bounce
