@@ -37,6 +37,9 @@ public class Draw extends JPanel{
 	public void addUI(UIElement thing) {
 		ui.add(thing);
 	}
+	public void removeUI(UIElement thing) {
+		ui.remove(thing);
+	}
 	
 	//returns average of two colors
 	public Color blendColors(Color a, Color b) {

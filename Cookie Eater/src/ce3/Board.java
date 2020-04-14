@@ -107,13 +107,19 @@ public class Board extends JFrame{
 		//player.addItem(0, new ItemBounce(this));
 		player.addItem(0, new ItemField(this));
 		
-
+		
+		double pcash = cash;
+		for(int i=0; i<cookies.size(); i++) {
+			cookies.get(i).kill();
+		}
+		cash=pcash;
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		score = 0;
 		cash = 0;
 		shields = 1;
 		buildBoard();
+		
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
 		draw.updateBG();
@@ -121,6 +127,11 @@ public class Board extends JFrame{
 			
 	//advances level
 	public void nextLevel() {
+		double pcash = cash;
+		for(int i=0; i<cookies.size(); i++) {
+			cookies.get(i).kill();
+		}
+		cash=pcash;
 		walls = new ArrayList<Wall>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();

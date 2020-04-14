@@ -7,12 +7,11 @@ import ce3.*;
 //import levels.*;
 
 public class ShieldCookie extends StoreCookie{
-
-	private double price;
 	
 	public ShieldCookie(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
 		price = board.currFloor.getShieldCost();
+		name = "Shield";
 	}
 	public void kill() {
 		if(board.cash>price) {

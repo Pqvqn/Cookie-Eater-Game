@@ -12,8 +12,8 @@ public class Store1 extends FloorEntrance{
 	}
 	public void placeCookies(){
 		
-		board.cookies.add(new ShieldCookie(board,(int)(.5+startx-100),(int)(.5+starty-200)));
-		board.cookies.add(new ShieldCookie(board,(int)(.5+startx+100),(int)(.5+starty-200)));
+		board.cookies.add(new ShieldCookie(board,(int)(.5+startx-150),(int)(.5+starty-200)));
+		board.cookies.add(new ShieldCookie(board,(int)(.5+startx+150),(int)(.5+starty-200)));
 		
 		board.cookies.add(new StatCookie(board,(int)(.5+startx-300),(int)(.5+starty+200)));
 		board.cookies.add(new StatCookie(board,(int)(.5+startx+300),(int)(.5+starty+200)));

@@ -19,18 +19,34 @@ public class StatCookie extends StoreCookie{
 		accelChange = 0;
 		maxvelChange = 0;
 		fricChange = 0;
+		int bonus = (int)(Math.random()+1.2);
+		int direction = (int)(Math.signum(Math.random()-.5));
 		switch((int)(Math.random()*4)) {
 		case 0:
+			name = "Keep";
 			break;
 		case 1:
-			accelChange = .2*Math.signum(Math.random()-.5)*(mr[0][1]-mr[0][0])*(int)(Math.random()+1.2);
+			accelChange = .2*direction*(mr[0][1]-mr[0][0])*bonus;
+			name = "Accel";
 			break;
 		case 2:
-			maxvelChange = .2*Math.signum(Math.random()-.5)*(mr[1][1]-mr[1][0])*(int)(Math.random()+1.2);
+			maxvelChange = .2*direction*(mr[1][1]-mr[1][0])*bonus;
+			name = "MaxVel";
 			break;
 		case 3:
-			fricChange = .2*Math.signum(Math.random()-.5)*(mr[2][1]-mr[2][0])*(int)(Math.random()+1.2);
+			fricChange = .2*direction*(mr[2][1]-mr[2][0])*bonus;
+			name = "Friction";
 			break;
+		}
+		price = 0;
+		if(name!="Keep") {
+			if(direction>0) {
+				name+="+";
+				if(bonus>1)name+="+";
+			}else {
+				name+="-";
+				if(bonus>1)name+="-";
+			}
 		}
 		
 	}
