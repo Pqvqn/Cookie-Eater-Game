@@ -6,7 +6,7 @@ package ce3;
 import javax.swing.*;
 
 import cookies.*;
-//import items.*;
+import items.*;
 import levels.*;
 import ui.*;
 
@@ -105,6 +105,7 @@ public class Board extends JFrame{
 		//player.addItem(0, new ItemRecycle(this));
 		//player.addItem(0, new ItemSlowmo(this));
 		//player.addItem(0, new ItemBounce(this));
+		player.addItem(0, new ItemField(this));
 		
 
 		walls = new ArrayList<Wall>();

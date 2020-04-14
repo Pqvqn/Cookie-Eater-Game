@@ -1,32 +1,30 @@
 package items;
 import ce3.*;
 
-public class ItemHold extends Item{
+public class ItemField extends Item{
 	
-	private int times;
+	private int added_radius;
 	
-	public ItemHold(Board frame) {
+	public ItemField(Board frame) {
 		super(frame);
-		name = "Hold";
-		times=1;
+		name = "Field";
+		added_radius = 40;
 	}
 	public void initialize() {
-
-		player.lockControl(true);
+		player.addRadius(added_radius);
 	}
 	public void execute() {
-		for(int i=0; i<times; i++)
-			player.averageVels(0, 0);
+		
 	}
 	public void end(boolean interrupted) {
-		player.lockControl(false);
+		player.addRadius(-added_radius);
 	}
 	public void amplify() {
 		super.amplify();
-		times++;
+		added_radius+=40;
 	}
 	public void deamplify() {
 		super.deamplify();
-		times--;
+		added_radius-=40;
 	}
 }

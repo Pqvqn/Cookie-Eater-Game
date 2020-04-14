@@ -47,6 +47,7 @@ public class Eater{
 	private int countVels;
 	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
+	private int extra_radius;
 	
 	private Board board;
 	
@@ -86,6 +87,7 @@ public class Eater{
 		}
 		currSpecial = -1;
 		decayedValue = 0;
+		extra_radius = 0;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -101,6 +103,8 @@ public class Eater{
 	public int getDir() {return direction;}
 	public void setDir(int dir) {direction = dir;}
 	public int getRadius() {return radius;}
+	public void addRadius(int er) {extra_radius+=er;}
+	public int getExtraRadius() {return radius+(int)(.5+extra_radius*scale);}
 	public double getMaxVel() {return maxvel;}
 	public double getXVel() {return x_velocity;}
 	public void setXVel(double a) {x_velocity = a;}
