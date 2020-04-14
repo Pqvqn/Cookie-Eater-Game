@@ -37,7 +37,7 @@ public class Cookie {
 	public void runUpdate() {
 		//delete self on collision with player
 		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getExtraRadius())) { 
-			kill();
+			kill(true);
 		}
 		if(board.player.getDir()!=Eater.NONE && decayTime--<=0){	
 			decayed=true;
@@ -60,12 +60,14 @@ public class Cookie {
 	}
 	
 	//delete self and increase score
-	public void kill() {
-		board.score++;
-		if(!decayed) {
-			board.cash++;
-		}else { //less value for decayed cookies
-			board.cash+=board.player.getDecayedValue();
+	public void kill(boolean consumed) {
+		if(consumed) {
+			board.score++;
+			if(!decayed) {
+				board.cash++;
+			}else { //less value for decayed cookies
+				board.cash+=board.player.getDecayedValue();
+			}
 		}
 		board.cookies.remove(board.cookies.indexOf(this));
 	}

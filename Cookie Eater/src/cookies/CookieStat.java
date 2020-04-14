@@ -6,14 +6,14 @@ import java.awt.Graphics;
 import ce3.*;
 //import levels.*;
 
-public class StatCookie extends StoreCookie{
+public class CookieStat extends CookieStore{
 
 	private double[][] mr;
 	private double accelChange;
 	private double maxvelChange;
 	private double fricChange;
 	
-	public StatCookie(Board frame, int startx, int starty) {
+	public CookieStat(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
 		mr = player.getMovementRand();
 		accelChange = 0;
@@ -50,11 +50,11 @@ public class StatCookie extends StoreCookie{
 		}
 		
 	}
-	public void kill() {
+	public boolean purchase() {
 		player.addToMovement(accelChange,maxvelChange,fricChange);
-		super.kill();
 		//player.win();
 		board.score++;
+		return true;
 	}
 	public void paint(Graphics g) {
 		Color c;

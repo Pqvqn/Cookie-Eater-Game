@@ -6,18 +6,19 @@ import java.awt.Graphics;
 import ce3.*;
 //import levels.*;
 
-public class ShieldCookie extends StoreCookie{
+public class CookieShield extends CookieStore{
 	
-	public ShieldCookie(Board frame, int startx, int starty) {
+	public CookieShield(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
 		price = board.currFloor.getShieldCost();
 		name = "Shield";
 	}
-	public void kill() {
-		if(board.cash>price) {
+	public boolean purchase() {
+		if(board.cash>=price) {
 			board.shields++;
 			board.cash-=price;
-			super.kill();}
+			return true;}
+		return false;
 	}
 	public void paint(Graphics g) {
 		g.setColor(new Color(20,170,180,100));

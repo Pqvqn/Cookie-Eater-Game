@@ -104,8 +104,7 @@ public abstract class Level{
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
 			if(!currCookie.getAccess()) {
-				currCookie.kill();
-				board.score--;
+				currCookie.kill(false);
 				cooks--;
 				i--;
 			}
@@ -128,7 +127,8 @@ public abstract class Level{
 	public Color getBGColor() {return bgColor;}
 	public Color getWallColor() {return wallColor;}
 	public int getShieldCost() {return shieldCost;}
-	
+	public boolean specialsEnabled() {return true;} //if specials are allows
+	public void selectSlot(int s) {} //choose special slot for item
 	
 	//gives length of line rom start/end points
 	public static double lineLength(int x1, int y1, int x2, int y2) {

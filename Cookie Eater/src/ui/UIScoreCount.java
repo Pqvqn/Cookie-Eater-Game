@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 import ce3.*;
 
@@ -14,7 +15,8 @@ public class UIScoreCount extends UIElement{
 		parts.add(cooks = new UIText(board,x,y,"",new Color(255,255,255,200),new Font("Arial",Font.BOLD,40)));
 	}
 	public void update(double ch, int ck, int nd) {
-		cash.setText("$"+ch);
+		DecimalFormat rounder = new DecimalFormat("#.#");
+		cash.setText("$"+rounder.format(ch+.04));
 		cooks.setText(ck+"/"+nd);
 	}
 }

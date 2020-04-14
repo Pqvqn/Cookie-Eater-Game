@@ -235,13 +235,18 @@ public class Eater{
 	}
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
-		if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE)return;
-		for(int i=0; i<powerups.get(index).size(); i++) {
-			powerups.get(index).get(i).initialize();
+		if(board.currFloor.specialsEnabled()) {
+			if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE)return;
+			for(int i=0; i<powerups.get(index).size(); i++) {
+				powerups.get(index).get(i).initialize();
+			}
+			state=SPECIAL;
+			currSpecial = index;
+			//special_frames=0;
+		}else {
+			currSpecial = index;
+			board.currFloor.selectSlot(currSpecial);
 		}
-		state=SPECIAL;
-		currSpecial = index;
-		//special_frames=0;
 	}
 	//takes velocity changes from items and averages them
 	public void averageVels(double xVel, double yVel) {
@@ -370,7 +375,6 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
-		if(board.getAdjustedCycle()==0 || board.getAdjustedCycle()>=10000)direction=NONE;
 		if(!dO)return; //if paused
 		countVels=0;
 		if(state == SPECIAL) {

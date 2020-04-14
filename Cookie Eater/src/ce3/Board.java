@@ -6,7 +6,6 @@ package ce3;
 import javax.swing.*;
 
 import cookies.*;
-import items.*;
 import levels.*;
 import ui.*;
 
@@ -97,22 +96,12 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		//player.addItem(0, new ItemShield(this));
-		//player.addItem(2, new ItemCircle(this));
-		//player.addItem(1, new ItemHold(this));
-		//player.addItem(1, new ItemBoost(this));
-		//player.addItem(1, new ItemCookieChain(this));
-		//player.addItem(0, new ItemRecycle(this));
-		//player.addItem(0, new ItemSlowmo(this));
-		//player.addItem(0, new ItemBounce(this));
-		player.addItem(0, new ItemField(this));
 		
 		
-		double pcash = cash;
 		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill();
+			cookies.get(i).kill(false);
+			i--;
 		}
-		cash=pcash;
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		score = 0;
@@ -127,11 +116,10 @@ public class Board extends JFrame{
 			
 	//advances level
 	public void nextLevel() {
-		double pcash = cash;
 		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill();
+			cookies.get(i).kill(false);
+			i--;
 		}
-		cash=pcash;
 		walls = new ArrayList<Wall>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();
