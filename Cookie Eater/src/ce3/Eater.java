@@ -311,6 +311,7 @@ public class Eater{
 	//resets player to floor-beginning state
 	public void reset() {
 		state = LIVE;
+		currSpecial = -1;
 		shielded = false;
 		shield_frames = 0;
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0);
@@ -464,7 +465,7 @@ public class Eater{
 		}else if(state==WIN) {
 			g.setColor(new Color(255,255,255,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
-		}else if(state==SPECIAL) {
+		}else if(currSpecial!=-1) {
 			Color meh = special_colors.get(currSpecial);
 			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
 			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);

@@ -26,7 +26,11 @@ public class Board extends JFrame{
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
 	public int shields; //shields owned
-	private final Level[] FLOOR_SEQUENCE = {new FloorEntrance(this), new Store1(this), new Floor2(this), new Floor3(this), new Floor4(this), new FloorBiggy(this)}; //order of floors
+	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
+			new Store2(this),new Floor2(this),new Floor2(this),
+			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
+			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),
+			new FloorBiggy(this)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
 	private long lastFrame; //time of last frame

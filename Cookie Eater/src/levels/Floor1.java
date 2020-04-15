@@ -5,24 +5,24 @@ import java.awt.Color;
 
 import ce3.*;
 
-public class FloorEntrance extends Level{
+public class Floor1 extends Level{
 
 	//public double scale;
 	//private Level next;
 	//private Board board;
 	//public double startx;
 	//public double starty;
-	public FloorEntrance(Board frame) {
+	public Floor1(Board frame) {
 		this(frame,null);
 	}
-	public FloorEntrance(Board frame, Level nextFloor) {
+	public Floor1(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
 		scale = 1;
 		board = frame;
 		minDecay = 60;
 		maxDecay = 1800;
-		shieldCost = 50;
+		shieldCost = 30;
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}

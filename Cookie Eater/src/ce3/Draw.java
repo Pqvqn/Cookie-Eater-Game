@@ -29,7 +29,7 @@ public class Draw extends JPanel{
 	public void runUpdate() {
 		player.runUpdate();
 		for(int i=0; i<board.cookies.size(); i++) {
-			board.cookies.get(i).runUpdate();
+			if(i<board.cookies.size())board.cookies.get(i).runUpdate();
 		}
 		repaint();
 	}

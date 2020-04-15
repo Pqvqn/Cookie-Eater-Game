@@ -23,10 +23,6 @@ public class Controls implements KeyListener{
 		if(board.getAdjustedCycle()==0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		
-		
-		
-		
-		
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
 				player.setDir(Eater.UP);
@@ -40,7 +36,7 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_RIGHT:
 				player.setDir(Eater.RIGHT);
 				break;
-			case KeyEvent.VK_SPACE:
+			case KeyEvent.VK_BACK_SPACE:
 				player.kill();
 				break;
 			case KeyEvent.VK_ENTER:
@@ -58,8 +54,15 @@ public class Controls implements KeyListener{
 				e.consume();
 				player.special(2); 
 				break;
+			case KeyEvent.VK_SPACE:
+				if(board.currFloor.haltEnabled()) {
+					player.setDir(Eater.NONE);
+					player.averageVels(0,0);
+				}
+				break;
 			case KeyEvent.VK_C:
 				board.cash++;
+				break;
 		}
 		
 	}

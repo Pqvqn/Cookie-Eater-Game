@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ce3.*;
 import cookies.*;
+import items.*;
 
 public abstract class Level{
 	
@@ -112,7 +113,41 @@ public abstract class Level{
 		
 		board.scoreToWin = cooks;
 	}
-	
+	protected void placeItem(int x, int y, int s, String i, double p, Color c) {
+		Item b;
+		switch(i) {
+		case "Boost":
+			b = new ItemBoost(board);
+			break;
+		case "Bounce":
+			b = new ItemBounce(board);
+			break;
+		case "Circle":
+			b = new ItemCircle(board);
+			break;
+		case "Chain":
+			b = new ItemCookieChain(board);
+			break;
+		case "Field":
+			b = new ItemField(board);
+			break;
+		case "Hold":
+			b = new ItemHold(board);
+			break;
+		case "Recycle":
+			b = new ItemRecycle(board);
+			break;
+		case "Shield":
+			b = new ItemShield(board);
+			break;
+		case "Slowmo":
+			b = new ItemSlowmo(board);
+			break;
+		default:
+			b = null;
+		}
+		board.cookies.add(new CookieItem(board, x, y, s, b, p, c));
+	}
 	public Level getNext() {
 		return next;
 	}
@@ -127,6 +162,7 @@ public abstract class Level{
 	public Color getBGColor() {return bgColor;}
 	public Color getWallColor() {return wallColor;}
 	public int getShieldCost() {return shieldCost;}
+	public boolean haltEnabled() {return false;}
 	public boolean specialsEnabled() {return true;} //if specials are allows
 	public void selectSlot(int s) {} //choose special slot for item
 	
