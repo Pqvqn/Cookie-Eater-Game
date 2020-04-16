@@ -32,14 +32,15 @@ public class UIItems extends UIElement{
 		myIndex = index;
 		theme_color = c;
 	}
-	public void update(ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration) {
+	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration) {
 		ArrayList<Item> list = pItems.get(myIndex);
 		int framecount = frames.get(myIndex);
-		if(list.size()!=itemDisplays.size()) { //add all items into list
+		if(listOut || list.size()!=itemDisplays.size()) { //add all items into list
 			list_backing.sethLen((list.size()>0) ? list.size()*(SEPARATION)+10 : SEPARATION+10);
 			list_backing.setyPos(yPos+10-list_backing.gethLen());
 			for(int i=0; i<itemDisplays.size(); i++) {
 				parts.remove(itemDisplays.remove(i));
+				i--;
 			}
 			for(int i=0; i<list.size(); i++) {
 				UIText newOne = new UIText(board,xPos+60,yPos-i*SEPARATION,list.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));

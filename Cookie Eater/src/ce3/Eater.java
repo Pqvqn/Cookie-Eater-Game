@@ -9,6 +9,7 @@ import items.*;
 //import javax.swing.*;
 
 import levels.*;
+import ui.UIItemsAll;
 
 public class Eater{
 	
@@ -48,6 +49,7 @@ public class Eater{
 	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
 	private int extra_radius;
+	private UIItemsAll itemDisp;
 	
 	private Board board;
 	
@@ -114,15 +116,17 @@ public class Eater{
 	
 	
 	public void addItem(int index, Item i) {
+		if(index<0)index=0;
 		boolean add = true;
 		for(int j=0; j<powerups.get(index).size(); j++) { //see if item already in list
 			Item test = powerups.get(index).get(j);
-			if(i.name().contentEquals(test.getName())) { //if duplicate, amplify instead of adding
+			if(i.getName().equals(test.getName())) { //if duplicate, amplify instead of adding
 				add = false;
 				test.amplify();
 			}
 		}
 		if(add)powerups.get(index).add(i);
+		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength());
 	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
@@ -142,6 +146,7 @@ public class Eater{
 	public int getSpecialCooldown() {return special_cooldown;}
 	public ArrayList<Integer> getSpecialFrames() {return special_frames;}
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
+	public int getCurrentSpecial() {return currSpecial;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if((int)calrat==(int)calibration_ratio)return;
@@ -245,7 +250,7 @@ public class Eater{
 			//special_frames=0;
 		}else {
 			currSpecial = index;
-			board.currFloor.selectSlot(currSpecial);
+
 		}
 	}
 	//takes velocity changes from items and averages them
@@ -376,6 +381,7 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
+		updateUI();
 		if(!dO)return; //if paused
 		countVels=0;
 		if(state == SPECIAL) {
@@ -456,6 +462,10 @@ public class Eater{
 			}
 		}
 		
+	}
+	public void updateUI() {
+		if(itemDisp==null)board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
+		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength());
 	}
 	
 	public void paint(Graphics g) {

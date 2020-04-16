@@ -113,7 +113,8 @@ public abstract class Level{
 		
 		board.scoreToWin = cooks;
 	}
-	protected void placeItem(int x, int y, int s, String i, double p, Color c) {
+	//puts cookie item on board
+	protected void placeItem(int x, int y, String i, double p, Color c) {
 		Item b;
 		switch(i) {
 		case "Boost":
@@ -146,7 +147,7 @@ public abstract class Level{
 		default:
 			b = null;
 		}
-		board.cookies.add(new CookieItem(board, x, y, s, b, p, c));
+		board.cookies.add(new CookieItem(board, x, y, b, p, c));
 	}
 	public Level getNext() {
 		return next;
@@ -164,7 +165,6 @@ public abstract class Level{
 	public int getShieldCost() {return shieldCost;}
 	public boolean haltEnabled() {return false;}
 	public boolean specialsEnabled() {return true;} //if specials are allows
-	public void selectSlot(int s) {} //choose special slot for item
 	
 	//gives length of line rom start/end points
 	public static double lineLength(int x1, int y1, int x2, int y2) {

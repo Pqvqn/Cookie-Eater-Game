@@ -11,7 +11,6 @@ public class Store4 extends Floor4{
 	private ArrayList<String> catalogue;
 	private ArrayList<Double> prices;
 	private ArrayList<Color> colors;
-	private int slot;
 	
 	public Store4(Board frame) {
 		super(frame);
@@ -23,13 +22,11 @@ public class Store4 extends Floor4{
 		prices = new ArrayList<Double>();
 		colors = new ArrayList<Color>();
 		configureCatalogue();
-		slot = 0;
 	}
 	
 	
 	public boolean haltEnabled() {return true;}
 	public boolean specialsEnabled() {return false;}
-	public void selectSlot(int s) {slot = s;}
 	
 	
 	public void placeCookies(){
@@ -49,11 +46,11 @@ public class Store4 extends Floor4{
 		
 		//items
 		int i = (int)(Math.random()*catalogue.size());
-		placeItem(390,250,slot,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,250,catalogue.get(i),prices.get(i),colors.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(390,board.Y_RESOL-250,slot,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,board.Y_RESOL-250,catalogue.get(i),prices.get(i),colors.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(120,board.Y_RESOL/2,slot,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(120,board.Y_RESOL/2,catalogue.get(i),prices.get(i),colors.get(i));
 		
 		board.scoreToWin = 2;
 	}

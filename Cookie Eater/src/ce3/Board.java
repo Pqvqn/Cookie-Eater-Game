@@ -29,7 +29,7 @@ public class Board extends JFrame{
 	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
-			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),
+			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),
 			new FloorBiggy(this)}; //order of floors
 	private LinkedList<Level> floors;
 	public Level currFloor;
@@ -37,7 +37,6 @@ public class Board extends JFrame{
 	private UIFpsCount fps;
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
-	private UIItemsAll itemDisp;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
@@ -85,7 +84,6 @@ public class Board extends JFrame{
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));
 		draw.addUI(scoreboard = new UIScoreCount(this,X_RESOL-170,Y_RESOL-100));
 		draw.addUI(shieldDisp = new UIShields(this,X_RESOL-50,90));
-		draw.addUI(itemDisp = new UIItemsAll(this,50,Y_RESOL-50,player.getSpecialColors()));
 		
 		
 		//run the game
@@ -110,7 +108,7 @@ public class Board extends JFrame{
 		currFloor = floors.getLast();
 		score = 0;
 		cash = 0;
-		shields = 1;
+		shields = 3;
 		buildBoard();
 		
 		cookies = new ArrayList<Cookie>();
@@ -156,8 +154,7 @@ public class Board extends JFrame{
 		scoreboard.update(cash,score,scoreToWin);
 		//shields
 		shieldDisp.update(shields);
-		//items
-		itemDisp.update(player.getItems(),player.getSpecialFrames(),player.getSpecialCooldown(),player.getSpecialLength());
+		
 
 	}
 	
