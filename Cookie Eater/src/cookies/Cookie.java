@@ -65,8 +65,11 @@ public class Cookie {
 			board.score++;
 			if(!decayed) {
 				board.cash++;
+				board.player.activateSpecials();
 			}else { //less value for decayed cookies
 				board.cash+=board.player.getDecayedValue();
+				if(board.player.getDecayedValue()>0)
+					board.player.activateSpecials();
 			}
 		}
 		board.cookies.remove(board.cookies.indexOf(this));

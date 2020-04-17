@@ -38,6 +38,7 @@ public class Eater{
 	private int special_length; //stun length
 	private ArrayList<Integer> special_frames; //counting how deep into shield
 	private int special_cooldown; //frames between uses of special
+	private ArrayList<Boolean> special_activated; //if special is triggerable
 	private ArrayList<Color> special_colors; //color associated with each special
 	private double recoil; //recoil speed from hit
 	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
@@ -81,14 +82,17 @@ public class Eater{
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
+		special_activated = new ArrayList<Boolean>();
 		recoil = 15*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
 		for(int i=0; i<3; i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0);
+			special_activated.add(false);
 		}
 		currSpecial = -1;
+
 		decayedValue = 0;
 		extra_radius = 0;
 		ghost = false;
@@ -116,6 +120,13 @@ public class Eater{
 	public void setYVel(double a) {y_velocity = a;}
 	public void setShielded(boolean s) {shielded = s;}
 	public void setGhost(boolean g) {ghost = g;}
+	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
+	public void activateSpecials() {
+		for(int i=0; i<special_activated.size(); i++) {
+			if(special_frames.get(i)==0)
+				special_activated.set(i, true);
+		}
+	}
 	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
@@ -128,7 +139,7 @@ public class Eater{
 			}
 		}
 		if(add)powerups.get(index).add(i);
-		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength());
+		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void lockControl(boolean l) {lock = l;}
@@ -248,11 +259,12 @@ public class Eater{
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
 		if(board.currFloor.specialsEnabled()) {
-			if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE)return;
+			if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
 			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).initialize();
 			}
 			state=SPECIAL;
+			special_activated.set(index, false);
 			currSpecial = index;
 			//special_frames=0;
 		}else {
@@ -495,7 +507,7 @@ public class Eater{
 	}
 	public void updateUI() {
 		if(itemDisp==null)board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
-		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength());
+		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	
 	public void paint(Graphics g) {

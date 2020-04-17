@@ -32,7 +32,7 @@ public class UIItems extends UIElement{
 		myIndex = index;
 		theme_color = c;
 	}
-	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration) {
+	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
 		ArrayList<Item> list = pItems.get(myIndex);
 		int framecount = frames.get(myIndex);
 		if(listOut || list.size()!=itemDisplays.size()) { //add all items into list
@@ -48,15 +48,18 @@ public class UIItems extends UIElement{
 				parts.add(newOne);
 			}
 		}
-		if(framecount == 0) { //special charged
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),200).brighter());
+		int red = theme_color.getRed();
+		int green = theme_color.getGreen();
+		int blue = theme_color.getBlue();
+		if(framecount == 0 && activated.get(myIndex)) { //special charged
+			bar.setColor(new Color((red+100>255)?255:red+100,(green+100>255)?255:green+100,(blue+100>255)?255:blue+100,250));
 			bar.sethLen(barHeight);
 		}else if(framecount <= duration) { //special use
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),150));
+			bar.setColor(new Color(red,green,blue,150));
 			if(duration>0)
 				bar.sethLen((int)(.5+barHeight-((double)framecount/duration)*barHeight));
 		}else { //special recharge
-			bar.setColor(new Color(theme_color.getRed(),theme_color.getGreen(),theme_color.getBlue(),50).darker());
+			bar.setColor(new Color(red,green,blue,50).darker());
 			if(cooldown>0)
 				bar.sethLen((int)(.5+(((double)framecount-duration)/cooldown)*barHeight));
 		}
