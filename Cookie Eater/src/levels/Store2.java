@@ -55,11 +55,12 @@ public class Store2 extends Floor2{
 		addToCatalogue("Bounce", 30, new Color(0,150,200));
 		addToCatalogue("Circle", 40, new Color(220, 170, 70));
 		addToCatalogue("Chain", 40, new Color(150,80,20));
-		addToCatalogue("Field", 35, new Color(30,200,150));
+		addToCatalogue("Field", 35, new Color(90,30,170));
 		addToCatalogue("Hold", 35, new Color(200,50,50));
 		addToCatalogue("Recycle", 50, new Color(30,30,230));
 		addToCatalogue("Shield", 45, new Color(20,170,180));
 		addToCatalogue("Slowmo", 50, new Color(100,120,100));
+		addToCatalogue("Ghost", 50, new Color(30,200,150));
 	}
 	protected void addToCatalogue(String i, double p, Color c) {
 		catalogue.add(i);

@@ -52,14 +52,13 @@ public class Draw extends JPanel{
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		player.paint(g);
-		
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).paint(g);
 		}
 		for(int i=0; i<board.walls.size(); i++) {
 			board.walls.get(i).paint(g);
 		}
+		player.paint(g);
 		for(int i=0; i<ui.size(); i++) {
 			ui.get(i).paint(g);
 		}

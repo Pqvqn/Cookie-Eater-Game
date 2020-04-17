@@ -144,6 +144,9 @@ public abstract class Level{
 		case "Slowmo":
 			b = new ItemSlowmo(board);
 			break;
+		case "Ghost":
+			b = new ItemGhost(board);
+			break;
 		default:
 			b = null;
 		}

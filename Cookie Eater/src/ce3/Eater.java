@@ -50,6 +50,7 @@ public class Eater{
 	private double decayedValue;
 	private int extra_radius;
 	private UIItemsAll itemDisp;
+	private boolean ghost;
 	
 	private Board board;
 	
@@ -90,6 +91,7 @@ public class Eater{
 		currSpecial = -1;
 		decayedValue = 0;
 		extra_radius = 0;
+		ghost = false;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -113,7 +115,7 @@ public class Eater{
 	public double getYVel() {return y_velocity;}
 	public void setYVel(double a) {y_velocity = a;}
 	public void setShielded(boolean s) {shielded = s;}
-	
+	public void setGhost(boolean g) {ghost = g;}
 	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
@@ -238,6 +240,11 @@ public class Eater{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
+	//tests if off screen
+	public boolean outOfBounds() {
+		return x<0 || x>board.X_RESOL || y<0 || y>board.Y_RESOL;
+	}
+	
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
 		if(board.currFloor.specialsEnabled()) {
@@ -288,12 +295,31 @@ public class Eater{
 	public void killBounce(Wall rect, boolean breakShield) {
 		if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
 			kill();
+			return;
 		}else if(breakShield){//only remove shields if not in stun and shield to be broken
 			board.shields--;
-			bounce(rect);
-		}else {
-			bounce(rect);
 		}
+		bounce(rect.getX(),rect.getY(),rect.getW(),rect.getH());
+		
+	}
+	//kill, but only if no bounce (on edge)
+	public void killBounceEdge(boolean breakShield) {
+		if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
+			kill();
+			return;
+		}else if(breakShield){//only remove shields if not in stun and shield to be broken
+			board.shields--;
+		}
+		if(x<0) {
+			bounce(-100,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
+		}else if(x>board.X_RESOL) {
+			bounce(board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale),-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
+		}else if(y<0) {
+			bounce(-100,-100,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+		}else if(y>board.Y_RESOL) {
+			bounce(-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale),board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+		}
+		
 	}
 	//move to next level
 	public void win() {
@@ -334,22 +360,22 @@ public class Eater{
 		direction = NONE;
 	}
 	//uses shield instead of killing
-	public void bounce(Wall w) {
+	public void bounce(int rx,int ry,int rw,int rh) {
 		shielded = true;
 		boolean xB=false,yB=false;
-		if(y>w.getY()+w.getH()) {
+		if(y>ry+rh) {
 			y_velocity=recoil*scale;
 			y+=y_velocity;
 			yB=true;
-		}else if(y<w.getY()) {
+		}else if(y<ry) {
 			y_velocity=-recoil*scale;
 			y+=y_velocity;
 			yB=true;
-		}else if(x>w.getX()+w.getW()) {
+		}else if(x>rx+rw) {
 			x_velocity=recoil*scale;
 			x+=x_velocity;
 			xB=true;
-		}else if(x<w.getX()) {
+		}else if(x<rx) {
 			x_velocity=-recoil*scale;
 			x+=x_velocity;
 			xB=true;
@@ -454,14 +480,18 @@ public class Eater{
 		if(board.score>=board.scoreToWin) //win if all cookies eaten
 			win();
 		
-		for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
-			Wall rect = board.walls.get(i);
-			if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
-				i=board.walls.size();
-				killBounce(rect,!shielded);
+		if(outOfBounds()) {
+			killBounceEdge(!shielded);
+		}
+		if(!ghost) {
+			for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
+				Wall rect = board.walls.get(i);
+				if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
+					i=board.walls.size();
+					killBounce(rect,!shielded);
+				}
 			}
 		}
-		
 	}
 	public void updateUI() {
 		if(itemDisp==null)board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
@@ -484,6 +514,9 @@ public class Eater{
 			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));
 		}else {
 			g.setColor(coloration);
+		}
+		if(ghost) {
+			g.setColor(new Color(g.getColor().getRed(),g.getColor().getGreen(),g.getColor().getBlue(),100));
 		}
 		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		/*int rate = 5;

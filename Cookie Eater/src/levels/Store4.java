@@ -59,11 +59,12 @@ public class Store4 extends Floor4{
 		addToCatalogue("Bounce", 80, new Color(0,150,200));
 		addToCatalogue("Circle", 90, new Color(220, 170, 70));
 		addToCatalogue("Chain", 90, new Color(150,80,20));
-		addToCatalogue("Field", 85, new Color(30,200,150));
+		addToCatalogue("Field", 85, new Color(90,30,170));
 		addToCatalogue("Hold", 85, new Color(200,50,50));
 		addToCatalogue("Recycle", 100, new Color(30,30,230));
 		addToCatalogue("Shield", 95, new Color(20,170,180));
 		addToCatalogue("Slowmo", 100, new Color(100,120,100));
+		addToCatalogue("Ghost", 100, new Color(30,200,150));
 	}
 	protected void addToCatalogue(String i, double p, Color c) {
 		catalogue.add(i);
