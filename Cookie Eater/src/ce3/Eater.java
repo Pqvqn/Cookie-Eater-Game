@@ -107,7 +107,7 @@ public class Eater{
 	public int getX() {return (int)(x+.5);}
 	public void setX(double xP) {x=xP;}
 	public int getY() {return (int)(y+.5);}
-	public void setY(double yP) {x=yP;}
+	public void setY(double yP) {y=yP;}
 	public int getDir() {return direction;}
 	public void setDir(int dir) {direction = dir;}
 	public int getRadius() {return radius;}

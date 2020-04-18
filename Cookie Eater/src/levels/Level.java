@@ -147,6 +147,9 @@ public abstract class Level{
 		case "Ghost":
 			b = new ItemGhost(board);
 			break;
+		case "Return":
+			b = new ItemReturn(board);
+			break;
 		default:
 			b = null;
 		}

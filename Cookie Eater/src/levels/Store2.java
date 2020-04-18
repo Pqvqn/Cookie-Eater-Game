@@ -61,6 +61,7 @@ public class Store2 extends Floor2{
 		addToCatalogue("Shield", 45, new Color(20,170,180));
 		addToCatalogue("Slowmo", 50, new Color(100,120,100));
 		addToCatalogue("Ghost", 50, new Color(30,200,150));
+		addToCatalogue("Return", 45, new Color(200,80,20));
 	}
 	protected void addToCatalogue(String i, double p, Color c) {
 		catalogue.add(i);
