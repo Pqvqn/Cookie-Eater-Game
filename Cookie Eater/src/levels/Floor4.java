@@ -23,7 +23,6 @@ public class Floor4 extends Level{
 		board = frame;
 		minDecay = 90;
 		maxDecay = 3000;
-		shieldCost = 95;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 		bgColor = new Color(50,60,60);

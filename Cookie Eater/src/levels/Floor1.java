@@ -22,7 +22,6 @@ public class Floor1 extends Level{
 		board = frame;
 		minDecay = 60;
 		maxDecay = 1800;
-		shieldCost = 30;
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}

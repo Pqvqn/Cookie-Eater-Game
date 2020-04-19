@@ -11,6 +11,7 @@ public class Store2 extends Floor2{
 	private ArrayList<String> catalogue;
 	private ArrayList<Double> prices;
 	private ArrayList<Color> colors;
+	private double default_price;
 	
 	public Store2(Board frame) {
 		super(frame);
@@ -18,10 +19,12 @@ public class Store2 extends Floor2{
 		starty = board.Y_RESOL/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
+		shieldCost = 30;
+		default_price = 50;
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
 		colors = new ArrayList<Color>();
-		configureCatalogue();
+		configureCatalogue(default_price,catalogue,prices,colors);
 	}
 	
 	
@@ -36,39 +39,21 @@ public class Store2 extends Floor2{
 		board.cookies.add(new CookieShield(board,board.X_RESOL/2,board.Y_RESOL-150));
 	
 		//stats
-		board.cookies.add(new CookieStat(board,board.X_RESOL-390,250));
-		board.cookies.add(new CookieStat(board,board.X_RESOL-390,board.Y_RESOL-250));
-		board.cookies.add(new CookieStat(board,board.X_RESOL-120,board.Y_RESOL/2));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-390,315));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-390,board.Y_RESOL-315));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-185,board.Y_RESOL/2));
 		
 		//items
 		int i = (int)(Math.random()*catalogue.size());
-		placeItem(390,250,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,315,catalogue.get(i),prices.get(i),colors.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(390,board.Y_RESOL-250,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i),colors.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(120,board.Y_RESOL/2,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i),colors.get(i));
 		
 		board.player.setScoreToWin(2);
 	}
-	private void configureCatalogue() {	
-		addToCatalogue("Boost", 35, new Color(200,200,30));
-		addToCatalogue("Bounce", 30, new Color(0,150,200));
-		addToCatalogue("Circle", 40, new Color(220, 170, 70));
-		addToCatalogue("Chain", 40, new Color(150,80,20));
-		addToCatalogue("Field", 35, new Color(90,30,170));
-		addToCatalogue("Hold", 35, new Color(200,50,50));
-		addToCatalogue("Recycle", 50, new Color(30,30,230));
-		addToCatalogue("Shield", 45, new Color(20,170,180));
-		addToCatalogue("Slowmo", 50, new Color(100,120,100));
-		addToCatalogue("Ghost", 50, new Color(30,200,150));
-		addToCatalogue("Return", 40, new Color(200,80,20));
-		addToCatalogue("Teleport", 45, new Color(180,20,30));
-	}
-	protected void addToCatalogue(String i, double p, Color c) {
-		catalogue.add(i);
-		prices.add(p);
-		colors.add(c);
-	}
+	
 	
 	public void build() {
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls

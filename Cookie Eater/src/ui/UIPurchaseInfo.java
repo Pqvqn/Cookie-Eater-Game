@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 import ce3.*;
 
@@ -24,7 +25,8 @@ public class UIPurchaseInfo extends UIElement{
 		}else {
 			price.setColor(Color.red);
 		}
-		price.setText("$"+cost);
+		DecimalFormat rounder = new DecimalFormat("#.#");
+		price.setText("$"+rounder.format(cost+.04));
 		item.setText(name);
 	}
 	public void paint(Graphics g) {

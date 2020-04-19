@@ -11,7 +11,7 @@ public class CookieShield extends CookieStore{
 	public CookieShield(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
 		price = board.currFloor.getShieldCost();
-		name = "Shield";
+		name = "+1 Shield";
 	}
 	public boolean purchase() {
 		if(board.player.getCash()>=price) {

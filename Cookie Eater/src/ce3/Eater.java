@@ -81,6 +81,9 @@ public class Eater{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
+		score = 0;
+		cash = 0;
+		shields = 3;
 		shielded = false;
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
@@ -90,7 +93,7 @@ public class Eater{
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
-		recoil = 15*calibration_ratio;
+		recoil = 10*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
 		for(int i=0; i<3; i++) {

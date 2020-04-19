@@ -12,6 +12,7 @@ public class Store1 extends Floor1{
 		starty = board.Y_RESOL/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
+		shieldCost = 30;
 	}
 	
 	

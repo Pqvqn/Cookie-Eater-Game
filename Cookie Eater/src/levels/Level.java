@@ -158,6 +158,25 @@ public abstract class Level{
 		}
 		board.cookies.add(new CookieItem(board, x, y, b, p, c));
 	}
+	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P,ArrayList<Color> C) {	
+		addToCatalogue(I,"Boost",P,def*1,C,new Color(200,200,30));
+		addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
+		addToCatalogue(I,"Circle",P,def*1,C,new Color(220, 170, 70));
+		addToCatalogue(I,"Chain",P,def*1.1,C,new Color(150,80,20));
+		addToCatalogue(I,"Field",P,def*1.1,C,new Color(90,30,170));
+		addToCatalogue(I,"Hold",P,def*1.1,C,new Color(200,50,50));
+		addToCatalogue(I,"Recycle",P,def*1.3,C,new Color(30,30,230));
+		addToCatalogue(I,"Shield",P,def*1.2,C,new Color(20,170,180));
+		addToCatalogue(I,"Slowmo",P,def*1.3,C,new Color(100,120,100));
+		addToCatalogue(I,"Ghost",P,def*1.3,C,new Color(30,200,150));
+		addToCatalogue(I,"Return",P,def*1.1,C,new Color(200,80,20));
+		addToCatalogue(I,"Teleport",P,def*1.2,C,new Color(180,20,30));
+	}
+	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
+		I.add(i);
+		P.add(p);
+		C.add(c);
+	}
 	public Level getNext() {
 		return next;
 	}
