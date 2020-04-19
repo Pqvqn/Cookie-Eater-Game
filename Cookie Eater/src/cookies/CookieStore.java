@@ -35,6 +35,6 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,price,price<=board.cash,name);
+		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,price,price<=board.player.getCash(),name);
 	}
 }

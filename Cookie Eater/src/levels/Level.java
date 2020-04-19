@@ -111,7 +111,7 @@ public abstract class Level{
 			}
 		}
 		
-		board.scoreToWin = cooks;
+		board.player.setScoreToWin(cooks);
 	}
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p, Color c) {

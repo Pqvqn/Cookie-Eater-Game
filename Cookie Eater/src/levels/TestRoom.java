@@ -37,6 +37,6 @@ public class TestRoom extends Level{
 					(int)(Math.random()*(board.X_RESOL-2*wid))+wid,
 					(int)(Math.random()*(board.Y_RESOL-2*wid))+wid));
 		}
-		board.scoreToWin = 20;
+		board.player.setScoreToWin(20);
 	}
 }

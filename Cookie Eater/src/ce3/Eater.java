@@ -10,6 +10,8 @@ import items.*;
 
 import levels.*;
 import ui.UIItemsAll;
+import ui.UIScoreCount;
+import ui.UIShields;
 
 public class Eater{
 	
@@ -32,6 +34,9 @@ public class Eater{
 	private Color coloration;
 	private boolean dO; //continue movement
 	private double scale; //zoom in/out of screen
+	public int score, scoreToWin; //cookies eaten and amount of cookies on board
+	public double cash; //cookies to spend
+	public int shields; //shields owned
 	private boolean shielded; //in stun after shield use
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
@@ -50,7 +55,9 @@ public class Eater{
 	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
 	private int extra_radius;
-	private UIItemsAll itemDisp;
+	private UIItemsAll itemDisp; //ui parts
+	private UIScoreCount scoreboard;
+	private UIShields shieldDisp;
 	private boolean ghost;
 	
 	private Board board;
@@ -127,6 +134,14 @@ public class Eater{
 				special_activated.set(i, true);
 		}
 	}
+	public int getScore() {return score;}
+	public void addScore(int s) {score+=s;}
+	public int getScoreToWin() {return scoreToWin;}
+	public void setScoreToWin(int s) {scoreToWin=s;}
+	public double getCash() {return cash;}
+	public void addCash(double c) {cash+=c;}
+	public int getShields() {return shields;}
+	public void addShields(int s) {shields+=s;}
 	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
@@ -302,28 +317,31 @@ public class Eater{
 			Thread.sleep(200); //movement freeze
 		}catch(InterruptedException e){};
 		board.resetGame();
+		score = 0;
+		cash = 0;
+		shields = 3;
 		//randomizeStats();
 		averageStats();
 		reset();
 	}
 	//kill, but only if no bounce
 	public void killBounce(Wall rect, boolean breakShield) {
-		if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
+		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
 			kill();
 			return;
 		}else if(breakShield){//only remove shields if not in stun and shield to be broken
-			board.shields--;
+			shields--;
 		}
 		bounce(rect.getX(),rect.getY(),rect.getW(),rect.getH());
 		
 	}
 	//kill, but only if no bounce (on edge)
 	public void killBounceEdge(boolean breakShield) {
-		if(!shielded && board.shields<=0) { //kill if no shields, otherwise bounce
+		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
 			kill();
 			return;
 		}else if(breakShield){//only remove shields if not in stun and shield to be broken
-			board.shields--;
+			shields--;
 		}
 		if(x<0) {
 			bounce(-100,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
@@ -352,6 +370,7 @@ public class Eater{
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		board.nextLevel();
+		score = 0;
 		reset();
 	}
 	//resets player to floor-beginning state
@@ -422,7 +441,6 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
-		updateUI();
 		if(!dO)return; //if paused
 		countVels=0;
 		if(state == SPECIAL) {
@@ -492,7 +510,7 @@ public class Eater{
 		y_positions.add(y);
 		x_positions.remove();
 		y_positions.remove();*/
-		if(board.score>=board.scoreToWin) //win if all cookies eaten
+		if(score>=scoreToWin) //win if all cookies eaten
 			win();
 		
 		if(outOfBounds()) {
@@ -508,9 +526,20 @@ public class Eater{
 			}
 		}
 	}
+	public void initUI() {
+		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
+		board.draw.addUI(scoreboard = new UIScoreCount(board,board.X_RESOL-170,board.Y_RESOL-100));
+		board.draw.addUI(shieldDisp = new UIShields(board,board.X_RESOL-50,90));
+	}
 	public void updateUI() {
-		if(itemDisp==null)board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
+		
+		//items
+		if(itemDisp==null)initUI();
 		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
+		//scoreboard
+		scoreboard.update(cash,score,scoreToWin);
+		//shields
+		shieldDisp.update(shields);
 	}
 	
 	public void paint(Graphics g) {

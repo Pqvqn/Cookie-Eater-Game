@@ -20,10 +20,10 @@ public class CookieItem extends CookieStore{
 		color = c;
 	}
 	public boolean purchase() {
-		if(board.cash>=price) {
+		if(board.player.getCash()>=price) {
 			
 			player.addItem(player.getCurrentSpecial(), myItem);
-			board.cash-=price;
+			board.player.addCash(-price);
 			return true;}
 		return false;
 	}

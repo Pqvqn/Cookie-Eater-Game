@@ -16,8 +16,8 @@ public class ItemCookieChain extends Item{
 		count = 0;
 	}
 	public void execute() {
-		if(cooks!=board.score) {
-			cooks=board.score;
+		if(cooks!=board.player.getScore()) {
+			cooks=board.player.getScore();
 			if(count<=0) {
 				player.extendSpecial(time);
 				count = time;

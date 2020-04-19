@@ -14,9 +14,9 @@ public class CookieShield extends CookieStore{
 		name = "Shield";
 	}
 	public boolean purchase() {
-		if(board.cash>=price) {
-			board.shields++;
-			board.cash-=price;
+		if(board.player.getCash()>=price) {
+			board.player.addShields(1);
+			board.player.addCash(-price);
 			return true;}
 		return false;
 	}

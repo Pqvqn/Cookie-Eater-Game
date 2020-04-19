@@ -28,7 +28,7 @@ public class Store1 extends Floor1{
 		board.cookies.add(new CookieStat(board,board.X_RESOL/2,board.Y_RESOL/2-200));
 		
 		
-		board.scoreToWin = 2;
+		board.player.setScoreToWin(2);
 	}
 	public void build() {
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls

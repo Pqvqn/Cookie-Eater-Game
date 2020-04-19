@@ -53,7 +53,7 @@ public class CookieStat extends CookieStore{
 	public boolean purchase() {
 		player.addToMovement(accelChange,maxvelChange,fricChange);
 		//player.win();
-		board.score++;
+		board.player.addScore(1);
 		return true;
 	}
 	public void paint(Graphics g) {

@@ -52,7 +52,7 @@ public class Store3 extends Floor3{
 		i = (int)(Math.random()*catalogue.size());
 		placeItem(120,board.Y_RESOL/2,catalogue.get(i),prices.get(i),colors.get(i));
 		
-		board.scoreToWin = 2;
+		board.player.setScoreToWin(2);
 	}
 	private void configureCatalogue() {	
 		addToCatalogue("Boost", 55, new Color(200,200,30));
