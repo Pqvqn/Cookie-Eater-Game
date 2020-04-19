@@ -11,10 +11,11 @@ public class ItemRecycle extends Item{
 		name = "Recycle";
 		value = 0.4;
 	}
-	public void initialize() {
+	public void prepare() {
 		initvalue = player.getDecayedValue();
+	}
+	public void initialize() {
 		player.setDecayedValue(value);
-		
 	}
 	public void execute() {
 		

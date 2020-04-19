@@ -26,15 +26,15 @@ public class CookieStat extends CookieStore{
 			name = "Keep";
 			break;
 		case 1:
-			accelChange = .2*direction*(mr[0][1]-mr[0][0])*bonus;
+			accelChange = .1*direction*(mr[0][1]-mr[0][0])*bonus;
 			name = "Accel";
 			break;
 		case 2:
-			maxvelChange = .2*direction*(mr[1][1]-mr[1][0])*bonus;
+			maxvelChange = .1*direction*(mr[1][1]-mr[1][0])*bonus;
 			name = "MaxVel";
 			break;
 		case 3:
-			fricChange = .2*direction*(mr[2][1]-mr[2][0])*bonus;
+			fricChange = .1*direction*(mr[2][1]-mr[2][0])*bonus;
 			name = "Friction";
 			break;
 		}
@@ -58,27 +58,27 @@ public class CookieStat extends CookieStore{
 	}
 	public void paint(Graphics g) {
 		Color c;
-		if(accelChange>.2*(mr[0][1]-mr[0][0])) {
+		if(accelChange>.1*(mr[0][1]-mr[0][0])) {
 			c = new Color(180,180,255);
 		}else if(accelChange>0) {
 			c = new Color(60,60,255);
-		}else if(accelChange<-.2*(mr[0][1]-mr[0][0])) {
+		}else if(accelChange<-.1*(mr[0][1]-mr[0][0])) {
 			c = new Color(0,0,25);
 		}else if(accelChange<0) {
 			c = new Color(0,0,75);
-		}else if(maxvelChange>.2*(mr[1][1]-mr[1][0])) {
+		}else if(maxvelChange>.1*(mr[1][1]-mr[1][0])) {
 			c = new Color(180,255,180);
 		}else if(maxvelChange>0) {
 			c = new Color(60,255,60);
-		}else if(maxvelChange<-.2*(mr[1][1]-mr[1][0])) {
+		}else if(maxvelChange<-.1*(mr[1][1]-mr[1][0])) {
 			c = new Color(0,25,0);
 		}else if(maxvelChange<0) {
 			c = new Color(0,75,0);
-		}else if(fricChange>.2*(mr[2][1]-mr[2][0])) {
+		}else if(fricChange>.1*(mr[2][1]-mr[2][0])) {
 			c = new Color(255,180,180);
 		}else if(fricChange>0) {
 			c = new Color(255,60,60);
-		}else if(fricChange<-.2*(mr[2][1]-mr[2][0])) {
+		}else if(fricChange<-.1*(mr[2][1]-mr[2][0])) {
 			c = new Color(25,0,0);
 		}else if(fricChange<0) {
 			c = new Color(75,0,0);

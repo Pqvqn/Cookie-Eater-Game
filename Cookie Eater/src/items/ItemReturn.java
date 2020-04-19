@@ -9,17 +9,17 @@ public class ItemReturn extends Item{
 		super(frame);
 		name = "Return";
 	}
-	public void initialize() {
+	public void prepare() {
 		x=player.getX();
-		System.out.println(x);
 		y=player.getY();
+	}
+	public void initialize() {
+
 	}
 	public void execute() {
 	}
 	public void end(boolean interrupted) {
 		player.setX(x);
-		System.out.println(x);
-		System.out.println(player.getX());
 		player.setY(y);
 	}
 	public void amplify() {

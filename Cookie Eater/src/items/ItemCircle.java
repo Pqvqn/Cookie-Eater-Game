@@ -16,11 +16,9 @@ public class ItemCircle extends Item{
 		name = "Circle";
 		radiusunadjust = 100;
 	}
-
-	public void initialize() {
+	public void prepare() {
 		radius=radiusunadjust*board.currFloor.getScale();
 		count = 0;
-		player.lockControl(true);
 		initx=player.getXVel();
 		inity=-1*player.getYVel();
 		if(initx==0 && inity==0) { //if not moving, base on direction
@@ -41,6 +39,10 @@ public class ItemCircle extends Item{
 		}else {
 			radians = Math.PI + ((initx>=0) ? Math.atan(inity/initx) : Math.atan(inity/initx) + Math.PI); //find angle to start at
 		}
+	}
+	public void initialize() {
+		player.lockControl(true);
+		
 		//player.setXVel(0);
 		//player.setYVel(0);
 	}

@@ -261,6 +261,9 @@ public class Eater{
 		if(board.currFloor.specialsEnabled()) {
 			if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
 			for(int i=0; i<powerups.get(index).size(); i++) {
+				powerups.get(index).get(i).prepare();
+			}
+			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).initialize();
 			}
 			state=SPECIAL;

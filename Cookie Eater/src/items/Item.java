@@ -13,6 +13,10 @@ public abstract class Item {
 		player = board.player;
 		amps=0;
 	}
+	//set all vars before other items change them
+	public void prepare() {
+		
+	}
 	//run on special start
 	public void initialize() {
 		

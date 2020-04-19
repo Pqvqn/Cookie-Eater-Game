@@ -12,9 +12,11 @@ public class ItemBoost extends Item{
 		speedy = 30;
 		name = "Boost";
 	}
-
-	public void initialize() {
+	public void prepare() {
 		dir=player.getDir(); //store direction for later
+		
+	}
+	public void initialize() {
 		player.lockControl(true);
 		initx = player.getXVel();
 		inity = player.getYVel();
