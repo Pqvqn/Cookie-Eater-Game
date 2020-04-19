@@ -99,7 +99,6 @@ public class Board extends JFrame{
 	//go back to first level
 	public void resetGame() {
 		
-		
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(false);
 			i--;

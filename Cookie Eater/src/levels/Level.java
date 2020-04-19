@@ -150,6 +150,9 @@ public abstract class Level{
 		case "Return":
 			b = new ItemReturn(board);
 			break;
+		case "Teleport":
+			b = new ItemTeleport(board);
+			break;
 		default:
 			b = null;
 		}
