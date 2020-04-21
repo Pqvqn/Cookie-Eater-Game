@@ -58,7 +58,8 @@ public class Eater{
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
-	private boolean ghost;
+	private boolean ghost; //if the player is in ghost mode
+	private int offstage; //how far player can go past the screen's edge before getting hit
 	
 	private Board board;
 	
@@ -106,6 +107,7 @@ public class Eater{
 		decayedValue = 0;
 		extra_radius = 0;
 		ghost = false;
+		offstage = 0;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -217,6 +219,8 @@ public class Eater{
 		if(friction<(MR[2][0])*calibration_ratio*calibration_ratio)friction=(MR[2][0])*calibration_ratio*calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
+	public int getOffstage() {return offstage;}
+	public void setOffstage(int d) {offstage=d;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -271,7 +275,7 @@ public class Eater{
 	}
 	//tests if off screen
 	public boolean outOfBounds() {
-		return x<0 || x>board.X_RESOL || y<0 || y>board.Y_RESOL;
+		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
 	}
 	
 	//activates special A (all powerups tied to A)
@@ -324,6 +328,11 @@ public class Eater{
 		cash = 0;
 		shields = 3;
 		//randomizeStats();
+		
+		decayedValue = 0;
+		extra_radius = 0;
+		ghost = false;
+		offstage = 0;
 		averageStats();
 		reset();
 	}
@@ -347,13 +356,13 @@ public class Eater{
 			shields--;
 		}
 		if(x<0) {
-			bounce(-100,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
+			bounce(-100-offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
 		}else if(x>board.X_RESOL) {
-			bounce(board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale),-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
+			bounce(board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
 		}else if(y<0) {
-			bounce(-100,-100,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+			bounce(-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
 		}else if(y>board.Y_RESOL) {
-			bounce(-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale),board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+			bounce(-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
 		}
 		
 	}

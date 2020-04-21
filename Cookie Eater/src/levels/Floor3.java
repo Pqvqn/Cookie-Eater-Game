@@ -40,7 +40,7 @@ public class Floor3 extends Level{
 	
 	
 	public void placeCookies() {
-		super.placeCookies(5,(int)(100*scale));
+		super.placeCookies(15,(int)(100*scale));
 	}
 
 }

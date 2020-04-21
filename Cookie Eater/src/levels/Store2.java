@@ -20,7 +20,7 @@ public class Store2 extends Floor2{
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 		shieldCost = 30;
-		default_price = 50;
+		default_price = 40;
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
 		colors = new ArrayList<Color>();
