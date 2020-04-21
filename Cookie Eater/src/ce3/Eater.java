@@ -562,8 +562,8 @@ public class Eater{
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform();
-		for(Summon s : summons) { //draw summons
-			s.paint(g2);
+		for(int i=0; i<summons.size(); i++) { //draw summons
+			summons.get(i).paint(g2);
 			g2.setTransform(origt);
 		}
 		if(state==DEAD) {

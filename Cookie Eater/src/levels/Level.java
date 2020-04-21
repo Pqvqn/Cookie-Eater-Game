@@ -239,7 +239,7 @@ public abstract class Level{
 		}
 	}
 	//tests if a line and a rectangle overlap
-	public static boolean collidesLineAndRect(int x1, int y1, int x2, int y2, int rX, int rY, int rW, int rH) {
+	public static boolean collidesLineAndRect(double x1, double y1, double x2, double y2, double rX, double rY, double rW, double rH) {
 		return collidesLineAndLine(x1,y1,x2,y2,rX,rY,rX+rW,rY) || //top
 				collidesLineAndLine(x1,y1,x2,y2,rX,rY,rX,rY+rH) || //left
 				collidesLineAndLine(x1,y1,x2,y2,rX,rY+rH,rX+rW,rY+rH) || //bottom

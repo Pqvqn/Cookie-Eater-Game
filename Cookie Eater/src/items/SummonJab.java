@@ -44,6 +44,13 @@ public class SummonJab extends Summon{
 			if(edgesHitCircle(c.getX(),c.getY(),c.getRadius())) {
 				c.kill(true);}
 		}
+		for(int i=0; i<board.walls.size(); i++) {
+			Wall w = board.walls.get(i);
+			if(edgesHitRect(w.getX(),w.getY(),w.getW(),w.getH())) {
+				player.bounce(w.getX(),w.getY(),w.getW(),w.getH());
+				state = HOLD;
+			}
+		}
 		x=player.getX();
 		y=player.getY();
 		switch(state) {
@@ -85,6 +92,23 @@ public class SummonJab extends Summon{
 				Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cX, cY, cR);
 		
+	}
+	//if rectangle intersects an edge
+	public boolean edgesHitRect(double rX, double rY, double rW, double rH) {
+		//System.out.println(angle);
+		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
+		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
+		
+		double wX = distforward * Math.cos(angle);
+		double wY = distforward * Math.sin(angle);
+		double hX = thickness * Math.cos(angle-Math.PI/2);
+		double hY = thickness * Math.sin(angle-Math.PI/2);
+		
+		return Level.collidesLineAndRect(altX, altY, altX+wX, altY+wY, rX, rY, rW, rH) || 
+				Level.collidesLineAndRect(altX, altY, altX+hX, altY+hY, rX, rY, rW, rH) || 
+				Level.collidesLineAndRect(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH) || 
+				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
+			
 	}
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
