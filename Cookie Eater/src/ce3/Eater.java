@@ -1,6 +1,7 @@
 package ce3;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
 //import java.awt.event.*;
 
@@ -45,6 +46,7 @@ public class Eater{
 	private int special_cooldown; //frames between uses of special
 	private ArrayList<Boolean> special_activated; //if special is triggerable
 	private ArrayList<Color> special_colors; //color associated with each special
+	private ArrayList<Summon> summons; //constructed objects owned by player
 	private double recoil; //recoil speed from hit
 	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
 	private int state;
@@ -97,6 +99,7 @@ public class Eater{
 		recoil = 10*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
+		summons = new ArrayList<Summon>();
 		for(int i=0; i<3; i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0);
@@ -162,6 +165,8 @@ public class Eater{
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
+	public void addSummon(Summon s) {summons.add(s);}
+	public void removeSummon(Summon s) {summons.remove(s);}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {
@@ -555,6 +560,12 @@ public class Eater{
 	}
 	
 	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform origt = g2.getTransform();
+		for(Summon s : summons) { //draw summons
+			s.paint(g2);
+			g2.setTransform(origt);
+		}
 		if(state==DEAD) {
 			g.setColor(new Color(0,0,0,100));
 			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);

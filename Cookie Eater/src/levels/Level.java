@@ -153,6 +153,9 @@ public abstract class Level{
 		case "Teleport":
 			b = new ItemTeleport(board);
 			break;
+		case "Jab":
+			b = new ItemJab(board);
+			break;
 		default:
 			b = null;
 		}
@@ -171,6 +174,7 @@ public abstract class Level{
 		addToCatalogue(I,"Ghost",P,def*1.3,C,new Color(30,200,150));
 		addToCatalogue(I,"Return",P,def*1.1,C,new Color(200,80,20));
 		addToCatalogue(I,"Teleport",P,def*1.2,C,new Color(180,20,30));
+		addToCatalogue(I,"Jab",P,def*1.1,C,new Color(180,180,190));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
