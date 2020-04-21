@@ -3,12 +3,12 @@ import ce3.*;
 
 public class ItemJab extends Item{
 	
-	private int range;
+	private double range;
 	private SummonJab jab;
 	
 	public ItemJab(Board frame) {
 		super(frame);
-		range = 150;
+		range = 250;
 		jab = new SummonJab(board,board.player,range);
 		name = "Jab";
 	}
@@ -17,6 +17,7 @@ public class ItemJab extends Item{
 		jab.prepare();
 	}
 	public void initialize() {
+		jab.setRange(range);
 		jab.initialize();
 	}
 	public void execute() {
@@ -28,12 +29,12 @@ public class ItemJab extends Item{
 	}
 	public void amplify() {
 		super.amplify();
-		range+=100;
+		range+=200;
 		jab.setRange(range);
 	}
 	public void deamplify() {
 		super.deamplify();
-		range-=100;
+		range-=200;
 		jab.setRange(range);
 	}
 }

@@ -199,7 +199,7 @@ public abstract class Level{
 	public boolean specialsEnabled() {return true;} //if specials are allows
 	
 	//gives length of line rom start/end points
-	public static double lineLength(int x1, int y1, int x2, int y2) {
+	public static double lineLength(double x1, double y1, double x2, double y2) {
 		return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 	}
 	
@@ -246,9 +246,18 @@ public abstract class Level{
 				collidesLineAndLine(x1,y1,x2,y2,rX+rW,rY,rX+rW,rY+rH) || //right
 				(x1>=rX && x1<=rX+rW && y1>=rY && y1<=rY+rH); //both points inside rectangle
 	}
-	
+	//tests if a line and a circle overlap
+	public static boolean collidesLineAndCircle(double x1, double y1, double x2, double y2, double cX, double cY, double cR) {
+		double lM = (y2-y1)/(x2-x1);
+		double dM = -1/lM;
+		double dL = Math.sqrt(1+dM*dM);
+		double ratio = cR/dL;
+		double fX = ratio;
+		double fY = ratio*dM;
+		return collidesLineAndLine(x1,y1,x2,y2,cX+fX,cY+fY,cX-fX,cY-fY) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
+	}
 	//tests if two lines intersect
-	public static boolean collidesLineAndLine(int x1a, int y1a, int x2a, int y2a, int x1b, int y1b, int x2b, int y2b) {
+	public static boolean collidesLineAndLine(double x1a, double y1a, double x2a, double y2a, double x1b, double y1b, double x2b, double y2b) {
 		
 		if(x1a==x2a) { //vertical line
 			if(x1a>=Math.min(x1b, x2b) && x1a<=Math.max(x1b, x2b)) { //if this line is in middle of other

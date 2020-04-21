@@ -80,6 +80,7 @@ public class Cookie {
 	public boolean getAccess() {return accessible;}
 	public int getX() {return x;}
 	public int getY() {return y;}
+	public double getRadius() {return radius*board.currFloor.getScale();}
 	public void shift(int xS, int yS) {
 		x+=xS;
 		y+=yS;

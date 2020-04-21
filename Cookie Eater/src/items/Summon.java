@@ -35,8 +35,23 @@ public abstract class Summon {
 		
 	}
 	
-	public double playerAngle() {
+	
+	public double playerVelAngle() {
 		return Math.atan2(player.getYVel(),player.getXVel());
+	}
+	public double playerDirAngle() {
+		switch(player.getDir()) {
+		case(Eater.UP):
+			return 3*Math.PI/2;
+		case(Eater.RIGHT):
+			return 0;
+		case(Eater.DOWN):
+			return Math.PI/2;
+		case(Eater.LEFT):
+			return Math.PI;
+		default:
+			return 0;
+		}
 	}
 	
 }
