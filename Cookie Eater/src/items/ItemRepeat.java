@@ -18,15 +18,13 @@ public class ItemRepeat extends Item{
 	}
 	public void prepare() {
 		time = player.getSpecialLength()/ratio+1;
-		wait = time/4;
+		wait = time;
 		items = player.getItems().get(player.getCurrentSpecial());
 	}
 	public void initialize() {
 		count = 0;
 	}
 	public void execute() {
-		//count++;
-		if(checkCanceled())return;
 		if(count++>=time) {
 			for(int i = items.indexOf(this)+1; i<items.size(); i++) {
 				items.get(i).execute();
@@ -36,17 +34,19 @@ public class ItemRepeat extends Item{
 				items.get(i).cancelCycles(wait);
 			}
 			
-			count=-5;
+			count=-wait+1;
 			return;
 		}
-		if(count<=-1) {
+		if(count<-1) {
+			player.extendSpecial(1);
+		}
+		if(count==-1) {
 			for(int i = 0; i<items.size(); i++) {
 				items.get(i).prepare();
 			}
 			for(int i = 0; i<items.size(); i++) {
 				items.get(i).initialize();
 			}
-			count = 0;
 		}
 	}
 	public void end(boolean interrupted) {
