@@ -17,6 +17,7 @@ public class ItemGhost extends Item{
 		initod=player.getOffstage();
 	}
 	public void execute() {
+		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		player.setGhost(false);

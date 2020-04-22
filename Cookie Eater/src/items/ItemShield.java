@@ -17,7 +17,8 @@ public class ItemShield extends Item{
 	
 	}
 	
-	public void execute() {	
+	public void execute() {
+		if(checkCanceled())return;
 		player.setShielded(true);
 		if(player.getRecoil()!=newrecoil)
 			player.setRecoil(newrecoil);

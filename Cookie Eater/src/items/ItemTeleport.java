@@ -27,6 +27,7 @@ public class ItemTeleport extends Item{
 		}
 	}
 	public void execute() {
+		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 	}

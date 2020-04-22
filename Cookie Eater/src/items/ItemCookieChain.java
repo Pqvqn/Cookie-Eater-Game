@@ -16,6 +16,7 @@ public class ItemCookieChain extends Item{
 		count = 0;
 	}
 	public void execute() {
+		if(checkCanceled())return;
 		if(cooks!=board.player.getScore()) {
 			cooks=board.player.getScore();
 			if(count<=0) {

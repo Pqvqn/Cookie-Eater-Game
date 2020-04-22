@@ -23,6 +23,7 @@ public class ItemBoost extends Item{
 	}
 	
 	public void execute() {	
+		if(checkCanceled())return;
 		if (player.getXVel()==0 && player.getYVel()==0 && dir!=Eater.NONE) {
 			switch(dir) {
 			case(Eater.UP):

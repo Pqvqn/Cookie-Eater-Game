@@ -18,6 +18,7 @@ public class ItemBounce extends Item{
 		bounces=0;
 	}
 	public void execute() {
+		if(checkCanceled())return;
 		if(storex==0)storex=player.getXVel();
 		if(storey==0)storey=player.getYVel();
 		if(bounces>0)

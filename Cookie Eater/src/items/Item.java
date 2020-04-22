@@ -7,11 +7,14 @@ public abstract class Item {
 	protected Eater player;
 	protected int amps;
 	protected String name;
+	protected boolean cancel;
+	protected int waiting;
 	
 	public Item(Board frame) {
 		board = frame;
 		player = board.player;
 		amps=0;
+		cancel = false;
 	}
 	//set all vars before other items change them
 	public void prepare() {
@@ -23,7 +26,6 @@ public abstract class Item {
 	}
 	//run while special is active
 	public void execute() {
-		
 	}
 	//run when special ends
 	public void end(boolean interrupted) {
@@ -48,5 +50,18 @@ public abstract class Item {
 	}
 	public void deamplify() {
 		amps--;
+	}
+	public void cancelCycles(int c) {
+		cancel = true;
+		waiting = c;
+	}
+	public boolean checkCanceled() {
+		if(cancel) {
+			if(waiting--<=0) {
+				cancel = false;
+			}//if execute must be skipped
+			return true;
+		}
+		return false;
 	}
 }

@@ -15,6 +15,7 @@ public class ItemHold extends Item{
 		player.lockControl(true);
 	}
 	public void execute() {
+		if(checkCanceled())return;
 		for(int i=0; i<times; i++)
 			player.averageVels(0, 0);
 	}

@@ -3,6 +3,8 @@ package ce3;
 //import java.awt.*;
 import java.awt.event.*;
 
+import items.*;
+
 //import javax.swing.*;
 
 //import java.util.*;
@@ -65,6 +67,10 @@ public class Controls implements KeyListener{
 				break;
 			case KeyEvent.VK_K:
 				player.addCash(100);
+				break;
+			case KeyEvent.VK_O:
+				player.addItem(0, new ItemRepeat(board));
+				player.addItem(0, new ItemJab(board));
 				break;
 		}
 		

@@ -17,6 +17,7 @@ public class ItemReturn extends Item{
 
 	}
 	public void execute() {
+		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		player.setX(x);

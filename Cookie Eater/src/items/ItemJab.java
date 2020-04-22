@@ -21,6 +21,7 @@ public class ItemJab extends Item{
 		jab.initialize();
 	}
 	public void execute() {
+		if(checkCanceled())return;
 		jab.execute();
 	}
 	public void end(boolean interrupted) {

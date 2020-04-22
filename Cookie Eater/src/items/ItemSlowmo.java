@@ -17,6 +17,7 @@ public class ItemSlowmo extends Item{
 		board.setCycle((int)(.5+initTime*(1/prop)));
 	}
 	public void execute() {
+		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		board.setCycle(initTime);

@@ -18,7 +18,7 @@ public class ItemRecycle extends Item{
 		player.setDecayedValue(value);
 	}
 	public void execute() {
-		
+		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		player.setDecayedValue(initvalue);

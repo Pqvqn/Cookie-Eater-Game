@@ -48,48 +48,16 @@ public class ItemCircle extends Item{
 	}
 	
 	public void execute() {
+		if(checkCanceled())return;
 		if(count<=Math.PI*2) {
 			count+=.1*(board.getAdjustedCycle()/15.0);
 			radians+=.1*(board.getAdjustedCycle()/15.0);
-			/*if(player.getXVel()!=0 && (radius*Math.cos(radians)-radius*Math.cos(radians-.1))/player.getXVel()<0)//if direction has changed (hit wall) change accordingly
-				radians += Math.PI;
-			if(player.getYVel()!=0 && (-(radius*Math.sin(radians)-radius*Math.sin(radians-.1)))/player.getYVel()<0)
-				radians += Math.PI;*/
-			/*double[] spd = relativeVel((radius*Math.cos(radians+.1)-radius*Math.cos(radians)),
-					(radius*Math.cos(radians+.1)-radius*Math.cos(radians)),
-					player.getXVel()+player.getFriction()*Math.signum(player.getXVel()),
-					player.getYVel()+player.getFriction()*Math.signum(player.getYVel()));*/
+		
 					
 			player.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))));
 
-		}else {
-			//radians+=Math.PI/2; //idea 1
-			count=0;}
-			/*if(lastxpos<0 || lastypos<0) { //idea 2
-				lastxpos=player.getX();
-				lastypos=player.getY();
-			}
-			if(Math.sqrt(Math.pow(lastxpos-player.getX(), 2)+Math.pow(lastypos-player.getY(), 2))<radius*2) {
-				
-			}else {
-				count = 0;
-				lastxpos=-1;
-				lastypos=-1;
-			}
-		}*/
+		}else {count=0;}	
 	}
-	/*public double[] relativeVel(double x, double y, double hX, double hY) {
-		double h = Math.sqrt(hX*hX+hY*hY);
-		double r; 
-		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
-			r = 0;
-		}else {
-			r = Math.sqrt((h*h)/(x*x+y*y));
-		}
-		double[] ret = {x*r, y*r};
-		return ret;
-		
-	}*/
 	
 	public void end(boolean interrupted) {
 		player.lockControl(false);
