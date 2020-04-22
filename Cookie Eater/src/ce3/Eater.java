@@ -2,8 +2,12 @@ package ce3;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.*;
 import java.util.*;
 //import java.awt.event.*;
+
+import javax.imageio.*;
+import java.io.*;
 
 import items.*;
 
@@ -62,10 +66,11 @@ public class Eater{
 	private UIShields shieldDisp;
 	private boolean ghost; //if the player is in ghost mode
 	private int offstage; //how far player can go past the screen's edge before getting hit
+	private Image img;
 	
 	private Board board;
 	
-	public Eater(Board frame, int cycletime) {
+	public Eater(Board frame, int cycletime) throws IOException {
 		calibration_ratio = cycletime/15.0;
 		dO= true;
 		board = frame;
@@ -111,6 +116,7 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
+		img = ImageIO.read(new File("Cookie Eater/src/resources/eater.png"));
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -559,6 +565,7 @@ public class Eater{
 	}
 	
 	public void paint(Graphics g) {
+		
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform();
 		for(int i=0; i<summons.size(); i++) { //draw summons
@@ -585,6 +592,8 @@ public class Eater{
 			g.setColor(new Color(g.getColor().getRed(),g.getColor().getGreen(),g.getColor().getBlue(),100));
 		}
 		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
+		
+		g.drawImage(img,(int)(.5+x-(radius+3)), (int)(.5+y-(radius+3)), 2*(radius+3), 2*(radius+3), null);
 		/*int rate = 5;
 		int x=0, y=0;
 		int diam = player.getRadius()*2-player.getTrailLength()*rate;

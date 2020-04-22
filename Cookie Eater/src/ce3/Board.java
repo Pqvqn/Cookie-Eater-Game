@@ -10,6 +10,7 @@ import levels.*;
 import ui.*;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 
 public class Board extends JFrame{
@@ -37,11 +38,12 @@ public class Board extends JFrame{
 	private int fpscheck;
 	private int true_cycle;
 	
-	public Board() {
+	public Board() throws IOException {
 		super("Cookie Eater");
 		cycletime=5;
 		fpscheck=100;
 		//initializing classes
+		
 		player = new Eater(this,cycletime);
 		draw = new Draw(this);
 		
