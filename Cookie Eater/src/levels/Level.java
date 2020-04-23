@@ -68,7 +68,9 @@ public abstract class Level{
 				for(Wall w : board.walls) { //only place if not too close to any walls
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH())) 
 						place = false;
-					
+				}
+				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player.getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
+					place = false;
 				}
 				if(place) { //place cookies, increment count
 					board.cookies.add(new Cookie(board,pX,pY));

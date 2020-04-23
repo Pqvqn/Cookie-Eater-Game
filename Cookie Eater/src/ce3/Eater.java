@@ -291,7 +291,7 @@ public class Eater{
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
 		if(board.currFloor.specialsEnabled()) {
-			if(state==SPECIAL || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
+			if(state!=LIVE || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
 			state=SPECIAL;
 			special_activated.set(index, false);
 			currSpecial = index;
