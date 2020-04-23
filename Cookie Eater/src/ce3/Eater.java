@@ -2,7 +2,6 @@ package ce3;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.util.*;
 //import java.awt.event.*;
 
@@ -593,7 +592,7 @@ public class Eater{
 		}
 		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		
-		g.drawImage(img,(int)(.5+x-(radius+3)), (int)(.5+y-(radius+3)), 2*(radius+3), 2*(radius+3), null);
+		g.drawImage(img,(int)(.5+x-(radius+3*scale)), (int)(.5+y-(radius+3*scale)), 2*(int)(.5+radius+3*scale), 2*(int)(.5+radius+3*scale), null);
 		/*int rate = 5;
 		int x=0, y=0;
 		int diam = player.getRadius()*2-player.getTrailLength()*rate;
