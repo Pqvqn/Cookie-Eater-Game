@@ -401,6 +401,7 @@ public class Eater{
 		shielded = false;
 		shield_frames = 0;
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0);
+		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		x_velocity=0;
 		y_velocity=0;

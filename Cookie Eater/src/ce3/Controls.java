@@ -22,8 +22,7 @@ public class Controls implements KeyListener{
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if(board.getAdjustedCycle()==0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
-		
+		if(board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
