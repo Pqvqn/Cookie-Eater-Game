@@ -5,7 +5,6 @@ import java.awt.geom.*;
 import java.util.*;
 //import java.awt.event.*;
 
-import javax.imageio.*;
 import java.io.*;
 
 import items.*;
@@ -13,6 +12,7 @@ import items.*;
 //import javax.swing.*;
 
 import levels.*;
+import sprites.*;
 import ui.UIItemsAll;
 import ui.UIScoreCount;
 import ui.UIShields;
@@ -51,7 +51,7 @@ public class Eater{
 	private ArrayList<Color> special_colors; //color associated with each special
 	private ArrayList<Summon> summons; //constructed objects owned by player
 	private double recoil; //recoil speed from hit
-	private final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
+	public static final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
 	private int state;
 	private ArrayList<ArrayList<Item>> powerups;
 	private int currSpecial;
@@ -65,7 +65,8 @@ public class Eater{
 	private UIShields shieldDisp;
 	private boolean ghost; //if the player is in ghost mode
 	private int offstage; //how far player can go past the screen's edge before getting hit
-	private Image baseImg, faceImg;
+	private SpriteEater sprite;
+	private boolean nearCookie;
 	
 	private Board board;
 	
@@ -115,8 +116,7 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
-		baseImg = ImageIO.read(new File("Cookie Eater/src/resources/eaterBase.png"));
-		faceImg = ImageIO.read(new File("Cookie Eater/src/resources/eaterFace.png"));
+		sprite = new SpriteEater(board,this);
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -140,7 +140,9 @@ public class Eater{
 	public double getYVel() {return y_velocity;}
 	public void setYVel(double a) {y_velocity = a;}
 	public void setShielded(boolean s) {shielded = s;}
+	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}
+	public boolean getGhosted() {return ghost;}
 	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
 	public void activateSpecials() {
 		for(int i=0; i<special_activated.size(); i++) {
@@ -148,6 +150,7 @@ public class Eater{
 				special_activated.set(i, true);
 		}
 	}
+	public int getState() {return state;}
 	public int getScore() {return score;}
 	public void addScore(int s) {score+=s;}
 	public int getScoreToWin() {return scoreToWin;}
@@ -156,6 +159,7 @@ public class Eater{
 	public void addCash(double c) {cash+=c;}
 	public int getShields() {return shields;}
 	public void addShields(int s) {shields+=s;}
+	
 	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
@@ -232,6 +236,8 @@ public class Eater{
 	}
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}
+	public boolean getNearCookie() {return nearCookie;}
+	public void setNearCookie(boolean n) {nearCookie = n;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -573,48 +579,13 @@ public class Eater{
 			summons.get(i).paint(g2);
 			g2.setTransform(origt);
 		}
-		if(state==DEAD) {
-			g.setColor(new Color(0,0,0,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
-		}else if(state==WIN) {
-			g.setColor(new Color(255,255,255,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
-		}else if(currSpecial!=-1) {
-			Color meh = special_colors.get(currSpecial);
-			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
-			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
-		}
-		if(shielded) { //invert color if shielded
-			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));
-		}else {
-			g.setColor(coloration);
-		}
-		if(ghost) {
-			g.setColor(new Color(g.getColor().getRed(),g.getColor().getGreen(),g.getColor().getBlue(),100));
-		}
-		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		
-		//images
-		g.drawImage(baseImg,(int)(.5+x-(baseImg.getWidth(null)/10*scale)), (int)(.5+y-(baseImg.getHeight(null)/10*scale)), (int)(2*(.5+baseImg.getWidth(null)/10*scale)), (int)(2*(.5+baseImg.getHeight(null)/10*scale)), null);
 		
-		double facex = x, facey = y;
-		switch(direction) {
-		case UP:
-			facey-=radius/2;
-			break;
-		case DOWN:
-			facey+=radius/2;
-			break;
-		case RIGHT:
-			facex+=radius/2;
-			break;
-		case LEFT:
-			facex-=radius/2;
-			break;
-		case NONE:
-			break;
-		}
-		g.drawImage(faceImg,(int)(.5+facex-(faceImg.getWidth(null)/10*scale)), (int)(.5+facey-(faceImg.getHeight(null)/10*scale)), (int)(2*(.5+faceImg.getWidth(null)/10*scale)), (int)(2*(.5+faceImg.getHeight(null)/10*scale)), null);
+		
+		//sprite
+		sprite.setColor(coloration);
+		sprite.paint(g);
+		nearCookie = false;
 		
 		/*int rate = 5;
 		int x=0, y=0;

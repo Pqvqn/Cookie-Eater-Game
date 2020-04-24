@@ -31,11 +31,9 @@ public class ItemJab extends Item{
 	public void amplify() {
 		super.amplify();
 		range+=200;
-		jab.setRange(range);
 	}
 	public void deamplify() {
 		super.deamplify();
 		range-=200;
-		jab.setRange(range);
 	}
 }
