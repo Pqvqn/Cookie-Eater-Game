@@ -9,10 +9,10 @@ public class ItemJab extends Item{
 	public ItemJab(Board frame) {
 		super(frame);
 		range = 250;
-		jab = new SummonJab(board,board.player,range);
 		name = "Jab";
 	}
 	public void prepare() {
+		jab = new SummonJab(board,board.player,range);
 		player.addSummon(jab);
 		jab.prepare();
 	}

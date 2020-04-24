@@ -161,6 +161,9 @@ public abstract class Level{
 		case "Repeat":
 			b = new ItemRepeat(board);
 			break;
+		case "Projectile":
+			b = new ItemProjectile(board);
+			break;
 		default:
 			b = null;
 		}
@@ -181,6 +184,7 @@ public abstract class Level{
 		addToCatalogue(I,"Teleport",P,def*1.2,C,new Color(180,20,30));
 		addToCatalogue(I,"Jab",P,def*1.1,C,new Color(180,180,190));
 		addToCatalogue(I,"Repeat",P,def*1.2,C,new Color(50,30,30));
+		addToCatalogue(I,"Projectile",P,def*1.3,C,new Color(130,110,120));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
@@ -210,7 +214,7 @@ public abstract class Level{
 	}
 	
 	//tests if a circle and a rectangle overlap
-	public static boolean collidesCircleAndRect(int cX, int cY, int cR, int rX, int rY, int rW, int rH) {
+	public static boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH) {
 		return (Math.abs(cX - rX) <= cR && cY>=rY && cY<=rY+rH) ||
 				(Math.abs(cX - (rX+rW)) <= cR && cY>=rY && cY<=rY+rH)||
 				(Math.abs(cY - rY) <= cR && cX>=rX && cX<=rX+rW) ||

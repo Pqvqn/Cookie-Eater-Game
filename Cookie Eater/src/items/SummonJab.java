@@ -28,7 +28,7 @@ public class SummonJab extends Summon{
 		range = r*board.currFloor.getScale();
 	}
 	public void prepare() {
-		thickness = 30 * board.currFloor.getScale();
+		thickness = player.getExtraRadius()*.6;
 		x=player.getX();
 		y=player.getY();
 		angle = playerDirAngle();
@@ -39,6 +39,7 @@ public class SummonJab extends Summon{
 		framecount = 0;
 	}
 	public void execute() {
+		thickness = player.getExtraRadius()*.6;
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie c = board.cookies.get(i);
 			if(edgesHitCircle(c.getX(),c.getY(),c.getRadius())) {
