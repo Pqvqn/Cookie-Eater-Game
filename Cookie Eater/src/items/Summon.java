@@ -3,17 +3,18 @@ package items;
 import java.awt.*;
 
 import ce3.*;
+import cookies.*;
 
 public abstract class Summon {
 
 	protected Board board;
-	protected Eater player;
-	protected int x,y;
+	protected Eater user;
+	protected double x,y;
 	protected double rotation;
 	
 	public Summon(Board frame, Eater summoner) {
 		board = frame;
-		player = summoner;
+		user = summoner;
 	}
 	//set all vars before other items change them
 	public void prepare() {
@@ -25,6 +26,18 @@ public abstract class Summon {
 	}
 	//run while special is active
 	public void execute() {
+		for(int i=0; i<board.cookies.size(); i++) {
+			Cookie c = board.cookies.get(i);
+			if(hitsCircle(c.getX(),c.getY(),c.getRadius())) {
+				collisionCookie(c);
+			}
+		}
+		for(int i=0; i<board.walls.size(); i++) {
+			Wall w = board.walls.get(i);
+			if(hitsRect(w.getX(),w.getY(),w.getW(),w.getH())) {
+				collisionWall(w,user.getGhosted(),user.getShielded());
+			}
+		}
 		
 	}
 	//run when special ends
@@ -34,13 +47,27 @@ public abstract class Summon {
 	public void paint(Graphics2D g2) {
 		
 	}
+	//if circle intersects
+	public boolean hitsCircle(double cX, double cY, double cR) {
+		return false;
+	}
+	//if rectangle intersects
+	public boolean hitsRect(double rX, double rY, double rW, double rH) {
+		return false;
+	}
 	
+	public void collisionCookie(Cookie c) {
+		
+	}
+	public void collisionWall(Wall w, boolean ghost, boolean shield) {
+		
+	}
 	
 	public double playerVelAngle() {
-		return Math.atan2(player.getYVel(),player.getXVel());
+		return Math.atan2(user.getYVel(),user.getXVel());
 	}
 	public double playerDirAngle() {
-		switch(player.getDir()) {
+		switch(user.getDir()) {
 		case(Eater.UP):
 			return 3*Math.PI/2;
 		case(Eater.RIGHT):

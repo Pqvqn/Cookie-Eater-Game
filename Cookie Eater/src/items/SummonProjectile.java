@@ -10,43 +10,35 @@ public class SummonProjectile extends Summon{
 	
 	private double speed, xSpeed, ySpeed;
 	private double angle;
+	private double angle_offset;
 	private double radius;
 	private boolean ded;
 	
-	public SummonProjectile(Board frame, Eater summoner, double s) {
+	public SummonProjectile(Board frame, Eater summoner, double s, double offset) {
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
+		angle_offset = offset;
 		ded = false;
 	}
 	public void setSpeed(double s) {
 		speed = s*board.currFloor.getScale();
 	}
 	public void prepare() {
-		radius = player.getExtraRadius()*.3;
-		x=player.getX();
-		y=player.getY();
-		angle = playerDirAngle();
+		radius = user.getExtraRadius()*.3;
+		x=user.getX();
+		y=user.getY();
+		angle = playerVelAngle()+angle_offset;
 	}
 	public void initialize() {
-		xSpeed = Math.cos(playerVelAngle())*speed;
-		ySpeed = Math.sin(playerVelAngle())*speed;
+		xSpeed = Math.cos(angle)*speed;
+		ySpeed = Math.sin(angle)*speed;
 	}
 	public void execute() {
 		if(ded)return;
-		radius = player.getExtraRadius()*.3;
-		for(int i=0; i<board.cookies.size(); i++) {
-			Cookie c = board.cookies.get(i);
-			if(circHitCircle(c.getX(),c.getY(),c.getRadius())) {
-				c.kill(true);}
-		}
-		for(int i=0; i<board.walls.size(); i++) {
-			Wall w = board.walls.get(i);
-			if(circHitRect(w.getX(),w.getY(),w.getW(),w.getH())) {
-				kill();
-			}
-		}
+		radius = user.getExtraRadius()*.3;
 		x+=xSpeed;
 		y+=ySpeed;
+		super.execute();
 	}
 	public void end(boolean interrupted) {
 		
@@ -54,13 +46,33 @@ public class SummonProjectile extends Summon{
 	public void kill() {
 		ded = true;
 	}
+	public void collisionCookie(Cookie c) {
+		c.kill(true);
+	}
+	public void collisionWall(Wall w, boolean ghost, boolean shield) {
+		if(shield) {
+			int rx = w.getX(), ry = w.getY(), rw = w.getW(), rh = w.getH();
+			if(y>ry+rh) {
+				ySpeed*=-1;
+			}else if(y<ry) {
+				ySpeed*=-1;
+			}else if(x>rx+rw) {
+				xSpeed*=-1;
+			}else if(x<rx) {
+				xSpeed*=-1;
+			}
+			return;
+		}
+		if(ghost)return;
+		kill();
+	}
 	//if circle intersects an edge
-	public boolean circHitCircle(double cX, double cY, double cR) {
+	public boolean hitsCircle(double cX, double cY, double cR) {
 		//System.out.println(angle);
 		return Level.lineLength(x, y, cX, cY) <= cR+radius;
 	}
 	//if rectangle intersects an edge
-	public boolean circHitRect(double rX, double rY, double rW, double rH) {
+	public boolean hitsRect(double rX, double rY, double rW, double rH) {
 		//System.out.println(angle);
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
 			
@@ -68,8 +80,10 @@ public class SummonProjectile extends Summon{
 	public void paint(Graphics2D g2) {
 		if(ded)return;
 		g2.setColor(Color.WHITE);
+		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
+		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		g2.rotate(angle,x,y);
-		g2.fillOval(x-(int)(.5+radius),y-(int)(.5+radius),(int)(.5+radius*2),(int)(.5+radius*2));
+		g2.fillOval((int)(.5+x-radius),(int)(.5+y-radius),(int)(.5+radius*2),(int)(.5+radius*2));
 		
 		
 	}

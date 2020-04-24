@@ -28,9 +28,9 @@ public class SummonJab extends Summon{
 		range = r*board.currFloor.getScale();
 	}
 	public void prepare() {
-		thickness = player.getExtraRadius()*.6;
-		x=player.getX();
-		y=player.getY();
+		thickness = user.getExtraRadius()*.6;
+		x=user.getX();
+		y=user.getY();
 		angle = playerDirAngle();
 		state = EXTEND;
 	}
@@ -39,21 +39,9 @@ public class SummonJab extends Summon{
 		framecount = 0;
 	}
 	public void execute() {
-		thickness = player.getExtraRadius()*.6;
-		for(int i=0; i<board.cookies.size(); i++) {
-			Cookie c = board.cookies.get(i);
-			if(edgesHitCircle(c.getX(),c.getY(),c.getRadius())) {
-				c.kill(true);}
-		}
-		for(int i=0; i<board.walls.size(); i++) {
-			Wall w = board.walls.get(i);
-			if(edgesHitRect(w.getX(),w.getY(),w.getW(),w.getH())) {
-				player.bounce(w.getX(),w.getY(),w.getW(),w.getH());
-				state = HOLD;
-			}
-		}
-		x=player.getX();
-		y=player.getY();
+		thickness = user.getExtraRadius()*.6;
+		x=user.getX();
+		y=user.getY();
 		switch(state) {
 		case SHEATHED:
 			distforward=0;
@@ -73,12 +61,22 @@ public class SummonJab extends Summon{
 			distforward-=amountforward;
 			break;
 		}
+		super.execute();
 	}
 	public void end(boolean interrupted) {
 		
 	}
+	public void collisionCookie(Cookie c) {
+		c.kill(true);
+	}
+	public void collisionWall(Wall w, boolean ghost, boolean shield) {
+		if(shield)user.bounce(w.getX(),w.getY(),w.getW(),w.getH());
+		if(ghost)return;
+		state = HOLD;
+		distforward-=amountforward;
+	}
 	//if circle intersects an edge
-	public boolean edgesHitCircle(double cX, double cY, double cR) {
+	public boolean hitsCircle(double cX, double cY, double cR) {
 		//System.out.println(angle);
 		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
 		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
@@ -95,7 +93,7 @@ public class SummonJab extends Summon{
 		
 	}
 	//if rectangle intersects an edge
-	public boolean edgesHitRect(double rX, double rY, double rW, double rH) {
+	public boolean hitsRect(double rX, double rY, double rW, double rH) {
 		//System.out.println(angle);
 		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
 		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
@@ -113,8 +111,10 @@ public class SummonJab extends Summon{
 	}
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
+		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
+		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		g2.rotate(angle,x,y);
-		g2.fillRect(x,y-(int)(.5+thickness/2),distforward,(int)(.5+thickness));
+		g2.fillRect((int)(.5+x),(int)(.5+y-thickness/2),distforward,(int)(.5+thickness));
 		
 		
 	}

@@ -6,24 +6,30 @@ import ce3.*;
 public class ItemProjectile extends Item{
 	
 	private double speed;
+	private int num;
+	private double offset_const;
 	private ArrayList<SummonProjectile> proj;
 	
 	public ItemProjectile(Board frame) {
 		super(frame);
 		speed = 8;
 		proj = new ArrayList<SummonProjectile>();
+		num = 1;
+		offset_const = Math.PI/12;
 		name = "Projectile";
 	}
 	public void prepare() {
-		proj.add(new SummonProjectile(board,board.player,speed));
-		for(int i=0; i<proj.size(); i++) {
+		for(int i=0; i<num; i++) {
+			proj.add(new SummonProjectile(board,board.player,speed,chooseOffset(i,num)));
 			player.addSummon(proj.get(i));
 			proj.get(i).prepare();
 		}
 	}
 	public void initialize() {
-		proj.get(proj.size()-1).setSpeed(speed);
-		proj.get(proj.size()-1).initialize();
+		for(int i=0; i<proj.size(); i++) {
+			//proj.get(i).setSpeed(speed);
+			proj.get(i).initialize();
+		}
 	}
 	public void execute() {
 		if(checkCanceled())return;
@@ -35,20 +41,31 @@ public class ItemProjectile extends Item{
 		for(int i=0; i<proj.size(); i++) {
 			proj.get(i).end(false);
 			player.removeSummon(proj.get(i));
-			proj.remove(i);}
+			proj.remove(i);
+			i--;
+		}
+	}
+	private double chooseOffset(int thisNum, int total) {
+		if(total%2==0) {
+			return -(offset_const * total/2 - offset_const/2) + thisNum*offset_const;
+		}else {
+			return -(offset_const * (total-1)/2) + thisNum*offset_const;
+		}
 	}
 	public void amplify() {
 		super.amplify();
-		speed+=4;
+		num++;
+		/*speed+=4;
 		for(int i=0; i<proj.size(); i++) {
 			proj.get(i).setSpeed(speed);
-		}
+		}*/
 	}
 	public void deamplify() {
 		super.deamplify();
-		speed-=4;
+		num--;
+		/*speed-=4;
 		for(int i=0; i<proj.size(); i++) {
 			proj.get(i).setSpeed(speed);
-		}
+		}*/
 	}
 }
