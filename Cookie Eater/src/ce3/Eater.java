@@ -65,7 +65,7 @@ public class Eater{
 	private UIShields shieldDisp;
 	private boolean ghost; //if the player is in ghost mode
 	private int offstage; //how far player can go past the screen's edge before getting hit
-	private Image img;
+	private Image baseImg, faceImg;
 	
 	private Board board;
 	
@@ -115,7 +115,8 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
-		img = ImageIO.read(new File("Cookie Eater/src/resources/eater.png"));
+		baseImg = ImageIO.read(new File("Cookie Eater/src/resources/eaterBase.png"));
+		faceImg = ImageIO.read(new File("Cookie Eater/src/resources/eaterFace.png"));
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -593,7 +594,28 @@ public class Eater{
 		}
 		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
 		
-		g.drawImage(img,(int)(.5+x-(radius+3*scale)), (int)(.5+y-(radius+3*scale)), 2*(int)(.5+radius+3*scale), 2*(int)(.5+radius+3*scale), null);
+		//images
+		g.drawImage(baseImg,(int)(.5+x-(baseImg.getWidth(null)/10*scale)), (int)(.5+y-(baseImg.getHeight(null)/10*scale)), (int)(2*(.5+baseImg.getWidth(null)/10*scale)), (int)(2*(.5+baseImg.getHeight(null)/10*scale)), null);
+		
+		double facex = x, facey = y;
+		switch(direction) {
+		case UP:
+			facey-=radius/2;
+			break;
+		case DOWN:
+			facey+=radius/2;
+			break;
+		case RIGHT:
+			facex+=radius/2;
+			break;
+		case LEFT:
+			facex-=radius/2;
+			break;
+		case NONE:
+			break;
+		}
+		g.drawImage(faceImg,(int)(.5+facex-(faceImg.getWidth(null)/10*scale)), (int)(.5+facey-(faceImg.getHeight(null)/10*scale)), (int)(2*(.5+faceImg.getWidth(null)/10*scale)), (int)(2*(.5+faceImg.getHeight(null)/10*scale)), null);
+		
 		/*int rate = 5;
 		int x=0, y=0;
 		int diam = player.getRadius()*2-player.getTrailLength()*rate;
