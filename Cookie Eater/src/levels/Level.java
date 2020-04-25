@@ -122,9 +122,9 @@ public abstract class Level{
 		case "Boost":
 			b = new ItemBoost(board);
 			break;
-		case "Bounce":
+		/*case "Bounce":
 			b = new ItemBounce(board);
-			break;
+			break;*/
 		case "Circle":
 			b = new ItemCircle(board);
 			break;
@@ -164,6 +164,9 @@ public abstract class Level{
 		case "Projectile":
 			b = new ItemProjectile(board);
 			break;
+		case "Rebound":
+			b = new ItemRebound(board);
+			break;
 		default:
 			b = null;
 		}
@@ -171,7 +174,7 @@ public abstract class Level{
 	}
 	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P,ArrayList<Color> C) {	
 		addToCatalogue(I,"Boost",P,def*1,C,new Color(200,200,30));
-		addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
+		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
 		addToCatalogue(I,"Circle",P,def*1,C,new Color(220, 170, 70));
 		addToCatalogue(I,"Chain",P,def*1.1,C,new Color(150,80,20));
 		addToCatalogue(I,"Field",P,def*1.1,C,new Color(90,30,170));
@@ -185,6 +188,7 @@ public abstract class Level{
 		addToCatalogue(I,"Jab",P,def*1.1,C,new Color(180,180,190));
 		addToCatalogue(I,"Repeat",P,def*1.2,C,new Color(50,30,30));
 		addToCatalogue(I,"Projectile",P,def*1.3,C,new Color(130,110,120));
+		addToCatalogue(I,"Rebound",P,def*1.2,C,new Color(250,230,180));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);

@@ -570,6 +570,9 @@ public class Eater{
 		//shields
 		shieldDisp.update(shields);
 	}
+	public void updateUIItems() {
+		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
+	}
 	
 	public void paint(Graphics g) {
 		
