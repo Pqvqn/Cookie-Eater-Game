@@ -62,8 +62,7 @@ public class ItemCircle extends Item{
 	public void end(boolean interrupted) {
 		player.lockControl(false);
 		count = 0;
-		player.setXVel(0);
-		player.setYVel(0);
+		player.averageVels(initx,-inity);
 	}
 	public void bounce(boolean x, boolean y) {
 		if(x)radians*=-1;

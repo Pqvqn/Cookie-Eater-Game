@@ -3,7 +3,7 @@ import ce3.*;
 
 public class ItemCookieChain extends Item{
 	
-	private int cooks;
+	private double cooks;
 	private int time;
 	private int count;
 	
@@ -17,8 +17,8 @@ public class ItemCookieChain extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		if(cooks!=board.player.getScore()) {
-			cooks=board.player.getScore();
+		if(cooks!=board.player.getCash()) {
+			cooks=board.player.getCash();
 			if(count<=0) {
 				player.extendSpecial(time);
 				count = time;
