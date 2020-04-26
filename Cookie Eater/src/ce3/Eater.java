@@ -70,7 +70,7 @@ public class Eater{
 	
 	private Board board;
 	
-	public Eater(Board frame, int cycletime) throws IOException {
+	public Eater(Board frame, int cycletime) {
 		calibration_ratio = cycletime/15.0;
 		dO= true;
 		board = frame;
@@ -116,7 +116,12 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
-		sprite = new SpriteEater(board,this);
+		try {
+			sprite = new SpriteEater(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {

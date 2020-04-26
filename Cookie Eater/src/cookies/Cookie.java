@@ -1,11 +1,11 @@
 package cookies;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.IOException;
 
-import ce3.Board;
-import ce3.Eater;
-import levels.Level;
+import ce3.*;
+import levels.*;
+import sprites.*;
 
 public class Cookie {
 
@@ -16,6 +16,7 @@ public class Cookie {
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
 	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
+	private SpriteCookie sprite;
 	
 	public Cookie(Board frame, int startx, int starty) {
 		board = frame;
@@ -32,6 +33,12 @@ public class Cookie {
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
 				*(15.0/board.getAdjustedCycle()));
 		decayed=false;
+		try {
+			sprite = new SpriteCookie(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void runUpdate() {
@@ -88,10 +95,11 @@ public class Cookie {
 		x+=xS;
 		y+=yS;
 	}
+	public boolean getDecayed() {
+		return decayed;
+	}
 	
 	public void paint(Graphics g) {
-		if(decayed) {g.setColor(board.draw.blendColors(new Color(140,100,40),board.currFloor.getBGColor()));}
-		else {g.setColor(new Color(140,100,40));}
-		g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
+		sprite.paint(g);
 	}
 }
