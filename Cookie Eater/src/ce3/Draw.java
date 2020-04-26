@@ -25,6 +25,9 @@ public class Draw extends JPanel{
 		ui = new ArrayList<UIElement>();
 	}
 	
+	public void update(Graphics g) {
+		paint(g);
+	}
 	//update all objects
 	public void runUpdate() {
 		player.runUpdate();
