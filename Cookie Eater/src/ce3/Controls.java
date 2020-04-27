@@ -70,9 +70,12 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_O:
 				//player.addItem(0, new ItemRepeat(board));
 				//player.addItem(0, new ItemProjectile(board));
-				player.addItem(0, new ItemRepeat(board));
-				player.addItem(0, new ItemBoost(board));
-				
+				//player.addItem(0, new ItemRepeat(board));
+				//player.addItem(0, new ItemBoost(board));
+				for(int i=0; i<8; i++)
+				player.addItem(0, new ItemClone(board));
+				player.addItem(0, new ItemShield(board));
+				player.addItem(0, new ItemCookieChain(board));
 				/*for(int i=0; i<24; i++)
 				player.addItem(0, new ItemProjectile(board));
 				player.addItem(0, new ItemField(board));

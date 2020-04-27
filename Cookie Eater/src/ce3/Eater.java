@@ -44,6 +44,7 @@ public class Eater{
 	private boolean shielded; //in stun after shield use
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
+	private boolean shield_tick; //countdown shield
 	private int special_length; //stun length
 	private ArrayList<Integer> special_frames; //counting how deep into shield
 	private int special_cooldown; //frames between uses of special
@@ -95,6 +96,7 @@ public class Eater{
 		shielded = false;
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
+		shield_tick = true;
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = new ArrayList<Integer>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
@@ -144,7 +146,7 @@ public class Eater{
 	public void setXVel(double a) {x_velocity = a;}
 	public double getYVel() {return y_velocity;}
 	public void setYVel(double a) {y_velocity = a;}
-	public void setShielded(boolean s) {shielded = s;}
+	public void setShielded(boolean s) {shielded = s;shield_tick=!s;}
 	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}
 	public boolean getGhosted() {return ghost;}
@@ -498,7 +500,7 @@ public class Eater{
 				}
 			}
 		}
-		if(shielded) {
+		if(shielded && shield_tick) {
 			if(shield_frames++>shield_length) {
 				shielded=false;
 				shield_frames = 0;

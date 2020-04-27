@@ -167,6 +167,9 @@ public abstract class Level{
 		case "Rebound":
 			b = new ItemRebound(board);
 			break;
+		case "Clone":
+			b = new ItemClone(board);
+			break;
 		default:
 			b = null;
 		}
@@ -189,6 +192,7 @@ public abstract class Level{
 		addToCatalogue(I,"Repeat",P,def*1.2,C,new Color(50,30,30));
 		addToCatalogue(I,"Projectile",P,def*1.3,C,new Color(130,110,120));
 		addToCatalogue(I,"Rebound",P,def*1.2,C,new Color(250,230,180));
+		addToCatalogue(I,"Clone",P,def*1.3,C,new Color(190,230,140));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
