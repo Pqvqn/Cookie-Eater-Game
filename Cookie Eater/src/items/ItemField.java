@@ -4,6 +4,7 @@ import ce3.*;
 public class ItemField extends Item{
 	
 	private int added_radius;
+	private int start_radius;
 	
 	public ItemField(Board frame) {
 		super(frame);
@@ -11,15 +12,17 @@ public class ItemField extends Item{
 		added_radius = 40;
 	}
 	public void prepare() {
+		
 	}
 	public void initialize() {
-		player.addRadius(added_radius);
+		start_radius = player.getTotalRadius();
+		player.addExtraRadius(added_radius);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		player.addRadius(-added_radius);
+		player.setExtraRadius(start_radius-player.getRadius());
 	}
 	public void amplify() {
 		super.amplify();

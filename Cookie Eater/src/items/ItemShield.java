@@ -26,6 +26,7 @@ public class ItemShield extends Item{
 	
 	public void end(boolean interrupted) {
 		player.setRecoil(initrecoil);
+		player.setShielded(false);
 	}
 	public void amplify() {
 		super.amplify();

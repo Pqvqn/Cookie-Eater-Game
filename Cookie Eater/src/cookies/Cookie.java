@@ -46,7 +46,7 @@ public class Cookie {
 		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius()*2)) { 
 			board.player.setNearCookie(true);
 		}
-		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getExtraRadius())) { 
+		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getTotalRadius())) { 
 			kill(true);
 		}
 		if(board.player.getDir()!=Eater.NONE && decayTime--<=0){	

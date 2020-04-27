@@ -25,7 +25,7 @@ public class SummonClone extends Summon{
 		swapxy = swap;
 	}
 	public void prepare() {
-		radius = user.getExtraRadius();
+		radius = user.getTotalRadius();
 		x=user.getX();
 		y=user.getY();
 	}
@@ -33,7 +33,7 @@ public class SummonClone extends Summon{
 	}
 	public void execute() {
 		if(ded)return;
-		radius = user.getExtraRadius();
+		radius = user.getTotalRadius();
 		prevx = x;
 		prevy = y;
 		if(swapxy) {

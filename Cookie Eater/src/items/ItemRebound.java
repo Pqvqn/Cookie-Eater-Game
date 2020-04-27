@@ -39,10 +39,10 @@ public class ItemRebound extends Item{
 	}
 	public void bounce(boolean x, boolean y) {
 		bounces++;
-		if((bounces-last_bounce)*2 > Math.pow(last_bounce/consta*2, consta)) {
+		if((2+bounces-last_bounce) > Math.pow(last_bounce/consta*2, consta)) {
 			amplifyAll();
 			player.updateUIItems();
-			last_bounce = bounces;
+			last_bounce = bounces+1;
 			total++;
 		}
 	}

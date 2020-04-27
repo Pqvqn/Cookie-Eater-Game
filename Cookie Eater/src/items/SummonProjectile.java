@@ -24,7 +24,7 @@ public class SummonProjectile extends Summon{
 		speed = s*board.currFloor.getScale();
 	}
 	public void prepare() {
-		radius = user.getExtraRadius()*.3;
+		radius = user.getTotalRadius()*.3;
 		x=user.getX();
 		y=user.getY();
 		angle = playerVelAngle()+angle_offset;
@@ -35,7 +35,7 @@ public class SummonProjectile extends Summon{
 	}
 	public void execute() {
 		if(ded)return;
-		radius = user.getExtraRadius()*.3;
+		radius = user.getTotalRadius()*.3;
 		x+=xSpeed;
 		y+=ySpeed;
 		super.execute();

@@ -28,7 +28,7 @@ public class SummonJab extends Summon{
 		range = r*board.currFloor.getScale();
 	}
 	public void prepare() {
-		thickness = user.getExtraRadius()*.6;
+		thickness = user.getTotalRadius()*.6;
 		x=user.getX();
 		y=user.getY();
 		angle = playerDirAngle();
@@ -39,7 +39,7 @@ public class SummonJab extends Summon{
 		framecount = 0;
 	}
 	public void execute() {
-		thickness = user.getExtraRadius()*.6;
+		thickness = user.getTotalRadius()*.6;
 		x=user.getX();
 		y=user.getY();
 		switch(state) {
