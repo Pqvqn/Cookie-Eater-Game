@@ -36,7 +36,6 @@ public abstract class Summon {
 			Wall w = board.walls.get(i);
 			if(hitsRect(w.getX(),w.getY(),w.getW(),w.getH())) {
 				collisionWall(w,user.getGhosted(),user.getShielded());
-				if(!user.getShielded())System.out.println("ahh");
 			}
 		}
 		
