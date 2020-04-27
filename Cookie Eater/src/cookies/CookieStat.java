@@ -1,10 +1,11 @@
 package cookies;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.IOException;
 
 import ce3.*;
 //import levels.*;
+import sprites.*;
 
 public class CookieStat extends CookieStore{
 
@@ -12,6 +13,7 @@ public class CookieStat extends CookieStore{
 	private double accelChange;
 	private double maxvelChange;
 	private double fricChange;
+	private SpriteStoreCookie sprite;
 	
 	public CookieStat(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
@@ -48,6 +50,7 @@ public class CookieStat extends CookieStore{
 				if(bonus>1)name+="-";
 			}
 		}
+		setImage();
 		
 	}
 	public boolean purchase() {
@@ -56,8 +59,42 @@ public class CookieStat extends CookieStore{
 		board.player.addScore(1);
 		return true;
 	}
+	public void setImage() {
+		try {
+		if(accelChange>.1*(mr[0][1]-mr[0][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieA++");
+		}else if(accelChange>0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieA+");
+		}else if(accelChange<-.1*(mr[0][1]-mr[0][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieA--");
+		}else if(accelChange<0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieA-");
+		}else if(maxvelChange>.1*(mr[1][1]-mr[1][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieV++");
+		}else if(maxvelChange>0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieV+");
+		}else if(maxvelChange<-.1*(mr[1][1]-mr[1][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieV--");
+		}else if(maxvelChange<0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieV-");
+		}else if(fricChange>.1*(mr[2][1]-mr[2][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF++");
+		}else if(fricChange>0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF+");
+		}else if(fricChange<-.1*(mr[2][1]-mr[2][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF--");
+		}else if(fricChange<0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF-");
+		}else {
+			sprite = new SpriteStoreCookie(board,this,"cookieK");
+		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void paint(Graphics g) {
-		Color c;
+		/*Color c;
 		if(accelChange>.1*(mr[0][1]-mr[0][0])) {
 			c = new Color(180,180,255);
 		}else if(accelChange>0) {
@@ -84,8 +121,9 @@ public class CookieStat extends CookieStore{
 			c = new Color(75,0,0);
 		}else {
 			c = new Color(120,120,120);
-		}
-		g.setColor(c);
-		g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
+		}*/
+		//g.setColor(c);
+		//g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
+		sprite.paint(g);
 	}
 }

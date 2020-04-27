@@ -32,6 +32,7 @@ public class SpriteCookie extends Sprite{
 		chip = ImageIO.read(defChip);
 		state = REG;
 		imgs.add(base);
+		imgs.add(chip);
 	}
 	public void prePaint() throws IOException {
 		if(user.getDecayed()&&state==REG) {
