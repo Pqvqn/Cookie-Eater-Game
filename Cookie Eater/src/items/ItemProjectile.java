@@ -12,7 +12,7 @@ public class ItemProjectile extends Item{
 	
 	public ItemProjectile(Board frame) {
 		super(frame);
-		speed = 8;
+		speed = 1.5*board.getAdjustedCycle();
 		proj = new ArrayList<SummonProjectile>();
 		num = 1;
 		offset_const = Math.PI/12;

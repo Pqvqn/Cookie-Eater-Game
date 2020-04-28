@@ -68,16 +68,9 @@ public class Controls implements KeyListener{
 				player.addCash(100);
 				break;
 			case KeyEvent.VK_O:
-				//player.addItem(0, new ItemRepeat(board));
-				//player.addItem(0, new ItemProjectile(board));
-				//player.addItem(0, new ItemRepeat(board));
-				//player.addItem(0, new ItemBoost(board));
-				//for(int i=0; i<8; i++)
-				//player.addItem(0, new ItemClone(board));
+				player.addItem(0, new ItemRicochet(board));
+				//player.addItem(0, new ItemShield(board));
 				
-				player.addItem(0, new ItemField(board));
-				player.addItem(0, new ItemRebound(board));
-				player.addItem(0, new ItemShield(board));
 				/*for(int i=0; i<24; i++)
 				player.addItem(0, new ItemProjectile(board));
 				player.addItem(0, new ItemField(board));

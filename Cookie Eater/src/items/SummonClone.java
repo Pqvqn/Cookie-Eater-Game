@@ -8,9 +8,8 @@ import levels.*;
 
 public class SummonClone extends Summon{
 	
-	private double x,y,startx,starty,prevx,prevy;
+	private double startx,starty,prevx,prevy;
 	private double radius;
-	private boolean ded;
 	private boolean invertx, inverty, swapxy;
 	
 	public SummonClone(Board frame, Eater summoner, double sx, double sy, boolean xInv, boolean yInv, boolean swap) {
@@ -19,7 +18,6 @@ public class SummonClone extends Summon{
 		starty = sy;
 		prevx = sx;
 		prevy = sy;
-		ded = false;
 		invertx = xInv;
 		inverty = yInv;
 		swapxy = swap;
@@ -32,7 +30,7 @@ public class SummonClone extends Summon{
 	public void initialize() {
 	}
 	public void execute() {
-		if(ded)return;
+		if(isDed())return;
 		radius = user.getTotalRadius();
 		prevx = x;
 		prevy = y;

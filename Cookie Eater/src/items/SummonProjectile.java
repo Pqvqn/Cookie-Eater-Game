@@ -12,13 +12,11 @@ public class SummonProjectile extends Summon{
 	private double angle;
 	private double angle_offset;
 	private double radius;
-	private boolean ded;
 	
 	public SummonProjectile(Board frame, Eater summoner, double s, double offset) {
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
 		angle_offset = offset;
-		ded = false;
 	}
 	public void setSpeed(double s) {
 		speed = s*board.currFloor.getScale();
@@ -34,7 +32,7 @@ public class SummonProjectile extends Summon{
 		ySpeed = Math.sin(angle)*speed;
 	}
 	public void execute() {
-		if(ded)return;
+		if(isDed())return;
 		radius = user.getTotalRadius()*.3;
 		x+=xSpeed;
 		y+=ySpeed;

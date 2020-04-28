@@ -11,10 +11,14 @@ public abstract class Summon {
 	protected Eater user;
 	protected double x,y;
 	protected double rotation;
+	protected boolean hitWall;
+	protected boolean ded;
 	
 	public Summon(Board frame, Eater summoner) {
 		board = frame;
 		user = summoner;
+		hitWall = false;
+		ded = false;
 	}
 	//set all vars before other items change them
 	public void prepare() {
@@ -32,9 +36,11 @@ public abstract class Summon {
 				collisionCookie(c);
 			}
 		}
+		hitWall = false;
 		for(int i=0; i<board.walls.size(); i++) {
 			Wall w = board.walls.get(i);
 			if(hitsRect(w.getX(),w.getY(),w.getW(),w.getH())) {
+				hitWall = true;
 				collisionWall(w,user.getGhosted(),user.getShielded());
 			}
 		}
@@ -45,7 +51,6 @@ public abstract class Summon {
 		
 	}
 	public void paint(Graphics2D g2) {
-		
 	}
 	//if circle intersects
 	public boolean hitsCircle(double cX, double cY, double cR) {
@@ -60,7 +65,7 @@ public abstract class Summon {
 		
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
-		
+
 	}
 	
 	public double playerVelAngle() {
@@ -80,5 +85,12 @@ public abstract class Summon {
 			return 0;
 		}
 	}
+	public double getX() {return x;}
+	public double getY() {return y;}
+	public boolean hitWall() {return hitWall;}
+	public boolean isDed() {
+		if(ded)hitWall=false;
+		return ded;
+		}
 	
 }

@@ -185,6 +185,7 @@ public class Eater{
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void addSummon(Summon s) {summons.add(s);}
 	public void removeSummon(Summon s) {summons.remove(s);}
+	public ArrayList<Summon> getSummons() {return summons;}
 	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {

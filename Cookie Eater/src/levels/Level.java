@@ -170,6 +170,9 @@ public abstract class Level{
 		case "Clone":
 			b = new ItemClone(board);
 			break;
+		case "Ricochet":
+			b = new ItemRicochet(board);
+			break;
 		default:
 			b = null;
 		}
@@ -179,7 +182,7 @@ public abstract class Level{
 		addToCatalogue(I,"Boost",P,def*1,C,new Color(200,200,30));
 		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
 		addToCatalogue(I,"Circle",P,def*1,C,new Color(220, 170, 70));
-		addToCatalogue(I,"Chain",P,def*1.1,C,new Color(150,80,20));
+		addToCatalogue(I,"Chain",P,def*1.2,C,new Color(150,80,20));
 		addToCatalogue(I,"Field",P,def*1.1,C,new Color(90,30,170));
 		addToCatalogue(I,"Hold",P,def*1.1,C,new Color(200,50,50));
 		addToCatalogue(I,"Recycle",P,def*1.3,C,new Color(30,30,230));
@@ -193,6 +196,7 @@ public abstract class Level{
 		addToCatalogue(I,"Projectile",P,def*1.3,C,new Color(130,110,120));
 		addToCatalogue(I,"Rebound",P,def*1.2,C,new Color(250,230,180));
 		addToCatalogue(I,"Clone",P,def*1.3,C,new Color(190,230,140));
+		addToCatalogue(I,"Ricochet",P,def*1.1,C,new Color(50,0,50));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
