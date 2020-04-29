@@ -51,7 +51,7 @@ public class CookieStat extends CookieStore{
 			}
 		}
 		setImage();
-		
+		desc = "";
 	}
 	public boolean purchase() {
 		player.addToMovement(accelChange,maxvelChange,fricChange);

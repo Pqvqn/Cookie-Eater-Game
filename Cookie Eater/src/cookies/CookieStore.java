@@ -1,5 +1,6 @@
 package cookies;
 
+
 import ce3.*;
 import levels.*;
 import ui.*;
@@ -11,6 +12,7 @@ public abstract class CookieStore extends Cookie{
 	protected String name;
 	protected double price;
 	protected int region;
+	protected String desc;
 	
 	public CookieStore(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
@@ -19,6 +21,7 @@ public abstract class CookieStore extends Cookie{
 		region = 200;
 		price = 0;
 		name = "";
+		desc = "";
 		info = new UIPurchaseInfo(board,x,y-50);
 		board.draw.addUI(info);
 	}
@@ -35,6 +38,8 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,price,price<=board.player.getCash(),name);
+		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
+				Level.lineLength(x,y,player.getX(),player.getY())<=region && player.getXVel()==0 && player.getYVel()==0,
+				price,price<=board.player.getCash(),name,desc);
 	}
 }

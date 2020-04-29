@@ -1,4 +1,5 @@
 package items;
+
 import ce3.*;
 
 public abstract class Item {
@@ -9,12 +10,14 @@ public abstract class Item {
 	protected String name;
 	protected boolean cancel;
 	protected int waiting;
+	protected String desc;
 	
 	public Item(Board frame) {
 		board = frame;
 		player = board.player;
 		amps=0;
 		cancel = false;
+		desc = "";
 	}
 	//set all vars before other items change them
 	public void prepare() {
@@ -64,4 +67,5 @@ public abstract class Item {
 		}
 		return false;
 	}
+	public String getDesc() {return desc;}
 }

@@ -16,8 +16,8 @@ public class CookieItem extends CookieStore{
 	
 	public CookieItem(Board frame, int startx, int starty, Item i, double p, Color c) {
 		super(frame,startx,starty);
-		price = board.currFloor.getShieldCost();
 		myItem = i;
+		price = board.currFloor.getShieldCost();
 		price = p;
 		name = myItem.getName();
 		color = c;
@@ -27,6 +27,7 @@ public class CookieItem extends CookieStore{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+		desc = myItem.getDesc();
 	}
 	public boolean purchase() {
 		if(board.player.getCash()>=price) {

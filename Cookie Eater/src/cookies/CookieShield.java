@@ -21,6 +21,8 @@ public class CookieShield extends CookieStore{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		desc = "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ";
+		
 	}
 	public boolean purchase() {
 		if(board.player.getCash()>=price) {
