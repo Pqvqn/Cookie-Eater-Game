@@ -173,6 +173,9 @@ public abstract class Level{
 		case "Ricochet":
 			b = new ItemRicochet(board);
 			break;
+		case "Slash":
+			b = new ItemSlash(board);
+			break;
 		default:
 			b = null;
 		}
@@ -197,6 +200,7 @@ public abstract class Level{
 		addToCatalogue(I,"Rebound",P,def*1.2,C,new Color(250,230,180));
 		addToCatalogue(I,"Clone",P,def*1.3,C,new Color(190,230,140));
 		addToCatalogue(I,"Ricochet",P,def*1.1,C,new Color(50,0,50));
+		addToCatalogue(I,"Slash",P,def*1.1,C,new Color(0,50,0));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
