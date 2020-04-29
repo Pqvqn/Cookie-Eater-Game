@@ -9,6 +9,7 @@ public class ItemField extends Item{
 	public ItemField(Board frame) {
 		super(frame);
 		name = "Field";
+		desc="Larger collection area.`Amplify: Area increases";
 		added_radius = 40;
 	}
 	public void prepare() {

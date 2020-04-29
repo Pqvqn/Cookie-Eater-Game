@@ -1,7 +1,7 @@
 package items;
 import ce3.*;
 
-public class ItemBounce extends Item{
+public class ItemBounce extends Item{ //discontinued
 
 	private double storex, storey;
 	private double consta;
@@ -11,6 +11,7 @@ public class ItemBounce extends Item{
 		super(frame);
 		consta = 4;
 		name = "Bounce";
+		desc="An item you should not own for it has been removed.`Amplify: More bouncy";
 	}
 	public void initialize() {
 		storex=0;

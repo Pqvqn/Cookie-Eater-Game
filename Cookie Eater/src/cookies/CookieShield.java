@@ -21,7 +21,7 @@ public class CookieShield extends CookieStore{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		desc = "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ";
+		desc = "One extra shield.`Allows player to bounce off of walls.";
 		
 	}
 	public boolean purchase() {

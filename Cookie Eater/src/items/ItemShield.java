@@ -9,6 +9,7 @@ public class ItemShield extends Item{
 	public ItemShield(Board frame) {
 		super(frame);
 		name = "Shield";
+		desc="Shields the player.`Amplify: Recoil increases";
 		initrecoil=player.getRecoil();
 		newrecoil=initrecoil;
 	}

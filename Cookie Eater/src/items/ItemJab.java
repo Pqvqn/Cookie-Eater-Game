@@ -10,6 +10,7 @@ public class ItemJab extends Item{
 		super(frame);
 		range = 250;
 		name = "Jab";
+		desc="Thrusts out a melee hit.`Amplify: Range increases";
 	}
 	public void prepare() {
 		jab = new SummonJab(board,board.player,range);

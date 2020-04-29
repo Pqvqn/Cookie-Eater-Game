@@ -9,6 +9,7 @@ public class ItemGhost extends Item{
 	public ItemGhost(Board frame) {
 		super(frame);
 		name = "Ghost";
+		desc="Player goes through walls.`Amplify: Accessible area offscreen increases";
 		offstage_dist = 0;
 	}
 	public void initialize() {

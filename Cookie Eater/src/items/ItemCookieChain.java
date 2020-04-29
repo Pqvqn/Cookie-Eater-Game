@@ -11,6 +11,7 @@ public class ItemCookieChain extends Item{
 		super(frame);
 		time = player.getSpecialLength()/8;
 		name = "Chain";
+		desc="Grabbing cookies increases special time length.`Amplify: More time per cookie";
 	}
 	public void initialize() {
 		count = 0;

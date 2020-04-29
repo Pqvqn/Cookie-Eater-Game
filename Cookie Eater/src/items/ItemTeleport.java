@@ -9,6 +9,7 @@ public class ItemTeleport extends Item{
 	public ItemTeleport(Board frame) {
 		super(frame);
 		name = "Teleport";
+		desc="Teleports player to farthest cookie.`Amplify: None";
 	}
 	public void prepare() {
 		double maxDist=0;

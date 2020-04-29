@@ -26,32 +26,46 @@ public class CookieStat extends CookieStore{
 		switch((int)(Math.random()*4)) {
 		case 0:
 			name = "Keep";
+			desc = "";
 			break;
 		case 1:
 			accelChange = .1*direction*(mr[0][1]-mr[0][0])*bonus;
 			name = "Accel";
+			desc = "Makes acceleration";
 			break;
 		case 2:
 			maxvelChange = .1*direction*(mr[1][1]-mr[1][0])*bonus;
 			name = "MaxVel";
+			desc = "Makes maximum velocity";
 			break;
 		case 3:
 			fricChange = .1*direction*(mr[2][1]-mr[2][0])*bonus;
 			name = "Friction";
+			desc = "Makes friction";
 			break;
 		}
 		price = 0;
 		if(name!="Keep") {
 			if(direction>0) {
+				if(bonus>1) {
+					name+="+";
+					desc+=" a lot";
+				}
 				name+="+";
-				if(bonus>1)name+="+";
+				desc+=" higher";
 			}else {
+				if(bonus>1) {
+					name+="-";
+					desc+=" a lot";
+				}
 				name+="-";
-				if(bonus>1)name+="-";
+				desc+=" lower";
 			}
+		}else {
+			desc = "Changes no movement stats";
 		}
 		setImage();
-		desc = "";
+		
 	}
 	public boolean purchase() {
 		player.addToMovement(accelChange,maxvelChange,fricChange);

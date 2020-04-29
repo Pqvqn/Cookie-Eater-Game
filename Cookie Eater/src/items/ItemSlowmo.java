@@ -11,6 +11,7 @@ public class ItemSlowmo extends Item{
 		prop = .5;
 		initTime = board.getCycle();
 		name = "Slowmo";
+		desc="Slows down time.`Amplify: Slowing factor increases";
 	}
 	public void initialize() {
 		initTime=board.getCycle();

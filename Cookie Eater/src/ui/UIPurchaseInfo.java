@@ -14,9 +14,9 @@ public class UIPurchaseInfo extends UIElement{
 	
 	public UIPurchaseInfo(Board frame, int x, int y) {
 		super(frame,x,y);
-		parts.add(price = new UIText(board,xPos-80,yPos-20,"",new Color(120,120,120,200),new Font("Arial",Font.BOLD,25)));
-		parts.add(item = new UIText(board,xPos-80,yPos-50,"",new Color(255,255,255,200),new Font("Arial",Font.BOLD,30)));
 		parts.add(new UIRectangle(board,xPos-100,yPos-100,200,100,new Color(0,0,0,100))); //backing
+		parts.add(price = new UIText(board,xPos-80,yPos-20,"",new Color(120,120,120,150),new Font("Arial",Font.BOLD,25)));
+		parts.add(item = new UIText(board,xPos-80,yPos-50,"",new Color(255,255,255,150),new Font("Arial",Font.BOLD,30)));
 		parts.add(extended = new UIPurchaseDesc(board, xPos, yPos+110));
 		visible = true;
 	}

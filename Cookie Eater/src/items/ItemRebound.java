@@ -15,6 +15,7 @@ public class ItemRebound extends Item{
 		super(frame);
 		consta = 2;
 		name = "Rebound";
+		desc="Amplifies items after bouncing`Amplify: Amplifies after less bounces";
 	}
 	public void prepare() {
 		items = player.getItems().get(player.getCurrentSpecial());

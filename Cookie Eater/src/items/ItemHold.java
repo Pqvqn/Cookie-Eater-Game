@@ -8,6 +8,7 @@ public class ItemHold extends Item{
 	public ItemHold(Board frame) {
 		super(frame);
 		name = "Hold";
+		desc="Holds player in place.`Amplify: Pulls down speed more";
 		times=1;
 	}
 	public void initialize() {

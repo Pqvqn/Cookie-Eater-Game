@@ -17,6 +17,7 @@ public class ItemProjectile extends Item{
 		num = 1;
 		offset_const = Math.PI/12;
 		name = "Projectile";
+		desc="Shoots a projectile.`Amplify: More shots";
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {

@@ -13,6 +13,7 @@ public class ItemRicochet extends Item{
 		maxRad = 120;
 		booms = new ArrayList<SummonExplosion>();
 		name = "Ricochet";
+		desc="Creates explosion on impact.`Amplify: Larger explosions";
 	}
 	public void prepare() {
 

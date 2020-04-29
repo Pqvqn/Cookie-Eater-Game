@@ -39,7 +39,7 @@ public abstract class CookieStore extends Cookie{
 	public void runUpdate() {
 		super.runUpdate();
 		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
-				Level.lineLength(x,y,player.getX(),player.getY())<=region && player.getXVel()==0 && player.getYVel()==0,
+				Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel()==0 && player.getYVel()==0,
 				price,price<=board.player.getCash(),name,desc);
 	}
 }

@@ -14,6 +14,7 @@ public class ItemClone extends Item{
 		clones = new ArrayList<SummonClone>();
 		num = 1;
 		name = "Clone";
+		desc="Creates mirrored clone of player movement.`Amplify: More clones";
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {

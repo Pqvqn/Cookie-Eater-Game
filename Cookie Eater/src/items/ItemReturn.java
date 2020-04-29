@@ -8,6 +8,7 @@ public class ItemReturn extends Item{
 	public ItemReturn(Board frame) {
 		super(frame);
 		name = "Return";
+		desc="Sends player back to starting point of special.`Amplify: None";
 	}
 	public void prepare() {
 		x=player.getX();
