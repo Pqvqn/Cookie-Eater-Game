@@ -109,6 +109,8 @@ public class SummonJab extends Summon{
 				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
 			
 	}
+	public double getEdgeX() {return x+distforward * Math.cos(angle);}
+	public double getEdgeY() {return y+distforward * Math.sin(angle);}
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));

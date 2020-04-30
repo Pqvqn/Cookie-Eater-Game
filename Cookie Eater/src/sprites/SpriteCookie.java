@@ -17,7 +17,7 @@ public class SpriteCookie extends Sprite{
 	private int state;
 	private final int REG=0, SPOILED=-1;
 	private int baseNum, chipNum;
-	private final int TOTALIMGS = 3;
+	private final int TOTALIMGS = 4;
 	
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
 		super(frame);

@@ -45,7 +45,7 @@ public class SummonSlash extends Summon{
 		framecount = 0;
 	}
 	public void execute() {
-		if(ded)return;
+		if(isDed())return;
 		thickness = user.getTotalRadius()*.6;
 		x=user.getX();
 		y=user.getY();
@@ -119,6 +119,8 @@ public class SummonSlash extends Summon{
 				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
 			
 	}
+	public double getEdgeX() {return x+range * Math.cos(angle);}
+	public double getEdgeY() {return y+range * Math.sin(angle);}
 	public void paint(Graphics2D g2) {
 		if(ded)return;
 		g2.setColor(Color.WHITE);

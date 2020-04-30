@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.swing.*;
 
+import cookies.*;
 import ui.*;
 
 public class Draw extends JPanel{
@@ -32,7 +33,12 @@ public class Draw extends JPanel{
 	public void runUpdate() {
 		player.runUpdate();
 		for(int i=0; i<board.cookies.size(); i++) {
-			if(i<board.cookies.size())board.cookies.get(i).runUpdate();
+			if(i<board.cookies.size()) {
+				Cookie curr = board.cookies.get(i);
+				curr.runUpdate();
+				if(i<board.cookies.size()&&!board.cookies.get(i).equals(curr))
+					i--;
+			}
 		}
 		repaint();
 	}

@@ -87,6 +87,8 @@ public abstract class Summon {
 	}
 	public double getX() {return x;}
 	public double getY() {return y;}
+	public double getEdgeX() {return x;}
+	public double getEdgeY() {return y;}
 	public boolean hitWall() {return hitWall;}
 	public boolean isDed() {
 		if(ded)hitWall=false;
