@@ -7,6 +7,7 @@ import java.util.*;
 import javax.swing.*;
 
 import cookies.*;
+import enemies.*;
 import ui.*;
 
 public class Draw extends JPanel{
@@ -40,6 +41,14 @@ public class Draw extends JPanel{
 					i--;
 			}
 		}
+		for(int i=0; i<board.enemies.size(); i++) {
+			if(i<board.enemies.size()) {
+				Enemy curr = board.enemies.get(i);
+				curr.runUpdate();
+				if(i<board.enemies.size()&&!board.enemies.get(i).equals(curr))
+					i--;
+			}
+		}
 		repaint();
 	}
 	
@@ -66,6 +75,9 @@ public class Draw extends JPanel{
 		}
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).paint(g);
+		}
+		for(int i=0; i<board.enemies.size(); i++) {
+			board.enemies.get(i).paint(g);
 		}
 		player.paint(g);
 		for(int i=0; i<ui.size(); i++) {

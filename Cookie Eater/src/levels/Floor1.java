@@ -4,6 +4,7 @@ package levels;
 import java.awt.Color;
 
 import ce3.*;
+import enemies.*;
 
 public class Floor1 extends Level{
 
@@ -38,6 +39,9 @@ public class Floor1 extends Level{
 		board.cookies.add(new Cookie(board,1400,400));
 		cooks++;
 		board.scoreToWin = cooks;*/
+	}
+	public void spawnEnemies() {
+		board.enemies.add(new EnemyBlob(board,612,455));
 	}
 
 }

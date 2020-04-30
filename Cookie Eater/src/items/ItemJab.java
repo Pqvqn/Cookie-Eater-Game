@@ -23,6 +23,7 @@ public class ItemJab extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
+		if(jab==null)return;
 		jab.execute();
 	}
 	public void end(boolean interrupted) {

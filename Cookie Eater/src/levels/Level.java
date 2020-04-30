@@ -115,6 +115,11 @@ public abstract class Level{
 		
 		board.player.setScoreToWin(cooks);
 	}
+	//put enemies on floor
+	public void spawnEnemies() {
+		
+	}
+	
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p, Color c) {
 		Item b;

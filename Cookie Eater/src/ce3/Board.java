@@ -6,6 +6,7 @@ package ce3;
 import javax.swing.*;
 
 import cookies.*;
+import enemies.*;
 import levels.*;
 import ui.*;
 
@@ -22,6 +23,7 @@ public class Board extends JFrame{
 	public Draw draw;
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
+	public ArrayList<Enemy> enemies;
 	public final int BORDER_THICKNESS = 20;
 
 	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
@@ -48,6 +50,7 @@ public class Board extends JFrame{
 		
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
+		enemies = new ArrayList<Enemy>();
 		
 		keyListener = new Controls(this);
 		
@@ -97,12 +100,14 @@ public class Board extends JFrame{
 			cookies.get(i).kill(false);
 			i--;
 		}
+		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		buildBoard();
 		
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
+		spawnEnemies();
 		draw.updateBG();
 	}
 			
@@ -112,6 +117,7 @@ public class Board extends JFrame{
 			cookies.get(i).kill(false);
 			i--;
 		}
+		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();
@@ -119,6 +125,7 @@ public class Board extends JFrame{
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
+		spawnEnemies();
 		draw.updateBG();
 	}
 		
@@ -151,6 +158,11 @@ public class Board extends JFrame{
 	//add cookies to board
 	public void makeCookies() {
 		currFloor.placeCookies();
+	}
+	
+	//add enemies to board
+	public void spawnEnemies() {
+		currFloor.spawnEnemies();
 	}
 	
 	
