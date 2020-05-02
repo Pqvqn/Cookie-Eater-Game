@@ -25,6 +25,13 @@ public abstract class Segment {
 		color = c;
 	}
 	public boolean collidesWithRect(double x, double y, double w, double h) {return false;}
+	public boolean collidesWithCircle(double x, double y, double r) {return false;}
+	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {return null;}
+	public double[] circHitPoint(double cx, double cy, double cr) {return null;}
+	public void setLocation(double x, double y) {
+		xPos = x;
+		yPos = y;
+	}
 	public void paint(Graphics g) {
 		g.setColor(color);
 	}

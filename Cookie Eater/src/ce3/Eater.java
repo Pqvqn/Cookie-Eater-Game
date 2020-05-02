@@ -68,6 +68,7 @@ public class Eater{
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private boolean nearCookie;
+	private double mass;
 	
 	private Board board;
 	
@@ -118,6 +119,7 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
+		mass = 100;
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -147,6 +149,7 @@ public class Eater{
 	public void setXVel(double a) {x_velocity = a;}
 	public double getYVel() {return y_velocity;}
 	public void setYVel(double a) {y_velocity = a;}
+	public double getMass() {return mass;}
 	public void setShielded(boolean s) {shielded = s;shield_tick=!s;}
 	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}

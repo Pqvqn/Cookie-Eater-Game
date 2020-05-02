@@ -4,6 +4,7 @@ package levels;
 import java.awt.Color;
 
 import ce3.*;
+import enemies.EnemyBlob;
 
 public class Floor2 extends Level{
 
@@ -48,5 +49,7 @@ public class Floor2 extends Level{
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
 	}
-
+	public void spawnEnemies() {
+		board.enemies.add(new EnemyBlob(board,612,board.Y_RESOL/2));
+	}
 }

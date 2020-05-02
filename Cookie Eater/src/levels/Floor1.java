@@ -41,7 +41,7 @@ public class Floor1 extends Level{
 		board.scoreToWin = cooks;*/
 	}
 	public void spawnEnemies() {
-		board.enemies.add(new EnemyBlob(board,612,455));
+		board.enemies.add(new EnemyBlob(board,612,board.Y_RESOL/2));
 	}
 
 }
