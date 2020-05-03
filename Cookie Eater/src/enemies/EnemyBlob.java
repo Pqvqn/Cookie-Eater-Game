@@ -10,7 +10,7 @@ public class EnemyBlob extends Enemy{
 		super(frame,x,y);
 		mass = 100;
 		x_vel = 1;
-		constfric=.0;
+		constfric=.01;
 	}
 	public void buildBody() {
 		parts.add(new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));

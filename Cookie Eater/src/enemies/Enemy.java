@@ -34,6 +34,7 @@ public abstract class Enemy {
 	}
 	//runs each cycle
 	public void runUpdate() {
+		if(offStage())kill();
 		fric = constfric*board.currFloor.getScale();
 		xPos+=x_vel;
 		yPos+=y_vel;
@@ -51,8 +52,18 @@ public abstract class Enemy {
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(double x, double y, double oxv, double oyv, double om) {
+		double pvx = (x-xPos), pvy = (y-yPos);
+		double oxm = oxv*om, oym = oyv*om;
+		double txm = x_vel*mass, tym = y_vel*mass;
+		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
+		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
+		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 		
-		double v1x = x-xPos,v1y = y-yPos;
+		double proejjjg = (x_vel*pvy+y_vel*-pvx)/(pvx*pvx+pvy*pvy);
+		
+		x_vel=pvy*proejjjg-projdx/mass;
+		y_vel=-pvx*proejjjg-projdy/mass;
+		/*double v1x = x-xPos,v1y = y-yPos;
 		double proj1 = (x_vel*v1x+y_vel*v1y)/(v1x*v1x+v1y*v1y);
 		double proj2 = (x_vel*v1y+y_vel*-v1x)/(v1x*v1x+v1y*v1y);
 		double ewXvel = proj1*v1x+proj2*v1y;
@@ -73,7 +84,7 @@ public abstract class Enemy {
 		double rat2 = newVel/Math.sqrt(Math.pow(fX,2)+Math.pow(fY,2));
 		x_vel = fX * rat2;
 		y_vel = fY * rat2;
-		System.out.println(newVel);
+		System.out.println(newVel);*/
 		/*
 		//double massProp = 2*mass/(om+mass);
 		double rat = Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2))/Level.lineLength(x, y, xPos, yPos);
@@ -91,6 +102,10 @@ public abstract class Enemy {
 	public void collideWall() {
 		//kill();
 	}
+	//if offstage
+	public boolean offStage() {
+		return xPos<0||xPos>board.X_RESOL||yPos<0||yPos>board.Y_RESOL;
+	}
 	//tests all collisions
 	public void testCollisions() {
 		for(int j=0; j<parts.size(); j++) {
@@ -107,6 +122,8 @@ public abstract class Enemy {
 				collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1],
 						player.getXVel(),player.getYVel(),player.getMass());
+				player.collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
+						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1], x_vel, y_vel, mass);
 			}
 		}
 	}

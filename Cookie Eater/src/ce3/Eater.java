@@ -133,7 +133,19 @@ public class Eater{
 			y_positions.add(START_Y);
 		}*/
 	}
+public void collideAt(double xp, double yp, double oxv, double oyv, double om) {
+		
+	double pvx = (xp-x), pvy = (yp-y);
+	double oxm = oxv*om, oym = oyv*om;
+	double txm = x_velocity*mass, tym = y_velocity*mass;
+	double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
+	double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
+	double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 	
+	double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
+	
+	x_velocity=pvy*proejjjg-projdx/mass;
+	y_velocity=-pvx*proejjjg-projdy/mass;}
 	public int getX() {return (int)(x+.5);}
 	public void setX(double xP) {x=xP;}
 	public int getY() {return (int)(y+.5);}
