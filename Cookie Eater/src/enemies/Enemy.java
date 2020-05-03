@@ -51,6 +51,30 @@ public abstract class Enemy {
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(double x, double y, double oxv, double oyv, double om) {
+		
+		double v1x = x-xPos,v1y = y-yPos;
+		double proj1 = (x_vel*v1x+y_vel*v1y)/(v1x*v1x+v1y*v1y);
+		double proj2 = (x_vel*v1y+y_vel*-v1x)/(v1x*v1x+v1y*v1y);
+		double ewXvel = proj1*v1x+proj2*v1y;
+		double ewYvel = proj1*v1y+proj2*-v1x;
+		
+		double oVel =Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2));
+		
+		double newVel = (om*oVel+mass*totalVel()) / 2    /   mass;
+		//double rat = totalVel()/Level.lineLength(x, y, xPos, yPos);
+		
+		double rat = newVel/oVel;
+		double newX = oxv * rat;
+		double newY = oyv * rat;
+		
+		double fX = newX + ewXvel;
+		double fY = newY + ewYvel;
+		
+		double rat2 = newVel/Math.sqrt(Math.pow(fX,2)+Math.pow(fY,2));
+		x_vel = fX * rat2;
+		y_vel = fY * rat2;
+		System.out.println(newVel);
+		/*
 		//double massProp = 2*mass/(om+mass);
 		double rat = Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2))/Level.lineLength(x, y, xPos, yPos);
 		//rat*=massProp;
@@ -58,10 +82,10 @@ public abstract class Enemy {
 		double oyadd = rat*(yPos-y);
 		double rat2 = totalVel()/Level.lineLength(x, y, xPos, yPos);
 		//rat2*=1-massProp;
-		double txadd = rat2*(xPos-x);
+		double txadd = rat2*(xPos-x;
 		double tyadd = rat2*(yPos-y);
 		x_vel=oxadd+txadd;
-		y_vel=oyadd+tyadd;
+		y_vel=oyadd+tyadd;*/
 	}
 	//when hit wall
 	public void collideWall() {
