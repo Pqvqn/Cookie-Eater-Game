@@ -64,6 +64,9 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_C:
 				player.addCash(1);
 				break;
+			case KeyEvent.VK_S:
+				player.addShields(1);
+				break;
 			case KeyEvent.VK_K:
 				player.addCash(100);
 				break;

@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
-import levels.Level;
+import cookies.*;
+import levels.*;
 
 public abstract class Enemy {
 
@@ -16,6 +17,11 @@ public abstract class Enemy {
 	protected double x_vel, y_vel;
 	protected double fric;
 	protected double constfric;
+	protected int shields;
+	protected int shield_duration;
+	protected int shield_frames;
+	protected boolean steals;
+	protected ArrayList<Cookie> stash;
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
@@ -26,6 +32,9 @@ public abstract class Enemy {
 		x_vel=0;
 		y_vel=0;
 		mass = 100;
+		shield_duration = 60*board.getAdjustedCycle();
+		shield_frames = 0;
+		stash = new ArrayList<Cookie>();
 		buildBody();
 	}
 	//create parts for the enemy
@@ -48,6 +57,9 @@ public abstract class Enemy {
 		}else {
 			y_vel=0;
 		}
+		if(shield_frames>0)shield_frames++;
+		if(shield_frames>=shield_duration)
+			shield_frames=0;
 		testCollisions();
 	}
 	//given point, adjusts velocity for bouncing off from that point
@@ -100,7 +112,12 @@ public abstract class Enemy {
 	}
 	//when hit wall
 	public void collideWall() {
-		//kill();
+		shield_duration = 60*board.getAdjustedCycle();
+		if(shield_frames==0) {
+			if(shields--<=0)kill();
+			shield_frames++;
+		}
+	
 	}
 	//if offstage
 	public boolean offStage() {
@@ -125,10 +142,34 @@ public abstract class Enemy {
 				player.collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1], x_vel, y_vel, mass);
 			}
+			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
+				Cookie c = board.cookies.get(i);
+				if(parts.get(j).collidesWithCircle(c.getX(),c.getY(),c.getRadius())) {
+					stash.add(c);
+					board.cookies.remove(c);
+				}
+			}
 		}
 	}
 	//deletes this enemy
 	public void kill() {
+		int size = stash.size();
+		int i = 0;
+		while(!stash.isEmpty()) {
+			double ang = Math.random()*Math.PI*2;
+			double addx = size*5*Math.cos(ang), addy = size*5*Math.sin(ang);
+			boolean hit = false;
+			for(Wall w:board.walls) {
+				if(Level.collidesCircleAndRect(xPos+addx,yPos+addy,stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
+					hit = true;
+				}
+			}
+			if(xPos+addx<0||xPos+addx>board.X_RESOL||yPos+addy<0||yPos+addy>board.Y_RESOL)hit=true;
+			if(!hit) {
+				stash.get(0).setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
+				board.cookies.add(stash.remove(0));
+			}
+		}
 		board.enemies.remove(this);
 	}
 	//draws

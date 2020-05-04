@@ -95,6 +95,10 @@ public class Cookie {
 		x+=xS;
 		y+=yS;
 	}
+	public void setPos(int xS, int yS) {
+		x=xS;
+		y=yS;
+	}
 	public boolean getDecayed() {
 		return decayed;
 	}

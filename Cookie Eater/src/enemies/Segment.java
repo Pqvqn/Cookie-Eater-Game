@@ -14,6 +14,7 @@ public abstract class Segment {
 	protected Enemy owner;
 	protected double angle;
 	protected Color color;
+	protected double scale;
 	
 	public Segment(Board frame, Enemy host, double x, double y, double a, Color c) {
 		board = frame;
@@ -32,7 +33,9 @@ public abstract class Segment {
 		xPos = x;
 		yPos = y;
 	}
+	public void setColor(Color c) {color=c;}
 	public void paint(Graphics g) {
 		g.setColor(color);
+		scale = board.currFloor.getScale();
 	}
 }

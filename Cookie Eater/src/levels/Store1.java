@@ -46,6 +46,7 @@ public class Store1 extends Floor1{
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,60));
 		board.walls.add(new Wall(board,board.X_RESOL-510,0,510,board.Y_RESOL));
 		board.walls.add(new Wall(board,0,board.Y_RESOL-60,board.X_RESOL,60));
+		
 	}
 	
 }

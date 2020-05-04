@@ -29,8 +29,6 @@ public class Floor1 extends Level{
 	
 	public void build() {
 		super.build();
-		startx = board.X_RESOL/2; //start in middle of board
-		starty = board.Y_RESOL/2;
 	}
 	
 	public void placeCookies() {

@@ -25,13 +25,13 @@ public class SegmentCircle extends Segment{
 		if(yPos>ry+rh) {
 			ret[1] = yPos-radius;
 			yB=true;
-		}else if(yPos<ry) {
+		}if(yPos<ry) {
 			ret[1] = yPos+radius;
 			yB=true;
-		}else if(xPos>rx+rw) {
+		}if(xPos>rx+rw) {
 			ret[0] = xPos-radius;
 			xB=true;
-		}else if(xPos<rx) {
+		}if(xPos<rx) {
 			ret[0] = xPos+radius;
 			xB=true;
 		}
@@ -50,7 +50,7 @@ public class SegmentCircle extends Segment{
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.fillOval((int)(.5+xPos-radius), (int)(.5+yPos-radius), (int)(.5+radius*2), (int)(.5+radius*2));
+		g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));
 	}
 	
 }
