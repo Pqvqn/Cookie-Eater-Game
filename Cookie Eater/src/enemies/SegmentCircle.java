@@ -48,9 +48,11 @@ public class SegmentCircle extends Segment{
 		ret[1] = (cy-yPos)*ratio+yPos;
 		return ret;
 	}
+	public double getRadius() {return radius;}
+	public Color getColor() {return color;}
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));
+		//g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));
 	}
 	
 }

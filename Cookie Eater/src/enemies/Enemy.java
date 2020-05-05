@@ -75,40 +75,6 @@ public abstract class Enemy {
 		
 		x_vel=pvy*proejjjg-projdx/mass;
 		y_vel=-pvx*proejjjg-projdy/mass;
-		/*double v1x = x-xPos,v1y = y-yPos;
-		double proj1 = (x_vel*v1x+y_vel*v1y)/(v1x*v1x+v1y*v1y);
-		double proj2 = (x_vel*v1y+y_vel*-v1x)/(v1x*v1x+v1y*v1y);
-		double ewXvel = proj1*v1x+proj2*v1y;
-		double ewYvel = proj1*v1y+proj2*-v1x;
-		
-		double oVel =Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2));
-		
-		double newVel = (om*oVel+mass*totalVel()) / 2    /   mass;
-		//double rat = totalVel()/Level.lineLength(x, y, xPos, yPos);
-		
-		double rat = newVel/oVel;
-		double newX = oxv * rat;
-		double newY = oyv * rat;
-		
-		double fX = newX + ewXvel;
-		double fY = newY + ewYvel;
-		
-		double rat2 = newVel/Math.sqrt(Math.pow(fX,2)+Math.pow(fY,2));
-		x_vel = fX * rat2;
-		y_vel = fY * rat2;
-		System.out.println(newVel);*/
-		/*
-		//double massProp = 2*mass/(om+mass);
-		double rat = Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2))/Level.lineLength(x, y, xPos, yPos);
-		//rat*=massProp;
-		double oxadd = rat*(xPos-x);
-		double oyadd = rat*(yPos-y);
-		double rat2 = totalVel()/Level.lineLength(x, y, xPos, yPos);
-		//rat2*=1-massProp;
-		double txadd = rat2*(xPos-x;
-		double tyadd = rat2*(yPos-y);
-		x_vel=oxadd+txadd;
-		y_vel=oyadd+tyadd;*/
 	}
 	//when hit wall
 	public void collideWall() {
@@ -153,18 +119,17 @@ public abstract class Enemy {
 	}
 	//deletes this enemy
 	public void kill() {
-		int size = stash.size();
-		int i = 0;
 		while(!stash.isEmpty()) {
 			double ang = Math.random()*Math.PI*2;
-			double addx = size*5*Math.cos(ang), addy = size*5*Math.sin(ang);
+			double r=80*board.currFloor.getScale();
+			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
 			for(Wall w:board.walls) {
-				if(Level.collidesCircleAndRect(xPos+addx,yPos+addy,stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
+				if(Level.collidesCircleAndRect((int)(.5+xPos+addx),(int)(.5+yPos+addy),stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
 					hit = true;
 				}
 			}
-			if(xPos+addx<0||xPos+addx>board.X_RESOL||yPos+addy<0||yPos+addy>board.Y_RESOL)hit=true;
+			if((int)(.5+xPos+addx)<0||(int)(.5+xPos+addx)>board.X_RESOL||(int)(.5+yPos+addy)<0||(int)(.5+yPos+addy)>board.Y_RESOL)hit=true;
 			if(!hit) {
 				stash.get(0).setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
 				board.cookies.add(stash.remove(0));
@@ -172,6 +137,12 @@ public abstract class Enemy {
 		}
 		board.enemies.remove(this);
 	}
+	//is this in shield stun
+	public boolean isShielded() {
+		return shield_frames>0;
+	}
+	public double getX() {return xPos;}
+	public double getY() {return yPos;}
 	//draws
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {
