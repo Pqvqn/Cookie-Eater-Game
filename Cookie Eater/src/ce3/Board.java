@@ -26,7 +26,7 @@ public class Board extends JFrame{
 	public ArrayList<Enemy> enemies;
 	public final int BORDER_THICKNESS = 20;
 
-	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
+	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor5(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),

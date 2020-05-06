@@ -1,33 +1,39 @@
 package sprites;
 
+import java.util.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.imageio.ImageIO;
 
 import ce3.*;
 import enemies.*;
 
-public class SpriteEnemyBlob extends Sprite{
+public class SpriteEnemy extends Sprite{
 
-	private EnemyBlob user;
-	private Color coloration;
+	private Segment user;
 	private Image base;
+	private ArrayList<File> states;
+	private int state;
 	private double scale;
-	private double radius;
 	
-	public SpriteEnemyBlob(Board frame, EnemyBlob e) throws IOException {
+	public SpriteEnemy(Board frame, Segment e, ArrayList<String> imgstates) throws IOException {
 		super(frame);
 		user = e;
-		base = ImageIO.read(new File("Cookie Eater/src/resources/enemies/blob.png"));
+		state = 0;
+		states=new ArrayList<File>();
+		for(String s : imgstates)states.add(new File("Cookie Eater/src/resources/enemies/"+s+".png"));
+		base = ImageIO.read(states.get(state));
 		imgs.add(base);
 	}
-	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {
 		scale = board.currFloor.getScale();
-		x = (int)(.5+user.getX());
-		y = (int)(.5+user.getY());		
+		base = ImageIO.read(states.get(state));
+		x = (int)(.5+user.getCenterX());
+		y = (int)(.5+user.getCenterY());		
+	}
+	public void setImage(int i) {
+		state = i;
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -37,10 +43,6 @@ public class SpriteEnemyBlob extends Sprite{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		radius = user.getRadius();
-		coloration = user.getColor();
-		g.setColor(coloration);
-		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), (int)(.5+2*radius), (int)(.5+2*radius));
 		//images
 		g.drawImage(base,(int)(.5+x-(base.getWidth(null)/10*scale)), (int)(.5+y-(base.getHeight(null)/10*scale)), (int)(2*(.5+base.getWidth(null)/10*scale)), (int)(2*(.5+base.getHeight(null)/10*scale)), null);
 	}

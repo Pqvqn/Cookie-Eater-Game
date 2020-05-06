@@ -2,21 +2,23 @@ package levels;
 
 
 import ce3.*;
+import cookies.*;
+import enemies.*;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.*;
 
-public class Floor3 extends Level{
+public class Floor5 extends Level{
 	
 	private int[][] areas = {{0,board.X_RESOL/2,0,board.Y_RESOL/2}, //regions of board - one node per until all filled
 			{0,board.X_RESOL/2,board.Y_RESOL/2,board.Y_RESOL},
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public Floor3(Board frame) {
+	public Floor5(Board frame) {
 		this(frame,null);
 	}
-	public Floor3(Board frame, Level nextFloor) {
+	public Floor5(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
 		scale = .9;
@@ -25,8 +27,8 @@ public class Floor3 extends Level{
 		maxDecay = 3000;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
-		bgColor = new Color(50,50,50);
-		wallColor = new Color(20,10,30);
+		bgColor = new Color(150,90,40);
+		wallColor = new Color(50,20,10);
 	}
 	
 	public void build() {
@@ -37,9 +39,12 @@ public class Floor3 extends Level{
 		lines = new ArrayList<int[]>();
 	}
 	
-	
 	public void placeCookies() {
 		super.placeCookies(15,(int)(100*scale));
+	}
+	public void spawnEnemies() {
+		Cookie c = board.cookies.get((int)Math.random()*board.cookies.size());
+		board.enemies.add(new EnemyBlob(board,c.getX(),c.getY()));
 	}
 
 }

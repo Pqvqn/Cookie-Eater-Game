@@ -9,24 +9,25 @@ import sprites.*;
 public class EnemyBlob extends Enemy{
 
 	private SegmentCircle blob;
-	private SpriteEnemyBlob sprite;
+	private SpriteEnemy sprite;
+	private final int NEUTRAL=0,HIT=1;
 	
 	public EnemyBlob(Board frame, double x, double y) {
 		super(frame,x,y);
 		mass = 100;
-		x_vel = 1;
 		constfric=.05*board.currFloor.getScale()/board.getAdjustedCycle();
 		shields=3;
 		steals = true;
+	}
+	public void buildBody() {
+		setImgs(new String[] {"blob","blobMad"});
+		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		try {
-			sprite = new SpriteEnemyBlob(board,this);
+			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	public void buildBody() {
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 	}
 	public void runUpdate() {
 		super.runUpdate();
@@ -40,9 +41,9 @@ public class EnemyBlob extends Enemy{
 	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
 		if(!isShielded()) {
-			blob.setColor(Color.ORANGE);
+			sprite.setImage(NEUTRAL);
 		}else {
-			blob.setColor(Color.RED);
+			sprite.setImage(HIT);
 		}
 		super.paint(g);
 		sprite.paint(g);

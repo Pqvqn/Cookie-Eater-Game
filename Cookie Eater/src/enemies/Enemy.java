@@ -22,6 +22,7 @@ public abstract class Enemy {
 	protected int shield_frames;
 	protected boolean steals;
 	protected ArrayList<Cookie> stash;
+	protected ArrayList<String> imgs;
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
@@ -35,7 +36,12 @@ public abstract class Enemy {
 		shield_duration = 60*board.getAdjustedCycle();
 		shield_frames = 0;
 		stash = new ArrayList<Cookie>();
+		imgs = new ArrayList<String>();
 		buildBody();
+	}
+	//transfer array into arraylist
+	protected void setImgs(String[] imgList) {
+		for(int i=0; i<imgList.length; i++)imgs.add(imgList[i]);
 	}
 	//create parts for the enemy
 	protected void buildBody() {

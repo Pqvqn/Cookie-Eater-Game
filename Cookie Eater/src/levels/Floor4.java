@@ -3,7 +3,7 @@ package levels;
 
 import ce3.*;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.*;
 
 public class Floor4 extends Level{

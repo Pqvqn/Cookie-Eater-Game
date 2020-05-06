@@ -33,6 +33,8 @@ public abstract class Segment {
 		xPos = x;
 		yPos = y;
 	}
+	public double getCenterX() {return xPos;}
+	public double getCenterY() {return yPos;}
 	public void setColor(Color c) {color=c;}
 	public void paint(Graphics g) {
 		g.setColor(color);
