@@ -21,7 +21,7 @@ public class Floor5 extends Level{
 	public Floor5(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		next = nextFloor;
-		scale = .9;
+		scale = .6;
 		board = frame;
 		minDecay = 90;
 		maxDecay = 3000;
@@ -43,8 +43,10 @@ public class Floor5 extends Level{
 		super.placeCookies(15,(int)(100*scale));
 	}
 	public void spawnEnemies() {
-		Cookie c = board.cookies.get((int)Math.random()*board.cookies.size());
-		board.enemies.add(new EnemyBlob(board,c.getX(),c.getY()));
+		for(int i=0;i<6;i++) {
+		Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
+		board.enemies.add(new EnemyBlob(board,c.getX(),c.getY()));}
+
 	}
 
 }

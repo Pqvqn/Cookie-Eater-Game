@@ -23,6 +23,7 @@ public abstract class Enemy {
 	protected boolean steals;
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
+	protected double maxSpeed;
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
@@ -62,6 +63,12 @@ public abstract class Enemy {
 			y_vel-=Math.signum(y_vel)*fric;
 		}else {
 			y_vel=0;
+		}
+		if(Math.abs(x_vel)>maxSpeed) {
+			x_vel=Math.signum(x_vel)*maxSpeed;
+		}
+		if(Math.abs(y_vel)>maxSpeed) {
+			y_vel=Math.signum(y_vel)*maxSpeed;
 		}
 		if(shield_frames>0)shield_frames++;
 		if(shield_frames>=shield_duration)
@@ -121,6 +128,22 @@ public abstract class Enemy {
 					board.cookies.remove(c);
 				}
 			}
+			for(int i=0; i<board.enemies.size(); i++) { //for every cookie, test if any parts impact
+				Enemy e = board.enemies.get(i);
+				if(!e.equals(this)) {
+					for(int k=0; k<e.getParts().size(); k++) {
+						Segment s = e.getParts().get(k);
+						if(s.getClass()==SegmentCircle.class) {
+							SegmentCircle s2 = (SegmentCircle)s;
+							if(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
+								collideAt(parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
+										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
+										e.getXVel(),e.getYVel(),e.getMass());
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	//deletes this enemy
@@ -149,6 +172,10 @@ public abstract class Enemy {
 	}
 	public double getX() {return xPos;}
 	public double getY() {return yPos;}
+	public double getXVel() {return x_vel;}
+	public double getYVel() {return y_vel;}
+	public double getMass() {return mass;}
+	public ArrayList<Segment> getParts(){return parts;}
 	//draws
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {

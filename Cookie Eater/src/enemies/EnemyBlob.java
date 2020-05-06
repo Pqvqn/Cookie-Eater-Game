@@ -15,9 +15,10 @@ public class EnemyBlob extends Enemy{
 	public EnemyBlob(Board frame, double x, double y) {
 		super(frame,x,y);
 		mass = 100;
-		constfric=.05*board.currFloor.getScale()/board.getAdjustedCycle();
+		constfric=.08*board.currFloor.getScale()/board.getAdjustedCycle()/board.getAdjustedCycle();
 		shields=3;
 		steals = true;
+		maxSpeed = 60*board.currFloor.getScale()/board.getAdjustedCycle();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
