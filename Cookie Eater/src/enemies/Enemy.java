@@ -50,6 +50,7 @@ public abstract class Enemy {
 	}
 	//runs each cycle
 	public void runUpdate() {
+		testCollisions();
 		if(offStage())kill();
 		fric = constfric*board.currFloor.getScale();
 		xPos+=x_vel;
@@ -73,14 +74,13 @@ public abstract class Enemy {
 		if(shield_frames>0)shield_frames++;
 		if(shield_frames>=shield_duration)
 			shield_frames=0;
-		testCollisions();
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(double x, double y, double oxv, double oyv, double om) {
 		double pvx = (x-xPos), pvy = (y-yPos);
 		double oxm = oxv*om, oym = oyv*om;
 		double txm = x_vel*mass, tym = y_vel*mass;
-		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
+		double oProj = -(oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy);
 		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
 		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 		
@@ -136,9 +136,15 @@ public abstract class Enemy {
 						if(s.getClass()==SegmentCircle.class) {
 							SegmentCircle s2 = (SegmentCircle)s;
 							if(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
+								double bmass = mass;
+								double bxv = x_vel;
+								double byv = y_vel;
 								collideAt(parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
 										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
 										e.getXVel(),e.getYVel(),e.getMass());
+								e.collideAt(parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
+										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
+										bxv,byv,bmass);
 							}
 						}
 					}

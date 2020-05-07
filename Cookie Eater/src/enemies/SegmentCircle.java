@@ -14,25 +14,25 @@ public class SegmentCircle extends Segment{
 		radius = rad;
 	}
 	public boolean collidesWithRect(double x, double y, double w, double h) {
-		return Level.collidesCircleAndRect(xPos, yPos, radius, x, y, w, h);
+		return Level.collidesCircleAndRect(xPos, yPos, radius*scale, x, y, w, h);
 	}
 	public boolean collidesWithCircle(double x, double y, double r) {
-		return Level.lineLength(x, y, xPos, yPos) <= r+radius;
+		return Level.lineLength(x, y, xPos, yPos) <= r+radius*scale;
 	}
 	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
 		double[] ret = {xPos,yPos};
 		boolean xB=false,yB=false;
 		if(yPos>ry+rh) {
-			ret[1] = yPos-radius;
+			ret[1] = yPos-radius*scale;
 			yB=true;
 		}if(yPos<ry) {
-			ret[1] = yPos+radius;
+			ret[1] = yPos+radius*scale;
 			yB=true;
 		}if(xPos>rx+rw) {
-			ret[0] = xPos-radius;
+			ret[0] = xPos-radius*scale;
 			xB=true;
 		}if(xPos<rx) {
-			ret[0] = xPos+radius;
+			ret[0] = xPos+radius*scale;
 			xB=true;
 		}
 		if(xB&&yB) {
@@ -43,7 +43,7 @@ public class SegmentCircle extends Segment{
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {
 		double[] ret = {xPos,yPos};
-		double ratio = radius/Level.lineLength(cx, cy, xPos, yPos);
+		double ratio = radius*scale/Level.lineLength(cx, cy, xPos, yPos);
 		ret[0] = (cx-xPos)*ratio+xPos;
 		ret[1] = (cy-yPos)*ratio+yPos;
 		return ret;
