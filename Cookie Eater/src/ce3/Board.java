@@ -165,6 +165,19 @@ public class Board extends JFrame{
 		currFloor.spawnEnemies();
 	}
 	
+	//returns nearest cookie to a given point on the board
+	public Cookie nearestCookie(double x, double y) {
+		double bestDist = Integer.MAX_VALUE;
+		Cookie save = null;
+		for(int i=0; i<cookies.size(); i++) {
+			double thisDist = Level.lineLength(cookies.get(i).getX(),cookies.get(i).getY(),x,y);
+			if(thisDist<bestDist&&thisDist!=0) {
+				save = cookies.get(i);
+				bestDist = thisDist;
+			}
+		}
+		return save;
+	}
 	
 
 

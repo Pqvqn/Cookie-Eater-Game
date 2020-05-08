@@ -4,21 +4,24 @@ import java.awt.*;
 import java.io.IOException;
 
 import ce3.*;
+import cookies.*;
 import sprites.*;
+import levels.*;
 
 public class EnemyBlob extends Enemy{
 
 	private SegmentCircle blob;
 	private SpriteEnemy sprite;
+	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
+	private double accel;
+	private double normMaxSpeed;
 	
 	public EnemyBlob(Board frame, double x, double y) {
 		super(frame,x,y);
 		mass = 100;
-		constfric=.08*board.currFloor.getScale()*board.getAdjustedCycle()*board.getAdjustedCycle();
 		shields=3;
 		steals = true;
-		maxSpeed = 6*board.currFloor.getScale()*board.getAdjustedCycle();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
@@ -31,8 +34,18 @@ public class EnemyBlob extends Enemy{
 		}
 	}
 	public void runUpdate() {
+		if(player.getDir()==Eater.NONE)return;
+		target = board.nearestCookie(xPos,yPos);
+		constfric = .08*board.currFloor.getScale()/board.getAdjustedCycle();
+		maxSpeed = 6*board.currFloor.getScale()*board.getAdjustedCycle();
+		normMaxSpeed = .2*board.currFloor.getScale()*board.getAdjustedCycle();
+		accel = 1*board.currFloor.getScale()/board.getAdjustedCycle();
+		if(target!=null) {
+			double rat = accel / Level.lineLength(xPos, yPos, target.getX(), target.getY());
+			if(Math.abs(x_vel)<normMaxSpeed)x_vel+=rat*(target.getX()-xPos);
+			if(Math.abs(y_vel)<normMaxSpeed)y_vel+=rat*(target.getY()-yPos);
+		}
 		super.runUpdate();
-		constfric=.05*board.currFloor.getScale()/board.getAdjustedCycle();
 		blob.setLocation(xPos,yPos);
 	}
 	public void collideWall(Wall w) {
