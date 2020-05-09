@@ -248,9 +248,9 @@ public abstract class Level{
 	}
 	
 	//tests if there is an unbroken line between two points
-	public boolean lineOfSight(int x1, int y1, int x2, int y2) {
+	public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
 		boolean hit = false;
-		for(Wall w : board.walls) {
+		for(Wall w : walls) {
 			if(collidesLineAndRect(x1, y1, x2, y2, w.getX(), w.getY(), w.getW(), w.getH())) 
 				hit = true;
 		}
@@ -264,9 +264,9 @@ public abstract class Level{
 		double h = rad;
 		double r = Math.sqrt((h*h)/(x*x+y*y));
 		if(x1==x2 || ((double)y1-y2)/(x1-x2)<0) {
-			return lineOfSight((int)(.5+x1-x*r), (int)(.5+y1-y*r), (int)(.5+x2-x*r), (int)(.5+y2-y*r)) && lineOfSight((int)(.5+x1+x*r), (int)(.5+y1+y*r), (int)(.5+x2+x*r), (int)(.5+y2+y*r)); 
+			return lineOfSight((int)(.5+x1-x*r), (int)(.5+y1-y*r), (int)(.5+x2-x*r), (int)(.5+y2-y*r), board.walls) && lineOfSight((int)(.5+x1+x*r), (int)(.5+y1+y*r), (int)(.5+x2+x*r), (int)(.5+y2+y*r), board.walls); 
 		}else {
-			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r)) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r)); 
+			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r), board.walls) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r), board.walls); 
 		}
 	}
 	//tests if a line and a rectangle overlap

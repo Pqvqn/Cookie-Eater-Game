@@ -170,10 +170,12 @@ public class Board extends JFrame{
 		double bestDist = Integer.MAX_VALUE;
 		Cookie save = null;
 		for(int i=0; i<cookies.size(); i++) {
-			double thisDist = Level.lineLength(cookies.get(i).getX(),cookies.get(i).getY(),x,y);
-			if(thisDist<bestDist&&thisDist!=0) {
-				save = cookies.get(i);
-				bestDist = thisDist;
+			if(cookies.get(i)!=null){
+				double thisDist = Level.lineLength(cookies.get(i).getX(),cookies.get(i).getY(),x,y);
+				if(thisDist<bestDist&&thisDist!=0) {
+					save = cookies.get(i);
+					bestDist = thisDist;
+				}
 			}
 		}
 		return save;
