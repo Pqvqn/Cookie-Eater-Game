@@ -4,6 +4,7 @@ import java.awt.*;
 
 import ce3.*;
 import levels.*;
+import items.*;
 
 public class SegmentCircle extends Segment{
 
@@ -18,6 +19,9 @@ public class SegmentCircle extends Segment{
 	}
 	public boolean collidesWithCircle(double x, double y, double r) {
 		return Level.lineLength(x, y, xPos, yPos) <= r+radius*scale;
+	}
+	public boolean collidesWithSummon(Summon s) {
+		return s.hitsCircle(xPos,yPos,radius);
 	}
 	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
 		double[] ret = {xPos,yPos};
@@ -48,6 +52,7 @@ public class SegmentCircle extends Segment{
 		ret[1] = (cy-yPos)*ratio+yPos;
 		return ret;
 	}
+	
 	public double getRadius() {return radius*scale;}
 	public Color getColor() {return color;}
 	public void paint(Graphics g) {

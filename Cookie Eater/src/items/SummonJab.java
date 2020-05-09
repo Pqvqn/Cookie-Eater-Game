@@ -23,6 +23,7 @@ public class SummonJab extends Summon{
 		range = r*board.currFloor.getScale();
 		amountforward = (range/100)*board.getAdjustedCycle();
 		holdfor = 300/board.getAdjustedCycle();
+		mass = 20;
 	}
 	public void setRange(double r) {
 		range = r*board.currFloor.getScale();
@@ -111,6 +112,36 @@ public class SummonJab extends Summon{
 	}
 	public double getEdgeX() {return x+distforward * Math.cos(angle);}
 	public double getEdgeY() {return y+distforward * Math.sin(angle);}
+	public double getXVel() {
+		int mult=0;
+		switch(state) {
+		case EXTEND:
+			mult = 1;
+			break;
+		case RETRACT:
+			mult = -1;
+			break;
+		default:
+			mult = 0;
+			break;
+		}
+		return user.getXVel()+mult*amountforward*Math.cos(angle);
+	}
+	public double getYVel() {
+		int mult=0;
+		switch(state) {
+		case EXTEND:
+			mult = 1;
+			break;
+		case RETRACT:
+			mult = -1;
+			break;
+		default:
+			mult = 0;
+			break;
+		}
+		return user.getYVel()+mult*amountforward*Math.sin(angle);
+	}
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));

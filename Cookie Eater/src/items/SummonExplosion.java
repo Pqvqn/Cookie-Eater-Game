@@ -22,6 +22,7 @@ public class SummonExplosion extends Summon{
 		opacity_decrease = opacity/100*board.getAdjustedCycle();
 		x=xP;
 		y=yP;
+		mass = 200;
 	}
 	public void setMax(double mr) {
 		maximum_radius = mr;
@@ -63,6 +64,8 @@ public class SummonExplosion extends Summon{
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
 			
 	}
+	public double getXVel() {return 0;}
+	public double getYVel() {return 0;}
 	public void paint(Graphics2D g2) {
 		
 		if(ded)return;

@@ -13,6 +13,7 @@ public abstract class Summon {
 	protected double rotation;
 	protected boolean hitWall;
 	protected boolean ded;
+	protected double mass;
 	
 	public Summon(Board frame, Eater summoner) {
 		board = frame;
@@ -67,7 +68,7 @@ public abstract class Summon {
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 
 	}
-	
+
 	public double playerVelAngle() {
 		return Math.atan2(user.getYVel(),user.getXVel());
 	}
@@ -90,9 +91,13 @@ public abstract class Summon {
 	public double getEdgeX() {return x;}
 	public double getEdgeY() {return y;}
 	public boolean hitWall() {return hitWall;}
+	public double getMass() {return mass;}
 	public boolean isDed() {
 		if(ded)hitWall=false;
 		return ded;
 		}
+	//return speed in x/y direction of this summon
+	public double getXVel() {return 0;}
+	public double getYVel() {return 0;}
 	
 }

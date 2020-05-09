@@ -21,6 +21,7 @@ public class SummonClone extends Summon{
 		invertx = xInv;
 		inverty = yInv;
 		swapxy = swap;
+		mass = user.getMass();
 	}
 	public void prepare() {
 		radius = user.getTotalRadius();
@@ -71,6 +72,20 @@ public class SummonClone extends Summon{
 		//System.out.println(angle);
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
 			
+	}
+	public double getXVel() {
+		if(swapxy) {
+			return (invertx) ? -user.getYVel() : user.getYVel();
+		}else {
+			return (invertx) ? -user.getXVel() : user.getXVel();
+		}
+	}
+	public double getYVel() {
+		if(swapxy) {
+			return (inverty) ? -user.getXVel() : user.getXVel();
+		}else {
+			return (inverty) ? -user.getYVel() : user.getYVel();
+		}
 	}
 	public void paint(Graphics2D g2) {
 		if(ded)return;

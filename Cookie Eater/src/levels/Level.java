@@ -363,6 +363,21 @@ public abstract class Level{
 				(y>=Math.min(y1b, y2b) && y<=Math.max(y1b, y2b)); //intersections within bounds
 		
 	}
+	//returns [x,y] array of coordinates for the point where two lines intersect
+	public static double[] lineIntersection(double x1a, double y1a, double x2a, double y2a, double x1b, double y1b, double x2b, double y2b) {
+		if(collidesLineAndLine(x1a,y1a,x2a,y2a,x1b,y1b,x2b,y2b)) {
+			double[] ret = new double[2];
+			double ma = (y2a-y1a)/(x2a-x1a);
+			double mb = (y2b-y1b)/(x2b-x1b);
+			double ba = y1a - ma * x1a;
+			double bb = y1b - mb * x1b;
+			ret[0] = (bb-ba)/(ma-mb);
+			ret[1] = ma * ret[0] + ba;
+			return ret;
+		}else {
+			return null;
+		}
+	}
 	//creates nodes and connections
 		public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
 			nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes

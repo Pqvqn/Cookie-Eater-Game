@@ -17,6 +17,7 @@ public class SummonProjectile extends Summon{
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
 		angle_offset = offset;
+		mass = 20;
 	}
 	public void setSpeed(double s) {
 		speed = s*board.currFloor.getScale();
@@ -75,6 +76,8 @@ public class SummonProjectile extends Summon{
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
 			
 	}
+	public double getXVel() {return xSpeed;}
+	public double getYVel() {return ySpeed;}
 	public void paint(Graphics2D g2) {
 		if(ded)return;
 		g2.setColor(Color.WHITE);

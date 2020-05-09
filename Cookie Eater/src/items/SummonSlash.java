@@ -29,6 +29,7 @@ public class SummonSlash extends Summon{
 		maxamountturn = (region/60)*board.getAdjustedCycle();
 		amountturn =  maxamountturn/100;
 		accelamountturn = maxamountturn/50;
+		mass = 20;
 	}
 	public void setRegion(double r) {
 		region = r;
@@ -121,6 +122,30 @@ public class SummonSlash extends Summon{
 	}
 	public double getEdgeX() {return x+range * Math.cos(angle);}
 	public double getEdgeY() {return y+range * Math.sin(angle);}
+	public double getXVel() {
+		int mult = 0;
+		switch(state) {
+		case HOLD:
+			mult = 0;
+			break;
+		case SWING:
+			mult = 1;
+			break;
+		}
+		return user.getXVel()+mult*range*amountturn*Math.cos(angle);
+	}
+	public double getYVel() {
+		int mult = 0;
+		switch(state) {
+		case HOLD:
+			mult = 0;
+			break;
+		case SWING:
+			mult = 1;
+			break;
+		}
+		return user.getYVel()+mult*range*amountturn*Math.sin(angle);
+	}
 	public void paint(Graphics2D g2) {
 		if(ded)return;
 		g2.setColor(Color.WHITE);
