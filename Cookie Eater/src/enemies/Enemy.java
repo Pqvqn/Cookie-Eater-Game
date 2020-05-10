@@ -6,6 +6,7 @@ import java.util.*;
 import ce3.*;
 import cookies.*;
 import levels.*;
+import items.*;
 
 public abstract class Enemy {
 
@@ -148,6 +149,17 @@ public abstract class Enemy {
 							}
 						}
 					}
+				}
+			}
+			for(int i=0; i<board.player.getSummons().size(); i++) { //for every cookie, test if any parts impact
+				Summon s = board.player.getSummons().get(i);
+				if(parts.get(j).collidesWithSummon(s)){
+					collideAt(parts.get(j).summonHitPoint(s)[0],
+							parts.get(j).summonHitPoint(s)[1],
+							s.getXVel(),s.getYVel(),s.getMass());
+					s.collisionEntity(parts.get(j).summonHitPoint(s)[0],
+							parts.get(j).summonHitPoint(s)[1],
+							mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
 				}
 			}
 		}

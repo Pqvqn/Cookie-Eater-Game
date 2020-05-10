@@ -68,6 +68,9 @@ public abstract class Summon {
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 
 	}
+	public void collisionEntity(double x, double y, double omass, double oxv, double oxy, boolean ghost, boolean shield) {
+		
+	}
 
 	public double playerVelAngle() {
 		return Math.atan2(user.getYVel(),user.getXVel());
