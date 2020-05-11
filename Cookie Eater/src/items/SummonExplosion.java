@@ -13,6 +13,7 @@ public class SummonExplosion extends Summon{
 	private double radius;
 	private double opacity;
 	private double opacity_decrease;
+	private double exp_x, exp_y;
 
 	public SummonExplosion(Board frame, Eater summoner, double maxRad, double xP, double yP) {
 		super(frame, summoner);
@@ -55,17 +56,26 @@ public class SummonExplosion extends Summon{
 	}
 	//if circle intersects an edge
 	public boolean hitsCircle(double cX, double cY, double cR) {
-		//System.out.println(angle);
 		return Level.lineLength(x, y, cX, cY) <= cR+radius;
 	}
 	//if rectangle intersects an edge
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
-		//System.out.println(angle);
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
 			
 	}
-	public double getXVel() {return 0;}
-	public double getYVel() {return 0;}
+	public double[] circHitPoint(double cx, double cy, double cr) {
+		double rat = expansion_amount/Math.sqrt(cx*cx+cy*cy);
+		exp_x = rat * (cx-x);
+		exp_y = rat * (cy-y);
+		double[] ret = {x,y};
+		double ratio = radius/Level.lineLength(cx, cy, x, y);
+		ret[0] = (cx-x)*ratio+x;
+		ret[1] = (cy-y)*ratio+y;
+		return ret;
+	}
+	public double getXVel() {return exp_x;}
+	public double getYVel() {return exp_y;}
+	
 	public void paint(Graphics2D g2) {
 		
 		if(ded)return;

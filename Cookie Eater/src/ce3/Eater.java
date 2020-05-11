@@ -475,6 +475,12 @@ public class Eater{
 	
 		x_velocity=pvy*proejjjg-projdx/mass;
 		y_velocity=-pvx*proejjjg-projdy/mass;
+		
+		if(state==SPECIAL) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).bounce(false,false);
+			}
+		}
 	}
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {

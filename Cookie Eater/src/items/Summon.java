@@ -11,14 +11,14 @@ public abstract class Summon {
 	protected Eater user;
 	protected double x,y;
 	protected double rotation;
-	protected boolean hitWall;
+	protected boolean hit;
 	protected boolean ded;
 	protected double mass;
 	
 	public Summon(Board frame, Eater summoner) {
 		board = frame;
 		user = summoner;
-		hitWall = false;
+		hit = false;
 		ded = false;
 	}
 	//set all vars before other items change them
@@ -37,11 +37,11 @@ public abstract class Summon {
 				collisionCookie(c);
 			}
 		}
-		hitWall = false;
+		hit = false;
 		for(int i=0; i<board.walls.size(); i++) {
 			Wall w = board.walls.get(i);
 			if(hitsRect(w.getX(),w.getY(),w.getW(),w.getH())) {
-				hitWall = true;
+				hit = true;
 				collisionWall(w,user.getGhosted(),user.getShielded());
 			}
 		}
@@ -69,7 +69,7 @@ public abstract class Summon {
 
 	}
 	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
-		
+		hit = true;
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {
 		return null;
@@ -96,10 +96,10 @@ public abstract class Summon {
 	public double getY() {return y;}
 	public double getEdgeX() {return x;}
 	public double getEdgeY() {return y;}
-	public boolean hitWall() {return hitWall;}
+	public boolean hit() {return hit;}
 	public double getMass() {return mass;}
 	public boolean isDed() {
-		if(ded)hitWall=false;
+		if(ded)hit=false;
 		return ded;
 		}
 	//return speed in x/y direction of this summon

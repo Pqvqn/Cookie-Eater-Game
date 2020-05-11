@@ -68,12 +68,10 @@ public class SummonProjectile extends Summon{
 	}
 	//if circle intersects an edge
 	public boolean hitsCircle(double cX, double cY, double cR) {
-		//System.out.println(angle);
 		return Level.lineLength(x, y, cX, cY) <= cR+radius;
 	}
 	//if rectangle intersects an edge
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
-		//System.out.println(angle);
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);		
 	}
 	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
@@ -89,9 +87,11 @@ public class SummonProjectile extends Summon{
 			
 			xSpeed=pvy*proejjjg-projdx/mass;
 			ySpeed=-pvx*proejjjg-projdy/mass;
+			super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
 			return;
 		}
 		if(ghost)return;
+		super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
 		kill();
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {
