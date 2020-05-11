@@ -71,7 +71,22 @@ public class SummonClone extends Summon{
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
 		//System.out.println(angle);
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
-			
+	}
+	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+		if(shield) {
+			x = prevx;
+			y = prevy;
+			return;
+		}
+		if(ghost)return;
+		kill();
+	}
+	public double[] circHitPoint(double cx, double cy, double cr) {
+		double[] ret = {x,y};
+		double ratio = radius/Level.lineLength(cx, cy, x, y);
+		ret[0] = (cx-x)*ratio+x;
+		ret[1] = (cy-y)*ratio+y;
+		return ret;
 	}
 	public double getXVel() {
 		if(swapxy) {

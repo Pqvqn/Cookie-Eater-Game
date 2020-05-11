@@ -17,13 +17,14 @@ public class SummonProjectile extends Summon{
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
 		angle_offset = offset;
-		mass = 20;
+		mass = 100;
 	}
 	public void setSpeed(double s) {
 		speed = s*board.currFloor.getScale();
 	}
 	public void prepare() {
 		radius = user.getTotalRadius()*.3;
+		//mass = (user.getTotalRadius()/user.getRadius())*50;
 		x=user.getX();
 		y=user.getY();
 		angle = playerVelAngle()+angle_offset;
@@ -73,8 +74,32 @@ public class SummonProjectile extends Summon{
 	//if rectangle intersects an edge
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
 		//System.out.println(angle);
-		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);
+		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);		
+	}
+	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+		if(shield) {
+			double pvx = (hx-x), pvy = (hy-y);
+			double oxm = oxv*omass, oym = oyv*omass;
+			double txm = xSpeed*mass, tym = ySpeed*mass;
+			double oProj = -(oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy);
+			double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
+			double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 			
+			double proejjjg = (xSpeed*pvy+ySpeed*-pvx)/(pvx*pvx+pvy*pvy);
+			
+			xSpeed=pvy*proejjjg-projdx/mass;
+			ySpeed=-pvx*proejjjg-projdy/mass;
+			return;
+		}
+		if(ghost)return;
+		kill();
+	}
+	public double[] circHitPoint(double cx, double cy, double cr) {
+		double[] ret = {x,y};
+		double ratio = radius/Level.lineLength(cx, cy, x, y);
+		ret[0] = (cx-x)*ratio+x;
+		ret[1] = (cy-y)*ratio+y;
+		return ret;
 	}
 	public double getXVel() {return xSpeed;}
 	public double getYVel() {return ySpeed;}

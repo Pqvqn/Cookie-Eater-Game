@@ -153,8 +153,8 @@ public abstract class Enemy {
 			}
 			for(int i=0; i<board.player.getSummons().size(); i++) { //for every cookie, test if any parts impact
 				Summon s = board.player.getSummons().get(i);
-				if(parts.get(j).collidesWithSummon(s)){
-					collideAt(parts.get(j).summonHitPoint(s)[0],
+				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
+					if(!board.player.getGhosted()||board.player.getShielded())collideAt(parts.get(j).summonHitPoint(s)[0],
 							parts.get(j).summonHitPoint(s)[1],
 							s.getXVel(),s.getYVel(),s.getMass());
 					s.collisionEntity(parts.get(j).summonHitPoint(s)[0],

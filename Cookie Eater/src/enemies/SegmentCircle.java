@@ -21,7 +21,7 @@ public class SegmentCircle extends Segment{
 		return Level.lineLength(x, y, xPos, yPos) <= r+radius*scale;
 	}
 	public boolean collidesWithSummon(Summon s) {
-		return s.hitsCircle(xPos,yPos,radius);
+		return s.hitsCircle(xPos,yPos,radius*scale);
 	}
 	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
 		double[] ret = {xPos,yPos};
@@ -51,6 +51,9 @@ public class SegmentCircle extends Segment{
 		ret[0] = (cx-xPos)*ratio+xPos;
 		ret[1] = (cy-yPos)*ratio+yPos;
 		return ret;
+	}
+	public double[] summonHitPoint(Summon s) {
+		return s.circHitPoint(xPos, yPos, radius*scale);
 	}
 	
 	public double getRadius() {return radius*scale;}
