@@ -37,7 +37,7 @@ public class EnemyBlob extends Enemy{
 		if(player.getDir()==Eater.NONE)return;
 		target = board.nearestCookie(xPos,yPos);
 		if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
-		constfric = .08*board.currFloor.getScale()/board.getAdjustedCycle();
+		constfric = Math.pow(0.97, 1/(double)board.getAdjustedCycle());
 		maxSpeed = 6*board.currFloor.getScale()*board.getAdjustedCycle();
 		normMaxSpeed = .2*board.currFloor.getScale()*board.getAdjustedCycle();
 		accel = 1*board.currFloor.getScale()/board.getAdjustedCycle();

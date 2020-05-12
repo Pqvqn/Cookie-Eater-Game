@@ -53,10 +53,12 @@ public abstract class Enemy {
 	public void runUpdate() {
 		testCollisions();
 		if(offStage())kill();
-		fric = constfric*board.currFloor.getScale();
+		fric = constfric;
 		xPos+=x_vel;
 		yPos+=y_vel;
-		if(Math.abs(x_vel)>fric) {
+		x_vel*=fric;
+		y_vel*=fric;
+		/*if(Math.abs(x_vel)>fric) {
 			x_vel-=Math.signum(x_vel)*fric;
 		}else {
 			x_vel=0;
@@ -65,7 +67,7 @@ public abstract class Enemy {
 			y_vel-=Math.signum(y_vel)*fric;
 		}else {
 			y_vel=0;
-		}
+		}*/
 		if(Math.abs(x_vel)>maxSpeed) {
 			x_vel=Math.signum(x_vel)*maxSpeed;
 		}
