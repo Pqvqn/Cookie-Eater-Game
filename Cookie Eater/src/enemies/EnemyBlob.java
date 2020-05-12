@@ -41,12 +41,12 @@ public class EnemyBlob extends Enemy{
 		maxSpeed = 6*board.currFloor.getScale()*board.getAdjustedCycle();
 		normMaxSpeed = .2*board.currFloor.getScale()*board.getAdjustedCycle();
 		accel = 1*board.currFloor.getScale()/board.getAdjustedCycle();
-		/*if(target!=null) {
+		if(target!=null) {
 			double rat = accel / Level.lineLength(xPos, yPos, target.getX(), target.getY());
 			if(Level.lineLength(xPos, yPos, target.getX(), target.getY())==0) rat = 0;
 			if(Math.abs(x_vel)<normMaxSpeed)x_vel+=rat*(target.getX()-xPos);
 			if(Math.abs(y_vel)<normMaxSpeed)y_vel+=rat*(target.getY()-yPos);
-		}*/
+		}
 		super.runUpdate();
 		blob.setLocation(xPos,yPos);
 	}

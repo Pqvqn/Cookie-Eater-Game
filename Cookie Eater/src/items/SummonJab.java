@@ -23,7 +23,7 @@ public class SummonJab extends Summon{
 		range = r*board.currFloor.getScale();
 		amountforward = (range/100)*board.getAdjustedCycle();
 		holdfor = 300/board.getAdjustedCycle();
-		mass = 20;
+		mass = 100;
 	}
 	public void setRange(double r) {
 		range = r*board.currFloor.getScale();
@@ -78,7 +78,6 @@ public class SummonJab extends Summon{
 	}
 	//if circle intersects an edge
 	public boolean hitsCircle(double cX, double cY, double cR) {
-		//System.out.println(angle);
 		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
 		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
 		
@@ -95,7 +94,6 @@ public class SummonJab extends Summon{
 	}
 	//if rectangle intersects an edge
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
-		//System.out.println(angle);
 		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
 		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
 		
@@ -109,6 +107,66 @@ public class SummonJab extends Summon{
 				Level.collidesLineAndRect(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH) || 
 				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
 			
+	}
+	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+		if(shield)user.collideAt(hx,hy,oxv,oyv,omass);
+		if(ghost)return;
+		state = HOLD;
+		distforward-=amountforward;
+	}
+	public double[] circHitPoint(double cx, double cy, double cr) {
+		double[] ret = {x,y};
+		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
+		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
+		
+		double wX = distforward * Math.cos(angle);
+		double wY = distforward * Math.sin(angle);
+		double hX = thickness * Math.cos(angle-Math.PI/2);
+		double hY = thickness * Math.sin(angle-Math.PI/2);
+		
+		double x1=altX, y1=altY, x2=altX, y2=altY;
+		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
+			x1 = altX+wX;
+			y1 = altY+wY;
+			x2 = altX+wX+hX;
+			y2 = altY+wY+hY;
+		}else if(Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cx, cy, cr)) {
+			x1 = altX;
+			y1 = altY;
+			x2 = altX+hX;
+			y2 = altY+hY;
+		}else if(Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cx, cy, cr)) {
+			x1 = altX;
+			y1 = altY;
+			x2 = altX+wX;
+			y2 = altY+wY;
+		}else if(Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
+			x1 = altX+hX;
+			y1 = altY+hY;
+			x2 = altX+wX+hX;
+			y2 = altY+wY+hY;
+		}else {
+		
+		}
+		double dM = 0;
+		if(x2-x1!=0) {
+			double lM = (y2-y1)/(x2-x1);
+			dM = -1/lM;
+		}
+		double dL = Math.sqrt(1+dM*dM);
+		double ratio = cr/dL;
+		double fX = ratio;
+		double fY = ratio*dM;
+		if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY)) {
+			ret = Level.lineIntersection(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY);
+		}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
+			ret[0] = x1;
+			ret[1] = y1;
+		}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
+			ret[0] = x2;
+			ret[1] = y2;
+		}
+		return ret;
 	}
 	public double getEdgeX() {return x+distforward * Math.cos(angle);}
 	public double getEdgeY() {return y+distforward * Math.sin(angle);}

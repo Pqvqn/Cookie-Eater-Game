@@ -367,12 +367,31 @@ public abstract class Level{
 	public static double[] lineIntersection(double x1a, double y1a, double x2a, double y2a, double x1b, double y1b, double x2b, double y2b) {
 		if(collidesLineAndLine(x1a,y1a,x2a,y2a,x1b,y1b,x2b,y2b)) {
 			double[] ret = new double[2];
-			double ma = (y2a-y1a)/(x2a-x1a);
-			double mb = (y2b-y1b)/(x2b-x1b);
-			double ba = y1a - ma * x1a;
-			double bb = y1b - mb * x1b;
-			ret[0] = (bb-ba)/(ma-mb);
-			ret[1] = ma * ret[0] + ba;
+			if(x1a==x2a) {
+				if(x1b==x2b) {
+					ret[0] = x1a;
+					ret[1] = (y1a+y2a+y1b+y2b)/4;
+				}else {
+					double mb = (y2b-y1b)/(x2b-x1b);
+					double bb = y1b - mb * x1b;
+					ret[0] = x1a;
+					ret[1] = x1a*mb+bb;
+				}
+			}else {
+				if(x1b==x2b) {
+					double ma = (y2a-y1a)/(x2a-x1a);
+					double ba = y1a - ma * x1a;
+					ret[0] = x1b;
+					ret[1] = x1b*ma+ba;
+				}else {
+					double ma = (y2a-y1a)/(x2a-x1a);
+					double mb = (y2b-y1b)/(x2b-x1b);
+					double ba = y1a - ma * x1a;
+					double bb = y1b - mb * x1b;
+					ret[0] = (bb-ba)/(ma-mb);
+					ret[1] = ma * ret[0] + ba;
+				}
+			}
 			return ret;
 		}else {
 			return null;

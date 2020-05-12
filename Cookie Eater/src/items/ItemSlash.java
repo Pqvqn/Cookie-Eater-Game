@@ -23,6 +23,7 @@ public class ItemSlash extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
+		if(slash==null)return;
 		slash.execute();
 	}
 	public void end(boolean interrupted) {
