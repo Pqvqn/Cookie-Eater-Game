@@ -40,6 +40,7 @@ public abstract class Enemy {
 		stash = new ArrayList<Cookie>();
 		imgs = new ArrayList<String>();
 		buildBody();
+		orientParts();
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
@@ -77,6 +78,7 @@ public abstract class Enemy {
 		if(shield_frames>0)shield_frames++;
 		if(shield_frames>=shield_duration)
 			shield_frames=0;
+		orientParts();
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(double x, double y, double oxv, double oyv, double om) {
@@ -117,7 +119,7 @@ public abstract class Enemy {
 					collideWall();
 				}
 			}
-			if(parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
+			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
 				collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1],
 						player.getXVel(),player.getYVel(),player.getMass());
@@ -185,6 +187,10 @@ public abstract class Enemy {
 			}
 		}
 		board.enemies.remove(this);
+	}
+	//sets positions of all segments relative to location
+	public void orientParts() {
+		
 	}
 	//is this in shield stun
 	public boolean isShielded() {
