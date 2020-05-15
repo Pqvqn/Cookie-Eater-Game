@@ -16,15 +16,14 @@ public abstract class Enemy {
 	protected Eater player;
 	protected double mass;
 	protected double x_vel, y_vel;
-	protected double fric;
-	protected double constfric;
+	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
+	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
 	protected int shields;
 	protected int shield_duration;
 	protected int shield_frames;
 	protected boolean steals;
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
-	protected double maxSpeed;
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
@@ -54,7 +53,11 @@ public abstract class Enemy {
 	public void runUpdate() {
 		testCollisions();
 		if(offStage())kill();
-		fric = constfric;
+		fric = Math.pow(friction, 1/(double)board.getAdjustedCycle());
+		termVel = terminalVelocity*board.currFloor.getScale()*board.getAdjustedCycle();
+		normVel = normalVelocity*board.currFloor.getScale()*board.getAdjustedCycle();
+		accel = acceleration*board.currFloor.getScale()/board.getAdjustedCycle();
+	
 		xPos+=x_vel;
 		yPos+=y_vel;
 		x_vel*=fric;
@@ -69,11 +72,11 @@ public abstract class Enemy {
 		}else {
 			y_vel=0;
 		}*/
-		if(Math.abs(x_vel)>maxSpeed) {
-			x_vel=Math.signum(x_vel)*maxSpeed;
+		if(Math.abs(x_vel)>termVel) {
+			x_vel=Math.signum(x_vel)*termVel;
 		}
-		if(Math.abs(y_vel)>maxSpeed) {
-			y_vel=Math.signum(y_vel)*maxSpeed;
+		if(Math.abs(y_vel)>termVel) {
+			y_vel=Math.signum(y_vel)*termVel;
 		}
 		if(shield_frames>0)shield_frames++;
 		if(shield_frames>=shield_duration)
@@ -167,6 +170,13 @@ public abstract class Enemy {
 				}
 			}
 		}
+	}
+	//accelerates towards target coordinate
+	public void accelerateToTarget(double tarX, double tarY) {
+		double rat = accel / Level.lineLength(xPos, yPos, tarX, tarY);
+		if(Level.lineLength(xPos, yPos, tarX, tarY)==0) rat = 0;
+		if(Math.abs(x_vel)<normVel)x_vel+=rat*(tarX-xPos);
+		if(Math.abs(y_vel)<normVel)y_vel+=rat*(tarY-yPos);
 	}
 	//deletes this enemy
 	public void kill() {
