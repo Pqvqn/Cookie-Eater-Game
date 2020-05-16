@@ -32,6 +32,7 @@ public class SummonProjectile extends Summon{
 	public void initialize() {
 		xSpeed = Math.cos(angle)*speed;
 		ySpeed = Math.sin(angle)*speed;
+		user.collideAt(x+xSpeed,y+ySpeed,xSpeed,ySpeed,mass);
 	}
 	public void execute() {
 		if(isDed())return;

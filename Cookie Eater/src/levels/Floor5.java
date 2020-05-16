@@ -43,7 +43,7 @@ public class Floor5 extends Level{
 		super.placeCookies(15,(int)(100*scale));
 	}
 	public void spawnEnemies() {
-		for(int i=0;i<6;i++) {
+		for(int i=0;i<0;i++) {
 		Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
 		board.enemies.add(new EnemyBlob(board,c.getX(),c.getY()));}
 		Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));

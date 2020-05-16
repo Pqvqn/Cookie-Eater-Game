@@ -36,6 +36,7 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.cookies.size(); i++) {
 			if(i<board.cookies.size()) {
 				Cookie curr = board.cookies.get(i);
+				if(curr!=null)
 				curr.runUpdate();
 				if(i<board.cookies.size()&&board.cookies.get(i)!=null&&curr!=null&&!board.cookies.get(i).equals(curr))
 					i--;

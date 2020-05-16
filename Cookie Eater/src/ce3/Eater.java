@@ -463,18 +463,19 @@ public class Eater{
 	}
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(double xp, double yp, double oxv, double oyv, double om) {
-		
+		double actual_mass = mass;
+		for(Summon s: summons)actual_mass+=s.getMass();
 		double pvx = (xp-x), pvy = (yp-y);
 		double oxm = oxv*om, oym = oyv*om;
-		double txm = x_velocity*mass, tym = y_velocity*mass;
+		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass;
 		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
 		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
 		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 	
 		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
 	
-		x_velocity=pvy*proejjjg-projdx/mass;
-		y_velocity=-pvx*proejjjg-projdy/mass;
+		x_velocity=pvy*proejjjg-projdx/actual_mass;
+		y_velocity=-pvx*proejjjg-projdy/actual_mass;
 		
 		if(state==SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {

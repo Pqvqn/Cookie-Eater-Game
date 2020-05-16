@@ -22,7 +22,7 @@ public class EnemyGlob extends Enemy{
 	
 	public EnemyGlob(Board frame, double x, double y) {
 		super(frame,x,y);
-		mass = 100;
+		mass = 90;
 		shields=3;
 		steals = true;
 		friction = .97;
