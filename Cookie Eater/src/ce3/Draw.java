@@ -1,6 +1,7 @@
 package ce3;
 
 import java.awt.*;
+import java.io.IOException;
 //import java.awt.event.*;
 import java.util.*;
 
@@ -9,6 +10,7 @@ import javax.swing.*;
 import cookies.*;
 import enemies.*;
 import ui.*;
+import sprites.*;
 
 public class Draw extends JPanel{
 	
@@ -16,6 +18,7 @@ public class Draw extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Board board;
 	private Eater player;
+	private SpriteLevel boardImage;
 	private ArrayList<UIElement> ui;
 	
 	public Draw(Board frame) {
@@ -25,6 +28,12 @@ public class Draw extends JPanel{
 		player = board.player;
 		setBackground(Color.GRAY);
 		ui = new ArrayList<UIElement>();
+		try {
+			boardImage = new SpriteLevel(board,board.walls);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void update(Graphics g) {
@@ -66,14 +75,16 @@ public class Draw extends JPanel{
 	}
 	
 	//replaces floor color with correct one
-	public void updateBG() {setBackground(board.currFloor.getBGColor());}
+	public void updateBG() {
+		setBackground(board.currFloor.getBGColor());
+		boardImage.updateWalls(board.walls);
+	}
 	
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		for(int i=0; i<board.walls.size(); i++) {
-			board.walls.get(i).paint(g);
-		}
+		boardImage.paint(g);
+	
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).paint(g);
 		}
