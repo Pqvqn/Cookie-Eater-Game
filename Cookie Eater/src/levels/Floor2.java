@@ -18,6 +18,7 @@ public class Floor2 extends Level{
 	}
 	public Floor2(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
+		name = "Dungeon Foyer";
 		next = nextFloor;
 		scale = .95;
 		board = frame;

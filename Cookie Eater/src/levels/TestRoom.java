@@ -13,6 +13,7 @@ public class TestRoom extends Level{
 	
 	public TestRoom(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
+		name = "test";
 		next = nextFloor;
 		scale = 1;
 		board = frame;

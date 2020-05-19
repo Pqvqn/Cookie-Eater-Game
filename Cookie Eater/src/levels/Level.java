@@ -20,6 +20,7 @@ public abstract class Level{
 	protected Color bgColor;
 	protected Color wallColor;
 	protected int shieldCost;
+	protected String name;
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> lines;
@@ -35,6 +36,8 @@ public abstract class Level{
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 	}
+	//returns string that names the floor
+	public String getName() {return name;}
 	
 	//put walls in floor
 	public void build() {

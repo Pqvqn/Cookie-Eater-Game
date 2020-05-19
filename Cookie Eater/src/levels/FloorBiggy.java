@@ -18,6 +18,7 @@ public class FloorBiggy extends Level{
 	}
 	public FloorBiggy(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
+		name = "Big Boi";
 		next = nextFloor;
 		scale = .3;
 		board = frame;

@@ -29,12 +29,13 @@ public class Board extends JFrame{
 	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor5(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
-			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),
-			new FloorBiggy(this)}; //order of floors
+			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this)}; //order of floors
+			//new FloorBiggy(this)}; 
 	private LinkedList<Level> floors;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	private UIFpsCount fps;
+	private UILevelInfo lvl;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
@@ -82,6 +83,7 @@ public class Board extends JFrame{
 		
 		//ui
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));	
+		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));	
 		
 		//run the game
 		while(true)
@@ -146,6 +148,8 @@ public class Board extends JFrame{
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
 		}
+		//level display
+		lvl.update(currFloor.getName());
 		player.updateUI();
 
 	}
