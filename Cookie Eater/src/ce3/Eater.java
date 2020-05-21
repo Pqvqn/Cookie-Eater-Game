@@ -29,11 +29,14 @@ public class Eater{
 	private int direction;
 	private double x_velocity, y_velocity; //current dimensional speed
 	private double acceleration; //added to dimensional speed depending on direction
-	private double max_velocity; //cap on dimensional speed
+	private double max_velocity; //cap on accelerated-to dimensional speed
+	private double terminal_velocity; //maximum possible dimensional speed
 	private double friction; //removed from dimensional speed
 	private double accel; //scalable movement stats
 	private double maxvel;
+	private double termvel;
 	private double fric;
+
 	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
 	private boolean dO; //continue movement
@@ -86,10 +89,12 @@ public class Eater{
 		scale = 1;
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
+		terminal_velocity = 50*calibration_ratio;
 		friction = .1*calibration_ratio*calibration_ratio;
 		averageStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
+		termvel = terminal_velocity*scale;
 		fric = friction*scale;
 		score = 0;
 		cash = 0;
@@ -212,6 +217,7 @@ public class Eater{
 		if((int)calrat==(int)calibration_ratio)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
+		terminal_velocity/=calibration_ratio;
 		friction/=calibration_ratio*calibration_ratio;
 		recoil /= calibration_ratio;
 		
@@ -223,6 +229,7 @@ public class Eater{
 		recoil *= calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
+		terminal_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
 		for(int i=0; i<board.cookies.size(); i++) {
 			board.cookies.get(i).recalibrate();
@@ -553,6 +560,8 @@ public class Eater{
 					break;
 			}
 		}
+		if(Math.abs(x_velocity)>termvel)x_velocity = termvel * Math.signum(x_velocity); //make sure it's not too fast
+		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
 		x+=x_velocity; //move
 		y+=y_velocity;
 		if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
