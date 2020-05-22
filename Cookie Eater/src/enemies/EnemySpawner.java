@@ -27,7 +27,7 @@ public class EnemySpawner extends Enemy{
 		spawns = new ArrayList<Enemy>();
 	}
 	public void buildBody() {
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
 		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);

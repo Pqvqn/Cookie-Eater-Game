@@ -35,7 +35,7 @@ public class EnemySlob extends Enemy{
 		prevCookies = 0;
 	}
 	public void buildBody() {
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
 		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		parts.add(blob2 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		try {
@@ -87,13 +87,13 @@ public class EnemySlob extends Enemy{
 	public void paint(Graphics g) {
 		if(!isShielded()) {
 			sprite.setImage(NEUTRAL);
-			sprite2.setImage(NEUTRAL);
+			sprite2.setImage(NEUTRAL+2);
 		}else {
 			sprite.setImage(HIT);
-			sprite2.setImage(HIT);
+			sprite2.setImage(HIT+2);
 		}
 		super.paint(g);
-		sprite.paint(g);
 		sprite2.paint(g);
+		sprite.paint(g);
 	}
 }

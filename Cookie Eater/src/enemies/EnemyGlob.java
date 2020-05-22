@@ -31,7 +31,7 @@ public class EnemyGlob extends Enemy{
 		acceleration = 1;
 	}
 	public void buildBody() {
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
 		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		parts.add(blob2 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
 		parts.add(blob3 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
@@ -45,8 +45,8 @@ public class EnemyGlob extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos-15,yPos);
-		blob2.setLocation(xPos+15,yPos);
+		blob.setLocation(xPos+15,yPos);
+		blob2.setLocation(xPos-15,yPos);
 		blob3.setLocation(xPos,yPos-15);
 	}
 	public void runUpdate() {
@@ -71,12 +71,12 @@ public class EnemyGlob extends Enemy{
 	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
 		if(!isShielded()) {
-			sprite.setImage(NEUTRAL);
-			sprite2.setImage(NEUTRAL);
+			sprite.setImage(NEUTRAL+2);
+			sprite2.setImage(NEUTRAL+2);
 			sprite3.setImage(NEUTRAL);
 		}else {
-			sprite.setImage(HIT);
-			sprite2.setImage(HIT);
+			sprite.setImage(HIT+2);
+			sprite2.setImage(HIT+2);
 			sprite3.setImage(HIT);
 		}
 		super.paint(g);
