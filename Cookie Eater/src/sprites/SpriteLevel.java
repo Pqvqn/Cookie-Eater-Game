@@ -2,7 +2,8 @@ package sprites;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.File;
+import java.awt.image.*;
+import java.io.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -41,7 +42,18 @@ public class SpriteLevel extends Sprite{
 	public void prePaint() throws IOException {
 		if(!lvl.equals(removeSpace(board.currFloor.getName()))){
 			lvl = removeSpace(board.currFloor.getName());
-			wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
+			BufferedImage newWall = new BufferedImage(board.X_RESOL,board.Y_RESOL,BufferedImage.TYPE_INT_ARGB);
+			Graphics2D newg = newWall.createGraphics();
+			Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/walltile.png"));
+			int wid = (int)(.5+tile.getWidth(null)*board.currFloor.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currFloor.getScale());
+			int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
+			for(int xl=0;xl<(int)(2+board.X_RESOL/wid);xl++) {
+				for(int yl=0;yl<(int)(2+board.Y_RESOL/hei);yl++) {
+					newg.drawImage(tile, xl*wid-xOffset, yl*hei-yOffset, wid, hei, null);
+				}
+			}
+			newg.dispose();
+			wall = newWall;
 			floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"FLOOR.png"));
 		}
 	}
