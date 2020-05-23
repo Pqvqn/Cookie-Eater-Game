@@ -44,7 +44,7 @@ public class SpriteLevel extends Sprite{
 			lvl = removeSpace(board.currFloor.getName());
 			BufferedImage newWall = new BufferedImage(board.X_RESOL,board.Y_RESOL,BufferedImage.TYPE_INT_ARGB);
 			Graphics2D newg = newWall.createGraphics();
-			Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/walltile.png"));
+			Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/walltileoverlay.png"));
 			int wid = (int)(.5+tile.getWidth(null)*board.currFloor.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currFloor.getScale());
 			int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
 			for(int xl=0;xl<(int)(2+board.X_RESOL/wid);xl++) {
@@ -53,7 +53,10 @@ public class SpriteLevel extends Sprite{
 				}
 			}
 			newg.dispose();
-			wall = newWall;
+			wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
+			newg = ((BufferedImage)wall).createGraphics();
+			newg.drawImage(newWall,0,0,null);
+			newg.dispose();
 			floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"FLOOR.png"));
 		}
 	}
