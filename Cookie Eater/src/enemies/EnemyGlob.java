@@ -26,7 +26,7 @@ public class EnemyGlob extends Enemy{
 		shields=3;
 		steals = true;
 		friction = .97;
-		terminalVelocity = 6;
+		terminalVelocity = 2;
 		normalVelocity = .2;
 		acceleration = 1;
 	}

@@ -27,7 +27,7 @@ public class EnemySlob extends Enemy{
 		shields=5;
 		steals = true;
 		friction = .97;
-		terminalVelocity = 6;
+		terminalVelocity = 3;
 		normalVelocity = .2;
 		acceleration = 1;
 		angle = 0;
