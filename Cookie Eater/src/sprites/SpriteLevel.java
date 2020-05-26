@@ -18,6 +18,7 @@ public class SpriteLevel extends Sprite{
 	private Image floor;
 	private int wid,hei;
 	private String lvl;
+	private String prefix;
 	
 	public SpriteLevel(Board frame, ArrayList<Wall> w) throws IOException {
 		super(frame);
@@ -26,6 +27,7 @@ public class SpriteLevel extends Sprite{
 		//floor = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
 		imgs.add(wall);
 		lvl = "";
+		prefix = "dep";
 	}
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
@@ -39,21 +41,28 @@ public class SpriteLevel extends Sprite{
 		int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
 		//list of names of all tiles on board
 		String[][] tiles = new String[(int)(2+board.Y_RESOL/hei)][(int)(2+board.X_RESOL/wid)];
+		int pr = prefix.length();
 		tiles[0][0] = chooseImage(null,null); //top-left corner
 		for(int i=1; i<tiles.length; i++) { //left side
-			tiles[i][0] = chooseImage(tiles[i-1][0].substring(1,2),null); //make sure it meshes
+			tiles[i][0] = chooseImage(tiles[i-1][0].substring(1+pr,2+pr),null); //make sure it meshes
 		}
 		for(int i=1; i<tiles[0].length; i++) { //top side
-			tiles[0][i] = chooseImage(null,tiles[0][i-1].substring(3,4));
+			tiles[0][i] = chooseImage(null,tiles[0][i-1].substring(3+pr,4+pr));
 		}
 		for(int yi=1; yi<tiles.length; yi++) { //rest of squares
 			for(int xi=1; xi<tiles[0].length; xi++) {
-				tiles[yi][xi] = chooseImage(tiles[yi-1][xi].substring(1,2),tiles[yi][xi-1].substring(3,4));
+				tiles[yi][xi] = chooseImage(tiles[yi-1][xi].substring(1+pr,2+pr),tiles[yi][xi-1].substring(3+pr,4+pr));
 			}
 		}
 		for(int yl=0;yl<tiles.length;yl++) { //add all tiles to the image
 			for(int xl=0;xl<tiles[0].length;xl++) {
-				tile = ImageIO.read(new File("Cookie Eater/src/resources/level/"+tiles[yl][xl]+".png"));
+				File f = new File("Cookie Eater/src/resources/level/"+tiles[yl][xl]+".png");
+				if (f.exists()) {
+					tile = ImageIO.read(f);
+				}else{
+					tile = ImageIO.read(new File("Cookie Eater/src/resources/level/blank.png"));
+				}
+				
 				newg.drawImage(tile, xl*wid-xOffset, yl*hei-yOffset, wid, hei, null);
 			}
 		}
@@ -77,7 +86,8 @@ public class SpriteLevel extends Sprite{
 	public void prePaint() throws IOException  {
 	}
 	public String chooseImage(String top, String left) {
-		String ret = "";
+		String ret = prefix;
+
 		ArrayList<String> verts = new ArrayList<String>(); //build lists of available sides
 		verts.add("1");verts.add("2");verts.add("3");
 		ArrayList<String> horizs = new ArrayList<String>();
@@ -91,7 +101,7 @@ public class SpriteLevel extends Sprite{
 		horizs.remove(left);
 		ret+=left;
 		ret+=horizs.get((int)(Math.random()*horizs.size()));
-		
+
 		return ret;
 	}
 	public void paint(Graphics g) {
