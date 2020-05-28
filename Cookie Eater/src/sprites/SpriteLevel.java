@@ -36,7 +36,8 @@ public class SpriteLevel extends Sprite{
 		Graphics2D newg = wallMask.createGraphics();
 		
 		//tile default image, dimensions, and offset from 0x0
-		Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/walltilenoverlay.png"));
+		prefix = "dep";
+		Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"12AB"+".png"));
 		int wid = (int)(.5+tile.getWidth(null)*board.currFloor.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currFloor.getScale());
 		int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
 		//list of names of all tiles on board
@@ -69,8 +70,9 @@ public class SpriteLevel extends Sprite{
 		newg.dispose();
 		//finish up wall graphics
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
-		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/depWallB.png"));
-		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/depWallF.png"));
+		prefix = board.currFloor.getAbbrev();
+		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallB.png"));
+		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();
 		for(int i=0; i<board.X_RESOL;i++){ //masking wallF onto wall using wallMask based on blue channel
 			for(int j=0; j<board.Y_RESOL;j++){

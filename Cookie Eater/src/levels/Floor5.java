@@ -21,6 +21,7 @@ public class Floor5 extends Level{
 	public Floor5(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Hostile Tunnels";
+		nameAbbrev = "enm";
 		next = nextFloor;
 		scale = .6;
 		board = frame;

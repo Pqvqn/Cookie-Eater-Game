@@ -18,6 +18,7 @@ public class Floor1 extends Level{
 	public Floor1(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Forest Entrance";
+		nameAbbrev = "for";
 		next = nextFloor;
 		scale = 1;
 		board = frame;

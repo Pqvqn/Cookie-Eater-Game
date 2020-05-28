@@ -21,6 +21,7 @@ public class Floor4 extends Level{
 	public Floor4(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Frozen Chambers";
+		nameAbbrev = "ice";
 		next = nextFloor;
 		scale = .85;
 		board = frame;

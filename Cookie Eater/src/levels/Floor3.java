@@ -19,6 +19,7 @@ public class Floor3 extends Level{
 	public Floor3(Board frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Descending Labyrinths";
+		nameAbbrev = "lab";
 		next = nextFloor;
 		scale = .9;
 		board = frame;

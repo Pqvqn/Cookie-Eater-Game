@@ -21,6 +21,7 @@ public abstract class Level{
 	protected Color wallColor;
 	protected int shieldCost;
 	protected String name;
+	protected String nameAbbrev;
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> lines;
@@ -38,6 +39,8 @@ public abstract class Level{
 	}
 	//returns string that names the floor
 	public String getName() {return name;}
+	//returns shortened string that names the floor for file purposes
+	public String getAbbrev() {return nameAbbrev;}
 	
 	//put walls in floor
 	public void build() {
