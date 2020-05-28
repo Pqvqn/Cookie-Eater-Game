@@ -124,7 +124,7 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
-		mass = 100;
+		mass = 300;
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {

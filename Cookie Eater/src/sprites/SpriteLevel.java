@@ -32,8 +32,8 @@ public class SpriteLevel extends Sprite{
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
 		lvl = removeSpace(board.currFloor.getName());
-		BufferedImage newWall = new BufferedImage(board.X_RESOL,board.Y_RESOL,BufferedImage.TYPE_INT_ARGB);
-		Graphics2D newg = newWall.createGraphics();
+		BufferedImage wallMask = new BufferedImage(board.X_RESOL,board.Y_RESOL,BufferedImage.TYPE_INT_ARGB);
+		Graphics2D newg = wallMask.createGraphics();
 		
 		//tile default image, dimensions, and offset from 0x0
 		Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/walltilenoverlay.png"));
@@ -68,9 +68,21 @@ public class SpriteLevel extends Sprite{
 		}
 		newg.dispose();
 		//finish up wall graphics
-		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
+		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
+		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/depWallB.png"));
+		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/depWallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();
-		newg.drawImage(newWall,0,0,null);
+		for(int i=0; i<board.X_RESOL;i++){ //masking wallF onto wall using wallMask based on blue channel
+			for(int j=0; j<board.Y_RESOL;j++){
+				int rgb = wallF.getRGB(i, j);
+				int mask = wallMask.getRGB(i,j);
+				int color = rgb & 0x00ffffff;
+			    int alpha = mask << 24;
+			    rgb = color | alpha;
+				wallF.setRGB(i, j, rgb);
+			}
+		}
+		newg.drawImage(wallF,0,0,null);
 		newg.dispose();
 		//floor graphics
 		floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"FLOOR.png"));
