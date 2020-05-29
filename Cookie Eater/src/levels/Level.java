@@ -44,8 +44,8 @@ public abstract class Level{
 	
 	//put walls in floor
 	public void build() {
-		startx = board.player.getX(); //start floor where last floor ended
-		starty = board.player.getY();
+		startx = board.players.get(0).getX(); //start floor where last floor ended
+		starty = board.players.get(0).getY();
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls
 		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
 		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));

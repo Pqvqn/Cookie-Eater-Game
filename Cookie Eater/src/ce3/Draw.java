@@ -17,7 +17,7 @@ public class Draw extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private Board board;
-	private Eater player;
+	private ArrayList<Eater> players;
 	private SpriteLevel boardImage;
 	private ArrayList<UIElement> ui;
 	
@@ -25,7 +25,7 @@ public class Draw extends JPanel{
 		super();
 		board = frame;
 		setPreferredSize(new Dimension(board.X_RESOL, board.Y_RESOL));
-		player = board.player;
+		players = board.players;
 		setBackground(Color.GRAY);
 		ui = new ArrayList<UIElement>();
 		try {
@@ -41,7 +41,9 @@ public class Draw extends JPanel{
 	}
 	//update all objects
 	public void runUpdate() {
-		player.runUpdate();
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).runUpdate();
+		}
 		for(int i=0; i<board.cookies.size(); i++) {
 			if(i<board.cookies.size()) {
 				Cookie curr = board.cookies.get(i);
@@ -96,7 +98,9 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.enemies.size(); i++) {
 			board.enemies.get(i).paint(g);
 		}
-		player.paint(g);
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).paint(g);
+		}
 		for(int i=0; i<ui.size(); i++) {
 			ui.get(i).paint(g);
 		}

@@ -309,6 +309,16 @@ public class Eater{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
+	public boolean collidesWithCircle(int oX, int oY, int oR) {
+		return Math.sqrt(Math.pow(x-oX, 2)+Math.pow(y-oY, 2))<radius+oR;
+	}
+	public double[] circHitPoint(double cx, double cy, double cr) {
+		double[] ret = {x,y};
+		double ratio = radius/Level.lineLength(cx, cy, x, y);
+		ret[0] = (cx-x)*ratio+x;
+		ret[1] = (cy-y)*ratio+y;
+		return ret;
+	}
 	//tests if off screen
 	public boolean outOfBounds() {
 		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
@@ -582,7 +592,7 @@ public class Eater{
 		y_positions.add(y);
 		x_positions.remove();
 		y_positions.remove();*/
-		if(score>=scoreToWin) //win if all cookies eaten
+		if(score>=scoreToWin&&board.mode==Main.LEVELS) //win if all cookies eaten
 			win();
 		
 		if(outOfBounds()) {
@@ -594,6 +604,14 @@ public class Eater{
 				if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
 					i=board.walls.size();
 					killBounce(rect,!shielded);
+				}
+			}
+			for(int i=0; i<board.players.size(); i++) {
+				Eater other = board.players.get(i);
+				if(!other.equals(this)) {
+					if(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius()))	{
+						collideAt(circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1],other.getXVel(),other.getYVel(),other.getMass());
+					}
 				}
 			}
 		}

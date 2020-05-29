@@ -14,29 +14,37 @@ public class Controls implements KeyListener{
 
 	private Board board;
 	private Eater player;
+	//controls for each player added
+	private final int[][] CONTROLSCHEMES = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT},
+			{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D}};
+	private final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
+	private int scheme;
 	
 	
-	public Controls(Board parent) {
+	public Controls(Board parent, Eater body, int c) {
 		board = parent;
-		player = board.player;
+		player = body;
+		scheme = c;
+		if(scheme == 1) {
+			player.setX(100);
+		}
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		if(board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
+		if(e.getKeyCode()==CONTROLSCHEMES[scheme][UPKEY]) {
+			player.setDir(Eater.UP);
+		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][RIGHTKEY]) {
+			player.setDir(Eater.RIGHT);
+		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][DOWNKEY]) {
+			player.setDir(Eater.DOWN);
+		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][LEFTKEY]) {
+			player.setDir(Eater.LEFT);
+		}
+		
+		
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				player.setDir(Eater.UP);
-				break;
-			case KeyEvent.VK_DOWN:
-				player.setDir(Eater.DOWN);
-				break;
-			case KeyEvent.VK_LEFT:
-				player.setDir(Eater.LEFT);
-				break;
-			case KeyEvent.VK_RIGHT:
-				player.setDir(Eater.RIGHT);
-				break;
 			case KeyEvent.VK_BACK_SPACE:
 				player.kill();
 				break;
@@ -64,7 +72,7 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_C:
 				player.addCash(1);
 				break;
-			case KeyEvent.VK_S:
+			case KeyEvent.VK_X:
 				player.addShields(1);
 				break;
 			case KeyEvent.VK_K:

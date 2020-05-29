@@ -17,13 +17,15 @@ public class Board extends JFrame{
 
 
 	private static final long serialVersionUID = 1L;
-	private Controls keyListener;
+	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	public Eater player;
 	public Draw draw;
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Enemy> enemies;
+	public ArrayList<Eater> players;
+	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
 	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor5(this),
@@ -40,20 +42,30 @@ public class Board extends JFrame{
 	private int fpscheck;
 	private int true_cycle;
 	
-	public Board() {
+	public Board(int m) {
 		super("Cookie Eater");
+		mode = m;
 		cycletime=5;
 		fpscheck=100;
 		//initializing classes
-		
-		player = new Eater(this,cycletime);
+		players = new ArrayList<Eater>();
+		if(mode==Main.LEVELS) {
+			players.add(player = new Eater(this,cycletime));
+		}else if(mode==Main.PVP) {
+			players.add(new Eater(this,cycletime));
+			players.add(new Eater(this,cycletime));
+		}
 		draw = new Draw(this);
 		
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
 		enemies = new ArrayList<Enemy>();
 		
-		keyListener = new Controls(this);
+		controls = new ArrayList<Controls>();
+		for(int i=0; i<players.size(); i++) {
+			controls.add(new Controls(this,players.get(i),i));
+		}
+		
 		
 		//window settings
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +73,9 @@ public class Board extends JFrame{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 		setFocusable(true);
-		addKeyListener(keyListener);
+		for(int i=0; i<controls.size(); i++) {
+			addKeyListener(controls.get(i));
+		}
 		requestFocus();
 		//setBackground(Color.GRAY);
 		//setForeground(Color.GRAY);
@@ -71,11 +85,16 @@ public class Board extends JFrame{
 		
 		//converting list of floors to linked list
 		floors = new LinkedList<Level>();
-		for(int i=FLOOR_SEQUENCE.length-1; i>=0; i--) {
-			floors.add(FLOOR_SEQUENCE[i]);
-			if(i<FLOOR_SEQUENCE.length-1) 
-				FLOOR_SEQUENCE[i].setNext(FLOOR_SEQUENCE[i+1]);
+		if(mode==Main.LEVELS) {
+			for(int i=FLOOR_SEQUENCE.length-1; i>=0; i--) {
+				floors.add(FLOOR_SEQUENCE[i]);
+				if(i<FLOOR_SEQUENCE.length-1) 
+					FLOOR_SEQUENCE[i].setNext(FLOOR_SEQUENCE[i+1]);
+			}
+		}else if(mode==Main.PVP) {
+			floors.add(new Floor1(this));
 		}
+		
 		
 		//create floor 1
 		resetGame();
@@ -108,7 +127,8 @@ public class Board extends JFrame{
 		buildBoard();
 		
 		cookies = new ArrayList<Cookie>();
-		makeCookies();
+		if(mode==Main.LEVELS) {
+		makeCookies();}
 		spawnEnemies();
 		draw.updateBG();
 	}
@@ -144,13 +164,17 @@ public class Board extends JFrame{
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/100; 
-			player.setCalibration(true_cycle/15.0); //give player more acurrate cycle time
+			for(int i=0; i<players.size(); i++) {
+				players.get(i).setCalibration(true_cycle/15.0); //give player more acurrate cycle time
+			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
 		}
 		//level display
 		lvl.update(currFloor.getName());
-		player.updateUI();
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).updateUI();
+		}
 
 	}
 	
