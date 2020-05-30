@@ -24,6 +24,7 @@ public abstract class Enemy {
 	protected boolean steals;
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
+	protected ArrayList<Object> bumped; //things bumped into on this cycle
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
@@ -36,6 +37,7 @@ public abstract class Enemy {
 		mass = 100;
 		shield_duration = 60*board.getAdjustedCycle();
 		shield_frames = 0;
+		bumped = new ArrayList<Object>();
 		stash = new ArrayList<Cookie>();
 		imgs = new ArrayList<String>();
 		buildBody();
@@ -84,7 +86,9 @@ public abstract class Enemy {
 		orientParts();
 	}
 	//given point, adjusts velocity for bouncing off from that point
-	public void collideAt(double x, double y, double oxv, double oyv, double om) {
+	public void collideAt(Object b, double x, double y, double oxv, double oyv, double om) {
+		if(bumped.contains(b))return; //don't collide if already hit this cycle
+		bumped.add(b);
 		double pvx = (x-xPos), pvy = (y-yPos);
 		double oxm = oxv*om, oym = oyv*om;
 		double txm = x_vel*mass, tym = y_vel*mass;
@@ -116,17 +120,17 @@ public abstract class Enemy {
 			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
 				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
-					collideAt(parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[0],
+					collideAt(w,parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[0],
 							parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[1],
 							0,0,999999999);
 					collideWall();
 				}
 			}
 			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
-				collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
+				collideAt(player,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1],
 						player.getXVel(),player.getYVel(),player.getMass());
-				player.collideAt(parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
+				player.collideAt(this,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1], x_vel, y_vel, mass);
 			}
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
@@ -147,10 +151,10 @@ public abstract class Enemy {
 								double bmass = mass;
 								double bxv = x_vel;
 								double byv = y_vel;
-								collideAt(parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
+								collideAt(e,parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
 										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
 										e.getXVel(),e.getYVel(),e.getMass());
-								e.collideAt(parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
+								e.collideAt(this,parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
 										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
 										bxv,byv,bmass);
 							}
@@ -161,15 +165,19 @@ public abstract class Enemy {
 			for(int i=0; i<board.player.getSummons().size(); i++) { //for every cookie, test if any parts impact
 				Summon s = board.player.getSummons().get(i);
 				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
-					if(!board.player.getGhosted()||board.player.getShielded())collideAt(parts.get(j).summonHitPoint(s)[0],
+					if(!board.player.getGhosted()||board.player.getShielded())collideAt(s,parts.get(j).summonHitPoint(s)[0],
 							parts.get(j).summonHitPoint(s)[1],
 							s.getXVel(),s.getYVel(),s.getMass());
-					s.collisionEntity(parts.get(j).summonHitPoint(s)[0],
+					s.collisionEntity(this,parts.get(j).summonHitPoint(s)[0],
 							parts.get(j).summonHitPoint(s)[1],
 							mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
 				}
 			}
 		}
+	}
+	//resets at cycle end
+	public void endCycle() {
+		bumped = new ArrayList<Object>();
 	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {

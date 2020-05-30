@@ -32,7 +32,7 @@ public class SummonProjectile extends Summon{
 	public void initialize() {
 		xSpeed = Math.cos(angle)*speed;
 		ySpeed = Math.sin(angle)*speed;
-		user.collideAt(x+xSpeed,y+ySpeed,xSpeed,ySpeed,mass);
+		user.collideAt(this,x+xSpeed,y+ySpeed,xSpeed,ySpeed,mass);
 	}
 	public void execute() {
 		if(isDed())return;
@@ -75,7 +75,7 @@ public class SummonProjectile extends Summon{
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);		
 	}
-	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
 		if(shield) {
 			double pvx = (hx-x), pvy = (hy-y);
 			double oxm = oxv*omass, oym = oyv*omass;
@@ -88,11 +88,11 @@ public class SummonProjectile extends Summon{
 			
 			xSpeed=pvy*proejjjg-projdx/mass;
 			ySpeed=-pvx*proejjjg-projdy/mass;
-			super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
+			super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
 			return;
 		}
 		if(ghost)return;
-		super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
+		super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
 		kill();
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {

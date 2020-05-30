@@ -68,7 +68,7 @@ public abstract class Summon {
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 
 	}
-	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
 		hit = true;
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {

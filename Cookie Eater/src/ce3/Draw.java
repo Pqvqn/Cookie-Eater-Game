@@ -61,6 +61,15 @@ public class Draw extends JPanel{
 					i--;
 			}
 		}
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).endCycle();
+		}
+		for(int i=0; i<board.enemies.size(); i++) {
+			if(i<board.enemies.size()) {
+				Enemy curr = board.enemies.get(i);
+				curr.endCycle();
+			}
+		}
 		repaint();
 	}
 	

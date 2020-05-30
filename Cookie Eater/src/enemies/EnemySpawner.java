@@ -17,7 +17,7 @@ public class EnemySpawner extends Enemy{
 	
 	public EnemySpawner(Board frame, double x, double y) {
 		super(frame,x,y);
-		mass = 300;
+		mass = 1000;
 		shields=0;
 		steals = true;
 		friction = .97;
@@ -50,7 +50,7 @@ public class EnemySpawner extends Enemy{
 		if(currCookies-prevCookies>=30||spawns.size()==0) {
 			double angle = Math.random()*2*Math.PI;
 			Enemy newE;
-			spawns.add(newE = new EnemyBlob(board,xPos+board.currFloor.getScale()*75*Math.cos(angle),yPos+board.currFloor.getScale()*75*Math.sin(angle)));
+			spawns.add(newE = new EnemyBlob(board,xPos+board.currFloor.getScale()*300*Math.cos(angle),yPos+board.currFloor.getScale()*75*Math.sin(angle)));
 			board.enemies.add(newE);
 			prevCookies = currCookies;
 		}

@@ -118,15 +118,15 @@ public class SummonSlash extends Summon{
 				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
 			
 	}
-	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
 		if(shield) {
 			amountturn*=-1;
 			targetangle=2*angle-targetangle;
-			super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
+			super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
 			return;
 		}
 		if(ghost)return;
-		super.collisionEntity(hx, hy, omass, oxv, oyv, ghost, shield);
+		super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
 		kill();
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {

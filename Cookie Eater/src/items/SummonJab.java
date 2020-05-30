@@ -108,8 +108,8 @@ public class SummonJab extends Summon{
 				Level.collidesLineAndRect(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, rX, rY, rW, rH);
 			
 	}
-	public void collisionEntity(double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
-		if(shield)user.collideAt(hx,hy,oxv,oyv,omass);
+	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
+		if(shield)user.collideAt(b,hx,hy,oxv,oyv,omass);
 		if(ghost)return;
 		state = HOLD;
 		distforward-=amountforward;

@@ -72,6 +72,7 @@ public class Eater{
 	private SpriteEater sprite;
 	private boolean nearCookie;
 	private double mass;
+	private ArrayList<Object> bumped; //all things bumped into during this cycle
 	
 	private Board board;
 	
@@ -124,7 +125,8 @@ public class Eater{
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
-		mass = 300;
+		mass = 200;
+		bumped = new ArrayList<Object>();
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -257,6 +259,7 @@ public class Eater{
 	public void setOffstage(int d) {offstage=d;}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
+	public void addBump(Object b) {bumped.add(b);}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -479,7 +482,9 @@ public class Eater{
 		}
 	}
 	//bounces accoridng to collision with moving mass at point 
-	public void collideAt(double xp, double yp, double oxv, double oyv, double om) {
+	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
+		if(bumped.contains(b))return; //if already hit, don't hit again
+		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon s: summons)actual_mass+=s.getMass();
 		double pvx = (xp-x), pvy = (yp-y);
@@ -606,15 +611,23 @@ public class Eater{
 					killBounce(rect,!shielded);
 				}
 			}
-			for(int i=0; i<board.players.size(); i++) {
+			for(int i=0; i<board.players.size(); i++) { //test collisions with players
 				Eater other = board.players.get(i);
 				if(!other.equals(this)) {
 					if(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius()))	{
-						collideAt(circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1],other.getXVel(),other.getYVel(),other.getMass());
+						double xv = x_velocity; //storing velocities
+						double yv = y_velocity;
+						//collide for this one and then other one
+						collideAt(other,circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1],other.getXVel(),other.getYVel(),other.getMass());
+						other.collideAt(this, circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1], xv,yv, mass);
 					}
 				}
 			}
 		}
+	}
+	//resets after cycle end
+	public void endCycle() {
+		bumped = new ArrayList<Object>();
 	}
 	public void initUI() {
 		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
