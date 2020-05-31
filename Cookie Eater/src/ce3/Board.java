@@ -130,7 +130,6 @@ public class Board extends JFrame{
 		if(mode==Main.LEVELS) {
 		makeCookies();}
 		spawnEnemies();
-		draw.updateBG();
 	}
 			
 	//advances level
@@ -148,7 +147,6 @@ public class Board extends JFrame{
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
-		draw.updateBG();
 	}
 		
 	public void run(int time) {
@@ -181,6 +179,7 @@ public class Board extends JFrame{
 	//create walls
 	public void buildBoard() {
 		currFloor.build();
+		draw.updateBG();
 	}
 	
 	//add cookies to board

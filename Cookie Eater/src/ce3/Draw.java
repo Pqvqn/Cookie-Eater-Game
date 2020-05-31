@@ -87,7 +87,7 @@ public class Draw extends JPanel{
 	
 	//replaces floor color with correct one
 	public void updateBG() {
-		setBackground(board.currFloor.getBGColor());
+		//setBackground(board.currFloor.getBGColor());
 		try {
 			boardImage.updateStuff(board.walls);
 		} catch (IOException e) {

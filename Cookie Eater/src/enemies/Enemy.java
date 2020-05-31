@@ -87,7 +87,7 @@ public abstract class Enemy {
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(Object b, double x, double y, double oxv, double oyv, double om) {
-		if(bumped.contains(b))return; //don't collide if already hit this cycle
+		if(bumped.contains(b)&&b.getClass()!=Wall.class)return; //don't collide if already hit this cycle
 		bumped.add(b);
 		double pvx = (x-xPos), pvy = (y-yPos);
 		double oxm = oxv*om, oym = oyv*om;

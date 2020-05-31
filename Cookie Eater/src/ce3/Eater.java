@@ -483,7 +483,7 @@ public class Eater{
 	}
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(bumped.contains(b))return; //if already hit, don't hit again
+		if(bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
 		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon s: summons)actual_mass+=s.getMass();
