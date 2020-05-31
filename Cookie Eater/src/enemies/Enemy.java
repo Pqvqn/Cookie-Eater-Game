@@ -22,12 +22,14 @@ public abstract class Enemy {
 	protected int shield_duration;
 	protected int shield_frames;
 	protected boolean steals;
+	protected boolean ded; //am i deceased
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
 	protected ArrayList<Object> bumped; //things bumped into on this cycle
 	
 	public Enemy(Board frame, double x, double y) {
 		board = frame;
+		ded=false;
 		xPos = x;
 		yPos = y;
 		player = board.player;
@@ -53,6 +55,7 @@ public abstract class Enemy {
 	}
 	//runs each cycle
 	public void runUpdate() {
+		if(ded)return;
 		testCollisions();
 		if(offStage())kill();
 		fric = Math.pow(friction, 1/(double)board.getAdjustedCycle());
@@ -117,15 +120,7 @@ public abstract class Enemy {
 	//tests all collisions
 	public void testCollisions() {
 		for(int j=0; j<parts.size(); j++) {
-			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
-				Wall w = board.walls.get(i);
-				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
-					collideAt(w,parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[0],
-							parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[1],
-							0,0,999999999);
-					collideWall();
-				}
-			}
+			if(ded)return;
 			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
 				collideAt(player,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1],
@@ -173,6 +168,15 @@ public abstract class Enemy {
 							mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
 				}
 			}
+			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+				Wall w = board.walls.get(i);
+				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
+					collideAt(w,parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[0],
+							parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[1],
+							0,0,999999999);
+					collideWall();
+				}
+			}
 		}
 	}
 	//resets at cycle end
@@ -201,10 +205,12 @@ public abstract class Enemy {
 			if((int)(.5+xPos+addx)<0||(int)(.5+xPos+addx)>board.X_RESOL||(int)(.5+yPos+addy)<0||(int)(.5+yPos+addy)>board.Y_RESOL)hit=true;
 			if(!hit) {
 				stash.get(0).setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
-				board.cookies.add(stash.remove(0));
+				Cookie remove = stash.remove(0);
+				board.cookies.add(remove);
 			}
 		}
 		board.enemies.remove(this);
+		ded=true;
 	}
 	//sets positions of all segments relative to location
 	public void orientParts() {

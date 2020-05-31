@@ -452,7 +452,6 @@ public class Eater{
 		}else if (board.mode==Main.PVP) {
 			x = board.currFloor.getStartX()+((id%2)*((id+3)/4)*150*scale);
 			y = board.currFloor.getStartY()+((id/2)*150*scale);
-			System.out.println(id+","+x+","+y);
 		}
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
