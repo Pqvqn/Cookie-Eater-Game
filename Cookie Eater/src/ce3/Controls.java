@@ -16,7 +16,9 @@ public class Controls implements KeyListener{
 	private Eater player;
 	//controls for each player added
 	private final int[][] CONTROLSCHEMES = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT},
-			{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D}};
+			{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D},
+			{KeyEvent.VK_I,KeyEvent.VK_K,KeyEvent.VK_J,KeyEvent.VK_L},
+			{KeyEvent.VK_NUMPAD8,KeyEvent.VK_NUMPAD5,KeyEvent.VK_NUMPAD4,KeyEvent.VK_NUMPAD6}};
 	private final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
 	private int scheme;
 	
@@ -25,9 +27,6 @@ public class Controls implements KeyListener{
 		board = parent;
 		player = body;
 		scheme = c;
-		if(scheme == 1) {
-			player.setX(100);
-		}
 	}
 	
 	public void keyPressed(KeyEvent e) {

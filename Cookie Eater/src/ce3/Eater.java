@@ -22,6 +22,7 @@ public class Eater{
 	//private Queue<Double> x_positions; //previous positions for trail effect
 	//private Queue<Double> y_positions;
 	//private final int TRAIL_LENGTH = 10;
+	private int id;
 	private int radius;
 	public static final int DEFAULT_RADIUS = 40;
 	private double x, y;
@@ -76,7 +77,8 @@ public class Eater{
 	
 	private Board board;
 	
-	public Eater(Board frame, int cycletime) {
+	public Eater(Board frame, int num, int cycletime) {
+		id = num;
 		calibration_ratio = cycletime/15.0;
 		dO= true;
 		board = frame;
@@ -444,8 +446,14 @@ public class Eater{
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		x_velocity=0;
 		y_velocity=0;
-		x = board.currFloor.getStartX();
-		y = board.currFloor.getStartY();
+		if(board.mode == Main.LEVELS) {
+			x = board.currFloor.getStartX();
+			y = board.currFloor.getStartY();
+		}else if (board.mode==Main.PVP) {
+			x = board.currFloor.getStartX()+((id%2)*((id+3)/4)*150*scale);
+			y = board.currFloor.getStartY()+((id/2)*150*scale);
+			System.out.println(id+","+x+","+y);
+		}
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
@@ -632,7 +640,7 @@ public class Eater{
 	public void initUI() {
 		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
 		board.draw.addUI(scoreboard = new UIScoreCount(board,board.X_RESOL-170,board.Y_RESOL-100));
-		board.draw.addUI(shieldDisp = new UIShields(board,board.X_RESOL-50,90));
+		board.draw.addUI(shieldDisp = new UIShields(board,board.X_RESOL-50,90+60*id));
 	}
 	public void updateUI() {
 		

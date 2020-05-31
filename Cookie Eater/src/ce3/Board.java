@@ -41,6 +41,7 @@ public class Board extends JFrame{
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
+	public int playerCount;
 	
 	public Board(int m) {
 		super("Cookie Eater");
@@ -49,11 +50,12 @@ public class Board extends JFrame{
 		fpscheck=100;
 		//initializing classes
 		players = new ArrayList<Eater>();
+		playerCount = 4;
 		if(mode==Main.LEVELS) {
-			players.add(player = new Eater(this,cycletime));
-		}else if(mode==Main.PVP) {
-			players.add(new Eater(this,cycletime));
-			players.add(new Eater(this,cycletime));
+			players.add(player = new Eater(this,0,cycletime));
+		}else if(mode==Main.PVP) { //add number of players
+			for(int i=0; i<playerCount; i++)
+				players.add(new Eater(this,i,cycletime));
 		}
 		draw = new Draw(this);
 		
@@ -125,6 +127,9 @@ public class Board extends JFrame{
 		walls = new ArrayList<Wall>();
 		currFloor = floors.getLast();
 		buildBoard();
+		
+		for(int i=0; i<players.size(); i++)
+			players.get(i).reset();
 		
 		cookies = new ArrayList<Cookie>();
 		if(mode==Main.LEVELS) {
