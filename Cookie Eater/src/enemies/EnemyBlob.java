@@ -23,7 +23,7 @@ public class EnemyBlob extends Enemy{
 		friction = .97;
 		terminalVelocity = 2;
 		normalVelocity = .2;
-		acceleration = 1;
+		acceleration = .2;
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});

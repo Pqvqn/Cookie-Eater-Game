@@ -127,6 +127,11 @@ public abstract class Enemy {
 						player.getXVel(),player.getYVel(),player.getMass());
 				player.collideAt(this,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
 						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1], x_vel, y_vel, mass);
+				while(parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) {
+					xPos+=x_vel;
+					yPos+=y_vel;
+					orientParts();
+				}
 			}
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
@@ -135,7 +140,7 @@ public abstract class Enemy {
 					board.cookies.remove(c);
 				}
 			}
-			for(int i=0; i<board.enemies.size(); i++) { //for every cookie, test if any parts impact
+			for(int i=0; i<board.enemies.size(); i++) { //for every enemy, test if any parts impact
 				Enemy e = board.enemies.get(i);
 				if(!e.equals(this)) {
 					for(int k=0; k<e.getParts().size(); k++) {
@@ -152,20 +157,30 @@ public abstract class Enemy {
 								e.collideAt(this,parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
 										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
 										bxv,byv,bmass);
+								while(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
+									xPos+=x_vel;
+									yPos+=y_vel;
+									orientParts();
+									e.xPos+=e.x_vel;
+									e.yPos+=e.y_vel;
+									e.orientParts();
+								}
 							}
 						}
 					}
 				}
 			}
-			for(int i=0; i<board.player.getSummons().size(); i++) { //for every cookie, test if any parts impact
+			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
 				Summon s = board.player.getSummons().get(i);
 				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
-					if(!board.player.getGhosted()||board.player.getShielded())collideAt(s,parts.get(j).summonHitPoint(s)[0],
-							parts.get(j).summonHitPoint(s)[1],
-							s.getXVel(),s.getYVel(),s.getMass());
-					s.collisionEntity(this,parts.get(j).summonHitPoint(s)[0],
-							parts.get(j).summonHitPoint(s)[1],
-							mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
+					if(!board.player.getGhosted()||board.player.getShielded()) {
+						collideAt(s,parts.get(j).summonHitPoint(s)[0],
+								parts.get(j).summonHitPoint(s)[1],
+								s.getXVel(),s.getYVel(),s.getMass());
+						s.collisionEntity(this,parts.get(j).summonHitPoint(s)[0],
+								parts.get(j).summonHitPoint(s)[1],
+								mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
+					}	
 				}
 			}
 			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
@@ -178,6 +193,41 @@ public abstract class Enemy {
 				}
 			}
 		}
+	}
+	//collides with anything other than cookies
+	public boolean collidesWithAnything() {
+		for(int j=0; j<parts.size(); j++) {
+			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
+				return true;
+			}
+			for(int i=0; i<board.enemies.size(); i++) { //for every enemy, test if any parts impact
+				Enemy e = board.enemies.get(i);
+				if(!e.equals(this)) {
+					for(int k=0; k<e.getParts().size(); k++) {
+						Segment s = e.getParts().get(k);
+						if(s.getClass()==SegmentCircle.class) {
+							SegmentCircle s2 = (SegmentCircle)s;
+							if(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
+				Summon s = board.player.getSummons().get(i);
+				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
+					return true;
+				}
+			}
+			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+				Wall w = board.walls.get(i);
+				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	//resets at cycle end
 	public void endCycle() {
