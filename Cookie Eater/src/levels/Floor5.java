@@ -44,18 +44,21 @@ public class Floor5 extends Level{
 	public void placeCookies() {
 		super.placeCookies(15,(int)(100*scale));
 	}
-	public void spawnEnemies() {
-		for(int i=0;i<Math.random()*5+2;i++) {
-			Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
+	public void spawnEnemies() { 
+		ArrayList<Cookie> spaces = board.cookies;
+		/*for(int i=0;i<Math.random()*5+22;i++) {
+			Cookie c = spaces.remove((int)(Math.random()*spaces.size()));
 			board.enemies.add(new EnemyBlob(board,c.getX(),c.getY()));}
 		for(int i=0;i<Math.random()*2;i++) {
-			Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
+			Cookie c = spaces.remove((int)(Math.random()*spaces.size()));
 			board.enemies.add(new EnemyGlob(board,c.getX(),c.getY()));}
 		for(int i=0;i<Math.random()*2;i++) {
-			Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
-			board.enemies.add(new EnemySlob(board,c.getX(),c.getY()));}
-		Cookie c = board.cookies.get((int)(Math.random()*board.cookies.size()));
-		board.enemies.add(new EnemySpawner(board,c.getX(),c.getY()));
+			Cookie c = spaces.remove((int)(Math.random()*spaces.size()));
+			board.enemies.add(new EnemySlob(board,c.getX(),c.getY()));}*/
+		for(int i=0;i<5;i++) {
+			Cookie c = spaces.remove((int)(Math.random()*spaces.size()));
+			board.enemies.add(new EnemySpawner(board,c.getX(),c.getY()));
+		}
 	}
-
+		
 }
