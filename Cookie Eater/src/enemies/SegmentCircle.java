@@ -24,33 +24,10 @@ public class SegmentCircle extends Segment{
 		return s.hitsCircle(xPos,yPos,radius*scale);
 	}
 	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
-		double[] ret = {xPos,yPos};
-		boolean xB=false,yB=false;
-		if(yPos>ry+rh) {
-			ret[1] = yPos-radius*scale;
-			yB=true;
-		}if(yPos<ry) {
-			ret[1] = yPos+radius*scale;
-			yB=true;
-		}if(xPos>rx+rw) {
-			ret[0] = xPos-radius*scale;
-			xB=true;
-		}if(xPos<rx) {
-			ret[0] = xPos+radius*scale;
-			xB=true;
-		}
-		if(xB&&yB) {
-			ret[1]=(yPos>ry+rh)?ry+rh:ry;
-			ret[0]=(xPos>rx+rw)?rx+rw:rx;
-		}
-		return ret;
+		return Level.circAndRectHitPoint(xPos,yPos,radius*scale,rx,ry,rw,rh);
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {
-		double[] ret = {xPos,yPos};
-		double ratio = radius*scale/Level.lineLength(cx, cy, xPos, yPos);
-		ret[0] = (cx-xPos)*ratio+xPos;
-		ret[1] = (cy-yPos)*ratio+yPos;
-		return ret;
+		return Level.circAndCircHitPoint(xPos,yPos,radius*scale,cx,cy,cr);
 	}
 	public double[] summonHitPoint(Summon s) {
 		return s.circHitPoint(xPos, yPos, radius*scale);

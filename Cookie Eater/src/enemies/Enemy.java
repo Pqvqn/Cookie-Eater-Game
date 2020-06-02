@@ -122,14 +122,13 @@ public abstract class Enemy {
 		for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
 			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
-				collideAt(player,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
-						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1],
-						player.getXVel(),player.getYVel(),player.getMass());
-				player.collideAt(this,parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[0],
-						parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius())[1], x_vel, y_vel, mass);
+				double[] point = parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius());
+				collideAt(player,point[0],point[1],player.getXVel(),player.getYVel(),player.getMass());
+				player.collideAt(this,point[0],point[1],x_vel, y_vel, mass);
 				while(parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) {
-					xPos+=x_vel;
-					yPos+=y_vel;
+					double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
+					xPos+=(xPos-point[0])*rat;
+					yPos+=(yPos-point[1])*rat;
 					orientParts();
 				}
 			}
@@ -151,18 +150,17 @@ public abstract class Enemy {
 								double bmass = mass;
 								double bxv = x_vel;
 								double byv = y_vel;
-								collideAt(e,parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
-										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
-										e.getXVel(),e.getYVel(),e.getMass());
-								e.collideAt(this,parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[0],
-										parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius())[1],
-										bxv,byv,bmass);
+								double[] point = parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius());
+								collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
+								e.collideAt(this,point[0],point[1],bxv,byv,bmass);
 								while(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
-									xPos+=x_vel;
-									yPos+=y_vel;
+									double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
+									xPos+=(xPos-point[0])*rat;
+									yPos+=(yPos-point[1])*rat;
 									orientParts();
-									e.xPos+=e.x_vel;
-									e.yPos+=e.y_vel;
+									rat = 1/Math.sqrt(Math.pow(e.xPos-point[0],2)+Math.pow(e.yPos-point[1],2));
+									e.xPos+=(e.xPos-point[0])*rat;
+									e.yPos+=(e.yPos-point[1])*rat;
 									e.orientParts();
 								}
 							}
@@ -174,22 +172,30 @@ public abstract class Enemy {
 				Summon s = board.player.getSummons().get(i);
 				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
 					if(!board.player.getGhosted()||board.player.getShielded()) {
-						collideAt(s,parts.get(j).summonHitPoint(s)[0],
-								parts.get(j).summonHitPoint(s)[1],
-								s.getXVel(),s.getYVel(),s.getMass());
-						s.collisionEntity(this,parts.get(j).summonHitPoint(s)[0],
-								parts.get(j).summonHitPoint(s)[1],
-								mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
+						double[] point = parts.get(j).summonHitPoint(s);
+						collideAt(s,point[0],point[1],s.getXVel(),s.getYVel(),s.getMass());
+						s.collisionEntity(this,point[0],point[1],mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
+						while(parts.get(j).collidesWithSummon(s) && !s.isDed()) {
+							double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
+							xPos+=(xPos-point[0])*rat;
+							yPos+=(yPos-point[1])*rat;
+							orientParts();
+						}
 					}	
 				}
 			}
 			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
 				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
-					collideAt(w,parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[0],
-							parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH())[1],
-							0,0,999999999);
+					double[] point = parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH());
+					collideAt(w,point[0],point[1],0,0,999999999);
 					collideWall();
+					while(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())) {
+						double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
+						xPos+=(xPos-point[0])*rat;
+						yPos+=(yPos-point[1])*rat;
+						orientParts();
+					}
 				}
 			}
 		}

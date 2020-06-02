@@ -514,4 +514,35 @@ public abstract class Level{
 			}
 			return true;
 		}
+	//point where circle and rectangle collide
+	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh) {
+		double[] ret = {cx,cy};
+		boolean xB=false,yB=false;
+		if(cy>ry+rh) {
+			ret[1] = cy-cr;
+			yB=true;
+		}if(cy<ry) {
+			ret[1] = cy+cr;
+			yB=true;
+		}if(cx>rx+rw) {
+			ret[0] = cx-cr;
+			xB=true;
+		}if(cx<rx) {
+			ret[0] = cx+cr;
+			xB=true;
+		}
+		if(xB&&yB) {
+			ret[1]=(cy>ry+rh)?ry+rh:ry;
+			ret[0]=(cx>rx+rw)?rx+rw:rx;
+		}
+		return ret;
+	}
+	//point where two circles collide
+	public static double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
+		double[] ret = {c1x,c1y};
+		double ratio = c1r/Level.lineLength(c2x, c2y, c1x, c1y);
+		ret[0] = (c2x-c1x)*ratio+c1x;
+		ret[1] = (c2y-c1y)*ratio+c1y;
+		return ret;
+	}
 }

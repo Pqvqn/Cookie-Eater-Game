@@ -84,5 +84,6 @@ public class Store4 extends Floor4{
 		board.walls.add(new Wall(board,0,board.Y_RESOL-350,130,350));
 		board.walls.add(new Wall(board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
 	}
+	public void spawnEnemies() {}
 	
 }

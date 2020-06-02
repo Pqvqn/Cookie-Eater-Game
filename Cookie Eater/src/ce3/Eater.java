@@ -55,7 +55,8 @@ public class Eater{
 	private ArrayList<Boolean> special_activated; //if special is triggerable
 	private ArrayList<Color> special_colors; //color associated with each special
 	private ArrayList<Summon> summons; //constructed objects owned by player
-	private double recoil; //recoil speed from hit
+	private double minRecoil; //how fast player bounces off wall (min and max)
+	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
 	private int state;
 	private ArrayList<ArrayList<Item>> powerups;
@@ -112,7 +113,8 @@ public class Eater{
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
-		recoil = 10*calibration_ratio;
+		minRecoil = 10*calibration_ratio;
+		maxRecoil = 50*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
 		summons = new ArrayList<Summon>();
@@ -223,14 +225,16 @@ public class Eater{
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
 		friction/=calibration_ratio*calibration_ratio;
-		recoil /= calibration_ratio;
+		minRecoil /= calibration_ratio;
+		maxRecoil /= calibration_ratio;
 		
 		calibration_ratio = calrat;
 		
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		recoil *= calibration_ratio;
+		minRecoil *= calibration_ratio;
+		maxRecoil *= calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
@@ -242,8 +246,10 @@ public class Eater{
 	}
 	public double getDecayedValue() {return decayedValue;}
 	public void setDecayedValue(double dv) {decayedValue=dv;}
-	public double getRecoil() {return recoil;}
-	public void setRecoil(double r) {recoil = r;}
+	public double getMinRecoil() {return minRecoil;}
+	public void setMinRecoil(double r) {minRecoil = r;}
+	public double getMaxRecoil() {return maxRecoil;}
+	public void setMaxRecoil(double r) {maxRecoil = r;}
 	public double[][] getMovementRand() {return MR;}
 	public void addToMovement(double a, double v, double f) {
 		acceleration += a*calibration_ratio*calibration_ratio;
@@ -316,13 +322,6 @@ public class Eater{
 	}
 	public boolean collidesWithCircle(int oX, int oY, int oR) {
 		return Math.sqrt(Math.pow(x-oX, 2)+Math.pow(y-oY, 2))<radius+oR;
-	}
-	public double[] circHitPoint(double cx, double cy, double cr) {
-		double[] ret = {x,y};
-		double ratio = radius/Level.lineLength(cx, cy, x, y);
-		ret[0] = (cx-x)*ratio+x;
-		ret[1] = (cy-y)*ratio+y;
-		return ret;
 	}
 	//tests if off screen
 	public boolean outOfBounds() {
@@ -397,7 +396,7 @@ public class Eater{
 		}else if(breakShield){//only remove shields if not in stun and shield to be broken
 			shields--;
 		}
-		bounce(rect.getX(),rect.getY(),rect.getW(),rect.getH());
+		bounce(rect,rect.getX(),rect.getY(),rect.getW(),rect.getH());
 		
 	}
 	//kill, but only if no bounce (on edge)
@@ -409,13 +408,13 @@ public class Eater{
 			shields--;
 		}
 		if(x<0) {
-			bounce(-100-offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
+			bounce(null,-100-offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
 		}else if(x>board.X_RESOL) {
-			bounce(board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
+			bounce(null,board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
 		}else if(y<0) {
-			bounce(-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+			bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
 		}else if(y>board.Y_RESOL) {
-			bounce(-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
+			bounce(null,-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
 		}
 		
 	}
@@ -488,25 +487,42 @@ public class Eater{
 		reset();
 	}
 	//uses shield instead of killing
-	public void bounce(int rx,int ry,int rw,int rh) {
+	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
 		boolean xB=false,yB=false;
+		double[] point = Level.circAndRectHitPoint(x,y,radius,rx,ry,rw,rh);
 		if(y>ry+rh) {
-			y_velocity=recoil*scale;
-			y+=y_velocity;
+			//y_velocity=recoil*scale;
+			//y+=y_velocity;
 			yB=true;
 		}else if(y<ry) {
-			y_velocity=-recoil*scale;
-			y+=y_velocity;
+			//y_velocity=-recoil*scale;
+			//y+=y_velocity;
 			yB=true;
 		}else if(x>rx+rw) {
-			x_velocity=recoil*scale;
-			x+=x_velocity;
+			//x_velocity=recoil*scale;
+			//x+=x_velocity;
 			xB=true;
 		}else if(x<rx) {
-			x_velocity=-recoil*scale;
-			x+=x_velocity;
+			//x_velocity=-recoil*scale;
+			//x+=x_velocity;
 			xB=true;
+		}
+		collideAt(w,point[0],point[1],0,0,999999999);
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
+			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
+		}
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
+			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
+		}
+		while(collidesWithRect(rx,ry,rw,rh)) {
+			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+			x+=(x-point[0])*rat; //move out of other
+			y+=(y-point[1])*rat;
 		}
 		if(state==SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
@@ -516,7 +532,7 @@ public class Eater{
 	}
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
+		if(b!=null&&bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
 		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon s: summons)actual_mass+=s.getMass();
@@ -666,13 +682,16 @@ public class Eater{
 						double xv = x_velocity; //storing velocities
 						double yv = y_velocity;
 						//collide for this one and then other one
-						collideAt(other,circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1],other.getXVel(),other.getYVel(),other.getMass());
-						other.collideAt(this, circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1], xv,yv, mass);
+						double[] point = Level.circAndCircHitPoint(x,y,getTotalRadius(),other.getX(),other.getY(),other.getTotalRadius());
+						collideAt(other,point[0],point[1],other.getXVel(),other.getYVel(),other.getMass());
+						other.collideAt(this, point[0],point[1],xv,yv, mass);
 						while(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius())) {
-							x+=x_velocity; //move
-							y+=y_velocity;
-							other.setX(other.getX()+other.getXVel());
-							other.setY(other.getY()+other.getYVel());
+							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+							x+=(x-point[0])*rat; //move out of other
+							y+=(y-point[1])*rat;
+							rat = 1/Math.sqrt(Math.pow(other.getX()-point[0],2)+Math.pow(other.getY()-point[1],2));
+							other.setX(other.getX()+(other.getX()-point[0])*rat); //move out
+							other.setY(other.getY()+(other.getY()-point[1])*rat);
 						}
 					}
 				}

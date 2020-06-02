@@ -71,7 +71,7 @@ public class SummonJab extends Summon{
 		c.kill(true);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
-		if(shield)user.bounce(w.getX(),w.getY(),w.getW(),w.getH());
+		if(shield)user.bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
 		if(ghost)return;
 		state = HOLD;
 		distforward-=amountforward;

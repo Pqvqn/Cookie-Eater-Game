@@ -3,15 +3,19 @@ import ce3.*;
 
 public class ItemShield extends Item{
 
-	private double initrecoil;
-	private double newrecoil;
+	private double initminrecoil;
+	private double newminrecoil;
+	private double initmaxrecoil;
+	private double newmaxrecoil;
 	
 	public ItemShield(Board frame) {
 		super(frame);
 		name = "Shield";
 		desc="Shields the player.`Amplify: Recoil increases";
-		initrecoil=player.getRecoil();
-		newrecoil=initrecoil;
+		initminrecoil=player.getMinRecoil();
+		newminrecoil=initminrecoil;
+		initmaxrecoil=player.getMaxRecoil();
+		newmaxrecoil=initmaxrecoil;
 	}
 
 	public void initialize() {
@@ -21,20 +25,25 @@ public class ItemShield extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		player.setShielded(true);
-		if(player.getRecoil()!=newrecoil)
-			player.setRecoil(newrecoil);
+		if(player.getMinRecoil()!=newminrecoil)
+			player.setMinRecoil(newminrecoil);
+		if(player.getMaxRecoil()!=newmaxrecoil)
+			player.setMaxRecoil(newmaxrecoil);
 	}
 	
 	public void end(boolean interrupted) {
-		player.setRecoil(initrecoil);
+		player.setMinRecoil(initminrecoil);
+		player.setMaxRecoil(initmaxrecoil);
 		player.setShielded(false);
 	}
 	public void amplify() {
 		super.amplify();
-		newrecoil+=initrecoil;
+		newminrecoil+=initminrecoil;
+		newmaxrecoil+=initmaxrecoil;
 	}
 	public void deamplify() {
 		super.deamplify();
-		newrecoil-=initrecoil;
+		newminrecoil-=initminrecoil;
+		newmaxrecoil-=initmaxrecoil;
 	}
 }
