@@ -370,21 +370,24 @@ public class Eater{
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
-		try {
-			Thread.sleep(200); //movement freeze
-		}catch(InterruptedException e){};
-		board.resetGame();
-		score = 0;
-		cash = 0;
-		shields = 3;
-		//randomizeStats();
-		
-		decayedValue = 0;
-		extra_radius = 0;
-		ghost = false;
-		offstage = 0;
-		averageStats();
-		reset();
+		//if levels, reset
+		if(board.mode==Main.LEVELS) {
+			try {
+				Thread.sleep(200); //movement freeze
+			}catch(InterruptedException e){};
+			board.resetGame();
+			score = 0;
+			cash = 0;
+			shields = 3;
+			//randomizeStats();
+			
+			decayedValue = 0;
+			extra_radius = 0;
+			ghost = false;
+			offstage = 0;
+			averageStats();
+			reset();
+		}
 	}
 	//kill, but only if no bounce
 	public void killBounce(Wall rect, boolean breakShield) {
@@ -431,9 +434,18 @@ public class Eater{
 		try { //movement freeze
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
-		board.nextLevel();
-		score = 0;
-		reset();
+		if(board.mode == Main.LEVELS) {
+			board.nextLevel();
+			score = 0;
+			reset();
+		}else if(board.mode == Main.PVP) {
+			try { //movement freeze
+				Thread.sleep(200);
+			}catch(InterruptedException e){};
+			for(Eater e : board.players) {
+				e.revive();
+			}
+		}
 	}
 	//resets player to floor-beginning state
 	public void reset() {
@@ -450,8 +462,8 @@ public class Eater{
 			x = board.currFloor.getStartX();
 			y = board.currFloor.getStartY();
 		}else if (board.mode==Main.PVP) {
-			x = board.currFloor.getStartX()+((id%2)*((id+3)/4)*150*scale);
-			y = board.currFloor.getStartY()+((id/2)*150*scale);
+			x = board.currFloor.getStarts()[id][0];
+			y = board.currFloor.getStarts()[id][1];
 		}
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
@@ -460,6 +472,20 @@ public class Eater{
 		radius = (int)(.5+DEFAULT_RADIUS*scale);
 		dO = true;
 		direction = NONE;
+	}
+	//resets killed players
+	public void revive() {
+		score = 0;
+		cash = 0;
+		shields = 3;
+		//randomizeStats();
+		
+		decayedValue = 0;
+		extra_radius = 0;
+		ghost = false;
+		offstage = 0;
+		averageStats();
+		reset();
 	}
 	//uses shield instead of killing
 	public void bounce(int rx,int ry,int rw,int rh) {
@@ -533,7 +559,22 @@ public class Eater{
 	}
 	
 	public void runUpdate() {
+		if(state == DEAD) { //if dead in multiplayer
+			x_velocity = 0; //reset speeds
+			y_velocity = 0;
+		}
 		if(!dO)return; //if paused
+		if(board.mode == Main.PVP) {
+			boolean allDead = true;
+			for(Eater e : board.players) { //check if any players aren't dead or winning
+				if(!e.equals(this) && e.getState() != DEAD) {
+					allDead = false;
+				}
+			}
+			if(allDead) { //win if last man standing
+				win();
+			}
+		}
 		countVels=0;
 		if(state == SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
@@ -627,6 +668,12 @@ public class Eater{
 						//collide for this one and then other one
 						collideAt(other,circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1],other.getXVel(),other.getYVel(),other.getMass());
 						other.collideAt(this, circHitPoint(other.getX(),other.getY(),other.getRadius())[0],circHitPoint(other.getX(),other.getY(),other.getRadius())[1], xv,yv, mass);
+						while(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius())) {
+							x+=x_velocity; //move
+							y+=y_velocity;
+							other.setX(other.getX()+other.getXVel());
+							other.setY(other.getY()+other.getYVel());
+						}
 					}
 				}
 			}

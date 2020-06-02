@@ -15,6 +15,7 @@ public abstract class Level{
 	protected Board board;
 	protected double startx; //player start pos.
 	protected double starty;
+	protected double[][] startposs;
 	protected int minDecay; //frames for cookie at edge corner to decay fully
 	protected int maxDecay; //frames for cookie at center to decay fully
 	protected Color bgColor;
@@ -36,6 +37,9 @@ public abstract class Level{
 		board = frame;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
+		double distToWall = board.BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
+		double[][] sp = {{board.X_RESOL-distToWall,board.Y_RESOL-distToWall},{distToWall,distToWall},{distToWall,board.Y_RESOL-distToWall},{board.X_RESOL-distToWall,distToWall}};
+		startposs = sp;
 	}
 	//returns string that names the floor
 	public String getName() {return name;}
@@ -234,6 +238,7 @@ public abstract class Level{
 	public int getShieldCost() {return shieldCost;}
 	public boolean haltEnabled() {return false;}
 	public boolean specialsEnabled() {return true;} //if specials are allows
+	public double[][] getStarts(){return startposs;}
 	
 	//gives length of line rom start/end points
 	public static double lineLength(double x1, double y1, double x2, double y2) {
