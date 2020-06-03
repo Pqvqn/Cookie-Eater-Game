@@ -50,7 +50,6 @@ public class EnemyGlob extends Enemy{
 		blob3.setLocation(xPos,yPos-15);
 	}
 	public void runUpdate() {
-		if(player.getDir()==Eater.NONE)return;
 		if(Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),player.getX(),player.getY(), board.walls)){
 			normalVelocity = .6;
 			accelerateToTarget(player.getX(),player.getY());

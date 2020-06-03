@@ -58,9 +58,9 @@ public class ItemBoost extends Item{
 	public void end(boolean interrupted) {
 		player.lockControl(false);
 	}
-	public void bounce(boolean x, boolean y) {
-		if(x)initx*=-1;
-		if(y)inity*=-1;
+	public void bounce(double x, double y) {
+		initx = player.getXVel();
+		inity = player.getYVel();
 	}
 	public void amplify() {
 		super.amplify();

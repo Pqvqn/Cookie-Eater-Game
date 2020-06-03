@@ -51,7 +51,6 @@ public class EnemySlob extends Enemy{
 		blob2.setLocation(xPos-15*Math.cos(angle),yPos-15*Math.sin(angle));
 	}
 	public void runUpdate() {
-		if(player.getDir()==Eater.NONE)return;
 		if(chargeCoords!=null) {
 			accelerateToTarget(chargeCoords[0],chargeCoords[1]);
 			prevCookies = stash.size();

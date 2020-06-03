@@ -40,7 +40,6 @@ public class EnemySpawner extends Enemy{
 		blob.setLocation(xPos,yPos);
 	}
 	public void runUpdate() {
-		if(player.getDir()==Eater.NONE)return;
 		int currCookies=0;
 		for(int i=0; i<spawns.size(); i++) { //find amount of collected cookies by spawns
 			Enemy e = spawns.get(i);

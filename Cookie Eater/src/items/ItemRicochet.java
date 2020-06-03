@@ -44,8 +44,8 @@ public class ItemRicochet extends Item{
 			i--;
 		}
 	}
-	public void bounce(boolean x, boolean y) {
-		booms.add(0,new SummonExplosion(board,board.player,maxRad,player.getX(),player.getY()));
+	public void bounce(double x, double y) {
+		booms.add(0,new SummonExplosion(board,board.player,maxRad,x,y));
 		player.addSummon(booms.get(0));
 		booms.get(0).prepare();
 		booms.get(0).initialize();

@@ -8,7 +8,7 @@ public class Main {
 	private static int mode;
 	
 	public static void main(String[] args) {
-		mode = PVP;
+		mode = LEVELS;
 		new Board(mode);
 	}
 }

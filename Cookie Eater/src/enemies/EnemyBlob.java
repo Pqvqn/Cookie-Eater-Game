@@ -18,7 +18,7 @@ public class EnemyBlob extends Enemy{
 	public EnemyBlob(Board frame, double x, double y) {
 		super(frame,x,y);
 		mass = 30;
-		shields=1;
+		shields=5;
 		steals = true;
 		friction = .97;
 		terminalVelocity = 2;
@@ -39,7 +39,6 @@ public class EnemyBlob extends Enemy{
 		blob.setLocation(xPos,yPos);
 	}
 	public void runUpdate() {
-		if(player.getDir()==Eater.NONE)return;
 		target = board.nearestCookie(xPos,yPos);
 		if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
 		if(target!=null) {

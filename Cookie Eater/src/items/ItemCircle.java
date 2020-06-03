@@ -65,9 +65,8 @@ public class ItemCircle extends Item{
 		count = 0;
 		player.averageVels(initx,-inity);
 	}
-	public void bounce(boolean x, boolean y) {
-		if(x)radians*=-1;
-		if(y)radians=Math.PI-radians;
+	public void bounce(double x, double y) {
+		radians = Math.PI + ((player.getXVel()>=0) ? Math.atan(player.getYVel()/player.getXVel()) : Math.atan(player.getYVel()/player.getXVel()) + Math.PI);
 	}
 	public void amplify() {
 		super.amplify();

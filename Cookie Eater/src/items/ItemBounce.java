@@ -28,10 +28,10 @@ public class ItemBounce extends Item{ //discontinued
 	public void end(boolean interrupted) {
 	
 	}
-	public void bounce(boolean x, boolean y) {
+	public void bounce(double x, double y) {
 		bounces++;
-		if(x)storex=player.getXVel()*(Math.log(bounces+3)/Math.log(consta));
-		if(y)storey=player.getYVel()*(Math.log(bounces+3)/Math.log(consta));
+		if(x-player.getX()!=0)storex=player.getXVel()*(Math.log(bounces+3)/Math.log(consta));
+		if(y-player.getY()!=0)storey=player.getYVel()*(Math.log(bounces+3)/Math.log(consta));
 	}
 	public void amplify() {
 		super.amplify();

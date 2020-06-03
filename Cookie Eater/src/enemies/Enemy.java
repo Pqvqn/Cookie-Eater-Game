@@ -63,10 +63,13 @@ public abstract class Enemy {
 		normVel = normalVelocity*board.currFloor.getScale()*board.getAdjustedCycle();
 		accel = acceleration*board.currFloor.getScale()/board.getAdjustedCycle();
 	
-		xPos+=x_vel;
-		yPos+=y_vel;
-		x_vel*=fric;
-		y_vel*=fric;
+		if(player.getDir()!=Eater.NONE) {
+			xPos+=x_vel;
+			yPos+=y_vel;
+			x_vel*=fric;
+			y_vel*=fric;
+		}
+		
 		/*if(Math.abs(x_vel)>fric) {
 			x_vel-=Math.signum(x_vel)*fric;
 		}else {
@@ -260,8 +263,8 @@ public abstract class Enemy {
 			}
 			if((int)(.5+xPos+addx)<0||(int)(.5+xPos+addx)>board.X_RESOL||(int)(.5+yPos+addy)<0||(int)(.5+yPos+addy)>board.Y_RESOL)hit=true;
 			if(!hit) {
-				stash.get(0).setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
 				Cookie remove = stash.remove(0);
+				remove.setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
 				board.cookies.add(remove);
 			}
 		}
@@ -278,10 +281,13 @@ public abstract class Enemy {
 	}
 	public double getX() {return xPos;}
 	public double getY() {return yPos;}
+	public void setX(double x) {xPos = x;}
+	public void setY(double y) {yPos = y;}
 	public double getXVel() {return x_vel;}
 	public double getYVel() {return y_vel;}
 	public double getMass() {return mass;}
 	public ArrayList<Segment> getParts(){return parts;}
+	public void giveCookie(Cookie c) {stash.add(c);}
 	//draws
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {

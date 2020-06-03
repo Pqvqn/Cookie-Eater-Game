@@ -44,8 +44,8 @@ public abstract class Item {
 	public String getName() {
 		return name;
 	}
-	//what to do when bounced off wall (mainly movement items)
-	public void bounce(boolean x, boolean y) {
+	//what to do when bounced off wall (mainly movement items) with x/y pos of bounce point
+	public void bounce(double x, double y) {
 		
 	}
 	public void amplify() {

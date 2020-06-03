@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import ce3.*;
 import cookies.*;
 import items.*;
+import enemies.*;
 
 public abstract class Level{
 	
@@ -128,6 +129,15 @@ public abstract class Level{
 	//put enemies on floor
 	public void spawnEnemies() {
 		
+	}
+	//spawns chosen enemy at random cookie
+	public void spawnAtRandom(Enemy e) {
+		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));
+		e.setX(c.getX());
+		e.setY(c.getY());
+		e.orientParts();
+		board.enemies.add(e);
+		e.giveCookie(c);
 	}
 	
 	//puts cookie item on board

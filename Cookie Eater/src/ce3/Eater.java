@@ -489,25 +489,7 @@ public class Eater{
 	//uses shield instead of killing
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
-		boolean xB=false,yB=false;
 		double[] point = Level.circAndRectHitPoint(x,y,radius,rx,ry,rw,rh);
-		if(y>ry+rh) {
-			//y_velocity=recoil*scale;
-			//y+=y_velocity;
-			yB=true;
-		}else if(y<ry) {
-			//y_velocity=-recoil*scale;
-			//y+=y_velocity;
-			yB=true;
-		}else if(x>rx+rw) {
-			//x_velocity=recoil*scale;
-			//x+=x_velocity;
-			xB=true;
-		}else if(x<rx) {
-			//x_velocity=-recoil*scale;
-			//x+=x_velocity;
-			xB=true;
-		}
 		collideAt(w,point[0],point[1],0,0,999999999);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
@@ -526,7 +508,7 @@ public class Eater{
 		}
 		if(state==SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(xB,yB);
+				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
 			}
 		}
 	}
@@ -550,7 +532,7 @@ public class Eater{
 		
 		if(state==SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(false,false);
+				powerups.get(currSpecial).get(i).bounce(xp,yp);
 			}
 		}
 	}
