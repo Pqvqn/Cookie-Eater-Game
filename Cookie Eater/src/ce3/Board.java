@@ -28,10 +28,10 @@ public class Board extends JFrame{
 	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
-	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor5(this),
+	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
-			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this)}; //order of floors
+			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)}; //order of floors
 			//new FloorBiggy(this)}; 
 	private LinkedList<Level> floors;
 	public Level currFloor;

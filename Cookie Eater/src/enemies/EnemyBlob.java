@@ -18,7 +18,7 @@ public class EnemyBlob extends Enemy{
 	public EnemyBlob(Board frame, double x, double y) {
 		super(frame,x,y);
 		mass = 30;
-		shields=5;
+		shields=1;
 		steals = true;
 		friction = .97;
 		terminalVelocity = 2;
