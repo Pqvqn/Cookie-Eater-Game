@@ -321,8 +321,8 @@ public class Eater{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
-	public boolean collidesWithCircle(int oX, int oY, int oR) {
-		return Math.sqrt(Math.pow(x-oX, 2)+Math.pow(y-oY, 2))<radius+oR;
+	public boolean collidesWithCircle(double x2, double y2, double radius2) {
+		return Math.sqrt(Math.pow(x-x2, 2)+Math.pow(y-y2, 2))<radius+radius2;
 	}
 	//tests if off screen
 	public boolean outOfBounds() {

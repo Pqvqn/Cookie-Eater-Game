@@ -74,6 +74,9 @@ public abstract class Summon {
 	public double[] circHitPoint(double cx, double cy, double cr) {
 		return null;
 	}
+	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
+		return null;
+	}
 
 	public double playerVelAngle() {
 		return Math.atan2(user.getYVel(),user.getXVel());

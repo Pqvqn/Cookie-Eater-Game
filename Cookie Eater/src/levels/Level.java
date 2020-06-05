@@ -207,6 +207,9 @@ public abstract class Level{
 		case "Shrink":
 			b = new ItemShrink(board);
 			break;
+		case "Hook":
+			b = new ItemHook(board);
+			break;
 		default:
 			b = null;
 		}
@@ -216,13 +219,13 @@ public abstract class Level{
 		addToCatalogue(I,"Boost",P,def*1,C,new Color(200,200,30));
 		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
 		addToCatalogue(I,"Circle",P,def*1,C,new Color(220, 170, 70));
-		addToCatalogue(I,"Chain",P,def*1.2,C,new Color(150,80,20));
+		addToCatalogue(I,"Chain",P,def*1.3,C,new Color(150,80,20));
 		addToCatalogue(I,"Field",P,def*1.1,C,new Color(90,30,170));
 		addToCatalogue(I,"Hold",P,def*1.1,C,new Color(200,50,50));
-		addToCatalogue(I,"Recycle",P,def*1.3,C,new Color(30,30,230));
-		addToCatalogue(I,"Shield",P,def*1.2,C,new Color(20,170,180));
-		addToCatalogue(I,"Slowmo",P,def*1.3,C,new Color(100,120,100));
-		addToCatalogue(I,"Ghost",P,def*1.3,C,new Color(30,200,150));
+		addToCatalogue(I,"Recycle",P,def*1.4,C,new Color(30,30,230));
+		addToCatalogue(I,"Shield",P,def*1.3,C,new Color(20,170,180));
+		addToCatalogue(I,"Slowmo",P,def*1.4,C,new Color(100,120,100));
+		addToCatalogue(I,"Ghost",P,def*1.4,C,new Color(30,200,150));
 		addToCatalogue(I,"Return",P,def*1.1,C,new Color(200,80,20));
 		addToCatalogue(I,"Teleport",P,def*1.2,C,new Color(180,20,30));
 		addToCatalogue(I,"Jab",P,def*1.1,C,new Color(180,180,190));
@@ -234,6 +237,7 @@ public abstract class Level{
 		addToCatalogue(I,"Slash",P,def*1.1,C,new Color(0,50,0));
 		addToCatalogue(I,"Wall",P,def*1.2,C,new Color(55,55,50));
 		addToCatalogue(I,"Shrink",P,def*1.1,C,new Color(10,55,200));
+		addToCatalogue(I,"Hook",P,def*1.3,C,new Color(200,255,200));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);
