@@ -204,6 +204,9 @@ public abstract class Level{
 		case "Wall":
 			b = new ItemWall(board);
 			break;
+		case "Shrink":
+			b = new ItemShrink(board);
+			break;
 		default:
 			b = null;
 		}
@@ -230,6 +233,7 @@ public abstract class Level{
 		addToCatalogue(I,"Ricochet",P,def*1.1,C,new Color(50,0,50));
 		addToCatalogue(I,"Slash",P,def*1.1,C,new Color(0,50,0));
 		addToCatalogue(I,"Wall",P,def*1.2,C,new Color(55,55,50));
+		addToCatalogue(I,"Shrink",P,def*1.1,C,new Color(10,55,200));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);

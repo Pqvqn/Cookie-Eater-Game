@@ -38,7 +38,8 @@ public class SpriteEater extends Sprite{
 	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {
 		
-		scale = board.currFloor.getScale();
+		//scale = board.currFloor.getScale();
+		scale = (double)user.getRadius()/Eater.DEFAULT_RADIUS;
 		x = user.getX();
 		y = user.getY();
 		

@@ -151,9 +151,10 @@ public class Eater{
 	public void setY(double yP) {y=yP;}
 	public int getDir() {return direction;}
 	public void setDir(int dir) {direction = dir;}
+	public void setRadius(int r) {radius=r;}
 	public int getRadius() {return radius;}
 	public void setExtraRadius(int er) {extra_radius=er;}
-	public void addExtraRadius(int er) {extra_radius+=er;}
+	public int getExtraRadius() {return extra_radius;}
 	public int getTotalRadius() {return radius+(int)(.5+extra_radius*scale);}
 	public double getMaxVel() {return maxvel;}
 	public double getXVel() {return x_velocity;}
