@@ -3,8 +3,9 @@ import ce3.*;
 
 public class ItemSlowmo extends Item{
 	
-	int initTime;
-	double prop;
+	private int initTime;
+	private double prop;
+	private boolean initcc;
 	
 	public ItemSlowmo(Board frame) {
 		super(frame);
@@ -13,22 +14,27 @@ public class ItemSlowmo extends Item{
 		name = "Slowmo";
 		desc="Slows down time.`Amplify: Slowing factor increases";
 	}
-	public void initialize() {
+	public void prepare() {
 		initTime=board.getCycle();
+		initcc=player.getCalibCheck();
+	}
+	public void initialize() {
 		board.setCycle((int)(.5+initTime*(1/prop)));
+		player.setCalibCheck(false);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		board.setCycle(initTime);
+		player.setCalibCheck(initcc);
 	}
 	public void amplify() {
 		super.amplify();
-		prop-=.2;
+		prop/=2;
 	}
 	public void deamplify() {
 		super.deamplify();
-		prop-=.2;
+		prop*=2;
 	}
 }

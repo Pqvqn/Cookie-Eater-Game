@@ -23,19 +23,21 @@ public class SummonProjectile extends Summon{
 		speed = s*board.currFloor.getScale();
 	}
 	public void prepare() {
-		radius = user.getTotalRadius()*.3;
-		//mass = (user.getTotalRadius()/user.getRadius())*50;
+		
 		x=user.getX();
 		y=user.getY();
 		angle = playerVelAngle()+angle_offset;
 	}
 	public void initialize() {
+		mass = 100*(user.getTotalRadius()/(Eater.DEFAULT_RADIUS*board.currFloor.getScale()));
+		radius = user.getTotalRadius()*.3;
 		xSpeed = Math.cos(angle)*speed;
 		ySpeed = Math.sin(angle)*speed;
 		user.collideAt(this,x+xSpeed,y+ySpeed,xSpeed,ySpeed,mass);
 	}
 	public void execute() {
 		if(isDed())return;
+		mass = 100*(user.getTotalRadius()/(Eater.DEFAULT_RADIUS*board.currFloor.getScale()));
 		radius = user.getTotalRadius()*.3;
 		x+=xSpeed;
 		y+=ySpeed;

@@ -76,6 +76,7 @@ public class Eater{
 	private boolean nearCookie;
 	private double mass;
 	private ArrayList<Object> bumped; //all things bumped into during this cycle
+	private boolean checkCalibration;
 	
 	private Board board;
 	
@@ -133,6 +134,7 @@ public class Eater{
 		offstage = 0;
 		mass = 200;
 		bumped = new ArrayList<Object>();
+		checkCalibration = true;
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -223,7 +225,7 @@ public class Eater{
 	public int getCurrentSpecial() {return currSpecial;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if((int)calrat==(int)calibration_ratio)return;
+		if(!checkCalibration || (int)calrat==(int)calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
@@ -273,6 +275,8 @@ public class Eater{
 	public void addBump(Object b) {bumped.add(b);}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
+	public boolean getCalibCheck() {return checkCalibration;}
+	public void setCalibCheck(boolean cc) {checkCalibration = cc;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
