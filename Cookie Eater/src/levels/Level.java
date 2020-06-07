@@ -210,6 +210,9 @@ public abstract class Level{
 		case "Hook":
 			b = new ItemHook(board);
 			break;
+		case "Autopilot":
+			b = new ItemAutopilot(board);
+			break;
 		default:
 			b = null;
 		}
@@ -238,6 +241,7 @@ public abstract class Level{
 		addToCatalogue(I,"Wall",P,def*1.2,C,new Color(55,55,50));
 		addToCatalogue(I,"Shrink",P,def*1.1,C,new Color(10,55,200));
 		addToCatalogue(I,"Hook",P,def*1.3,C,new Color(200,255,200));
+		addToCatalogue(I,"Autopilot",P,def*1.3,C,new Color(150,100,100));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
 		I.add(i);

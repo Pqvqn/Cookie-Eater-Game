@@ -3,9 +3,9 @@ import ce3.*;
 
 public class ItemBoost extends Item{
 	
-	double speedy;
-	int dir;
-	double initx, inity;
+	private double speedy;
+	private int dir;
+	private double initx, inity;
 	
 	public ItemBoost(Board frame) {
 		super(frame);
@@ -53,6 +53,8 @@ public class ItemBoost extends Item{
 		//player.setXVel(x*r); //make fast
 		//player.setYVel(y*r);
 		player.averageVels(x*r, y*r);
+		initx = player.getXVel();
+		inity = player.getYVel();
 	}
 	
 	public void end(boolean interrupted) {
