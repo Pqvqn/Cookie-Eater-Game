@@ -22,7 +22,7 @@ public class UIItemsAll extends UIElement{
 		}
 	}
 	
-	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
+	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Double> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
 		for(int i=0; i<specials.size(); i++) {
 			specials.get(i).update(listOut, pItems, frames, cooldown, duration, activated);
 		}

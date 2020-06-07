@@ -50,8 +50,9 @@ public class Eater{
 	private int shield_frames; //counting how deep into shield
 	private boolean shield_tick; //countdown shield
 	private int special_length; //stun length
-	private ArrayList<Integer> special_frames; //counting how deep into shield
+	private ArrayList<Double> special_frames; //counting how deep into shield
 	private int special_cooldown; //frames between uses of special
+	private double special_use_speed; //"frames" passed per frame of special use
 	private ArrayList<Boolean> special_activated; //if special is triggerable
 	private ArrayList<Color> special_colors; //color associated with each special
 	private ArrayList<Summon> summons; //constructed objects owned by player
@@ -108,8 +109,9 @@ public class Eater{
 		shield_frames = 0;
 		shield_tick = true;
 		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_frames = new ArrayList<Integer>();
+		special_frames = new ArrayList<Double>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
+		special_use_speed = 1;
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
@@ -120,7 +122,7 @@ public class Eater{
 		summons = new ArrayList<Summon>();
 		for(int i=0; i<3; i++) {
 			powerups.add(new ArrayList<Item>());
-			special_frames.add(0);
+			special_frames.add(0.0);
 			special_activated.add(false);
 		}
 		currSpecial = -1;
@@ -207,16 +209,16 @@ public class Eater{
 		for(int i=0; i<special_frames.size(); i++) {
 			if(special_frames.get(i)<special_length && special_frames.get(i)!=0) {
 				if(special_frames.get(i)>time) {
-					special_frames.set(i,(int)(.5+special_frames.get(i)-time));
+					special_frames.set(i,special_frames.get(i)-time);
 				}else {
-					special_frames.set(i, 1);
+					special_frames.set(i, 1.0);
 				}
 			}
 		}
 	}
 	public int getSpecialLength() {return special_length;}
 	public int getSpecialCooldown() {return special_cooldown;}
-	public ArrayList<Integer> getSpecialFrames() {return special_frames;}
+	public ArrayList<Double> getSpecialFrames() {return special_frames;}
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
 	public int getCurrentSpecial() {return currSpecial;}
 	
@@ -269,6 +271,8 @@ public class Eater{
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
 	public void addBump(Object b) {bumped.add(b);}
+	public double getSpecialUseSpeed() {return special_use_speed;}
+	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -453,7 +457,7 @@ public class Eater{
 		currSpecial = -1;
 		shielded = false;
 		shield_frames = 0;
-		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0);
+		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0.0);
 		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		x_velocity=0;
@@ -579,7 +583,7 @@ public class Eater{
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).execute();
 			}
-			special_frames.set(currSpecial,special_frames.get(currSpecial)+1);
+			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
 			if(special_frames.get(currSpecial)>special_length) {
 				state = LIVE;
 				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
@@ -592,7 +596,7 @@ public class Eater{
 			if(special_frames.get(i)>special_length) {
 				special_frames.set(i,special_frames.get(i)+1);
 				if(special_frames.get(i)>special_length+special_cooldown) {
-					special_frames.set(i,0);
+					special_frames.set(i,0.0);
 				}
 			}
 		}

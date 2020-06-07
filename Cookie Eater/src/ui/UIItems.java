@@ -32,9 +32,9 @@ public class UIItems extends UIElement{
 		myIndex = index;
 		theme_color = c;
 	}
-	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Integer> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
+	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Double> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
 		ArrayList<Item> list = pItems.get(myIndex);
-		int framecount = frames.get(myIndex);
+		double framecount = frames.get(myIndex);
 		if(listOut || list.size()!=itemDisplays.size()) { //add all items into list
 			list_backing.sethLen((list.size()>0) ? list.size()*(SEPARATION)+10 : SEPARATION+10);
 			list_backing.setyPos(yPos+10-list_backing.gethLen());
