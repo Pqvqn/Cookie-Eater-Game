@@ -8,14 +8,11 @@ import cookies.*;
 import levels.*;
 import items.*;
 
-public abstract class Enemy {
+public abstract class Enemy extends Entity{
 
 	protected ArrayList<Segment> parts;
-	protected double xPos,yPos;
 	protected Board board;
 	protected Eater player;
-	protected double mass;
-	protected double x_vel, y_vel;
 	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
 	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
 	protected int shields;
@@ -27,15 +24,15 @@ public abstract class Enemy {
 	protected ArrayList<String> imgs;
 	protected ArrayList<Object> bumped; //things bumped into on this cycle
 	
-	public Enemy(Board frame, double x, double y) {
+	public Enemy(Board frame, double xp, double yp) {
 		board = frame;
 		ded=false;
-		xPos = x;
-		yPos = y;
+		x = xp;
+		y = yp;
 		player = board.player;
 		parts = new ArrayList<Segment>();
-		x_vel=0;
-		y_vel=0;
+		x_velocity=0;
+		y_velocity=0;
 		mass = 100;
 		shield_duration = 60*board.getAdjustedCycle();
 		shield_frames = 0;
@@ -64,27 +61,27 @@ public abstract class Enemy {
 		accel = acceleration*board.currFloor.getScale()/board.getAdjustedCycle();
 	
 		if(player.getDir()!=Eater.NONE) {
-			xPos+=x_vel;
-			yPos+=y_vel;
-			x_vel*=fric;
-			y_vel*=fric;
+			x+=x_velocity;
+			y+=y_velocity;
+			x_velocity*=fric;
+			y_velocity*=fric;
 		}
 		
-		/*if(Math.abs(x_vel)>fric) {
-			x_vel-=Math.signum(x_vel)*fric;
+		/*if(Math.abs(x_velocity)>fric) {
+			x_velocity-=Math.signum(x_velocity)*fric;
 		}else {
-			x_vel=0;
+			x_velocity=0;
 		}
-		if(Math.abs(y_vel)>fric) {
-			y_vel-=Math.signum(y_vel)*fric;
+		if(Math.abs(y_velocity)>fric) {
+			y_velocity-=Math.signum(y_velocity)*fric;
 		}else {
-			y_vel=0;
+			y_velocity=0;
 		}*/
-		if(Math.abs(x_vel)>termVel) {
-			x_vel=Math.signum(x_vel)*termVel;
+		if(Math.abs(x_velocity)>termVel) {
+			x_velocity=Math.signum(x_velocity)*termVel;
 		}
-		if(Math.abs(y_vel)>termVel) {
-			y_vel=Math.signum(y_vel)*termVel;
+		if(Math.abs(y_velocity)>termVel) {
+			y_velocity=Math.signum(y_velocity)*termVel;
 		}
 		if(shield_frames>0)shield_frames++;
 		if(shield_frames>=shield_duration)
@@ -92,20 +89,20 @@ public abstract class Enemy {
 		orientParts();
 	}
 	//given point, adjusts velocity for bouncing off from that point
-	public void collideAt(Object b, double x, double y, double oxv, double oyv, double om) {
+	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
 		if(bumped.contains(b)&&b.getClass()!=Wall.class)return; //don't collide if already hit this cycle
 		bumped.add(b);
-		double pvx = (x-xPos), pvy = (y-yPos);
+		double pvx = (xp-x), pvy = (yp-y);
 		double oxm = oxv*om, oym = oyv*om;
-		double txm = x_vel*mass, tym = y_vel*mass;
+		double txm = x_velocity*mass, tym = y_velocity*mass;
 		double oProj = -(oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy);
 		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
 		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
 		
-		double proejjjg = (x_vel*pvy+y_vel*-pvx)/(pvx*pvx+pvy*pvy);
+		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
 		
-		x_vel=pvy*proejjjg-projdx/mass;
-		y_vel=-pvx*proejjjg-projdy/mass;
+		x_velocity=pvy*proejjjg-projdx/mass;
+		y_velocity=-pvx*proejjjg-projdy/mass;
 	}
 	//when hit wall
 	public void collideWall() {
@@ -118,7 +115,7 @@ public abstract class Enemy {
 	}
 	//if offstage
 	public boolean offStage() {
-		return xPos<0||xPos>board.X_RESOL||yPos<0||yPos>board.Y_RESOL;
+		return x<0||x>board.X_RESOL||y<0||y>board.Y_RESOL;
 	}
 	//tests all collisions
 	public void testCollisions() {
@@ -127,11 +124,11 @@ public abstract class Enemy {
 			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
 				double[] point = parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius());
 				collideAt(player,point[0],point[1],player.getXVel(),player.getYVel(),player.getMass());
-				player.collideAt(this,point[0],point[1],x_vel, y_vel, mass);
+				player.collideAt(this,point[0],point[1],x_velocity, y_velocity, mass);
 				while(parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) {
-					double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
-					xPos+=(xPos-point[0])*rat;
-					yPos+=(yPos-point[1])*rat;
+					double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+					x+=(x-point[0])*rat;
+					y+=(y-point[1])*rat;
 					orientParts();
 				}
 			}
@@ -151,19 +148,19 @@ public abstract class Enemy {
 							SegmentCircle s2 = (SegmentCircle)s;
 							if(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
 								double bmass = mass;
-								double bxv = x_vel;
-								double byv = y_vel;
+								double bxv = x_velocity;
+								double byv = y_velocity;
 								double[] point = parts.get(j).circHitPoint(s2.getCenterX(),s2.getCenterY(),s2.getRadius());
 								collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
 								e.collideAt(this,point[0],point[1],bxv,byv,bmass);
 								while(parts.get(j).collidesWithCircle(s2.getCenterX(),s2.getCenterY(),s2.getRadius())) {
-									double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
-									xPos+=(xPos-point[0])*rat;
-									yPos+=(yPos-point[1])*rat;
+									double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+									x+=(x-point[0])*rat;
+									y+=(y-point[1])*rat;
 									orientParts();
-									rat = 1/Math.sqrt(Math.pow(e.xPos-point[0],2)+Math.pow(e.yPos-point[1],2));
-									e.xPos+=(e.xPos-point[0])*rat;
-									e.yPos+=(e.yPos-point[1])*rat;
+									rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
+									e.x+=(e.x-point[0])*rat;
+									e.y+=(e.y-point[1])*rat;
 									e.orientParts();
 								}
 							}
@@ -177,11 +174,11 @@ public abstract class Enemy {
 					if(!board.player.getGhosted()||board.player.getShielded()) {
 						double[] point = parts.get(j).summonHitPoint(s);
 						collideAt(s,point[0],point[1],s.getXVel(),s.getYVel(),s.getMass());
-						s.collisionEntity(this,point[0],point[1],mass,x_vel,y_vel,board.player.getGhosted(),board.player.getShielded());
+						s.collisionEntity(this,point[0],point[1],mass,x_velocity,y_velocity,board.player.getGhosted(),board.player.getShielded());
 						while(parts.get(j).collidesWithSummon(s) && !s.isDed()) {
-							double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
-							xPos+=(xPos-point[0])*rat;
-							yPos+=(yPos-point[1])*rat;
+							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+							x+=(x-point[0])*rat;
+							y+=(y-point[1])*rat;
 							orientParts();
 						}
 					}	
@@ -194,9 +191,9 @@ public abstract class Enemy {
 					collideAt(w,point[0],point[1],0,0,999999999);
 					collideWall();
 					while(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())) {
-						double rat = 1/Math.sqrt(Math.pow(xPos-point[0],2)+Math.pow(yPos-point[1],2));
-						xPos+=(xPos-point[0])*rat;
-						yPos+=(yPos-point[1])*rat;
+						double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+						x+=(x-point[0])*rat;
+						y+=(y-point[1])*rat;
 						orientParts();
 					}
 				}
@@ -244,10 +241,10 @@ public abstract class Enemy {
 	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
-		double rat = accel / Level.lineLength(xPos, yPos, tarX, tarY);
-		if(Level.lineLength(xPos, yPos, tarX, tarY)==0) rat = 0;
-		if(Math.abs(x_vel)<normVel)x_vel+=rat*(tarX-xPos);
-		if(Math.abs(y_vel)<normVel)y_vel+=rat*(tarY-yPos);
+		double rat = accel / Level.lineLength(x, y, tarX, tarY);
+		if(Level.lineLength(x, y, tarX, tarY)==0) rat = 0;
+		if(Math.abs(x_velocity)<normVel)x_velocity+=rat*(tarX-x);
+		if(Math.abs(y_velocity)<normVel)y_velocity+=rat*(tarY-y);
 	}
 	//deletes this enemy
 	public void kill() {
@@ -257,14 +254,14 @@ public abstract class Enemy {
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
 			for(Wall w:board.walls) {
-				if(Level.collidesCircleAndRect((int)(.5+xPos+addx),(int)(.5+yPos+addy),stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
+				if(Level.collidesCircleAndRect((int)(.5+x+addx),(int)(.5+y+addy),stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
 					hit = true;
 				}
 			}
-			if((int)(.5+xPos+addx)<0||(int)(.5+xPos+addx)>board.X_RESOL||(int)(.5+yPos+addy)<0||(int)(.5+yPos+addy)>board.Y_RESOL)hit=true;
+			if((int)(.5+x+addx)<0||(int)(.5+x+addx)>board.X_RESOL||(int)(.5+y+addy)<0||(int)(.5+y+addy)>board.Y_RESOL)hit=true;
 			if(!hit) {
 				Cookie remove = stash.remove(0);
-				remove.setPos((int)(.5+xPos+addx),(int)(.5+yPos+addy));
+				remove.setPos((int)(.5+x+addx),(int)(.5+y+addy));
 				board.cookies.add(remove);
 			}
 		}
@@ -279,13 +276,6 @@ public abstract class Enemy {
 	public boolean isShielded() {
 		return shield_frames>0;
 	}
-	public double getX() {return xPos;}
-	public double getY() {return yPos;}
-	public void setX(double x) {xPos = x;}
-	public void setY(double y) {yPos = y;}
-	public double getXVel() {return x_vel;}
-	public double getYVel() {return y_vel;}
-	public double getMass() {return mass;}
 	public ArrayList<Segment> getParts(){return parts;}
 	public void giveCookie(Cookie c) {stash.add(c);}
 	//draws
@@ -295,6 +285,6 @@ public abstract class Enemy {
 		}
 	}
 	public double totalVel() {
-		return Math.sqrt(x_vel*x_vel+y_vel*y_vel);
+		return Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 	}
 }

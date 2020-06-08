@@ -21,8 +21,8 @@ public class EnemySlob extends Enemy{
 	private final int NEUTRAL=0,HIT=1;
 
 	
-	public EnemySlob(Board frame, double x, double y) {
-		super(frame,x,y);
+	public EnemySlob(Board frame, double xp, double yp) {
+		super(frame,xp,yp);
 		mass = 60;
 		shields=5;
 		steals = true;
@@ -36,8 +36,8 @@ public class EnemySlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
-		parts.add(blob2 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 			sprite2 = new SpriteEnemy(board,blob2,imgs);
@@ -47,30 +47,30 @@ public class EnemySlob extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos+15*Math.cos(angle),yPos+15*Math.sin(angle));
-		blob2.setLocation(xPos-15*Math.cos(angle),yPos-15*Math.sin(angle));
+		blob.setLocation(x+15*Math.cos(angle),y+15*Math.sin(angle));
+		blob2.setLocation(x-15*Math.cos(angle),y-15*Math.sin(angle));
 	}
 	public void runUpdate() {
 		if(chargeCoords!=null) {
 			accelerateToTarget(chargeCoords[0],chargeCoords[1]);
 			prevCookies = stash.size();
-			if(Math.sqrt(Math.pow(Math.abs(chargeCoords[0]-xPos), 2)+Math.pow(Math.abs(chargeCoords[1]-yPos), 2))<100) {
+			if(Math.sqrt(Math.pow(Math.abs(chargeCoords[0]-x), 2)+Math.pow(Math.abs(chargeCoords[1]-y), 2))<100) {
 				chargeCoords=null;
 			}
 		}else {
-			target = board.nearestCookie(xPos,yPos);
-			if(stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),player.getX(),player.getY(), board.walls)) {
+			target = board.nearestCookie(x,y);
+			if(stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)) {
 				normalVelocity = 2;
 				chargeCoords = new double[2];
 				chargeCoords[0]=player.getX();
 				chargeCoords[1]=player.getY();
-				angle = Math.atan2(player.getY()-yPos, player.getX()-xPos);
+				angle = Math.atan2(player.getY()-y, player.getX()-x);
 			}else {
-				if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
+				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
 				if(target!=null) {
 					normalVelocity = .1;
 					accelerateToTarget(target.getX(),target.getY());
-					angle = Math.atan2(target.getY()-yPos, target.getX()-xPos);
+					angle = Math.atan2(target.getY()-y, target.getX()-x);
 					
 				}
 			}

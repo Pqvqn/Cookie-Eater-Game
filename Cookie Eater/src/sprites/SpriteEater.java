@@ -14,7 +14,7 @@ public class SpriteEater extends Sprite{
 	private Image base;
 	private Image face;
 	private Color coloration;
-	double facex,facey;
+	private double facex,facey;
 	private double scale;
 	private final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
 	private File[] expressions = {new File("Cookie Eater/src/resources/eaterFace.png"),
@@ -40,8 +40,8 @@ public class SpriteEater extends Sprite{
 		
 		//scale = board.currFloor.getScale();
 		scale = (double)user.getRadius()/Eater.DEFAULT_RADIUS;
-		x = user.getX();
-		y = user.getY();
+		x = (int)(.5+user.getX());
+		y = (int)(.5+user.getY());
 		
 		facex = x; 
 		facey = y;

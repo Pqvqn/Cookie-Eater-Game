@@ -15,8 +15,8 @@ public class EnemyBlob extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyBlob(Board frame, double x, double y) {
-		super(frame,x,y);
+	public EnemyBlob(Board frame, double xp, double yp) {
+		super(frame,xp,yp);
 		mass = 30;
 		shields=1;
 		steals = true;
@@ -27,7 +27,7 @@ public class EnemyBlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -36,11 +36,11 @@ public class EnemyBlob extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos,yPos);
+		blob.setLocation(x,y);
 	}
 	public void runUpdate() {
-		target = board.nearestCookie(xPos,yPos);
-		if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
+		target = board.nearestCookie(x,y);
+		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
 		if(target!=null) {
 			accelerateToTarget(target.getX(),target.getY());
 		}

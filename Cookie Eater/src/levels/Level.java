@@ -92,7 +92,7 @@ public abstract class Level{
 		//remove cookies that player can't access
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
-			if(splitSight((int)(board.player.getRadius()*scale*1.5),currCookie.getX(),currCookie.getY(),board.player.getX(),board.player.getY())) {
+			if(splitSight((int)(board.player.getRadius()*scale*1.5),currCookie.getX(),currCookie.getY(),(int)(.5+board.player.getX()),(int)(.5+board.player.getY()))) {
 				currCookie.setAccess(true);
 				
 			}

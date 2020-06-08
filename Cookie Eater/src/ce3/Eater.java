@@ -17,7 +17,7 @@ import ui.UIItemsAll;
 import ui.UIScoreCount;
 import ui.UIShields;
 
-public class Eater{
+public class Eater extends Entity{
 	
 	//private Queue<Double> x_positions; //previous positions for trail effect
 	//private Queue<Double> y_positions;
@@ -25,10 +25,8 @@ public class Eater{
 	private int id;
 	private int radius;
 	public static final int DEFAULT_RADIUS = 40;
-	private double x, y;
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
-	private double x_velocity, y_velocity; //current dimensional speed
 	private double acceleration; //added to dimensional speed depending on direction
 	private double max_velocity; //cap on accelerated-to dimensional speed
 	private double terminal_velocity; //maximum possible dimensional speed
@@ -74,7 +72,6 @@ public class Eater{
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private boolean nearCookie;
-	private double mass;
 	private ArrayList<Object> bumped; //all things bumped into during this cycle
 	private boolean checkCalibration;
 	
@@ -148,11 +145,6 @@ public class Eater{
 			y_positions.add(START_Y);
 		}*/
 	}
-
-	public int getX() {return (int)(x+.5);}
-	public void setX(double xP) {x=xP;}
-	public int getY() {return (int)(y+.5);}
-	public void setY(double yP) {y=yP;}
 	public int getDir() {return direction;}
 	public void setDir(int dir) {direction = dir;}
 	public void setRadius(int r) {radius=r;}
@@ -161,11 +153,6 @@ public class Eater{
 	public int getExtraRadius() {return extra_radius;}
 	public int getTotalRadius() {return radius+(int)(.5+extra_radius*scale);}
 	public double getMaxVel() {return maxvel;}
-	public double getXVel() {return x_velocity;}
-	public void setXVel(double a) {x_velocity = a;}
-	public double getYVel() {return y_velocity;}
-	public void setYVel(double a) {y_velocity = a;}
-	public double getMass() {return mass;}
 	public void setShielded(boolean s) {shielded = s;shield_tick=!s;}
 	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}

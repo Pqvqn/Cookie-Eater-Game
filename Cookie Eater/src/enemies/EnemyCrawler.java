@@ -15,8 +15,8 @@ public class EnemyCrawler extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyCrawler(Board frame, double x, double y) {
-		super(frame,x,y);
+	public EnemyCrawler(Board frame, double xp, double yp) {
+		super(frame,xp,yp);
 		mass = 30;
 		shields=3;
 		steals = true;
@@ -27,7 +27,7 @@ public class EnemyCrawler extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -36,22 +36,22 @@ public class EnemyCrawler extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos,yPos);
+		blob.setLocation(x,y);
 	}
 	public void runUpdate() {
-		double x = (xPos<board.X_RESOL/2) ? 0 : board.X_RESOL; //nearest walls
-		double y = (yPos<board.Y_RESOL/2) ? 0 : board.Y_RESOL;
-		Cookie tar1 = board.nearestCookie(x,yPos); //nearest cookies to nearest walls
-		Cookie tar2 = board.nearestCookie(xPos, y);
+		double xp = (x<board.X_RESOL/2) ? 0 : board.X_RESOL; //nearest walls
+		double yp = (y<board.Y_RESOL/2) ? 0 : board.Y_RESOL;
+		Cookie tar1 = board.nearestCookie(x,y); //nearest cookies to nearest walls
+		Cookie tar2 = board.nearestCookie(x, y);
 		if(tar1!=null && tar2!=null) {
-			double dist1 = Level.lineLength(tar1.getX(),tar1.getY(),x,yPos);
-			double dist2 = Level.lineLength(tar2.getX(),tar2.getY(),xPos,y);
-			boolean see1 = Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),tar1.getX(),tar1.getY(), board.walls);
-			boolean see2 = Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),tar2.getX(),tar2.getY(), board.walls);
+			double dist1 = Level.lineLength(tar1.getX(),tar1.getY(),x,yp);
+			double dist2 = Level.lineLength(tar2.getX(),tar2.getY(),xp,y);
+			boolean see1 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar1.getX(),tar1.getY(), board.walls);
+			boolean see2 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar2.getX(),tar2.getY(), board.walls);
 			target = ((dist1<dist2 && see1) || !see2) ? tar1 : tar2; //target is the closest cookie to a border wall close to the player
 		}
 		
-		if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
+		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
 		if(target!=null) {
 			accelerateToTarget(target.getX(),target.getY());
 		}

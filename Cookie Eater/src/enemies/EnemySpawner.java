@@ -15,8 +15,8 @@ public class EnemySpawner extends Enemy{
 	private ArrayList<Enemy> spawns;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemySpawner(Board frame, double x, double y) {
-		super(frame,x,y);
+	public EnemySpawner(Board frame, double xp, double yp) {
+		super(frame,xp,yp);
 		mass = 1000;
 		shields=0;
 		steals = true;
@@ -28,7 +28,7 @@ public class EnemySpawner extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -37,7 +37,7 @@ public class EnemySpawner extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos,yPos);
+		blob.setLocation(x,y);
 	}
 	public void runUpdate() {
 		int currCookies=0;
@@ -48,7 +48,7 @@ public class EnemySpawner extends Enemy{
 		}
 		if(currCookies-prevCookies>=30||spawns.size()==0) { //if enough collected, or no spawns, attempt spawn
 			double angle = Math.random()*2*Math.PI; //choose random angle, turn into position
-			Enemy newE = new EnemyBlob(board,xPos+board.currFloor.getScale()*150*Math.cos(angle),yPos+board.currFloor.getScale()*150*Math.sin(angle));
+			Enemy newE = new EnemyBlob(board,x+board.currFloor.getScale()*150*Math.cos(angle),y+board.currFloor.getScale()*150*Math.sin(angle));
 			if(!collidesWithAnything()) { //if won't hit something, add spawn to lists and reset cookie collection count
 				spawns.add(newE);
 				board.enemies.add(newE);

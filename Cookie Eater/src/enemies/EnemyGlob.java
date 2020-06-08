@@ -20,8 +20,8 @@ public class EnemyGlob extends Enemy{
 	private final int NEUTRAL=0,HIT=1;
 
 	
-	public EnemyGlob(Board frame, double x, double y) {
-		super(frame,x,y);
+	public EnemyGlob(Board frame, double xp, double yp) {
+		super(frame,xp,yp);
 		mass = 90;
 		shields=3;
 		steals = true;
@@ -32,9 +32,9 @@ public class EnemyGlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
-		parts.add(blob2 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
-		parts.add(blob3 = new SegmentCircle(board,this,xPos,yPos,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob3 = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 			sprite2 = new SpriteEnemy(board,blob2,imgs);
@@ -45,17 +45,17 @@ public class EnemyGlob extends Enemy{
 		}
 	}
 	public void orientParts() {
-		blob.setLocation(xPos+15,yPos);
-		blob2.setLocation(xPos-15,yPos);
-		blob3.setLocation(xPos,yPos-15);
+		blob.setLocation(x+15,y);
+		blob2.setLocation(x-15,y);
+		blob3.setLocation(x,y-15);
 	}
 	public void runUpdate() {
-		if(Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),player.getX(),player.getY(), board.walls)){
+		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)){
 			normalVelocity = .6;
 			accelerateToTarget(player.getX(),player.getY());
 		}else {
-			target = board.nearestCookie(xPos,yPos);
-			if(target!=null && !Level.lineOfSight((int)(.5+xPos),(int)(.5+yPos),target.getX(),target.getY(), board.walls))target = null;
+			target = board.nearestCookie(x,y);
+			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
 			if(target!=null) {
 				normalVelocity = .2;
 				accelerateToTarget(target.getX(),target.getY());

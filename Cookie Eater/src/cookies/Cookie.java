@@ -43,10 +43,10 @@ public class Cookie {
 	
 	public void runUpdate() {
 		//delete self on collision with player
-		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius()*2)) { 
+		if(collidesWithCircle((int)(.5+board.player.getX()),(int)(.5+board.player.getY()),board.player.getRadius()*2)) { 
 			board.player.setNearCookie(true);
 		}
-		if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getTotalRadius())) { 
+		if(collidesWithCircle((int)(.5+board.player.getX()),(int)(.5+board.player.getY()),board.player.getTotalRadius())) { 
 			kill(true);
 		}
 		if(board.player.getDir()!=Eater.NONE && decayTime--<=0){	

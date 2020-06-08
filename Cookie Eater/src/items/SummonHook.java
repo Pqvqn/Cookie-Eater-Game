@@ -106,7 +106,7 @@ public class SummonHook extends Summon{
 		g2.setColor(Color.WHITE);
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
-		g2.drawLine(user.getX(),user.getY(),(int)(.5+x),(int)(.5+y));
+		g2.drawLine((int)(.5+user.getX()),(int)(.5+user.getY()),(int)(.5+x),(int)(.5+y));
 		g2.rotate(angle,x,y);
 		g2.fillOval((int)(.5+x-radius),(int)(.5+y-radius),(int)(.5+radius*2),(int)(.5+radius*2));
 		
