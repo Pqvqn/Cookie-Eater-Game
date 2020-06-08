@@ -2,7 +2,7 @@ package levels;
 
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -139,9 +139,8 @@ public abstract class Level{
 		board.enemies.add(e);
 		e.giveCookie(c);
 	}
-	
-	//puts cookie item on board
-	protected void placeItem(int x, int y, String i, double p, Color c) {
+	//
+	public Item generateItem(String i) {
 		Item b;
 		switch(i) {
 		case "Boost":
@@ -219,38 +218,42 @@ public abstract class Level{
 		default:
 			b = null;
 		}
-		board.cookies.add(new CookieItem(board, x, y, b, p, c));
+		return b;
 	}
-	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P,ArrayList<Color> C) {	
-		addToCatalogue(I,"Boost",P,def*1,C,new Color(200,200,30));
+	//puts cookie item on board
+	protected void placeItem(int x, int y, String i, double p) {
+		Item b = generateItem(i);
+		board.cookies.add(new CookieItem(board, x, y, b, p));
+	}
+	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
+		addToCatalogue(I,"Boost",P,def*1);
 		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
-		addToCatalogue(I,"Circle",P,def*1,C,new Color(220, 170, 70));
-		addToCatalogue(I,"Chain",P,def*1.3,C,new Color(150,80,20));
-		addToCatalogue(I,"Field",P,def*1.1,C,new Color(90,30,170));
-		addToCatalogue(I,"Hold",P,def*1.1,C,new Color(200,50,50));
-		addToCatalogue(I,"Recycle",P,def*1.4,C,new Color(30,30,230));
-		addToCatalogue(I,"Shield",P,def*1.3,C,new Color(20,170,180));
-		addToCatalogue(I,"Slowmo",P,def*1.4,C,new Color(100,120,100));
-		addToCatalogue(I,"Ghost",P,def*1.4,C,new Color(30,200,150));
-		addToCatalogue(I,"Return",P,def*1.1,C,new Color(200,80,20));
-		addToCatalogue(I,"Teleport",P,def*1.2,C,new Color(180,20,30));
-		addToCatalogue(I,"Jab",P,def*1.1,C,new Color(180,180,190));
-		addToCatalogue(I,"Repeat",P,def*1.2,C,new Color(50,30,30));
-		addToCatalogue(I,"Projectile",P,def*1.3,C,new Color(130,110,120));
-		addToCatalogue(I,"Rebound",P,def*1.2,C,new Color(250,230,180));
-		addToCatalogue(I,"Clone",P,def*1.3,C,new Color(190,230,140));
-		addToCatalogue(I,"Ricochet",P,def*1.1,C,new Color(50,0,50));
-		addToCatalogue(I,"Slash",P,def*1.1,C,new Color(0,50,0));
-		addToCatalogue(I,"Wall",P,def*1.2,C,new Color(55,55,50));
-		addToCatalogue(I,"Shrink",P,def*1.1,C,new Color(10,55,200));
-		addToCatalogue(I,"Hook",P,def*1.3,C,new Color(200,255,200));
-		addToCatalogue(I,"Autopilot",P,def*1.3,C,new Color(150,100,100));
-		addToCatalogue(I,"Flow",P,def*1.3,C,new Color(150,100,100));
+		addToCatalogue(I,"Circle",P,def*1);
+		addToCatalogue(I,"Chain",P,def*1.3);
+		addToCatalogue(I,"Field",P,def*1.1);
+		addToCatalogue(I,"Hold",P,def*1.1);
+		addToCatalogue(I,"Recycle",P,def*1.4);
+		addToCatalogue(I,"Shield",P,def*1.3);
+		addToCatalogue(I,"Slowmo",P,def*1.4);
+		addToCatalogue(I,"Ghost",P,def*1.4);
+		addToCatalogue(I,"Return",P,def*1.1);
+		addToCatalogue(I,"Teleport",P,def*1.2);
+		addToCatalogue(I,"Jab",P,def*1.1);
+		addToCatalogue(I,"Repeat",P,def*1.2);
+		addToCatalogue(I,"Projectile",P,def*1.3);
+		addToCatalogue(I,"Rebound",P,def*1.2);
+		addToCatalogue(I,"Clone",P,def*1.3);
+		addToCatalogue(I,"Ricochet",P,def*1.1);
+		addToCatalogue(I,"Slash",P,def*1.1);
+		addToCatalogue(I,"Wall",P,def*1.2);
+		addToCatalogue(I,"Shrink",P,def*1.1);
+		addToCatalogue(I,"Hook",P,def*1.3);
+		addToCatalogue(I,"Autopilot",P,def*1.3);
+		addToCatalogue(I,"Flow",P,def*1.3);
 	}
-	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p, ArrayList<Color> C,Color c) {
+	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);
 		P.add(p);
-		C.add(c);
 	}
 	public Level getNext() {
 		return next;

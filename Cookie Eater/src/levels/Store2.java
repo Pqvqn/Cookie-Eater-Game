@@ -1,7 +1,6 @@
 package levels;
 
 import java.util.*;
-import java.awt.*;
 
 import ce3.*;
 import cookies.*;
@@ -10,7 +9,6 @@ public class Store2 extends Floor2{
 	
 	private ArrayList<String> catalogue;
 	private ArrayList<Double> prices;
-	private ArrayList<Color> colors;
 	private double default_price;
 	
 	public Store2(Board frame) {
@@ -23,8 +21,7 @@ public class Store2 extends Floor2{
 		default_price = 40;
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
-		colors = new ArrayList<Color>();
-		configureCatalogue(default_price,catalogue,prices,colors);
+		configureCatalogue(default_price,catalogue,prices);
 	}
 	
 	
@@ -45,11 +42,11 @@ public class Store2 extends Floor2{
 		
 		//items
 		int i = (int)(Math.random()*catalogue.size());
-		placeItem(390,315,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,315,catalogue.get(i),prices.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i),colors.get(i));
+		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i));
 		
 		board.player.setScoreToWin(2);
 	}

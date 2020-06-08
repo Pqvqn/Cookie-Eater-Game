@@ -41,6 +41,7 @@ public abstract class Enemy extends Entity{
 		imgs = new ArrayList<String>();
 		buildBody();
 		orientParts();
+		createStash();
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
@@ -87,6 +88,9 @@ public abstract class Enemy extends Entity{
 		if(shield_frames>=shield_duration)
 			shield_frames=0;
 		orientParts();
+		for(int i=0; i<stash.size(); i++) {
+			stash.get(i).runUpdate();
+		}
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
@@ -135,7 +139,7 @@ public abstract class Enemy extends Entity{
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
 				if(parts.get(j).collidesWithCircle(c.getX(),c.getY(),c.getRadius())) {
-					stash.add(c);
+					stash.add(0,c);
 					board.cookies.remove(c);
 				}
 			}
@@ -270,6 +274,10 @@ public abstract class Enemy extends Entity{
 	}
 	//sets positions of all segments relative to location
 	public void orientParts() {
+		
+	}
+	//puts cookies in stash on spawn
+	public void createStash() {
 		
 	}
 	//is this in shield stun

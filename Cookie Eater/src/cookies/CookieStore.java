@@ -22,7 +22,7 @@ public abstract class CookieStore extends Cookie{
 		price = 0;
 		name = "";
 		desc = "";
-		info = new UIPurchaseInfo(board,x,y-50);
+		info = new UIPurchaseInfo(board,this);
 		board.draw.addUI(info);
 	}
 	//attempt to kill cookie - consumed if being eaten
@@ -38,8 +38,13 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
-				Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel()==0 && player.getYVel()==0,
-				price,price<=board.player.getCash(),name,desc);
+		if(board.cookies.contains(this)) {
+			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
+					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel()==0 && player.getYVel()==0,
+					price,price<=board.player.getCash(),name,desc);
+		}else {
+			info.setVisible(false);
+		}
+		
 	}
 }

@@ -11,16 +11,14 @@ import ce3.*;
 public class CookieItem extends CookieStore{
 	
 	private Item myItem;
-	private Color color;
 	private SpriteStoreCookie sprite;
 	
-	public CookieItem(Board frame, int startx, int starty, Item i, double p, Color c) {
+	public CookieItem(Board frame, int startx, int starty, Item i, double p) {
 		super(frame,startx,starty);
 		myItem = i;
 		price = board.currFloor.getShieldCost();
 		price = p;
 		name = myItem.getName();
-		color = c;
 				try {
 					sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
 				} catch (IOException e) {
@@ -38,7 +36,6 @@ public class CookieItem extends CookieStore{
 		return false;
 	}
 	public void paint(Graphics g) {
-		g.setColor(color);
 		if(sprite!=null) {
 			sprite.paint(g);
 		}else {

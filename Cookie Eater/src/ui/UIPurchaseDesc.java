@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
+import cookies.*;
 
 public class UIPurchaseDesc extends UIElement{
 
@@ -12,9 +13,13 @@ public class UIPurchaseDesc extends UIElement{
 	private UIRectangle backing;
 	private int separation;
 	private int passageWidth; //amount of characters allowed
+	private CookieStore user;
 	
-	public UIPurchaseDesc(Board frame, int x, int y) {
-		super(frame,x,y);
+	public UIPurchaseDesc(Board frame, CookieStore c) {
+		super(frame,0,0);
+		user=c;
+		xPos=user.getX();
+		yPos=user.getY()+60;
 		separation = 20;
 		passageWidth = 25;
 		parts.add(backing = new UIRectangle(board,xPos-100,yPos-100,200,100,new Color(0,0,0,150))); //backing
@@ -23,6 +28,8 @@ public class UIPurchaseDesc extends UIElement{
 	}
 	public void update(boolean show, String desc) {
 		visible = show;
+		xPos=user.getX();
+		yPos=user.getY()+60;
 		ArrayList<String> send = new ArrayList<String>();
 		int i=0;
 		while(i<desc.length()) { //split string into lines
@@ -46,6 +53,7 @@ public class UIPurchaseDesc extends UIElement{
 		text.setTextLines(send);
 		backing.sethLen(separation*send.size()+20);
 	}
+	public void setVisible(boolean v) {visible = v;}
 	public void paint(Graphics g) {
 		if(visible)super.paint(g);
 	}

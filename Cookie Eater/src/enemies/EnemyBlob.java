@@ -2,6 +2,7 @@ package enemies;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -37,6 +38,13 @@ public class EnemyBlob extends Enemy{
 	}
 	public void orientParts() {
 		blob.setLocation(x,y);
+	}
+	public void createStash() {
+		ArrayList<String> possible = new ArrayList<String>();
+		possible.add("Boost");
+		possible.add("Projectile");
+		stash.add(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+		
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);
