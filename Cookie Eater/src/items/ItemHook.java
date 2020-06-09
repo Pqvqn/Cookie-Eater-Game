@@ -10,13 +10,13 @@ public class ItemHook extends Item{
 	public ItemHook(Board frame) {
 		super(frame);
 		speed = 1.5*board.getAdjustedCycle();
-		hook = new SummonHook(board,player,speed);
+		hook = new SummonHook(board,user,speed);
 		name = "Hook";
 		desc="Hooks into object and pulls.`Amplify: Stronger pull";
 	}
 	public void prepare() {
-		hook = new SummonHook(board,player,speed);
-		player.addSummon(hook);
+		hook = new SummonHook(board,user,speed);
+		user.addSummon(hook);
 		hook.prepare();
 	}
 	public void initialize() {
@@ -28,7 +28,7 @@ public class ItemHook extends Item{
 	}
 	public void end(boolean interrupted) {
 		hook.end(false);
-		player.removeSummon(hook);
+		user.removeSummon(hook);
 	}
 
 	public void amplify() {

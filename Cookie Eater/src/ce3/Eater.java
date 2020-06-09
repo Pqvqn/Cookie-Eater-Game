@@ -60,8 +60,6 @@ public class Eater extends Entity{
 	private int state;
 	private ArrayList<ArrayList<Item>> powerups;
 	private int currSpecial;
-	private boolean lock; //if player can move
-	private int countVels;
 	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
 	private int extra_radius;
@@ -146,6 +144,19 @@ public class Eater extends Entity{
 		}*/
 	}
 	public int getDir() {return direction;}
+	public double getAim() {
+		switch(direction) {
+		case UP:
+			return 90;
+		case RIGHT:
+			return 0;
+		case DOWN:
+			return 270;
+		case LEFT:
+			return 180;
+		default:
+			return 90;
+		}}
 	public void setDir(int dir) {direction = dir;}
 	public void setRadius(int r) {radius=r;}
 	public int getRadius() {return radius;}
@@ -192,7 +203,6 @@ public class Eater extends Entity{
 	public void addSummon(Summon s) {summons.add(s);}
 	public void removeSummon(Summon s) {summons.remove(s);}
 	public ArrayList<Summon> getSummons() {return summons;}
-	public void lockControl(boolean l) {lock = l;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {
 		for(int i=0; i<special_frames.size(); i++) {
@@ -342,16 +352,7 @@ public class Eater extends Entity{
 
 		}
 	}
-	//takes velocity changes from items and averages them
-	public void averageVels(double xVel, double yVel) {
-		if(countVels==0) {
-			setXVel(0);
-			setYVel(0);
-		}
-		countVels++;
-		setXVel((getXVel()*(countVels-1)+xVel)/countVels);
-		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
-	}
+	
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
@@ -553,6 +554,7 @@ public class Eater extends Entity{
 	}
 	
 	public void runUpdate() {
+		super.runUpdate();
 		if(state == DEAD) { //if dead in multiplayer
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
@@ -569,7 +571,6 @@ public class Eater extends Entity{
 				win();
 			}
 		}
-		countVels=0;
 		if(state == SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).execute();

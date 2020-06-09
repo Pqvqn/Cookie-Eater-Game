@@ -8,11 +8,11 @@ public class ItemReturn extends Item{
 	public ItemReturn(Board frame) {
 		super(frame);
 		name = "Return";
-		desc="Sends player back to starting point of special.`Amplify: None";
+		desc="Sends user back to starting point of special.`Amplify: None";
 	}
 	public void prepare() {
-		x=player.getX();
-		y=player.getY();
+		x=user.getX();
+		y=user.getY();
 	}
 	public void initialize() {
 
@@ -21,8 +21,8 @@ public class ItemReturn extends Item{
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		player.setX(x);
-		player.setY(y);
+		user.setX(x);
+		user.setY(y);
 	}
 	public void amplify() {
 		super.amplify();

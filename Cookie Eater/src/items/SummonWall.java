@@ -13,7 +13,7 @@ public class SummonWall extends Summon{
 	private double thickness;
 	private double length;
 	
-	public SummonWall(Board frame, Eater summoner, double r) {
+	public SummonWall(Board frame, Entity summoner, double r) {
 		super(frame, summoner);
 		range = r*board.currFloor.getScale();
 		mass = 999999999;

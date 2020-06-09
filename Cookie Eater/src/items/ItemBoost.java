@@ -4,7 +4,7 @@ import ce3.*;
 public class ItemBoost extends Item{
 	
 	private double speedy;
-	private int dir;
+	private double dir;
 	private double initx, inity;
 	
 	public ItemBoost(Board frame) {
@@ -14,32 +14,20 @@ public class ItemBoost extends Item{
 		desc="Zooms forward`Amplify: Speed increases";
 	}
 	public void prepare() {
-		dir=player.getDir(); //store direction for later
+		dir=user.getAim(); //store direction for later
 		
 	}
 	public void initialize() {
-		player.lockControl(true);
-		initx = player.getXVel();
-		inity = player.getYVel();
+		user.lockControl(true);
+		initx = user.getXVel();
+		inity = user.getYVel();
 	}
 	
 	public void execute() {	
 		if(checkCanceled())return;
-		if (player.getXVel()==0 && player.getYVel()==0 && dir!=Eater.NONE) {
-			switch(dir) {
-			case(Eater.UP):
-				player.setYVel(-1);
-				break;
-			case(Eater.RIGHT):
-				player.setXVel(1);
-				break;
-			case(Eater.DOWN):
-				player.setYVel(1);
-				break;
-			case(Eater.LEFT):
-				player.setXVel(-1);
-				break;
-			}
+		if (user.getXVel()==0 && user.getYVel()==0 && board.player.getDir()!=Eater.NONE) {
+			user.setXVel(Math.cos(dir));
+			user.setYVel(Math.sin(dir));
 		}
 		double x = initx;
 		double y = inity;
@@ -50,19 +38,19 @@ public class ItemBoost extends Item{
 		}else {
 			r = Math.sqrt((h*h)/(x*x+y*y));
 		}
-		//player.setXVel(x*r); //make fast
-		//player.setYVel(y*r);
-		player.averageVels(x*r, y*r);
-		initx = player.getXVel();
-		inity = player.getYVel();
+		//user.setXVel(x*r); //make fast
+		//user.setYVel(y*r);
+		user.averageVels(x*r, y*r);
+		initx = user.getXVel();
+		inity = user.getYVel();
 	}
 	
 	public void end(boolean interrupted) {
-		player.lockControl(false);
+		user.lockControl(false);
 	}
 	public void bounce(double x, double y) {
-		initx = player.getXVel();
-		inity = player.getYVel();
+		initx = user.getXVel();
+		inity = user.getYVel();
 	}
 	public void amplify() {
 		super.amplify();

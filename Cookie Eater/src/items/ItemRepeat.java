@@ -18,9 +18,9 @@ public class ItemRepeat extends Item{
 		desc="Pauses and restarts all items.`Amplify: Number of restarts increases";
 	}
 	public void prepare() {
-		time = player.getSpecialLength()/ratio+1;
+		time = user.getSpecialLength()/ratio+1;
 		wait = time;
-		items = player.getItems().get(player.getCurrentSpecial());
+		items = user.getItems().get(user.getCurrentSpecial());
 	}
 	public void initialize() {
 		count = 0;
@@ -39,7 +39,7 @@ public class ItemRepeat extends Item{
 			return;
 		}
 		if(count<-1) {
-			player.extendSpecial(1);
+			user.extendSpecial(1);
 		}
 		if(count==-1) {
 			for(int i = 0; i<items.size(); i++) {

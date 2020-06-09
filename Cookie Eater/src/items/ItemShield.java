@@ -11,10 +11,10 @@ public class ItemShield extends Item{
 	public ItemShield(Board frame) {
 		super(frame);
 		name = "Shield";
-		desc="Shields the player.`Amplify: Recoil increases";
-		initminrecoil=player.getMinRecoil();
+		desc="Shields the user.`Amplify: Recoil increases";
+		initminrecoil=user.getMinRecoil();
 		newminrecoil=initminrecoil;
-		initmaxrecoil=player.getMaxRecoil();
+		initmaxrecoil=user.getMaxRecoil();
 		newmaxrecoil=initmaxrecoil;
 	}
 
@@ -24,17 +24,17 @@ public class ItemShield extends Item{
 	
 	public void execute() {
 		if(checkCanceled())return;
-		player.setShielded(true);
-		if(player.getMinRecoil()!=newminrecoil)
-			player.setMinRecoil(newminrecoil);
-		if(player.getMaxRecoil()!=newmaxrecoil)
-			player.setMaxRecoil(newmaxrecoil);
+		user.setShielded(true);
+		if(user.getMinRecoil()!=newminrecoil)
+			user.setMinRecoil(newminrecoil);
+		if(user.getMaxRecoil()!=newmaxrecoil)
+			user.setMaxRecoil(newmaxrecoil);
 	}
 	
 	public void end(boolean interrupted) {
-		player.setMinRecoil(initminrecoil);
-		player.setMaxRecoil(initmaxrecoil);
-		player.setShielded(false);
+		user.setMinRecoil(initminrecoil);
+		user.setMaxRecoil(initmaxrecoil);
+		user.setShielded(false);
 	}
 	public void amplify() {
 		super.amplify();

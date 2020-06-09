@@ -8,20 +8,20 @@ public class ItemHold extends Item{
 	public ItemHold(Board frame) {
 		super(frame);
 		name = "Hold";
-		desc="Holds player in place.`Amplify: Pulls down speed more";
+		desc="Holds user in place.`Amplify: Pulls down speed more";
 		times=1;
 	}
 	public void initialize() {
 
-		player.lockControl(true);
+		user.lockControl(true);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 		for(int i=0; i<times; i++)
-			player.averageVels(0, 0);
+			user.averageVels(0, 0);
 	}
 	public void end(boolean interrupted) {
-		player.lockControl(false);
+		user.lockControl(false);
 	}
 	public void amplify() {
 		super.amplify();

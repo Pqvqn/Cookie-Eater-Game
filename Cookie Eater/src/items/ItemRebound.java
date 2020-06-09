@@ -18,7 +18,7 @@ public class ItemRebound extends Item{
 		desc="Amplifies items after bouncing`Amplify: Amplifies after less bounces";
 	}
 	public void prepare() {
-		items = player.getItems().get(player.getCurrentSpecial());
+		items = user.getItems().get(user.getCurrentSpecial());
 		bounces=0;
 		last_bounce=1;
 		total = 0;
@@ -33,7 +33,7 @@ public class ItemRebound extends Item{
 		for(int i=0; i<total; i++) {
 			deamplifyAll();
 		}
-		player.updateUIItems();
+		user.updateUIItems();
 		bounces=0;
 		last_bounce=1;
 		total = 0;
@@ -42,7 +42,7 @@ public class ItemRebound extends Item{
 		bounces++;
 		if((2+bounces-last_bounce) > Math.pow(last_bounce/consta*2, consta)) {
 			amplifyAll();
-			player.updateUIItems();
+			user.updateUIItems();
 			last_bounce = bounces+1;
 			total++;
 		}

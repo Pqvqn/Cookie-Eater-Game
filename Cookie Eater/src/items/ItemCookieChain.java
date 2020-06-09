@@ -9,7 +9,7 @@ public class ItemCookieChain extends Item{
 	
 	public ItemCookieChain(Board frame) {
 		super(frame);
-		time = player.getSpecialLength()/8;
+		time = user.getSpecialLength()/8;
 		name = "Chain";
 		desc="Grabbing cookies increases special time length.`Amplify: More time per cookie";
 	}
@@ -18,10 +18,10 @@ public class ItemCookieChain extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		if(cooks!=board.player.getCash()) {
-			cooks=board.player.getCash();
+		if(cooks!=board.user.getCash()) {
+			cooks=board.user.getCash();
 			if(count<=0) {
-				player.extendSpecial(time);
+				user.extendSpecial(time);
 				count = time;
 			}
 

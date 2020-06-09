@@ -16,14 +16,14 @@ public class ItemField extends Item{
 		
 	}
 	public void initialize() {
-		start_radius = player.getExtraRadius();
-		player.setExtraRadius(start_radius+added_radius);
+		start_radius = user.getExtraRadius();
+		user.setExtraRadius(start_radius+added_radius);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		player.setExtraRadius(start_radius);
+		user.setExtraRadius(start_radius);
 	}
 	public void amplify() {
 		super.amplify();

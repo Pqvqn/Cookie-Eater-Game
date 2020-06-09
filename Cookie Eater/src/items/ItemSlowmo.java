@@ -16,18 +16,18 @@ public class ItemSlowmo extends Item{
 	}
 	public void prepare() {
 		initTime=board.getCycle();
-		initcc=player.getCalibCheck();
+		initcc=user.getCalibCheck();
 	}
 	public void initialize() {
 		board.setCycle((int)(.5+initTime*(1/prop)));
-		player.setCalibCheck(false);
+		user.setCalibCheck(false);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		board.setCycle(initTime);
-		player.setCalibCheck(initcc);
+		user.setCalibCheck(initcc);
 	}
 	public void amplify() {
 		super.amplify();

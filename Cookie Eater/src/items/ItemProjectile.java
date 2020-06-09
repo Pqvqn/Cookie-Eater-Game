@@ -21,8 +21,8 @@ public class ItemProjectile extends Item{
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {
-			proj.add(new SummonProjectile(board,board.player,speed,chooseOffset(i,num)));
-			player.addSummon(proj.get(i));
+			proj.add(new SummonProjectile(board,board.user,speed,chooseOffset(i,num)));
+			user.addSummon(proj.get(i));
 			proj.get(i).prepare();
 		}
 	}
@@ -41,7 +41,7 @@ public class ItemProjectile extends Item{
 	public void end(boolean interrupted) {
 		for(int i=0; i<proj.size(); i++) {
 			proj.get(i).end(false);
-			player.removeSummon(proj.get(i));
+			user.removeSummon(proj.get(i));
 			proj.remove(i);
 			i--;
 		}

@@ -5,7 +5,7 @@ import ce3.*;
 public abstract class Item {
 
 	protected Board board;
-	protected Eater player;
+	protected Entity user;
 	protected int amps;
 	protected String name;
 	protected boolean cancel;
@@ -14,7 +14,7 @@ public abstract class Item {
 	
 	public Item(Board frame) {
 		board = frame;
-		player = board.player;
+		user = board.player;
 		amps=0;
 		cancel = false;
 		desc = "";

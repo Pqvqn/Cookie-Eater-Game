@@ -20,32 +20,20 @@ public class ItemCircle extends Item{
 	public void prepare() {
 		radius=radiusunadjust*board.currFloor.getScale();
 		count = 0;
-		initx=player.getXVel();
-		inity=-1*player.getYVel();
+		initx=user.getXVel();
+		inity=-1*user.getYVel();
+		
 		if(initx==0 && inity==0) { //if not moving, base on direction
-			switch(player.getDir()) {
-			case Eater.DOWN:
-				radians = Math.PI/2;
-				break;
-			case Eater.LEFT:
-				radians = 0;
-				break;
-			case Eater.UP:
-				radians = 3*Math.PI/2;
-				break;
-			case Eater.RIGHT:
-				radians = Math.PI;
-				break;
-			}
+			radians = user.getAim()+Math.PI;
 		}else {
 			radians = Math.PI + ((initx>=0) ? Math.atan(inity/initx) : Math.atan(inity/initx) + Math.PI); //find angle to start at
 		}
 	}
 	public void initialize() {
-		player.lockControl(true);
+		user.lockControl(true);
 		
-		//player.setXVel(0);
-		//player.setYVel(0);
+		//user.setXVel(0);
+		//user.setYVel(0);
 	}
 	
 	public void execute() {
@@ -55,18 +43,18 @@ public class ItemCircle extends Item{
 			radians+=.1*(board.getAdjustedCycle()/15.0);
 		
 					
-			player.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))));
+			user.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))));
 
 		}else {count=0;}	
 	}
 	
 	public void end(boolean interrupted) {
-		player.lockControl(false);
+		user.lockControl(false);
 		count = 0;
-		player.averageVels(initx,-inity);
+		user.averageVels(initx,-inity);
 	}
 	public void bounce(double x, double y) {
-		radians = Math.PI + ((player.getXVel()>=0) ? Math.atan(player.getYVel()/player.getXVel()) : Math.atan(player.getYVel()/player.getXVel()) + Math.PI);
+		radians = Math.PI + ((user.getXVel()>=0) ? Math.atan(user.getYVel()/user.getXVel()) : Math.atan(user.getYVel()/user.getXVel()) + Math.PI);
 	}
 	public void amplify() {
 		super.amplify();

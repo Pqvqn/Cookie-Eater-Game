@@ -13,7 +13,7 @@ public class SummonProjectile extends Summon{
 	private double angle_offset;
 	private double radius;
 	
-	public SummonProjectile(Board frame, Eater summoner, double s, double offset) {
+	public SummonProjectile(Board frame, Entity summoner, double s, double offset) {
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
 		angle_offset = offset;

@@ -9,21 +9,21 @@ public class ItemShrink extends Item{
 	public ItemShrink(Board frame) {
 		super(frame);
 		name = "Shrink";
-		desc="Decreases player's size.`Amplify: More shrinkage";
+		desc="Decreases user's size.`Amplify: More shrinkage";
 		new_radius = 20;
 	}
 	public void prepare() {
 		
 	}
 	public void initialize() {
-		start_radius = player.getRadius();
-		player.setRadius(new_radius);
+		start_radius = user.getRadius();
+		user.setRadius(new_radius);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		player.setRadius(start_radius);
+		user.setRadius(start_radius);
 	}
 	public void amplify() {
 		super.amplify();

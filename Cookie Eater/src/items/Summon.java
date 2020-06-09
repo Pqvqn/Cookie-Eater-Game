@@ -8,14 +8,14 @@ import cookies.*;
 public abstract class Summon {
 
 	protected Board board;
-	protected Eater user;
+	protected Entity user;
 	protected double x,y;
 	protected double rotation;
 	protected boolean hit;
 	protected boolean ded;
 	protected double mass;
 	
-	public Summon(Board frame, Eater summoner) {
+	public Summon(Board frame, Entity summoner) {
 		board = frame;
 		user = summoner;
 		hit = false;

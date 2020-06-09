@@ -18,7 +18,7 @@ public class SummonJab extends Summon{
 	private int framecount;
 	private double thickness;
 	
-	public SummonJab(Board frame, Eater summoner, double r) {
+	public SummonJab(Board frame, Entity summoner, double r) {
 		super(frame, summoner);
 		range = r*board.currFloor.getScale();
 		amountforward = (range/100)*board.getAdjustedCycle();

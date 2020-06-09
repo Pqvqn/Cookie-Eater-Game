@@ -12,7 +12,7 @@ public class SummonClone extends Summon{
 	private double radius;
 	private boolean invertx, inverty, swapxy;
 	
-	public SummonClone(Board frame, Eater summoner, double sx, double sy, boolean xInv, boolean yInv, boolean swap) {
+	public SummonClone(Board frame, Entity summoner, double sx, double sy, boolean xInv, boolean yInv, boolean swap) {
 		super(frame, summoner);
 		startx = sx;
 		starty = sy;

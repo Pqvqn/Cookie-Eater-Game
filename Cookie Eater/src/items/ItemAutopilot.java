@@ -24,15 +24,15 @@ public class ItemAutopilot extends Item{
 	public void execute() {	
 		if(checkCanceled())return;
 		adjustSpeeds();
-		player.averageVels(initx,inity);
+		user.averageVels(initx,inity);
 	}
 	
 	public void adjustSpeeds() { //aims to nearest cookie
-		nearest = board.nearestCookie(player.getX(),player.getY());
+		nearest = board.nearestCookie(user.getX(),user.getY());
 		if(nearest==null)return;
-		double rat = ((board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale())/Level.lineLength(player.getX(), player.getY(), nearest.getX(), nearest.getY());
-		initx = rat * (nearest.getX()-player.getX());
-		inity = rat * (nearest.getY()-player.getY());
+		double rat = ((board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale())/Level.lineLength(user.getX(), user.getY(), nearest.getX(), nearest.getY());
+		initx = rat * (nearest.getX()-user.getX());
+		inity = rat * (nearest.getY()-user.getY());
 	}
 	public void end(boolean interrupted) {
 	}

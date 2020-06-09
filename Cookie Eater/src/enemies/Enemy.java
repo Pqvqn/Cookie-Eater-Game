@@ -23,6 +23,7 @@ public abstract class Enemy extends Entity{
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
 	protected ArrayList<Object> bumped; //things bumped into on this cycle
+	protected double targetx, targety;
 	
 	public Enemy(Board frame, double xp, double yp) {
 		board = frame;
@@ -53,6 +54,7 @@ public abstract class Enemy extends Entity{
 	}
 	//runs each cycle
 	public void runUpdate() {
+		super.runUpdate();
 		if(ded)return;
 		testCollisions();
 		if(offStage())kill();
@@ -245,6 +247,9 @@ public abstract class Enemy extends Entity{
 	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
+		targetx = tarX;
+		targety = tarY;
+		if(lock)return;
 		double rat = accel / Level.lineLength(x, y, tarX, tarY);
 		if(Level.lineLength(x, y, tarX, tarY)==0) rat = 0;
 		if(Math.abs(x_velocity)<normVel)x_velocity+=rat*(tarX-x);
@@ -294,5 +299,8 @@ public abstract class Enemy extends Entity{
 	}
 	public double totalVel() {
 		return Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+	}
+	public double getAim() {
+		return Math.atan2((targety-y),(targetx-x));
 	}
 }

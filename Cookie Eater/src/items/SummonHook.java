@@ -17,7 +17,7 @@ public class SummonHook extends Summon{
 	private Enemy tracked;
 	private double xOffset,yOffset;
 	
-	public SummonHook(Board frame, Eater summoner, double s) {
+	public SummonHook(Board frame, Entity summoner, double s) {
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
 		mass = 0;

@@ -14,12 +14,12 @@ public class ItemClone extends Item{
 		clones = new ArrayList<SummonClone>();
 		num = 1;
 		name = "Clone";
-		desc="Creates mirrored clone of player movement.`Amplify: More clones";
+		desc="Creates mirrored clone of user movement.`Amplify: More clones";
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {
-			clones.add(new SummonClone(board,board.player,player.getX(),player.getY(),states[i%3+1][0],states[i%3+1][1],i>2));
-			player.addSummon(clones.get(i));
+			clones.add(new SummonClone(board,board.user,user.getX(),user.getY(),states[i%3+1][0],states[i%3+1][1],i>2));
+			user.addSummon(clones.get(i));
 			clones.get(i).prepare();
 		}
 	}
@@ -38,7 +38,7 @@ public class ItemClone extends Item{
 	public void end(boolean interrupted) {
 		for(int i=0; i<clones.size(); i++) {
 			clones.get(i).end(false);
-			player.removeSummon(clones.get(i));
+			user.removeSummon(clones.get(i));
 			clones.remove(i);
 			i--;
 		}

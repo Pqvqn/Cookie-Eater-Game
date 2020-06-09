@@ -13,16 +13,16 @@ public class ItemGhost extends Item{
 		offstage_dist = 0;
 	}
 	public void initialize() {
-		player.setGhost(true);
-		player.setOffstage(offstage_dist);
-		initod=player.getOffstage();
+		user.setGhost(true);
+		user.setOffstage(offstage_dist);
+		initod=user.getOffstage();
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		player.setGhost(false);
-		player.setOffstage(initod);
+		user.setGhost(false);
+		user.setOffstage(initod);
 	}
 	public void amplify() {
 		super.amplify();

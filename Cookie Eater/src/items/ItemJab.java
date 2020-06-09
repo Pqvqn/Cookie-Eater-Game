@@ -13,8 +13,8 @@ public class ItemJab extends Item{
 		desc="Thrusts out a melee hit.`Amplify: Range increases";
 	}
 	public void prepare() {
-		jab = new SummonJab(board,board.player,range);
-		player.addSummon(jab);
+		jab = new SummonJab(board,board.user,range);
+		user.addSummon(jab);
 		jab.prepare();
 	}
 	public void initialize() {
@@ -28,7 +28,7 @@ public class ItemJab extends Item{
 	}
 	public void end(boolean interrupted) {
 		jab.end(false);
-		player.removeSummon(jab);
+		user.removeSummon(jab);
 	}
 	public void amplify() {
 		super.amplify();

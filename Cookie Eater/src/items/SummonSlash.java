@@ -21,7 +21,7 @@ public class SummonSlash extends Summon{
 	private double accelamountturn;
 	private double thickness;
 	
-	public SummonSlash(Board frame, Eater summoner, double r) {
+	public SummonSlash(Board frame, Entity summoner, double r) {
 		super(frame, summoner);
 		region = r;
 		range= 200*board.currFloor.getScale();

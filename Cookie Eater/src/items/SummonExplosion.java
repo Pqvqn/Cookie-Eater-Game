@@ -15,7 +15,7 @@ public class SummonExplosion extends Summon{
 	private double opacity_decrease;
 	private double exp_x, exp_y;
 
-	public SummonExplosion(Board frame, Eater summoner, double maxRad, double xP, double yP) {
+	public SummonExplosion(Board frame, Entity summoner, double maxRad, double xP, double yP) {
 		super(frame, summoner);
 		maximum_radius = maxRad*board.currFloor.getScale();
 		expansion_amount = maximum_radius/300*board.getAdjustedCycle();

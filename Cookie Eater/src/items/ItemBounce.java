@@ -20,18 +20,18 @@ public class ItemBounce extends Item{ //discontinued
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		if(storex==0)storex=player.getXVel();
-		if(storey==0)storey=player.getYVel();
+		if(storex==0)storex=user.getXVel();
+		if(storey==0)storey=user.getYVel();
 		if(bounces>0)
-			player.averageVels(storex,storey);
+			user.averageVels(storex,storey);
 	}
 	public void end(boolean interrupted) {
 	
 	}
 	public void bounce(double x, double y) {
 		bounces++;
-		if(x-player.getX()!=0)storex=player.getXVel()*(Math.log(bounces+3)/Math.log(consta));
-		if(y-player.getY()!=0)storey=player.getYVel()*(Math.log(bounces+3)/Math.log(consta));
+		if(x-user.getX()!=0)storex=user.getXVel()*(Math.log(bounces+3)/Math.log(consta));
+		if(y-user.getY()!=0)storey=user.getYVel()*(Math.log(bounces+3)/Math.log(consta));
 	}
 	public void amplify() {
 		super.amplify();

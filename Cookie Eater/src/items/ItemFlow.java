@@ -13,20 +13,20 @@ public class ItemFlow extends Item{
 		rate = 1.2;
 	}
 	public void prepare() {
-		inituse = player.getSpecialUseSpeed();
+		inituse = user.getSpecialUseSpeed();
 	}
 	public void initialize() {
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		double velocity = Math.sqrt(Math.pow(player.getXVel(),2)+Math.pow(player.getYVel(), 2)); //get player speed
+		double velocity = Math.sqrt(Math.pow(user.getXVel(),2)+Math.pow(user.getYVel(), 2)); //get user speed
 		velocity/=(board.getAdjustedCycle()/15.0);
 		velocity/=board.currFloor.getScale();
 		if(velocity<1)velocity=1;
-		player.setSpecialUseSpeed(velocity/Math.pow(velocity,rate));
+		user.setSpecialUseSpeed(velocity/Math.pow(velocity,rate));
 	}
 	public void end(boolean interrupted) {
-		player.setSpecialUseSpeed(inituse);
+		user.setSpecialUseSpeed(inituse);
 	}
 	public void amplify() {
 		super.amplify();

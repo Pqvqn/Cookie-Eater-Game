@@ -26,11 +26,11 @@ public class ItemRicochet extends Item{
 		for(int i=0; i<booms.size(); i++) {
 			booms.get(i).execute();
 		}
-		for(int i=0; i<player.getSummons().size(); i++) {
-			Summon sm = player.getSummons().get(i);
+		for(int i=0; i<user.getSummons().size(); i++) {
+			Summon sm = user.getSummons().get(i);
 			if(sm.hit() && sm.getClass()!=SummonExplosion.class) {
-				booms.add(0,new SummonExplosion(board,board.player,maxRad,sm.getEdgeX(),sm.getEdgeY()));
-				player.addSummon(booms.get(0));
+				booms.add(0,new SummonExplosion(board,board.user,maxRad,sm.getEdgeX(),sm.getEdgeY()));
+				user.addSummon(booms.get(0));
 				booms.get(0).prepare();
 				booms.get(0).initialize();
 			}
@@ -39,14 +39,14 @@ public class ItemRicochet extends Item{
 	public void end(boolean interrupted) {
 		for(int i=0; i<booms.size(); i++) {
 			booms.get(i).end(false);
-			player.removeSummon(booms.get(i));
+			user.removeSummon(booms.get(i));
 			booms.remove(i);
 			i--;
 		}
 	}
 	public void bounce(double x, double y) {
-		booms.add(0,new SummonExplosion(board,board.player,maxRad,x,y));
-		player.addSummon(booms.get(0));
+		booms.add(0,new SummonExplosion(board,board.user,maxRad,x,y));
+		user.addSummon(booms.get(0));
 		booms.get(0).prepare();
 		booms.get(0).initialize();
 	}
