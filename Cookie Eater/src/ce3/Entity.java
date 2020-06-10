@@ -7,10 +7,12 @@ public abstract class Entity {
 	protected double x, y; //position
 	protected double x_velocity, y_velocity; //speed
 	protected double mass; //weight
+	protected double radius; //represents size
 	protected double countVels; //number of averaged velocities in cycle
 	protected boolean lock; //can entity control its movement
 	protected boolean shielded; //in stun after shield use
 	protected boolean ghost; //if the entity is in ghost mode
+	protected double extra_radius; //area outside of the model, interacts with everything other than walls
 	
 	public void runUpdate() {
 		countVels = 0;
@@ -48,4 +50,9 @@ public abstract class Entity {
 	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}
 	public boolean getGhosted() {return ghost;}
+	
+	public void setExtraRadius(double er) {extra_radius=er;}
+	public double getExtraRadius() {return extra_radius;}
+	public void setRadius(double r) {radius=r;}
+	public double getRadius() {return radius;}
 }

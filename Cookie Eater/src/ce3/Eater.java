@@ -23,7 +23,6 @@ public class Eater extends Entity{
 	//private Queue<Double> y_positions;
 	//private final int TRAIL_LENGTH = 10;
 	private int id;
-	private int radius;
 	public static final int DEFAULT_RADIUS = 40;
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
@@ -61,7 +60,6 @@ public class Eater extends Entity{
 	private int currSpecial;
 	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
-	private int extra_radius;
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
@@ -156,11 +154,7 @@ public class Eater extends Entity{
 			return 90;
 		}}
 	public void setDir(int dir) {direction = dir;}
-	public void setRadius(int r) {radius=r;}
-	public int getRadius() {return radius;}
-	public void setExtraRadius(int er) {extra_radius=er;}
-	public int getExtraRadius() {return extra_radius;}
-	public int getTotalRadius() {return radius+(int)(.5+extra_radius*scale);}
+	public double getTotalRadius() {return radius+extra_radius*scale;}
 	public double getMaxVel() {return maxvel;}
 	public void setShielded(boolean s) {super.setShielded(s);shield_tick=!s;}
 	public boolean getSpecialActivated(int s) {return special_activated.get(s);}

@@ -13,27 +13,32 @@ public class SegmentCircle extends Segment{
 	public SegmentCircle(Board frame, Enemy host, double x, double y, double rad, double a, Color c) {
 		super(frame,host,x,y,a,c);
 		radius = rad;
+		size = rad;
 	}
-	public boolean collidesWithRect(double x, double y, double w, double h) {
-		return Level.collidesCircleAndRect(xPos, yPos, radius*scale, x, y, w, h);
+	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h) {
+		return Level.collidesCircleAndRect(xPos, yPos, (extra)?getRadius():getTotalRadius(), x, y, w, h);
 	}
-	public boolean collidesWithCircle(double x, double y, double r) {
-		return Level.lineLength(x, y, xPos, yPos) <= r+radius*scale;
+	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
+		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getRadius():getTotalRadius());
 	}
-	public boolean collidesWithSummon(Summon s) {
-		return s.hitsCircle(xPos,yPos,radius*scale);
+	public boolean collidesWithSummon(boolean extra, Summon s) {
+		return s.hitsCircle(xPos,yPos,(extra)?getRadius():getTotalRadius());
 	}
-	public double[] rectHitPoint(double rx, double ry, double rw, double rh) {
-		return Level.circAndRectHitPoint(xPos,yPos,radius*scale,rx,ry,rw,rh);
+	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh) {
+		return Level.circAndRectHitPoint(xPos,yPos,(extra)?getRadius():getTotalRadius(),rx,ry,rw,rh);
 	}
-	public double[] circHitPoint(double cx, double cy, double cr) {
-		return Level.circAndCircHitPoint(xPos,yPos,radius*scale,cx,cy,cr);
+	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
+		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getRadius():getTotalRadius(),cx,cy,cr);
 	}
-	public double[] summonHitPoint(Summon s) {
-		return s.circHitPoint(xPos, yPos, radius*scale);
+	public double[] summonHitPoint(boolean extra, Summon s) {
+		return s.circHitPoint(xPos, yPos, (extra)?getRadius():getTotalRadius());
 	}
 	
 	public double getRadius() {return radius*scale;}
+	public void setSize(int s) {
+		super.setSize(s);
+		radius=s;}
+	public double getTotalRadius() {return getRadius()+extra_size*scale;}
 	public Color getColor() {return color;}
 	public void paint(Graphics g) {
 		super.paint(g);

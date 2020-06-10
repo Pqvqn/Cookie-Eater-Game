@@ -3,8 +3,8 @@ import ce3.*;
 
 public class ItemField extends Item{
 	
-	private int added_radius;
-	private int start_radius;
+	private double added_radius;
+	private double start_radius;
 	
 	public ItemField(Board frame) {
 		super(frame);

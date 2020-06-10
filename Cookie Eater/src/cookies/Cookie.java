@@ -44,10 +44,10 @@ public class Cookie {
 	public void runUpdate() {
 		if(board.cookies.contains(this)) {
 			//delete self on collision with player
-			if(collidesWithCircle((int)(.5+board.player.getX()),(int)(.5+board.player.getY()),board.player.getRadius()*2)) { 
+			if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius()*2)) { 
 				board.player.setNearCookie(true);
 			}
-			if(collidesWithCircle((int)(.5+board.player.getX()),(int)(.5+board.player.getY()),board.player.getTotalRadius())) { 
+			if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getTotalRadius())) { 
 				kill(true);
 			}
 		}
@@ -65,9 +65,9 @@ public class Cookie {
 				*(15.0/board.getAdjustedCycle()));
 	}
 	//test if collides with a circle
-	public boolean collidesWithCircle(int oX, int oY, int oRad) {
-		int xDiff = Math.abs(oX - x);
-		int yDiff = Math.abs(oY - y);
+	public boolean collidesWithCircle(double oX, double oY, double oRad) {
+		double xDiff = Math.abs(oX - x);
+		double yDiff = Math.abs(oY - y);
 		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currFloor.getScale();
 	}
 	

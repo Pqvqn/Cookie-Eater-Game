@@ -96,17 +96,17 @@ public class SpriteEater extends Sprite{
 			e.printStackTrace();
 		}
 		int state = user.getState();
-		int radius = user.getRadius();
+		double radius = user.getRadius();
 		if(state==Eater.DEAD) {
 			g.setColor(new Color(0,0,0,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
+			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), (int)(.5+4*radius), (int)(.5+4*radius));
 		}else if(state==Eater.WIN) {
 			g.setColor(new Color(255,255,255,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), 4*radius, 4*radius);
+			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), (int)(.5+4*radius), (int)(.5+4*radius));
 		}else if(user.getCurrentSpecial()!=-1) {
 			Color meh = user.getSpecialColors().get(user.getCurrentSpecial());
 			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
-			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), 3*radius, 3*radius);
+			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), (int)(.5+3*radius), (int)(.5+3*radius));
 		}
 		if(user.getShielded()) { //invert color if shielded
 			g.setColor(new Color(255-coloration.getRed(),255-coloration.getGreen(),255-coloration.getBlue()));
@@ -116,7 +116,7 @@ public class SpriteEater extends Sprite{
 		if(user.getGhosted()) {
 			g.setColor(new Color(g.getColor().getRed(),g.getColor().getGreen(),g.getColor().getBlue(),100));
 		}
-		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), 2*radius, 2*radius);
+		g.fillOval((int)(.5+x-radius), (int)(.5+y-radius), (int)(.5+2*radius), (int)(.5+2*radius));
 		//images
 		g.drawImage(base,(int)(.5+x-(base.getWidth(null)/10*scale)), (int)(.5+y-(base.getHeight(null)/10*scale)), (int)(2*(.5+base.getWidth(null)/10*scale)), (int)(2*(.5+base.getHeight(null)/10*scale)), null);
 		
