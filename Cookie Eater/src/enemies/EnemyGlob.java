@@ -69,7 +69,7 @@ public class EnemyGlob extends Enemy{
 	public double getRadius() {return blob.getRadius();}
 	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
-		if(!isShielded()) {
+		if(!getShielded()) {
 			sprite.setImage(NEUTRAL+2);
 			sprite2.setImage(NEUTRAL+2);
 			sprite3.setImage(NEUTRAL);

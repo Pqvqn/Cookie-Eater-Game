@@ -5,24 +5,31 @@ public class ItemGhost extends Item{
 	
 	private int offstage_dist;
 	private int initod;
+	private boolean canamp;
 	
 	public ItemGhost(Board frame) {
 		super(frame);
 		name = "Ghost";
 		desc="Player goes through walls.`Amplify: Accessible area offscreen increases";
 		offstage_dist = 0;
+		canamp = user.getClass().equals(Eater.class);
 	}
 	public void initialize() {
 		user.setGhost(true);
-		user.setOffstage(offstage_dist);
-		initod=user.getOffstage();
+		if(canamp) {
+			((Eater)user).setOffstage(offstage_dist);
+			initod=((Eater)user).getOffstage();
+		}
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		user.setGhost(false);
-		user.setOffstage(initod);
+		if(canamp) {
+			((Eater)user).setOffstage(initod);
+		}
+
 	}
 	public void amplify() {
 		super.amplify();

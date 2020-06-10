@@ -43,7 +43,6 @@ public class Eater extends Entity{
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
 	public int shields; //shields owned
-	private boolean shielded; //in stun after shield use
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
 	private boolean shield_tick; //countdown shield
@@ -66,7 +65,6 @@ public class Eater extends Entity{
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
-	private boolean ghost; //if the player is in ghost mode
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private boolean nearCookie;
@@ -164,10 +162,7 @@ public class Eater extends Entity{
 	public int getExtraRadius() {return extra_radius;}
 	public int getTotalRadius() {return radius+(int)(.5+extra_radius*scale);}
 	public double getMaxVel() {return maxvel;}
-	public void setShielded(boolean s) {shielded = s;shield_tick=!s;}
-	public boolean getShielded() {return shielded;}
-	public void setGhost(boolean g) {ghost = g;}
-	public boolean getGhosted() {return ghost;}
+	public void setShielded(boolean s) {super.setShielded(s);shield_tick=!s;}
 	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
 	public void activateSpecials() {
 		for(int i=0; i<special_activated.size(); i++) {

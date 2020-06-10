@@ -93,6 +93,7 @@ public abstract class Enemy extends Entity{
 		for(int i=0; i<stash.size(); i++) {
 			stash.get(i).runUpdate();
 		}
+		shielded = shield_frames>0;
 	}
 	//given point, adjusts velocity for bouncing off from that point
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
@@ -117,7 +118,6 @@ public abstract class Enemy extends Entity{
 			if(shields--<=0)kill();
 			shield_frames++;
 		}
-	
 	}
 	//if offstage
 	public boolean offStage() {
@@ -127,7 +127,7 @@ public abstract class Enemy extends Entity{
 	public void testCollisions() {
 		for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
-			if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
+			if(!ghost&&(!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
 				double[] point = parts.get(j).circHitPoint(player.getX(),player.getY(),player.getTotalRadius());
 				collideAt(player,point[0],point[1],player.getXVel(),player.getYVel(),player.getMass());
 				player.collideAt(this,point[0],point[1],x_velocity, y_velocity, mass);
@@ -147,7 +147,7 @@ public abstract class Enemy extends Entity{
 			}
 			for(int i=0; i<board.enemies.size(); i++) { //for every enemy, test if any parts impact
 				Enemy e = board.enemies.get(i);
-				if(!e.equals(this)) {
+				if(!e.getGhosted() && !ghost && !e.equals(this)) {
 					for(int k=0; k<e.getParts().size(); k++) {
 						Segment s = e.getParts().get(k);
 						if(s.getClass()==SegmentCircle.class) {
@@ -176,7 +176,7 @@ public abstract class Enemy extends Entity{
 			}
 			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
 				Summon s = board.player.getSummons().get(i);
-				if(parts.get(j).collidesWithSummon(s) && !s.isDed()){
+				if(!ghost && parts.get(j).collidesWithSummon(s) && !s.isDed()){
 					if(!board.player.getGhosted()||board.player.getShielded()) {
 						double[] point = parts.get(j).summonHitPoint(s);
 						collideAt(s,point[0],point[1],s.getXVel(),s.getYVel(),s.getMass());
@@ -192,7 +192,7 @@ public abstract class Enemy extends Entity{
 			}
 			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
-				if(parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
+				if(!ghost && parts.get(j).collidesWithRect(w.getX(),w.getY(),w.getW(),w.getH())){
 					double[] point = parts.get(j).rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH());
 					collideAt(w,point[0],point[1],0,0,999999999);
 					collideWall();
@@ -260,6 +260,7 @@ public abstract class Enemy extends Entity{
 		while(!stash.isEmpty()) {
 			double ang = Math.random()*Math.PI*2;
 			double r=80*board.currFloor.getScale();
+			if(stash.get(0).getClass().getSuperclass().equals(CookieStore.class))r*=2;
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
 			for(Wall w:board.walls) {
@@ -284,10 +285,6 @@ public abstract class Enemy extends Entity{
 	//puts cookies in stash on spawn
 	public void createStash() {
 		
-	}
-	//is this in shield stun
-	public boolean isShielded() {
-		return shield_frames>0;
 	}
 	public ArrayList<Segment> getParts(){return parts;}
 	public void giveCookie(Cookie c) {stash.add(c);}

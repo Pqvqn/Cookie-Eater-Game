@@ -7,15 +7,19 @@ public class ItemShield extends Item{
 	private double newminrecoil;
 	private double initmaxrecoil;
 	private double newmaxrecoil;
+	private boolean canamp;
 	
 	public ItemShield(Board frame) {
 		super(frame);
 		name = "Shield";
 		desc="Shields the user.`Amplify: Recoil increases";
-		initminrecoil=user.getMinRecoil();
-		newminrecoil=initminrecoil;
-		initmaxrecoil=user.getMaxRecoil();
-		newmaxrecoil=initmaxrecoil;
+		canamp = user.getClass().equals(Eater.class);
+		if(canamp) {
+			initminrecoil=((Eater)user).getMinRecoil();
+			newminrecoil=initminrecoil;
+			initmaxrecoil=((Eater)user).getMaxRecoil();
+			newmaxrecoil=initmaxrecoil;
+		}
 	}
 
 	public void initialize() {
@@ -25,15 +29,19 @@ public class ItemShield extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		user.setShielded(true);
-		if(user.getMinRecoil()!=newminrecoil)
-			user.setMinRecoil(newminrecoil);
-		if(user.getMaxRecoil()!=newmaxrecoil)
-			user.setMaxRecoil(newmaxrecoil);
+		if(canamp) {
+			if(((Eater)user).getMinRecoil()!=newminrecoil)
+					((Eater)user).setMinRecoil(newminrecoil);
+			if(((Eater)user).getMaxRecoil()!=newmaxrecoil)
+					((Eater)user).setMaxRecoil(newmaxrecoil);
+		}
 	}
 	
 	public void end(boolean interrupted) {
-		user.setMinRecoil(initminrecoil);
-		user.setMaxRecoil(initmaxrecoil);
+		if(canamp) {
+			((Eater)user).setMinRecoil(initminrecoil);
+			((Eater)user).setMaxRecoil(initmaxrecoil);
+		}
 		user.setShielded(false);
 	}
 	public void amplify() {

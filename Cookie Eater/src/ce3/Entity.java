@@ -9,6 +9,8 @@ public abstract class Entity {
 	protected double mass; //weight
 	protected double countVels; //number of averaged velocities in cycle
 	protected boolean lock; //can entity control its movement
+	protected boolean shielded; //in stun after shield use
+	protected boolean ghost; //if the entity is in ghost mode
 	
 	public void runUpdate() {
 		countVels = 0;
@@ -41,4 +43,9 @@ public abstract class Entity {
 		setXVel((getXVel()*(countVels-1)+xVel)/countVels);
 		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
 	}
+	
+	public void setShielded(boolean s) {shielded = s;}
+	public boolean getShielded() {return shielded;}
+	public void setGhost(boolean g) {ghost = g;}
+	public boolean getGhosted() {return ghost;}
 }
