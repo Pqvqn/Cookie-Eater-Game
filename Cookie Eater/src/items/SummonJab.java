@@ -71,7 +71,10 @@ public class SummonJab extends Summon{
 		c.kill(true);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
-		if(shield)user.bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
+		if(shield) {
+			double[] point = Level.circAndRectHitPoint(user.getX(),user.getY(),user.getRadius(),w.getX(),w.getY(),w.getW(),w.getH());
+			user.collideAt(w,point[0],point[1],0,0,999999999);
+		}
 		if(ghost)return;
 		state = HOLD;
 		distforward-=amountforward;

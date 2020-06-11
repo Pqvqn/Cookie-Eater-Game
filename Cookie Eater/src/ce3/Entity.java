@@ -1,9 +1,15 @@
 package ce3;
 
+import java.util.ArrayList;
+
+import items.Summon;
+
 public abstract class Entity {
 
 	//parent class of moving, colliding objects on the stage
 	
+	protected Board board; //main board
+	protected double scale; //zoom in/out of screen
 	protected double x, y; //position
 	protected double x_velocity, y_velocity; //speed
 	protected double mass; //weight
@@ -13,9 +19,21 @@ public abstract class Entity {
 	protected boolean shielded; //in stun after shield use
 	protected boolean ghost; //if the entity is in ghost mode
 	protected double extra_radius; //area outside of the model, interacts with everything other than walls
+	protected ArrayList<Summon> summons; //constructed objects owned by entity
+	protected ArrayList<Object> bumped; //all things bumped into during this cycle
+	protected boolean special; //whether a special is active
+	
+	public Entity(Board frame) {
+		board = frame;
+		scale = 1;
+		summons = new ArrayList<Summon>();
+		bumped = new ArrayList<Object>();
+		special = false;
+	}
 	
 	public void runUpdate() {
 		countVels = 0;
+		scale = board.currFloor.getScale();
 	}
 	
 	public double getX() {return x;}
@@ -51,8 +69,41 @@ public abstract class Entity {
 	public void setGhost(boolean g) {ghost = g;}
 	public boolean getGhosted() {return ghost;}
 	
-	public void setExtraRadius(double er) {extra_radius=er;}
-	public double getExtraRadius() {return extra_radius;}
-	public void setRadius(double r) {radius=r;}
-	public double getRadius() {return radius;}
+	public void setExtraRadius(double er) {extra_radius=er/scale;}
+	public double getExtraRadius() {return extra_radius*scale;}
+	public void setRadius(double r) {radius=r/scale;}
+	public double getRadius() {return radius*scale;}
+	public double getTotalRadius() {return (radius+extra_radius)*scale;}
+	
+	public void addSummon(Summon s) {summons.add(s);}
+	public void removeSummon(Summon s) {summons.remove(s);}
+	public ArrayList<Summon> getSummons() {return summons;}
+	
+	public void addBump(Object b) {bumped.add(b);}
+	
+	//bounces accoridng to collision with moving mass at point 
+	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
+		if(b!=null&&bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
+		bumped.add(b);
+		double actual_mass = mass;
+		for(Summon s: summons)actual_mass+=s.getMass();
+		double pvx = (xp-x), pvy = (yp-y);
+		double oxm = oxv*om, oym = oyv*om;
+		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass;
+		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
+		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
+		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
+	
+		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
+		
+		x_velocity=pvy*proejjjg-projdx/actual_mass;
+		y_velocity=-pvx*proejjjg-projdy/actual_mass;
+			
+		/*if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).bounce(xp,yp);
+			}
+		}*/
+	}
+	
 }

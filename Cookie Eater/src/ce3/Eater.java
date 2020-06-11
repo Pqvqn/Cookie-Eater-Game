@@ -38,20 +38,18 @@ public class Eater extends Entity{
 	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
 	private boolean dO; //continue movement
-	private double scale; //zoom in/out of screen
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
 	public int shields; //shields owned
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
 	private boolean shield_tick; //countdown shield
-	private int special_length; //stun length
-	private ArrayList<Double> special_frames; //counting how deep into shield
+	private int special_length; //how long special lasts
+	private ArrayList<Double> special_frames; //counting how deep into special
 	private int special_cooldown; //frames between uses of special
 	private double special_use_speed; //"frames" passed per frame of special use
 	private ArrayList<Boolean> special_activated; //if special is triggerable
 	private ArrayList<Color> special_colors; //color associated with each special
-	private ArrayList<Summon> summons; //constructed objects owned by player
 	private double minRecoil; //how fast player bounces off wall (min and max)
 	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
@@ -66,12 +64,10 @@ public class Eater extends Entity{
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private boolean nearCookie;
-	private ArrayList<Object> bumped; //all things bumped into during this cycle
 	private boolean checkCalibration;
 	
-	private Board board;
-	
 	public Eater(Board frame, int num, int cycletime) {
+		super(frame);
 		id = num;
 		calibration_ratio = cycletime/15.0;
 		dO= true;
@@ -83,7 +79,6 @@ public class Eater extends Entity{
 		y_velocity = 0;
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
-		scale = 1;
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		terminal_velocity = 50*calibration_ratio;
@@ -111,7 +106,6 @@ public class Eater extends Entity{
 		maxRecoil = 50*calibration_ratio;
 		state = LIVE;
 		powerups = new ArrayList<ArrayList<Item>>();
-		summons = new ArrayList<Summon>();
 		for(int i=0; i<3; i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0.0);
@@ -124,7 +118,6 @@ public class Eater extends Entity{
 		ghost = false;
 		offstage = 0;
 		mass = 200;
-		bumped = new ArrayList<Object>();
 		checkCalibration = true;
 		try {
 			sprite = new SpriteEater(board,this);
@@ -154,7 +147,6 @@ public class Eater extends Entity{
 			return 90;
 		}}
 	public void setDir(int dir) {direction = dir;}
-	public double getTotalRadius() {return radius+extra_radius*scale;}
 	public double getMaxVel() {return maxvel;}
 	public void setShielded(boolean s) {super.setShielded(s);shield_tick=!s;}
 	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
@@ -189,9 +181,6 @@ public class Eater extends Entity{
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
-	public void addSummon(Summon s) {summons.add(s);}
-	public void removeSummon(Summon s) {summons.remove(s);}
-	public ArrayList<Summon> getSummons() {return summons;}
 	public double getFriction() {return fric;}
 	public void extendSpecial(double time) {
 		for(int i=0; i<special_frames.size(); i++) {
@@ -258,7 +247,6 @@ public class Eater extends Entity{
 	public void setOffstage(int d) {offstage=d;}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
-	public void addBump(Object b) {bumped.add(b);}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	public boolean getCalibCheck() {return checkCalibration;}
@@ -304,7 +292,7 @@ public class Eater extends Entity{
 	public boolean collidesWithRect(int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
 				(y + radius > oY && y - radius < oY + oH);*/
-		return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius,oX,oY,oW,oH);
+		return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius*scale,oX,oY,oW,oH);
 			/*(Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
 				(Math.abs(x - (oX+oW)) <= radius && y>=oY && y<=oY+oH)||
 				(Math.abs(y - oY) <= radius && x>=oX && x<=oX+oW) ||
@@ -316,7 +304,7 @@ public class Eater extends Entity{
 						
 	}
 	public boolean collidesWithCircle(double x2, double y2, double radius2) {
-		return Math.sqrt(Math.pow(x-x2, 2)+Math.pow(y-y2, 2))<radius+radius2;
+		return Math.sqrt(Math.pow(x-x2, 2)+Math.pow(y-y2, 2))<radius*scale+radius2;
 	}
 	//tests if off screen
 	public boolean outOfBounds() {
@@ -328,6 +316,7 @@ public class Eater extends Entity{
 		if(board.currFloor.specialsEnabled()) {
 			if(state!=LIVE || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
 			state=SPECIAL;
+			special=true;
 			special_activated.set(index, false);
 			currSpecial = index;
 			for(int i=0; i<powerups.get(index).size(); i++) {
@@ -351,6 +340,7 @@ public class Eater extends Entity{
 		}
 		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
 		state = DEAD;
+		special = false;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
@@ -412,6 +402,7 @@ public class Eater extends Entity{
 				powerups.get(currSpecial).get(i).end(true);
 		}
 		state = WIN;
+		special = false;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
@@ -435,6 +426,7 @@ public class Eater extends Entity{
 	//resets player to floor-beginning state
 	public void reset() {
 		state = LIVE;
+		special = false;
 		currSpecial = -1;
 		shielded = false;
 		shield_frames = 0;
@@ -454,7 +446,7 @@ public class Eater extends Entity{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		fric = friction*scale;
-		radius = (int)(.5+DEFAULT_RADIUS*scale);
+		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
 	}
@@ -475,7 +467,7 @@ public class Eater extends Entity{
 	//uses shield instead of killing
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
-		double[] point = Level.circAndRectHitPoint(x,y,radius,rx,ry,rw,rh);
+		double[] point = Level.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
 		collideAt(w,point[0],point[1],0,0,999999999);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
@@ -495,30 +487,6 @@ public class Eater extends Entity{
 		if(state==SPECIAL) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
-			}
-		}
-	}
-	//bounces accoridng to collision with moving mass at point 
-	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(b!=null&&bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
-		bumped.add(b);
-		double actual_mass = mass;
-		for(Summon s: summons)actual_mass+=s.getMass();
-		double pvx = (xp-x), pvy = (yp-y);
-		double oxm = oxv*om, oym = oyv*om;
-		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass;
-		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
-		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
-		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
-	
-		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
-	
-		x_velocity=pvy*proejjjg-projdx/actual_mass;
-		y_velocity=-pvx*proejjjg-projdy/actual_mass;
-		
-		if(state==SPECIAL) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(xp,yp);
 			}
 		}
 	}
@@ -567,6 +535,7 @@ public class Eater extends Entity{
 			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
 			if(special_frames.get(currSpecial)>special_length) {
 				state = LIVE;
+				special = false;
 				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 					powerups.get(currSpecial).get(i).end(false);
 				}

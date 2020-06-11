@@ -1,6 +1,7 @@
 package enemies;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.*;
 
 import ce3.*;
@@ -11,7 +12,6 @@ import items.*;
 public abstract class Enemy extends Entity{
 
 	protected ArrayList<Segment> parts;
-	protected Board board;
 	protected Eater player;
 	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
 	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
@@ -22,10 +22,10 @@ public abstract class Enemy extends Entity{
 	protected boolean ded; //am i deceased
 	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
-	protected ArrayList<Object> bumped; //things bumped into on this cycle
 	protected double targetx, targety;
 	
 	public Enemy(Board frame, double xp, double yp) {
+		super(frame);
 		board = frame;
 		ded=false;
 		x = xp;
@@ -95,22 +95,6 @@ public abstract class Enemy extends Entity{
 			stash.get(i).runUpdate();
 		}
 		shielded = shield_frames>0;
-	}
-	//given point, adjusts velocity for bouncing off from that point
-	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(bumped.contains(b)&&b.getClass()!=Wall.class)return; //don't collide if already hit this cycle
-		bumped.add(b);
-		double pvx = (xp-x), pvy = (yp-y);
-		double oxm = oxv*om, oym = oyv*om;
-		double txm = x_velocity*mass, tym = y_velocity*mass;
-		double oProj = -(oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy);
-		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
-		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
-		
-		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
-		
-		x_velocity=pvy*proejjjg-projdx/mass;
-		y_velocity=-pvx*proejjjg-projdy/mass;
 	}
 	//when hit wall
 	public void collideWall() {
@@ -293,6 +277,12 @@ public abstract class Enemy extends Entity{
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).paint(g);
+		}
+		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform origt = g2.getTransform();
+		for(int i=0; i<summons.size(); i++) { //draw summons
+			summons.get(i).paint(g2);
+			g2.setTransform(origt);
 		}
 	}
 	public double totalVel() {
