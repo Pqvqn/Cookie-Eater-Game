@@ -26,10 +26,10 @@ public class EnemySlob extends Enemy{
 		mass = 60;
 		shields=5;
 		steals = true;
-		friction = .97;
+		friction = .999;
 		terminalVelocity = 3;
 		normalVelocity = .2;
-		acceleration = 1;
+		acceleration = .05;
 		angle = 0;
 		chargeCoords = null;
 		prevCookies = 0;

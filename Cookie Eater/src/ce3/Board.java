@@ -28,7 +28,7 @@ public class Board extends JFrame{
 	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
-	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
+	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor4(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)}; //order of floors
@@ -112,7 +112,7 @@ public class Board extends JFrame{
 	}
 	
 	public int getCycle() {return cycletime;}
-	public int getAdjustedCycle() {return true_cycle;}
+	public double getAdjustedCycle() {return true_cycle/100.0;}
 	public void setCycle(int tim) {cycletime=tim;}
 	
 	
@@ -166,9 +166,12 @@ public class Board extends JFrame{
 		//fps counter
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
-			true_cycle=(int)(System.currentTimeMillis()-lastFrame)/100; 
+			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
 			for(int i=0; i<players.size(); i++) {
-				players.get(i).setCalibration(true_cycle/15.0); //give player more acurrate cycle time
+				players.get(i).setCalibration(getAdjustedCycle()/15.0); //give player more acurrate cycle time
+			}
+			for(int i=0; i<enemies.size(); i++) {
+				enemies.get(i).setCalibration(getAdjustedCycle()); //give enemies more acurrate cycle time
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;

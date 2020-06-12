@@ -29,7 +29,7 @@ public class ItemRicochet extends Item{
 		for(int i=0; i<user.getSummons().size(); i++) {
 			Summon sm = user.getSummons().get(i);
 			if(sm.hit() && sm.getClass()!=SummonExplosion.class) {
-				booms.add(0,new SummonExplosion(board,board.user,maxRad,sm.getEdgeX(),sm.getEdgeY()));
+				booms.add(0,new SummonExplosion(board,user,maxRad,sm.getEdgeX(),sm.getEdgeY()));
 				user.addSummon(booms.get(0));
 				booms.get(0).prepare();
 				booms.get(0).initialize();
@@ -45,7 +45,7 @@ public class ItemRicochet extends Item{
 		}
 	}
 	public void bounce(double x, double y) {
-		booms.add(0,new SummonExplosion(board,board.user,maxRad,x,y));
+		booms.add(0,new SummonExplosion(board,user,maxRad,x,y));
 		user.addSummon(booms.get(0));
 		booms.get(0).prepare();
 		booms.get(0).initialize();

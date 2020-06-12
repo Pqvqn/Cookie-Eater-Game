@@ -21,10 +21,10 @@ public class EnemyBlob extends Enemy{
 		mass = 30;
 		shields=1;
 		steals = true;
-		friction = .97;
+		friction = .999;
 		terminalVelocity = 2;
 		normalVelocity = .2;
-		acceleration = .2;
+		acceleration = .01;
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});

@@ -13,7 +13,7 @@ public class ItemSlash extends Item{
 		desc="Swings a melee hit.`Amplify: Region of swing increases";
 	}
 	public void prepare() {
-		slash = new SummonSlash(board,board.user,region);
+		slash = new SummonSlash(board,user,region);
 		user.addSummon(slash);
 		slash.prepare();
 	}

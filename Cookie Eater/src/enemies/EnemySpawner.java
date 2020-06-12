@@ -20,10 +20,10 @@ public class EnemySpawner extends Enemy{
 		mass = 1000;
 		shields=0;
 		steals = true;
-		friction = .97;
+		friction = .999;
 		terminalVelocity = 6;
 		normalVelocity = .2;
-		acceleration = 1;
+		acceleration = .05;
 		spawns = new ArrayList<Enemy>();
 	}
 	public void buildBody() {

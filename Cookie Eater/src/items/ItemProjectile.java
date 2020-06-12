@@ -21,7 +21,7 @@ public class ItemProjectile extends Item{
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {
-			proj.add(new SummonProjectile(board,board.user,speed,chooseOffset(i,num)));
+			proj.add(new SummonProjectile(board,user,speed,chooseOffset(i,num)));
 			user.addSummon(proj.get(i));
 			proj.get(i).prepare();
 		}

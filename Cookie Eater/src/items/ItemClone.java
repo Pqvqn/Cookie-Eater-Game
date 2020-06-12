@@ -18,7 +18,7 @@ public class ItemClone extends Item{
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {
-			clones.add(new SummonClone(board,board.user,user.getX(),user.getY(),states[i%3+1][0],states[i%3+1][1],i>2));
+			clones.add(new SummonClone(board,user,user.getX(),user.getY(),states[i%3+1][0],states[i%3+1][1],i>2));
 			user.addSummon(clones.get(i));
 			clones.get(i).prepare();
 		}

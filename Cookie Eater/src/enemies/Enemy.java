@@ -26,6 +26,7 @@ public abstract class Enemy extends Entity{
 	
 	public Enemy(Board frame, double xp, double yp) {
 		super(frame);
+		calibration_ratio = board.getAdjustedCycle();
 		board = frame;
 		ded=false;
 		x = xp;
@@ -36,7 +37,7 @@ public abstract class Enemy extends Entity{
 		x_velocity=0;
 		y_velocity=0;
 		mass = 100;
-		shield_duration = 60*board.getAdjustedCycle();
+		shield_duration = (int)(.5+60*board.getAdjustedCycle());
 		shield_frames = 0;
 		bumped = new ArrayList<Object>();
 		stash = new ArrayList<Cookie>();
@@ -44,6 +45,11 @@ public abstract class Enemy extends Entity{
 		buildBody();
 		orientParts();
 		createStash();
+		
+		fric = Math.pow(friction, calibration_ratio);
+		termVel = terminalVelocity*board.currFloor.getScale()*calibration_ratio;
+		normVel = normalVelocity*board.currFloor.getScale()*calibration_ratio;
+		accel = acceleration*board.currFloor.getScale()*calibration_ratio*calibration_ratio;
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
@@ -56,13 +62,10 @@ public abstract class Enemy extends Entity{
 	//runs each cycle
 	public void runUpdate() {
 		super.runUpdate();
+		setCalibration(board.getAdjustedCycle());
 		if(ded)return;
 		testCollisions();
 		if(offStage())kill();
-		fric = Math.pow(friction, 1/(double)board.getAdjustedCycle());
-		termVel = terminalVelocity*board.currFloor.getScale()*board.getAdjustedCycle();
-		normVel = normalVelocity*board.currFloor.getScale()*board.getAdjustedCycle();
-		accel = acceleration*board.currFloor.getScale()/board.getAdjustedCycle();
 	
 		if(player.getDir()!=Eater.NONE) {
 			x+=x_velocity;
@@ -96,9 +99,18 @@ public abstract class Enemy extends Entity{
 		}
 		shielded = shield_frames>0;
 	}
+	public void setCalibration(double calrat) {
+		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		fric = Math.pow(friction, calrat);
+		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
+		normVel = normalVelocity*board.currFloor.getScale()*calrat;
+		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
+		shield_duration = (int)(.5+60*calrat);
+		calibration_ratio = calrat;
+	}
 	//when hit wall
 	public void collideWall() {
-		shield_duration = 60*board.getAdjustedCycle();
+		shield_duration = (int)(.5+60*board.getAdjustedCycle());
 		if(shield_frames==0) {
 			if(shields--<=0)kill();
 			shield_frames++;

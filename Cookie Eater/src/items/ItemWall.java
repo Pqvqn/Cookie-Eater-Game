@@ -13,7 +13,7 @@ public class ItemWall extends Item{
 		desc="Makes wall that can be hit without shield usage.`Amplify: Range increases";
 	}
 	public void prepare() {
-		wall = new SummonWall(board,board.user,range);
+		wall = new SummonWall(board,user,range);
 		user.addSummon(wall);
 		wall.prepare();
 	}

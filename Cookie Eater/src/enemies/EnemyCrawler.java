@@ -20,10 +20,10 @@ public class EnemyCrawler extends Enemy{
 		mass = 30;
 		shields=3;
 		steals = true;
-		friction = .97;
+		friction = .999;
 		terminalVelocity = 2;
 		normalVelocity = .2;
-		acceleration = .2;
+		acceleration = .01;
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});

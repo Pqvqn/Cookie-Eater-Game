@@ -22,6 +22,8 @@ public abstract class Entity {
 	protected ArrayList<Summon> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
 	protected boolean special; //whether a special is active
+	protected boolean check_calibration;
+	protected double calibration_ratio; //framerate ratio
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -29,6 +31,7 @@ public abstract class Entity {
 		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
 		special = false;
+		check_calibration = true;
 	}
 	
 	public void runUpdate() {
@@ -105,5 +108,10 @@ public abstract class Entity {
 			}
 		}*/
 	}
+	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
+	
+	}
+	public boolean getCalibCheck() {return check_calibration;}
+	public void setCalibCheck(boolean cc) {check_calibration = cc;}
 	
 }

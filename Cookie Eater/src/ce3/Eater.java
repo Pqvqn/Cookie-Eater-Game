@@ -56,7 +56,6 @@ public class Eater extends Entity{
 	private int state;
 	private ArrayList<ArrayList<Item>> powerups;
 	private int currSpecial;
-	private double calibration_ratio; //framerate ratio
 	private double decayedValue;
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
@@ -64,8 +63,7 @@ public class Eater extends Entity{
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private boolean nearCookie;
-	private boolean checkCalibration;
-	
+
 	public Eater(Board frame, int num, int cycletime) {
 		super(frame);
 		id = num;
@@ -118,7 +116,7 @@ public class Eater extends Entity{
 		ghost = false;
 		offstage = 0;
 		mass = 200;
-		checkCalibration = true;
+		check_calibration = true;
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -200,7 +198,7 @@ public class Eater extends Entity{
 	public int getCurrentSpecial() {return currSpecial;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!checkCalibration || (int)calrat==(int)calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
@@ -249,8 +247,6 @@ public class Eater extends Entity{
 	public void setNearCookie(boolean n) {nearCookie = n;}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
-	public boolean getCalibCheck() {return checkCalibration;}
-	public void setCalibCheck(boolean cc) {checkCalibration = cc;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
