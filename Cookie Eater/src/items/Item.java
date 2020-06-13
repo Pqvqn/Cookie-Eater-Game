@@ -11,6 +11,7 @@ public abstract class Item {
 	protected boolean cancel;
 	protected int waiting;
 	protected String desc;
+	protected boolean isplayer;
 	
 	public Item(Board frame) {
 		board = frame;
@@ -18,6 +19,7 @@ public abstract class Item {
 		amps=0;
 		cancel = false;
 		desc = "";
+		isplayer = user.getClass().equals(Eater.class);
 	}
 	//set all vars before other items change them
 	public void prepare() {

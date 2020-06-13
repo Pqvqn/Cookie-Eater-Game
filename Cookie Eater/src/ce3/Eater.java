@@ -44,18 +44,10 @@ public class Eater extends Entity{
 	private int shield_length; //stun length
 	private int shield_frames; //counting how deep into shield
 	private boolean shield_tick; //countdown shield
-	private int special_length; //how long special lasts
-	private ArrayList<Double> special_frames; //counting how deep into special
-	private int special_cooldown; //frames between uses of special
-	private double special_use_speed; //"frames" passed per frame of special use
-	private ArrayList<Boolean> special_activated; //if special is triggerable
-	private ArrayList<Color> special_colors; //color associated with each special
 	private double minRecoil; //how fast player bounces off wall (min and max)
 	private double maxRecoil;
-	public static final int LIVE = 0, DEAD =-1, WIN = 1, SPECIAL = 2; //states
+	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
 	private int state;
-	private ArrayList<ArrayList<Item>> powerups;
-	private int currSpecial;
 	private double decayedValue;
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
@@ -93,23 +85,10 @@ public class Eater extends Entity{
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		shield_tick = true;
-		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_frames = new ArrayList<Double>();
-		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		special_use_speed = 1;
-		special_colors = new ArrayList<Color>();
-		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
-		special_activated = new ArrayList<Boolean>();
+		
 		minRecoil = 10*calibration_ratio;
 		maxRecoil = 50*calibration_ratio;
 		state = LIVE;
-		powerups = new ArrayList<ArrayList<Item>>();
-		for(int i=0; i<3; i++) {
-			powerups.add(new ArrayList<Item>());
-			special_frames.add(0.0);
-			special_activated.add(false);
-		}
-		currSpecial = -1;
 
 		decayedValue = 0;
 		extra_radius = 0;
@@ -147,13 +126,6 @@ public class Eater extends Entity{
 	public void setDir(int dir) {direction = dir;}
 	public double getMaxVel() {return maxvel;}
 	public void setShielded(boolean s) {super.setShielded(s);shield_tick=!s;}
-	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
-	public void activateSpecials() {
-		for(int i=0; i<special_activated.size(); i++) {
-			if(special_frames.get(i)==0)
-				special_activated.set(i, true);
-		}
-	}
 	public int getState() {return state;}
 	public int getScore() {return score;}
 	public void addScore(int s) {score+=s;}
@@ -163,39 +135,11 @@ public class Eater extends Entity{
 	public void addCash(double c) {cash+=c;}
 	public int getShields() {return shields;}
 	public void addShields(int s) {shields+=s;}
-	
-	
 	public void addItem(int index, Item i) {
-		if(index<0)index=0;
-		boolean add = true;
-		for(int j=0; j<powerups.get(index).size(); j++) { //see if item already in list
-			Item test = powerups.get(index).get(j);
-			if(i.getName().equals(test.getName())) { //if duplicate, amplify instead of adding
-				add = false;
-				test.amplify();
-			}
-		}
-		if(add)powerups.get(index).add(i);
+		super.addItem(index, i);
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
-	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public double getFriction() {return fric;}
-	public void extendSpecial(double time) {
-		for(int i=0; i<special_frames.size(); i++) {
-			if(special_frames.get(i)<special_length && special_frames.get(i)!=0) {
-				if(special_frames.get(i)>time) {
-					special_frames.set(i,special_frames.get(i)-time);
-				}else {
-					special_frames.set(i, 1.0);
-				}
-			}
-		}
-	}
-	public int getSpecialLength() {return special_length;}
-	public int getSpecialCooldown() {return special_cooldown;}
-	public ArrayList<Double> getSpecialFrames() {return special_frames;}
-	public ArrayList<Color> getSpecialColors() {return special_colors;}
-	public int getCurrentSpecial() {return currSpecial;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
@@ -245,8 +189,6 @@ public class Eater extends Entity{
 	public void setOffstage(int d) {offstage=d;}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
-	public double getSpecialUseSpeed() {return special_use_speed;}
-	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -307,30 +249,10 @@ public class Eater extends Entity{
 		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
 	}
 	
-	//activates special A (all powerups tied to A)
-	public void special(int index) {
-		if(board.currFloor.specialsEnabled()) {
-			if(state!=LIVE || special_frames.get(index)!=0 || direction==NONE || !special_activated.get(index))return;
-			state=SPECIAL;
-			special=true;
-			special_activated.set(index, false);
-			currSpecial = index;
-			for(int i=0; i<powerups.get(index).size(); i++) {
-				powerups.get(index).get(i).prepare();
-			}
-			for(int i=0; i<powerups.get(index).size(); i++) {
-				powerups.get(index).get(i).initialize();
-			}
-		}else {
-			currSpecial = index;
-
-		}
-	}
-	
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
-		if(state==SPECIAL) {
+		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
 				powerups.get(currSpecial).get(i).end(true);
 		}
@@ -393,7 +315,7 @@ public class Eater extends Entity{
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
-		if(state==SPECIAL) {
+		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
 				powerups.get(currSpecial).get(i).end(true);
 		}
@@ -480,7 +402,7 @@ public class Eater extends Entity{
 			x+=(x-point[0])*rat; //move out of other
 			y+=(y-point[1])*rat;
 		}
-		if(state==SPECIAL) {
+		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
 			}
@@ -522,28 +444,6 @@ public class Eater extends Entity{
 			}
 			if(allDead) { //win if last man standing
 				win();
-			}
-		}
-		if(state == SPECIAL) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).execute();
-			}
-			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
-			if(special_frames.get(currSpecial)>special_length) {
-				state = LIVE;
-				special = false;
-				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-					powerups.get(currSpecial).get(i).end(false);
-				}
-				currSpecial = -1;
-			}
-		}
-		for(int i=0; i<special_frames.size(); i++) {
-			if(special_frames.get(i)>special_length) {
-				special_frames.set(i,special_frames.get(i)+1);
-				if(special_frames.get(i)>special_length+special_cooldown) {
-					special_frames.set(i,0.0);
-				}
 			}
 		}
 		if(shielded && shield_tick) {

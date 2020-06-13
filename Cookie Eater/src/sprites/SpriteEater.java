@@ -69,6 +69,9 @@ public class SpriteEater extends Sprite{
 			expression = EAT;
 		if(user.getShielded())
 			expression = HIT;
+		if(user.getSpecialActivated()) {
+			expression = SPECIAL;
+		}
 		
 		switch(user.getState()) {
 		case Eater.WIN:
@@ -76,9 +79,6 @@ public class SpriteEater extends Sprite{
 			break;
 		case Eater.DEAD:
 			expression = DIE;
-			break;
-		case Eater.SPECIAL:
-			expression = SPECIAL;
 			break;
 		}
 		

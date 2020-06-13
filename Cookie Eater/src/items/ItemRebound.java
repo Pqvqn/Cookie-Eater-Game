@@ -33,7 +33,9 @@ public class ItemRebound extends Item{
 		for(int i=0; i<total; i++) {
 			deamplifyAll();
 		}
-		user.updateUIItems();
+		if(isplayer) {
+			((Eater)user).updateUIItems();
+		}
 		bounces=0;
 		last_bounce=1;
 		total = 0;
@@ -42,7 +44,9 @@ public class ItemRebound extends Item{
 		bounces++;
 		if((2+bounces-last_bounce) > Math.pow(last_bounce/consta*2, consta)) {
 			amplifyAll();
-			user.updateUIItems();
+			if(isplayer) {
+				((Eater)user).updateUIItems();
+			}
 			last_bounce = bounces+1;
 			total++;
 		}

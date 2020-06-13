@@ -106,6 +106,8 @@ public abstract class Enemy extends Entity{
 		normVel = normalVelocity*board.currFloor.getScale()*calrat;
 		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
 		shield_duration = (int)(.5+60*calrat);
+		special_length = (int)(.5+60*(1/(calibration_ratio/15)));
+		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));
 		calibration_ratio = calrat;
 	}
 	//when hit wall

@@ -1,7 +1,9 @@
 package ce3;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
+import items.Item;
 import items.Summon;
 
 public abstract class Entity {
@@ -24,6 +26,14 @@ public abstract class Entity {
 	protected boolean special; //whether a special is active
 	protected boolean check_calibration;
 	protected double calibration_ratio; //framerate ratio
+	protected ArrayList<ArrayList<Item>> powerups;
+	protected int currSpecial;
+	protected int special_length; //how long special lasts
+	protected ArrayList<Double> special_frames; //counting how deep into special
+	protected int special_cooldown; //frames between uses of special
+	protected double special_use_speed; //"frames" passed per frame of special use
+	protected ArrayList<Boolean> special_activated; //if special is triggerable
+	protected ArrayList<Color> special_colors; //color associated with each special
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -32,11 +42,46 @@ public abstract class Entity {
 		bumped = new ArrayList<Object>();
 		special = false;
 		check_calibration = true;
+		special_length = (int)(.5+60*(1/calibration_ratio));
+		special_frames = new ArrayList<Double>();
+		special_cooldown = (int)(.5+180*(1/calibration_ratio));
+		special_use_speed = 1;
+		special_colors = new ArrayList<Color>();
+		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
+		special_activated = new ArrayList<Boolean>();
+		powerups = new ArrayList<ArrayList<Item>>();
+		for(int i=0; i<3; i++) {
+			powerups.add(new ArrayList<Item>());
+			special_frames.add(0.0);
+			special_activated.add(false);
+		}
+		currSpecial = -1;
 	}
 	
 	public void runUpdate() {
 		countVels = 0;
 		scale = board.currFloor.getScale();
+		if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).execute();
+			}
+			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
+			if(special_frames.get(currSpecial)>special_length) {
+				special = false;
+				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+					powerups.get(currSpecial).get(i).end(false);
+				}
+				currSpecial = -1;
+			}
+		}
+		for(int i=0; i<special_frames.size(); i++) {
+			if(special_frames.get(i)>special_length) {
+				special_frames.set(i,special_frames.get(i)+1);
+				if(special_frames.get(i)>special_length+special_cooldown) {
+					special_frames.set(i,0.0);
+				}
+			}
+		}
 	}
 	
 	public double getX() {return x;}
@@ -113,5 +158,63 @@ public abstract class Entity {
 	}
 	public boolean getCalibCheck() {return check_calibration;}
 	public void setCalibCheck(boolean cc) {check_calibration = cc;}
+	
+	//activates special A (all powerups tied to A)
+	public void special(int index) {
+		if(board.currFloor.specialsEnabled()) {
+			if(special || special_frames.get(index)!=0 || board.player.getDir()==Eater.NONE || !special_activated.get(index))return;
+			special=true;
+			special_activated.set(index, false);
+			currSpecial = index;
+			for(int i=0; i<powerups.get(index).size(); i++) {
+				powerups.get(index).get(i).prepare();
+			}
+			for(int i=0; i<powerups.get(index).size(); i++) {
+				powerups.get(index).get(i).initialize();
+			}
+		}else {
+			currSpecial = index;
+
+		}
+		}
+	public boolean getSpecialActivated(int s) {return special_activated.get(s);}
+	public boolean getSpecialActivated() {return special;}
+	public void activateSpecials() {
+		for(int i=0; i<special_activated.size(); i++) {
+			if(special_frames.get(i)==0)
+				special_activated.set(i, true);
+		}
+	}
+	public void addItem(int index, Item i) {
+		if(index<0)index=0;
+		boolean add = true;
+		for(int j=0; j<powerups.get(index).size(); j++) { //see if item already in list
+			Item test = powerups.get(index).get(j);
+			if(i.getName().equals(test.getName())) { //if duplicate, amplify instead of adding
+				add = false;
+				test.amplify();
+			}
+		}
+		if(add)powerups.get(index).add(i);
+	}
+	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
+	public void extendSpecial(double time) {
+		for(int i=0; i<special_frames.size(); i++) {
+			if(special_frames.get(i)<special_length && special_frames.get(i)!=0) {
+				if(special_frames.get(i)>time) {
+					special_frames.set(i,special_frames.get(i)-time);
+				}else {
+					special_frames.set(i, 1.0);
+				}
+			}
+		}
+	}
+	public int getSpecialLength() {return special_length;}
+	public int getSpecialCooldown() {return special_cooldown;}
+	public ArrayList<Double> getSpecialFrames() {return special_frames;}
+	public ArrayList<Color> getSpecialColors() {return special_colors;}
+	public int getCurrentSpecial() {return currSpecial;}
+	public double getSpecialUseSpeed() {return special_use_speed;}
+	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	
 }
