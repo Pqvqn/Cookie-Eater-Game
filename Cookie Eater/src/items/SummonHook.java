@@ -1,6 +1,7 @@
 package items;
 
 import java.awt.*;
+import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -49,7 +50,16 @@ public class SummonHook extends Summon{
 				x = tracked.getX()+xOffset;
 				y = tracked.getY()+yOffset;
 			}
-			if(user.collidesWithCircle(x,y,radius)) {
+			boolean hits = false;
+			if(user.getClass().equals(Eater.class)) {
+				hits = ((Eater)user).collidesWithCircle(x,y,radius);
+			}else {
+				ArrayList<Segment> s = ((Enemy)user).getParts();
+				for(int i=0; i<s.size(); i++) {
+					if(s.get(i).collidesWithCircle(true,x,y,radius))hits = true;
+				}
+			}
+			if(hits) {
 				ded = true;
 				user.averageVels(0,0);
 			}else {

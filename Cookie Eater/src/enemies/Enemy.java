@@ -20,7 +20,6 @@ public abstract class Enemy extends Entity{
 	protected int shield_frames;
 	protected boolean steals;
 	protected boolean ded; //am i deceased
-	protected ArrayList<Cookie> stash;
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
 	
@@ -39,8 +38,6 @@ public abstract class Enemy extends Entity{
 		mass = 100;
 		shield_duration = (int)(.5+60*board.getAdjustedCycle());
 		shield_frames = 0;
-		bumped = new ArrayList<Object>();
-		stash = new ArrayList<Cookie>();
 		imgs = new ArrayList<String>();
 		buildBody();
 		orientParts();
@@ -94,9 +91,6 @@ public abstract class Enemy extends Entity{
 		if(shield_frames>=shield_duration)
 			shield_frames=0;
 		orientParts();
-		for(int i=0; i<stash.size(); i++) {
-			stash.get(i).runUpdate();
-		}
 		shielded = shield_frames>0;
 	}
 	public void setCalibration(double calrat) {
@@ -286,7 +280,6 @@ public abstract class Enemy extends Entity{
 		
 	}
 	public ArrayList<Segment> getParts(){return parts;}
-	public void giveCookie(Cookie c) {stash.add(c);}
 	//draws
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {

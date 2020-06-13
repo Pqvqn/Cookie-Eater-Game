@@ -18,8 +18,8 @@ public class ItemCookieChain extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		if(cooks!=board.user.getCash()) {
-			cooks=board.user.getCash();
+		if(cooks!=user.getStash().size()) {
+			cooks=user.getStash().size();
 			if(count<=0) {
 				user.extendSpecial(time);
 				count = time;

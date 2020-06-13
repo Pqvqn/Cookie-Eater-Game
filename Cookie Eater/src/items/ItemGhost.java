@@ -15,8 +15,8 @@ public class ItemGhost extends Item{
 	public void initialize() {
 		user.setGhost(true);
 		if(isplayer) {
-			((Eater)user).setOffstage(offstage_dist);
-			initod=((Eater)user).getOffstage();
+			player.setOffstage(offstage_dist);
+			initod=player.getOffstage();
 		}
 	}
 	public void execute() {
@@ -25,7 +25,7 @@ public class ItemGhost extends Item{
 	public void end(boolean interrupted) {
 		user.setGhost(false);
 		if(isplayer) {
-			((Eater)user).setOffstage(initod);
+			player.setOffstage(initod);
 		}
 
 	}

@@ -83,6 +83,7 @@ public class Cookie {
 				if(board.player.getDecayedValue()>0)
 					board.player.activateSpecials();
 			}
+			board.player.giveCookie(this);
 		}
 		board.cookies.remove(board.cookies.indexOf(this));
 	}

@@ -13,9 +13,8 @@ import items.*;
 
 import levels.*;
 import sprites.*;
-import ui.UIItemsAll;
-import ui.UIScoreCount;
-import ui.UIShields;
+import ui.*;
+import cookies.*;
 
 public class Eater extends Entity{
 	
@@ -367,6 +366,7 @@ public class Eater extends Entity{
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
+		stash = new ArrayList<Cookie>();
 	}
 	//resets killed players
 	public void revive() {

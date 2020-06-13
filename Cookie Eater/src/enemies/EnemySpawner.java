@@ -43,7 +43,7 @@ public class EnemySpawner extends Enemy{
 		int currCookies=0;
 		for(int i=0; i<spawns.size(); i++) { //find amount of collected cookies by spawns
 			Enemy e = spawns.get(i);
-			currCookies+=e.stash.size();
+			currCookies+=e.getStash().size();
 			if(!board.enemies.contains(e))spawns.remove(e);
 		}
 		if(currCookies-prevCookies>=30||spawns.size()==0) { //if enough collected, or no spawns, attempt spawn

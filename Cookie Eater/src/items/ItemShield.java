@@ -13,9 +13,9 @@ public class ItemShield extends Item{
 		name = "Shield";
 		desc="Shields the user.`Amplify: Recoil increases";
 		if(isplayer) {
-			initminrecoil=((Eater)user).getMinRecoil();
+			initminrecoil=player.getMinRecoil();
 			newminrecoil=initminrecoil;
-			initmaxrecoil=((Eater)user).getMaxRecoil();
+			initmaxrecoil=player.getMaxRecoil();
 			newmaxrecoil=initmaxrecoil;
 		}
 	}
@@ -28,17 +28,17 @@ public class ItemShield extends Item{
 		if(checkCanceled())return;
 		user.setShielded(true);
 		if(isplayer) {
-			if(((Eater)user).getMinRecoil()!=newminrecoil)
-					((Eater)user).setMinRecoil(newminrecoil);
-			if(((Eater)user).getMaxRecoil()!=newmaxrecoil)
-					((Eater)user).setMaxRecoil(newmaxrecoil);
+			if(player.getMinRecoil()!=newminrecoil)
+					player.setMinRecoil(newminrecoil);
+			if(player.getMaxRecoil()!=newmaxrecoil)
+					player.setMaxRecoil(newmaxrecoil);
 		}
 	}
 	
 	public void end(boolean interrupted) {
 		if(isplayer) {
-			((Eater)user).setMinRecoil(initminrecoil);
-			((Eater)user).setMaxRecoil(initmaxrecoil);
+			player.setMinRecoil(initminrecoil);
+			player.setMaxRecoil(initmaxrecoil);
 		}
 		user.setShielded(false);
 	}

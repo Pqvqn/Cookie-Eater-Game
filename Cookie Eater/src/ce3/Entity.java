@@ -3,6 +3,7 @@ package ce3;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import cookies.Cookie;
 import items.Item;
 import items.Summon;
 
@@ -34,12 +35,14 @@ public abstract class Entity {
 	protected double special_use_speed; //"frames" passed per frame of special use
 	protected ArrayList<Boolean> special_activated; //if special is triggerable
 	protected ArrayList<Color> special_colors; //color associated with each special
+	protected ArrayList<Cookie> stash;
 	
 	public Entity(Board frame) {
 		board = frame;
 		scale = 1;
 		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
+		stash = new ArrayList<Cookie>();
 		special = false;
 		check_calibration = true;
 		special_length = (int)(.5+60*(1/calibration_ratio));
@@ -81,6 +84,9 @@ public abstract class Entity {
 					special_frames.set(i,0.0);
 				}
 			}
+		}
+		for(int i=0; i<stash.size(); i++) {
+			stash.get(i).runUpdate();
 		}
 	}
 	
@@ -217,4 +223,6 @@ public abstract class Entity {
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	
+	public void giveCookie(Cookie c) {stash.add(c);}
+	public ArrayList<Cookie> getStash() {return stash;}
 }

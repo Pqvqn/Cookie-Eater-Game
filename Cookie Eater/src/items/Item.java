@@ -6,6 +6,7 @@ public abstract class Item {
 
 	protected Board board;
 	protected Entity user;
+	protected Eater player; //user that is cast to player
 	protected int amps;
 	protected String name;
 	protected boolean cancel;
@@ -20,6 +21,7 @@ public abstract class Item {
 		cancel = false;
 		desc = "";
 		isplayer = user.getClass().equals(Eater.class);
+		player = (Eater)user;
 	}
 	//set all vars before other items change them
 	public void prepare() {
