@@ -13,16 +13,16 @@ public class ItemRecycle extends Item{
 		value = 0.4;
 	}
 	public void prepare() {
-		if(isplayer)initvalue = player.getDecayedValue();
+		initvalue = user.getDecayedValue();
 	}
 	public void initialize() {
-		if(isplayer)player.setDecayedValue(value);
+		user.setDecayedValue(value);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		if(isplayer)player.setDecayedValue(initvalue);
+		user.setDecayedValue(initvalue);
 	}
 	public void amplify() {
 		super.amplify();

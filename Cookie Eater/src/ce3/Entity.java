@@ -3,9 +3,8 @@ package ce3;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import cookies.Cookie;
-import items.Item;
-import items.Summon;
+import cookies.*;
+import items.*;
 
 public abstract class Entity {
 
@@ -35,7 +34,8 @@ public abstract class Entity {
 	protected double special_use_speed; //"frames" passed per frame of special use
 	protected ArrayList<Boolean> special_activated; //if special is triggerable
 	protected ArrayList<Color> special_colors; //color associated with each special
-	protected ArrayList<Cookie> stash;
+	protected ArrayList<Cookie> stash; //cookies eaten
+	protected double decayed_value; //value of spoiled cookies
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -59,6 +59,7 @@ public abstract class Entity {
 			special_activated.add(false);
 		}
 		currSpecial = -1;
+		decayed_value = 0;
 	}
 	
 	public void runUpdate() {
@@ -201,7 +202,10 @@ public abstract class Entity {
 				test.amplify();
 			}
 		}
-		if(add)powerups.get(index).add(i);
+		if(add) {
+			powerups.get(index).add(i);
+			i.setUser(this);
+		}
 	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void extendSpecial(double time) {
@@ -223,6 +227,16 @@ public abstract class Entity {
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
 	
-	public void giveCookie(Cookie c) {stash.add(c);}
+	public void giveCookie(Cookie c) {
+		stash.add(c);
+		if(c.getClass().equals(CookieItem.class)) {
+			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
+		}
+		if((decayed_value>0 && c.getDecayed()) || !c.getDecayed())
+			activateSpecials();
+	}
 	public ArrayList<Cookie> getStash() {return stash;}
+	public double getDecayedValue() {return decayed_value;}
+	public void setDecayedValue(double dv) {decayed_value=dv;}
+	
 }

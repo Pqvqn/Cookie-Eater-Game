@@ -30,7 +30,8 @@ public class CookieItem extends CookieStore{
 	public boolean purchase() {
 		if(board.player.getCash()>=price) {
 			
-			player.addItem(player.getCurrentSpecial(), myItem);
+			//player.addItem(player.getCurrentSpecial(), myItem);
+			player.giveCookie(this);
 			board.player.addCash(-price);
 			return true;}
 		return false;
@@ -41,4 +42,7 @@ public class CookieItem extends CookieStore{
 		}else {
 			g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
 	}}
+	public Item getItem() {
+		return myItem;
+	}
 }

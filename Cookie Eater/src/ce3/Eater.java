@@ -47,7 +47,6 @@ public class Eater extends Entity{
 	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
 	private int state;
-	private double decayedValue;
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
@@ -88,8 +87,7 @@ public class Eater extends Entity{
 		minRecoil = 10*calibration_ratio;
 		maxRecoil = 50*calibration_ratio;
 		state = LIVE;
-
-		decayedValue = 0;
+		
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;
@@ -165,8 +163,6 @@ public class Eater extends Entity{
 		}
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
-	public double getDecayedValue() {return decayedValue;}
-	public void setDecayedValue(double dv) {decayedValue=dv;}
 	public double getMinRecoil() {return minRecoil;}
 	public void setMinRecoil(double r) {minRecoil = r;}
 	public double getMaxRecoil() {return maxRecoil;}
@@ -273,7 +269,7 @@ public class Eater extends Entity{
 			shields = 3;
 			//randomizeStats();
 			
-			decayedValue = 0;
+			decayed_value = 0;
 			extra_radius = 0;
 			ghost = false;
 			offstage = 0;
@@ -375,7 +371,7 @@ public class Eater extends Entity{
 		shields = 3;
 		//randomizeStats();
 		
-		decayedValue = 0;
+		decayed_value = 0;
 		extra_radius = 0;
 		ghost = false;
 		offstage = 0;

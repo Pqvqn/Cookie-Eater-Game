@@ -70,7 +70,9 @@ public abstract class Enemy extends Entity{
 			x_velocity*=fric;
 			y_velocity*=fric;
 		}
-		
+		if(Math.random()>.999) {
+			special(0); 
+		}
 		/*if(Math.abs(x_velocity)>fric) {
 			x_velocity-=Math.signum(x_velocity)*fric;
 		}else {
@@ -134,7 +136,7 @@ public abstract class Enemy extends Entity{
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
 				if(parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
-					stash.add(0,c);
+					giveCookie(c);
 					board.cookies.remove(c);
 				}
 			}

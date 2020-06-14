@@ -16,13 +16,17 @@ public abstract class Item {
 	
 	public Item(Board frame) {
 		board = frame;
-		user = board.player;
+		user = null;
 		amps=0;
 		cancel = false;
 		desc = "";
-		isplayer = user.getClass().equals(Eater.class);
+		isplayer = false;
 		player = (Eater)user;
 	}
+	//give the item something to use it
+	public void setUser(Entity u) {
+		user = u;
+		isplayer = user.getClass().equals(Eater.class);}
 	//set all vars before other items change them
 	public void prepare() {
 		

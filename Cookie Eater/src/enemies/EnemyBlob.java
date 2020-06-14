@@ -41,9 +41,10 @@ public class EnemyBlob extends Enemy{
 	}
 	public void createStash() {
 		ArrayList<String> possible = new ArrayList<String>();
+		//possible.add("Boost");
+		//possible.add("Projectile");
 		possible.add("Boost");
-		possible.add("Projectile");
-		stash.add(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+		giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
 		
 	}
 	public void runUpdate() {

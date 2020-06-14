@@ -80,8 +80,6 @@ public class Cookie {
 				board.player.activateSpecials();
 			}else { //less value for decayed cookies
 				board.player.addCash(board.player.getDecayedValue());
-				if(board.player.getDecayedValue()>0)
-					board.player.activateSpecials();
 			}
 			board.player.giveCookie(this);
 		}
