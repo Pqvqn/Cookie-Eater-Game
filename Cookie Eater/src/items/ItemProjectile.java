@@ -12,7 +12,6 @@ public class ItemProjectile extends Item{
 	
 	public ItemProjectile(Board frame) {
 		super(frame);
-		speed = 1.5*board.getAdjustedCycle();
 		proj = new ArrayList<SummonProjectile>();
 		num = 1;
 		offset_const = Math.PI/12;
@@ -21,6 +20,7 @@ public class ItemProjectile extends Item{
 	}
 	public void prepare() {
 		for(int i=0; i<num; i++) {
+			speed = 1.5*board.getAdjustedCycle();
 			proj.add(new SummonProjectile(board,user,speed,chooseOffset(i,num)));
 			user.addSummon(proj.get(i));
 			proj.get(i).prepare();

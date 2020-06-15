@@ -31,7 +31,7 @@ public class CookieItem extends CookieStore{
 		if(board.player.getCash()>=price) {
 			
 			//player.addItem(player.getCurrentSpecial(), myItem);
-			player.giveCookie(this);
+			//player.giveCookie(this);
 			board.player.addCash(-price);
 			return true;}
 		return false;

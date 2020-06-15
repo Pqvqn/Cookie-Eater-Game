@@ -31,7 +31,7 @@ public class SummonHook extends Summon{
 		//mass = (user.getTotalRadius()/user.getRadius())*50;
 		x=user.getX();
 		y=user.getY();
-		angle = playerVelAngle();
+		angle = userVelAngle();
 	}
 	public void initialize() {
 		xSpeed = Math.cos(angle)*speed;
@@ -77,7 +77,7 @@ public class SummonHook extends Summon{
 		ded = true;
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(true);
+		c.kill(user);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		state = PULL;

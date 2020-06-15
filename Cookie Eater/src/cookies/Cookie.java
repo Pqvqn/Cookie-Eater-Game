@@ -47,9 +47,6 @@ public class Cookie {
 			if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius()*2)) { 
 				board.player.setNearCookie(true);
 			}
-			if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getTotalRadius())) { 
-				kill(true);
-			}
 		}
 		if(board.player.getDir()!=Eater.NONE && decayTime--<=0){	
 			decayed=true;
@@ -72,16 +69,20 @@ public class Cookie {
 	}
 	
 	//delete self and increase score
-	public void kill(boolean consumed) {
-		if(consumed) {
-			board.player.addScore(1);
-			if(!decayed) {
-				board.player.addCash(1);
-				board.player.activateSpecials();
-			}else { //less value for decayed cookies
-				board.player.addCash(board.player.getDecayedValue());
+	public void kill(Entity consumer) {
+		if(consumer!=null) {
+			if(consumer.getClass().equals(Eater.class)) {
+				Eater player = (Eater)consumer;
+				player.addScore(1);
+				if(!decayed) {
+					player.addCash(1);
+					player.activateSpecials();
+				}else { //less value for decayed cookies
+					player.addCash(board.player.getDecayedValue());
+				}
 			}
-			board.player.giveCookie(this);
+			
+			//consumer.giveCookie(this);
 		}
 		board.cookies.remove(board.cookies.indexOf(this));
 	}

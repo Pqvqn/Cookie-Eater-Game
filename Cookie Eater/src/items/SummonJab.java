@@ -32,7 +32,7 @@ public class SummonJab extends Summon{
 		thickness = user.getTotalRadius()*.6;
 		x=user.getX();
 		y=user.getY();
-		angle = playerDirAngle();
+		angle = userDirAngle();
 		state = EXTEND;
 	}
 	public void initialize() {
@@ -68,7 +68,7 @@ public class SummonJab extends Summon{
 		
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(true);
+		c.kill(user);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		if(shield) {

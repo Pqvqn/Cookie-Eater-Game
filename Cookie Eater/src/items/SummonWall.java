@@ -26,7 +26,7 @@ public class SummonWall extends Summon{
 		length = user.getTotalRadius()*5;
 		x=user.getX();
 		y=user.getY();
-		angle = playerVelAngle();
+		angle = userVelAngle();
 	}
 	public void initialize() {
 		boolean good = true;
@@ -55,7 +55,7 @@ public class SummonWall extends Summon{
 		
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(true);
+		c.kill(user);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 	

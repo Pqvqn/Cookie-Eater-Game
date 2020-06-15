@@ -118,7 +118,7 @@ public abstract class Level{
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
 			if(!currCookie.getAccess()) {
-				currCookie.kill(false);
+				currCookie.kill(null);
 				cooks--;
 				i--;
 			}

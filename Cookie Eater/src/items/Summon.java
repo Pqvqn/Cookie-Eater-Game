@@ -78,10 +78,10 @@ public abstract class Summon {
 		return null;
 	}
 
-	public double playerVelAngle() {
+	public double userVelAngle() {
 		return Math.atan2(user.getYVel(),user.getXVel());
 	}
-	public double playerDirAngle() {
+	public double userDirAngle() {
 		return user.getAim();
 	}
 	public double getX() {return x;}

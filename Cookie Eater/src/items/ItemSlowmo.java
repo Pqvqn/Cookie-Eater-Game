@@ -10,7 +10,6 @@ public class ItemSlowmo extends Item{
 	public ItemSlowmo(Board frame) {
 		super(frame);
 		prop = .5;
-		initTime = board.getCycle();
 		name = "Slowmo";
 		desc="Slows down time.`Amplify: Slowing factor increases";
 	}

@@ -32,9 +32,9 @@ public class EnemyGlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
-		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
-		parts.add(blob3 = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
+		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0));
+		parts.add(blob3 = new SegmentCircle(board,this,x,y,30,0));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 			sprite2 = new SpriteEnemy(board,blob2,imgs);
@@ -67,7 +67,6 @@ public class EnemyGlob extends Enemy{
 		//kill();
 	}
 	public double getRadius() {return blob.getRadius();}
-	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
 		if(!getShielded()) {
 			sprite.setImage(NEUTRAL+2);

@@ -15,6 +15,7 @@ import levels.*;
 import sprites.*;
 import ui.*;
 import cookies.*;
+import enemies.*;
 
 public class Eater extends Entity{
 	
@@ -52,6 +53,7 @@ public class Eater extends Entity{
 	private UIShields shieldDisp;
 	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
+	private SegmentCircle part;
 	private boolean nearCookie;
 
 	public Eater(Board frame, int num, int cycletime) {
@@ -59,6 +61,7 @@ public class Eater extends Entity{
 		id = num;
 		calibration_ratio = cycletime/15.0;
 		dO= true;
+		ded = false;
 		board = frame;
 		x=board.X_RESOL/2;
 		y=board.Y_RESOL/2;
@@ -93,32 +96,32 @@ public class Eater extends Entity{
 		offstage = 0;
 		mass = 200;
 		check_calibration = true;
-		try {
-			sprite = new SpriteEater(board,this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
 			x_positions.add(START_X);
 			y_positions.add(START_Y);
 		}*/
+		try {
+			sprite = new SpriteEater(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public int getDir() {return direction;}
 	public double getAim() {
 		switch(direction) {
 		case UP:
-			return 90;
+			return 3*Math.PI/2;
 		case RIGHT:
 			return 0;
 		case DOWN:
-			return 270;
+			return Math.PI/2;
 		case LEFT:
-			return 180;
+			return Math.PI;
 		default:
-			return 90;
+			return Math.PI/2;
 		}}
 	public void setDir(int dir) {direction = dir;}
 	public double getMaxVel() {return maxvel;}
@@ -278,14 +281,14 @@ public class Eater extends Entity{
 		}
 	}
 	//kill, but only if no bounce
-	public void killBounce(Wall rect, boolean breakShield) {
+	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
 			kill();
 			return;
-		}else if(breakShield){//only remove shields if not in stun and shield to be broken
+		}else if (!shielded){//only remove shields if not in stun and shield to be broken
 			shields--;
 		}
-		bounce(rect,rect.getX(),rect.getY(),rect.getW(),rect.getH());
+		bounceShield(w,rx,ry,rw,rh);
 		
 	}
 	//kill, but only if no bounce (on edge)
@@ -379,10 +382,10 @@ public class Eater extends Entity{
 		reset();
 	}
 	//uses shield instead of killing
-	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
+	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
 		double[] point = Level.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
-		collideAt(w,point[0],point[1],0,0,999999999);
+		//collideAt(w,point[0],point[1],0,0,999999999);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;
@@ -423,9 +426,16 @@ public class Eater extends Entity{
 		max_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
 	}
-	
+	public void buildBody() {
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+	}
+	public void orientParts() {
+		part.setLocation(x,y);
+		part.setSize(radius);
+	}
 	public void runUpdate() {
 		super.runUpdate();
+		if(parts.isEmpty())buildBody();
 		if(state == DEAD) { //if dead in multiplayer
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
@@ -496,7 +506,7 @@ public class Eater extends Entity{
 		if(outOfBounds()) {
 			killBounceEdge(!shielded);
 		}
-		if(!ghost) {
+		/*if(!ghost) {
 			for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
 				Wall rect = board.walls.get(i);
 				if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
@@ -525,7 +535,8 @@ public class Eater extends Entity{
 					}
 				}
 			}
-		}
+		}*/
+		orientParts();
 	}
 	//resets after cycle end
 	public void endCycle() {
@@ -551,7 +562,7 @@ public class Eater extends Entity{
 	}
 	
 	public void paint(Graphics g) {
-		
+		if(part!=null)part.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform();
 		for(int i=0; i<summons.size(); i++) { //draw summons

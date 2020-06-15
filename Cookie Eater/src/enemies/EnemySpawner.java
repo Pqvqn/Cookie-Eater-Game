@@ -28,7 +28,7 @@ public class EnemySpawner extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -61,7 +61,6 @@ public class EnemySpawner extends Enemy{
 		//kill();
 	}
 	public double getRadius() {return blob.getRadius();}
-	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
 		if(!getShielded()) {
 			sprite.setImage(NEUTRAL);

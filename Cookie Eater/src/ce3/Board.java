@@ -28,7 +28,7 @@ public class Board extends JFrame{
 	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
-	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),new Floor4(this),
+	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)}; //order of floors
@@ -120,7 +120,7 @@ public class Board extends JFrame{
 	public void resetGame() {
 		
 		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill(false);
+			cookies.get(i).kill(null);
 			i--;
 		}
 		enemies = new ArrayList<Enemy>();
@@ -140,7 +140,7 @@ public class Board extends JFrame{
 	//advances level
 	public void nextLevel() {
 		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill(false);
+			cookies.get(i).kill(null);
 			i--;
 		}
 		enemies = new ArrayList<Enemy>();

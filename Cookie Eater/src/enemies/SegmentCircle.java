@@ -10,8 +10,8 @@ public class SegmentCircle extends Segment{
 
 	private double radius;
 	
-	public SegmentCircle(Board frame, Enemy host, double x, double y, double rad, double a, Color c) {
-		super(frame,host,x,y,a,c);
+	public SegmentCircle(Board frame, Entity host, double x, double y, double rad, double a) {
+		super(frame,host,x,y,a);
 		radius = rad;
 		size = rad;
 	}
@@ -39,7 +39,7 @@ public class SegmentCircle extends Segment{
 		super.setSize(s);
 		radius=s;}
 	public double getTotalRadius() {return getRadius()+extra_size*scale;}
-	public Color getColor() {return color;}
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		//g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));

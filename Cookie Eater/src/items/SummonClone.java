@@ -51,7 +51,7 @@ public class SummonClone extends Summon{
 		ded = true;
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(true);
+		c.kill(user);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		if(shield) {

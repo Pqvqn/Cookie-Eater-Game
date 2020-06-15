@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import cookies.*;
+import enemies.Enemy;
+import enemies.Segment;
+import enemies.SegmentCircle;
 import items.*;
 
 public abstract class Entity {
@@ -36,6 +39,8 @@ public abstract class Entity {
 	protected ArrayList<Color> special_colors; //color associated with each special
 	protected ArrayList<Cookie> stash; //cookies eaten
 	protected double decayed_value; //value of spoiled cookies
+	protected ArrayList<Segment> parts; //segments that make up this entity
+	protected boolean ded; //am i deceased
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -43,6 +48,7 @@ public abstract class Entity {
 		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
 		stash = new ArrayList<Cookie>();
+		parts = new ArrayList<Segment>();
 		special = false;
 		check_calibration = true;
 		special_length = (int)(.5+60*(1/calibration_ratio));
@@ -63,6 +69,7 @@ public abstract class Entity {
 	}
 	
 	public void runUpdate() {
+		if(ded)return;
 		countVels = 0;
 		scale = board.currFloor.getScale();
 		if(special) {
@@ -89,7 +96,143 @@ public abstract class Entity {
 		for(int i=0; i<stash.size(); i++) {
 			stash.get(i).runUpdate();
 		}
+		testCollisions();
 	}
+	//tests all collisions
+	public void testCollisions() {
+		for(int j=0; j<parts.size(); j++) {
+			if(ded)return;
+			
+			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
+				Cookie c = board.cookies.get(i);
+				if(parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
+					if(!c.getClass().getSuperclass().equals(CookieStore.class) || ((CookieStore)c).purchase()) {
+						giveCookie(c);
+						c.kill(this);
+					}
+				}
+			}
+			
+			ArrayList<Entity> entities = new ArrayList<Entity>();
+			for(Entity e : board.players)entities.add(e);
+			for(Entity e : board.enemies)entities.add(e);
+			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
+				Entity e = entities.get(i);
+				if(!e.equals(this)) {
+					for(int k=0; k<e.getSummons().size(); k++) { //for every summon, test if any parts impact
+						Summon s = e.getSummons().get(k);
+						if(!ghost && parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
+							if(!e.getGhosted()||e.getShielded()) {
+								double[] point = parts.get(j).summonHitPoint(true,s);
+								collideAt(s,point[0],point[1],s.getXVel(),s.getYVel(),s.getMass());
+								s.collisionEntity(this,point[0],point[1],mass,x_velocity,y_velocity,e.getGhosted(),e.getShielded());
+								while(parts.get(j).collidesWithSummon(true,s) && !s.isDed()) {
+									double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+									x+=(x-point[0])*rat;
+									y+=(y-point[1])*rat;
+									orientParts();
+								}
+							}	
+						}
+					}
+					if(!e.getGhosted() && !ghost) {
+						for(int k=0; k<e.getParts().size(); k++) {
+							Segment s = e.getParts().get(k);
+							if(s.getClass()==SegmentCircle.class) {
+								SegmentCircle s2 = (SegmentCircle)s;
+								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
+									double bmass = mass;
+									double bxv = x_velocity;
+									double byv = y_velocity;
+									double[] point = parts.get(j).circHitPoint(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius());
+									collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
+									e.collideAt(this,point[0],point[1],bxv,byv,bmass);
+									while(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
+										double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+										x+=(x-point[0])*rat;
+										y+=(y-point[1])*rat;
+										orientParts();
+										rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
+										e.x+=(e.x-point[0])*rat;
+										e.y+=(e.y-point[1])*rat;
+										e.orientParts();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			
+			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+				Wall w = board.walls.get(i);
+				if(!ghost && parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
+					double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH());
+					collideAt(w,point[0],point[1],0,0,999999999);
+					bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
+					while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())) {
+						double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+						x+=(x-point[0])*rat;
+						y+=(y-point[1])*rat;
+						orientParts();
+					}
+				}
+			}
+			
+		}
+	}
+	//hits wall
+	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
+		
+	}
+	//collides with anything other than cookies
+	public boolean collidesWithAnything() {
+		for(int j=0; j<parts.size(); j++) {
+			for(int i=0; i<board.players.size(); i++) { //for every player, test if any parts impact
+				Eater player = board.players.get(i);
+				if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(true,player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
+					return true;
+				}
+			}
+			for(int i=0; i<board.enemies.size(); i++) { //for every enemy, test if any parts impact
+				Enemy e = board.enemies.get(i);
+				if(!e.equals(this)) {
+					for(int k=0; k<e.getParts().size(); k++) {
+						Segment s = e.getParts().get(k);
+						if(s.getClass()==SegmentCircle.class) {
+							SegmentCircle s2 = (SegmentCircle)s;
+							if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
+				Summon s = board.player.getSummons().get(i);
+				if(parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
+					return true;
+				}
+			}
+			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+				Wall w = board.walls.get(i);
+				if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	//create parts for the enemy
+	protected void buildBody() {
+		
+	}
+	//sets positions of all segments relative to location
+	public void orientParts() {
+			
+	}
+	public ArrayList<Segment> getParts(){return parts;}
 	
 	public double getX() {return x;}
 	public double getY() {return y;}
@@ -154,11 +297,11 @@ public abstract class Entity {
 		x_velocity=pvy*proejjjg-projdx/actual_mass;
 		y_velocity=-pvx*proejjjg-projdy/actual_mass;
 			
-		/*if(special) {
+		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).bounce(xp,yp);
 			}
-		}*/
+		}
 	}
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 	

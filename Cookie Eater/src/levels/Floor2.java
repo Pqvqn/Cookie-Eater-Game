@@ -2,8 +2,11 @@ package levels;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import ce3.*;
+import cookies.CookieItem;
+import enemies.*;
 
 public class Floor2 extends Level{
 
@@ -49,6 +52,15 @@ public class Floor2 extends Level{
 	}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
+	}
+	public void spawnEnemies() { 
+		for(int i=0;i<Math.random()*2+1;i++) {
+			Enemy e;
+			spawnAtRandom(e = new EnemyBlob(board,0,0));
+			ArrayList<String> possible = new ArrayList<String>();
+			possible.add("Slash");
+			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+		}
 	}
 
 }

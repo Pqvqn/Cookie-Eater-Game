@@ -12,6 +12,9 @@ public class ItemShield extends Item{
 		super(frame);
 		name = "Shield";
 		desc="Shields the user.`Amplify: Recoil increases";
+	}
+
+	public void prepare() {
 		if(isplayer) {
 			initminrecoil=player.getMinRecoil();
 			newminrecoil=initminrecoil;
@@ -19,7 +22,6 @@ public class ItemShield extends Item{
 			newmaxrecoil=initmaxrecoil;
 		}
 	}
-
 	public void initialize() {
 	
 	}

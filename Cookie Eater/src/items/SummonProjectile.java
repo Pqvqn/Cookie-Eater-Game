@@ -26,7 +26,7 @@ public class SummonProjectile extends Summon{
 		
 		x=user.getX();
 		y=user.getY();
-		angle = playerVelAngle()+angle_offset;
+		angle = userVelAngle()+angle_offset;
 	}
 	public void initialize() {
 		mass = 100*(user.getTotalRadius()/(Eater.DEFAULT_RADIUS*board.currFloor.getScale()));
@@ -50,7 +50,7 @@ public class SummonProjectile extends Summon{
 		ded = true;
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(true);
+		c.kill(user);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		if(shield) {

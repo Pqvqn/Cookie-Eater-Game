@@ -2,7 +2,6 @@ package enemies;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -28,7 +27,7 @@ public class EnemyBlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,Color.ORANGE));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -38,14 +37,6 @@ public class EnemyBlob extends Enemy{
 	}
 	public void orientParts() {
 		blob.setLocation(x,y);
-	}
-	public void createStash() {
-		ArrayList<String> possible = new ArrayList<String>();
-		//possible.add("Boost");
-		//possible.add("Projectile");
-		possible.add("Boost");
-		giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
-		
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);
@@ -59,7 +50,6 @@ public class EnemyBlob extends Enemy{
 		//kill();
 	}
 	public double getRadius() {return blob.getRadius();}
-	public Color getColor() {return blob.getColor();}
 	public void paint(Graphics g) {
 		if(!getShielded()) {
 			sprite.setImage(NEUTRAL);
