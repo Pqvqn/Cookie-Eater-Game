@@ -27,7 +27,7 @@ public abstract class CookieStore extends Cookie{
 	}
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
-		if(consumer!=null)if(!purchase())return;
+		if(consumer!=null)consumer.giveCookie(this);
 		board.draw.removeUI(info);
 		board.cookies.remove(board.cookies.indexOf(this));
 	}

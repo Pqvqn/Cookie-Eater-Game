@@ -71,7 +71,8 @@ public class Cookie {
 	//delete self and increase score
 	public void kill(Entity consumer) {
 		if(consumer!=null) {
-			if(consumer.getClass().equals(Eater.class)) {
+			consumer.giveCookie(this);
+			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
 				player.addScore(1);
 				if(!decayed) {

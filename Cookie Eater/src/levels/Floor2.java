@@ -58,7 +58,7 @@ public class Floor2 extends Level{
 			Enemy e;
 			spawnAtRandom(e = new EnemyBlob(board,0,0));
 			ArrayList<String> possible = new ArrayList<String>();
-			possible.add("Slash");
+			possible.add("Hook");
 			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
 		}
 	}

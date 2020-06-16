@@ -15,7 +15,7 @@ public class SummonHook extends Summon{
 	private double radius;
 	private int state;
 	private final int REACH = 0, PULL = 1;
-	private Enemy tracked;
+	private Entity tracked;
 	private double xOffset,yOffset;
 	
 	public SummonHook(Board frame, Entity summoner, double s) {
@@ -50,14 +50,10 @@ public class SummonHook extends Summon{
 				x = tracked.getX()+xOffset;
 				y = tracked.getY()+yOffset;
 			}
-			boolean hits = false;
-			if(user.getClass().equals(Eater.class)) {
-				hits = ((Eater)user).collidesWithCircle(x,y,radius);
-			}else {
-				ArrayList<Segment> s = ((Enemy)user).getParts();
-				for(int i=0; i<s.size(); i++) {
-					if(s.get(i).collidesWithCircle(true,x,y,radius))hits = true;
-				}
+			boolean hits = false; //pull until user gets to hook
+			ArrayList<Segment> s = user.getParts();
+			for(int i=0; i<s.size(); i++) {
+				if(s.get(i).collidesWithCircle(true,x,y,radius))hits = true;
 			}
 			if(hits) {
 				ded = true;
@@ -96,8 +92,8 @@ public class SummonHook extends Summon{
 		state = PULL;
 		x-=xSpeed;
 		y-=ySpeed;
-		if(b.getClass().getSuperclass()==Enemy.class) {
-			tracked = (Enemy)b;
+		if(b instanceof Entity) {
+			tracked = (Entity)b;
 			xOffset = x-tracked.getX();
 			yOffset = y-tracked.getY();
 		}

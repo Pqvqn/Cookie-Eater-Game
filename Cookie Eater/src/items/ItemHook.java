@@ -9,12 +9,12 @@ public class ItemHook extends Item{
 	
 	public ItemHook(Board frame) {
 		super(frame);
+		speed = 1.5;
 		name = "Hook";
 		desc="Hooks into object and pulls.`Amplify: Stronger pull";
 	}
 	public void prepare() {
-		speed = 1.5*board.getAdjustedCycle();
-		hook = new SummonHook(board,user,speed);
+		hook = new SummonHook(board,user,speed*board.getAdjustedCycle());
 		user.addSummon(hook);
 		hook.prepare();
 	}

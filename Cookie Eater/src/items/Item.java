@@ -26,7 +26,7 @@ public abstract class Item {
 	//give the item something to use it
 	public void setUser(Entity u) {
 		user = u;
-		isplayer = user.getClass().equals(Eater.class);}
+		isplayer = user instanceof Eater;}
 	//set all vars before other items change them
 	public void prepare() {
 		

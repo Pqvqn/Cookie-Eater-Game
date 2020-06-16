@@ -13,9 +13,6 @@ public abstract class Enemy extends Entity{
 	protected Eater player;
 	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
 	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
-	protected int shields;
-	protected int shield_duration;
-	protected int shield_frames;
 	protected boolean steals;
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
@@ -32,8 +29,6 @@ public abstract class Enemy extends Entity{
 		x_velocity=0;
 		y_velocity=0;
 		mass = 100;
-		shield_duration = (int)(.5+60*board.getAdjustedCycle());
-		shield_frames = 0;
 		imgs = new ArrayList<String>();
 		buildBody();
 		orientParts();
@@ -53,7 +48,6 @@ public abstract class Enemy extends Entity{
 		super.runUpdate();
 		if(ded)return;
 		setCalibration(board.getAdjustedCycle());
-		if(offStage())kill();
 	
 		if(player.getDir()!=Eater.NONE) {
 			x+=x_velocity;
@@ -80,11 +74,7 @@ public abstract class Enemy extends Entity{
 		if(Math.abs(y_velocity)>termVel) {
 			y_velocity=Math.signum(y_velocity)*termVel;
 		}
-		if(shield_frames>0)shield_frames++;
-		if(shield_frames>=shield_duration)
-			shield_frames=0;
 		orientParts();
-		shielded = shield_frames>0;
 	}
 	public void setCalibration(double calrat) {
 		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
@@ -92,22 +82,20 @@ public abstract class Enemy extends Entity{
 		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
 		normVel = normalVelocity*board.currFloor.getScale()*calrat;
 		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
-		shield_duration = (int)(.5+60*calrat);
+		shield_length = (int)(.5+60*calrat);
 		special_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));
+		shield_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		calibration_ratio = calrat;
 	}
 	//when hit wall
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		shield_duration = (int)(.5+60*board.getAdjustedCycle());
+		shielded=true;
+		shield_length = (int)(.5+60*board.getAdjustedCycle());
 		if(shield_frames==0) {
 			if(shields--<=0)kill();
 			shield_frames++;
 		}
-	}
-	//if offstage
-	public boolean offStage() {
-		return x<0||x>board.X_RESOL||y<0||y>board.Y_RESOL;
 	}
 	//resets at cycle end
 	public void endCycle() {

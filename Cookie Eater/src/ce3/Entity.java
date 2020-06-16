@@ -41,6 +41,11 @@ public abstract class Entity {
 	protected double decayed_value; //value of spoiled cookies
 	protected ArrayList<Segment> parts; //segments that make up this entity
 	protected boolean ded; //am i deceased
+	protected int offstage; //how far entity can go past the screen's edge before getting hit
+	protected int shields; //shields owned
+	protected int shield_length; //stun length
+	protected int shield_frames; //counting how deep into shield
+	protected boolean shield_tick; //countdown shield
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -66,12 +71,22 @@ public abstract class Entity {
 		}
 		currSpecial = -1;
 		decayed_value = 0;
+		offstage = 0;
+		shield_length = (int)(.5+60*(1/calibration_ratio));
+		shield_frames = 0;
+		shield_tick = true;
 	}
 	
 	public void runUpdate() {
 		if(ded)return;
 		countVels = 0;
 		scale = board.currFloor.getScale();
+		if(shielded && shield_tick) {
+			if(shield_frames++>shield_length) {
+				shielded=false;
+				shield_frames = 0;
+			}
+		}
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).execute();
@@ -97,6 +112,9 @@ public abstract class Entity {
 			stash.get(i).runUpdate();
 		}
 		testCollisions();
+		if(outOfBounds()) {
+			killBounceEdge(!shielded);
+		}
 	}
 	//tests all collisions
 	public void testCollisions() {
@@ -106,8 +124,7 @@ public abstract class Entity {
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
 				if(parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
-					if(!c.getClass().getSuperclass().equals(CookieStore.class) || ((CookieStore)c).purchase()) {
-						giveCookie(c);
+					if(!(c instanceof CookieStore) || ((CookieStore)c).purchase()) {
 						c.kill(this);
 					}
 				}
@@ -138,7 +155,7 @@ public abstract class Entity {
 					if(!e.getGhosted() && !ghost) {
 						for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
-							if(s.getClass()==SegmentCircle.class) {
+							if(s instanceof SegmentCircle) {
 								SegmentCircle s2 = (SegmentCircle)s;
 								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
 									double bmass = mass;
@@ -200,7 +217,7 @@ public abstract class Entity {
 				if(!e.equals(this)) {
 					for(int k=0; k<e.getParts().size(); k++) {
 						Segment s = e.getParts().get(k);
-						if(s.getClass()==SegmentCircle.class) {
+						if(s instanceof SegmentCircle) {
 							SegmentCircle s2 = (SegmentCircle)s;
 							if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
 								return true;
@@ -262,7 +279,7 @@ public abstract class Entity {
 		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
 	}
 	
-	public void setShielded(boolean s) {shielded = s;}
+	public void setShielded(boolean s) {shielded=s;shield_tick=!s;}
 	public boolean getShielded() {return shielded;}
 	public void setGhost(boolean g) {ghost = g;}
 	public boolean getGhosted() {return ghost;}
@@ -281,7 +298,7 @@ public abstract class Entity {
 	
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(b!=null&&bumped.contains(b)&&b.getClass()!=Wall.class)return; //if already hit, don't hit again
+		if(b!=null&&bumped.contains(b)&&b instanceof Wall)return; //if already hit, don't hit again
 		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon s: summons)actual_mass+=s.getMass();
@@ -372,7 +389,7 @@ public abstract class Entity {
 	
 	public void giveCookie(Cookie c) {
 		stash.add(c);
-		if(c.getClass().equals(CookieItem.class)) {
+		if(c instanceof CookieItem) {
 			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
 		}
 		if((decayed_value>0 && c.getDecayed()) || !c.getDecayed())
@@ -382,4 +399,30 @@ public abstract class Entity {
 	public double getDecayedValue() {return decayed_value;}
 	public void setDecayedValue(double dv) {decayed_value=dv;}
 	
+	public int getOffstage() {return offstage;}
+	public void setOffstage(int d) {offstage=d;}
+	//tests if off screen
+	public boolean outOfBounds() {
+		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
+	}
+	//kill, but only if no bounce (on edge)
+	public void killBounceEdge(boolean breakShield) {
+		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
+			kill();
+			return;
+		}else if(breakShield){//only remove shields if not in stun and shield to be broken
+			shields--;
+		}
+		if(x<0) {
+			bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);
+		}else if(x>board.X_RESOL) {
+			bounce(null,board.X_RESOL+(int)(.5+radius*scale)+offstage,-100,100-(int)(.5+radius*scale),board.Y_RESOL+1000);
+		}else if(y<0) {
+			bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+		}else if(y>board.Y_RESOL) {
+			bounce(null,-100,board.Y_RESOL+(int)(.5+radius*scale)+offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+		}
+		
+	}
+	public void kill() {}
 }

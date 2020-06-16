@@ -40,10 +40,6 @@ public class Eater extends Entity{
 	private boolean dO; //continue movement
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
-	public int shields; //shields owned
-	private int shield_length; //stun length
-	private int shield_frames; //counting how deep into shield
-	private boolean shield_tick; //countdown shield
 	private double minRecoil; //how fast player bounces off wall (min and max)
 	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
@@ -51,7 +47,6 @@ public class Eater extends Entity{
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
-	private int offstage; //how far player can go past the screen's edge before getting hit
 	private SpriteEater sprite;
 	private SegmentCircle part;
 	private boolean nearCookie;
@@ -83,9 +78,6 @@ public class Eater extends Entity{
 		cash = 0;
 		shields = 3;
 		shielded = false;
-		shield_length = (int)(.5+60*(1/calibration_ratio));
-		shield_frames = 0;
-		shield_tick = true;
 		
 		minRecoil = 10*calibration_ratio;
 		maxRecoil = 50*calibration_ratio;
@@ -93,7 +85,6 @@ public class Eater extends Entity{
 		
 		extra_radius = 0;
 		ghost = false;
-		offstage = 0;
 		mass = 200;
 		check_calibration = true;
 		/*x_positions = new LinkedList<Double>();
@@ -125,7 +116,6 @@ public class Eater extends Entity{
 		}}
 	public void setDir(int dir) {direction = dir;}
 	public double getMaxVel() {return maxvel;}
-	public void setShielded(boolean s) {super.setShielded(s);shield_tick=!s;}
 	public int getState() {return state;}
 	public int getScore() {return score;}
 	public void addScore(int s) {score+=s;}
@@ -183,8 +173,6 @@ public class Eater extends Entity{
 		if(friction<(MR[2][0])*calibration_ratio*calibration_ratio)friction=(MR[2][0])*calibration_ratio*calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
-	public int getOffstage() {return offstage;}
-	public void setOffstage(int d) {offstage=d;}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
 	//currently unused trail stuff
@@ -242,10 +230,6 @@ public class Eater extends Entity{
 	public boolean collidesWithCircle(double x2, double y2, double radius2) {
 		return Math.sqrt(Math.pow(x-x2, 2)+Math.pow(y-y2, 2))<radius*scale+radius2;
 	}
-	//tests if off screen
-	public boolean outOfBounds() {
-		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
-	}
 	
 	//reset back to first level
 	public void kill() {
@@ -289,25 +273,6 @@ public class Eater extends Entity{
 			shields--;
 		}
 		bounceShield(w,rx,ry,rw,rh);
-		
-	}
-	//kill, but only if no bounce (on edge)
-	public void killBounceEdge(boolean breakShield) {
-		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
-			kill();
-			return;
-		}else if(breakShield){//only remove shields if not in stun and shield to be broken
-			shields--;
-		}
-		if(x<0) {
-			bounce(null,-100-offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+100);
-		}else if(x>board.X_RESOL) {
-			bounce(null,board.X_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,-100,100-(int)(.5+DEFAULT_RADIUS*scale),board.Y_RESOL+1000);
-		}else if(y<0) {
-			bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
-		}else if(y>board.Y_RESOL) {
-			bounce(null,-100,board.Y_RESOL+(int)(.5+DEFAULT_RADIUS*scale)+offstage,board.X_RESOL+100,100-(int)(.5+DEFAULT_RADIUS*scale));
-		}
 		
 	}
 	//move to next level
@@ -452,12 +417,6 @@ public class Eater extends Entity{
 				win();
 			}
 		}
-		if(shielded && shield_tick) {
-			if(shield_frames++>shield_length) {
-				shielded=false;
-				shield_frames = 0;
-			}
-		}
 		if(!lock) {
 			switch(direction) {
 				case UP: //if up
@@ -503,9 +462,7 @@ public class Eater extends Entity{
 		if(score>=scoreToWin&&board.mode==Main.LEVELS) //win if all cookies eaten
 			win();
 		
-		if(outOfBounds()) {
-			killBounceEdge(!shielded);
-		}
+
 		/*if(!ghost) {
 			for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
 				Wall rect = board.walls.get(i);
