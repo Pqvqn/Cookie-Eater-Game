@@ -119,7 +119,8 @@ public abstract class Enemy extends Entity{
 			if(stash.get(0).getClass().getSuperclass().equals(CookieStore.class))r*=2;
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
-			for(Wall w:board.walls) {
+			for(int i=0; i<board.walls.size(); i++) {
+				Wall w = board.walls.get(i);
 				if(Level.collidesCircleAndRect((int)(.5+x+addx),(int)(.5+y+addy),stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
 					hit = true;
 				}
@@ -142,6 +143,11 @@ public abstract class Enemy extends Entity{
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).paint(g);
+		}
+		if(currSpecial!=-1) {
+			Color meh = special_colors.get(currSpecial);
+			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
+			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), (int)(.5+3*radius), (int)(.5+3*radius));
 		}
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform();

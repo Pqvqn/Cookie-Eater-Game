@@ -54,11 +54,17 @@ public class Floor2 extends Level{
 		super.placeCookies(50,(int)(100*scale));
 	}
 	public void spawnEnemies() { 
+		ArrayList<String> possible = new ArrayList<String>();
+		possible.add("Ricochet");
 		for(int i=0;i<Math.random()*2+1;i++) {
 			Enemy e;
 			spawnAtRandom(e = new EnemyBlob(board,0,0));
-			ArrayList<String> possible = new ArrayList<String>();
-			possible.add("Hook");
+			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+		}
+		
+		for(int i=0;i<1;i++) {
+			Enemy e;
+			spawnAtRandom(e = new EnemyGlob(board,0,0));
 			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
 		}
 	}

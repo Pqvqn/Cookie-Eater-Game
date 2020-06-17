@@ -24,6 +24,7 @@ public abstract class Segment {
 		angle = a;
 		owner = host;
 	}
+	public Entity getOwner() {return owner;}
 	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h) {return false;}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {return false;}
 	public boolean collidesWithSummon(boolean extra, Summon s) {return false;}

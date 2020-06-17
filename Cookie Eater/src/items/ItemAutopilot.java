@@ -24,7 +24,8 @@ public class ItemAutopilot extends Item{
 	public void execute() {	
 		if(checkCanceled())return;
 		adjustSpeeds();
-		user.averageVels(initx,inity);
+		if(!board.cookies.isEmpty())
+			user.averageVels(initx,inity);
 	}
 	
 	public void adjustSpeeds() { //aims to nearest cookie

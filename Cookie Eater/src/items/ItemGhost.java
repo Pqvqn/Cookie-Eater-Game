@@ -14,19 +14,15 @@ public class ItemGhost extends Item{
 	}
 	public void initialize() {
 		user.setGhost(true);
-		if(isplayer) {
-			player.setOffstage(offstage_dist);
-			initod=player.getOffstage();
-		}
+		user.setOffstage(offstage_dist);
+		initod=user.getOffstage();
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		user.setGhost(false);
-		if(isplayer) {
-			player.setOffstage(initod);
-		}
+		user.setOffstage(initod);
 
 	}
 	public void amplify() {

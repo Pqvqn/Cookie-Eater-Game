@@ -43,7 +43,13 @@ public class SpriteEnemy extends Sprite{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Graphics2D grafix = (Graphics2D)g;
+		if(user.getOwner().getGhosted()) {
+
+			grafix.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
+		}
 		//images
 		g.drawImage(base,(int)(.5+x-(base.getWidth(null)/10*scale)), (int)(.5+y-(base.getHeight(null)/10*scale)), (int)(2*(.5+base.getWidth(null)/10*scale)), (int)(2*(.5+base.getHeight(null)/10*scale)), null);
+		grafix.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 	}
 }

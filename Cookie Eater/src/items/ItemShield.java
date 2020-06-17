@@ -16,9 +16,9 @@ public class ItemShield extends Item{
 
 	public void prepare() {
 		if(isplayer) {
-			initminrecoil=player.getMinRecoil();
+			initminrecoil=((Eater)user).getMinRecoil();
 			newminrecoil=initminrecoil;
-			initmaxrecoil=player.getMaxRecoil();
+			initmaxrecoil=((Eater)user).getMaxRecoil();
 			newmaxrecoil=initmaxrecoil;
 		}
 	}
@@ -30,17 +30,17 @@ public class ItemShield extends Item{
 		if(checkCanceled())return;
 		user.setShielded(true);
 		if(isplayer) {
-			if(player.getMinRecoil()!=newminrecoil)
-					player.setMinRecoil(newminrecoil);
-			if(player.getMaxRecoil()!=newmaxrecoil)
-					player.setMaxRecoil(newmaxrecoil);
+			if(((Eater)user).getMinRecoil()!=newminrecoil)
+					((Eater)user).setMinRecoil(newminrecoil);
+			if(((Eater)user).getMaxRecoil()!=newmaxrecoil)
+					((Eater)user).setMaxRecoil(newmaxrecoil);
 		}
 	}
 	
 	public void end(boolean interrupted) {
 		if(isplayer) {
-			player.setMinRecoil(initminrecoil);
-			player.setMaxRecoil(initmaxrecoil);
+			((Eater)user).setMinRecoil(initminrecoil);
+			((Eater)user).setMaxRecoil(initmaxrecoil);
 		}
 		user.setShielded(false);
 	}
