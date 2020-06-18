@@ -30,6 +30,8 @@ public class UIPurchaseDesc extends UIElement{
 		visible = show;
 		xPos=user.getX();
 		yPos=user.getY()+60;
+		backing.setxPos(xPos-100);backing.setyPos(yPos-100);
+		text.setxPos(xPos-90);text.setyPos(yPos-75);
 		ArrayList<String> send = new ArrayList<String>();
 		int i=0;
 		while(i<desc.length()) { //split string into lines

@@ -28,6 +28,7 @@ public class UIParagraph extends UIElement{
 	}
 
 	public void initiateLines() {
+		parts = new ArrayList<UIElement>();
 		for(int i=0; i<textLines.size(); i++)
 			parts.add(new UIText(board, xPos, yPos+separation*i, textLines.get(i), color, font));
 	}
@@ -44,10 +45,7 @@ public class UIParagraph extends UIElement{
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.setFont(font);
-		for(int i=0; i<parts.size(); i++) {
-			parts.get(i).paint(g);
-			
-		}
+		super.paint(g);
 	}
 	
 	

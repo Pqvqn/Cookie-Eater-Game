@@ -24,7 +24,7 @@ public class FloorBiggy extends Level{
 		board = frame;
 		minDecay = 3600;
 		maxDecay = 18000;
-		shieldCost = 250;
+		//shieldCost = 250;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 		bgColor = new Color(30,0,30);

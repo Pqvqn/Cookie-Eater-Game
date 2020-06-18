@@ -28,7 +28,7 @@ public class ItemRicochet extends Item{
 		}
 		for(int i=0; i<user.getSummons().size(); i++) {
 			Summon sm = user.getSummons().get(i);
-			if(sm.hit() && sm.getClass()!=SummonExplosion.class) {
+			if(sm.hit() && !(sm instanceof SummonExplosion)) {
 				booms.add(0,new SummonExplosion(board,user,maxRad,sm.getEdgeX(),sm.getEdgeY()));
 				user.addSummon(booms.get(0));
 				booms.get(0).prepare();

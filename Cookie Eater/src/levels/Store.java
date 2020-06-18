@@ -1,0 +1,137 @@
+package levels;
+
+import java.util.*;
+
+import ce3.*;
+import cookies.*;
+import items.*;
+
+public abstract class Store extends Level{
+
+	protected ArrayList<String> catalogue;
+	protected ArrayList<Double> prices;
+	protected double defaultItemCost;
+	protected double shieldCost;
+	protected double installCost;
+	protected int shieldNum;
+	
+	public Store(Board frame) {
+		super(frame);
+		catalogue = new ArrayList<String>();
+		prices = new ArrayList<Double>();
+		startx = board.X_RESOL/2;
+		starty = board.Y_RESOL/2;
+		minDecay = Integer.MAX_VALUE;
+		maxDecay = Integer.MAX_VALUE;
+		shieldNum = 6;
+	}
+	
+	public boolean haltEnabled() {return true;}
+	public boolean specialsEnabled() {return false;}
+	public boolean installPickups() {return true;}
+	
+	public void placeCookies(){
+		
+		//shields
+		int[][] shieldSpawns = {{board.X_RESOL/2-200,150} , {board.X_RESOL/2+200,150} , {board.X_RESOL/2,150} ,
+				{board.X_RESOL/2-200,250} , {board.X_RESOL/2+200,250} , {board.X_RESOL/2,250}};
+		for(int i=0; i<shieldNum && i<shieldSpawns.length; i++) {
+			board.cookies.add(new CookieShield(board, shieldSpawns[i][0], shieldSpawns[i][1], shieldCost));
+		}
+	
+		//stats
+		board.cookies.add(new CookieStat(board,board.X_RESOL-390,315));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-390,board.Y_RESOL-315));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-185,board.Y_RESOL/2));
+		
+		//items
+		int i = (int)(Math.random()*catalogue.size());
+		placeItem(390,315,catalogue.get(i),prices.get(i));
+		i = (int)(Math.random()*catalogue.size());
+		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i));
+		i = (int)(Math.random()*catalogue.size());
+		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i));
+		
+		//pickups
+		int[][] pickupSpawns = {{board.X_RESOL/2-200,board.Y_RESOL-150} , {board.X_RESOL/2+200,board.Y_RESOL-150} , {board.X_RESOL/2,board.Y_RESOL-150} ,
+				{board.X_RESOL/2-200,board.Y_RESOL-250} , {board.X_RESOL/2+200,board.Y_RESOL-250} , {board.X_RESOL/2,board.Y_RESOL-250}};
+		for(int j=0; !board.player.getPickups().isEmpty() && j<pickupSpawns.length; j++) {
+			CookieItem c = board.player.getPickups().remove(0);
+			c.setPos(pickupSpawns[j][0],pickupSpawns[j][1]);
+			c.setPrice(installCost);
+			board.cookies.add(c);
+		}
+		
+		
+		board.player.setScoreToWin(2);
+	}
+	
+	
+	public void build() {
+		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
+		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		
+		board.walls.add(new Wall(board,0,0,625,150));
+		board.walls.add(new Wall(board,0,board.Y_RESOL-150,625,150));
+		board.walls.add(new Wall(board,board.X_RESOL-625,0,625,150));
+		board.walls.add(new Wall(board,board.X_RESOL-625,board.Y_RESOL-150,625,150));
+		
+		board.walls.add(new Wall(board,625-75,0,75,350));
+		board.walls.add(new Wall(board,625-75,board.Y_RESOL-350,75,350));
+		board.walls.add(new Wall(board,board.X_RESOL-625,0,75,350));
+		board.walls.add(new Wall(board,board.X_RESOL-625,board.Y_RESOL-350,75,350));
+		
+		board.walls.add(new Wall(board,0,0,230,250));
+		board.walls.add(new Wall(board,board.X_RESOL-230,0,230,250));
+		board.walls.add(new Wall(board,0,board.Y_RESOL-250,230,250));
+		board.walls.add(new Wall(board,board.X_RESOL-230,board.Y_RESOL-250,230,250));
+		
+		board.walls.add(new Wall(board,0,0,130,350));
+		board.walls.add(new Wall(board,board.X_RESOL-130,0,130,350));
+		board.walls.add(new Wall(board,0,board.Y_RESOL-350,130,350));
+		board.walls.add(new Wall(board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
+	}
+	
+	public void spawnEnemies() {}
+	
+	public double getShieldCost() {return shieldCost;}
+	
+	
+	//puts cookie item on board
+	protected void placeItem(int x, int y, String i, double p) {
+		Item b = generateItem(i);
+		board.cookies.add(new CookieItem(board, x, y, b, p));
+	}
+	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
+		addToCatalogue(I,"Boost",P,def*1);
+		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
+		addToCatalogue(I,"Circle",P,def*1);
+		addToCatalogue(I,"Chain",P,def*1.3);
+		addToCatalogue(I,"Field",P,def*1.1);
+		addToCatalogue(I,"Hold",P,def*1.1);
+		addToCatalogue(I,"Recycle",P,def*1.4);
+		addToCatalogue(I,"Shield",P,def*1.3);
+		addToCatalogue(I,"Slowmo",P,def*1.4);
+		addToCatalogue(I,"Ghost",P,def*1.4);
+		addToCatalogue(I,"Return",P,def*1.1);
+		addToCatalogue(I,"Teleport",P,def*1.2);
+		addToCatalogue(I,"Jab",P,def*1.1);
+		addToCatalogue(I,"Repeat",P,def*1.2);
+		addToCatalogue(I,"Projectile",P,def*1.3);
+		addToCatalogue(I,"Rebound",P,def*1.2);
+		addToCatalogue(I,"Clone",P,def*1.3);
+		addToCatalogue(I,"Ricochet",P,def*1.1);
+		addToCatalogue(I,"Slash",P,def*1.1);
+		addToCatalogue(I,"Wall",P,def*1.2);
+		addToCatalogue(I,"Shrink",P,def*1.1);
+		addToCatalogue(I,"Hook",P,def*1.3);
+		addToCatalogue(I,"Autopilot",P,def*1.3);
+		addToCatalogue(I,"Flow",P,def*1.3);
+	}
+	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
+		I.add(i);
+		P.add(p);
+	}
+}

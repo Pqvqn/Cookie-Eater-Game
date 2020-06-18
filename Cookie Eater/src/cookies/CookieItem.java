@@ -13,11 +13,10 @@ public class CookieItem extends CookieStore{
 	private Item myItem;
 	private SpriteStoreCookie sprite;
 	
-	public CookieItem(Board frame, int startx, int starty, Item i, double p) {
+	public CookieItem(Board frame, int startx, int starty, Item i, double cost) {
 		super(frame,startx,starty);
 		myItem = i;
-		price = board.currFloor.getShieldCost();
-		price = p;
+		price = cost;
 		name = myItem.getName();
 				try {
 					sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
@@ -27,6 +26,7 @@ public class CookieItem extends CookieStore{
 				}
 		desc = myItem.getDesc();
 	}
+	public void setPrice(double p) {price = p;}
 	public boolean purchase() {
 		if(board.player.getCash()>=price) {
 			

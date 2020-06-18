@@ -6,8 +6,8 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import items.*;
 import enemies.*;
+import items.*;
 
 public abstract class Level{
 	
@@ -21,7 +21,6 @@ public abstract class Level{
 	protected int maxDecay; //frames for cookie at center to decay fully
 	protected Color bgColor;
 	protected Color wallColor;
-	protected int shieldCost;
 	protected String name;
 	protected String nameAbbrev;
 
@@ -139,122 +138,7 @@ public abstract class Level{
 		board.enemies.add(e);
 		e.giveCookie(c);
 	}
-	//
-	public Item generateItem(String i) {
-		Item b;
-		switch(i) {
-		case "Boost":
-			b = new ItemBoost(board);
-			break;
-		/*case "Bounce":
-			b = new ItemBounce(board);
-			break;*/
-		case "Circle":
-			b = new ItemCircle(board);
-			break;
-		case "Chain":
-			b = new ItemCookieChain(board);
-			break;
-		case "Field":
-			b = new ItemField(board);
-			break;
-		case "Hold":
-			b = new ItemHold(board);
-			break;
-		case "Recycle":
-			b = new ItemRecycle(board);
-			break;
-		case "Shield":
-			b = new ItemShield(board);
-			break;
-		case "Slowmo":
-			b = new ItemSlowmo(board);
-			break;
-		case "Ghost":
-			b = new ItemGhost(board);
-			break;
-		case "Return":
-			b = new ItemReturn(board);
-			break;
-		case "Teleport":
-			b = new ItemTeleport(board);
-			break;
-		case "Jab":
-			b = new ItemJab(board);
-			break;
-		case "Repeat":
-			b = new ItemRepeat(board);
-			break;
-		case "Projectile":
-			b = new ItemProjectile(board);
-			break;
-		case "Rebound":
-			b = new ItemRebound(board);
-			break;
-		case "Clone":
-			b = new ItemClone(board);
-			break;
-		case "Ricochet":
-			b = new ItemRicochet(board);
-			break;
-		case "Slash":
-			b = new ItemSlash(board);
-			break;
-		case "Wall":
-			b = new ItemWall(board);
-			break;
-		case "Shrink":
-			b = new ItemShrink(board);
-			break;
-		case "Hook":
-			b = new ItemHook(board);
-			break;
-		case "Autopilot":
-			b = new ItemAutopilot(board);
-			break;
-		case "Flow":
-			b = new ItemFlow(board);
-			break;
-		default:
-			b = null;
-		}
-		return b;
-	}
-	//puts cookie item on board
-	protected void placeItem(int x, int y, String i, double p) {
-		Item b = generateItem(i);
-		board.cookies.add(new CookieItem(board, x, y, b, p));
-	}
-	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
-		addToCatalogue(I,"Boost",P,def*1);
-		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
-		addToCatalogue(I,"Circle",P,def*1);
-		addToCatalogue(I,"Chain",P,def*1.3);
-		addToCatalogue(I,"Field",P,def*1.1);
-		addToCatalogue(I,"Hold",P,def*1.1);
-		addToCatalogue(I,"Recycle",P,def*1.4);
-		addToCatalogue(I,"Shield",P,def*1.3);
-		addToCatalogue(I,"Slowmo",P,def*1.4);
-		addToCatalogue(I,"Ghost",P,def*1.4);
-		addToCatalogue(I,"Return",P,def*1.1);
-		addToCatalogue(I,"Teleport",P,def*1.2);
-		addToCatalogue(I,"Jab",P,def*1.1);
-		addToCatalogue(I,"Repeat",P,def*1.2);
-		addToCatalogue(I,"Projectile",P,def*1.3);
-		addToCatalogue(I,"Rebound",P,def*1.2);
-		addToCatalogue(I,"Clone",P,def*1.3);
-		addToCatalogue(I,"Ricochet",P,def*1.1);
-		addToCatalogue(I,"Slash",P,def*1.1);
-		addToCatalogue(I,"Wall",P,def*1.2);
-		addToCatalogue(I,"Shrink",P,def*1.1);
-		addToCatalogue(I,"Hook",P,def*1.3);
-		addToCatalogue(I,"Autopilot",P,def*1.3);
-		addToCatalogue(I,"Flow",P,def*1.3);
-	}
-	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
-		I.add(i);
-		P.add(p);
-	}
+	
 	public Level getNext() {
 		return next;
 	}
@@ -268,10 +152,93 @@ public abstract class Level{
 	public int getMaxDecay() {return maxDecay;}
 	public Color getBGColor() {return bgColor;}
 	public Color getWallColor() {return wallColor;}
-	public int getShieldCost() {return shieldCost;}
-	public boolean haltEnabled() {return false;}
-	public boolean specialsEnabled() {return true;} //if specials are allows
+	public boolean haltEnabled() {return false;} //if the player can press button to stop movement
+	public boolean specialsEnabled() {return true;} //if specials are allowed
+	public boolean installPickups() {return false;} //if picked up items are automatically installed
+	
 	public double[][] getStarts(){return startposs;}
+	
+	//creates an item from its name
+		public Item generateItem(String i) {
+			Item b;
+			switch(i) {
+			case "Boost":
+				b = new ItemBoost(board);
+				break;
+			/*case "Bounce":
+				b = new ItemBounce(board);
+				break;*/
+			case "Circle":
+				b = new ItemCircle(board);
+				break;
+			case "Chain":
+				b = new ItemCookieChain(board);
+				break;
+			case "Field":
+				b = new ItemField(board);
+				break;
+			case "Hold":
+				b = new ItemHold(board);
+				break;
+			case "Recycle":
+				b = new ItemRecycle(board);
+				break;
+			case "Shield":
+				b = new ItemShield(board);
+				break;
+			case "Slowmo":
+				b = new ItemSlowmo(board);
+				break;
+			case "Ghost":
+				b = new ItemGhost(board);
+				break;
+			case "Return":
+				b = new ItemReturn(board);
+				break;
+			case "Teleport":
+				b = new ItemTeleport(board);
+				break;
+			case "Jab":
+				b = new ItemJab(board);
+				break;
+			case "Repeat":
+				b = new ItemRepeat(board);
+				break;
+			case "Projectile":
+				b = new ItemProjectile(board);
+				break;
+			case "Rebound":
+				b = new ItemRebound(board);
+				break;
+			case "Clone":
+				b = new ItemClone(board);
+				break;
+			case "Ricochet":
+				b = new ItemRicochet(board);
+				break;
+			case "Slash":
+				b = new ItemSlash(board);
+				break;
+			case "Wall":
+				b = new ItemWall(board);
+				break;
+			case "Shrink":
+				b = new ItemShrink(board);
+				break;
+			case "Hook":
+				b = new ItemHook(board);
+				break;
+			case "Autopilot":
+				b = new ItemAutopilot(board);
+				break;
+			case "Flow":
+				b = new ItemFlow(board);
+				break;
+			default:
+				b = null;
+			}
+			return b;
+		}
 	
 	//gives length of line rom start/end points
 	public static double lineLength(double x1, double y1, double x2, double y2) {

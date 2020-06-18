@@ -27,7 +27,6 @@ public abstract class CookieStore extends Cookie{
 	}
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
-		if(consumer!=null)consumer.giveCookie(this);
 		board.draw.removeUI(info);
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
@@ -39,6 +38,7 @@ public abstract class CookieStore extends Cookie{
 	public void runUpdate() {
 		super.runUpdate();
 		if(board.cookies.contains(this)) {
+			if(!board.draw.getUIList().contains(info))board.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
 					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel()==0 && player.getYVel()==0,
 					price,price<=board.player.getCash(),name,desc);

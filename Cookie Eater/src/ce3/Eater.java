@@ -40,6 +40,7 @@ public class Eater extends Entity{
 	private boolean dO; //continue movement
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
+	private ArrayList<CookieItem> pickups; //items picked up but not activated
 	private double minRecoil; //how fast player bounces off wall (min and max)
 	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
@@ -76,6 +77,7 @@ public class Eater extends Entity{
 		fric = friction*scale;
 		score = 0;
 		cash = 0;
+		pickups = new ArrayList<CookieItem>();
 		shields = 3;
 		shielded = false;
 		
@@ -125,6 +127,10 @@ public class Eater extends Entity{
 	public void addCash(double c) {cash+=c;}
 	public int getShields() {return shields;}
 	public void addShields(int s) {shields+=s;}
+	public ArrayList<CookieItem> getPickups() {return pickups;}
+	public void pickupItem(CookieItem i) {
+		pickups.add(i);
+	}
 	public void addItem(int index, Item i) {
 		super.addItem(index, i);
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
@@ -239,6 +245,7 @@ public class Eater extends Entity{
 				powerups.get(currSpecial).get(i).end(true);
 		}
 		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
+		pickups = new ArrayList<CookieItem>();
 		state = DEAD;
 		special = false;
 		board.draw.repaint();

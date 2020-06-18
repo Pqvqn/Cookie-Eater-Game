@@ -3,22 +3,19 @@ package levels;
 import ce3.*;
 import cookies.*;
 
-public class Store1 extends Floor1{
-	
+public class Store1 extends Store{
 	
 	public Store1(Board frame) {
 		super(frame);
-		startx = board.X_RESOL/2;
-		starty = board.Y_RESOL/2;
-		minDecay = Integer.MAX_VALUE;
-		maxDecay = Integer.MAX_VALUE;
-		shieldCost = 30;
+		name = "Forest Entrance";
+		nameAbbrev = "for";
+		scale = 1;
+		shieldCost = 0;
+		defaultItemCost = 0;
+		installCost = 0;
+		shieldNum = 0;
+		configureCatalogue(defaultItemCost,catalogue,prices);
 	}
-	
-	
-	public boolean haltEnabled() {return true;}
-	public boolean specialsEnabled() {return false;}
-	
 	
 	public void placeCookies(){
 	

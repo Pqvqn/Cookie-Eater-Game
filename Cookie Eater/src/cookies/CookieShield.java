@@ -11,9 +11,9 @@ public class CookieShield extends CookieStore{
 	
 	private SpriteStoreCookie sprite;
 	
-	public CookieShield(Board frame, int startx, int starty) {
+	public CookieShield(Board frame, int startx, int starty, double cost) {
 		super(frame,startx,starty);
-		price = board.currFloor.getShieldCost();
+		price = cost;
 		name = "+1 Shield";
 		try {
 			sprite = new SpriteStoreCookie(board,this,"cookieNewShield");

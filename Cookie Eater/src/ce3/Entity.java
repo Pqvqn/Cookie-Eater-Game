@@ -123,9 +123,14 @@ public abstract class Entity {
 			
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
-				if(parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
+				if(c!=null && parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
 					if(!(c instanceof CookieStore) || ((CookieStore)c).purchase()) {
 						c.kill(this);
+						if(c instanceof CookieItem && !board.currFloor.installPickups()) {
+							pickupItem((CookieItem)c);
+						}else {
+							giveCookie(c);
+						}
 					}
 				}
 			}
@@ -352,6 +357,22 @@ public abstract class Entity {
 				special_activated.set(i, true);
 		}
 	}
+	
+	public void giveCookie(Cookie c) {
+		stash.add(c);
+		if(c instanceof CookieItem) {
+			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
+		}
+		if((decayed_value>0 && c.getDecayed()) || !c.getDecayed())
+			activateSpecials();
+	}
+	public void pickupItem(CookieItem i) {
+		giveCookie(i);
+	}
+	public ArrayList<Cookie> getStash() {return stash;}
+	public double getDecayedValue() {return decayed_value;}
+	public void setDecayedValue(double dv) {decayed_value=dv;}
+	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
 		boolean add = true;
@@ -386,18 +407,6 @@ public abstract class Entity {
 	public int getCurrentSpecial() {return currSpecial;}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
-	
-	public void giveCookie(Cookie c) {
-		stash.add(c);
-		if(c instanceof CookieItem) {
-			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
-		}
-		if((decayed_value>0 && c.getDecayed()) || !c.getDecayed())
-			activateSpecials();
-	}
-	public ArrayList<Cookie> getStash() {return stash;}
-	public double getDecayedValue() {return decayed_value;}
-	public void setDecayedValue(double dv) {decayed_value=dv;}
 	
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}
