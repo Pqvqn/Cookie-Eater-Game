@@ -55,7 +55,7 @@ public class Floor2 extends Level{
 	}
 	public void spawnEnemies() { 
 		ArrayList<String> possible = new ArrayList<String>();
-		possible.add("Ricochet");
+		possible.add("Field");
 		for(int i=0;i<Math.random()*2+1;i++) {
 			Enemy e;
 			spawnAtRandom(e = new EnemyBlob(board,0,0));

@@ -72,7 +72,7 @@ public class SummonSlash extends Summon{
 		
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(user);
+		user.hitCookie(c);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		if(shield) {

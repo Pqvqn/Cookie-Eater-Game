@@ -162,16 +162,4 @@ public abstract class Enemy extends Entity{
 	public double getAim() {
 		return Math.atan2((targety-y),(targetx-x));
 	}
-	public void setRadius(double r) {
-		super.setRadius(r);
-		for(int i=0; i<parts.size(); i++) {
-			parts.get(i).setSize(parts.get(i).getSize()*(r/radius));
-		}
-	}
-	public void setExtraRadius(double er) {
-		super.setExtraRadius(er);
-		for(int i=0; i<parts.size(); i++) {
-			parts.get(i).setExtraSize(er);
-		}
-	}
 }

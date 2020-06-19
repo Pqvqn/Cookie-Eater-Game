@@ -73,7 +73,7 @@ public class SummonHook extends Summon{
 		ded = true;
 	}
 	public void collisionCookie(Cookie c) {
-		c.kill(user);
+		user.hitCookie(c);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
 		state = PULL;

@@ -16,22 +16,22 @@ public class SegmentCircle extends Segment{
 		size = rad;
 	}
 	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h) {
-		return Level.collidesCircleAndRect(xPos, yPos, (extra)?getRadius():getTotalRadius(), x, y, w, h);
+		return Level.collidesCircleAndRect(xPos, yPos, (extra)?getTotalRadius():getRadius(), x, y, w, h);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
-		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getRadius():getTotalRadius());
+		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getTotalRadius():getRadius());
 	}
 	public boolean collidesWithSummon(boolean extra, Summon s) {
-		return s.hitsCircle(xPos,yPos,(extra)?getRadius():getTotalRadius());
+		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
 	}
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh) {
-		return Level.circAndRectHitPoint(xPos,yPos,(extra)?getRadius():getTotalRadius(),rx,ry,rw,rh);
+		return Level.circAndRectHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),rx,ry,rw,rh);
 	}
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
-		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getRadius():getTotalRadius(),cx,cy,cr);
+		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),cx,cy,cr);
 	}
 	public double[] summonHitPoint(boolean extra, Summon s) {
-		return s.circHitPoint(xPos, yPos, (extra)?getRadius():getTotalRadius());
+		return s.circHitPoint(xPos, yPos, (extra)?getTotalRadius():getRadius());
 	}
 	
 	public double getRadius() {return radius*scale;}

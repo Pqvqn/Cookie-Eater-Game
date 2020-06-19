@@ -124,14 +124,7 @@ public abstract class Entity {
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				Cookie c = board.cookies.get(i);
 				if(c!=null && parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
-					if(!(c instanceof CookieStore) || ((CookieStore)c).purchase()) {
-						c.kill(this);
-						if(c instanceof CookieItem && !board.currFloor.installPickups()) {
-							pickupItem((CookieItem)c);
-						}else {
-							giveCookie(c);
-						}
-					}
+					hitCookie(c);
 				}
 			}
 			
@@ -289,9 +282,19 @@ public abstract class Entity {
 	public void setGhost(boolean g) {ghost = g;}
 	public boolean getGhosted() {return ghost;}
 	
-	public void setExtraRadius(double er) {extra_radius=er/scale;}
+	public void setExtraRadius(double er) {
+		extra_radius=er/scale;
+		for(int i=0; i<parts.size(); i++) {
+			parts.get(i).setExtraSize(er);
+		}
+	}
 	public double getExtraRadius() {return extra_radius*scale;}
-	public void setRadius(double r) {radius=r/scale;}
+	public void setRadius(double r) {
+		radius=r/scale;
+		for(int i=0; i<parts.size(); i++) {
+			parts.get(i).setSize(parts.get(i).getSize()*(r/radius));
+		}
+	}
 	public double getRadius() {return radius*scale;}
 	public double getTotalRadius() {return (radius+extra_radius)*scale;}
 	
@@ -369,6 +372,17 @@ public abstract class Entity {
 	public void pickupItem(CookieItem i) {
 		giveCookie(i);
 	}
+	public void hitCookie(Cookie c) {
+		if(ded)return;
+		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase()) {
+			c.kill(this);
+			if(c instanceof CookieItem && !board.currFloor.installPickups()) {
+				pickupItem((CookieItem)c);
+			}else {
+				giveCookie(c);
+			}
+		}
+	}
 	public ArrayList<Cookie> getStash() {return stash;}
 	public double getDecayedValue() {return decayed_value;}
 	public void setDecayedValue(double dv) {decayed_value=dv;}
@@ -434,4 +448,5 @@ public abstract class Entity {
 		
 	}
 	public void kill() {}
+	public boolean isDed() {return ded;}
 }
