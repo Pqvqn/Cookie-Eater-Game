@@ -39,6 +39,10 @@ public class SpriteCookie extends Sprite{
 			base = ImageIO.read(splBase);
 			chip = ImageIO.read(splChip);
 			state = SPOILED;
+		}else if(!user.getDecayed()&&state==SPOILED) {
+			base = ImageIO.read(defBase);
+			chip = ImageIO.read(defChip);
+			state = REG;
 		}
 	}
 	public void paint(Graphics g){

@@ -15,6 +15,7 @@ public class Cookie {
 	protected Board board;
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
+	protected int decayCounter; //frames passed before decaying
 	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
 	private SpriteCookie sprite;
 	
@@ -32,6 +33,7 @@ public class Cookie {
 		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),startx,starty)/farthestCorner))
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
 				*(15.0/board.getAdjustedCycle()));
+		decayCounter = 0;
 		decayed=false;
 		try {
 			sprite = new SpriteCookie(board,this);
@@ -48,7 +50,7 @@ public class Cookie {
 				board.player.setNearCookie(true);
 			}
 		}
-		if(board.player.getDir()!=Eater.NONE && decayTime--<=0){	
+		if(board.player.getDir()!=Eater.NONE && decayCounter++>=decayTime){	
 			decayed=true;
 		}
 	}
