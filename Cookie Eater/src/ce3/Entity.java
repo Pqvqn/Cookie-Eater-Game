@@ -37,12 +37,14 @@ public abstract class Entity {
 	protected double special_use_speed; //"frames" passed per frame of special use
 	protected ArrayList<Boolean> special_activated; //if special is triggerable
 	protected ArrayList<Color> special_colors; //color associated with each special
-	protected ArrayList<Cookie> stash; //cookies eaten
+	protected ArrayList<Cookie> cash_stash; //only plain cookies
+	protected ArrayList<CookieItem> item_stash; //item cookies
+	protected ArrayList<CookieShield> shield_stash; //shields
+	protected ArrayList<CookieStat> stat_stash; //stat changers
 	protected double decayed_value; //value of spoiled cookies
 	protected ArrayList<Segment> parts; //segments that make up this entity
 	protected boolean ded; //am i deceased
 	protected int offstage; //how far entity can go past the screen's edge before getting hit
-	protected int shields; //shields owned
 	protected int shield_length; //stun length
 	protected int shield_frames; //counting how deep into shield
 	protected boolean shield_tick; //countdown shield
@@ -52,7 +54,10 @@ public abstract class Entity {
 		scale = 1;
 		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
-		stash = new ArrayList<Cookie>();
+		cash_stash = new ArrayList<Cookie>();
+		shield_stash = new ArrayList<CookieShield>();
+		item_stash = new ArrayList<CookieItem>();
+		stat_stash = new ArrayList<CookieStat>();
 		parts = new ArrayList<Segment>();
 		special = false;
 		check_calibration = true;
@@ -108,8 +113,19 @@ public abstract class Entity {
 				}
 			}
 		}
-		for(int i=0; i<stash.size(); i++) {
-			stash.get(i).runUpdate();
+		if(this instanceof Enemy) {
+			for(int i=0; i<cash_stash.size(); i++) {
+				cash_stash.get(i).runUpdate();
+			}
+			for(int i=0; i<item_stash.size(); i++) {
+				item_stash.get(i).runUpdate();
+			}
+			for(int i=0; i<shield_stash.size(); i++) {
+				shield_stash.get(i).runUpdate();
+			}
+			for(int i=0; i<stat_stash.size(); i++) {
+				stat_stash.get(i).runUpdate();
+			}
 		}
 		testCollisions();
 		if(outOfBounds()) {
@@ -362,11 +378,17 @@ public abstract class Entity {
 	}
 	
 	public void giveCookie(Cookie c) {
-		stash.add(c);
 		if(c instanceof CookieItem) {
 			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
+			item_stash.add((CookieItem)c);
+		}else if(c instanceof CookieShield) {
+			shield_stash.add(((CookieShield)c));
+		}else if(c instanceof CookieStat) {
+			stat_stash.add(((CookieStat)c));
+		}else if(c.getValue()!=0){
+			cash_stash.add(c);
 		}
-		if((decayed_value>0 && c.getDecayed()) || !c.getDecayed())
+		if(c.getValue()>0 || !c.getDecayed())
 			activateSpecials();
 	}
 	public void pickupItem(CookieItem i) {
@@ -383,9 +405,68 @@ public abstract class Entity {
 			}
 		}
 	}
-	public ArrayList<Cookie> getStash() {return stash;}
+	public ArrayList<Cookie> getStash() {
+		ArrayList<Cookie> stash = new ArrayList<Cookie>();
+		for(Cookie c : cash_stash)stash.add(c);
+		for(Cookie c : item_stash)stash.add(c);
+		for(Cookie c : shield_stash)stash.add(c);
+		for(Cookie c : stat_stash)stash.add(c);
+		return stash;}
+	public ArrayList<Cookie> getCashStash() {return cash_stash;}
+	public ArrayList<CookieShield> getShieldStash() {return shield_stash;}
+	public ArrayList<CookieItem> getItemStash() {return item_stash;}
+	public ArrayList<CookieStat> getStatStash() {return stat_stash;}
+	public void wipeStash() {
+		cash_stash = new ArrayList<Cookie>();
+		shield_stash = new ArrayList<CookieShield>();
+		item_stash = new ArrayList<CookieItem>();
+		stat_stash = new ArrayList<CookieStat>();
+	}
 	public double getDecayedValue() {return decayed_value;}
 	public void setDecayedValue(double dv) {decayed_value=dv;}
+	public int getShields() {return shield_stash.size();}
+	public void removeShields(int num) {
+		for(int i=0; i<num && !cash_stash.isEmpty(); i++) {
+			shield_stash.remove(0);
+		}
+	}
+	public void addShields(int num) {
+		for(int i=0; i<num; i++) {
+			CookieShield s = new CookieShield(board,0,0,0);
+			shield_stash.add(s);
+		}
+	}
+	public void setShields(int num) {
+		if(shield_stash.size()>num) {
+			removeShields(shield_stash.size()-num);
+		}else if(shield_stash.size()<num) {
+			addShields(num-shield_stash.size());
+		}
+	}
+	public void removeCookies(double num) {
+		while(num>0) {
+			Cookie chosen = cash_stash.get(0);
+			if(chosen.getValue()>num) {
+				chosen.setValue(chosen.getValue()-num);
+				num = 0;
+			}else {
+				num -= chosen.getValue();
+				cash_stash.remove(chosen);
+			}
+
+		}
+	}
+	public void addCookies(double num) {
+		for(int i=0; i<num%1; i++) {
+			cash_stash.add(new Cookie(board,0,0));
+		}
+		if(num>0) {
+			Cookie c = new Cookie(board,0,0);
+			c.setValue(num);
+			cash_stash.add(c);
+			
+		}
+	}
 	
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
@@ -430,11 +511,11 @@ public abstract class Entity {
 	}
 	//kill, but only if no bounce (on edge)
 	public void killBounceEdge(boolean breakShield) {
-		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
+		if(!shielded && getShields()<=0) { //kill if no shields, otherwise bounce
 			kill();
 			return;
-		}else if(breakShield){//only remove shields if not in stun and shield to be broken
-			shields--;
+		}else if(!shielded && breakShield){//only remove shields if not in stun and shield to be broken
+			removeShields(1);
 		}
 		if(x<0) {
 			bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);

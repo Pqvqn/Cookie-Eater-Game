@@ -68,10 +68,13 @@ public class CookieStat extends CookieStore{
 		
 	}
 	public boolean purchase() {
-		player.addToMovement(accelChange,maxvelChange,fricChange);
-		//player.win();
-		board.player.addScore(1);
-		return true;
+		if(board.player.getCash()>=price) {
+			player.addToMovement(accelChange,maxvelChange,fricChange);
+			//player.win();
+			board.player.addScore(1);
+			board.player.spend(price);
+			return true;}
+		return false;
 	}
 	public void setImage() {
 		try {

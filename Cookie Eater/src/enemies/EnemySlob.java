@@ -24,7 +24,7 @@ public class EnemySlob extends Enemy{
 	public EnemySlob(Board frame, double xp, double yp) {
 		super(frame,xp,yp);
 		mass = 60;
-		shields=5;
+		setShields(5);
 		steals = true;
 		friction = .999;
 		terminalVelocity = 3;
@@ -53,13 +53,13 @@ public class EnemySlob extends Enemy{
 	public void runUpdate() {
 		if(chargeCoords!=null) {
 			accelerateToTarget(chargeCoords[0],chargeCoords[1]);
-			prevCookies = stash.size();
+			prevCookies = cash_stash.size();
 			if(Math.sqrt(Math.pow(Math.abs(chargeCoords[0]-x), 2)+Math.pow(Math.abs(chargeCoords[1]-y), 2))<100) {
 				chargeCoords=null;
 			}
 		}else {
 			target = board.nearestCookie(x,y);
-			if(stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)) {
+			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)) {
 				normalVelocity = 2;
 				chargeCoords = new double[2];
 				chargeCoords[0]=player.getX();

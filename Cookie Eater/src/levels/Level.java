@@ -155,6 +155,7 @@ public abstract class Level{
 	public boolean haltEnabled() {return false;} //if the player can press button to stop movement
 	public boolean specialsEnabled() {return true;} //if specials are allowed
 	public boolean installPickups() {return false;} //if picked up items are automatically installed
+	public boolean takeDamage() {return true;} //if shields are used/player is killed when hits wall
 	
 	public double[][] getStarts(){return startposs;}
 	

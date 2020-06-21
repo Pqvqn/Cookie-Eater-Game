@@ -23,7 +23,8 @@ public abstract class CookieStore extends Cookie{
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(board,this);
-		board.draw.addUI(info);
+		if(board.cookies!=null && board.cookies.contains(this))
+			board.draw.addUI(info);
 	}
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
@@ -33,6 +34,10 @@ public abstract class CookieStore extends Cookie{
 	//purchase cookie, return if purchase is successful or not
 	public boolean purchase() {
 		return true;
+	}
+	public void setDecayTime() {
+		decayCounter = 0;
+		decayed=false;
 	}
 	//update cookie
 	public void runUpdate() {

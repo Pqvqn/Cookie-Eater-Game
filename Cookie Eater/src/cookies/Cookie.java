@@ -18,6 +18,7 @@ public class Cookie {
 	protected int decayCounter; //frames passed before decaying
 	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
 	private SpriteCookie sprite;
+	private double value;
 	
 	public Cookie(Board frame, int startx, int starty) {
 		board = frame;
@@ -26,15 +27,8 @@ public class Cookie {
 		y=starty;
 		radius=DEFAULT_RADIUS;
 		accessible=false;
-		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
-				Level.lineLength(0,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())),
-				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
-						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
-		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),startx,starty)/farthestCorner))
-				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
-				*(15.0/board.getAdjustedCycle()));
-		decayCounter = 0;
-		decayed=false;
+		setDecayTime();
+		value = 1;
 		try {
 			sprite = new SpriteCookie(board,this);
 		} catch (IOException e) {
@@ -63,6 +57,18 @@ public class Cookie {
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
 				*(15.0/board.getAdjustedCycle()));
 	}
+	//how long until cookie decays
+	public void setDecayTime() {
+		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
+				Level.lineLength(0,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())),
+				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
+						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
+		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
+				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
+				*(15.0/board.getAdjustedCycle()));
+		decayCounter = 0;
+		decayed=false;
+	}
 	//test if collides with a circle
 	public boolean collidesWithCircle(double oX, double oY, double oRad) {
 		double xDiff = Math.abs(oX - x);
@@ -77,11 +83,11 @@ public class Cookie {
 				Eater player = (Eater)consumer;
 				player.addScore(1);
 				if(!decayed) {
-					player.addCash(1);
 					player.activateSpecials();
 				}else { //less value for decayed cookies
-					player.addCash(board.player.getDecayedValue());
+					value = board.player.getDecayedValue();
 				}
+				board.player.addCash(value);
 			}
 			
 			//consumer.giveCookie(this);
@@ -106,6 +112,8 @@ public class Cookie {
 	public boolean getDecayed() {
 		return decayed;
 	}
+	public void setValue(double v) {value = v;}
+	public double getValue() {return value;}
 	
 	public void paint(Graphics g) {
 		sprite.paint(g);

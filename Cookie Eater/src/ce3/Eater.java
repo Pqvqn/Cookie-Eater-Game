@@ -78,7 +78,7 @@ public class Eater extends Entity{
 		score = 0;
 		cash = 0;
 		pickups = new ArrayList<CookieItem>();
-		shields = 3;
+		addShields(3);
 		shielded = false;
 		
 		minRecoil = 10*calibration_ratio;
@@ -125,8 +125,6 @@ public class Eater extends Entity{
 	public void setScoreToWin(int s) {scoreToWin=s;}
 	public double getCash() {return cash;}
 	public void addCash(double c) {cash+=c;}
-	public int getShields() {return shields;}
-	public void addShields(int s) {shields+=s;}
 	public ArrayList<CookieItem> getPickups() {return pickups;}
 	public void pickupItem(CookieItem i) {
 		pickups.add(i);
@@ -181,6 +179,14 @@ public class Eater extends Entity{
 	}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
+	public void spend(double amount) {
+		addCash(-amount);
+		removeCookies(amount);
+	}
+	public void pay(double amount) {
+		addCash(amount);
+		addCookies(amount);
+	}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {
@@ -260,7 +266,8 @@ public class Eater extends Entity{
 			board.resetGame();
 			score = 0;
 			cash = 0;
-			shields = 3;
+			wipeStash();
+			setShields(3);
 			//randomizeStats();
 			
 			decayed_value = 0;
@@ -273,11 +280,11 @@ public class Eater extends Entity{
 	}
 	//kill, but only if no bounce
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		if(!shielded && shields<=0) { //kill if no shields, otherwise bounce
+		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
 			kill();
 			return;
-		}else if (!shielded){//only remove shields if not in stun and shield to be broken
-			shields--;
+		}else if (!shielded && board.currFloor.takeDamage()){//only remove shields if not in stun and shield to be broken
+			removeShields(1);
 		}
 		bounceShield(w,rx,ry,rw,rh);
 		
@@ -337,13 +344,12 @@ public class Eater extends Entity{
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
-		stash = new ArrayList<Cookie>();
 	}
 	//resets killed players
 	public void revive() {
 		score = 0;
 		cash = 0;
-		shields = 3;
+		setShields(3);
 		//randomizeStats();
 		
 		decayed_value = 0;
@@ -519,7 +525,7 @@ public class Eater extends Entity{
 		//scoreboard
 		scoreboard.update(cash,score,scoreToWin);
 		//shields
-		shieldDisp.update(shields);
+		shieldDisp.update(shield_stash.size());
 	}
 	public void updateUIItems() {
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);

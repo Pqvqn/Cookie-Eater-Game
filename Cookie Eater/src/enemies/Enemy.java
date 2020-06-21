@@ -93,7 +93,11 @@ public abstract class Enemy extends Entity{
 		shielded=true;
 		shield_length = (int)(.5+60*board.getAdjustedCycle());
 		if(shield_frames==0) {
-			if(shields--<=0)kill();
+			if(shield_stash.size()<=0) {
+				kill();
+			}else {
+				removeShields(1);
+			}
 			shield_frames++;
 		}
 	}
@@ -113,10 +117,11 @@ public abstract class Enemy extends Entity{
 	}
 	//deletes this enemy
 	public void kill() {
+		ArrayList<Cookie> stash = getStash();
 		while(!stash.isEmpty()) {
 			double ang = Math.random()*Math.PI*2;
 			double r=80*board.currFloor.getScale();
-			if(stash.get(0).getClass().getSuperclass().equals(CookieStore.class))r*=2;
+			if(stash.get(0) instanceof CookieStore)r*=2;
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
 			for(int i=0; i<board.walls.size(); i++) {
@@ -134,6 +139,7 @@ public abstract class Enemy extends Entity{
 		}
 		board.enemies.remove(this);
 		ded=true;
+		wipeStash();
 	}
 	//puts cookies in stash on spawn
 	public void createStash() {

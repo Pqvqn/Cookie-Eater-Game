@@ -32,7 +32,7 @@ public class CookieItem extends CookieStore{
 			
 			//player.addItem(player.getCurrentSpecial(), myItem);
 			//player.giveCookie(this);
-			board.player.addCash(-price);
+			board.player.spend(price);
 			return true;}
 		return false;
 	}

@@ -69,13 +69,13 @@ public class Controls implements KeyListener{
 				}
 				break;
 			case KeyEvent.VK_C:
-				player.addCash(1);
+				player.pay(1);
 				break;
 			case KeyEvent.VK_X:
 				player.addShields(1);
 				break;
 			case KeyEvent.VK_K:
-				player.addCash(100);
+				player.pay(100);
 				break;
 			case KeyEvent.VK_O:
 				player.addItem(0, new ItemField(board));

@@ -29,6 +29,7 @@ public abstract class Store extends Level{
 	public boolean haltEnabled() {return true;}
 	public boolean specialsEnabled() {return false;}
 	public boolean installPickups() {return true;}
+	public boolean takeDamage() {return false;}
 	
 	public void placeCookies(){
 		

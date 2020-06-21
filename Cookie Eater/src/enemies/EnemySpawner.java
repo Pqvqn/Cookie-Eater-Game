@@ -18,7 +18,7 @@ public class EnemySpawner extends Enemy{
 	public EnemySpawner(Board frame, double xp, double yp) {
 		super(frame,xp,yp);
 		mass = 1000;
-		shields=0;
+		setShields(0);
 		steals = true;
 		friction = .999;
 		terminalVelocity = 6;

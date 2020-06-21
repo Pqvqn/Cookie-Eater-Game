@@ -18,7 +18,7 @@ public class EnemyCrawler extends Enemy{
 	public EnemyCrawler(Board frame, double xp, double yp) {
 		super(frame,xp,yp);
 		mass = 30;
-		shields=3;
+		setShields(3);
 		steals = true;
 		friction = .999;
 		terminalVelocity = 2;
