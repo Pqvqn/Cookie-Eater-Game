@@ -4,6 +4,7 @@ import java.awt.*;
 
 import ce3.*;
 import cookies.*;
+import entities.Entity;
 
 public abstract class Summon {
 

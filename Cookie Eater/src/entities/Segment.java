@@ -1,4 +1,4 @@
-package enemies;
+package entities;
 
 import java.awt.*;
 

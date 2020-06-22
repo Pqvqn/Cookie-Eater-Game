@@ -1,12 +1,10 @@
-package ce3;
+package entities;
 
-import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 
+import ce3.*;
 import cookies.*;
-import enemies.Enemy;
-import enemies.Segment;
-import enemies.SegmentCircle;
 import items.*;
 
 public abstract class Entity {
@@ -444,7 +442,7 @@ public abstract class Entity {
 		}
 	}
 	public void removeCookies(double num) {
-		while(num>0) {
+		while(num>0 && !cash_stash.isEmpty()) {
 			Cookie chosen = cash_stash.get(0);
 			if(chosen.getValue()>num) {
 				chosen.setValue(chosen.getValue()-num);

@@ -3,6 +3,7 @@ package ce3;
 //import java.awt.*;
 import java.awt.event.*;
 
+import entities.Eater;
 import items.*;
 
 //import javax.swing.*;

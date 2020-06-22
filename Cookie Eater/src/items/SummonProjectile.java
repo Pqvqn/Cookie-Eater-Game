@@ -4,6 +4,8 @@ import java.awt.*;
 
 import ce3.*;
 import cookies.*;
+import entities.Eater;
+import entities.Entity;
 import levels.*;
 
 public class SummonProjectile extends Summon{

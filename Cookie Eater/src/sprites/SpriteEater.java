@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import ce3.*;
+import entities.Eater;
 
 public class SpriteEater extends Sprite{
 

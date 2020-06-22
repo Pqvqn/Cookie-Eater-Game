@@ -5,8 +5,8 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
+import entities.*;
 import levels.*;
-import enemies.*;
 
 public class SummonHook extends Summon{
 	

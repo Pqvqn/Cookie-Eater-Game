@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.IOException;
 
 import ce3.*;
+import entities.Eater;
+import entities.Entity;
 import levels.*;
 import sprites.*;
 
@@ -44,11 +46,11 @@ public class Cookie {
 				board.player.setNearCookie(true);
 			}
 		}
-		if(board.player.getDir()!=Eater.NONE && decayCounter++>=decayTime){	
+		if(board.player.getDir()!=Eater.NONE && decayCounter++>=decayTime*(15.0/board.getAdjustedCycle())){	
 			decayed=true;
 		}
 	}
-	public void recalibrate() {
+	/*public void recalibrate() {
 		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
 				Level.lineLength(0,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())),
 				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
@@ -56,7 +58,7 @@ public class Cookie {
 		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
 				*(15.0/board.getAdjustedCycle()));
-	}
+	}*/
 	//how long until cookie decays
 	public void setDecayTime() {
 		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
@@ -64,8 +66,7 @@ public class Cookie {
 				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
 						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
 		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
-				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
-				*(15.0/board.getAdjustedCycle()));
+				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay()));
 		decayCounter = 0;
 		decayed=false;
 	}

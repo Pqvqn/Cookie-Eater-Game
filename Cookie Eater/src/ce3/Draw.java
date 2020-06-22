@@ -8,7 +8,7 @@ import java.util.*;
 import javax.swing.*;
 
 import cookies.*;
-import enemies.*;
+import entities.*;
 import ui.*;
 import sprites.*;
 

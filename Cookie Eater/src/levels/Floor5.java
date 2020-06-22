@@ -2,7 +2,7 @@ package levels;
 
 
 import ce3.*;
-import enemies.*;
+import entities.*;
 
 import java.awt.*;
 import java.util.*;

@@ -2,6 +2,7 @@ package items;
 import java.util.*;
 
 import ce3.*;
+import entities.Eater;
 
 public class ItemRebound extends Item{
 

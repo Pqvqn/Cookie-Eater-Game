@@ -7,7 +7,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 import ce3.*;
-import enemies.*;
+import entities.*;
 
 public class SpriteEnemy extends Sprite{
 

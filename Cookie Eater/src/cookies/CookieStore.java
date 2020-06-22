@@ -2,6 +2,8 @@ package cookies;
 
 
 import ce3.*;
+import entities.Eater;
+import entities.Entity;
 import levels.*;
 import ui.*;
 

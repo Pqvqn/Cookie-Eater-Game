@@ -1,6 +1,8 @@
 package items;
 
 import ce3.*;
+import entities.Eater;
+import entities.Entity;
 
 public abstract class Item {
 

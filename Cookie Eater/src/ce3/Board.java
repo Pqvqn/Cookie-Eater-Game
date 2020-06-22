@@ -6,7 +6,7 @@ package ce3;
 import javax.swing.*;
 
 import cookies.*;
-import enemies.*;
+import entities.*;
 import levels.*;
 import ui.*;
 

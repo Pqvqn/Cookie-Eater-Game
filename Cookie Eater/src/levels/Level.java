@@ -6,7 +6,7 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import enemies.*;
+import entities.*;
 import items.*;
 
 public abstract class Level{

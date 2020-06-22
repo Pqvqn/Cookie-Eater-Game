@@ -1,9 +1,11 @@
-package ce3;
+package entities;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 //import java.awt.event.*;
+
+import ce3.*;
 
 import java.io.*;
 
@@ -15,7 +17,6 @@ import levels.*;
 import sprites.*;
 import ui.*;
 import cookies.*;
-import enemies.*;
 
 public class Eater extends Entity{
 	
@@ -155,9 +156,6 @@ public class Eater extends Entity{
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
-		for(int i=0; i<board.cookies.size(); i++) {
-			board.cookies.get(i).recalibrate();
-		}
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
 	public double getMinRecoil() {return minRecoil;}
