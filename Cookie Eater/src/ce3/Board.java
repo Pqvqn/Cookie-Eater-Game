@@ -25,6 +25,7 @@ public class Board extends JFrame{
 	public ArrayList<Wall> walls;
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Eater> players;
+	public ArrayList<Explorer> npcs;
 	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
@@ -62,6 +63,7 @@ public class Board extends JFrame{
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
 		enemies = new ArrayList<Enemy>();
+		npcs = new ArrayList<Explorer>();
 		
 		controls = new ArrayList<Controls>();
 		for(int i=0; i<players.size(); i++) {

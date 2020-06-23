@@ -223,10 +223,15 @@ public class Eater extends Entity{
 	}*/
 	
 	//tests if hits rectangle
-	public boolean collidesWithRect(int oX, int oY, int oW, int oH) {
+	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
 				(y + radius > oY && y - radius < oY + oH);*/
-		return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius*scale,oX,oY,oW,oH);
+		boolean hit = false;
+		for(int i=0; i<parts.size(); i++) {
+			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH))hit=true;
+		}
+		return hit;
+		//return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius*scale,oX,oY,oW,oH);
 			/*(Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
 				(Math.abs(x - (oX+oW)) <= radius && y>=oY && y<=oY+oH)||
 				(Math.abs(y - oY) <= radius && x>=oX && x<=oX+oW) ||
@@ -237,10 +242,6 @@ public class Eater extends Entity{
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
 						
 	}
-	public boolean collidesWithCircle(double x2, double y2, double radius2) {
-		return Math.sqrt(Math.pow(x-x2, 2)+Math.pow(y-y2, 2))<radius*scale+radius2;
-	}
-	
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
@@ -372,7 +373,7 @@ public class Eater extends Entity{
 			x_velocity *= rat;
 			y_velocity *= rat;
 		}
-		while(collidesWithRect(rx,ry,rw,rh)) {
+		while(collidesWithRect(false,rx,ry,rw,rh)) {
 			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 			x+=(x-point[0])*rat; //move out of other
 			y+=(y-point[1])*rat;
