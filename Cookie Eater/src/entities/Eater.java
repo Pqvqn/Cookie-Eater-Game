@@ -377,6 +377,7 @@ public class Eater extends Entity{
 			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 			x+=(x-point[0])*rat; //move out of other
 			y+=(y-point[1])*rat;
+			orientParts();
 		}
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {

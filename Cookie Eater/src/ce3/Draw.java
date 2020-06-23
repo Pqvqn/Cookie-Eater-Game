@@ -106,6 +106,7 @@ public class Draw extends JPanel{
 		boardImage.paint(g);
 	
 		for(int i=board.cookies.size()-1; i>=0; i--) {
+			if(i>=board.cookies.size())i=board.cookies.size()-1;
 			board.cookies.get(i).paint(g);
 		}
 		for(int i=0; i<board.enemies.size(); i++) {
