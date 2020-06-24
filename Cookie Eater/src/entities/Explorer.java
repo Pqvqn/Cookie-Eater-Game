@@ -18,6 +18,8 @@ public class Explorer extends Entity{
 	
 	public Explorer(Board frame) {
 		super(frame);
+		to_sell = new ArrayList<CookieStore>();
+		on_display = new ArrayList<CookieStore>();
 		name = "Unknown";
 		chooseResidence();
 		
@@ -41,13 +43,26 @@ public class Explorer extends Entity{
 	public void chooseResidence() {
 		
 	}
+	//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
+	public Level findFloor(String type, boolean store, int num, int backup) {
+		int count = 0;
+		for(int i=0; i<board.floors.size(); i++) {
+			if(board.floors.get(i).getName().equals(type) && store==board.floors.get(i) instanceof Store) {
+				count++;
+				if(count>num)return board.floors.get(i);
+			}
+		}
+		return board.floors.get(backup);
+	}
 	//creates a completely new stash of items
 	public void createStash() {
 		
 	}
 	//puts all items to sell out on display
 	public void sellWares(int[][] positions) {
-		for(int i=0; !to_sell.isEmpty() && i<positions.length; i++) {
+		setX(positions[0][0]); //put explorer in place
+		setY(positions[0][1]);
+		for(int i=1; !to_sell.isEmpty() && i<positions.length; i++) { //put all cookies in place
 			CookieStore c = to_sell.remove(0);
 			c.setPos(positions[i][0],positions[i][1]);
 			board.cookies.add(c);

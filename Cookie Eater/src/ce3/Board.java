@@ -26,6 +26,7 @@ public class Board extends JFrame{
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
+	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Controls> controls;
 	public final int BORDER_THICKNESS = 20;
 
@@ -34,7 +35,7 @@ public class Board extends JFrame{
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)}; //order of floors
 			//new FloorBiggy(this)}; 
-	private LinkedList<Level> floors;
+	public LinkedList<Level> floors;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	private UIFpsCount fps;
@@ -64,6 +65,7 @@ public class Board extends JFrame{
 		walls = new ArrayList<Wall>();
 		enemies = new ArrayList<Enemy>();
 		npcs = new ArrayList<Explorer>();
+		present_npcs = new ArrayList<Explorer>();
 		
 		controls = new ArrayList<Controls>();
 		for(int i=0; i<players.size(); i++) {
@@ -99,9 +101,11 @@ public class Board extends JFrame{
 			floors.add(new Floor1(this));
 		}
 		
-		
+		//create all of this game's npcs
+		createNpcs();
 		//create floor 1
 		resetGame();
+
 		
 		
 		//ui
@@ -133,10 +137,21 @@ public class Board extends JFrame{
 		for(int i=0; i<players.size(); i++)
 			players.get(i).reset();
 		
+		for(int i=0; i<npcs.size(); i++)
+			npcs.get(i).runEnds();
+		
 		cookies = new ArrayList<Cookie>();
 		if(mode==Main.LEVELS) {
 		makeCookies();}
 		spawnEnemies();
+		for(int i=0; i<npcs.size(); i++) {
+			if(npcs.get(i).getResidence().equals(currFloor)) {
+				present_npcs.add(npcs.get(i));
+			}else if(present_npcs.contains(npcs.get(i))) {
+				npcs.remove(i);
+			}
+		}
+		spawnNpcs();
 	}
 			
 	//advances level
@@ -154,6 +169,14 @@ public class Board extends JFrame{
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
+		for(int i=0; i<npcs.size(); i++) {
+			if(npcs.get(i).getResidence().equals(currFloor)) {
+				present_npcs.add(npcs.get(i));
+			}else if(present_npcs.contains(npcs.get(i))) {
+				npcs.remove(i);
+			}
+		}
+		spawnNpcs();
 	}
 		
 	public void run(int time) {
@@ -200,6 +223,20 @@ public class Board extends JFrame{
 	//add enemies to board
 	public void spawnEnemies() {
 		currFloor.spawnEnemies();
+	}
+	
+	//add enemies to board
+	public void spawnNpcs() {
+		currFloor.spawnNpcs();
+	}
+	
+	//creates all the non-player characters and puts them in their starting levels
+	public void createNpcs() {
+		npcs.add(new ExplorerShopkeep(this));
+		for(int i=0; i<npcs.size(); i++) {
+			npcs.get(i).chooseResidence();
+			npcs.get(i).createStash();
+		}
 	}
 	
 	//returns nearest cookie to a given point on the board

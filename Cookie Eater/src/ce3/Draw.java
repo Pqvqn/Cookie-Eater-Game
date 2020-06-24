@@ -44,8 +44,8 @@ public class Draw extends JPanel{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}
-		for(int i=0; i<board.npcs.size(); i++) {
-			board.npcs.get(i).runUpdate();
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			board.present_npcs.get(i).runUpdate();
 		}
 		for(int i=0; i<board.cookies.size(); i++) {
 			if(i<board.cookies.size()) {
@@ -112,8 +112,8 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.enemies.size(); i++) {
 			board.enemies.get(i).paint(g);
 		}
-		for(int i=0; i<board.npcs.size(); i++) {
-			board.npcs.get(i).paint(g);
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			board.present_npcs.get(i).paint(g);
 		}
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).paint(g);

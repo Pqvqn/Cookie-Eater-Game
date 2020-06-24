@@ -4,6 +4,7 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
+import entities.Explorer;
 import items.*;
 
 public abstract class Store extends Level{
@@ -14,6 +15,7 @@ public abstract class Store extends Level{
 	protected double shieldCost;
 	protected double installCost;
 	protected int shieldNum;
+	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	
 	public Store(Board frame) {
 		super(frame);
@@ -134,5 +136,11 @@ public abstract class Store extends Level{
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);
 		P.add(p);
+	}
+	public void spawnNpcs() {
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			Explorer e = board.present_npcs.get(i);
+			e.sellWares(vendorSpaces[i]);
+		}
 	}
 }

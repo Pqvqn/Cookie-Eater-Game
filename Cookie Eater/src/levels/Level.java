@@ -129,13 +129,21 @@ public abstract class Level{
 	public void spawnEnemies() {
 		
 	}
+	
+	//put all Npcs meant to be on this floor in their place
+	public void spawnNpcs() {
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			spawnAtRandom(board.present_npcs.get(i)); //put on random cookie
+		}
+	}
+	
 	//spawns chosen enemy at random cookie
-	public void spawnAtRandom(Enemy e) {
+	public void spawnAtRandom(Entity e) {
 		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));
 		e.setX(c.getX());
 		e.setY(c.getY());
 		e.orientParts();
-		board.enemies.add(e);
+		if(e instanceof Enemy)board.enemies.add((Enemy)e);
 		e.giveCookie(c);
 	}
 	
