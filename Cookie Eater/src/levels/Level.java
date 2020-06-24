@@ -137,6 +137,11 @@ public abstract class Level{
 		}
 	}
 	
+	//remove all npcs from the board
+	public void removeNpcs() {
+		
+	}
+	
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
 		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));

@@ -140,7 +140,13 @@ public abstract class Store extends Level{
 	public void spawnNpcs() {
 		for(int i=0; i<board.present_npcs.size(); i++) {
 			Explorer e = board.present_npcs.get(i);
-			e.sellWares(vendorSpaces[i]);
+			e.sellWares(vendorSpaces[i]); //place npcs at vendor spots
 		}
 	}
+	public void removeNpcs() {
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			board.present_npcs.get(i).packUp(); //all npcs pick up cookies for sale
+		}
+	}
+	
 }

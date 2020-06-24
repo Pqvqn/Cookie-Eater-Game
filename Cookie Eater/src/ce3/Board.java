@@ -124,14 +124,15 @@ public class Board extends JFrame{
 	
 	//go back to first level
 	public void resetGame() {
-		
+		currFloor = floors.getLast();
+		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
-		currFloor = floors.getLast();
+
 		buildBoard();
 		
 		for(int i=0; i<players.size(); i++)
@@ -148,7 +149,7 @@ public class Board extends JFrame{
 			if(npcs.get(i).getResidence().equals(currFloor)) {
 				present_npcs.add(npcs.get(i));
 			}else if(present_npcs.contains(npcs.get(i))) {
-				npcs.remove(i);
+				present_npcs.remove(i);
 			}
 		}
 		spawnNpcs();
@@ -156,6 +157,7 @@ public class Board extends JFrame{
 			
 	//advances level
 	public void nextLevel() {
+		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
@@ -173,7 +175,7 @@ public class Board extends JFrame{
 			if(npcs.get(i).getResidence().equals(currFloor)) {
 				present_npcs.add(npcs.get(i));
 			}else if(present_npcs.contains(npcs.get(i))) {
-				npcs.remove(i);
+				present_npcs.remove(i);
 			}
 		}
 		spawnNpcs();

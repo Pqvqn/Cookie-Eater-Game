@@ -71,7 +71,7 @@ public class Explorer extends Entity{
 	}
 	//removes items from display and re-stashes them
 	public void packUp() {
-		for(int i=on_display.size(); i>0; i--) {
+		for(int i=on_display.size()-1; i>=0; i--) {
 			if(board.cookies.contains(on_display.get(i))){
 				to_sell.add(on_display.remove(i));
 			}else {

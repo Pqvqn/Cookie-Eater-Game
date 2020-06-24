@@ -136,9 +136,11 @@ public abstract class Entity {
 			if(ded)return;
 			
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
-				Cookie c = board.cookies.get(i);
-				if(c!=null && parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
-					hitCookie(c);
+				if(i<board.cookies.size()) {
+					Cookie c = board.cookies.get(i);
+					if(c!=null && parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
+						hitCookie(c);
+					}
 				}
 			}
 			

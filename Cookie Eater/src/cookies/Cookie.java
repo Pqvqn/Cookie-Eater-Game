@@ -93,7 +93,7 @@ public class Cookie {
 			
 			//consumer.giveCookie(this);
 		}
-		board.cookies.remove(board.cookies.indexOf(this));
+		board.cookies.remove(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}
