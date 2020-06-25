@@ -9,13 +9,16 @@ import levels.*;
 
 public class ExplorerShopkeep extends Explorer{
 	
+	private SegmentCircle part;
+	
 	public ExplorerShopkeep(Board frame) {
 		super(frame);
 		name = "Unknown";
 		chooseResidence();
-		setRadius(40);
+		radius = 40;
 		min_cat = 3;
 		max_cat = 8;
+		mass = 400;
 	}
 
 	public void runEnds() {
@@ -39,6 +42,7 @@ public class ExplorerShopkeep extends Explorer{
 	}
 	public void runUpdate() {
 		super.runUpdate();
+		//System.out.println(x+" "+y+" "+radius+" "+part.getRadius());
 	}
 
 	public void chooseResidence() {
@@ -61,8 +65,16 @@ public class ExplorerShopkeep extends Explorer{
 
 		}
 	}
-	
+	public void buildBody() {
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+	}
+	public void orientParts() {
+		part.setLocation(x,y);
+		part.setSize(radius);
+	}
+
 	public void paint(Graphics g) {
+		if(part!=null)part.paint(g);
 		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
 	}
 }

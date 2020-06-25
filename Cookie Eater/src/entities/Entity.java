@@ -147,6 +147,7 @@ public abstract class Entity {
 			ArrayList<Entity> entities = new ArrayList<Entity>();
 			for(Entity e : board.players)entities.add(e);
 			for(Entity e : board.enemies)entities.add(e);
+			for(Entity e : board.present_npcs)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
@@ -171,6 +172,7 @@ public abstract class Entity {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
 								SegmentCircle s2 = (SegmentCircle)s;
+								//System.out.println(s2.getRadius()+" "+s2.getExtraSize()+" "+s2.getTotalRadius());
 								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
 									double bmass = mass;
 									double bxv = x_velocity;
@@ -299,17 +301,17 @@ public abstract class Entity {
 	public boolean getGhosted() {return ghost;}
 	
 	public void setExtraRadius(double er) {
-		extra_radius=er/scale;
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).setExtraSize(er);
 		}
+		extra_radius=er/scale;
 	}
 	public double getExtraRadius() {return extra_radius*scale;}
 	public void setRadius(double r) {
-		radius=r/scale;
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).setSize(parts.get(i).getSize()*(r/radius));
 		}
+		radius=r/scale;
 	}
 	public double getRadius() {return radius*scale;}
 	public double getTotalRadius() {return (radius+extra_radius)*scale;}

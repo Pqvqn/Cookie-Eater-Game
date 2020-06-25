@@ -200,6 +200,9 @@ public class Board extends JFrame{
 			for(int i=0; i<enemies.size(); i++) {
 				enemies.get(i).setCalibration(getAdjustedCycle()); //give enemies more acurrate cycle time
 			}
+			for(int i=0; i<present_npcs.size(); i++) {
+				present_npcs.get(i).setCalibration(getAdjustedCycle()/15.0); //give enemies more acurrate cycle time
+			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
 		}

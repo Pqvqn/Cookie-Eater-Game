@@ -35,7 +35,7 @@ public class SegmentCircle extends Segment{
 	}
 	
 	public double getRadius() {return radius*scale;}
-	public void setSize(int s) {
+	public void setSize(double s) {
 		super.setSize(s);
 		radius=s;}
 	public double getTotalRadius() {return getRadius()+extra_size*scale;}

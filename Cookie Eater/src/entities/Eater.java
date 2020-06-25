@@ -35,6 +35,8 @@ public class Eater extends Entity{
 	private double maxvel;
 	private double termvel;
 	private double fric;
+	private double minRecoil; //how fast player bounces off wall (min and max)
+	private double maxRecoil;
 
 	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
@@ -42,8 +44,6 @@ public class Eater extends Entity{
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
 	private ArrayList<CookieItem> pickups; //items picked up but not activated
-	private double minRecoil; //how fast player bounces off wall (min and max)
-	private double maxRecoil;
 	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
 	private int state;
 	private UIItemsAll itemDisp; //ui parts

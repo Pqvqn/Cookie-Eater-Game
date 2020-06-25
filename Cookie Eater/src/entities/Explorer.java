@@ -1,6 +1,6 @@
 package entities;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.*;
 
 import ce3.*;
@@ -13,9 +13,24 @@ public class Explorer extends Entity{
 	protected String name;
 	protected int state;
 	protected static final int VENDOR = 0, VENTURE = 1;
+	protected int[][] shop_spots;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
 	protected int min_cat, max_cat;
+	
+	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
+	private int direction;
+	private double acceleration; //added to dimensional speed depending on direction
+	private double max_velocity; //cap on accelerated-to dimensional speed
+	private double terminal_velocity; //maximum possible dimensional speed
+	private double friction; //removed from dimensional speed
+	private double accel; //scalable movement stats
+	private double maxvel;
+	private double termvel;
+	private double fric;
+	//private double minRecoil; //how fast bounces off wall (min and max)
+	//private double maxRecoil;
+
 	
 	public Explorer(Board frame) {
 		super(frame);
@@ -23,7 +38,19 @@ public class Explorer extends Entity{
 		on_display = new ArrayList<CookieStore>();
 		name = "Unknown";
 		chooseResidence();
+		state = VENDOR;
 		
+		acceleration = .5*calibration_ratio*calibration_ratio;
+		max_velocity = 10*calibration_ratio;
+		terminal_velocity = 50*calibration_ratio;
+		friction = .1*calibration_ratio*calibration_ratio;
+		accel = acceleration*scale;
+		maxvel = max_velocity*scale;
+		termvel = terminal_velocity*scale;
+		fric = friction*scale;
+		//minRecoil = 10*calibration_ratio;
+		//maxRecoil = 50*calibration_ratio;
+		direction = NONE;
 	}
 	
 	public Level getResidence() {return residence;}
@@ -35,6 +62,54 @@ public class Explorer extends Entity{
 	//updates every cycle
 	public void runUpdate() {
 		super.runUpdate();
+		if(parts.isEmpty())buildBody();
+		
+		if(state == VENDOR) { //if selling
+			x_velocity = 0; //reset speeds
+			y_velocity = 0;
+			x = shop_spots[0][0];
+			y = shop_spots[0][1];
+		}
+		
+		if(!lock) {
+			switch(direction) {
+				case UP: //if up
+					if(y_velocity>-maxvel) //if below speed cap
+						y_velocity-=accel+fric; //increase speed upward
+					break;
+				case RIGHT:
+					if(x_velocity<maxvel)
+						x_velocity+=accel+fric;
+					break;
+				case DOWN:
+					if(y_velocity<maxvel)
+						y_velocity+=accel+fric;
+					break;
+				case LEFT:
+					if(x_velocity>-maxvel)
+						x_velocity-=accel+fric;
+					break;
+			}
+		}
+		if(Math.abs(x_velocity)>termvel)x_velocity = termvel * Math.signum(x_velocity); //make sure it's not too fast
+		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
+		x+=x_velocity; //move
+		y+=y_velocity;
+		if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
+			x_velocity=0;
+		}else if(x_velocity>0) { //if positive speed, subtract friction
+			x_velocity-=fric;
+		}else if(x_velocity<0) { //if negative speed, add friction
+			x_velocity+=fric;
+		}
+		if(Math.abs(y_velocity)<fric){
+			y_velocity=0;
+		}else if(y_velocity>0) {
+			y_velocity-=fric;
+		}else if(y_velocity<0) {
+			y_velocity+=fric;
+		}
+		orientParts();
 	}
 	//die on a floor
 	public void kill() {
@@ -70,11 +145,12 @@ public class Explorer extends Entity{
 	}
 	//puts all items to sell out on display
 	public void sellWares(int[][] positions) {
-		setX(positions[0][0]); //put explorer in place
-		setY(positions[0][1]);
-		for(int i=1; !to_sell.isEmpty() && i<positions.length; i++) { //put all cookies in place
+		shop_spots = positions;
+		setX(shop_spots[0][0]); //put explorer in place
+		setY(shop_spots[0][1]);
+		for(int i=1; !to_sell.isEmpty() && i<shop_spots.length; i++) { //put all cookies in place
 			CookieStore c = to_sell.remove(0);
-			c.setPos(positions[i][0],positions[i][1]);
+			c.setPos(shop_spots[i][0],shop_spots[i][1]);
 			board.cookies.add(c);
 			on_display.add(c);
 		}
@@ -88,6 +164,29 @@ public class Explorer extends Entity{
 				on_display.remove(i);
 			}
 		}
+	}
+	
+	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
+		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		acceleration/=calibration_ratio*calibration_ratio;
+		max_velocity/=calibration_ratio;
+		terminal_velocity/=calibration_ratio;
+		friction/=calibration_ratio*calibration_ratio;
+		//minRecoil /= calibration_ratio;
+		//maxRecoil /= calibration_ratio;
+		
+		calibration_ratio = calrat;
+		
+		shield_length = (int)(.5+60*(1/calibration_ratio));
+		special_length = (int)(.5+60*(1/calibration_ratio));
+		special_cooldown = (int)(.5+180*(1/calibration_ratio));
+		//minRecoil *= calibration_ratio;
+		//maxRecoil *= calibration_ratio;
+		acceleration*=calibration_ratio*calibration_ratio;
+		max_velocity*=calibration_ratio;
+		terminal_velocity*=calibration_ratio;
+		friction*=calibration_ratio*calibration_ratio;
+		//coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
 	public void paint(Graphics g) {}
 }
