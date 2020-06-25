@@ -173,7 +173,7 @@ public abstract class Level{
 	public double[][] getStarts(){return startposs;}
 	
 	//creates an item from its name
-		public Item generateItem(String i) {
+	public static Item generateItem(Board board, String i) {
 			Item b;
 			switch(i) {
 			case "Boost":

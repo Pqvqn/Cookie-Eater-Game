@@ -59,13 +59,13 @@ public class Floor2 extends Level{
 		for(int i=0;i<Math.random()*2+1;i++) {
 			Enemy e;
 			spawnAtRandom(e = new EnemyBlob(board,0,0));
-			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+			e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		
 		for(int i=0;i<1;i++) {
 			Enemy e;
 			spawnAtRandom(e = new EnemyGlob(board,0,0));
-			e.giveCookie(new CookieItem(board,0,0,board.currFloor.generateItem(possible.get((int)(Math.random()*possible.size()))),0));
+			e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 	}
 

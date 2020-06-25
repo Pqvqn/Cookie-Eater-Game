@@ -15,6 +15,7 @@ public class Explorer extends Entity{
 	protected static final int VENDOR = 0, VENTURE = 1;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
+	protected int min_cat, max_cat;
 	
 	public Explorer(Board frame) {
 		super(frame);
@@ -56,7 +57,16 @@ public class Explorer extends Entity{
 	}
 	//creates a completely new stash of items
 	public void createStash() {
-		
+		to_sell = new ArrayList<CookieStore>();
+	}
+	//adds item to a random point in to_sell list
+	public void addRandomly(CookieStore c) {
+		to_sell.add((int)(Math.random()*(to_sell.size()+1)),c);
+	}
+	//removes random item from to_sell list
+	public void removeRandomly() {
+		if(!to_sell.isEmpty())
+			to_sell.remove((int)(Math.random()*(to_sell.size())));
 	}
 	//puts all items to sell out on display
 	public void sellWares(int[][] positions) {

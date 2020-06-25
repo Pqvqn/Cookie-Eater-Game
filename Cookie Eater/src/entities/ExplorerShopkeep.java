@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import ce3.*;
 import cookies.*;
+import levels.*;
 
 public class ExplorerShopkeep extends Explorer{
 	
@@ -13,10 +14,28 @@ public class ExplorerShopkeep extends Explorer{
 		name = "Unknown";
 		chooseResidence();
 		setRadius(40);
+		min_cat = 3;
+		max_cat = 8;
 	}
 
 	public void runEnds() {
-		
+		for(int i=0; i<Math.random()*4-1; i++) {
+			removeRandomly();
+		}
+		for(int i=0; i<Math.random()*4-1 || to_sell.size()<min_cat; i++) {
+			double choose = Math.random()*5;
+			if(choose<=2) {
+				addRandomly(new CookieShield(board,0,0,15));
+			}else if(choose<=3) {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Circle"),30));
+			}else if(choose<=3.5) {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Shield"),30));
+			}else {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Field"),30));
+			}
+
+		}
+		while(to_sell.size()>max_cat)removeRandomly();
 	}
 	public void runUpdate() {
 		super.runUpdate();
@@ -27,7 +46,20 @@ public class ExplorerShopkeep extends Explorer{
 	}
 
 	public void createStash() {
-		to_sell.add(new CookieShield(board,(int)(.5+x),(int)(.5+y),15));
+		super.createStash();
+		for(int i=0; i<4; i++) {
+			double choose = Math.random()*5;
+			if(choose<=2) {
+				addRandomly(new CookieShield(board,0,0,15));
+			}else if(choose<=3) {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Circle"),30));
+			}else if(choose<=3.5) {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Shield"),30));
+			}else {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,"Field"),30));
+			}
+
+		}
 	}
 	
 	public void paint(Graphics g) {
