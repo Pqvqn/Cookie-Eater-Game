@@ -18,22 +18,25 @@ public class Explorer extends Entity{
 	protected ArrayList<CookieStore> on_display;
 	protected int min_cat, max_cat;
 	
+	protected double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
-	private int direction;
-	private double acceleration; //added to dimensional speed depending on direction
-	private double max_velocity; //cap on accelerated-to dimensional speed
-	private double terminal_velocity; //maximum possible dimensional speed
-	private double friction; //removed from dimensional speed
-	private double accel; //scalable movement stats
-	private double maxvel;
-	private double termvel;
-	private double fric;
-	//private double minRecoil; //how fast bounces off wall (min and max)
-	//private double maxRecoil;
+	protected int direction;
+	protected double acceleration; //added to dimensional speed depending on direction
+	protected double max_velocity; //cap on accelerated-to dimensional speed
+	protected double terminal_velocity; //maximum possible dimensional speed
+	protected double friction; //removed from dimensional speed
+	protected double accel; //scalable movement stats
+	protected double maxvel;
+	protected double termvel;
+	protected double fric;
+	protected double minRecoil; //how fast bounces off wall (min and max)
+	protected double maxRecoil;
+	protected Color coloration;
 
 	
 	public Explorer(Board frame) {
 		super(frame);
+		calibration_ratio = 60/15.0;
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
 		name = "Unknown";
@@ -44,13 +47,15 @@ public class Explorer extends Entity{
 		max_velocity = 10*calibration_ratio;
 		terminal_velocity = 50*calibration_ratio;
 		friction = .1*calibration_ratio*calibration_ratio;
+		averageStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
 		fric = friction*scale;
-		//minRecoil = 10*calibration_ratio;
-		//maxRecoil = 50*calibration_ratio;
+		minRecoil = 10*calibration_ratio;
+		maxRecoil = 50*calibration_ratio;
 		direction = NONE;
+		coloration = Color.gray;
 	}
 	
 	public Level getResidence() {return residence;}
@@ -172,21 +177,85 @@ public class Explorer extends Entity{
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
 		friction/=calibration_ratio*calibration_ratio;
-		//minRecoil /= calibration_ratio;
-		//maxRecoil /= calibration_ratio;
+		minRecoil /= calibration_ratio;
+		maxRecoil /= calibration_ratio;
 		
 		calibration_ratio = calrat;
 		
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		//minRecoil *= calibration_ratio;
-		//maxRecoil *= calibration_ratio;
+		minRecoil *= calibration_ratio;
+		maxRecoil *= calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
-		//coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+	}
+	//uses shield instead of killing
+	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
+		shielded = true;
+		double[] point = Level.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
+			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
+		}
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
+			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
+		}
+		while(collidesWithRect(false,rx,ry,rw,rh)) {
+			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+			x+=(x-point[0])*rat; //move out of other
+			y+=(y-point[1])*rat;
+			orientParts();
+		}
+		if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
+			}
+		}
+	}
+	//tests if hits rectangle
+	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
+		boolean hit = false;
+		for(int i=0; i<parts.size(); i++) {
+			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH))hit=true;
+		}
+		return hit;
+							
+	}
+	public int getDir() {return direction;}
+	public double getAim() {
+		switch(direction) {
+		case UP:
+			return 3*Math.PI/2;
+		case RIGHT:
+			return 0;
+		case DOWN:
+			return Math.PI/2;
+		case LEFT:
+			return Math.PI;
+		default:
+			return Math.PI/2;
+		}}
+	public void spend(double amount) {
+		removeCookies(amount);
+	}
+	public void pay(double amount) {
+		addCookies(amount);
+	}
+	public void averageStats() {
+		acceleration=MR[0][1]/2+MR[0][0];
+		max_velocity=MR[1][1]/2+MR[1][0];
+		friction=MR[2][1]/2+MR[2][0];
+		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
+		acceleration*=calibration_ratio*calibration_ratio;
+		max_velocity*=calibration_ratio;
+		friction*=calibration_ratio*calibration_ratio;
 	}
 	public void paint(Graphics g) {}
 }

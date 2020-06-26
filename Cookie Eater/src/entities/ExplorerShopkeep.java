@@ -74,7 +74,9 @@ public class ExplorerShopkeep extends Explorer{
 	}
 
 	public void paint(Graphics g) {
+		super.paint(g);
 		if(part!=null)part.paint(g);
+		g.setColor(coloration);
 		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
 	}
 }
