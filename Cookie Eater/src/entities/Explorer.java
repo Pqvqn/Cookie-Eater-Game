@@ -56,6 +56,7 @@ public class Explorer extends Entity{
 		maxRecoil = 50*calibration_ratio;
 		direction = NONE;
 		coloration = Color.gray;
+		buildBody();
 	}
 	
 	public Level getResidence() {return residence;}
@@ -68,14 +69,20 @@ public class Explorer extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
-		
+		setState();
 		if(state == VENDOR) { //if selling
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
 			x = shop_spots[0][0];
 			y = shop_spots[0][1];
+		}else if (state == VENTURE) {
+			chooseDir();
 		}
-		
+		scale = board.currFloor.getScale();
+		accel = acceleration*scale;
+		maxvel = max_velocity*scale;
+		termvel = terminal_velocity*scale;
+		fric = friction*scale;
 		if(!lock) {
 			switch(direction) {
 				case UP: //if up
@@ -114,11 +121,16 @@ public class Explorer extends Entity{
 		}else if(y_velocity<0) {
 			y_velocity+=fric;
 		}
+		int spec = doSpecial();
+		if(spec!=-1) {
+			special(spec);
+		}
 		orientParts();
 	}
 	//die on a floor
 	public void kill() {
 		//item drop code here :)
+		System.out.println("oops i died but there no code");
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
@@ -127,11 +139,13 @@ public class Explorer extends Entity{
 	//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
 	public Level findFloor(String type, boolean store, int num, int backup) {
 		int count = 0;
-		for(int i=0; i<board.floors.size(); i++) {
-			if(board.floors.get(i).getName().equals(type) && store==board.floors.get(i) instanceof Store) {
+		Level point = board.floors.getLast();
+		while(point.getNext()!=null) {
+			if(point.getName().equals(type) && store==point instanceof Store) {
 				count++;
-				if(count>num)return board.floors.get(i);
+				if(count>num)return point;
 			}
+			point = point.getNext();
 		}
 		return board.floors.get(backup);
 	}
@@ -219,6 +233,16 @@ public class Explorer extends Entity{
 			}
 		}
 	}
+	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
+		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
+			kill();
+			return;
+		}else if (!shielded && board.currFloor.takeDamage()){//only remove shields if not in stun and shield to be broken
+			removeShields(1);
+		}
+		bounceShield(w,rx,ry,rw,rh);
+		
+	}
 	//tests if hits rectangle
 	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		boolean hit = false;
@@ -242,6 +266,23 @@ public class Explorer extends Entity{
 		default:
 			return Math.PI/2;
 		}}
+	//chooses a direction to accelerate to
+	public void chooseDir() {
+		
+	}
+	//returns which special to do, -1 if none
+	public int doSpecial() {
+		return -1;
+	}
+	//returns which special to do, -1 if none
+	public void setState() {
+		if(state!=VENDOR && board.currFloor instanceof Store) {
+			state = VENDOR;
+		}
+		if(state!=VENTURE && !(board.currFloor instanceof Store)) {
+			state = VENTURE;
+		}
+	}
 	public void spend(double amount) {
 		removeCookies(amount);
 	}
@@ -256,6 +297,10 @@ public class Explorer extends Entity{
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
+	}
+	//prepares explorer at start of new level
+	public void spawn() {
+		scale = board.currFloor.getScale();
 	}
 	public void paint(Graphics g) {}
 }

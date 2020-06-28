@@ -41,6 +41,11 @@ public class Draw extends JPanel{
 	}
 	//update all objects
 	public void runUpdate() {
+		if(board.player.getDir()==Eater.NONE) { //if player hasn't moved yet, don't do actions
+			repaint();
+			return;
+		}
+		
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}

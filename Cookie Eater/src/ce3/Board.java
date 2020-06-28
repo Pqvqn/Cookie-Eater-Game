@@ -148,6 +148,7 @@ public class Board extends JFrame{
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currFloor)) {
 				present_npcs.add(npcs.get(i));
+				npcs.get(i).spawn();
 			}else if(present_npcs.contains(npcs.get(i))) {
 				present_npcs.remove(i);
 			}
@@ -174,6 +175,7 @@ public class Board extends JFrame{
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currFloor)) {
 				present_npcs.add(npcs.get(i));
+				npcs.get(i).spawn();
 			}else if(present_npcs.contains(npcs.get(i))) {
 				present_npcs.remove(i);
 			}
@@ -195,13 +197,13 @@ public class Board extends JFrame{
 			fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
 			for(int i=0; i<players.size(); i++) {
-				players.get(i).setCalibration(getAdjustedCycle()/15.0); //give player more acurrate cycle time
+				players.get(i).setCalibration(getAdjustedCycle()/15.0); //give player more accurate cycle time
 			}
 			for(int i=0; i<enemies.size(); i++) {
-				enemies.get(i).setCalibration(getAdjustedCycle()); //give enemies more acurrate cycle time
+				enemies.get(i).setCalibration(getAdjustedCycle()); //give enemies more accurate cycle time
 			}
 			for(int i=0; i<present_npcs.size(); i++) {
-				present_npcs.get(i).setCalibration(getAdjustedCycle()/15.0); //give enemies more acurrate cycle time
+				present_npcs.get(i).setCalibration(getAdjustedCycle()/15.0); //give npcs more accurate cycle time
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;

@@ -44,9 +44,15 @@ public class ExplorerShopkeep extends Explorer{
 		super.runUpdate();
 		//System.out.println(x+" "+y+" "+radius+" "+part.getRadius());
 	}
-
+	public void chooseDir() {
+		if(Math.random()>.99)
+			direction = (int)(Math.random()*4);
+	}
+	public int doSpecial() {
+		return -1;
+	}
 	public void chooseResidence() {
-		residence = findFloor("Dungeon Foyer",true,0,2);
+		residence = findFloor("Dungeon Foyer",false,0,2);
 	}
 
 	public void createStash() {
@@ -64,6 +70,9 @@ public class ExplorerShopkeep extends Explorer{
 			}
 
 		}
+		shield_stash.add(new CookieShield(board,0,0,15));
+		shield_stash.add(new CookieShield(board,0,0,15));
+		shield_stash.add(new CookieShield(board,0,0,15));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));

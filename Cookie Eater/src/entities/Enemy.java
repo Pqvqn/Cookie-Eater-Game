@@ -49,12 +49,10 @@ public abstract class Enemy extends Entity{
 		if(ded)return;
 		setCalibration(board.getAdjustedCycle());
 	
-		if(player.getDir()!=Eater.NONE) {
-			x+=x_velocity;
-			y+=y_velocity;
-			x_velocity*=fric;
-			y_velocity*=fric;
-		}
+		x+=x_velocity;
+		y+=y_velocity;
+		x_velocity*=fric;
+		y_velocity*=fric;
 		if(Math.random()>.999) {
 			special(0); 
 		}

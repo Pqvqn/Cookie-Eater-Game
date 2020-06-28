@@ -1,6 +1,5 @@
 package items;
 import ce3.*;
-import entities.Eater;
 
 public class ItemBoost extends Item{
 	
@@ -26,7 +25,7 @@ public class ItemBoost extends Item{
 	
 	public void execute() {	
 		if(checkCanceled())return;
-		if (user.getXVel()==0 && user.getYVel()==0 && board.player.getDir()!=Eater.NONE) {
+		if (user.getXVel()==0 && user.getYVel()==0) {
 			user.setXVel(Math.cos(dir));
 			user.setYVel(Math.sin(dir));
 		}

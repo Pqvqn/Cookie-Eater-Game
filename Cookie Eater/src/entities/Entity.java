@@ -355,7 +355,7 @@ public abstract class Entity {
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
 		if(board.currFloor.specialsEnabled()) {
-			if(special || special_frames.get(index)!=0 || board.player.getDir()==Eater.NONE || !special_activated.get(index))return;
+			if(special || special_frames.get(index)!=0 || !special_activated.get(index))return;
 			special=true;
 			special_activated.set(index, false);
 			currSpecial = index;

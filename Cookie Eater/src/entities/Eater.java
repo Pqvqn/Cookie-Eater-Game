@@ -339,6 +339,7 @@ public class Eater extends Entity{
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
+		termvel = terminal_velocity*scale;
 		fric = friction*scale;
 		radius = DEFAULT_RADIUS;
 		dO = true;
