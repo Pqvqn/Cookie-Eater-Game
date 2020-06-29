@@ -32,7 +32,9 @@ public class Explorer extends Entity{
 	protected double minRecoil; //how fast bounces off wall (min and max)
 	protected double maxRecoil;
 	protected Color coloration;
-
+	protected Segment tester; //segment used to test possible movement paths to choose optimal one
+	protected double input_speed; //how many frames must pass between inputs
+	protected int input_counter; //counts the above
 	
 	public Explorer(Board frame) {
 		super(frame);
@@ -56,6 +58,7 @@ public class Explorer extends Entity{
 		maxRecoil = 50*calibration_ratio;
 		direction = NONE;
 		coloration = Color.gray;
+		input_counter = 0;
 		buildBody();
 	}
 	
@@ -76,7 +79,10 @@ public class Explorer extends Entity{
 			x = shop_spots[0][0];
 			y = shop_spots[0][1];
 		}else if (state == VENTURE) {
-			chooseDir();
+			if(input_counter++>=input_speed) {
+				input_counter = 0;
+				chooseDir();
+			}
 		}
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
@@ -129,8 +135,10 @@ public class Explorer extends Entity{
 	}
 	//die on a floor
 	public void kill() {
+		if(!ded)System.out.println("oops i died but there no code");
+		ded = true;
+		board.present_npcs.remove(this);
 		//item drop code here :)
-		System.out.println("oops i died but there no code");
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
@@ -193,6 +201,7 @@ public class Explorer extends Entity{
 		friction/=calibration_ratio*calibration_ratio;
 		minRecoil /= calibration_ratio;
 		maxRecoil /= calibration_ratio;
+		input_speed *= calibration_ratio;
 		
 		calibration_ratio = calrat;
 		
@@ -205,6 +214,7 @@ public class Explorer extends Entity{
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
+		input_speed /= calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
 	//uses shield instead of killing
@@ -243,6 +253,10 @@ public class Explorer extends Entity{
 		bounceShield(w,rx,ry,rw,rh);
 		
 	}
+	//resets after cycle end
+	public void endCycle() {
+		bumped = new ArrayList<Object>();
+	}
 	//tests if hits rectangle
 	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		boolean hit = false;
@@ -276,10 +290,10 @@ public class Explorer extends Entity{
 	}
 	//returns which special to do, -1 if none
 	public void setState() {
-		if(state!=VENDOR && board.currFloor instanceof Store) {
+		if(state!=VENDOR && residence instanceof Store) {
 			state = VENDOR;
 		}
-		if(state!=VENTURE && !(board.currFloor instanceof Store)) {
+		if(state!=VENTURE && !(residence instanceof Store)) {
 			state = VENTURE;
 		}
 	}

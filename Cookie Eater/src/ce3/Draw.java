@@ -72,6 +72,9 @@ public class Draw extends JPanel{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).endCycle();
 		}
+		for(int i=0; i<board.present_npcs.size(); i++) {
+			board.present_npcs.get(i).endCycle();
+		}
 		for(int i=0; i<board.enemies.size(); i++) {
 			if(i<board.enemies.size()) {
 				Enemy curr = board.enemies.get(i);
