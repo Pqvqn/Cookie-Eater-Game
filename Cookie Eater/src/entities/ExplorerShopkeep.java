@@ -1,7 +1,6 @@
 package entities;
 
 import java.awt.*;
-import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -47,9 +46,10 @@ public class ExplorerShopkeep extends Explorer{
 	}
 	public void chooseDir() {
 		tester.setSize(radius*2);
-		ArrayList<Double> xs = new ArrayList<Double>();
-		ArrayList<Double> ys = new ArrayList<Double>();
-		ArrayList<Integer> dos = new ArrayList<Integer>();dos.add(0);dos.add(1);dos.add(2);dos.add(3);
+		double[] xs = new double[4];
+		double[] ys = new double[4];
+		//ArrayList<Integer> dos = new ArrayList<Integer>();dos.add(0);dos.add(1);dos.add(2);dos.add(3);
+		int[] dos = {0,0,0,0}; //weight of quality for each dir choice
 		for(int i=0; i<4; i++) {
 			double xv = x_velocity, yv = y_velocity; //used to find average x/y velocities over time period
 			switch(i) { //change velocity based on direction accelerating in
@@ -70,22 +70,40 @@ public class ExplorerShopkeep extends Explorer{
 					xv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-xv)/accel), 0))*accel)/2);
 					break;
 			}
-			xs.add(x+xv*input_speed);
-			ys.add(y+yv*input_speed);
-			tester.setLocation(xs.get(i),ys.get(i)); //move tester to predicted location
+			xs[i]=(x+xv*input_speed);
+			ys[i]=(y+yv*input_speed);
+			tester.setLocation(xs[i],ys[i]); //move tester to predicted location
+			bees[i][0] = xs[i];
+			bees[i][1] = ys[i];
+			yeehaw = false;
 			for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
-				if(tester.collidesWithRect(false, w.getX(), w.getY(), w.getW(), w.getH()) && dos.contains(i)) {
-					dos.remove(dos.indexOf(i));
+				if(tester.collidesWithRect(false, w.getX(), w.getY(), w.getW(), w.getH())
+						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
+					yees[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[0];
+					yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[1];
+					dos[i] = -1;
+					yeehaw = true;
 				}
 			}
 		}
-		if(dos.isEmpty()) {
+		int bigind = direction; //most preferred direction (largest weight)
+		if(bigind<0 || bigind>=dos.length)bigind = 0;
+		for(int i=0; i<dos.length; i++) {
+			if(dos[i]>dos[bigind]) {
+				bigind = i;
+			}
+		}
+		direction = bigind;
+		/*if(dos.isEmpty()) {
 			
 		}else {
 			direction = dos.get((int)(Math.random()*dos.size()));
-		}
-		tester.setLocation(xs.get(direction),ys.get(direction));
+		}*/
+		tester.setLocation(xs[direction],ys[direction]);
 	}
+	boolean yeehaw;
+	double[][] bees = {{0,0},{0,0},{0,0},{0,0}};
+	double[][] yees = {{0,0},{0,0},{0,0},{0,0}};
 	public int doSpecial() {
 		return -1;
 	}
@@ -130,15 +148,31 @@ public class ExplorerShopkeep extends Explorer{
 	public void orientParts() {
 		part.setLocation(x,y);
 		part.setSize(radius);
+		tester.setSize(radius*2);
 	}
 
 	public void paint(Graphics g) {
 		super.paint(g);
 		if(part!=null)part.paint(g);
-		if(tester!=null)part.paint(g);
+		if(tester!=null)tester.paint(g);
 		g.setColor(coloration);
 		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
+		
+		//debug tracker display stuff
 		g.setColor(Color.WHITE);
-		g.drawOval((int)(.5+tester.getCenterX()-getRadius()), (int)(.5+tester.getCenterY()-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
+		if(yeehaw) {
+			g.setColor(Color.MAGENTA);
+			
+		}
+		g.drawOval((int)(.5+tester.getCenterX()-((SegmentCircle)tester).getRadius()), (int)(.5+tester.getCenterY()-((SegmentCircle)tester).getRadius()), (int)(.5+((SegmentCircle)tester).getRadius()*2), (int)(.5+((SegmentCircle)tester).getRadius()*2));
+		for(int i=0; i<4; i++) {
+			if(i==direction) {
+				g.setColor(Color.MAGENTA);
+			}else {
+				g.setColor(Color.WHITE);
+			}
+			g.drawOval((int)(.5+yees[i][0])-4, (int)(.5+yees[i][1])-4, 8, 8);
+			g.drawOval((int)(.5+bees[i][0]-((SegmentCircle)tester).getRadius()), (int)(.5+bees[i][1]-((SegmentCircle)tester).getRadius()), (int)(.5+((SegmentCircle)tester).getRadius()*2), (int)(.5+((SegmentCircle)tester).getRadius()*2));
+		}
 	}
 }
