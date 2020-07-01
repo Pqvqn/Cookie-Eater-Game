@@ -10,8 +10,8 @@ public class ExplorerShopkeep extends Explorer{
 	
 	private SegmentCircle part;
 	
-	public ExplorerShopkeep(Board frame) {
-		super(frame);
+	public ExplorerShopkeep(Board frame, int cycletime) {
+		super(frame,cycletime);
 		name = "Unknown";
 		chooseResidence();
 		radius = 40;
@@ -19,10 +19,13 @@ public class ExplorerShopkeep extends Explorer{
 		max_cat = 8;
 		mass = 400;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0);
-		input_speed = 5;
+		input_speed = 30;
+		start_shields = 10;
+		setShields(start_shields);
 	}
 
 	public void runEnds() {
+		super.runEnds();
 		for(int i=0; i<Math.random()*4-1; i++) {
 			removeRandomly();
 		}
@@ -140,21 +143,6 @@ public class ExplorerShopkeep extends Explorer{
 			}
 
 		}
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
-		shield_stash.add(new CookieShield(board,0,0,15));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));

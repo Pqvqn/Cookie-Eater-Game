@@ -6,6 +6,7 @@ import java.util.*;
 import ce3.*;
 import levels.*;
 import cookies.*;
+import items.Item;
 
 public class Explorer extends Entity{
 
@@ -35,12 +36,16 @@ public class Explorer extends Entity{
 	protected Segment tester; //segment used to test possible movement paths to choose optimal one
 	protected double input_speed; //how many frames must pass between inputs
 	protected int input_counter; //counts the above
+	protected ArrayList<CookieItem> pickups; //items picked up but not activated
+	protected boolean travelWith; //if enemy tavels with the player
+	protected int start_shields;
 	
-	public Explorer(Board frame) {
+	public Explorer(Board frame, int cycletime) {
 		super(frame);
-		calibration_ratio = 60/15.0;
+		calibration_ratio = cycletime/15.0;
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
+		pickups = new ArrayList<CookieItem>();
 		name = "Unknown";
 		chooseResidence();
 		state = VENDOR;
@@ -59,6 +64,8 @@ public class Explorer extends Entity{
 		direction = NONE;
 		coloration = Color.gray;
 		input_counter = 0;
+		travelWith = true;
+		setShields(start_shields);
 		buildBody();
 	}
 	
@@ -66,7 +73,7 @@ public class Explorer extends Entity{
 	public String getName() {return name;}
 	//make changes after player ends a run
 	public void runEnds() {
-		
+		kill();
 	}
 	//updates every cycle
 	public void runUpdate() {
@@ -133,12 +140,45 @@ public class Explorer extends Entity{
 		}
 		orientParts();
 	}
-	//die on a floor
+
+	//dies on floor
 	public void kill() {
 		if(!ded)System.out.println("oops i died but there no code");
 		ded = true;
 		board.present_npcs.remove(this);
-		//item drop code here :)
+		if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
+				powerups.get(currSpecial).get(i).end(true);
+		}
+		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
+		pickups = new ArrayList<CookieItem>();
+		special = false;
+		x_velocity = 0;
+		y_velocity = 0;
+		wipeStash();
+		setShields(start_shields);
+		//randomizeStats();
+			
+		decayed_value = 0;
+		extra_radius = 0;
+		ghost = false;
+		offstage = 0;
+		averageStats();
+		reset();
+		chooseResidence();
+	}
+	//reset npc for new FLOOR
+	public void reset() {
+		special = false;
+		currSpecial = -1;
+		shielded = false;
+		shield_frames = 0;
+		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0.0);
+		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
+		x_velocity=0;
+		y_velocity=0;
+		direction = NONE;
+		scale = board.currFloor.getScale();
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
@@ -314,7 +354,12 @@ public class Explorer extends Entity{
 	}
 	//prepares explorer at start of new level
 	public void spawn() {
-		scale = board.currFloor.getScale();
+		ded = false;
+		reset();
 	}
+	public void levelComplete() {
+		residence = board.currFloor.getNext();
+	}
+	public boolean getTravelWith() {return travelWith;}
 	public void paint(Graphics g) {}
 }

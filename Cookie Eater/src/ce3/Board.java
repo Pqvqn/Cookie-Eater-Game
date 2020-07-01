@@ -102,7 +102,7 @@ public class Board extends JFrame{
 		}
 		
 		//create all of this game's npcs
-		createNpcs();
+		createNpcs(cycletime);
 		//create floor 1
 		resetGame();
 
@@ -158,6 +158,11 @@ public class Board extends JFrame{
 			
 	//advances level
 	public void nextLevel() {
+		for(int i=0; i<present_npcs.size(); i++) {
+			if(present_npcs.get(i).getTravelWith()) {
+				present_npcs.get(i).levelComplete();
+			}
+		}
 		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
@@ -172,12 +177,11 @@ public class Board extends JFrame{
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
+		present_npcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currFloor)) {
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
-			}else if(present_npcs.contains(npcs.get(i))) {
-				present_npcs.remove(i);
 			}
 		}
 		spawnNpcs();
@@ -238,8 +242,8 @@ public class Board extends JFrame{
 	}
 	
 	//creates all the non-player characters and puts them in their starting levels
-	public void createNpcs() {
-		npcs.add(new ExplorerShopkeep(this));
+	public void createNpcs(int cycle) {
+		npcs.add(new ExplorerShopkeep(this,cycletime));
 		for(int i=0; i<npcs.size(); i++) {
 			npcs.get(i).chooseResidence();
 			npcs.get(i).createStash();
