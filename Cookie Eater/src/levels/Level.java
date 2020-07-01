@@ -145,6 +145,7 @@ public abstract class Level{
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
 		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));
+		if(e instanceof Explorer)board.player.setScoreToWin(board.player.getScoreToWin()-1);
 		e.setX(c.getX());
 		e.setY(c.getY());
 		e.orientParts();

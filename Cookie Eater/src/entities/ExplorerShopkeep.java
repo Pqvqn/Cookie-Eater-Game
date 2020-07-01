@@ -81,14 +81,28 @@ public class ExplorerShopkeep extends Explorer{
 						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
 					yees[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[0];
 					yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[1];
-					dos[i] = -1;
+					dos[i] += -100;
 					yeehaw = true;
+				}
+			}
+			for(Cookie c:board.cookies) { //if tester hits a wall, rule this direction out
+				if(tester.collidesWithCircle(true, c.getX(), c.getY(), c.getRadius())){
+					dos[i] += 1;
 				}
 			}
 		}
 		int bigind = direction; //most preferred direction (largest weight)
-		if(bigind<0 || bigind>=dos.length)bigind = 0;
+		int nearind = direction; //nearest cookie direction
+		if(bigind<0 || bigind>=dos.length) {bigind = 0;nearind=0;}
+		dos[nearind]+=10;
 		for(int i=0; i<dos.length; i++) {
+			Cookie near = board.nearestCookie(xs[i], ys[i]);
+			Cookie nearb = board.nearestCookie(xs[nearind], ys[nearind]);
+			if(near!=null && Level.lineLength(near.getX(),near.getY(),xs[i],ys[i]) < Level.lineLength(nearb.getX(),nearb.getY(),xs[nearind],ys[nearind])) {
+				dos[nearind]-=10;
+				dos[i]+=10;
+				nearind = i;
+			}
 			if(dos[i]>dos[bigind]) {
 				bigind = i;
 			}
@@ -149,6 +163,7 @@ public class ExplorerShopkeep extends Explorer{
 		part.setLocation(x,y);
 		part.setSize(radius);
 		tester.setSize(radius*2);
+		tester.setExtraSize(radius*2);
 	}
 
 	public void paint(Graphics g) {

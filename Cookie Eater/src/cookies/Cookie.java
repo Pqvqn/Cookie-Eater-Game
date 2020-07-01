@@ -4,8 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import ce3.*;
-import entities.Eater;
-import entities.Entity;
+import entities.*;
 import levels.*;
 import sprites.*;
 
@@ -83,15 +82,19 @@ public class Cookie {
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
 				player.addScore(1);
-				if(!decayed) {
-					player.activateSpecials();
-				}else { //less value for decayed cookies
+				if(decayed) { //less value for decayed cookies
 					value = board.player.getDecayedValue();
 				}
 				board.player.addCash(value);
 			}
-			
+			if(consumer instanceof Explorer) {
+				Eater player = board.player;
+				player.addScore(1);
+			}
 			//consumer.giveCookie(this);
+		}
+		if(!decayed && consumer!=null) {
+			consumer.activateSpecials();
 		}
 		board.cookies.remove(this);
 	}
