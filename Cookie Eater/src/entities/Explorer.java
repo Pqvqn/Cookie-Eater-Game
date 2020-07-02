@@ -13,7 +13,7 @@ public class Explorer extends Entity{
 	protected Level residence; //which room this explorer is on
 	protected String name;
 	protected int state;
-	protected static final int VENDOR = 0, VENTURE = 1;
+	public static final int VENDOR = 0, VENTURE = 1, STAND = 2;
 	protected int[][] shop_spots;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
@@ -37,7 +37,6 @@ public class Explorer extends Entity{
 	protected double input_speed; //how many frames must pass between inputs
 	protected int input_counter; //counts the above
 	protected ArrayList<CookieItem> pickups; //items picked up but not activated
-	protected boolean travelWith; //if enemy tavels with the player
 	protected int start_shields;
 	
 	public Explorer(Board frame, int cycletime) {
@@ -64,7 +63,6 @@ public class Explorer extends Entity{
 		direction = NONE;
 		coloration = Color.gray;
 		input_counter = 0;
-		travelWith = true;
 		setShields(start_shields);
 		buildBody();
 	}
@@ -79,8 +77,7 @@ public class Explorer extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
-		setState();
-		if(state == VENDOR) { //if selling
+		if(state == VENDOR || state == STAND) { //if selling
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
 			x = shop_spots[0][0];
@@ -222,6 +219,14 @@ public class Explorer extends Entity{
 			on_display.add(c);
 		}
 	}
+	//puts self in shop
+	public void standBy(int[] position) {
+		int[][] b = {position};
+		shop_spots = b;
+		setX(position[0]); //put explorer in place
+		setY(position[1]);
+		state = STAND;
+	}
 	//removes items from display and re-stashes them
 	public void packUp() {
 		for(int i=on_display.size()-1; i>=0; i--) {
@@ -328,15 +333,7 @@ public class Explorer extends Entity{
 	public int doSpecial() {
 		return -1;
 	}
-	//returns which special to do, -1 if none
-	public void setState() {
-		if(state!=VENDOR && residence instanceof Store) {
-			state = VENDOR;
-		}
-		if(state!=VENTURE && !(residence instanceof Store)) {
-			state = VENTURE;
-		}
-	}
+	
 	public void spend(double amount) {
 		removeCookies(amount);
 	}
@@ -360,6 +357,6 @@ public class Explorer extends Entity{
 	public void levelComplete() {
 		residence = board.currFloor.getNext();
 	}
-	public boolean getTravelWith() {return travelWith;}
+	public int getState() {return state;}
 	public void paint(Graphics g) {}
 }

@@ -159,7 +159,7 @@ public class Board extends JFrame{
 	//advances level
 	public void nextLevel() {
 		for(int i=0; i<present_npcs.size(); i++) {
-			if(present_npcs.get(i).getTravelWith()) {
+			if(present_npcs.get(i).getState()==Explorer.VENTURE) {
 				present_npcs.get(i).levelComplete();
 			}
 		}
@@ -244,6 +244,8 @@ public class Board extends JFrame{
 	//creates all the non-player characters and puts them in their starting levels
 	public void createNpcs(int cycle) {
 		npcs.add(new ExplorerShopkeep(this,cycletime));
+		npcs.add(new ExplorerShopkeep(this,cycletime));
+		npcs.add(new ExplorerSidekick(this,cycletime));
 		for(int i=0; i<npcs.size(); i++) {
 			npcs.get(i).chooseResidence();
 			npcs.get(i).createStash();

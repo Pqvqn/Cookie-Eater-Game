@@ -16,6 +16,7 @@ public abstract class Store extends Level{
 	protected double installCost;
 	protected int shieldNum;
 	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
+	protected int[][] passerbySpaces; //spaces for passerbys
 	
 	public Store(Board frame) {
 		super(frame);
@@ -138,9 +139,16 @@ public abstract class Store extends Level{
 		P.add(p);
 	}
 	public void spawnNpcs() {
+		int vendors=0,passerbys=0;
 		for(int i=0; i<board.present_npcs.size(); i++) {
 			Explorer e = board.present_npcs.get(i);
-			e.sellWares(vendorSpaces[i]); //place npcs at vendor spots
+			if(e==null) {
+				
+			}else if(e.getState()==Explorer.VENDOR) {
+				e.sellWares(vendorSpaces[vendors++]);
+			}else if(e.getState()==Explorer.VENTURE) {
+				e.standBy(passerbySpaces[passerbys++]);
+			}
 		}
 	}
 	public void removeNpcs() {
