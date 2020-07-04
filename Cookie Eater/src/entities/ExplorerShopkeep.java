@@ -47,6 +47,15 @@ public class ExplorerShopkeep extends Explorer{
 	}
 	public void runUpdate() {
 		super.runUpdate();
+		if(speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+			speak("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa *ahem* sorry about that nvm AAAA");
+			speaking++;
+		}
+		if(speaking>0 && speaking++>1000/board.getAdjustedCycle()) {
+			speak(null);
+			speaking = 0;
+		}
+		//System.out.println(speaking+" "+1000/board.getAdjustedCycle());
 	}
 	public void chooseDir() {
 		direction = NONE;

@@ -29,6 +29,7 @@ public class EnemyGlob extends Enemy{
 		terminalVelocity = 2;
 		normalVelocity = .2;
 		acceleration = .005;
+		name = "Tres Blob";
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});

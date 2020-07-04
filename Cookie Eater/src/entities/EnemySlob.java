@@ -33,6 +33,7 @@ public class EnemySlob extends Enemy{
 		angle = 0;
 		chargeCoords = null;
 		prevCookies = 0;
+		name = "Charger";
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});

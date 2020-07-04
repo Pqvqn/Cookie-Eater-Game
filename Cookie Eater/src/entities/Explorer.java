@@ -11,7 +11,6 @@ import items.Item;
 public class Explorer extends Entity{
 
 	protected Level residence; //which room this explorer is on
-	protected String name;
 	protected int state;
 	public static final int VENDOR = 0, VENTURE = 1, STAND = 2;
 	protected int[][] shop_spots;
@@ -38,6 +37,7 @@ public class Explorer extends Entity{
 	protected int input_counter; //counts the above
 	protected ArrayList<CookieItem> pickups; //items picked up but not activated
 	protected int start_shields;
+	protected int speaking; //how long been speaking for
 	
 	public Explorer(Board frame, int cycletime) {
 		super(frame);
@@ -63,6 +63,7 @@ public class Explorer extends Entity{
 		direction = NONE;
 		coloration = Color.gray;
 		input_counter = 0;
+		speaking = 0;
 		setShields(start_shields);
 		buildBody();
 	}
@@ -358,5 +359,9 @@ public class Explorer extends Entity{
 		residence = board.currFloor.getNext();
 	}
 	public int getState() {return state;}
+	//sets words in text box at bottom of screen - null for removing box
+	public void speak(String words) {
+		board.setDialogue(this, words);
+	}
 	public void paint(Graphics g) {}
 }

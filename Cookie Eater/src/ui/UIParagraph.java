@@ -10,9 +10,9 @@ public class UIParagraph extends UIElement{
 	private ArrayList<String> textLines;
 	private Color color;
 	private Font font;
-	private int separation;
+	private int separation, passageWidth;
 
-	public UIParagraph(Board frame, int x, int y, ArrayList<String> ts, Color c, Font f, int sep) {
+	public UIParagraph(Board frame, int x, int y, ArrayList<String> ts, Color c, Font f, int sep, int wid) {
 		super(frame, x, y);
 		if(ts==null) {
 			textLines = new ArrayList<String>();
@@ -24,6 +24,7 @@ public class UIParagraph extends UIElement{
 		color = c;
 		font = f;
 		separation = sep;
+		passageWidth = wid;
 		initiateLines();
 	}
 
@@ -34,8 +35,27 @@ public class UIParagraph extends UIElement{
 	}
 	
 	public ArrayList<String> getLines() {return textLines;}
-	public void setTextLines(ArrayList<String> textLines) {
-		this.textLines = textLines;
+	public void setTextLines(String text) {
+		textLines = new ArrayList<String>();
+		int i=0;
+		while(i<text.length()) { //split string into lines
+			String line = " ";
+			while(i<text.length() && line.length()<=passageWidth && !line.substring(line.length()-1,line.length()).equals("`")) { //go until line full
+				line+=text.charAt(i);
+				i++;
+			}
+			if(line.substring(line.length()-1,line.length()).equals("`")) { //if extra line character, add line
+				line = line.substring(0,line.length()-1);
+			}else { //otherwise cut line back to last space
+				if(line.length()>passageWidth) {
+					while(line.length()>0 && !line.substring(line.length()-1,line.length()).equals(" ") && i>0) {
+						line = line.substring(0,line.length()-1);
+						i--;
+					}
+				}
+			}
+			textLines.add(line); //add line
+		}
 		initiateLines();
 		}
 

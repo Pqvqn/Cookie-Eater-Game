@@ -40,6 +40,7 @@ public class Board extends JFrame{
 	private long lastFrame; //time of last frame
 	private UIFpsCount fps;
 	private UILevelInfo lvl;
+	private UIDialogue dia;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
@@ -153,6 +154,7 @@ public class Board extends JFrame{
 				present_npcs.remove(i);
 			}
 		}
+		setDialogue(null,null);
 		spawnNpcs();
 	}
 			
@@ -184,6 +186,7 @@ public class Board extends JFrame{
 				npcs.get(i).spawn();
 			}
 		}
+		setDialogue(null,null);
 		spawnNpcs();
 	}
 		
@@ -214,6 +217,8 @@ public class Board extends JFrame{
 		}
 		//level display
 		lvl.update(currFloor.getName());
+		
+		//dia.update();
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).updateUI();
 		}
@@ -268,6 +273,14 @@ public class Board extends JFrame{
 		return save;
 	}
 	
-
+	public void setDialogue(Entity speaker, String words) {
+		draw.removeUI(dia);
+		if(words==null) {
+			dia = null;
+		}else {
+			dia = new UIDialogue(this,speaker,words);
+			draw.addUI(dia);
+		}
+	}
 
 }

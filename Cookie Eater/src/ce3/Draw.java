@@ -41,7 +41,7 @@ public class Draw extends JPanel{
 	}
 	//update all objects
 	public void runUpdate() {
-		if(board.player.getDir()==Eater.NONE) { //if player hasn't moved yet, don't do actions
+		if(board.player.getDir()==Eater.NONE && !board.currFloor.haltEnabled()) { //if player hasn't moved yet, don't do actions
 			repaint();
 			return;
 		}
@@ -128,7 +128,7 @@ public class Draw extends JPanel{
 		}
 		
 		for(int i=0; i<ui.size(); i++) {
-			ui.get(i).paint(g);
+			if(ui.get(i)!=null)ui.get(i).paint(g);
 		}
 		
 	}

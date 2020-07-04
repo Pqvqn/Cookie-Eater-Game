@@ -46,6 +46,7 @@ public abstract class Entity {
 	protected int shield_length; //stun length
 	protected int shield_frames; //counting how deep into shield
 	protected boolean shield_tick; //countdown shield
+	protected String name;
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -532,4 +533,5 @@ public abstract class Entity {
 	}
 	public void kill() {}
 	public boolean isDed() {return ded;}
+	public String name() {return name;}
 }

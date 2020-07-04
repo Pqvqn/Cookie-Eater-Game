@@ -25,6 +25,7 @@ public class EnemySpawner extends Enemy{
 		normalVelocity = .2;
 		acceleration = .05;
 		spawns = new ArrayList<Enemy>();
+		name = "Spawner";
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
