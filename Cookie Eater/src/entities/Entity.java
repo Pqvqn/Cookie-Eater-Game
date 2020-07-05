@@ -533,5 +533,6 @@ public abstract class Entity {
 	}
 	public void kill() {}
 	public boolean isDed() {return ded;}
-	public String name() {return name;}
+	public String getName() {return name;}
+	public Color getColor() {return null;}
 }

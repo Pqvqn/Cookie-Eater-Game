@@ -178,6 +178,7 @@ public class Eater extends Entity{
 	}
 	public boolean getNearCookie() {return nearCookie;}
 	public void setNearCookie(boolean n) {nearCookie = n;}
+	public Color getColor() {return coloration;}
 	public void spend(double amount) {
 		addCash(-amount);
 		removeCookies(amount);

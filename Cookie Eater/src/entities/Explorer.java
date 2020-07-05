@@ -373,6 +373,7 @@ public class Explorer extends Entity{
 	public void speak(String words) {
 		board.setDialogue(this, words);
 	}
+	public Color getColor() {return coloration;}
 	public void paint(Graphics g) {
 		
 		for(int i=0; i<parts.size(); i++) {

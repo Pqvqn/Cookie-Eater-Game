@@ -29,7 +29,7 @@ public class UIOval extends UIElement{
 
 	public void paint(Graphics g) {
 		g.setColor(color);
-		g.fillOval(xPos-wRad,yPos-hRad,wRad,hRad);
+		g.fillOval(xPos-wRad/2,yPos-hRad/2,wRad,hRad);
 	}
 	
 	
