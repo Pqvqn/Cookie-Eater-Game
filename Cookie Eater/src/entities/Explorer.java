@@ -1,12 +1,15 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.*;
 
 import ce3.*;
 import levels.*;
 import cookies.*;
-import items.Item;
+import items.*;
+import sprites.*;
 
 public class Explorer extends Entity{
 
@@ -17,6 +20,7 @@ public class Explorer extends Entity{
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
 	protected int min_cat, max_cat;
+	protected SpriteExplorer sprite;
 	
 	protected double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
@@ -45,7 +49,7 @@ public class Explorer extends Entity{
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
 		pickups = new ArrayList<CookieItem>();
-		name = "Unknown";
+		name = getName();
 		chooseResidence();
 		state = VENDOR;
 		
@@ -66,10 +70,16 @@ public class Explorer extends Entity{
 		speaking = 0;
 		setShields(start_shields);
 		buildBody();
+		try {
+			sprite = new SpriteExplorer(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Level getResidence() {return residence;}
-	public String getName() {return name;}
+	public String getName() {return "Unknown";}
 	//make changes after player ends a run
 	public void runEnds() {
 		kill();
@@ -363,5 +373,24 @@ public class Explorer extends Entity{
 	public void speak(String words) {
 		board.setDialogue(this, words);
 	}
-	public void paint(Graphics g) {}
+	public void paint(Graphics g) {
+		
+		for(int i=0; i<parts.size(); i++) {
+			if(parts.get(i)!=null)parts.get(i).paint(g);
+		}
+		if(tester!=null)tester.paint(g);
+		g.setColor(coloration);
+		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
+		
+		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform origt = g2.getTransform();
+		for(int i=0; i<summons.size(); i++) { //draw summons
+			summons.get(i).paint(g2);
+			g2.setTransform(origt);
+		}
+		//sprite
+		if(sprite==null)return;
+		sprite.setColor(coloration);
+		sprite.paint(g);
+	}
 }

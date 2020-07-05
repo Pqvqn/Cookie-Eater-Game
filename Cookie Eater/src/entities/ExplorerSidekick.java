@@ -12,7 +12,6 @@ public class ExplorerSidekick extends Explorer{
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
 		super(frame,cycletime);
-		name = "Sidekick";
 		chooseResidence();
 		radius = 40;
 		min_cat = 3;
@@ -24,7 +23,7 @@ public class ExplorerSidekick extends Explorer{
 		setShields(start_shields);
 		state = VENTURE;
 	}
-
+	public String getName() {return "Sidekick";}
 	public void runEnds() {
 		super.runEnds();
 		state = VENTURE;
@@ -135,13 +134,9 @@ public class ExplorerSidekick extends Explorer{
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(part!=null)part.paint(g);
-		if(tester!=null)tester.paint(g);
-		g.setColor(coloration);
-		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
 		
 		//debug tracker display stuff
-		g.setColor(Color.WHITE);
+		/*g.setColor(Color.WHITE);
 		if(yeehaw) {
 			g.setColor(Color.MAGENTA);
 			
@@ -155,6 +150,6 @@ public class ExplorerSidekick extends Explorer{
 			}
 			g.drawOval((int)(.5+yees[i][0])-4, (int)(.5+yees[i][1])-4, 8, 8);
 			g.drawOval((int)(.5+bees[i][0]-((SegmentCircle)tester).getRadius()), (int)(.5+bees[i][1]-((SegmentCircle)tester).getRadius()), (int)(.5+((SegmentCircle)tester).getRadius()*2), (int)(.5+((SegmentCircle)tester).getRadius()*2));
-		}
+		}*/
 	}
 }

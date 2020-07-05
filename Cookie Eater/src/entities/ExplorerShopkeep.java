@@ -12,7 +12,6 @@ public class ExplorerShopkeep extends Explorer{
 	
 	public ExplorerShopkeep(Board frame, int cycletime) {
 		super(frame,cycletime);
-		name = "Shopkeep";
 		chooseResidence();
 		radius = 40;
 		min_cat = 3;
@@ -24,7 +23,7 @@ public class ExplorerShopkeep extends Explorer{
 		setShields(start_shields);
 		state = VENDOR;
 	}
-
+	public String getName() {return "Shopkeeper";}
 	public void runEnds() {
 		super.runEnds();
 		for(int i=0; i<Math.random()*4-1; i++) {
@@ -95,9 +94,5 @@ public class ExplorerShopkeep extends Explorer{
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(part!=null)part.paint(g);
-		if(tester!=null)tester.paint(g);
-		g.setColor(coloration);
-		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
 	}
 }

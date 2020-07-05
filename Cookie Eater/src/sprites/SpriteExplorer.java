@@ -1,38 +1,52 @@
 package sprites;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.imageio.ImageIO;
 
 import ce3.*;
-import entities.Eater;
+import entities.*;
 
-public class SpriteEater extends Sprite{
+public class SpriteExplorer extends Sprite{
 
-	private Eater user;
+	private Explorer user;
+	private String name;
 	private Image base;
 	private Image face;
+	private Image helmet;
 	private Color coloration;
 	private double facex,facey;
 	private double scale;
-	private final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
-	private File[] expressions = {new File("Cookie Eater/src/resources/explorers/eaterFace.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceEat.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceMonch.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceOuch.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceWin.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceDie.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterFaceSpecial.png")};
+	private final int NORM=0; //EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
+	private final int NEUTRAL=0, UP=1, DOWN=2, LEFT=3, RIGHT=4;
+	private File[] expressions;
+	private File[] helmets;
 	private int expression;
 	
-	public SpriteEater(Board frame, Eater e) throws IOException {
+	public SpriteExplorer(Board frame, Explorer e) throws IOException {
 		super(frame);
 		user = e;
-		base = ImageIO.read(new File("Cookie Eater/src/resources/explorers/eaterBase.png"));
+		name = "eater";
+		File[] exp = {new File("Cookie Eater/src/resources/explorers/"+name+"Face.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceEat.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceMonch.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceOuch.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceWin.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceDie.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"FaceSpecial.png")};
+		base = ImageIO.read(new File("Cookie Eater/src/resources/explorers/"+name+"Base.png"));
+		name = user.getName().toLowerCase();
+		File[] helm = {new File("Cookie Eater/src/resources/explorers/"+name+"HelmNeutral.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"HelmUp.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"HelmDown.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"HelmLeft.png"),
+				new File("Cookie Eater/src/resources/explorers/"+name+"HelmRight.png")};
+		expressions = exp;
+		helmets = helm;
 		expression = NORM;
 		face = ImageIO.read(expressions[expression]);
+		helmet = ImageIO.read(helmets[NEUTRAL]);
 		imgs.add(base);
 		imgs.add(face);
 	}
@@ -47,26 +61,31 @@ public class SpriteEater extends Sprite{
 		facex = x; 
 		facey = y;
 		switch(user.getDir()) {
-		case Eater.UP:
+		case Explorer.UP:
 			facey-=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[UP]);
 			break;
-		case Eater.DOWN:
+		case Explorer.DOWN:
 			facey+=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[DOWN]);
 			break;
-		case Eater.RIGHT:
+		case Explorer.RIGHT:
 			facex+=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[RIGHT]);
 			break;
-		case Eater.LEFT:
+		case Explorer.LEFT:
 			facex-=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[LEFT]);
 			break;
-		case Eater.NONE:
+		case Explorer.NONE:
+			helmet = ImageIO.read(helmets[NEUTRAL]);
 			break;
 		}
 			
 		
 		expression = NORM;
 		
-		if(user.getNearCookie())
+		/*if(user.getNearCookie())
 			expression = EAT;
 		if(user.getShielded())
 			expression = HIT;
@@ -84,7 +103,7 @@ public class SpriteEater extends Sprite{
 		}
 		
 		
-		
+		*/
 		face = ImageIO.read(expressions[expression]);
 		
 	}
@@ -96,15 +115,8 @@ public class SpriteEater extends Sprite{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int state = user.getState();
 		double radius = user.getRadius();
-		if(state==Eater.DEAD) {
-			g.setColor(new Color(0,0,0,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), (int)(.5+4*radius), (int)(.5+4*radius));
-		}else if(state==Eater.WIN) {
-			g.setColor(new Color(255,255,255,100));
-			g.fillOval((int)(.5+x-2*radius), (int)(.5+y-2*radius), (int)(.5+4*radius), (int)(.5+4*radius));
-		}else if(user.getCurrentSpecial()!=-1) {
+		if(user.getCurrentSpecial()!=-1) {
 			Color meh = user.getSpecialColors().get(user.getCurrentSpecial());
 			g.setColor(new Color(meh.getRed(),meh.getGreen(),meh.getBlue(),100));
 			g.fillOval((int)(.5+x-1.5*radius), (int)(.5+y-1.5*radius), (int)(.5+3*radius), (int)(.5+3*radius));
@@ -123,5 +135,6 @@ public class SpriteEater extends Sprite{
 		
 		
 		g.drawImage(face,(int)(.5+facex-(face.getWidth(null)/10*scale)), (int)(.5+facey-(face.getHeight(null)/10*scale)), (int)(2*(.5+face.getWidth(null)/10*scale)), (int)(2*(.5+face.getHeight(null)/10*scale)), null);
+		g.drawImage(helmet,(int)(.5+x-(helmet.getWidth(null)/10*scale)), (int)(.5+y-(helmet.getHeight(null)/10*scale)), (int)(2*(.5+helmet.getWidth(null)/10*scale)), (int)(2*(.5+helmet.getHeight(null)/10*scale)), null);
 	}
 }
