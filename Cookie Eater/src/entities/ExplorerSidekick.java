@@ -113,7 +113,7 @@ public class ExplorerSidekick extends Explorer{
 	double[][] bees = {{0,0},{0,0},{0,0},{0,0}};
 	double[][] yees = {{0,0},{0,0},{0,0},{0,0}};
 	public int doSpecial() {
-		return -1;
+		return 0;
 	}
 	public void chooseResidence() {
 		residence = findFloor("Descending Labyrinths",false,0,2);
@@ -121,6 +121,7 @@ public class ExplorerSidekick extends Explorer{
 
 	public void createStash() {
 		super.createStash();
+		giveCookie(new CookieItem(board,0,0,Level.generateItem(board,"Ghost"),0));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
@@ -134,7 +135,6 @@ public class ExplorerSidekick extends Explorer{
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		
 		//debug tracker display stuff
 		/*g.setColor(Color.WHITE);
 		if(yeehaw) {

@@ -82,7 +82,7 @@ public class Explorer extends Entity{
 	public String getName() {return "Unknown";}
 	//make changes after player ends a run
 	public void runEnds() {
-		kill();
+		
 	}
 	//updates every cycle
 	public void runUpdate() {
@@ -142,8 +142,8 @@ public class Explorer extends Entity{
 		}else if(y_velocity<0) {
 			y_velocity+=fric;
 		}
-		int spec = doSpecial();
-		if(spec!=-1) {
+		int spec = (special)?-1:doSpecial();
+		if(spec!=-1 && special_activated.get(spec)) {
 			special(spec);
 		}
 		orientParts();
@@ -164,6 +164,7 @@ public class Explorer extends Entity{
 		x_velocity = 0;
 		y_velocity = 0;
 		wipeStash();
+		to_sell = new ArrayList<CookieStore>();
 		setShields(start_shields);
 		//randomizeStats();
 			
