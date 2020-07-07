@@ -25,7 +25,6 @@ public abstract class Entity {
 	protected ArrayList<Summon> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
 	protected boolean special; //whether a special is active
-	protected boolean check_calibration;
 	protected double calibration_ratio; //framerate ratio
 	protected ArrayList<ArrayList<Item>> powerups;
 	protected int currSpecial;
@@ -59,7 +58,6 @@ public abstract class Entity {
 		stat_stash = new ArrayList<CookieStat>();
 		parts = new ArrayList<Segment>();
 		special = false;
-		check_calibration = true;
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_frames = new ArrayList<Double>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
@@ -350,8 +348,6 @@ public abstract class Entity {
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 	
 	}
-	public boolean getCalibCheck() {return check_calibration;}
-	public void setCalibCheck(boolean cc) {check_calibration = cc;}
 	
 	//activates special A (all powerups tied to A)
 	public void special(int index) {

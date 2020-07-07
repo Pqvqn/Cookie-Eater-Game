@@ -75,7 +75,7 @@ public abstract class Enemy extends Entity{
 		orientParts();
 	}
 	public void setCalibration(double calrat) {
-		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		fric = Math.pow(friction, calrat);
 		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
 		normVel = normalVelocity*board.currFloor.getScale()*calrat;

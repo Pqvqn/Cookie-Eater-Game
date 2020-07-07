@@ -251,7 +251,7 @@ public class Explorer extends Entity{
 	}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;

@@ -5,7 +5,8 @@ public class ItemSlowmo extends Item{
 	
 	private int initTime;
 	private double prop;
-	private boolean initcc;
+	private boolean initcc; //starting boolean for checking calibration
+	private double initact; //starting adjusted cycle time
 	
 	public ItemSlowmo(Board frame) {
 		super(frame);
@@ -15,18 +16,20 @@ public class ItemSlowmo extends Item{
 	}
 	public void prepare() {
 		initTime=board.getCycle();
-		initcc=user.getCalibCheck();
+		initcc=board.check_calibration;
+		initact=board.getAdjustedCycle();
 	}
 	public void initialize() {
 		board.setCycle((int)(.5+initTime*(1/prop)));
-		user.setCalibCheck(false);
+		board.check_calibration = false;
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
 		board.setCycle(initTime);
-		user.setCalibCheck(initcc);
+		board.check_calibration = initcc;
+		board.setCalibrations(initact);
 	}
 	public void amplify() {
 		super.amplify();

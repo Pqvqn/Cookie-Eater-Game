@@ -45,12 +45,14 @@ public class Board extends JFrame{
 	private int fpscheck;
 	private int true_cycle;
 	public int playerCount;
+	public boolean check_calibration;
 	
 	public Board(int m) {
 		super("Cookie Eater");
 		mode = m;
 		cycletime=5;
 		fpscheck=100;
+		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
 		playerCount = 4;
@@ -151,7 +153,7 @@ public class Board extends JFrame{
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}else if(present_npcs.contains(npcs.get(i))) {
-				present_npcs.remove(i);
+				present_npcs.remove(npcs.get(i));
 			}
 		}
 		setDialogue(null,null);
@@ -197,20 +199,27 @@ public class Board extends JFrame{
 			Thread.sleep(time); //time between updates
 		}catch(InterruptedException e){};
 	}
-	
+	public void setCalibrations(double cycle) {
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).setCalibration(cycle/15.0); //give player more accurate cycle time
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			enemies.get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		}
+		for(int i=0; i<present_npcs.size(); i++) {
+			present_npcs.get(i).setCalibration(cycle/15.0); //give npcs more accurate cycle time
+		}
+		for(int i=0; i<cookies.size(); i++) {
+			cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
+		}
+	}
 	public void updateUI() {
 		//fps counter
 		if(fpscheck--<=0) {
 			fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
-			for(int i=0; i<players.size(); i++) {
-				players.get(i).setCalibration(getAdjustedCycle()/15.0); //give player more accurate cycle time
-			}
-			for(int i=0; i<enemies.size(); i++) {
-				enemies.get(i).setCalibration(getAdjustedCycle()); //give enemies more accurate cycle time
-			}
-			for(int i=0; i<present_npcs.size(); i++) {
-				present_npcs.get(i).setCalibration(getAdjustedCycle()/15.0); //give npcs more accurate cycle time
+			if(check_calibration){
+				setCalibrations(getAdjustedCycle());
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;

@@ -90,7 +90,6 @@ public class Eater extends Entity{
 		extra_radius = 0;
 		ghost = false;
 		mass = 200;
-		check_calibration = true;
 		/*x_positions = new LinkedList<Double>();
 		y_positions = new LinkedList<Double>();
 		for(int i=0; i<=TRAIL_LENGTH; i++) {
@@ -138,7 +137,7 @@ public class Eater extends Entity{
 	public double getFriction() {return fric;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;

@@ -16,7 +16,8 @@ public class Cookie {
 	protected Board board;
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
-	protected int decayCounter; //frames passed before decaying
+	protected double adjustedDecayTime; //decay time adjusted for fps
+	protected double decayCounter; //frames passed before decaying
 	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
 	private SpriteCookie sprite;
 	private double value;
@@ -45,7 +46,7 @@ public class Cookie {
 				board.player.setNearCookie(true);
 			}
 		}
-		if(board.player.getDir()!=Eater.NONE && decayCounter++>=decayTime*(15.0/board.getAdjustedCycle())){	
+		if(board.player.getDir()!=Eater.NONE && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
 		}
 	}
@@ -67,7 +68,12 @@ public class Cookie {
 		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay()));
 		decayCounter = 0;
+		adjustedDecayTime = decayTime;
 		decayed=false;
+	}
+	public void setCalibration(double calrat) {
+		decayCounter = (decayCounter/adjustedDecayTime) * decayTime*(15.0/calrat);
+		adjustedDecayTime = decayTime*(15.0/calrat);
 	}
 	//test if collides with a circle
 	public boolean collidesWithCircle(double oX, double oY, double oRad) {
