@@ -49,6 +49,7 @@ public class SpriteExplorer extends Sprite{
 		helmet = ImageIO.read(helmets[NEUTRAL]);
 		imgs.add(base);
 		imgs.add(face);
+		imgs.add(helmet);
 	}
 	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {

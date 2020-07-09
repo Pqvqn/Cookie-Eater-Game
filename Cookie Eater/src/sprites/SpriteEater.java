@@ -14,6 +14,7 @@ public class SpriteEater extends Sprite{
 	private Eater user;
 	private Image base;
 	private Image face;
+	private Image helmet;
 	private Color coloration;
 	private double facex,facey;
 	private double scale;
@@ -25,7 +26,13 @@ public class SpriteEater extends Sprite{
 			new File("Cookie Eater/src/resources/explorers/eaterFaceWin.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterFaceDie.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterFaceSpecial.png")};
+	private File[] helmets = {new File("Cookie Eater/src/resources/explorers/eaterHelmNeutral.png"),
+			new File("Cookie Eater/src/resources/explorers/eaterHelmUp.png"),
+			new File("Cookie Eater/src/resources/explorers/eaterHelmDown.png"),
+			new File("Cookie Eater/src/resources/explorers/eaterHelmLeft.png"),
+			new File("Cookie Eater/src/resources/explorers/eaterHelmRight.png")};
 	private int expression;
+	private final int NEUTRAL=0, UP=1, DOWN=2, LEFT=3, RIGHT=4;
 	
 	public SpriteEater(Board frame, Eater e) throws IOException {
 		super(frame);
@@ -35,6 +42,7 @@ public class SpriteEater extends Sprite{
 		face = ImageIO.read(expressions[expression]);
 		imgs.add(base);
 		imgs.add(face);
+		imgs.add(helmet);
 	}
 	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {
@@ -49,17 +57,22 @@ public class SpriteEater extends Sprite{
 		switch(user.getDir()) {
 		case Eater.UP:
 			facey-=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[UP]);
 			break;
 		case Eater.DOWN:
 			facey+=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[DOWN]);
 			break;
 		case Eater.RIGHT:
 			facex+=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[RIGHT]);
 			break;
 		case Eater.LEFT:
 			facex-=user.getRadius()/2;
+			helmet = ImageIO.read(helmets[LEFT]);
 			break;
 		case Eater.NONE:
+			helmet = ImageIO.read(helmets[NEUTRAL]);
 			break;
 		}
 			
@@ -123,5 +136,6 @@ public class SpriteEater extends Sprite{
 		
 		
 		g.drawImage(face,(int)(.5+facex-(face.getWidth(null)/10*scale)), (int)(.5+facey-(face.getHeight(null)/10*scale)), (int)(2*(.5+face.getWidth(null)/10*scale)), (int)(2*(.5+face.getHeight(null)/10*scale)), null);
+		g.drawImage(helmet,(int)(.5+x-(helmet.getWidth(null)/10*scale)), (int)(.5+y-(helmet.getHeight(null)/10*scale)), (int)(2*(.5+helmet.getWidth(null)/10*scale)), (int)(2*(.5+helmet.getHeight(null)/10*scale)), null);
 	}
 }
