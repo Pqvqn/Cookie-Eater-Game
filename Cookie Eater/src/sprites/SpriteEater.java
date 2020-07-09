@@ -40,6 +40,7 @@ public class SpriteEater extends Sprite{
 		base = ImageIO.read(new File("Cookie Eater/src/resources/explorers/eaterBase.png"));
 		expression = NORM;
 		face = ImageIO.read(expressions[expression]);
+		helmet = ImageIO.read(helmets[NEUTRAL]);
 		imgs.add(base);
 		imgs.add(face);
 		imgs.add(helmet);
