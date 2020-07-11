@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
 
 import ce3.*;
@@ -196,18 +197,19 @@ public abstract class Entity {
 				}
 			}
 			
-			
-			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
-				Wall w = board.walls.get(i);
-				if(!ghost && parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
-					double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH());
-					collideAt(w,point[0],point[1],0,0,999999999);
-					bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
-					while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())) {
-						double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-						x+=(x-point[0])*rat;
-						y+=(y-point[1])*rat;
-						orientParts();
+			if(!ghost && collidesWithArea(board.wallSpace)) {
+				for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+					Wall w = board.walls.get(i);
+					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
+						double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH());
+						collideAt(w,point[0],point[1],0,0,999999999);
+						bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
+						while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())) {
+							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+							x+=(x-point[0])*rat;
+							y+=(y-point[1])*rat;
+							orientParts();
+						}
 					}
 				}
 			}
@@ -247,12 +249,13 @@ public abstract class Entity {
 					return true;
 				}
 			}
-			for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+			if(collidesWithArea(board.wallSpace))return true;
+			/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
 				if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
 					return true;
 				}
-			}
+			}*/
 		}
 		return false;
 	}
@@ -531,4 +534,16 @@ public abstract class Entity {
 	public boolean isDed() {return ded;}
 	public String getName() {return name;}
 	public Color getColor() {return null;}
+	public Area getArea() {
+		Area a = new Area();
+		for(Segment s : parts) {
+			a.add(s.getArea());
+		}
+		return a;
+	}
+	public boolean collidesWithArea(Area a) {
+		Area b = getArea();
+		b.intersect(a);
+		return !b.isEmpty();
+	}
 }

@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.*;
 
 import ce3.*;
 import levels.*;
@@ -39,6 +40,10 @@ public class SegmentCircle extends Segment{
 		super.setSize(s);
 		radius=s;}
 	public double getTotalRadius() {return getRadius()+extra_size*scale;}
+	public Area getArea() {
+		Ellipse2D.Double c = new Ellipse2D.Double(xPos,yPos,getRadius()*2,getRadius()*2);
+		return new Area(c);
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);

@@ -11,6 +11,7 @@ import levels.*;
 import ui.*;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
 
 public class Board extends JFrame{
@@ -23,6 +24,7 @@ public class Board extends JFrame{
 	public Draw draw;
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
+	public Area wallSpace;
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
@@ -66,6 +68,7 @@ public class Board extends JFrame{
 		
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
+		wallSpace = new Area();
 		enemies = new ArrayList<Enemy>();
 		npcs = new ArrayList<Explorer>();
 		present_npcs = new ArrayList<Explorer>();
@@ -238,6 +241,10 @@ public class Board extends JFrame{
 	public void buildBoard() {
 		currFloor.build();
 		draw.updateBG();
+		wallSpace = new Area();
+		for(Wall w : walls) {
+			wallSpace.add(new Area(new Rectangle(w.getX(),w.getY(),w.getW(),w.getH())));
+		}
 	}
 	
 	//add cookies to board

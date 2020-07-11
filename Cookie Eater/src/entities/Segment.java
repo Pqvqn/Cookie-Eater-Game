@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.awt.geom.*;
 
 import ce3.*;
 import sprites.*;
@@ -41,6 +42,9 @@ public abstract class Segment {
 	public double getSize() {return size;}
 	public void setExtraSize(double es) {extra_size=es;}
 	public double getExtraSize() {return extra_size;}
+	public Area getArea() {
+		return new Area();
+	}
 	public void paint(Graphics g) {
 		scale = board.currFloor.getScale();
 	}
