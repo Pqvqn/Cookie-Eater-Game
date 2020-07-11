@@ -41,7 +41,8 @@ public class SegmentCircle extends Segment{
 		radius=s;}
 	public double getTotalRadius() {return getRadius()+extra_size*scale;}
 	public Area getArea() {
-		Ellipse2D.Double c = new Ellipse2D.Double(xPos,yPos,getRadius()*2,getRadius()*2);
+		double r = getRadius();
+		Ellipse2D.Double c = new Ellipse2D.Double(xPos-r,yPos-r,r*2,r*2);
 		return new Area(c);
 	}
 	
