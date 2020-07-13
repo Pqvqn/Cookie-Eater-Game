@@ -16,7 +16,7 @@ public class SpriteLevel extends Sprite{
 	private ArrayList<Wall> wallList;
 	private Image wall;
 	private Image floor;
-	private int wid,hei;
+	//private int wid,hei;
 	private String lvl;
 	private String prefix;
 	
@@ -131,15 +131,15 @@ public class SpriteLevel extends Sprite{
 		//floor
 		g.drawImage(floor,0,0,board.X_RESOL,board.Y_RESOL,null);
 		//walls
-		Area wallSpace = new Area();
+		Area wallSpace = board.wallSpace;
 		if(wallList==null)return;
-		for(Wall w : wallList) {
+		/*for(Wall w : wallList) {
 			x=w.getX();
 			y=w.getY();
 			wid=w.getW();
 			hei=w.getH();
 			wallSpace.add(new Area(new Rectangle(x,y,wid,hei)));
-		}
+		}*/
 		g.setClip(wallSpace);
 		g.drawImage(wall,0,0,board.X_RESOL,board.Y_RESOL,null);
 		g.setClip(null);
