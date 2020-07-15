@@ -3,8 +3,9 @@ package ce3;
 //import java.awt.*;
 import java.awt.event.*;
 
-import entities.Eater;
+import entities.*;
 import items.*;
+import menus.*;
 
 //import javax.swing.*;
 
@@ -80,6 +81,9 @@ public class Controls implements KeyListener{
 				break;
 			case KeyEvent.VK_O:
 				player.addItem(0, new ItemGhost(board));
+				break;
+			case KeyEvent.VK_R:
+				new Dialogue(board, null, "TestSpeech", "here");
 				break;
 		}
 		
