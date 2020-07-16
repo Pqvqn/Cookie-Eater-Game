@@ -85,7 +85,7 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_R:
 				Conversation b = new Conversation(board, null, "TestSpeech2", "here");
 				System.out.println(b.currentLine().getText());
-				while(!b.isEnd()) {
+				while(!b.isOver()) {
 					System.out.println(b.nextLine((int)(Math.random()*b.currentLine().numberOfOptions())).getText());
 				}
 				break;

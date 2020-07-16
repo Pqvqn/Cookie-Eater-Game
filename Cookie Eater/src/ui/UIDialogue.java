@@ -8,11 +8,13 @@ import javax.imageio.*;
 
 import ce3.*;
 import entities.*;
+import menus.*;
 
 public class UIDialogue extends UIElement{
 
 	private UIText name;
 	private UIParagraph speech;
+	private Dialogue dialogue;
 	//private UIOval base;
 	//private UIImage sprite;
 	private Entity speaker;
@@ -20,10 +22,11 @@ public class UIDialogue extends UIElement{
 	private Image spriteImg;
 	private double ratio;
 	
-	public UIDialogue(Board frame, Entity e, String words) {
+	public UIDialogue(Board frame, Dialogue words) {
 		super(frame,0,0);
 		ratio = 10;
-		speaker = e;
+		dialogue = words;
+		speaker = dialogue.getSpeaker();
 		xPos=board.X_RESOL/2;
 		yPos=board.Y_RESOL-100;
 		
@@ -46,7 +49,7 @@ public class UIDialogue extends UIElement{
 		parts.add(name = new UIText(board,xPos-500,yPos-110,"",new Color(120,120,120,200),new Font("Arial",Font.BOLD,25)));
 		parts.add(speech = new UIParagraph(board,xPos-490,yPos-75,null,new Color(255,255,255,150),new Font("Arial",Font.BOLD,30),30,55));
 		name.setText((speaker!=null)?speaker.getName():"");
-		speech.setTextLines((words!=null)?words:"");
+		speech.setTextLines((dialogue!=null)?dialogue.getText():"");
 	}
 	public void update() {
 	}

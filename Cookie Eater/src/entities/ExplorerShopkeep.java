@@ -5,6 +5,7 @@ import java.awt.*;
 import ce3.*;
 import cookies.*;
 import levels.*;
+import menus.*;
 
 public class ExplorerShopkeep extends Explorer{
 	
@@ -46,8 +47,9 @@ public class ExplorerShopkeep extends Explorer{
 	}
 	public void runUpdate() {
 		super.runUpdate();
-		if(speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
-			speak("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa *ahem* sorry about that nvm AAAA");
+		if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+			speak(convo.currentLine());
+			if(!convo.isOver())convo.nextLine((int)(Math.random()*convo.currentLine().numberOfOptions()));
 			speaking++;
 		}
 		if(speaking>0 && speaking++>1000/board.getAdjustedCycle()) {
@@ -55,6 +57,9 @@ public class ExplorerShopkeep extends Explorer{
 			speaking = 0;
 		}
 		//System.out.println(speaking+" "+1000/board.getAdjustedCycle());
+	}
+	public void setConvo() {
+		 convo = new Conversation(board,this,"TestSpeech2","here");
 	}
 	public void chooseDir() {
 		direction = NONE;

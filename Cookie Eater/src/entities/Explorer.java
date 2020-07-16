@@ -10,6 +10,7 @@ import levels.*;
 import cookies.*;
 import items.*;
 import sprites.*;
+import menus.*;
 
 public class Explorer extends Entity{
 
@@ -42,6 +43,7 @@ public class Explorer extends Entity{
 	protected ArrayList<CookieItem> pickups; //items picked up but not activated
 	protected int start_shields;
 	protected int speaking; //how long been speaking for
+	protected Conversation convo;
 	
 	public Explorer(Board frame, int cycletime) {
 		super(frame);
@@ -365,13 +367,18 @@ public class Explorer extends Entity{
 	public void spawn() {
 		ded = false;
 		reset();
+		setConvo();
+	}
+	//choose conversation for this level
+	public void setConvo() {
+		 convo = null;
 	}
 	public void levelComplete() {
 		residence = board.currFloor.getNext();
 	}
 	public int getState() {return state;}
 	//sets words in text box at bottom of screen - null for removing box
-	public void speak(String words) {
+	public void speak(Dialogue words) {
 		board.setDialogue(this, words);
 	}
 	public Color getColor() {return coloration;}

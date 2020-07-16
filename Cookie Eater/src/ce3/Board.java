@@ -9,6 +9,7 @@ import cookies.*;
 import entities.*;
 import levels.*;
 import ui.*;
+import menus.*;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -289,12 +290,12 @@ public class Board extends JFrame{
 		return save;
 	}
 	
-	public void setDialogue(Entity speaker, String words) {
+	public void setDialogue(Entity speaker, Dialogue words) {
 		draw.removeUI(dia);
 		if(words==null) {
 			dia = null;
 		}else {
-			dia = new UIDialogue(this,speaker,words);
+			dia = new UIDialogue(this,words);
 			draw.addUI(dia);
 		}
 	}

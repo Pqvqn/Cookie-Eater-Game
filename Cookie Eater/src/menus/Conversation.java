@@ -12,7 +12,7 @@ public class Conversation {
 	private Entity speaker;
 	private File file;
 	private String heading;
-	private final String filepath = "Cookie Eater/src/resources/dialogue/";
+	private final String FILEPATH = "Cookie Eater/src/resources/dialogue/";
 	//private ArrayList<String> lines;
 	private ArrayList<Dialogue> path; //chosen dialogue, in order
 	
@@ -20,7 +20,7 @@ public class Conversation {
 		board = frame;
 		speaker = s;
 		heading = placeInFile;
-		file = new File(filepath+filename+ ".txt");
+		file = new File(FILEPATH+filename+ ".txt");
 		//lines = new ArrayList<String>();
 		try {
 			readFile();
@@ -33,7 +33,7 @@ public class Conversation {
 		}
 	}
 	
-	public boolean isEnd() {
+	public boolean isOver() {
 		return path.get(path.size()-1).numberOfOptions()==0;
 	}
 	
@@ -45,7 +45,7 @@ public class Conversation {
 	public Dialogue currentLine() {
 		return path.get(path.size()-1);
 	}
-	
+	public Entity getSpeaker() {return speaker;}
 	private void readFile() throws FileNotFoundException,IOException {
 		path = new ArrayList<Dialogue>();
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -53,7 +53,7 @@ public class Conversation {
 		while(curr!=null && !curr.equals(">"+heading)) {
 			curr = reader.readLine();
 		}
-		path.add(new Dialogue(board,reader.readLine(),":",reader));
+		path.add(new Dialogue(board,speaker,reader.readLine(),":",reader));
 		/*curr = reader.readLine();
 		while(curr!=null && curr.length()>0 && !curr.substring(0,1).equals(">")){
 			lines.add(curr);
