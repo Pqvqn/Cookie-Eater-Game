@@ -83,7 +83,11 @@ public class Controls implements KeyListener{
 				player.addItem(0, new ItemGhost(board));
 				break;
 			case KeyEvent.VK_R:
-				new Dialogue(board, null, "TestSpeech", "here");
+				Conversation b = new Conversation(board, null, "TestSpeech2", "here");
+				System.out.println(b.currentLine().getText());
+				while(!b.isEnd()) {
+					System.out.println(b.nextLine((int)(Math.random()*b.currentLine().numberOfOptions())).getText());
+				}
 				break;
 		}
 		

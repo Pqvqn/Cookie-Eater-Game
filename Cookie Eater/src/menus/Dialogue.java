@@ -4,49 +4,47 @@ import java.io.*;
 import java.util.*;
 
 import ce3.*;
-import entities.*;
 
 public class Dialogue {
 
+	private String text;
+	private String prefix;
 	private Board board;
-	private Entity speaker;
-	private File file;
-	private String heading;
-	private final String filepath = "Cookie Eater/src/resources/dialogue/";
-	private ArrayList<String> lines;
+	private ArrayList<Dialogue> followups; //next dialogue options
 	
-	public Dialogue(Board frame, Entity s, String filename, String placeInFile) {
+	public Dialogue(Board frame, String line, String pref, BufferedReader reader) {
 		board = frame;
-		speaker = s;
-		heading = placeInFile;
-		file = new File(filepath+filename+ ".txt");
-		lines = new ArrayList<String>();
+		prefix = pref;
+		text = line.substring(prefix.length());
 		try {
-			readFile();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			createFollowups(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch blocky
 			e.printStackTrace();
-		}
-		for(String l : lines) {
-			System.out.println(l);
 		}
 	}
 	
-	private void readFile() throws FileNotFoundException,IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		String curr = "";
-		while(curr!=null && !curr.equals(">"+heading)) {
+	public Dialogue getNext(int option){
+		return followups.get(option);
+	}
+	public int numberOfOptions() {return followups.size();}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public void createFollowups(BufferedReader reader) throws IOException { //creates dialogues for all followup dialogues
+		followups = new ArrayList<Dialogue>();
+		String pref = prefix+":";
+		String curr = pref;
+		reader.mark(100);
+		while(curr!=null && curr.length()>=pref.length() && curr.substring(0,pref.length()).equals(pref)) {
+			reader.mark(100);
 			curr = reader.readLine();
+			if(curr!=null && curr.length()>=pref.length() && curr.substring(0,pref.length()).equals(pref))
+				followups.add(new Dialogue(board,curr,pref,reader));
 		}
-		curr = reader.readLine();
-		while(curr!=null && curr.length()>0 && !curr.substring(0,1).equals(">")){
-			lines.add(curr);
-			curr = reader.readLine();
-		}
-		reader.close();
+		reader.reset();
 	}
 	
 }
