@@ -93,8 +93,10 @@ public class Explorer extends Entity{
 		if(state == VENDOR || state == STAND) { //if selling
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
-			x = shop_spots[0][0];
-			y = shop_spots[0][1];
+			if(shop_spots!=null) {
+				x = shop_spots[0][0];
+				y = shop_spots[0][1];
+			}
 		}else if (state == VENTURE) {
 			if(input_counter++>=input_speed) {
 				input_counter = 0;

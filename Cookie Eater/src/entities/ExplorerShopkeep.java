@@ -59,7 +59,7 @@ public class ExplorerShopkeep extends Explorer{
 		//System.out.println(speaking+" "+1000/board.getAdjustedCycle());
 	}
 	public void setConvo() {
-		 convo = new Conversation(board,this,"TestSpeech2","here");
+		 convo = new Conversation(board,this,"TestSpeech3","here");
 	}
 	public void chooseDir() {
 		direction = NONE;

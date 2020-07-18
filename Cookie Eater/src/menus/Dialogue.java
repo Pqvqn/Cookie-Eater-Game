@@ -11,6 +11,7 @@ public class Dialogue {
 	private Entity speaker;
 	private String text;
 	private String prefix;
+	private ArrayList<String> optionText; //text for every option
 	private Board board;
 	private ArrayList<Dialogue> followups; //next dialogue options
 	
@@ -18,7 +19,15 @@ public class Dialogue {
 		board = frame;
 		prefix = pref;
 		speaker = s;
-		text = line.substring(prefix.length());
+		optionText = new ArrayList<String>();
+		text = (line.contains("\\{")) ? line.substring(prefix.length(),line.indexOf("\\{")) : line.substring(prefix.length()); //extract just text
+		while(line.contains("\\{") && line.contains("\\}")) { //pull out all options, which are surrounded by brackets
+			optionText.add(line.substring(line.indexOf("\\{")+1,line.indexOf("\\}")));
+			System.out.println(line);
+			line.replaceFirst("\\{"," ");
+			line.replaceFirst("\\}"," ");
+		}
+		
 		try {
 			createFollowups(reader);
 		} catch (IOException e) {
@@ -33,7 +42,11 @@ public class Dialogue {
 	public int numberOfOptions() {return followups.size();}
 	
 	public String getText() {
-		return text;
+		String b = "";
+		for(String s : optionText) {
+			b+=" ["+s+"] ";
+		}
+		return text+b;
 	}
 	public Entity getSpeaker() {return speaker;}
 	public void createFollowups(BufferedReader reader) throws IOException { //creates dialogues for all followup dialogues

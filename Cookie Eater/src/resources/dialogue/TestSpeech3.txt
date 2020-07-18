@@ -1,0 +1,6 @@
+>here
+:Ab {no}
+::a {b} {c} {d} {e}{f}
+:::text {option1}{option2}   {option3}
+::::no option
+:::::i thoink it work {let's see}
