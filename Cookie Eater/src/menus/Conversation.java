@@ -62,7 +62,7 @@ public class Conversation {
 	public Entity getSpeaker() {return speaker;}
 	private void readFile() throws FileNotFoundException,IOException {
 		path = new ArrayList<Dialogue>();
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
 		String curr = "";
 		while(curr!=null && !curr.equals(">"+heading)) {
 			curr = reader.readLine();

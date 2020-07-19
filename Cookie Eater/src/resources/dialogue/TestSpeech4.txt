@@ -1,0 +1,34 @@
+>here
+:? {u} {j} {g}
+::u {n} {s} {l}
+:::un {b} {a}
+::::unbelievable
+::::unassuming
+:::us {u} {e}
+::::usurp
+::::useless
+:::ul {t} {c}
+::::ultimate
+::::ulcerative
+::j {a} {e} {u}
+:::ja {l} {n}
+::::jalepeño
+::::janurary 
+:::je {l} {w}
+::::jell-o
+::::jewel
+:::ju {m} {n}
+::::jump
+::::junk
+::g {r} {h} {o}
+:::gr {a} {e}
+::::grass
+::::greek
+:::gh {o} {a}
+::::ghost
+::::ghana
+:::go {b} {l}
+::::goblin
+::::golf
+
+>JUMP

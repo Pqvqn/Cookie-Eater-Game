@@ -56,7 +56,7 @@ public class Controls implements KeyListener{
 				player.kill();
 				break;
 			case KeyEvent.VK_ENTER:
-				player.win();
+				if(!board.inConvo())player.win();
 				break;
 			case KeyEvent.VK_SHIFT:
 				e.consume();

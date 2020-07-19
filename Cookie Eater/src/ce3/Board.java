@@ -295,7 +295,7 @@ public class Board extends JFrame{
 		return save;
 	}
 	
-	public void setDialogue(Entity speaker, Conversation convo) {
+	public void setDialogue(Entity speaker, Conversation convo) { //sets the current dialogue
 		draw.removeUI(dia);
 		if(convo==null) {
 			dia = null;
@@ -303,6 +303,9 @@ public class Board extends JFrame{
 			dia = new UIDialogue(this,convo.currentLine(),convo.getOptions());
 			draw.addUI(dia);
 		}
+	}
+	public boolean inConvo() { //if player is in dialogue
+		return dia != null;
 	}
 
 }

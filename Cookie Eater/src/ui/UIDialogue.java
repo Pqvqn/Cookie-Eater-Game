@@ -53,9 +53,13 @@ public class UIDialogue extends UIElement{
 		parts.add(speech = new UIParagraph(board,xPos-490,yPos-75,null,new Color(255,255,255,150),new Font("Arial",Font.BOLD,30),30,55));
 		name.setText((speaker!=null)?speaker.getName():"");
 		speech.setTextLines((dialogue!=null)?dialogue.getText():"");
-		parts.add(responder = new UIDialogueSelect(board,options,xPos+400,yPos-100));
+		parts.add(responder = new UIDialogueSelect(board,options,xPos-500,yPos));
 	}
 	public void update() {
-		responder.update(dialogue.getChoice(),dialogue.getHover());
+		if(dialogue.numberOfOptions()==0) {
+			responder.update(-1,-1);
+		}else {
+			responder.update(dialogue.getChoice(),dialogue.getHover());
+		}
 	}
 }

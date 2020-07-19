@@ -77,7 +77,7 @@ public class Dialogue {
 	}
 	public void display(boolean b) { //run when displayed
 	  if(b) {
-		  if(chooser==null || !chooser.inAction())chooser = new Selection(board,optionText,0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_M);
+		  if((chooser==null || !chooser.inAction()) && !optionText.isEmpty())chooser = new Selection(board,optionText,0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_ENTER);
 	  }else {
 		  if(chooser!=null)chooser.close();
 	  }
