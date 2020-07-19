@@ -48,18 +48,18 @@ public class ExplorerShopkeep extends Explorer{
 	public void runUpdate() {
 		super.runUpdate();
 		if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
-			speak(convo.currentLine());
-			if(!convo.isOver())convo.nextLine((int)(Math.random()*convo.currentLine().numberOfOptions()));
+			speak(convo);
 			speaking++;
 		}
-		if(speaking>0 && speaking++>1000/board.getAdjustedCycle()) {
+		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player.getX(), board.player.getY(), x, y)>=150) {
 			speak(null);
 			speaking = 0;
 		}
-		//System.out.println(speaking+" "+1000/board.getAdjustedCycle());
+		if(convo!=null)convo.test();
 	}
 	public void setConvo() {
-		 convo = new Conversation(board,this,"TestSpeech3","here");
+		convo = new Conversation(board,this,"TestSpeech3","here");
+		convo.setDisplayed(false);
 	}
 	public void chooseDir() {
 		direction = NONE;

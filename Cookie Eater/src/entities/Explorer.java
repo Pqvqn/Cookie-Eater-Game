@@ -380,8 +380,11 @@ public class Explorer extends Entity{
 	}
 	public int getState() {return state;}
 	//sets words in text box at bottom of screen - null for removing box
-	public void speak(Dialogue words) {
-		board.setDialogue(this, words);
+	public void speak(Conversation conversation) {
+		if(conversation!=null) {conversation.setDisplayed(true);
+		}else {convo.setDisplayed(false);}
+		board.setDialogue(this, conversation);
+		if(conversation!=null)conversation.test();
 	}
 	public Color getColor() {return coloration;}
 	public void paint(Graphics g) {

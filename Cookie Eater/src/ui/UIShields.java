@@ -20,7 +20,7 @@ public class UIShields extends UIElement{
 	public void update(int s) {
 		//shields.setText(s+" shields");
 		if(shields.size()<s) {
-			UIOval newOne = new UIOval(board, xPos-shields.size()*(SIZE+SEPARATION)-SIZE/2, yPos, SIZE, SIZE, new Color(50,200,210,200));
+			UIOval newOne = new UIOval(board, xPos-shields.size()*(SIZE+SEPARATION)-SIZE/2, yPos, SIZE, SIZE, new Color(50,200,210,200),true);
 			shields.add(newOne);
 			parts.add(newOne);
 		}else if(shields.size()>s) {

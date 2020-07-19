@@ -8,14 +8,16 @@ public class UIOval extends UIElement{
 	
 	private int wRad, hRad;
 	private Color color;
+	private boolean filled;
 
-	public UIOval(Board frame, int x, int y, int w, int h, Color c) {
+	public UIOval(Board frame, int x, int y, int w, int h, Color c, boolean fill) {
 		super(frame,x,y);
 		xPos = x;
 		yPos = y;
 		wRad = w;
 		hRad = h;
 		color = c;
+		filled = fill;
 	}
 	
 	public int getwRad() {return wRad;}
@@ -29,7 +31,12 @@ public class UIOval extends UIElement{
 
 	public void paint(Graphics g) {
 		g.setColor(color);
-		g.fillOval(xPos-wRad/2,yPos-hRad/2,wRad,hRad);
+		if(filled) {
+			g.fillOval(xPos-wRad/2,yPos-hRad/2,wRad,hRad);
+		}else {
+			g.drawOval(xPos-wRad/2,yPos-hRad/2,wRad,hRad);
+		}
+		
 	}
 	
 	

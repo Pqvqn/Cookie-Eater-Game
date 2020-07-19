@@ -9,8 +9,6 @@ import menus.*;
 
 //import javax.swing.*;
 
-//import java.util.*;
-
 
 public class Controls implements KeyListener{
 
@@ -24,7 +22,6 @@ public class Controls implements KeyListener{
 	private final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
 	private int scheme;
 	
-	
 	public Controls(Board parent, Eater body, int c) {
 		board = parent;
 		player = body;
@@ -34,18 +31,27 @@ public class Controls implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		if(board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
-		if(e.getKeyCode()==CONTROLSCHEMES[scheme][UPKEY]) {
+		int key = e.getKeyCode();
+		
+		//test key against this player's controls
+		if(key==CONTROLSCHEMES[scheme][UPKEY]) { 
 			player.setDir(Eater.UP);
-		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][RIGHTKEY]) {
+		}else if(key==CONTROLSCHEMES[scheme][RIGHTKEY]) {
 			player.setDir(Eater.RIGHT);
-		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][DOWNKEY]) {
+		}else if(key==CONTROLSCHEMES[scheme][DOWNKEY]) {
 			player.setDir(Eater.DOWN);
-		}else if(e.getKeyCode()==CONTROLSCHEMES[scheme][LEFTKEY]) {
+		}else if(key==CONTROLSCHEMES[scheme][LEFTKEY]) {
 			player.setDir(Eater.LEFT);
 		}
 		
-		
-		switch(e.getKeyCode()) {
+		//send key to menus
+		for(int i=board.menus.size()-1; i>=0; i--) {
+			board.menus.get(i).keyPress(key);
+		}
+
+				
+		//debug keys
+		switch(key) {
 			case KeyEvent.VK_BACK_SPACE:
 				player.kill();
 				break;

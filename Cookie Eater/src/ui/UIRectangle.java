@@ -8,14 +8,16 @@ public class UIRectangle extends UIElement{
 	
 	private int wLen, hLen;
 	private Color color;
+	private boolean filled;
 
-	public UIRectangle(Board frame, int x, int y, int w, int h, Color c) {
+	public UIRectangle(Board frame, int x, int y, int w, int h, Color c, boolean fill) {
 		super(frame,x,y);
 		xPos = x;
 		yPos = y;
 		wLen = w;
 		hLen = h;
 		color = c;
+		filled = fill;
 	}
 	
 	public int getwLen() {return wLen;}
@@ -29,7 +31,11 @@ public class UIRectangle extends UIElement{
 
 	public void paint(Graphics g) {
 		g.setColor(color);
-		g.fillRect(xPos,yPos,wLen,hLen);
+		if(filled) {
+			g.fillRect(xPos,yPos,wLen,hLen);
+		}else {
+			g.drawRect(xPos,yPos,wLen,hLen);
+		}
 	}
 	
 	

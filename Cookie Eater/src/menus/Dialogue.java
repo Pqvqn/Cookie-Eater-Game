@@ -2,32 +2,33 @@ package menus;
 
 import java.io.*;
 import java.util.*;
+import java.awt.event.*;
 
 import ce3.*;
 import entities.*;
 
 public class Dialogue {
 
+	private Board board;
 	private Entity speaker;
 	private String text;
 	private String prefix;
 	private ArrayList<String> optionText; //text for every option
-	private Board board;
 	private ArrayList<Dialogue> followups; //next dialogue options
+	private Selection chooser;
+	
 	
 	public Dialogue(Board frame, Entity s, String line, String pref, BufferedReader reader) {
 		board = frame;
 		prefix = pref;
 		speaker = s;
 		optionText = new ArrayList<String>();
-		text = (line.contains("\\{")) ? line.substring(prefix.length(),line.indexOf("\\{")) : line.substring(prefix.length()); //extract just text
-		while(line.contains("\\{") && line.contains("\\}")) { //pull out all options, which are surrounded by brackets
-			optionText.add(line.substring(line.indexOf("\\{")+1,line.indexOf("\\}")));
-			System.out.println(line);
-			line.replaceFirst("\\{"," ");
-			line.replaceFirst("\\}"," ");
+		text = (line.contains("{")) ? line.substring(prefix.length(),line.indexOf("{")) : line.substring(prefix.length()); //extract just text
+		while(line.contains("{") && line.contains("}")) { //pull out all options, which are surrounded by brackets
+			optionText.add(line.substring(line.indexOf("{")+1,line.indexOf("}")));
+			line = line.replaceFirst("\\{"," ");
+			line = line.replaceFirst("\\}"," ");
 		}
-		
 		try {
 			createFollowups(reader);
 		} catch (IOException e) {
@@ -42,11 +43,23 @@ public class Dialogue {
 	public int numberOfOptions() {return followups.size();}
 	
 	public String getText() {
-		String b = "";
-		for(String s : optionText) {
-			b+=" ["+s+"] ";
+		return text;
+	}
+	public int testChoice() {
+		if(chooser!=null && chooser.hasChosen()) {
+			chooser.close();
+			return chooser.getChosenIndex();
 		}
-		return text+b;
+		return -1;
+	}
+	public int getHover() {
+		return chooser.getHoveredIndex();
+	}
+	public int getChoice() {
+		return chooser.getChosenIndex();
+	}
+	public ArrayList<String> getOptions(){
+		return optionText;
 	}
 	public Entity getSpeaker() {return speaker;}
 	public void createFollowups(BufferedReader reader) throws IOException { //creates dialogues for all followup dialogues
@@ -61,6 +74,13 @@ public class Dialogue {
 				followups.add(new Dialogue(board,speaker,curr,pref,reader));
 		}
 		reader.reset();
+	}
+	public void display(boolean b) { //run when displayed
+	  if(b) {
+		  if(chooser==null || !chooser.inAction())chooser = new Selection(board,optionText,0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_M);
+	  }else {
+		  if(chooser!=null)chooser.close();
+	  }
 	}
 	
 }

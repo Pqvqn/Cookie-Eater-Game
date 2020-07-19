@@ -7,6 +7,7 @@ import java.util.*;
 import ce3.*;
 import cookies.*;
 import items.*;
+import menus.*;
 
 public abstract class Entity {
 
@@ -545,5 +546,9 @@ public abstract class Entity {
 		Area b = getArea();
 		b.intersect(a);
 		return !b.isEmpty();
+	}
+	
+	public void speak(Conversation convo) {
+		
 	}
 }

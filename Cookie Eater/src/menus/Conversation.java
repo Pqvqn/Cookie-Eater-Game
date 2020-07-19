@@ -13,6 +13,7 @@ public class Conversation {
 	private File file;
 	private String heading;
 	private final String FILEPATH = "Cookie Eater/src/resources/dialogue/";
+	private boolean displayed; //whether conversation is currently displayed
 	//private ArrayList<String> lines;
 	private ArrayList<Dialogue> path; //chosen dialogue, in order
 	
@@ -38,12 +39,25 @@ public class Conversation {
 	}
 	
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
+		currentLine().display(false);
 		path.add(currentLine().getNext(option));
+		currentLine().display(true);
+		speaker.speak(this);
 		return currentLine();
+	}
+	public void setDisplayed(boolean d) {displayed = d;}
+	public void test() {
+		currentLine().display(displayed);
+		int t = currentLine().testChoice();
+		if(t>=0)nextLine(t);
 	}
 	
 	public Dialogue currentLine() {
 		return path.get(path.size()-1);
+	}
+	
+	public ArrayList<String> getOptions(){
+		return currentLine().getOptions();
 	}
 	public Entity getSpeaker() {return speaker;}
 	private void readFile() throws FileNotFoundException,IOException {

@@ -10,6 +10,7 @@ import entities.*;
 import levels.*;
 import ui.*;
 import menus.*;
+import menus.Menu;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -31,6 +32,7 @@ public class Board extends JFrame{
 	public ArrayList<Explorer> npcs;
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Controls> controls;
+	public ArrayList<Menu> menus;
 	public final int BORDER_THICKNESS = 20;
 
 	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
@@ -78,7 +80,7 @@ public class Board extends JFrame{
 		for(int i=0; i<players.size(); i++) {
 			controls.add(new Controls(this,players.get(i),i));
 		}
-		
+		menus = new ArrayList<Menu>();
 		
 		//window settings
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -231,7 +233,10 @@ public class Board extends JFrame{
 		//level display
 		lvl.update(currFloor.getName());
 		
-		//dia.update();
+		//dialogue
+		if(dia!=null)dia.update();
+		
+		//player's ui
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).updateUI();
 		}
@@ -290,12 +295,12 @@ public class Board extends JFrame{
 		return save;
 	}
 	
-	public void setDialogue(Entity speaker, Dialogue words) {
+	public void setDialogue(Entity speaker, Conversation convo) {
 		draw.removeUI(dia);
-		if(words==null) {
+		if(convo==null) {
 			dia = null;
 		}else {
-			dia = new UIDialogue(this,words);
+			dia = new UIDialogue(this,convo.currentLine(),convo.getOptions());
 			draw.addUI(dia);
 		}
 	}
