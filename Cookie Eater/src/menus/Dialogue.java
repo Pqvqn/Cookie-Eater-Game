@@ -17,7 +17,6 @@ public class Dialogue {
 	private ArrayList<Dialogue> followups; //next dialogue options
 	private Selection chooser;
 	
-	
 	public Dialogue(Board frame, Entity s, String line, String pref, BufferedReader reader) {
 		board = frame;
 		prefix = pref;

@@ -41,6 +41,10 @@ public class Conversation {
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
 		currentLine().display(false);
 		path.add(currentLine().getNext(option));
+		String t = currentLine().getText();
+		if(t.contains(">")) { //signal to jump to next line
+			skipTo(t.substring(t.indexOf(">")+1));
+		}
 		currentLine().display(true);
 		speaker.speak(this);
 		return currentLine();
@@ -74,6 +78,18 @@ public class Conversation {
 			curr = reader.readLine();
 		}*/
 		reader.close();
+	}
+	public void skipTo(String line) { //skips conversation to different heading
+		heading = line;
+		try {
+			readFile();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

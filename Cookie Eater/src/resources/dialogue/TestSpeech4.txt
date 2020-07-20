@@ -18,7 +18,7 @@
 ::::jell-o
 ::::jewel
 :::ju {m} {n}
-::::jump
+::::>JUMP
 ::::junk
 ::g {r} {h} {o}
 :::gr {a} {e}
@@ -32,3 +32,9 @@
 ::::golf
 
 >JUMP
+:jump successful {yes} {no}
+::that wasn't a question {reset}
+:::>here
+::that wasn't a question idiot {reset} {meanie}
+:::>here
+:::then no good for you
