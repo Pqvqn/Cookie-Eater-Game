@@ -10,18 +10,23 @@ public class UIDialogueSelect extends UIElement{
 	private ArrayList<UIDialogueResponse> responses;
 	//private UIRectangle chosenHighlight;
 	private UIRectangle hoverHighlight;
+	private UIRectangle backing;
 	
 	public UIDialogueSelect(Board frame, ArrayList<String> options, int x, int y) {
 		super(frame,x,y);
-		parts.add(new UIRectangle(board, xPos, yPos, options.size()*210-10, 40, new Color(50, 50, 50, 100), true)); //backing
+		parts.add(backing = new UIRectangle(board, xPos, yPos, options.size()*210-10, 40, new Color(50, 50, 50, 100), true)); //backing
 		//parts.add(chosenHighlight = new UIRectangle(board, xPos, yPos, 200, 40, new Color(255, 255, 255, 50), true));
-		parts.add(hoverHighlight = new UIRectangle(board, xPos, yPos, 200, 40, new Color(255, 255, 255, 100), false));
 		responses = new ArrayList<UIDialogueResponse>();
+		int wid = 0;
 		for(int i=0; i<options.size(); i++) {
-			UIDialogueResponse a = new UIDialogueResponse(board,options.get(i),x+210*i,y);
+			UIDialogueResponse a = new UIDialogueResponse(board,options.get(i),x+wid,y);
 			responses.add(a);
 			parts.add(a);
+			wid += a.getWidth() + 10;
 		}
+		parts.add(hoverHighlight = new UIRectangle(board, xPos, yPos, 200, 40, new Color(255, 255, 255, 100), false));
+		backing.setwLen(wid-10);
+		
 	}
 	public void update(int chosen, int hovered) {
 		for(int i=0; i<responses.size(); i++) {
@@ -39,6 +44,7 @@ public class UIDialogueSelect extends UIElement{
 			if(!parts.contains(hoverHighlight))parts.add(hoverHighlight);
 			hoverHighlight.setxPos(responses.get(hovered).getxPos());
 			hoverHighlight.setyPos(responses.get(hovered).getyPos());
+			hoverHighlight.setwLen(responses.get(hovered).getWidth());
 		}else {
 			parts.remove(hoverHighlight);
 		}

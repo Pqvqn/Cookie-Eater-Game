@@ -16,18 +16,21 @@ public class Dialogue {
 	private ArrayList<String> optionText; //text for every option
 	private ArrayList<Dialogue> followups; //next dialogue options
 	private Selection chooser;
+	private String jumpLocation; //location for jump if needed
 	
 	public Dialogue(Board frame, Entity s, String line, String pref, BufferedReader reader) {
 		board = frame;
 		prefix = pref;
 		speaker = s;
 		optionText = new ArrayList<String>();
-		text = (line.contains("{")) ? line.substring(prefix.length(),line.indexOf("{")) : line.substring(prefix.length()); //extract just text
+		text = line.substring(prefix.length());
+		translate();
+		/*text = (line.contains("{")) ? line.substring(prefix.length(),line.indexOf("{")) : line.substring(prefix.length()); //extract just text
 		while(line.contains("{") && line.contains("}")) { //pull out all options, which are surrounded by brackets
 			optionText.add(line.substring(line.indexOf("{")+1,line.indexOf("}")));
 			line = line.replaceFirst("\\{"," ");
 			line = line.replaceFirst("\\}"," ");
-		}
+		}*/
 		try {
 			createFollowups(reader);
 		} catch (IOException e) {
@@ -35,6 +38,26 @@ public class Dialogue {
 			e.printStackTrace();
 		}
 	}
+	
+	public void translate() { //read function signifiers
+		//[] -> options
+		while(text.contains("[") && text.contains("]")) { //pull out all options, which are surrounded by brackets
+			text = text.replaceAll("\\*", "%A%").replaceAll("\\?", "%Q%"); //remove characters unallowed in regex
+			String opt = text.substring(text.indexOf("[")+1,text.indexOf("]"));
+			text = text.replaceFirst(opt,"");
+			text = text.replaceFirst("\\[","");
+			text = text.replaceFirst("\\]","");
+			text = text.replaceAll("%A%","*").replaceAll("%Q%","?");
+			opt = opt.replaceAll("%A%","*").replaceAll("%Q%","?");
+			optionText.add(opt);
+		}
+		//> -> jump
+		if(text.contains(">")) { //signal to jump to next line
+			jumpLocation = text.substring(text.indexOf(">")+1);
+		}
+	}
+	
+	public String getJump() {return jumpLocation;}
 	
 	public Dialogue getNext(int option){
 		return followups.get(option);

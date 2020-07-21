@@ -58,7 +58,7 @@ public class ExplorerShopkeep extends Explorer{
 		if(convo!=null)convo.test();
 	}
 	public void setConvo() {
-		convo = new Conversation(board,this,"TestSpeech4","here");
+		convo = new Conversation(board,this,"TestSpeech5","here");
 		convo.setDisplayed(false);
 	}
 	public void chooseDir() {

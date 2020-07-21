@@ -41,10 +41,7 @@ public class Conversation {
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
 		currentLine().display(false);
 		path.add(currentLine().getNext(option));
-		String t = currentLine().getText();
-		if(t.contains(">")) { //signal to jump to next line
-			skipTo(t.substring(t.indexOf(">")+1));
-		}
+		if(currentLine().getJump()!=null)skipTo(currentLine().getJump()); //if meant to jump lines, jump
 		currentLine().display(true);
 		speaker.speak(this);
 		return currentLine();

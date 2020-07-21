@@ -1,0 +1,29 @@
+>here
+:Hello. [hi] [*grunts*] [How do you do?]
+::bye [*leave*] [Wait!]
+:::...
+:::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!]
+::::>organization
+::::Ah, well you should've said so! {give dollars but it isn't coded}
+::::>dating sim
+::>rude arc
+::Well aren't you nosey! [Sorry!] [Ironic.]
+:::Yeah, you better be sorry.
+:::Hmmm? [You're the one who said hello.] [I'm talking about your massive schnozz!]
+::::You're weird
+::::How dare you! My nose was given to me by the organization! [The organization?] [Looks good on you.]
+:::::>organization
+:::::>dating sim
+
+>rude arc
+:Gosh, rude. [*grunts*] [I'm sorry] [*leave*]
+::>rude arc
+::I don't accept your apology.
+::Good riddance.
+
+
+>organization
+:So, you've heard about the organization?
+
+>dating sim
+:*blushes*
