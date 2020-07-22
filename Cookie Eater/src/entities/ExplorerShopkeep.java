@@ -11,6 +11,13 @@ public class ExplorerShopkeep extends Explorer{
 	
 	private SegmentCircle part;
 	
+	/*STATES:
+	 * Relationship: Stranger, Enemy, Lover, Friend 
+	 * 
+	 * 
+	 * 
+	 */
+	
 	public ExplorerShopkeep(Board frame, int cycletime) {
 		super(frame,cycletime);
 		chooseResidence();
@@ -87,6 +94,12 @@ public class ExplorerShopkeep extends Explorer{
 
 		}
 	}
+	
+	public void setUpStates(){
+		super.setUpStates();
+		setState("Relationship","Stranger");
+	}
+	
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
 	}

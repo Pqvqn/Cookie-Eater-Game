@@ -14,6 +14,8 @@ public class Dialogue {
 	private String text;
 	private String prefix;
 	private ArrayList<String> optionText; //text for every option
+	private ArrayList<String> variableText; //text for states
+	private ArrayList<String> replaceText; //text for replacement
 	private ArrayList<Dialogue> followups; //next dialogue options
 	private Selection chooser;
 	private String jumpLocation; //location for jump if needed
@@ -23,6 +25,8 @@ public class Dialogue {
 		prefix = pref;
 		speaker = s;
 		optionText = new ArrayList<String>();
+		variableText = new ArrayList<String>();
+		replaceText = new ArrayList<String>();
 		text = line.substring(prefix.length());
 		translate();
 		/*text = (line.contains("{")) ? line.substring(prefix.length(),line.indexOf("{")) : line.substring(prefix.length()); //extract just text
@@ -41,20 +45,27 @@ public class Dialogue {
 	
 	public void translate() { //read function signifiers
 		//[] -> options
-		while(text.contains("[") && text.contains("]")) { //pull out all options, which are surrounded by brackets
-			text = text.replaceAll("\\*", "%A%").replaceAll("\\?", "%Q%"); //remove characters unallowed in regex
-			String opt = text.substring(text.indexOf("[")+1,text.indexOf("]"));
-			text = text.replaceFirst(opt,"");
-			text = text.replaceFirst("\\[","");
-			text = text.replaceFirst("\\]","");
-			text = text.replaceAll("%A%","*").replaceAll("%Q%","?");
-			opt = opt.replaceAll("%A%","*").replaceAll("%Q%","?");
-			optionText.add(opt);
-		}
+		optionText = extractText(text,"[","]","");
+		//{} -> vars
+		variableText = extractText(text,"{","}","");
 		//> -> jump
 		if(text.contains(">")) { //signal to jump to next line
 			jumpLocation = text.substring(text.indexOf(">")+1);
 		}
+		//## -> replace with variable
+		replaceText = extractText(text, "#","#","%S%");
+
+	}
+	
+	public ArrayList<String> extractText(String t, String front, String back, String marker) { //returns all strings enclosed in front string and back string after replacing with marker
+		ArrayList<String> extracts = new ArrayList<String>();
+		while(text.contains(front) && text.contains(back)) { //pull out Strings inside of front and back characters
+			String opt = text.substring(text.indexOf(front)+1);
+			opt = opt.substring(0,opt.indexOf(back));
+			text = text.replace(front+opt+back,marker);
+			extracts.add(opt);
+		}
+		return extracts;
 	}
 	
 	public String getJump() {return jumpLocation;}
@@ -66,6 +77,9 @@ public class Dialogue {
 	
 	public String getText() {
 		return text;
+	}
+	public void setText(String t) {
+		text = t;
 	}
 	public int testChoice() {
 		if(chooser!=null && chooser.hasChosen()) {
@@ -82,6 +96,12 @@ public class Dialogue {
 	}
 	public ArrayList<String> getOptions(){
 		return optionText;
+	}
+	public ArrayList<String> getVariables(){
+		return variableText;
+	}
+	public ArrayList<String> getReplace(){
+		return replaceText;
 	}
 	public Entity getSpeaker() {return speaker;}
 	public void createFollowups(BufferedReader reader) throws IOException { //creates dialogues for all followup dialogues

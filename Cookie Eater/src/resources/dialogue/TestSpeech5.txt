@@ -1,22 +1,23 @@
 >here
-:Hello. [hi] [*grunts*] [How do you do?]
+:Hello, #Relationship#. [hi] [*grunts*] [How do you do?] [Who am I?]
 ::bye [*leave*] [Wait!]
 :::...
 :::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!]
 ::::>organization
-::::Ah, well you should've said so! {give dollars but it isn't coded}
+::::Ah, well you should've said so! {Relationship;Friend}
 ::::>dating sim
 ::>rude arc
 ::Well aren't you nosey! [Sorry!] [Ironic.]
-:::Yeah, you better be sorry.
+:::Yeah, you better be sorry. {Relationship;Enemy}
 :::Hmmm? [You're the one who said hello.] [I'm talking about your massive schnozz!]
-::::You're weird
+::::You're weird {Relationship;Stranger}
 ::::How dare you! My nose was given to me by the organization! [The organization?] [Looks good on you.]
 :::::>organization
 :::::>dating sim
+::>existentialism
 
 >rude arc
-:Gosh, rude. [*grunts*] [I'm sorry] [*leave*]
+:Gosh, rude. [*grunts*] [I'm sorry] [*leave*] {Relationship;Enemy}
 ::>rude arc
 ::I don't accept your apology.
 ::Good riddance.
@@ -26,4 +27,13 @@
 :So, you've heard about the organization?
 
 >dating sim
-:*blushes*
+:*blushes* {Relationship;Lover}
+
+>existentialism
+:Uhh... a #Relationship#? [really?]
+::yeah... [Can I be more?] [good]
+:::idk... [please?] [well FINE then] [come on, just friends?]
+::::Oh all right, since you asked {Relationship;Lover}
+::::Gee you're rude {Relationship;Enemy}
+::::Well you do look lonely... sure. {Relationship;Friend}
+:::Alright then, goodbye.

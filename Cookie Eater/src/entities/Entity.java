@@ -48,6 +48,7 @@ public abstract class Entity {
 	protected int shield_frames; //counting how deep into shield
 	protected boolean shield_tick; //countdown shield
 	protected String name;
+	protected Map<String,String> variableStates; //behavior-determining states
 	
 	public Entity(Board frame) {
 		board = frame;
@@ -79,6 +80,7 @@ public abstract class Entity {
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		shield_tick = true;
+		setUpStates();
 	}
 	
 	public void runUpdate() {
@@ -550,5 +552,21 @@ public abstract class Entity {
 	
 	public void speak(Conversation convo) {
 		
+	}
+	//sets up state variables and possible values
+	public void setUpStates(){
+		variableStates = new HashMap<String,String>();
+	}
+	//gets state from variable
+	public String getState(String var) {
+		return variableStates.get(var);
+	}
+	//sets variable's state
+	public void setState(String var, String state) {
+		variableStates.put(var,state);
+	}
+	//tests if varaible's current state is equal to a value
+	public boolean stateIs(String var, String state) {
+		return variableStates.get(var).equals(state);
 	}
 }

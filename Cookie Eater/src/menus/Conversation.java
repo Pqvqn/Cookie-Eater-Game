@@ -40,11 +40,26 @@ public class Conversation {
 	
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
 		currentLine().display(false);
-		path.add(currentLine().getNext(option));
-		if(currentLine().getJump()!=null)skipTo(currentLine().getJump()); //if meant to jump lines, jump
+		path.add(currentLine().getNext(option)); //go to next line
+		
+		lineFunctionality();
+		
 		currentLine().display(true);
-		speaker.speak(this);
+		speaker.speak(this); //speak line
 		return currentLine();
+	}
+	public void lineFunctionality() { //operates on line for any functionality before display
+		if(currentLine().getJump()!=null)skipTo(currentLine().getJump()); //if meant to jump lines, jump
+		
+		ArrayList<String> stateChanges = currentLine().getVariables(); //set all entity variables that this line changes
+		for(int i=0; i<stateChanges.size(); i++) {
+			String[] parts = stateChanges.get(i).split(";");
+			speaker.setState(parts[0], parts[1]);
+		}
+		ArrayList<String> replace = currentLine().getReplace();
+		for(int i=0; i<replace.size(); i++) {
+			currentLine().setText(currentLine().getText().replaceFirst("%S%", speaker.getState(replace.get(i))));
+		}
 	}
 	public void setDisplayed(boolean d) {displayed = d;}
 	public void test() {
@@ -69,6 +84,7 @@ public class Conversation {
 			curr = reader.readLine();
 		}
 		path.add(new Dialogue(board,speaker,reader.readLine(),":",reader));
+		lineFunctionality();
 		/*curr = reader.readLine();
 		while(curr!=null && curr.length()>0 && !curr.substring(0,1).equals(">")){
 			lines.add(curr);
