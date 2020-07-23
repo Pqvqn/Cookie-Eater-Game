@@ -5,7 +5,6 @@ import java.awt.event.*;
 
 import entities.*;
 import items.*;
-import menus.*;
 
 //import javax.swing.*;
 
@@ -87,13 +86,6 @@ public class Controls implements KeyListener{
 				break;
 			case KeyEvent.VK_O:
 				player.addItem(0, new ItemGhost(board));
-				break;
-			case KeyEvent.VK_R:
-				Conversation b = new Conversation(board, null, "TestSpeech2", "here");
-				System.out.println(b.currentLine().getText());
-				while(!b.isOver()) {
-					System.out.println(b.nextLine((int)(Math.random()*b.currentLine().numberOfOptions())).getText());
-				}
 				break;
 		}
 		

@@ -56,7 +56,7 @@ public class UIDialogue extends UIElement{
 		parts.add(responder = new UIDialogueSelect(board,options,xPos-500,yPos));
 	}
 	public void update() {
-		if(dialogue.numberOfOptions()==0) {
+		if(dialogue.getOptions().isEmpty()) {
 			responder.update(-1,-1);
 		}else {
 			responder.update(dialogue.getChoice(),dialogue.getHover());

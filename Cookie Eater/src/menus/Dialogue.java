@@ -14,6 +14,7 @@ public class Dialogue {
 	private String text;
 	private String prefix;
 	private ArrayList<String> optionText; //text for every option
+	private ArrayList<ArrayList<String>> conditionText; //text for conditions for each option
 	private ArrayList<String> variableText; //text for states
 	private ArrayList<String> replaceText; //text for replacement
 	private ArrayList<Dialogue> followups; //next dialogue options
@@ -25,6 +26,7 @@ public class Dialogue {
 		prefix = pref;
 		speaker = s;
 		optionText = new ArrayList<String>();
+		conditionText = new ArrayList<ArrayList<String>>();
 		variableText = new ArrayList<String>();
 		replaceText = new ArrayList<String>();
 		text = line.substring(prefix.length());
@@ -45,35 +47,39 @@ public class Dialogue {
 	
 	public void translate() { //read function signifiers
 		//[] -> options
-		optionText = extractText(text,"[","]","");
+		text = extractFromText(text,"[","]","",optionText);
+		for(int i=0; i<optionText.size(); i++) {
+			conditionText.add(new ArrayList<String>());
+			optionText.set(i,extractFromText(optionText.get(i),"{","}","",conditionText.get(i)));
+		}
 		//{} -> vars
-		variableText = extractText(text,"{","}","");
+		text = extractFromText(text,"{","}","",variableText);
 		//> -> jump
 		if(text.contains(">")) { //signal to jump to next line
 			jumpLocation = text.substring(text.indexOf(">")+1);
 		}
 		//## -> replace with variable
-		replaceText = extractText(text, "#","#","%S%");
+		 text = extractFromText(text,"#","#","%S%",replaceText);
 
 	}
 	
-	public ArrayList<String> extractText(String t, String front, String back, String marker) { //returns all strings enclosed in front string and back string after replacing with marker
-		ArrayList<String> extracts = new ArrayList<String>();
-		while(text.contains(front) && text.contains(back)) { //pull out Strings inside of front and back characters
-			String opt = text.substring(text.indexOf(front)+1);
+	//removes all sequences of front + anything + back with marker within fulltext, returns fulltext, deposits extracts in extracts
+	public String extractFromText(String fulltext, String front, String back, String marker, ArrayList<String> extracts) {
+		while(fulltext.contains(front) && fulltext.contains(back)) { //pull out Strings inside of front and back characters
+			String opt = fulltext.substring(fulltext.indexOf(front)+1);
 			opt = opt.substring(0,opt.indexOf(back));
-			text = text.replace(front+opt+back,marker);
+			fulltext = fulltext.replace(front+opt+back,marker);
 			extracts.add(opt);
 		}
-		return extracts;
+		return fulltext;
 	}
 	
 	public String getJump() {return jumpLocation;}
 	
 	public Dialogue getNext(int option){
-		return followups.get(option);
+		
+		return followups.get(optionText.indexOf(getOptions().get(option)));
 	}
-	public int numberOfOptions() {return followups.size();}
 	
 	public String getText() {
 		return text;
@@ -94,8 +100,21 @@ public class Dialogue {
 	public int getChoice() {
 		return chooser.getChosenIndex();
 	}
+	//returns options that pass all variable tests
 	public ArrayList<String> getOptions(){
-		return optionText;
+		ArrayList<String> validOptions = new ArrayList<String>();
+		for(int i=0; i<optionText.size(); i++) {
+			boolean passes = true;
+			for(int j=0; j<conditionText.get(i).size(); j++) {
+				String stateTest = conditionText.get(i).get(j);
+				String[] parts = stateTest.split(";");
+				if(!speaker.getState(parts[0]).equals(parts[1])) {
+					passes=false;
+				}
+			}
+			if(passes)validOptions.add(optionText.get(i));
+		}
+		return validOptions;
 	}
 	public ArrayList<String> getVariables(){
 		return variableText;
@@ -119,7 +138,7 @@ public class Dialogue {
 	}
 	public void display(boolean b) { //run when displayed
 	  if(b) {
-		  if((chooser==null || !chooser.inAction()) && !optionText.isEmpty())chooser = new Selection(board,optionText,0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_ENTER);
+		  if((chooser==null || !chooser.inAction()) && !optionText.isEmpty())chooser = new Selection(board,getOptions(),0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_ENTER);
 	  }else {
 		  if(chooser!=null)chooser.close();
 	  }

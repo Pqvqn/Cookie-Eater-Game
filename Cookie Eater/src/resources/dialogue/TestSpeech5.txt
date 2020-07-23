@@ -1,5 +1,5 @@
 >here
-:Hello, #Relationship#. [hi] [*grunts*] [How do you do?] [Who am I?]
+:Hello, #Relationship#. [hi] [*grunts*] [How do you do?] [Who am I?] [{Relationship;Enemy}I'll get you this time.]
 ::bye [*leave*] [Wait!]
 :::...
 :::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!]
@@ -15,16 +15,20 @@
 :::::>organization
 :::::>dating sim
 ::>existentialism
+::Get real. You're going down.
 
 >rude arc
-:Gosh, rude. [*grunts*] [I'm sorry] [*leave*] {Relationship;Enemy}
+:Gosh, rude. [*grunts*] [I'm sorry] [*leave*] {Grunts;did}
 ::>rude arc
 ::I don't accept your apology.
-::Good riddance.
+::Good riddance. {Relationship;Enemy} 
 
 
 >organization
-:So, you've heard about the organization?
+:So, you've heard about the organization? [{Relationship;Enemy}I know you hate me] [{Grunts;did}Explains the grunts, right?] [{Relationship;Enemy}{Grunts;did}*grunts*]
+::yes
+::Yes
+::YES
 
 >dating sim
 :*blushes* {Relationship;Lover}

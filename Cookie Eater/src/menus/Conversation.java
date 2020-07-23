@@ -35,7 +35,7 @@ public class Conversation {
 	}
 	
 	public boolean isOver() {
-		return path.get(path.size()-1).numberOfOptions()==0;
+		return path.get(path.size()-1).getOptions().size()==0;
 	}
 	
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
