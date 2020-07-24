@@ -11,26 +11,30 @@ public class Dialogue {
 
 	private Board board;
 	private Entity speaker;
+	private Conversation convo;
 	private String text;
 	private String prefix;
-	private ArrayList<String> optionText; //text for every option
+	/*private ArrayList<String> sText; //possible texts based on conditions
 	private ArrayList<ArrayList<String>> conditionText; //text for conditions for each option
+	private ArrayList<ArrayList<String>> conditionOptionText; //text for conditions for each option
 	private ArrayList<String> variableText; //text for states
-	private ArrayList<String> replaceText; //text for replacement
+	private ArrayList<String> replaceText; //text for replacement*/
 	private ArrayList<Dialogue> followups; //next dialogue options
+	private ArrayList<String> optionText; //text for every option
 	private Selection chooser;
-	private String jumpLocation; //location for jump if needed
+	//private String jumpLocation; //location for jump if needed
 	
-	public Dialogue(Board frame, Entity s, String line, String pref, BufferedReader reader) {
+	public Dialogue(Board frame, Entity s,  Conversation c, String line, String pref, BufferedReader reader) {
 		board = frame;
 		prefix = pref;
 		speaker = s;
+		convo = c;
+		/*conditionText = new ArrayList<ArrayList<String>>();
 		optionText = new ArrayList<String>();
-		conditionText = new ArrayList<ArrayList<String>>();
+		conditionOptionText = new ArrayList<ArrayList<String>>();
 		variableText = new ArrayList<String>();
-		replaceText = new ArrayList<String>();
+		replaceText = new ArrayList<String>();*/
 		text = line.substring(prefix.length());
-		translate();
 		/*text = (line.contains("{")) ? line.substring(prefix.length(),line.indexOf("{")) : line.substring(prefix.length()); //extract just text
 		while(line.contains("{") && line.contains("}")) { //pull out all options, which are surrounded by brackets
 			optionText.add(line.substring(line.indexOf("{")+1,line.indexOf("}")));
@@ -45,26 +49,9 @@ public class Dialogue {
 		}
 	}
 	
-	public void translate() { //read function signifiers
-		//[] -> options
-		text = extractFromText(text,"[","]","",optionText);
-		for(int i=0; i<optionText.size(); i++) {
-			conditionText.add(new ArrayList<String>());
-			optionText.set(i,extractFromText(optionText.get(i),"{","}","",conditionText.get(i)));
-		}
-		//{} -> vars
-		text = extractFromText(text,"{","}","",variableText);
-		//> -> jump
-		if(text.contains(">")) { //signal to jump to next line
-			jumpLocation = text.substring(text.indexOf(">")+1);
-		}
-		//## -> replace with variable
-		 text = extractFromText(text,"#","#","%S%",replaceText);
-
-	}
-	
 	//removes all sequences of front + anything + back with marker within fulltext, returns fulltext, deposits extracts in extracts
 	public String extractFromText(String fulltext, String front, String back, String marker, ArrayList<String> extracts) {
+		if(extracts==null)System.out.println(fulltext+" "+front);
 		while(fulltext.contains(front) && fulltext.contains(back)) { //pull out Strings inside of front and back characters
 			String opt = fulltext.substring(fulltext.indexOf(front)+1);
 			opt = opt.substring(0,opt.indexOf(back));
@@ -74,11 +61,55 @@ public class Dialogue {
 		return fulltext;
 	}
 	
-	public String getJump() {return jumpLocation;}
+	public void lineFunctionality() { //operates on line for any functionality before display
+		
+		//> -> jump
+		if(text.contains(">")) { //signal to jump to next line
+			String jumpLocation = text.substring(text.indexOf(">")+1);
+			convo.skipTo(jumpLocation); //if meant to jump lines, jump
+		}
+		
+		//[] -> options
+		optionText = new ArrayList<String>();
+		text = extractFromText(text,"[","]","",optionText);
+		for(int i=0; i<optionText.size(); i++) { //remove options that don't meet their conditions
+			ArrayList<String> conditions = new ArrayList<String>();
+			optionText.set(i,extractFromText(optionText.get(i),"%","%","",conditions));
+			boolean passes = true;
+			for(int j=0; j<conditions.size(); j++) {
+				String stateTest = conditions.get(j);
+				String[] parts = stateTest.split(";");
+				if(!speaker.getState(parts[0]).equals(parts[1])) {
+					passes=false;
+				}
+			}
+			if(!passes) {
+				optionText.remove(i);
+				i--;
+			}
+		}
+
+		//{} -> speaker state changes
+		ArrayList<String> stateChanges = new ArrayList<String>();
+		text = extractFromText(text,"{","}","",stateChanges);//set all entity variables that this line changes
+		for(int i=0; i<stateChanges.size(); i++) {
+			String[] parts = stateChanges.get(i).split(";");
+			speaker.setState(parts[0], parts[1]);
+		}
+		
+		//## -> replace with variable
+		ArrayList<String> replace = new ArrayList<String>();
+		text = extractFromText(text,"#","#","@S@",replace);
+		for(int i=0; i<replace.size(); i++) {
+			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
+		}
+	}
+	
+	
+	//public String getJump() {return jumpLocation;}
 	
 	public Dialogue getNext(int option){
-		
-		return followups.get(optionText.indexOf(getOptions().get(option)));
+		return followups.get(option);
 	}
 	
 	public String getText() {
@@ -102,26 +133,14 @@ public class Dialogue {
 	}
 	//returns options that pass all variable tests
 	public ArrayList<String> getOptions(){
-		ArrayList<String> validOptions = new ArrayList<String>();
-		for(int i=0; i<optionText.size(); i++) {
-			boolean passes = true;
-			for(int j=0; j<conditionText.get(i).size(); j++) {
-				String stateTest = conditionText.get(i).get(j);
-				String[] parts = stateTest.split(";");
-				if(!speaker.getState(parts[0]).equals(parts[1])) {
-					passes=false;
-				}
-			}
-			if(passes)validOptions.add(optionText.get(i));
-		}
-		return validOptions;
+		return optionText;
 	}
-	public ArrayList<String> getVariables(){
+	/*public ArrayList<String> getVariables(){
 		return variableText;
 	}
 	public ArrayList<String> getReplace(){
 		return replaceText;
-	}
+	}*/
 	public Entity getSpeaker() {return speaker;}
 	public void createFollowups(BufferedReader reader) throws IOException { //creates dialogues for all followup dialogues
 		followups = new ArrayList<Dialogue>();
@@ -132,7 +151,7 @@ public class Dialogue {
 			reader.mark(100);
 			curr = reader.readLine();
 			if(curr!=null && curr.length()>=pref.length() && curr.substring(0,pref.length()).equals(pref))
-				followups.add(new Dialogue(board,speaker,curr,pref,reader));
+				followups.add(new Dialogue(board,speaker,convo,curr,pref,reader));
 		}
 		reader.reset();
 	}

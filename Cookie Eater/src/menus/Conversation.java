@@ -42,12 +42,12 @@ public class Conversation {
 		currentLine().display(false);
 		path.add(currentLine().getNext(option)); //go to next line
 		
-		lineFunctionality();
+		currentLine().lineFunctionality();
 		
 		currentLine().display(true);
 		speaker.speak(this); //speak line
 		return currentLine();
-	}
+	}/*
 	public void lineFunctionality() { //operates on line for any functionality before display
 		if(currentLine().getJump()!=null)skipTo(currentLine().getJump()); //if meant to jump lines, jump
 		
@@ -60,7 +60,7 @@ public class Conversation {
 		for(int i=0; i<replace.size(); i++) {
 			currentLine().setText(currentLine().getText().replaceFirst("%S%", speaker.getState(replace.get(i))));
 		}
-	}
+	}*/
 	public void setDisplayed(boolean d) {displayed = d;}
 	public void test() {
 		currentLine().display(displayed);
@@ -83,8 +83,8 @@ public class Conversation {
 		while(curr!=null && !curr.equals(">"+heading)) {
 			curr = reader.readLine();
 		}
-		path.add(new Dialogue(board,speaker,reader.readLine(),":",reader));
-		lineFunctionality();
+		path.add(new Dialogue(board,speaker,this,reader.readLine(),":",reader));
+		currentLine().lineFunctionality();
 		/*curr = reader.readLine();
 		while(curr!=null && curr.length()>0 && !curr.substring(0,1).equals(">")){
 			lines.add(curr);
