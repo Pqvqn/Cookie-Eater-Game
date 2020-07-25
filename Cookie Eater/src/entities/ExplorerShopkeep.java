@@ -14,7 +14,7 @@ public class ExplorerShopkeep extends Explorer{
 	/*STATES:
 	 * Relationship: Stranger, Enemy, Lover, Friend 
 	 * Grunts: did, didn't
-	 * 
+	 * Affiliation: Enemy
 	 * 
 	 */
 	
@@ -99,6 +99,7 @@ public class ExplorerShopkeep extends Explorer{
 		super.setUpStates();
 		setState("Relationship","Stranger");
 		setState("Grunts","didn't");
+		setState("Affiliation","Enemy");
 	}
 	
 	public void buildBody() {

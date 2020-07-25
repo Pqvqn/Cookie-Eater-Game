@@ -63,16 +63,18 @@ public class Dialogue {
 	
 	public void lineFunctionality() { //operates on line for any functionality before display
 		
-		//> -> jump
-		if(text.contains(">")) { //signal to jump to next line
-			String jumpLocation = text.substring(text.indexOf(">")+1);
-			convo.skipTo(jumpLocation); //if meant to jump lines, jump
+		//## -> replace with variable
+		ArrayList<String> replace = new ArrayList<String>();
+		text = extractFromText(text,"#","#","@S@",replace);
+		for(int i=0; i<replace.size(); i++) {
+			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
 		}
 		
 		//[] -> options
 		optionText = new ArrayList<String>();
 		text = extractFromText(text,"[","]","",optionText);
 		for(int i=0; i<optionText.size(); i++) { //remove options that don't meet their conditions
+			//[%%] -> options appear if conditions met / ; separates variable from state
 			ArrayList<String> conditions = new ArrayList<String>();
 			optionText.set(i,extractFromText(optionText.get(i),"%","%","",conditions));
 			boolean passes = true;
@@ -88,8 +90,33 @@ public class Dialogue {
 				i--;
 			}
 		}
+		
+		//%% -> conditions for dialogue to show / ; separates variable from state / | separates dialogue options in order of test priority
+		String[] possible = text.split("\\|");
+		boolean conditionsMet = false;
+		for(int i=0; i<possible.length && !conditionsMet; i++) {
+			ArrayList<String> conditions = new ArrayList<String>();
+			possible[i] = extractFromText(possible[i],"%","%","",conditions);
+			boolean passes = true;
+			for(int j=0; j<conditions.size(); j++) {
+				String stateTest = conditions.get(j);
+				String[] parts = stateTest.split(";");
+				if(!speaker.getState(parts[0]).equals(parts[1])) {
+					passes=false;
+				}
+			}
+			if(passes) {
+				conditionsMet = true;
+				text = possible[i];
+			}
+		}
+		//> -> jump
+		if(text.contains(">")) { //signal to jump to next line
+			String jumpLocation = text.substring(text.indexOf(">")+1);
+			convo.skipTo(jumpLocation); //if meant to jump lines, jump
+		}
 
-		//{} -> speaker state changes
+		//{} -> speaker state changes / ; separates variable from state
 		ArrayList<String> stateChanges = new ArrayList<String>();
 		text = extractFromText(text,"{","}","",stateChanges);//set all entity variables that this line changes
 		for(int i=0; i<stateChanges.size(); i++) {
@@ -97,12 +124,6 @@ public class Dialogue {
 			speaker.setState(parts[0], parts[1]);
 		}
 		
-		//## -> replace with variable
-		ArrayList<String> replace = new ArrayList<String>();
-		text = extractFromText(text,"#","#","@S@",replace);
-		for(int i=0; i<replace.size(); i++) {
-			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
-		}
 	}
 	
 	

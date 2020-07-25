@@ -31,7 +31,11 @@
 ::YES
 
 >dating sim
-:*blushes* {Relationship;Lover}
+:%Relationship;Stranger%*blushes* {Relationship;Lover}|%Relationship;#Affiliation#%You can't fool me with that!|%Relationship;Lover%>supersim|friendzoned
+
+>supersim
+:yees [that's not a very romantic thing to say]
+::ono
 
 >existentialism
 :Uhh... a #Relationship#? [really?]
