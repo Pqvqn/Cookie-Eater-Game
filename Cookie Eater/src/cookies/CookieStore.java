@@ -2,8 +2,7 @@ package cookies;
 
 
 import ce3.*;
-import entities.Eater;
-import entities.Entity;
+import entities.*;
 import levels.*;
 import ui.*;
 
@@ -15,6 +14,7 @@ public abstract class CookieStore extends Cookie{
 	protected double price;
 	protected int region;
 	protected String desc;
+	protected Entity vendor;
 	
 	public CookieStore(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
@@ -34,12 +34,19 @@ public abstract class CookieStore extends Cookie{
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
 	//purchase cookie, return if purchase is successful or not
-	public boolean purchase() {
+	public boolean purchase(Entity buyer) {
 		return true;
 	}
 	public void setDecayTime() {
 		decayCounter = 0;
 		decayed=false;
+	}
+	//entity selling this
+	public void setVendor(Entity v) {
+		vendor = v;
+	}
+	public Entity getVendor() {
+		return vendor;
 	}
 	//update cookie
 	public void runUpdate() {

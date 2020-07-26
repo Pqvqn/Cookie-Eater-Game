@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import ce3.*;
+import entities.*;
 //import levels.*;
 import sprites.*;
 
@@ -67,12 +68,18 @@ public class CookieStat extends CookieStore{
 		setImage();
 		
 	}
-	public boolean purchase() {
-		if(board.player.getCash()>=price) {
-			player.addToMovement(accelChange,maxvelChange,fricChange);
-			//player.win();
-			board.player.addScore(1);
-			board.player.spend(price);
+	public boolean purchase(Entity buyer) {
+		if(buyer.getCash()>=price) {
+			if(buyer instanceof Eater) {
+				((Eater)buyer).addToMovement(accelChange,maxvelChange,fricChange);
+				//player.win();
+				((Eater)buyer).addScore(1);
+			}
+			if(vendor==null) {
+				buyer.spend(price);
+			}else {
+				buyer.payCookies(vendor,price);
+			}
 			return true;}
 		return false;
 	}

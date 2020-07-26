@@ -5,7 +5,8 @@ import java.io.IOException;
 
 import ce3.*;
 //import levels.*;
-import sprites.SpriteStoreCookie;
+import sprites.*;
+import entities.*;
 
 public class CookieShield extends CookieStore{
 	
@@ -24,10 +25,14 @@ public class CookieShield extends CookieStore{
 		desc = "One extra shield.`Allows player to bounce off of walls.";
 		
 	}
-	public boolean purchase() {
-		if(board.player.getCash()>=price) {
+	public boolean purchase(Entity buyer) {
+		if(buyer.getCash()>=price) {
 			//board.player.addShields(1);
-			board.player.spend(price);
+			if(vendor==null) {
+				buyer.spend(price);
+			}else {
+				buyer.payCookies(vendor,price);
+			}
 			return true;}
 		return false;
 	}

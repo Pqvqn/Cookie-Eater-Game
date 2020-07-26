@@ -186,6 +186,21 @@ public class Eater extends Entity{
 		addCash(amount);
 		addCookies(amount);
 	}
+	public void payCookies(Entity recipient, double num) {
+		addCash(-num);
+		while(num>0 && !cash_stash.isEmpty()) {
+			Cookie chosen = cash_stash.get(0);
+			if(chosen.getValue()>num) {
+				chosen.setValue(chosen.getValue()-num);
+				num = 0;
+			}else {
+				num -= chosen.getValue();
+				cash_stash.remove(chosen);
+				recipient.giveCookie(chosen);
+			}
+
+		}
+	}
 	//currently unused trail stuff
 	/*public int getTrailX() {
 		if(x_positions.peek()==null) {

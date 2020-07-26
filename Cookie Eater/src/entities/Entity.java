@@ -401,7 +401,7 @@ public abstract class Entity {
 	}
 	public void hitCookie(Cookie c) {
 		if(ded)return;
-		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase()) {
+		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase(this)) {
 			c.kill(this);
 			if(c instanceof CookieItem && !board.currFloor.installPickups()) {
 				pickupItem((CookieItem)c);
@@ -472,7 +472,33 @@ public abstract class Entity {
 			
 		}
 	}
-	
+	public void spend(double amount) {
+		removeCookies(amount);
+	}
+	public void pay(double amount) {
+		addCookies(amount);
+	}
+	public void payCookies(Entity recipient, double num) {
+		while(num>0 && !cash_stash.isEmpty()) {
+			Cookie chosen = cash_stash.get(0);
+			if(chosen.getValue()>num) {
+				chosen.setValue(chosen.getValue()-num);
+				num = 0;
+			}else {
+				num -= chosen.getValue();
+				cash_stash.remove(chosen);
+				recipient.giveCookie(chosen);
+			}
+
+		}
+	}
+	public double getCash() {
+		double total = 0;
+		for(Cookie c : cash_stash) {
+			total+=c.getValue();
+		}
+		return total;
+	}
 	public void addItem(int index, Item i) {
 		if(index<0)index=0;
 		boolean add = true;

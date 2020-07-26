@@ -6,6 +6,7 @@ import java.io.IOException;
 import items.*;
 import sprites.*;
 import ce3.*;
+import entities.*;
 //import levels.*;
 
 public class CookieItem extends CookieStore{
@@ -27,12 +28,16 @@ public class CookieItem extends CookieStore{
 		desc = myItem.getDesc();
 	}
 	public void setPrice(double p) {price = p;}
-	public boolean purchase() {
-		if(board.player.getCash()>=price) {
+	public boolean purchase(Entity buyer) {
+		if(buyer.getCash()>=price) {
 			
 			//player.addItem(player.getCurrentSpecial(), myItem);
 			//player.giveCookie(this);
-			board.player.spend(price);
+			if(vendor==null) {
+				buyer.spend(price);
+			}else {
+				buyer.payCookies(vendor,price);
+			}
 			return true;}
 		return false;
 	}

@@ -231,6 +231,7 @@ public class Explorer extends Entity{
 		for(int i=1; !to_sell.isEmpty() && i<shop_spots.length; i++) { //put all cookies in place
 			CookieStore c = to_sell.remove(0);
 			c.setPos(shop_spots[i][0],shop_spots[i][1]);
+			c.setVendor(this);
 			board.cookies.add(c);
 			on_display.add(c);
 		}
