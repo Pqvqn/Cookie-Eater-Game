@@ -15,7 +15,7 @@ public class ExplorerShopkeep extends Explorer{
 	 * Relationship: Stranger, Enemy, Lover, Friend 
 	 * Grunts: did, didn't
 	 * Affiliation: Enemy
-	 * 
+	 * Gruntcount: 0...
 	 */
 	
 	public ExplorerShopkeep(Board frame, int cycletime) {
@@ -100,6 +100,7 @@ public class ExplorerShopkeep extends Explorer{
 		setState("Relationship","Stranger");
 		setState("Grunts","didn't");
 		setState("Affiliation","Enemy");
+		setState("Gruntcount","0");
 	}
 	
 	public void buildBody() {

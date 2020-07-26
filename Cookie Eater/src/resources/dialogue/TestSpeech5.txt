@@ -18,7 +18,7 @@
 ::Get real. You're going down.
 
 >rude arc
-:Gosh, rude. [*grunts*] [I'm sorry] [*leave*] {Grunts;did}
+:Gosh, rude. Grunting #Gruntcount# times at me... [*grunts*] [I'm sorry] [*leave*] {Grunts;did} {Gruntcount;#Gruntcount#+1}
 ::>rude arc
 ::I don't accept your apology.
 ::Good riddance. {Relationship;Enemy} 

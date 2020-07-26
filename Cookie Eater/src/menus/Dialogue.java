@@ -51,12 +51,28 @@ public class Dialogue {
 	
 	//removes all sequences of front + anything + back with marker within fulltext, returns fulltext, deposits extracts in extracts
 	public String extractFromText(String fulltext, String front, String back, String marker, ArrayList<String> extracts) {
-		if(extracts==null)System.out.println(fulltext+" "+front);
 		while(fulltext.contains(front) && fulltext.contains(back)) { //pull out Strings inside of front and back characters
+			//sequence to remove
 			String opt = fulltext.substring(fulltext.indexOf(front)+1);
 			opt = opt.substring(0,opt.indexOf(back));
+			
+			//count how many duplicates exist
+			int reps = 0;
+			String t = fulltext;
+			String r = front+opt+back;
+			while(t.contains(r)) {
+				t = t.substring(t.indexOf(r)+r.length());
+				reps++;
+			}
+		
+			//remove all of sequence
 			fulltext = fulltext.replace(front+opt+back,marker);
-			extracts.add(opt);
+			
+			//add to list according to number of duplicates
+			for(int i=0; i<reps; i++) {
+				extracts.add(opt);
+			}
+
 		}
 		return fulltext;
 	}
@@ -121,6 +137,18 @@ public class Dialogue {
 		text = extractFromText(text,"{","}","",stateChanges);//set all entity variables that this line changes
 		for(int i=0; i<stateChanges.size(); i++) {
 			String[] parts = stateChanges.get(i).split(";");
+			if(parts[1].contains("+")) {
+				try {
+					double total = 0;
+					String[] nums = parts[1].split("\\+");
+					for(int j=0; j<nums.length; j++) {
+						total+=Double.parseDouble(nums[j]);
+					}
+					parts[1] = total+"";
+				}catch(NumberFormatException e) {
+					
+				}
+			}
 			speaker.setState(parts[0], parts[1]);
 		}
 		
