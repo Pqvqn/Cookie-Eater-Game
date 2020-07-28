@@ -27,7 +27,7 @@ public class ExplorerSidekick extends Explorer{
 	public void runEnds() {
 		super.runEnds();
 		state = VENTURE;
-		if(Math.random()>.2) {
+		if(Math.random()>1) { //.2
 			for(int i=0; i<Math.random()*2+1; i++) {
 				residence = residence.getNext();
 			}
@@ -45,28 +45,9 @@ public class ExplorerSidekick extends Explorer{
 		//ArrayList<Integer> dos = new ArrayList<Integer>();dos.add(0);dos.add(1);dos.add(2);dos.add(3);
 		int[] dos = {0,0,0,0}; //weight of quality for each dir choice
 		for(int i=0; i<4; i++) {
-			double xv = x_velocity, yv = y_velocity; //used to find average x/y velocities over time period
-			switch(i) { //change velocity based on direction accelerating in
-				case UP:
-					xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
-					yv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-yv)/accel), 0))*accel)/2);
-					break;
-				case DOWN:
-					xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
-					yv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-yv)/accel), 0))*accel)/2);
-					break;
-				case LEFT:
-					yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
-					xv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-xv)/accel), 0))*accel)/2);
-					break;
-				case RIGHT:
-					yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
-					xv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-xv)/accel), 0))*accel)/2);
-					break;
-			}
-			xs[i]=(x+xv*input_speed);
-			ys[i]=(y+yv*input_speed);
-			tester.setLocation(xs[i],ys[i]); //move tester to predicted location
+			testDirection(i);
+			xs[i] = tester.getCenterX();
+			ys[i] = tester.getCenterY();
 			bees[i][0] = xs[i];
 			bees[i][1] = ys[i];
 			yeehaw = false;
@@ -116,7 +97,8 @@ public class ExplorerSidekick extends Explorer{
 		return 0;
 	}
 	public void chooseResidence() {
-		residence = findFloor("Descending Labyrinths",false,0,2);
+		//residence = findFloor("Descending Labyrinths",false,0,2);
+		residence = findFloor("Forest Entrance",false,0,0);
 	}
 
 	public void createStash() {

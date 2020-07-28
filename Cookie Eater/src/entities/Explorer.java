@@ -44,6 +44,7 @@ public class Explorer extends Entity{
 	protected int start_shields;
 	protected int speaking; //how long been speaking for
 	protected Conversation convo;
+	protected Cookie target;
 	
 	public Explorer(Board frame, int cycletime) {
 		super(frame);
@@ -90,18 +91,28 @@ public class Explorer extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
-		if(state == VENDOR || state == STAND) { //if selling
+		if(state == VENDOR) { //if selling
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
 			if(shop_spots!=null) {
 				x = shop_spots[0][0];
 				y = shop_spots[0][1];
 			}
+			lock = true;
+		}else if(state == STAND){
+			//traverse to cookie on board
+			//Cookie c = board.nearestCookie(1160,770); //test
+			if(target==null || !board.cookies.contains(target)) {
+				if(!board.cookies.isEmpty())target = board.cookies.get((int)(Math.random()*board.cookies.size()));
+			}
+			if(target!=null)traverseShop(target);
+			lock = false;
 		}else if (state == VENTURE) {
 			if(input_counter++>=input_speed) {
 				input_counter = 0;
 				chooseDir();
 			}
+			lock = false;
 		}
 		scale = board.currFloor.getScale();
 		accel = acceleration*scale;
@@ -346,9 +357,52 @@ public class Explorer extends Entity{
 	public void chooseDir() {
 		
 	}
+	//moves tester to where this explorer would be if they press dir right now
+	public void testDirection(int dir) {
+		double xv = x_velocity, yv = y_velocity; //used to find average x/y velocities over time period
+		switch(dir) { //change velocity based on direction accelerating in
+			case UP:
+				xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				yv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-yv)/accel), 0))*accel)/2);
+				break;
+			case DOWN:
+				xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				yv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-yv)/accel), 0))*accel)/2);
+				break;
+			case LEFT:
+				yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				xv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-xv)/accel), 0))*accel)/2);
+				break;
+			case RIGHT:
+				yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				xv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-xv)/accel), 0))*accel)/2);
+				break;
+		}
+		tester.setLocation(x+xv*input_speed,y+yv*input_speed); //move tester to predicted location
+	}
 	//returns which special to do, -1 if none
 	public int doSpecial() {
 		return -1;
+	}
+	
+	//set direction to get to target cookie in shop
+	public void traverseShop(Cookie target) {
+		int dir = NONE;
+		if(Math.sqrt(Math.pow(x-target.getX(),2)+Math.pow(y,target.getY()))<getRadius()+target.getRadius()){
+			
+		}else if(Math.abs(x-target.getX())<getRadius()) {
+			dir = y<target.getY() ? DOWN : UP; 
+		}else if(Math.abs(y-board.Y_RESOL/2)<getRadius()) {
+			dir = x>target.getX() ? LEFT : RIGHT; 
+		}else {
+			dir = y<board.Y_RESOL/2 ? DOWN : UP; 
+		}
+		if(dir!=direction && direction!=NONE) {
+			direction = Eater.NONE;
+			averageVels(0,0);
+		}else {
+			direction = dir;
+		}
 	}
 	
 	public void spend(double amount) {
