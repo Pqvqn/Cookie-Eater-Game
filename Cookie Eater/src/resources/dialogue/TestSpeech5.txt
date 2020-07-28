@@ -4,7 +4,7 @@
 :::%Grunts;did%At least he didn't grunt|...
 :::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!]
 ::::>organization
-::::Ah, well you should've said so! {Relationship;Friend}
+::::Ah, well you should've said so! {Relationship;Friend} $Take;10$
 ::::>dating sim
 ::>rude arc
 ::Well aren't you nosey! [Sorry!] [Ironic.]

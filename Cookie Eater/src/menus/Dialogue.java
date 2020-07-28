@@ -86,6 +86,24 @@ public class Dialogue {
 			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
 		}
 		
+		ArrayList<String> payments = new ArrayList<String>();
+		text = extractFromText(text,"$","$","",payments);
+		for(int i=0; i<payments.size(); i++) {
+			String[] parts = payments.get(i).split(";");
+			double dollars = Double.parseDouble(parts[1]);
+			switch(parts[0]) {
+			case("Give"):
+				speaker.payCookies(board.player,dollars);
+				break;
+			case("Take"):
+				board.player.payCookies(speaker,dollars);
+				break;
+			default:
+				break;
+			
+			}
+		}
+		
 		//[] -> options
 		optionText = new ArrayList<String>();
 		text = extractFromText(text,"[","]","",optionText);

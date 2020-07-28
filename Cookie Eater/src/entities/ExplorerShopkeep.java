@@ -50,6 +50,7 @@ public class ExplorerShopkeep extends Explorer{
 			}
 
 		}
+		addCookies(50);
 		while(to_sell.size()>max_cat)removeRandomly();
 	}
 	public void runUpdate() {

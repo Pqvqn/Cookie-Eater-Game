@@ -484,10 +484,19 @@ public abstract class Entity {
 			if(chosen.getValue()>num) {
 				chosen.setValue(chosen.getValue()-num);
 				num = 0;
+				if(recipient instanceof Eater) {
+					((Eater)recipient).addCash(chosen.getValue());
+
+				}
 			}else {
 				num -= chosen.getValue();
 				cash_stash.remove(chosen);
 				recipient.giveCookie(chosen);
+				
+				if(recipient instanceof Eater) {
+					((Eater)recipient).addCash(chosen.getValue());
+
+				}
 			}
 
 		}

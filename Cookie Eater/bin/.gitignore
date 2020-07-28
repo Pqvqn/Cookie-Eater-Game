@@ -1,12 +1,9 @@
 /ce3/
-/levels/
-/ui/
-/items/
 /cookies/
-/images/
+/entities/
+/items/
+/levels/
+/menus/
 /resources/
 /sprites/
-/eater/
-/enemies/
-/entities/
-/menus/
+/ui/
