@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import ce3.*;
 import cookies.*;
@@ -114,7 +115,23 @@ public class ExplorerSidekick extends Explorer{
 		tester.setSize(radius*2);
 		tester.setExtraSize(radius*2);
 	}
-
+	public Cookie choosePurchase(ArrayList<Cookie> options) {
+		int highestweight = 4;
+		int highestindex = -1;
+		for(int i=0; i<options.size(); i++) {
+			Cookie c = options.get(i);
+			int weight = 0;
+			if(c instanceof CookieShield)weight+=7-shield_stash.size();
+			if(c instanceof CookieItem)weight+=6;
+			if(c instanceof CookieStore && ((CookieStore)c).price()/getCash() > .7)weight-=2;
+			if(c instanceof CookieStore && ((CookieStore)c).price() > getCash())weight=0;
+			if(weight>highestweight) {
+				highestweight = weight;
+				highestindex = i;
+			}
+		}
+		return (highestindex>=0)?options.get(highestindex):null;
+	}
 	public void paint(Graphics g) {
 		super.paint(g);
 		//debug tracker display stuff

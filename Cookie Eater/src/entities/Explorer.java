@@ -100,12 +100,15 @@ public class Explorer extends Entity{
 			}
 			lock = true;
 		}else if(state == STAND){
-			//traverse to cookie on board
-			//Cookie c = board.nearestCookie(1160,770); //test
+			//traverse to cookie on board to purchase it
 			if(target==null || !board.cookies.contains(target)) {
-				if(!board.cookies.isEmpty())target = board.cookies.get((int)(Math.random()*board.cookies.size()));
+				target = choosePurchase(board.cookies);
 			}
-			if(target!=null)traverseShop(target);
+			if(target!=null) {
+				traverseShop(target);
+			}else {
+				if(shop_spots!=null)traverseShop(shop_spots[0][0],shop_spots[0][1],getRadius());
+			}
 			lock = false;
 		}else if (state == VENTURE) {
 			if(input_counter++>=input_speed) {
@@ -385,24 +388,31 @@ public class Explorer extends Entity{
 		return -1;
 	}
 	
+	public void traverseShop(Cookie targ) {
+		traverseShop(targ.getX(),targ.getY(),targ.getRadius());
+	}
 	//set direction to get to target cookie in shop
-	public void traverseShop(Cookie target) {
+	public void traverseShop(double xt, double yt, double rt) {
 		int dir = NONE;
-		if(Math.sqrt(Math.pow(x-target.getX(),2)+Math.pow(y,target.getY()))<getRadius()+target.getRadius()){
-			
-		}else if(Math.abs(x-target.getX())<getRadius()) {
-			dir = y<target.getY() ? DOWN : UP; 
+		if(Math.sqrt(Math.pow(x-xt,2)+Math.pow(y-yt,2))<getRadius()+rt){
+
+		}else if(Math.abs(x-xt)<getRadius()) {
+			dir = y<yt ? DOWN : UP; 
 		}else if(Math.abs(y-board.Y_RESOL/2)<getRadius()) {
-			dir = x>target.getX() ? LEFT : RIGHT; 
+			dir = x>xt ? LEFT : RIGHT; 
 		}else {
 			dir = y<board.Y_RESOL/2 ? DOWN : UP; 
 		}
 		if(dir!=direction && direction!=NONE) {
-			direction = Eater.NONE;
+			direction = NONE;
 			averageVels(0,0);
 		}else {
 			direction = dir;
 		}
+	}
+	//returns chosen cookie to try to buy from options
+	public Cookie choosePurchase(ArrayList<Cookie> options) {
+		return null;
 	}
 	
 	public void spend(double amount) {
