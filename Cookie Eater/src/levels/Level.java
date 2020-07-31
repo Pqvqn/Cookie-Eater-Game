@@ -249,6 +249,9 @@ public abstract class Level{
 			case "Flow":
 				b = new ItemFlow(board);
 				break;
+			case "Recharge":
+				b = new ItemRecharge(board);
+				break;
 			default:
 				b = null;
 			}

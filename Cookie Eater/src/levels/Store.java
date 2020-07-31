@@ -133,6 +133,7 @@ public abstract class Store extends Level{
 		addToCatalogue(I,"Hook",P,def*1.3);
 		addToCatalogue(I,"Autopilot",P,def*1.3);
 		addToCatalogue(I,"Flow",P,def*1.3);
+		addToCatalogue(I,"Recharge",P,def*1.4);
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);

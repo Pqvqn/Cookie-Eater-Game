@@ -98,8 +98,8 @@ public class ExplorerSidekick extends Explorer{
 		return 0;
 	}
 	public void chooseResidence() {
-		//residence = findFloor("Descending Labyrinths",false,0,2);
-		residence = findFloor("Forest Entrance",false,0,0);
+		residence = findFloor("Descending Labyrinths",false,0,2);
+		//residence = findFloor("Forest Entrance",false,0,0);
 	}
 
 	public void createStash() {

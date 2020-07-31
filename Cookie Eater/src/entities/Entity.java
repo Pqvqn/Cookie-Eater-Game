@@ -34,6 +34,7 @@ public abstract class Entity {
 	protected ArrayList<Double> special_frames; //counting how deep into special
 	protected int special_cooldown; //frames between uses of special
 	protected double special_use_speed; //"frames" passed per frame of special use
+	protected int special_recharges; //how many recharges have been set off in a row
 	protected ArrayList<Boolean> special_activated; //if special is triggerable
 	protected ArrayList<Color> special_colors; //color associated with each special
 	protected ArrayList<Cookie> cash_stash; //only plain cookies
@@ -65,6 +66,7 @@ public abstract class Entity {
 		special_frames = new ArrayList<Double>();
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		special_use_speed = 1;
+		special_recharges = 0;
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
@@ -109,6 +111,7 @@ public abstract class Entity {
 		for(int i=0; i<special_frames.size(); i++) {
 			if(special_frames.get(i)>special_length) {
 				special_frames.set(i,special_frames.get(i)+1);
+				special_recharges=0;
 				if(special_frames.get(i)>special_length+special_cooldown) {
 					special_frames.set(i,0.0);
 				}
@@ -381,6 +384,12 @@ public abstract class Entity {
 				special_activated.set(i, true);
 		}
 	}
+	public void rechargeSpecial(int s) {
+		special_activated.set(s, true);
+		special_frames.set(currSpecial,0.0);
+		special_recharges++;
+	}
+	public int getSpecialRecharges() { return special_recharges;}
 	
 	public void giveCookie(Cookie c) {
 		if(c instanceof CookieItem) {
