@@ -4,12 +4,14 @@ import cookies.*;
 
 public class ItemTeleport extends Item{
 	
-	Cookie target;
+	private Cookie target;
+	private int amps;
 	
 	public ItemTeleport(Board frame) {
 		super(frame);
+		amps = 1;
 		name = "Teleport";
-		desc="Teleports user to farthest cookie.`Amplify: None";
+		desc="Teleports user to farthest cookie.`Amplify: Longer game freeze on teleport";
 	}
 	public void prepare() {
 		double maxDist=0;
@@ -25,6 +27,7 @@ public class ItemTeleport extends Item{
 		if(target!=null) { //only if target found, teleport to it
 			user.setX(target.getX());
 			user.setY(target.getY());
+			board.freeze(amps*100-100);
 		}
 	}
 	public void execute() {
@@ -34,10 +37,10 @@ public class ItemTeleport extends Item{
 	}
 	public void amplify() {
 		super.amplify();
-		// no idea :/
+		amps++;
 	}
 	public void deamplify() {
 		super.deamplify();
-		// no idea :/
+		amps--;
 	}
 }

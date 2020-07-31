@@ -49,6 +49,7 @@ public class Board extends JFrame{
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
+	private int skipframes;
 	public int playerCount;
 	public boolean check_calibration;
 	
@@ -57,6 +58,7 @@ public class Board extends JFrame{
 		mode = m;
 		cycletime=5;
 		fpscheck=100;
+		skipframes = 0;
 		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
@@ -199,12 +201,21 @@ public class Board extends JFrame{
 	}
 		
 	public void run(int time) {
-		updateUI();
-		draw.runUpdate(); //update all game objects
+		if(skipframes>0) {
+			skipframes--;
+		}else {
+			updateUI();
+			draw.runUpdate(); //update all game objects
+		}
 		try {
 			Thread.sleep(time); //time between updates
 		}catch(InterruptedException e){};
 	}
+	public void freeze(int time) { //freeze-frame for length of time
+		time/=getAdjustedCycle();
+		skipframes+=time;
+	}
+	
 	public void setCalibrations(double cycle) {
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).setCalibration(cycle/15.0); //give player more accurate cycle time
