@@ -1,4 +1,4 @@
-package items;
+package oldsummonstorage;
 
 import java.awt.*;
 
@@ -7,61 +7,48 @@ import cookies.*;
 import entities.Entity;
 import levels.*;
 
-public class SummonJab extends Summon{
+public class SummonWall extends Summon{
 	
 	private double range;
 	private double angle;
-	private int distforward;
-	private double amountforward;
-	private double holdfor;
-	private final int EXTEND = 1, RETRACT = -1, SHEATHED = 0, HOLD = 2;
-	private int state;
-	private int framecount;
 	private double thickness;
+	private double length;
 	
-	public SummonJab(Board frame, Entity summoner, double r) {
+	public SummonWall(Board frame, Entity summoner, double r) {
 		super(frame, summoner);
 		range = r*board.currFloor.getScale();
-		amountforward = (range/100)*board.getAdjustedCycle();
-		holdfor = 300/board.getAdjustedCycle();
-		mass = 100;
+		mass = 999999999;
 	}
 	public void setRange(double r) {
 		range = r*board.currFloor.getScale();
 	}
 	public void prepare() {
-		thickness = user.getTotalRadius()*.6;
+		thickness = user.getTotalRadius();
+		length = user.getTotalRadius()*5;
 		x=user.getX();
 		y=user.getY();
-		angle = userDirAngle();
-		state = EXTEND;
+		angle = userVelAngle();
 	}
 	public void initialize() {
-		distforward = 0;
-		framecount = 0;
+		boolean good = true;
+		while(good) {
+			x+=Math.cos(angle);
+			y+=Math.sin(angle);
+			for(Wall w:board.walls) {
+				if(!user.getGhosted() && hitsRect(w.getX(),w.getY(),w.getW(),w.getH())) good=false;
+			}
+			if(Math.sqrt(Math.pow(x-user.getX(), 2)+Math.pow(y-user.getY(), 2))>=range) {
+				good = false;
+			}
+		}
+		x-=Math.cos(angle);
+		y-=Math.sin(angle);
 	}
 	public void execute() {
 		thickness = user.getTotalRadius()*.6;
-		x=user.getX();
-		y=user.getY();
-		switch(state) {
-		case SHEATHED:
-			distforward=0;
-			break;
-		case EXTEND:
-			if(distforward>=range)
-				state=HOLD;
-			distforward+=amountforward;
-			break;
-		case HOLD:
-			if(framecount++>holdfor)
-				state = RETRACT;
-			break;
-		case RETRACT:
-			if(distforward<0)
-				state=SHEATHED;
-			distforward-=amountforward;
-			break;
+		if(hitsCircle(user.getX(),user.getY(),user.getTotalRadius())) {
+			double[] point = circHitPoint(user.getX(),user.getY(),user.getTotalRadius());
+			user.collideAt(this, point[0], point[1], getXVel(), getYVel(), mass);
 		}
 		super.execute();
 	}
@@ -72,23 +59,17 @@ public class SummonJab extends Summon{
 		user.hitCookie(c);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
-		if(shield) {
-			double[] point = Level.circAndRectHitPoint(user.getX(),user.getY(),user.getRadius(),w.getX(),w.getY(),w.getW(),w.getH());
-			user.collideAt(w,point[0],point[1],0,0,999999999);
-		}
-		if(ghost)return;
-		state = HOLD;
-		distforward-=amountforward;
+	
 	}
 	//if circle intersects an edge
 	public boolean hitsCircle(double cX, double cY, double cR) {
-		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
-		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
+		double altX = x+(length/2 * Math.cos(angle+Math.PI/2));
+		double altY = y+(length/2 * Math.sin(angle+Math.PI/2));
 		
-		double wX = distforward * Math.cos(angle);
-		double wY = distforward * Math.sin(angle);
-		double hX = thickness * Math.cos(angle-Math.PI/2);
-		double hY = thickness * Math.sin(angle-Math.PI/2);
+		double wX = thickness * Math.cos(angle);
+		double wY = thickness * Math.sin(angle);
+		double hX = length * Math.cos(angle-Math.PI/2);
+		double hY = length * Math.sin(angle-Math.PI/2);
 		
 		return Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cX, cY, cR) || 
@@ -98,13 +79,13 @@ public class SummonJab extends Summon{
 	}
 	//if rectangle intersects an edge
 	public boolean hitsRect(double rX, double rY, double rW, double rH) {
-		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
-		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
+		double altX = x+(length/2 * Math.cos(angle+Math.PI/2));
+		double altY = y+(length/2 * Math.sin(angle+Math.PI/2));
 		
-		double wX = distforward * Math.cos(angle);
-		double wY = distforward * Math.sin(angle);
-		double hX = thickness * Math.cos(angle-Math.PI/2);
-		double hY = thickness * Math.sin(angle-Math.PI/2);
+		double wX = thickness * Math.cos(angle);
+		double wY = thickness * Math.sin(angle);
+		double hX = length * Math.cos(angle-Math.PI/2);
+		double hY = length * Math.sin(angle-Math.PI/2);
 		
 		return Level.collidesLineAndRect(altX, altY, altX+wX, altY+wY, rX, rY, rW, rH) || 
 				Level.collidesLineAndRect(altX, altY, altX+hX, altY+hY, rX, rY, rW, rH) || 
@@ -113,20 +94,19 @@ public class SummonJab extends Summon{
 			
 	}
 	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
-		if(shield)user.collideAt(b,hx,hy,oxv,oyv,omass);
-		if(ghost)return;
-		state = HOLD;
-		distforward-=amountforward;
+		//if(shield)user.collideAt(b,hx,hy,oxv,oyv,omass);
+		//if(ghost)return;
 	}
+	
 	public double[] circHitPoint(double cx, double cy, double cr) {
 		double[] ret = {x,y};
-		double altX = x+(thickness/2 * Math.cos(angle+Math.PI/2));
-		double altY = y+(thickness/2 * Math.sin(angle+Math.PI/2));
+		double altX = x+(length/2 * Math.cos(angle+Math.PI/2));
+		double altY = y+(length/2 * Math.sin(angle+Math.PI/2));
 		
-		double wX = distforward * Math.cos(angle);
-		double wY = distforward * Math.sin(angle);
-		double hX = thickness * Math.cos(angle-Math.PI/2);
-		double hY = thickness * Math.sin(angle-Math.PI/2);
+		double wX = thickness * Math.cos(angle);
+		double wY = thickness * Math.sin(angle);
+		double hX = length * Math.cos(angle-Math.PI/2);
+		double hY = length * Math.sin(angle-Math.PI/2);
 		
 		double x1=altX, y1=altY, x2=altX, y2=altY;
 		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
@@ -172,44 +152,28 @@ public class SummonJab extends Summon{
 		}
 		return ret;
 	}
-	public double getEdgeX() {return x+distforward * Math.cos(angle);}
-	public double getEdgeY() {return y+distforward * Math.sin(angle);}
+	public double getEdgeX() {return 0;}
+	public double getEdgeY() {return 0;}
 	public double getXVel() {
-		int mult=0;
-		switch(state) {
-		case EXTEND:
-			mult = 1;
-			break;
-		case RETRACT:
-			mult = -1;
-			break;
-		default:
-			mult = 0;
-			break;
+		if(user.getShielded()) {
+			return 5*board.currFloor.getScale()*Math.cos(angle);
+		}else {
+			return 0;
 		}
-		return user.getXVel()+mult*amountforward*Math.cos(angle);
 	}
 	public double getYVel() {
-		int mult=0;
-		switch(state) {
-		case EXTEND:
-			mult = 1;
-			break;
-		case RETRACT:
-			mult = -1;
-			break;
-		default:
-			mult = 0;
-			break;
+		if(user.getShielded()) {
+			return 5*board.currFloor.getScale()*Math.sin(angle);
+		}else {
+			return 0;
 		}
-		return user.getYVel()+mult*amountforward*Math.sin(angle);
 	}
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		g2.rotate(angle,x,y);
-		g2.fillRect((int)(.5+x),(int)(.5+y-thickness/2),distforward,(int)(.5+thickness));
+		g2.fillRect((int)(.5+x),(int)(.5+y-length/2),(int)(.5+thickness),(int)(.5+length));
 		
 		
 	}

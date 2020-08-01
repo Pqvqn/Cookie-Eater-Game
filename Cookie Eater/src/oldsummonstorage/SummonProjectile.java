@@ -1,69 +1,48 @@
-package items;
+package oldsummonstorage;
 
 import java.awt.*;
-import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import entities.*;
+import entities.Eater;
+import entities.Entity;
 import levels.*;
 
-public class SummonHook extends Summon{
+public class SummonProjectile extends Summon{
 	
 	private double speed, xSpeed, ySpeed;
 	private double angle;
+	private double angle_offset;
 	private double radius;
-	private int state;
-	private final int REACH = 0, PULL = 1;
-	private Entity tracked;
-	private double xOffset,yOffset;
 	
-	public SummonHook(Board frame, Entity summoner, double s) {
+	public SummonProjectile(Board frame, Entity summoner, double s, double offset) {
 		super(frame, summoner);
 		speed = s*board.currFloor.getScale();
-		mass = 0;
+		angle_offset = offset;
+		mass = 100;
 	}
 	public void setSpeed(double s) {
 		speed = s*board.currFloor.getScale();
 	}
 	public void prepare() {
-		radius = user.getTotalRadius()*.3;
-		//mass = (user.getTotalRadius()/user.getRadius())*50;
+		
 		x=user.getX();
 		y=user.getY();
-		angle = userVelAngle();
+		angle = userVelAngle()+angle_offset;
 	}
 	public void initialize() {
+		mass = 100*(user.getTotalRadius()/(Eater.DEFAULT_RADIUS*board.currFloor.getScale()));
+		radius = user.getTotalRadius()*.3;
 		xSpeed = Math.cos(angle)*speed;
 		ySpeed = Math.sin(angle)*speed;
 		user.collideAt(this,x+xSpeed,y+ySpeed,xSpeed,ySpeed,mass);
-		state = REACH;
 	}
 	public void execute() {
 		if(isDed())return;
+		mass = 100*(user.getTotalRadius()/(Eater.DEFAULT_RADIUS*board.currFloor.getScale()));
 		radius = user.getTotalRadius()*.3;
-		if(state==REACH) {
-			x+=xSpeed;
-			y+=ySpeed;
-		}else if(state==PULL) {
-			if(tracked!=null) {
-				x = tracked.getX()+xOffset;
-				y = tracked.getY()+yOffset;
-			}
-			boolean hits = false; //pull until user gets to hook
-			ArrayList<Segment> s = user.getParts();
-			for(int i=0; i<s.size(); i++) {
-				if(s.get(i).collidesWithCircle(true,x,y,radius))hits = true;
-			}
-			if(hits) {
-				ded = true;
-				user.averageVels(0,0);
-			}else {
-				double rat = speed/Math.sqrt(Math.pow(user.getX()-x, 2)+Math.pow(user.getY()-y, 2));
-				user.averageVels(rat*(x-user.getX()),rat*(y-user.getY()));
-			}
-			
-		}
+		x+=xSpeed;
+		y+=ySpeed;
 		super.execute();
 	}
 	public void end(boolean interrupted) {
@@ -76,9 +55,13 @@ public class SummonHook extends Summon{
 		user.hitCookie(c);
 	}
 	public void collisionWall(Wall w, boolean ghost, boolean shield) {
-		state = PULL;
-		x-=xSpeed;
-		y-=ySpeed;
+		if(shield) {
+			double[] point = rectHitPoint(w.getX(),w.getY(),w.getW(),w.getH());
+			collisionEntity(w,point[0],point[1],999999999,0,0,ghost,shield);
+			return;
+		}
+		if(ghost)return;
+		kill();
 	}
 	//if circle intersects an edge
 	public boolean hitsCircle(double cX, double cY, double cR) {
@@ -89,14 +72,24 @@ public class SummonHook extends Summon{
 		return Level.collidesCircleAndRect(x,y,radius,rX,rY,rW,rH);		
 	}
 	public void collisionEntity(Object b, double hx, double hy, double omass, double oxv, double oyv, boolean ghost, boolean shield) {
-		state = PULL;
-		x-=xSpeed;
-		y-=ySpeed;
-		if(b instanceof Entity) {
-			tracked = (Entity)b;
-			xOffset = x-tracked.getX();
-			yOffset = y-tracked.getY();
+		if(shield) {
+			double pvx = (hx-x), pvy = (hy-y);
+			double oxm = oxv*omass, oym = oyv*omass;
+			double txm = xSpeed*mass, tym = ySpeed*mass;
+			double oProj = -(oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy);
+			double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
+			double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
+			
+			double proejjjg = (xSpeed*pvy+ySpeed*-pvx)/(pvx*pvx+pvy*pvy);
+			
+			xSpeed=pvy*proejjjg-projdx/mass;
+			ySpeed=-pvx*proejjjg-projdy/mass;
+			super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
+			return;
 		}
+		if(ghost)return;
+		super.collisionEntity(b, hx, hy, omass, oxv, oyv, ghost, shield);
+		kill();
 	}
 	public double[] circHitPoint(double cx, double cy, double cr) {
 		double[] ret = {x,y};
@@ -105,6 +98,9 @@ public class SummonHook extends Summon{
 		ret[1] = (cy-y)*ratio+y;
 		return ret;
 	}
+	public double[] rectHitPoint(double rx, double ry, double rw, double rh) { 
+		return Level.circAndRectHitPoint(x, y, radius, rx, ry, rw, rh);
+	}
 	public double getXVel() {return xSpeed;}
 	public double getYVel() {return ySpeed;}
 	public void paint(Graphics2D g2) {
@@ -112,9 +108,9 @@ public class SummonHook extends Summon{
 		g2.setColor(Color.WHITE);
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
-		g2.drawLine((int)(.5+user.getX()),(int)(.5+user.getY()),(int)(.5+x),(int)(.5+y));
 		g2.rotate(angle,x,y);
 		g2.fillOval((int)(.5+x-radius),(int)(.5+y-radius),(int)(.5+radius*2),(int)(.5+radius*2));
+		
 		
 	}
 }

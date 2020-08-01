@@ -1,4 +1,4 @@
-package items;
+package oldsummonstorage;
 import ce3.*;
 
 public class ItemWall extends Item{

@@ -213,19 +213,19 @@ public abstract class Level{
 			case "Teleport":
 				b = new ItemTeleport(board);
 				break;
-			case "Jab":
+			/*case "Jab":
 				b = new ItemJab(board);
-				break;
+				break;*/
 			case "Repeat":
 				b = new ItemRepeat(board);
 				break;
-			case "Projectile":
+			/*case "Projectile":
 				b = new ItemProjectile(board);
-				break;
+				break;*/
 			case "Rebound":
 				b = new ItemRebound(board);
 				break;
-			case "Clone":
+			/*case "Clone":
 				b = new ItemClone(board);
 				break;
 			case "Ricochet":
@@ -236,13 +236,13 @@ public abstract class Level{
 				break;
 			case "Wall":
 				b = new ItemWall(board);
-				break;
+				break;*/
 			case "Shrink":
 				b = new ItemShrink(board);
 				break;
-			case "Hook":
+			/*case "Hook":
 				b = new ItemHook(board);
-				break;
+				break;*/
 			case "Autopilot":
 				b = new ItemAutopilot(board);
 				break;

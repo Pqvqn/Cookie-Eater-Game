@@ -97,6 +97,7 @@ public abstract class Entity {
 		}
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				//execute on summon if it exists (TODO)
 				powerups.get(currSpecial).get(i).execute();
 			}
 			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
