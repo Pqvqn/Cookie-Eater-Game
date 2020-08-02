@@ -10,5 +10,7 @@ public class Summon2 extends Entity{
 		super(frame);
 		user = summoner;
 	}
+	//code anchor points and whatnot
+	//also all collision stuff
 
 }

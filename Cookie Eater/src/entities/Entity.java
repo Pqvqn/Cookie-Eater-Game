@@ -369,6 +369,7 @@ public abstract class Entity {
 			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).prepare();
 			}
+			//cut off
 			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).initialize();
 			}
