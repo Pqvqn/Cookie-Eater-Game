@@ -549,6 +549,7 @@ public abstract class Entity {
 	public int getSpecialLength() {return special_length;}
 	public int getSpecialCooldown() {return special_cooldown;}
 	public ArrayList<Double> getSpecialFrames() {return special_frames;}
+	public void setSpecialFrames(ArrayList<Double> sf) {special_frames = sf;}
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
 	public int getCurrentSpecial() {return currSpecial;}
 	public double getSpecialUseSpeed() {return special_use_speed;}

@@ -17,14 +17,16 @@ public class Summon2 extends Entity{
 		anchored = true;
 		x = user.getX();
 		y = user.getY();
+		special_frames = user.getSpecialFrames();
 	}
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
-		if(anchored) {
+		if(anchored) { //if anchored to the user, move with user
 			setXVel(user.getXVel());
 			setYVel(user.getYVel());
 		}
+		user.setSpecialFrames(special_frames); //keep player special use same as summon's
 	}
 	//code anchor points and whatnot
 	//also all collision stuff
