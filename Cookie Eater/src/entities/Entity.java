@@ -24,7 +24,7 @@ public abstract class Entity {
 	protected boolean shielded; //in stun after shield use
 	protected boolean ghost; //if the entity is in ghost mode
 	protected double extra_radius; //area outside of the model, interacts with everything other than walls
-	protected ArrayList<Summon> summons; //constructed objects owned by entity
+	protected ArrayList<Summon2> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
 	protected boolean special; //whether a special is active
 	protected double calibration_ratio; //framerate ratio
@@ -54,7 +54,7 @@ public abstract class Entity {
 	public Entity(Board frame) {
 		board = frame;
 		scale = 1;
-		summons = new ArrayList<Summon>();
+		summons = new ArrayList<Summon2>();
 		bumped = new ArrayList<Object>();
 		cash_stash = new ArrayList<Cookie>();
 		shield_stash = new ArrayList<CookieShield>();
@@ -159,7 +159,7 @@ public abstract class Entity {
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
 					for(int k=0; k<e.getSummons().size(); k++) { //for every summon, test if any parts impact
-						Summon s = e.getSummons().get(k);
+						Summon2 s = e.getSummons().get(k);
 						if(!ghost && parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
 							if(!e.getGhosted()||e.getShielded()) {
 								double[] point = parts.get(j).summonHitPoint(true,s);
@@ -251,7 +251,7 @@ public abstract class Entity {
 				}
 			}
 			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
-				Summon s = board.player.getSummons().get(i);
+				Summon2 s = board.player.getSummons().get(i);
 				if(parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
 					return true;
 				}
@@ -325,9 +325,9 @@ public abstract class Entity {
 	public double getRadius() {return radius*scale;}
 	public double getTotalRadius() {return (radius+extra_radius)*scale;}
 	
-	public void addSummon(Summon s) {summons.add(s);}
-	public void removeSummon(Summon s) {summons.remove(s);}
-	public ArrayList<Summon> getSummons() {return summons;}
+	public void addSummon(Summon2 s) {summons.add(s);}
+	public void removeSummon(Summon2 s) {summons.remove(s);}
+	public ArrayList<Summon2> getSummons() {return summons;}
 	
 	public void addBump(Object b) {bumped.add(b);}
 	
@@ -336,7 +336,7 @@ public abstract class Entity {
 		if(b!=null&&bumped.contains(b)&&b instanceof Wall)return; //if already hit, don't hit again
 		bumped.add(b);
 		double actual_mass = mass;
-		for(Summon s: summons)actual_mass+=s.getMass();
+		for(Summon2 s: summons)actual_mass+=s.getMass();
 		double pvx = (xp-x), pvy = (yp-y);
 		double oxm = oxv*om, oym = oyv*om;
 		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass;

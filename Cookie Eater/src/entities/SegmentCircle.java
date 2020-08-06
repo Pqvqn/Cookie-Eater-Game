@@ -22,7 +22,7 @@ public class SegmentCircle extends Segment{
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
 		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getTotalRadius():getRadius());
 	}
-	public boolean collidesWithSummon(boolean extra, Summon s) {
+	public boolean collidesWithSummon(boolean extra, Summon2 s) {
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
 	}
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh) {
@@ -31,7 +31,7 @@ public class SegmentCircle extends Segment{
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
 		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),cx,cy,cr);
 	}
-	public double[] summonHitPoint(boolean extra, Summon s) {
+	public double[] summonHitPoint(boolean extra, Summon2 s) {
 		return s.circHitPoint(xPos, yPos, (extra)?getTotalRadius():getRadius());
 	}
 	
