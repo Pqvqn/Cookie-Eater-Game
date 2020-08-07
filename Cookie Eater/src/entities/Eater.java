@@ -244,7 +244,7 @@ public class Eater extends Entity{
 				(y + radius > oY && y - radius < oY + oH);*/
 		boolean hit = false;
 		for(int i=0; i<parts.size(); i++) {
-			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH))hit=true;
+			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH,0))hit=true;
 		}
 		return hit;
 		//return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius*scale,oX,oY,oW,oH);

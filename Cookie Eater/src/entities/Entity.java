@@ -207,11 +207,11 @@ public abstract class Entity {
 			if(!ghost && collidesWithArea(board.wallSpace)) {
 				for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 					Wall w = board.walls.get(i);
-					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
-						double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH());
+					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)){
+						double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH(),0);
 						collideAt(w,point[0],point[1],0,0,999999999);
 						bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
-						while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())) {
+						while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)) {
 							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 							x+=(x-point[0])*rat;
 							y+=(y-point[1])*rat;

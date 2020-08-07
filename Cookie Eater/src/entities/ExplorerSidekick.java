@@ -53,10 +53,10 @@ public class ExplorerSidekick extends Explorer{
 			bees[i][1] = ys[i];
 			yeehaw = false;
 			for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
-				if(tester.collidesWithRect(false, w.getX(), w.getY(), w.getW(), w.getH())
+				if(tester.collidesWithRect(false, w.getX(), w.getY(), w.getW(), w.getH(),0)
 						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
-					yees[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[0];
-					yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH())[1];
+					yees[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
+					yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
 					dos[i] += -100;
 					yeehaw = true;
 				}

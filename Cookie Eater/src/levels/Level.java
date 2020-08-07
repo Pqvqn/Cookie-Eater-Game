@@ -275,6 +275,24 @@ public abstract class Level{
 				(Math.sqrt((cX-(rX+rW))*(cX-(rX+rW)) + (cY-(rY+rH))*(cY-(rY+rH)))<=cR) ||
 				(cX >= rX && cX <= rX+rW && cY >= rY && cY <= rY+rH);
 	}
+	public static boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) {
+		double angle = rA;
+		double length = rH;
+		double thickness = rW;
+		
+		double altX = rX;
+		double altY = rY;
+		
+		double wX = length * Math.cos(angle);
+		double wY = length * Math.sin(angle);
+		double hX = thickness * Math.cos(angle-Math.PI/2);
+		double hY = thickness * Math.sin(angle-Math.PI/2);
+		
+		return Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cX, cY, cR);
+	}
 	
 	//tests if there is an unbroken line between two points
 	public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
@@ -552,6 +570,65 @@ public abstract class Level{
 		if(xB&&yB) {
 			ret[1]=(cy>ry+rh)?ry+rh:ry;
 			ret[0]=(cx>rx+rw)?rx+rw:rx;
+		}
+		return ret;
+	}
+	//point where circle and rotated rectangle collide
+	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
+		double angle = ra;
+		double length = rh;
+		double thickness = rw;
+		
+		double[] ret = {rx,ry};
+		double altX = rx;
+		double altY = ry;
+		
+		double wX = length * Math.cos(angle);
+		double wY = length * Math.sin(angle);
+		double hX = thickness * Math.cos(angle-Math.PI/2);
+		double hY = thickness * Math.sin(angle-Math.PI/2);
+		
+		double x1=altX, y1=altY, x2=altX, y2=altY;
+		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
+			x1 = altX+wX;
+			y1 = altY+wY;
+			x2 = altX+wX+hX;
+			y2 = altY+wY+hY;
+		}else if(Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cx, cy, cr)) {
+			x1 = altX;
+			y1 = altY;
+			x2 = altX+hX;
+			y2 = altY+hY;
+		}else if(Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cx, cy, cr)) {
+			x1 = altX;
+			y1 = altY;
+			x2 = altX+wX;
+			y2 = altY+wY;
+		}else if(Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
+			x1 = altX+hX;
+			y1 = altY+hY;
+			x2 = altX+wX+hX;
+			y2 = altY+wY+hY;
+		}else {
+		
+		}
+		double dM = 0;
+		if(x2-x1!=0) {
+			double lM = (y2-y1)/(x2-x1);
+			dM = -1/lM;
+		}
+		double dL = Math.sqrt(1+dM*dM);
+		double ratio = cr/dL;
+		double fX = ratio;
+		double fY = ratio*dM;
+		if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY)) {
+			ret = Level.lineIntersection(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY);
+		}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
+			ret[0] = x1;
+			ret[1] = y1;
+		}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
+			ret[0] = x2;
+			ret[1] = y2;
 		}
 		return ret;
 	}

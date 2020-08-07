@@ -337,7 +337,7 @@ public class Explorer extends Entity{
 	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		boolean hit = false;
 		for(int i=0; i<parts.size(); i++) {
-			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH))hit=true;
+			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH,0))hit=true;
 		}
 		return hit;
 							
