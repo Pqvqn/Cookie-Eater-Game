@@ -294,6 +294,57 @@ public abstract class Level{
 				Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cX, cY, cR);
 	}
 	
+	//if two rectangles collide (doesn't count one fully engulfing the other)
+	public static boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+		double wx1 = h1 * Math.cos(a1);
+		double wy1 = h1 * Math.sin(a1);
+		double hx1 = w1 * Math.cos(a1-Math.PI/2);
+		double hy1 = w1 * Math.sin(a1-Math.PI/2);
+		
+		double wx2 = h2 * Math.cos(a2);
+		double wy2 = h2 * Math.sin(a2);
+		double hx2 = w2 * Math.cos(a2-Math.PI/2);
+		double hy2 = w2 * Math.sin(a2-Math.PI/2);
+		
+		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
+		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
+		
+		
+		boolean collision = false;
+		for(int i=1; i<=4; i++) { //all 1st rect sides
+			for(int j=1; j<=4; j++) { //all 2nd rect sides
+				if(collidesLineAndLine(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]))
+					collision = true;
+			}
+		}
+		return collision;
+	}
+	
+	//collision point of two rectangles
+	public static double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+		double wx1 = h1 * Math.cos(a1);
+		double wy1 = h1 * Math.sin(a1);
+		double hx1 = w1 * Math.cos(a1-Math.PI/2);
+		double hy1 = w1 * Math.sin(a1-Math.PI/2);
+		
+		double wx2 = h2 * Math.cos(a2);
+		double wy2 = h2 * Math.sin(a2);
+		double hx2 = w2 * Math.cos(a2-Math.PI/2);
+		double hy2 = w2 * Math.sin(a2-Math.PI/2);
+		
+		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
+		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
+		
+		for(int i=1; i<=4; i++) { //all 1st rect sides
+			for(int j=1; j<=4; j++) { //all 2nd rect sides
+				if(collidesLineAndLine(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]))
+					return(lineIntersection(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]));
+			}
+		}
+		return null;
+	}
+	
+	
 	//tests if there is an unbroken line between two points
 	public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
 		boolean hit = false;

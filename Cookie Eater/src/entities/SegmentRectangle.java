@@ -16,35 +16,35 @@ public class SegmentRectangle extends Segment{
 		ratio = len/wid;
 		size = wid;
 	}
-	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h) {
-		return Level.collidesCircleAndRect(xPos, yPos, (extra)?getTotalRadius():getRadius(), x, y, w, h);
+	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
+		return Level.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
-		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getTotalRadius():getRadius());
+		return Level.collidesCircleAndRect(x,y,r,xPos, yPos,  (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle);
 	}
-	public boolean collidesWithSummon(boolean extra, Summon2 s) {
+	/*public boolean collidesWithSummon(boolean extra, Summon2 s) {
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
-	}
-	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh) {
-		return Level.circAndRectHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),rx,ry,rw,rh);
+	}*/
+	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh, double ra) {
+		return Level.rectAndRectHitPoint(xPos,yPos,(extra)?getTotalWidth():getWidth(),(extra)?getTotalLength():getLength(),angle,rx,ry,rw,rh,ra);
 	}
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
-		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),cx,cy,cr);
+		return Level.circAndRectHitPoint(cx,cy,cr,xPos,yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(),angle);
 	}
-	public double[] summonHitPoint(boolean extra, Summon2 s) {
+	/*public double[] summonHitPoint(boolean extra, Summon2 s) {
 		return s.circHitPoint(xPos, yPos, (extra)?getTotalRadius():getRadius());
-	}
-	
-	public double getRadius() {return radius*scale;}
+	}*/
+	public double getWidth() {return getSize();}
+	public double getLength() {return getSize()*ratio;}
+	public double getTotalWidth() {return getWidth()+extra_size*scale;}
+	public double getTotalLength() {return getLength()+extra_size*scale;}
 	public void setSize(double s) {
 		super.setSize(s);
-		radius=s;}
-	public double getTotalRadius() {return getRadius()+extra_size*scale;}
+	}
 	public Area getArea() {
-		double r = getRadius();
-		Ellipse2D.Double c = new Ellipse2D.Double(xPos-r,yPos-r,r*2,r*2);
+		Rectangle2D.Double c = new Rectangle2D.Double(xPos,yPos,getWidth(),getLength());
 		return new Area(c);
-	}*/
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
