@@ -42,6 +42,8 @@ public abstract class Segment {
 	public double getSize() {return size;}
 	public void setExtraSize(double es) {extra_size=es;}
 	public double getExtraSize() {return extra_size;}
+	public double getAngle() {return angle;}
+	public void setAngle(double a) {angle = a;}
 	public Area getArea() {
 		return new Area();
 	}

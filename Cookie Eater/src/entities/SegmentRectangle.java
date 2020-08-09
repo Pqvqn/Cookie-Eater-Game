@@ -41,6 +41,17 @@ public class SegmentRectangle extends Segment{
 	public void setSize(double s) {
 		super.setSize(s);
 	}
+	public double getCenterX() { //not actually center
+		return xPos;
+	}
+	public double getCenterY() {
+		return yPos;
+	}
+	public void setDims(double w, double l) {
+		setSize(w);
+		ratio = l/w;
+	}
+	
 	public Area getArea() {
 		Rectangle2D.Double c = new Rectangle2D.Double(xPos,yPos,getWidth(),getLength());
 		return new Area(c);

@@ -158,28 +158,11 @@ public abstract class Entity {
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
-					for(int k=0; k<e.getSummons().size(); k++) { //for every summon, test if any parts impact
-						Summon2 s = e.getSummons().get(k);
-						if(!ghost && parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
-							if(!e.getGhosted()||e.getShielded()) {
-								double[] point = parts.get(j).summonHitPoint(true,s);
-								collideAt(s,point[0],point[1],s.getXVel(),s.getYVel(),s.getMass());
-								s.collisionEntity(this,point[0],point[1],mass,x_velocity,y_velocity,e.getGhosted(),e.getShielded());
-								while(parts.get(j).collidesWithSummon(true,s) && !s.isDed()) {
-									double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-									x+=(x-point[0])*rat;
-									y+=(y-point[1])*rat;
-									orientParts();
-								}
-							}	
-						}
-					}
 					if(!e.getGhosted() && !ghost) {
 						for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
 								SegmentCircle s2 = (SegmentCircle)s;
-								//System.out.println(s2.getRadius()+" "+s2.getExtraSize()+" "+s2.getTotalRadius());
 								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
 									double bmass = mass;
 									double bxv = x_velocity;
@@ -188,6 +171,26 @@ public abstract class Entity {
 									collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
 									e.collideAt(this,point[0],point[1],bxv,byv,bmass);
 									while(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
+										double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+										x+=(x-point[0])*rat;
+										y+=(y-point[1])*rat;
+										orientParts();
+										rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
+										e.x+=(e.x-point[0])*rat;
+										e.y+=(e.y-point[1])*rat;
+										e.orientParts();
+									}
+								}
+							}else if(s instanceof SegmentRectangle) {
+								SegmentRectangle s2 = (SegmentRectangle)s;
+								if(parts.get(j).collidesWithRect(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle())) {
+									double bmass = mass;
+									double bxv = x_velocity;
+									double byv = y_velocity;
+									double[] point = parts.get(j).rectHitPoint(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle());
+									collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
+									e.collideAt(this,point[0],point[1],bxv,byv,bmass);
+									while(parts.get(j).collidesWithRect(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle())) {
 										double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 										x+=(x-point[0])*rat;
 										y+=(y-point[1])*rat;
@@ -230,30 +233,24 @@ public abstract class Entity {
 	//collides with anything other than cookies
 	public boolean collidesWithAnything() {
 		for(int j=0; j<parts.size(); j++) {
-			for(int i=0; i<board.players.size(); i++) { //for every player, test if any parts impact
-				Eater player = board.players.get(i);
-				if((!player.getGhosted()||player.getShielded())&&parts.get(j).collidesWithCircle(true,player.getX(),player.getY(),player.getTotalRadius())) { //test if hits player
-					return true;
-				}
-			}
-			for(int i=0; i<board.enemies.size(); i++) { //for every enemy, test if any parts impact
-				Enemy e = board.enemies.get(i);
+			ArrayList<Entity> entities = new ArrayList<Entity>();
+			for(Entity e : board.players)entities.add(e);
+			for(Entity e : board.enemies)entities.add(e);
+			for(Entity e : board.present_npcs)entities.add(e);
+			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
+				Entity e = entities.get(i);
 				if(!e.equals(this)) {
-					for(int k=0; k<e.getParts().size(); k++) {
-						Segment s = e.getParts().get(k);
-						if(s instanceof SegmentCircle) {
-							SegmentCircle s2 = (SegmentCircle)s;
-							if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
-								return true;
+					if(!e.getGhosted() && !ghost) {
+						for(int k=0; k<e.getParts().size(); k++) {
+							Segment s = e.getParts().get(k);
+							if(s instanceof SegmentCircle) {
+								SegmentCircle s2 = (SegmentCircle)s;
+								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
+									return true;
+								}
 							}
 						}
 					}
-				}
-			}
-			for(int i=0; i<board.player.getSummons().size(); i++) { //for every summon, test if any parts impact
-				Summon2 s = board.player.getSummons().get(i);
-				if(parts.get(j).collidesWithSummon(true,s) && !s.isDed()){
-					return true;
 				}
 			}
 			if(collidesWithArea(board.wallSpace))return true;
@@ -266,7 +263,7 @@ public abstract class Entity {
 		}
 		return false;
 	}
-	//create parts for the enemy
+	//create parts for the entity
 	protected void buildBody() {
 		
 	}
