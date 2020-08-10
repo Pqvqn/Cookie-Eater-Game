@@ -276,23 +276,18 @@ public abstract class Level{
 				(cX >= rX && cX <= rX+rW && cY >= rY && cY <= rY+rH);
 	}
 	public static boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) {
-		double angle = rA;
-		double length = rH;
-		double thickness = rW;
 		
-		double altX = rX;
-		double altY = rY;
+		double wX = rW * Math.cos(rA);
+		double wY = rW * Math.sin(rA);
+		double hX = rH * Math.cos(rA+Math.PI/2);
+		double hY = rH * Math.sin(rA+Math.PI/2);
 		
-		double wX = length * Math.cos(angle);
-		double wY = length * Math.sin(angle);
-		double hX = thickness * Math.cos(angle-Math.PI/2);
-		double hY = thickness * Math.sin(angle-Math.PI/2);
-		
-		return Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cX, cY, cR) || 
-				Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cX, cY, cR) || 
-				Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cX, cY, cR) || 
-				Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cX, cY, cR);
+		return Level.collidesLineAndCircle(rX, rY, rX+wX, rY+wY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(rX, rY, rX+hX, rY+hY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR) || 
+				Level.collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR);
 	}
+	
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
 	public static boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
@@ -383,11 +378,14 @@ public abstract class Level{
 		double ratio = cR/dL;
 		double fX = ratio;
 		double fY = ratio*dM;
-		return collidesLineAndLine(x1,y1,x2,y2,cX+fX,cY+fY,cX-fX,cY-fY) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
+		if(lM==0) { //horizontal line (avoid NaN)
+			return collidesLineAndLine(x1,y1,x2,y2,cX,cY+cR,cX,cY-cR) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
+		}else {
+			return collidesLineAndLine(x1,y1,x2,y2,cX+fX,cY+fY,cX-fX,cY-fY) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
+		}
 	}
 	//tests if two lines intersect
 	public static boolean collidesLineAndLine(double x1a, double y1a, double x2a, double y2a, double x1b, double y1b, double x2b, double y2b) {
-		
 		if(x1a==x2a) { //vertical line
 			if(x1a>=Math.min(x1b, x2b) && x1a<=Math.max(x1b, x2b)) { //if this line is in middle of other
 				if(x1a==x1b && x1a==x2b) { //if both are vertical
@@ -627,8 +625,8 @@ public abstract class Level{
 	//point where circle and rotated rectangle collide
 	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
 		double angle = ra;
-		double length = rh;
-		double thickness = rw;
+		double length = rw;
+		double thickness = rh;
 		
 		double[] ret = {rx,ry};
 		double altX = rx;
@@ -636,8 +634,8 @@ public abstract class Level{
 		
 		double wX = length * Math.cos(angle);
 		double wY = length * Math.sin(angle);
-		double hX = thickness * Math.cos(angle-Math.PI/2);
-		double hY = thickness * Math.sin(angle-Math.PI/2);
+		double hX = thickness * Math.cos(angle+Math.PI/2);
+		double hY = thickness * Math.sin(angle+Math.PI/2);
 		
 		double x1=altX, y1=altY, x2=altX, y2=altY;
 		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
