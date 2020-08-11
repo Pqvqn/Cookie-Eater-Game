@@ -281,6 +281,7 @@ public abstract class Level{
 		double wY = rW * Math.sin(rA);
 		double hX = rH * Math.cos(rA+Math.PI/2);
 		double hY = rH * Math.sin(rA+Math.PI/2);
+		if(Math.abs(hX)<.0000001)hX=0;
 		
 		return Level.collidesLineAndCircle(rX, rY, rX+wX, rY+wY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX, rY, rX+hX, rY+hY, cX, cY, cR) || 
@@ -378,6 +379,9 @@ public abstract class Level{
 		double ratio = cR/dL;
 		double fX = ratio;
 		double fY = ratio*dM;
+		if(x2-x1==0) { //vertical line (avoid NaN)
+			return collidesLineAndLine(x1,y1,x2,y2,cX+cR,cY,cX-cR,cY) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
+		}
 		if(lM==0) { //horizontal line (avoid NaN)
 			return collidesLineAndLine(x1,y1,x2,y2,cX,cY+cR,cX,cY-cR) || lineLength(x1,y1,cX,cY)<=cR || lineLength(x2,y2,cX,cY)<=cR;
 		}else {
@@ -636,6 +640,7 @@ public abstract class Level{
 		double wY = length * Math.sin(angle);
 		double hX = thickness * Math.cos(angle+Math.PI/2);
 		double hY = thickness * Math.sin(angle+Math.PI/2);
+		if(Math.abs(hX)<.0000001)hX=0;
 		
 		double x1=altX, y1=altY, x2=altX, y2=altY;
 		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
@@ -670,7 +675,30 @@ public abstract class Level{
 		double ratio = cr/dL;
 		double fX = ratio;
 		double fY = ratio*dM;
-		if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY)) {
+		if(y2==y1) { //avoid infinity
+			if(Level.collidesLineAndLine(x1,y1,x2,y2,cx,cy+cr,cx,cy-cr)) {
+				ret = Level.lineIntersection(x1,y1,x2,y2,cx,cy+cr,cx,cy-cr);
+			}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
+				ret[0] = x1;
+				ret[1] = y1;
+			}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
+				ret[0] = x2;
+				ret[1] = y2;
+			}
+		}
+		else if(x2==x1) { //avoid NaN
+			if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+cr,cy,cx-cr,cy)) {
+				ret = Level.lineIntersection(x1,y1,x2,y2,cx+cr,cy,cx-cr,cy);
+			}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
+				ret[0] = x1;
+				ret[1] = y1;
+			}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
+				ret[0] = x2;
+				ret[1] = y2;
+			}
+		}
+		
+		else if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY)) {
 			ret = Level.lineIntersection(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY);
 		}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
 			ret[0] = x1;
