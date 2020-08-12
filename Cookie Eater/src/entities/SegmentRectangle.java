@@ -42,10 +42,10 @@ public class SegmentRectangle extends Segment{
 		super.setSize(s);
 	}
 	public double getCenterX() { //not actually center
-		return xPos;
+		return xPos+getWidth()/2;
 	}
 	public double getCenterY() {
-		return yPos;
+		return yPos+getLength()/2;
 	}
 	public void setDims(double w, double l) {
 		setSize(w);

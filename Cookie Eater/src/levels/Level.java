@@ -296,11 +296,13 @@ public abstract class Level{
 		double wy1 = h1 * Math.sin(a1);
 		double hx1 = w1 * Math.cos(a1-Math.PI/2);
 		double hy1 = w1 * Math.sin(a1-Math.PI/2);
+		if(Math.abs(hx1)<.0000001)hx1=0;
 		
 		double wx2 = h2 * Math.cos(a2);
 		double wy2 = h2 * Math.sin(a2);
 		double hx2 = w2 * Math.cos(a2-Math.PI/2);
 		double hy2 = w2 * Math.sin(a2-Math.PI/2);
+		if(Math.abs(hx2)<.0000001)hx2=0;
 		
 		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
 		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};

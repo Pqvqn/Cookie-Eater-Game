@@ -29,7 +29,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
-		parts.add(bloc = new SegmentRectangle(board,this,x,y,30,1,0));
+		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,0));
 		/*try {
 			sprite = new SpriteEnemy(board,bloc,imgs);
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void orientParts() {
 		bloc.setLocation(x,y);
-		bloc.setAngle(Math.atan2(y_velocity,x_velocity));
+		bloc.setAngle(0);
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);
@@ -52,9 +52,9 @@ public class EnemyBloc extends Enemy{
 	public void collideWall(Wall w) {
 		//kill();
 	}
-	public double getRadius() {return bloc.getSize();}
+	public double getRadius() {return bloc.getSize()/2;}
 	public void paint(Graphics g) {
-		if(!getShielded()) {
+		if(getShielded()) {
 			g.setColor(Color.RED);
 			//sprite.setImage(NEUTRAL);
 		}else {
@@ -64,8 +64,8 @@ public class EnemyBloc extends Enemy{
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform(); //transformation to reset to
-		g2.rotate(Math.atan2(y_velocity,x_velocity),x,y);
-		g2.fillRect((int)(.5+x),(int)(.5+y),30,30);
+		g2.rotate(0,x,y);
+		g2.fillRect((int)(.5+bloc.getCenterX()-bloc.getWidth()/2),(int)(.5+bloc.getCenterY()-bloc.getLength()/2),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
 		g2.setTransform(origt);
 		//sprite.paint(g);
 	}
