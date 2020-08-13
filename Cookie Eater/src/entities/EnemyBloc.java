@@ -18,7 +18,7 @@ public class EnemyBloc extends Enemy{
 	
 	public EnemyBloc(Board frame, double xp, double yp) {
 		super(frame,xp,yp);
-		mass = 30;
+		mass = 300;
 		setShields(10);
 		steals = true;
 		friction = .999;
@@ -29,7 +29,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});
-		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,0));
+		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,Math.random()*Math.PI));
 		/*try {
 			sprite = new SpriteEnemy(board,bloc,imgs);
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void orientParts() {
 		bloc.setLocation(x,y);
-		bloc.setAngle(0);
+		//bloc.setAngle(0);
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);
@@ -64,8 +64,8 @@ public class EnemyBloc extends Enemy{
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform(); //transformation to reset to
-		g2.rotate(0,x,y);
-		g2.fillRect((int)(.5+bloc.getCenterX()-bloc.getWidth()/2),(int)(.5+bloc.getCenterY()-bloc.getLength()/2),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
+		g2.rotate(bloc.getAngle(),x,y);
+		g2.fillRect((int)(.5+bloc.getCenterX()),(int)(.5+bloc.getCenterY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
 		g2.setTransform(origt);
 		//sprite.paint(g);
 	}

@@ -17,7 +17,7 @@ public class SegmentCircle extends Segment{
 		size = rad;
 	}
 	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
-		return Level.collidesCircleAndRect(xPos, yPos, (extra)?getTotalRadius():getRadius(), x, y, w, h, a);
+		return board.currFloor.collidesCircleAndRect(xPos, yPos, (extra)?getTotalRadius():getRadius(), x, y, w, h, a);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
 		return Level.lineLength(x, y, xPos, yPos) <= r+((extra)?getTotalRadius():getRadius());

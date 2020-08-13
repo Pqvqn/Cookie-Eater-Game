@@ -20,7 +20,7 @@ public class SegmentRectangle extends Segment{
 		return Level.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
-		return Level.collidesCircleAndRect(x,y,r,xPos, yPos,  (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle);
+		return board.currFloor.collidesCircleAndRect(x,y,r,xPos, yPos,  (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle);
 	}
 	/*public boolean collidesWithSummon(boolean extra, Summon2 s) {
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
@@ -42,10 +42,10 @@ public class SegmentRectangle extends Segment{
 		super.setSize(s);
 	}
 	public double getCenterX() { //not actually center
-		return xPos+getWidth()/2;
+		return xPos;
 	}
 	public double getCenterY() {
-		return yPos+getLength()/2;
+		return yPos;
 	}
 	public void setDims(double w, double l) {
 		setSize(w);

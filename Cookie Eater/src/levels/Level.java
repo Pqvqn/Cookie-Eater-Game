@@ -275,7 +275,7 @@ public abstract class Level{
 				(Math.sqrt((cX-(rX+rW))*(cX-(rX+rW)) + (cY-(rY+rH))*(cY-(rY+rH)))<=cR) ||
 				(cX >= rX && cX <= rX+rW && cY >= rY && cY <= rY+rH);
 	}
-	public static boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) {
+	public boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) { //supposed to be static
 		
 		double wX = rW * Math.cos(rA);
 		double wY = rW * Math.sin(rA);
@@ -283,12 +283,31 @@ public abstract class Level{
 		double hY = rH * Math.sin(rA+Math.PI/2);
 		if(Math.abs(hX)<.0000001)hX=0;
 		
+		double[][] b = {{rX, rY, rX+wX, rY+wY, cX, cY, cR},
+				{rX, rY, rX+hX, rY+hY, cX, cY, cR},
+				{rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR},
+				{rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR}
+		};
+		linesss[(int)(Math.random()*100)] = b;
+		
 		return Level.collidesLineAndCircle(rX, rY, rX+wX, rY+wY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX, rY, rX+hX, rY+hY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR);
 	}
 	
+	double[][][] linesss = new double[100][4][8];
+	public void paint(Graphics g) {
+		g.setColor(Color.RED);
+		for(int i=0; i<linesss.length; i++) {
+			for(int j=0; j<linesss[i].length; j++) {
+				if(linesss[i]!=null)
+					g.drawLine((int)(.5+linesss[i][j][0]),(int)(.5+linesss[i][j][1]),(int)(.5+linesss[i][j][2]),(int)(.5+linesss[i][j][3]));
+			}
+			
+		}
+		linesss = new double[100][4][8];
+	}
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
 	public static boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {

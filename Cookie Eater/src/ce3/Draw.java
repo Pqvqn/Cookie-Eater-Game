@@ -112,7 +112,7 @@ public class Draw extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		boardImage.paint(g);
-	
+		if(board.currFloor!=null)board.currFloor.paint(g);
 		for(int i=board.cookies.size()-1; i>=0; i--) {
 			if(i>=board.cookies.size())i=board.cookies.size()-1;
 			board.cookies.get(i).paint(g);
