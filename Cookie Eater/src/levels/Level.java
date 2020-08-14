@@ -2,6 +2,7 @@ package levels;
 
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
 
 import ce3.*;
@@ -339,7 +340,7 @@ public abstract class Level{
 	
 	//collision point of two rectangles
 	public static double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
-		double wx1 = h1 * Math.cos(a1);
+		/*double wx1 = h1 * Math.cos(a1);
 		double wy1 = h1 * Math.sin(a1);
 		double hx1 = w1 * Math.cos(a1-Math.PI/2);
 		double hy1 = w1 * Math.sin(a1-Math.PI/2);
@@ -358,7 +359,14 @@ public abstract class Level{
 					return(lineIntersection(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]));
 			}
 		}
-		return null;
+		return null;*/
+		Rectangle2D.Double c = new Rectangle2D.Double(x1,y1,w1,h1);
+		AffineTransform at = AffineTransform.getRotateInstance(a1,x1,y1);
+		Shape cc = at.createTransformedShape(c);
+		Rectangle2D.Double b = new Rectangle2D.Double(x2,y2,w2,h2);
+		AffineTransform at2 = AffineTransform.getRotateInstance(a2,x2,y2);
+		Shape bb = at2.createTransformedShape(b);
+		return areasHitPoint(new Area(bb),new Area(cc));
 	}
 	
 	
@@ -649,7 +657,7 @@ public abstract class Level{
 	}
 	//point where circle and rotated rectangle collide
 	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
-		double angle = ra;
+		/*double angle = ra;
 		double length = rw;
 		double thickness = rh;
 		
@@ -728,14 +736,27 @@ public abstract class Level{
 			ret[0] = x2;
 			ret[1] = y2;
 		}
-		return ret;
+		return ret;*/
+		Rectangle2D.Double c = new Rectangle2D.Double(rx,ry,rw,rh);
+		AffineTransform at = AffineTransform.getRotateInstance(ra,rx,ry);
+		Shape cc = at.createTransformedShape(c);
+		return areasHitPoint(new Area(new Ellipse2D.Double(cx-cr,cy-cr,cr*2,cr*2)),new Area(cc));
 	}
 	//point where two circles collide
 	public static double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
-		double[] ret = {c1x,c1y};
+		/*double[] ret = {c1x,c1y};
 		double ratio = c1r/Level.lineLength(c2x, c2y, c1x, c1y);
 		ret[0] = (c2x-c1x)*ratio+c1x;
 		ret[1] = (c2y-c1y)*ratio+c1y;
-		return ret;
+		return ret;*/
+		
+		return areasHitPoint(new Area(new Ellipse2D.Double(c1x-c1r,c1y-c1r,c1r*2,c1r*2)),new Area(new Ellipse2D.Double(c2x-c2r,c2y-c2r,c2r*2,c2r*2)));
+	}
+	
+	//returns collision point of two areas, determined by center point of bounding rectangle of intersection
+	public static double[] areasHitPoint(Area a1, Area a2) {
+		a2.intersect(a1);
+		Rectangle r = a2.getBounds();
+		return new double[] {r.x+r.width/2,r.y+r.height/2};
 	}
 }

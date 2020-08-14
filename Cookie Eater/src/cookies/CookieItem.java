@@ -20,7 +20,7 @@ public class CookieItem extends CookieStore{
 		price = cost;
 		name = (myItem==null)?"":myItem.getName();
 		try {
-			sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
+			if(myItem!=null)sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
