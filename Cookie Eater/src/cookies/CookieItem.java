@@ -18,14 +18,16 @@ public class CookieItem extends CookieStore{
 		super(frame,startx,starty);
 		myItem = i;
 		price = cost;
-		name = (myItem==null)?"":myItem.getName();
-		try {
-			if(myItem!=null)sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(myItem!=null) {
+			name = myItem.getName();
+			try {
+				sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			desc = myItem.getDesc();
 		}
-		desc = myItem.getDesc();
 	}
 	public void setPrice(double p) {price = p;}
 	public boolean purchase(Entity buyer) {

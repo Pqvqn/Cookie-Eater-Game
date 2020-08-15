@@ -17,7 +17,7 @@ public class SegmentRectangle extends Segment{
 		size = wid;
 	}
 	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
-		return Level.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
+		return board.currFloor.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
 		return board.currFloor.collidesCircleAndRect(x,y,r,xPos, yPos,  (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle);

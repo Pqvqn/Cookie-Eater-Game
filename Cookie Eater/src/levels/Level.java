@@ -284,13 +284,6 @@ public abstract class Level{
 		double hY = rH * Math.sin(rA+Math.PI/2);
 		if(Math.abs(hX)<.0000001)hX=0;
 		
-		double[][] b = {{rX, rY, rX+wX, rY+wY, cX, cY, cR},
-				{rX, rY, rX+hX, rY+hY, cX, cY, cR},
-				{rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR},
-				{rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR}
-		};
-		linesss[(int)(Math.random()*100)] = b;
-		
 		return Level.collidesLineAndCircle(rX, rY, rX+wX, rY+wY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX, rY, rX+hX, rY+hY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR) || 
@@ -311,22 +304,34 @@ public abstract class Level{
 	}
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
-	public static boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
-		double wx1 = h1 * Math.cos(a1);
-		double wy1 = h1 * Math.sin(a1);
-		double hx1 = w1 * Math.cos(a1-Math.PI/2);
-		double hy1 = w1 * Math.sin(a1-Math.PI/2);
+	public boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+		double wx1 = w1 * Math.cos(a1);
+		double wy1 = w1 * Math.sin(a1);
+		double hx1 = h1 * Math.cos(a1+Math.PI/2);
+		double hy1 = h1 * Math.sin(a1+Math.PI/2);
 		if(Math.abs(hx1)<.0000001)hx1=0;
 		
-		double wx2 = h2 * Math.cos(a2);
-		double wy2 = h2 * Math.sin(a2);
-		double hx2 = w2 * Math.cos(a2-Math.PI/2);
-		double hy2 = w2 * Math.sin(a2-Math.PI/2);
+		double wx2 = w2 * Math.cos(a2);
+		double wy2 = w2 * Math.sin(a2);
+		double hx2 = h2 * Math.cos(a2+Math.PI/2);
+		double hy2 = h2 * Math.sin(a2+Math.PI/2);
 		if(Math.abs(hx2)<.0000001)hx2=0;
 		
 		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
 		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
 		
+		double[][] b = {{x1, y1, x1+wx1, y1+wy1},
+				{x1, y1, x1+hx1, y1+hy1},
+				{x1+wx1, y1+wy1, x1+wx1+hx1, y1+wy1+hy1},
+				{x1+hx1, y1+hy1, x1+wx1+hx1, y1+wy1+hy1}
+		};
+		linesss[(int)(Math.random()*100)] = b;
+		double[][] b2 = {{x2, y2, x2+wx2, y2+wy2},
+				{x2, y2, x2+hx2, y2+hy2},
+				{x2+wx2, y2+wy2, x2+wx2+hx2, y2+wy2+hy2},
+				{x2+hx2, y2+hy2, x2+wx2+hx2, y2+wy2+hy2}
+		};
+		linesss[(int)(Math.random()*100)] = b2;
 		
 		boolean collision = false;
 		for(int i=1; i<=4; i++) { //all 1st rect sides
@@ -366,7 +371,9 @@ public abstract class Level{
 		Rectangle2D.Double b = new Rectangle2D.Double(x2,y2,w2,h2);
 		AffineTransform at2 = AffineTransform.getRotateInstance(a2,x2,y2);
 		Shape bb = at2.createTransformedShape(b);
-		return areasHitPoint(new Area(bb),new Area(cc));
+		double[] aa = areasHitPoint(new Area(bb),new Area(cc));
+		System.out.println(aa[0]+" "+aa[1]);
+		return aa;
 	}
 	
 	
