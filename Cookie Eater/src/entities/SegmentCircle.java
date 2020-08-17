@@ -26,10 +26,10 @@ public class SegmentCircle extends Segment{
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
 	}*/
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh, double ra) {
-		return Level.circAndRectHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),rx,ry,rw,rh,ra);
+		return board.currFloor.circAndRectHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),rx,ry,rw,rh,ra);
 	}
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
-		return Level.circAndCircHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),cx,cy,cr);
+		return board.currFloor.circAndCircHitPoint(xPos,yPos,(extra)?getTotalRadius():getRadius(),cx,cy,cr);
 	}
 	/*public double[] summonHitPoint(boolean extra, Summon2 s) {
 		return s.circHitPoint(xPos, yPos, (extra)?getTotalRadius():getRadius());

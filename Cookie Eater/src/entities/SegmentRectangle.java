@@ -26,10 +26,10 @@ public class SegmentRectangle extends Segment{
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
 	}*/
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh, double ra) {
-		return Level.rectAndRectHitPoint(xPos,yPos,(extra)?getTotalWidth():getWidth(),(extra)?getTotalLength():getLength(),angle,rx,ry,rw,rh,ra);
+		return board.currFloor.rectAndRectHitPoint(xPos,yPos,(extra)?getTotalWidth():getWidth(),(extra)?getTotalLength():getLength(),angle,rx,ry,rw,rh,ra);
 	}
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {
-		return Level.circAndRectHitPoint(cx,cy,cr,xPos,yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(),angle);
+		return board.currFloor.circAndRectHitPoint(cx,cy,cr,xPos,yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(),angle);
 	}
 	/*public double[] summonHitPoint(boolean extra, Summon2 s) {
 		return s.circHitPoint(xPos, yPos, (extra)?getTotalRadius():getRadius());

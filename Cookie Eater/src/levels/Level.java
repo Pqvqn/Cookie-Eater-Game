@@ -276,7 +276,8 @@ public abstract class Level{
 				(Math.sqrt((cX-(rX+rW))*(cX-(rX+rW)) + (cY-(rY+rH))*(cY-(rY+rH)))<=cR) ||
 				(cX >= rX && cX <= rX+rW && cY >= rY && cY <= rY+rH);
 	}
-	public boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) { //supposed to be static
+	public //static
+	boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) { //supposed to be static
 		
 		double wX = rW * Math.cos(rA);
 		double wY = rW * Math.sin(rA);
@@ -291,6 +292,7 @@ public abstract class Level{
 	}
 	
 	double[][][] linesss = new double[100][4][8];
+	double[] corr = null;
 	public void paint(Graphics g) {
 		g.setColor(Color.RED);
 		for(int i=0; i<linesss.length; i++) {
@@ -300,11 +302,21 @@ public abstract class Level{
 			}
 			
 		}
+		if(corr!=null) {
+			g.setColor(Color.YELLOW);
+			g.fillOval((int)(.5+corr[0]-10),(int)(.5+corr[1]-10),20,20);
+			corr = null;
+			board.draw.repaint();
+			//try { //movement freeze
+				//Thread.sleep(200);
+			//}catch(InterruptedException e){};
+		}
 		linesss = new double[100][4][8];
 	}
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
-	public boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+	public //static
+	boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
 		double wx1 = w1 * Math.cos(a1);
 		double wy1 = w1 * Math.sin(a1);
 		double hx1 = h1 * Math.cos(a1+Math.PI/2);
@@ -344,7 +356,8 @@ public abstract class Level{
 	}
 	
 	//collision point of two rectangles
-	public static double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+	public //static
+	double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
 		/*double wx1 = h1 * Math.cos(a1);
 		double wy1 = h1 * Math.sin(a1);
 		double hx1 = w1 * Math.cos(a1-Math.PI/2);
@@ -640,7 +653,8 @@ public abstract class Level{
 			return true;
 		}
 	//point where circle and rectangle collide
-	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh) {
+	public //static 
+	double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh) {
 		double[] ret = {cx,cy};
 		boolean xB=false,yB=false;
 		if(cy>ry+rh) {
@@ -663,7 +677,8 @@ public abstract class Level{
 		return ret;
 	}
 	//point where circle and rotated rectangle collide
-	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
+	public //static
+	double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
 		/*double angle = ra;
 		double length = rw;
 		double thickness = rh;
@@ -750,7 +765,8 @@ public abstract class Level{
 		return areasHitPoint(new Area(new Ellipse2D.Double(cx-cr,cy-cr,cr*2,cr*2)),new Area(cc));
 	}
 	//point where two circles collide
-	public static double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
+	public //static 
+	double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
 		/*double[] ret = {c1x,c1y};
 		double ratio = c1r/Level.lineLength(c2x, c2y, c1x, c1y);
 		ret[0] = (c2x-c1x)*ratio+c1x;
@@ -761,9 +777,12 @@ public abstract class Level{
 	}
 	
 	//returns collision point of two areas, determined by center point of bounding rectangle of intersection
-	public static double[] areasHitPoint(Area a1, Area a2) {
+	public //static
+	double[] areasHitPoint(Area a1, Area a2) {
 		a2.intersect(a1);
 		Rectangle r = a2.getBounds();
+		double[] b = {r.x+r.width/2,r.y+r.height/2};
+		corr = b;
 		return new double[] {r.x+r.width/2,r.y+r.height/2};
 	}
 }

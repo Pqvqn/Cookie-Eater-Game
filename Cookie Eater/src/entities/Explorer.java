@@ -296,7 +296,7 @@ public class Explorer extends Entity{
 	//uses shield instead of killing
 	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
-		double[] point = Level.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
+		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;

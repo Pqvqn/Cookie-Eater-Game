@@ -378,7 +378,7 @@ public class Eater extends Entity{
 	//uses shield instead of killing
 	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
-		double[] point = Level.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
+		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
 		//collideAt(w,point[0],point[1],0,0,999999999);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
