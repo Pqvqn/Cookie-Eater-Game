@@ -114,6 +114,7 @@ public class ExplorerSidekick extends Explorer{
 		part.setSize(radius);
 		tester.setSize(radius*2);
 		tester.setExtraSize(radius*2);
+		super.orientParts();
 	}
 	public Cookie choosePurchase(ArrayList<Cookie> options) {
 		int highestweight = 4;

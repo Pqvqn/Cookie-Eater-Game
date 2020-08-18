@@ -112,6 +112,7 @@ public class ExplorerShopkeep extends Explorer{
 		part.setSize(radius);
 		tester.setSize(radius*2);
 		tester.setExtraSize(radius*2);
+		super.orientParts();
 	}
 
 	public void paint(Graphics g) {

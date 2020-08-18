@@ -427,6 +427,7 @@ public class Eater extends Entity{
 	public void orientParts() {
 		part.setLocation(x,y);
 		part.setSize(radius);
+		super.orientParts();
 	}
 	public void runUpdate() {
 		super.runUpdate();
@@ -524,10 +525,6 @@ public class Eater extends Entity{
 			}
 		}*/
 		orientParts();
-	}
-	//resets after cycle end
-	public void endCycle() {
-		bumped = new ArrayList<Object>();
 	}
 	public void initUI() {
 		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));

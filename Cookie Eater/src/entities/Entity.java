@@ -44,6 +44,7 @@ public abstract class Entity {
 	protected double decayed_value; //value of spoiled cookies
 	protected ArrayList<Segment> parts; //segments that make up this entity
 	protected boolean ded; //am i deceased
+	protected Rectangle bounds; //rectangle bounding box of all parts
 	protected int offstage; //how far entity can go past the screen's edge before getting hit
 	protected int shield_length; //stun length
 	protected int shield_frames; //counting how deep into shield
@@ -82,6 +83,7 @@ public abstract class Entity {
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		shield_tick = true;
+		bounds = null;
 		setUpStates();
 	}
 	
@@ -136,6 +138,11 @@ public abstract class Entity {
 		if(outOfBounds()) {
 			killBounceEdge(!shielded);
 		}
+	}
+	//resets after cycle end
+	public void endCycle() {
+		bumped = new ArrayList<Object>();
+		bounds = null;
 	}
 	//tests all collisions
 	public void testCollisions() {
@@ -269,7 +276,8 @@ public abstract class Entity {
 	}
 	//sets positions of all segments relative to location
 	public void orientParts() {
-			
+		bounds = null;
+		bounds = getBounding();
 	}
 	public ArrayList<Segment> getParts(){return parts;}
 	
@@ -581,12 +589,28 @@ public abstract class Entity {
 	public boolean isDed() {return ded;}
 	public String getName() {return name;}
 	public Color getColor() {return null;}
+	public Rectangle getBounding() {
+		if(bounds==null) {
+			Rectangle r = new Rectangle();
+			for(Segment s : parts) {
+				r = r.union(s.getArea().getBounds());
+			}
+			bounds = r;
+			return bounds;
+		}else {
+			return bounds;
+		}
+		
+	}
 	public Area getArea() {
 		Area a = new Area();
 		for(Segment s : parts) {
 			a.add(s.getArea());
 		}
 		return a;
+	}
+	public boolean collidesWithBounds(Entity other) {
+		return getBounding().intersects(other.getBounding());
 	}
 	public boolean collidesWithArea(Area a) {
 		Area b = getArea();

@@ -38,6 +38,7 @@ public class EnemyBlob extends Enemy{
 	}
 	public void orientParts() {
 		blob.setLocation(x,y);
+		super.orientParts();
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);

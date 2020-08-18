@@ -38,6 +38,7 @@ public class EnemyCrawler extends Enemy{
 	}
 	public void orientParts() {
 		blob.setLocation(x,y);
+		super.orientParts();
 	}
 	public void runUpdate() {
 		double xp = (x<board.X_RESOL/2) ? 0 : board.X_RESOL; //nearest walls

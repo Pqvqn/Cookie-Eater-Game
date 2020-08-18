@@ -39,6 +39,7 @@ public class EnemySpawner extends Enemy{
 	}
 	public void orientParts() {
 		blob.setLocation(x,y);
+		super.orientParts();
 	}
 	public void runUpdate() {
 		int currCookies=0;

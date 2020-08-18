@@ -329,10 +329,6 @@ public class Explorer extends Entity{
 		bounceShield(w,rx,ry,rw,rh);
 		
 	}
-	//resets after cycle end
-	public void endCycle() {
-		bumped = new ArrayList<Object>();
-	}
 	//tests if hits rectangle
 	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		boolean hit = false;

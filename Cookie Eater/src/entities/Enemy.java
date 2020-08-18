@@ -99,10 +99,6 @@ public abstract class Enemy extends Entity{
 			shield_frames++;
 		}
 	}
-	//resets at cycle end
-	public void endCycle() {
-		bumped = new ArrayList<Object>();
-	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
 		targetx = tarX;

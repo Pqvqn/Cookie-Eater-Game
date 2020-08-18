@@ -49,6 +49,7 @@ public class EnemyGlob extends Enemy{
 		blob.setLocation(x+15,y);
 		blob2.setLocation(x-15,y);
 		blob3.setLocation(x,y-15);
+		super.orientParts();
 	}
 	public void runUpdate() {
 		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)){

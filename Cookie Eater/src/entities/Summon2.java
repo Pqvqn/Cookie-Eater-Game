@@ -60,6 +60,7 @@ public class Summon2 extends Entity{
 		body.setLocation(x,y);
 		body.setAngle(getAngle());
 		body.setDims(getThickness(),getLength());
+		super.orientParts();
 	}
 	
 	public void paint(Graphics2D g2) {

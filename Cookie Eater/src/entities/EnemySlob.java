@@ -50,6 +50,7 @@ public class EnemySlob extends Enemy{
 	public void orientParts() {
 		blob.setLocation(x+15*Math.cos(angle),y+15*Math.sin(angle));
 		blob2.setLocation(x-15*Math.cos(angle),y-15*Math.sin(angle));
+		super.orientParts();
 	}
 	public void runUpdate() {
 		if(chargeCoords!=null) {
