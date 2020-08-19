@@ -26,12 +26,12 @@ public abstract class Segment {
 		owner = host;
 	}
 	public Entity getOwner() {return owner;}
-	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {return false;}
+	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {return false;}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {return false;}
 	//public boolean collidesWithSummon(boolean extra, Summon2 s) {return false;}
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh, double ra) {return null;}
 	public double[] circHitPoint(boolean extra, double cx, double cy, double cr) {return null;}
-	//public double[] summonHitPoint(boolean extra, Summon2 s) {return null;}
+	//public double[] summonHitPoint(boolean extra, Summon2 s) {return null;}*/
 	public void setLocation(double x, double y) {
 		xPos = x;
 		yPos = y;

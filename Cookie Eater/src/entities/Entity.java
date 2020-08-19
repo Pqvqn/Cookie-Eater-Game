@@ -166,7 +166,25 @@ public abstract class Entity {
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
 					if(!e.getGhosted() && !ghost) {
-						for(int k=0; k<e.getParts().size(); k++) {
+						if(collidesWithBounds(e) && collidesWithArea(e)) {
+							double bmass = mass;
+							double bxv = x_velocity;
+							double byv = y_velocity;
+							double[] point = board.currFloor.areasHitPoint(getArea(),e.getArea());
+							collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
+							e.collideAt(this,point[0],point[1],bxv,byv,bmass);
+							while(collidesWithArea(e)) {
+								double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+								x+=(x-point[0])*rat;
+								y+=(y-point[1])*rat;
+								orientParts();
+								rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
+								e.x+=(e.x-point[0])*rat;
+								e.y+=(e.y-point[1])*rat;
+								e.orientParts();
+							}
+						}
+						/*for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
 								SegmentCircle s2 = (SegmentCircle)s;
@@ -209,7 +227,7 @@ public abstract class Entity {
 									}
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -248,7 +266,8 @@ public abstract class Entity {
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
 					if(!e.getGhosted() && !ghost) {
-						for(int k=0; k<e.getParts().size(); k++) {
+						return collidesWithBounds(e) && collidesWithArea(e);
+						/*for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
 								SegmentCircle s2 = (SegmentCircle)s;
@@ -256,7 +275,7 @@ public abstract class Entity {
 									return true;
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -611,6 +630,9 @@ public abstract class Entity {
 	}
 	public boolean collidesWithBounds(Entity other) {
 		return getBounding().intersects(other.getBounding());
+	}
+	public boolean collidesWithArea(Entity other) {
+		return collidesWithArea(other.getArea());
 	}
 	public boolean collidesWithArea(Area a) {
 		Area b = getArea();

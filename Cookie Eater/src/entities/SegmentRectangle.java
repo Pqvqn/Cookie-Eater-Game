@@ -16,7 +16,7 @@ public class SegmentRectangle extends Segment{
 		ratio = len/wid;
 		size = wid;
 	}
-	public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
+	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
 		return board.currFloor.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
 	}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {
@@ -24,7 +24,7 @@ public class SegmentRectangle extends Segment{
 	}
 	/*public boolean collidesWithSummon(boolean extra, Summon2 s) {
 		return s.hitsCircle(xPos,yPos,(extra)?getTotalRadius():getRadius());
-	}*/
+	}
 	public double[] rectHitPoint(boolean extra, double rx, double ry, double rw, double rh, double ra) {
 		return board.currFloor.rectAndRectHitPoint(xPos,yPos,(extra)?getTotalWidth():getWidth(),(extra)?getTotalLength():getLength(),angle,rx,ry,rw,rh,ra);
 	}
