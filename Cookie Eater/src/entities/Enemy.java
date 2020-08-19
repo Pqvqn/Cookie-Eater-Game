@@ -86,7 +86,7 @@ public abstract class Enemy extends Entity{
 		shield_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		calibration_ratio = calrat;
 	}
-	//when hit wall
+	/*//when hit wall
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		shielded=true;
 		shield_length = (int)(.5+60*board.getAdjustedCycle());
@@ -98,7 +98,7 @@ public abstract class Enemy extends Entity{
 			}
 			shield_frames++;
 		}
-	}
+	}*/
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
 		targetx = tarX;

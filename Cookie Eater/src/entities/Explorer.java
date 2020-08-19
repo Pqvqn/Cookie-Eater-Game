@@ -293,7 +293,7 @@ public class Explorer extends Entity{
 		input_speed /= calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
-	//uses shield instead of killing
+	/*//uses shield instead of killing
 	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
 		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
@@ -318,8 +318,8 @@ public class Explorer extends Entity{
 				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
 			}
 		}
-	}
-	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
+	}*/
+	/*public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
 			kill();
 			return;
@@ -328,8 +328,8 @@ public class Explorer extends Entity{
 		}
 		bounceShield(w,rx,ry,rw,rh);
 		
-	}
-	//tests if hits rectangle
+	}*/
+	/*//tests if hits rectangle
 	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		boolean hit = false;
 		for(int i=0; i<parts.size(); i++) {
@@ -337,7 +337,7 @@ public class Explorer extends Entity{
 		}
 		return hit;
 							
-	}
+	}*/
 	public int getDir() {return direction;}
 	public double getAim() {
 		switch(direction) {

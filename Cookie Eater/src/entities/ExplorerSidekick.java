@@ -61,7 +61,7 @@ public class ExplorerSidekick extends Explorer{
 					yeehaw = true;
 				}
 			}
-			for(Cookie c:board.cookies) { //if tester hits a wall, rule this direction out
+			for(Cookie c:board.cookies) { //if tester hits a cookie, prioritize this direction
 				if(tester.collidesWithCircle(true, c.getX(), c.getY(), c.getRadius())){
 					dos[i] += 1;
 				}

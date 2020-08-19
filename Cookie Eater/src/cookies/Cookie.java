@@ -1,6 +1,8 @@
 package cookies;
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 import ce3.*;
@@ -124,6 +126,15 @@ public class Cookie {
 	}
 	public void setValue(double v) {value = v;}
 	public double getValue() {return value;}
+	
+	public Rectangle getBounds() {
+		return new Rectangle((int)(.5+x-getRadius()),(int)(.5+y-getRadius()),(int)(.5+getRadius()*2),(int)(.5+getRadius()*2));
+	}
+	public Area getArea() {
+		double r = getRadius();
+		Ellipse2D.Double c = new Ellipse2D.Double(x-r,y-r,r*2,r*2);
+		return new Area(c);
+	}
 	
 	public void paint(Graphics g) {
 		sprite.paint(g);

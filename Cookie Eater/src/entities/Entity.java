@@ -146,13 +146,13 @@ public abstract class Entity {
 	}
 	//tests all collisions
 	public void testCollisions() {
-		for(int j=0; j<parts.size(); j++) {
+	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
 			
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				if(i<board.cookies.size()) {
 					Cookie c = board.cookies.get(i);
-					if(c!=null && parts.get(j).collidesWithCircle(true,c.getX(),c.getY(),c.getRadius())) {
+					if(c!=null && collidesWithBounds(c.getBounds()) && collidesWithArea(c.getArea())) {
 						hitCookie(c);
 					}
 				}
@@ -233,7 +233,16 @@ public abstract class Entity {
 			}
 			
 			if(!ghost && collidesWithArea(board.wallSpace)) {
-				for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
+				double[] point = board.currFloor.areasHitPoint(board.wallSpace,getArea());
+				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
+				triggerShield();
+				while(collidesWithArea(board.wallSpace)) {
+					double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+					x+=(x-point[0])*rat;
+					y+=(y-point[1])*rat;
+					orientParts();
+				}
+				/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 					Wall w = board.walls.get(i);
 					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)){
 						double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH(),0);
@@ -246,14 +255,26 @@ public abstract class Entity {
 							orientParts();
 						}
 					}
-				}
+				}*/
 			}
 			
-		}
+		//}
 	}
-	//hits wall
+	/*//hits wall
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		
+	}*/
+	//sets off player shield
+	public void triggerShield() {
+		shielded=true;
+		if(shield_frames==0 && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
+			if(shield_stash.size()<=0) {
+				kill(); //kill if out of shields
+			}else {
+				removeShields(1); //use shield if can
+			}
+			shield_frames++;
+		}
 	}
 	//collides with anything other than cookies
 	public boolean collidesWithAnything() {
@@ -357,7 +378,7 @@ public abstract class Entity {
 	
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(b!=null&&bumped.contains(b)&&b instanceof Wall)return; //if already hit, don't hit again
+		if(b!=null&&bumped.contains(b)&&b instanceof Area)return; //if already hit, don't hit again
 		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon2 s: summons)actual_mass+=s.getMass();
@@ -594,13 +615,17 @@ public abstract class Entity {
 			removeShields(1);
 		}
 		if(x<0) {
-			bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);
+			//bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);
+			collideAt(board.wallSpace,x-radius,y,0,0,999999999);
 		}else if(x>board.X_RESOL) {
-			bounce(null,board.X_RESOL+(int)(.5+radius*scale)+offstage,-100,100-(int)(.5+radius*scale),board.Y_RESOL+1000);
+			//bounce(null,board.X_RESOL+(int)(.5+radius*scale)+offstage,-100,100-(int)(.5+radius*scale),board.Y_RESOL+1000);
+			collideAt(board.wallSpace,x+radius,y,0,0,999999999);
 		}else if(y<0) {
-			bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+			//bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+			collideAt(board.wallSpace,x,y-radius,0,0,999999999);
 		}else if(y>board.Y_RESOL) {
-			bounce(null,-100,board.Y_RESOL+(int)(.5+radius*scale)+offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+			//bounce(null,-100,board.Y_RESOL+(int)(.5+radius*scale)+offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
+			collideAt(board.wallSpace,x,y+radius,0,0,999999999);
 		}
 		
 	}
@@ -629,10 +654,13 @@ public abstract class Entity {
 		return a;
 	}
 	public boolean collidesWithBounds(Entity other) {
-		return getBounding().intersects(other.getBounding());
+		return collidesWithBounds(other.getBounding());
 	}
 	public boolean collidesWithArea(Entity other) {
 		return collidesWithArea(other.getArea());
+	}
+	public boolean collidesWithBounds(Rectangle r) {
+		return getBounding().intersects(r);
 	}
 	public boolean collidesWithArea(Area a) {
 		Area b = getArea();

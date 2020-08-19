@@ -239,9 +239,9 @@ public class Eater extends Entity{
 	}*/
 	
 	//tests if hits rectangle
-	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
+	/*public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
 		/*return (x + radius > oX && x - radius < oX + oW) &&
-				(y + radius > oY && y - radius < oY + oH);*/
+				(y + radius > oY && y - radius < oY + oH);
 		boolean hit = false;
 		for(int i=0; i<parts.size(); i++) {
 			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH,0))hit=true;
@@ -255,9 +255,9 @@ public class Eater extends Entity{
 				(Math.sqrt((x-oX)*(x-oX) + (y-oY)*(y-oY))<=radius) ||
 				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-oY)*(y-oY))<=radius) ||
 				(Math.sqrt((x-oX)*(x-oX) + (y-(oY+oH))*(y-(oY+oH)))<=radius) ||
-				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);*/
+				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);
 						
-	}
+	}*/
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
@@ -293,7 +293,7 @@ public class Eater extends Entity{
 			reset();
 		}
 	}
-	//kill, but only if no bounce
+	/*//kill, but only if no bounce
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
 			kill();
@@ -303,7 +303,7 @@ public class Eater extends Entity{
 		}
 		bounceShield(w,rx,ry,rw,rh);
 		
-	}
+	}*/
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
@@ -375,7 +375,7 @@ public class Eater extends Entity{
 		averageStats();
 		reset();
 	}
-	//uses shield instead of killing
+	/*//uses shield instead of killing
 	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
 		shielded = true;
 		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
@@ -401,7 +401,7 @@ public class Eater extends Entity{
 				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
 			}
 		}
-	}
+	}*/
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {
 		acceleration = Math.random()*MR[0][1]+MR[0][0];
