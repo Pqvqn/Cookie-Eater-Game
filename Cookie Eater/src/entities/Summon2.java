@@ -12,8 +12,8 @@ public class Summon2 extends Entity{
 	private int edgex,edgey; //x and y position of edge 
 	private SegmentRectangle body;
 	
-	public Summon2(Board frame, Entity summoner) {
-		super(frame);
+	public Summon2(Board frame, Entity summoner, int cycletime) {
+		super(frame,cycletime);
 		user = summoner;
 		anchored = true;
 		x = user.getX();

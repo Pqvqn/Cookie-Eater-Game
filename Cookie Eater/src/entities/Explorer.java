@@ -34,8 +34,6 @@ public class Explorer extends Entity{
 	protected double maxvel;
 	protected double termvel;
 	protected double fric;
-	protected double minRecoil; //how fast bounces off wall (min and max)
-	protected double maxRecoil;
 	protected Color coloration;
 	protected Segment tester; //segment used to test possible movement paths to choose optimal one
 	protected double input_speed; //how many frames must pass between inputs
@@ -47,7 +45,7 @@ public class Explorer extends Entity{
 	protected Cookie target;
 	
 	public Explorer(Board frame, int cycletime) {
-		super(frame);
+		super(frame,cycletime);
 		calibration_ratio = cycletime/15.0;
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
@@ -65,8 +63,6 @@ public class Explorer extends Entity{
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
 		fric = friction*scale;
-		minRecoil = 10*calibration_ratio;
-		maxRecoil = 50*calibration_ratio;
 		direction = NONE;
 		coloration = Color.gray;
 		input_counter = 0;

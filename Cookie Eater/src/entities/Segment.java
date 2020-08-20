@@ -47,6 +47,17 @@ public abstract class Segment {
 	public Area getArea() {
 		return new Area();
 	}
+	public Rectangle getBounding() {
+		return new Rectangle();
+	}
+	public boolean collidesWithArea(Area a) {
+		Area b = getArea();
+		b.intersect(a);
+		return !b.isEmpty();
+	}
+	public boolean collidesWithBounds(Rectangle r) {
+		return getBounding().intersects(r);
+	}
 	public void paint(Graphics g) {
 		scale = board.currFloor.getScale();
 	}

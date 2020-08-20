@@ -45,6 +45,9 @@ public class SegmentCircle extends Segment{
 		Ellipse2D.Double c = new Ellipse2D.Double(xPos-r,yPos-r,r*2,r*2);
 		return new Area(c);
 	}
+	public Rectangle getBounding() {
+		return new Rectangle((int)(.5+xPos-getRadius()),(int)(.5+yPos-getRadius()),(int)(.5+getRadius()*2),(int)(.5+getRadius()*2));
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);

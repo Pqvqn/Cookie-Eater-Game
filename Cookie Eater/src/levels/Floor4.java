@@ -49,7 +49,7 @@ public class Floor4 extends Level{
 	}
 	
 	public void spawnEnemies() { 
-		for(int i=0;i<Math.random()*2+1;i++)spawnAtRandom(new EnemyBlob(board,0,0));
+		for(int i=0;i<Math.random()*2+1;i++)spawnAtRandom(new EnemyBlob(board,board.getCycle(),0,0));
 	}
 
 }

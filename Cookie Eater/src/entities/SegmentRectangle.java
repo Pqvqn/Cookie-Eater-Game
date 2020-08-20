@@ -41,11 +41,17 @@ public class SegmentRectangle extends Segment{
 	public void setSize(double s) {
 		super.setSize(s);
 	}
-	public double getCenterX() { //not actually center
+	public double getCenterX() {
 		return xPos;
 	}
 	public double getCenterY() {
 		return yPos;
+	}
+	public double getEdgeX() {
+		return xPos-getWidth()/2;
+	}
+	public double getEdgeY() {
+		return yPos-getLength()/2;
 	}
 	public void setDims(double w, double l) {
 		setSize(w);
@@ -53,8 +59,13 @@ public class SegmentRectangle extends Segment{
 	}
 	
 	public Area getArea() {
-		Rectangle2D.Double c = new Rectangle2D.Double(xPos,yPos,getWidth(),getLength());
-		return new Area(c);
+		Rectangle2D.Double c = new Rectangle2D.Double(getEdgeX(),getEdgeY(),getWidth(),getLength());
+		AffineTransform at = AffineTransform.getRotateInstance(angle,xPos,yPos);
+		Shape cc = at.createTransformedShape(c);
+		return new Area(cc);
+	}
+	public Rectangle getBounding() {
+		return getArea().getBounds();
 	}
 	
 	public void paint(Graphics g) {

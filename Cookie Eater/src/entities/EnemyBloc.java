@@ -16,8 +16,8 @@ public class EnemyBloc extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyBloc(Board frame, double xp, double yp) {
-		super(frame,xp,yp);
+	public EnemyBloc(Board frame, int cycletime, double xp, double yp) {
+		super(frame,cycletime,xp,yp);
 		mass = 30;
 		setShields(10);
 		steals = true;
@@ -66,7 +66,7 @@ public class EnemyBloc extends Enemy{
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform(); //transformation to reset to
 		g2.rotate(bloc.getAngle(),x,y);
-		g2.fillRect((int)(.5+bloc.getCenterX()),(int)(.5+bloc.getCenterY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
+		g2.fillRect((int)(.5+bloc.getEdgeX()),(int)(.5+bloc.getEdgeY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
 		g2.setTransform(origt);
 		//sprite.paint(g);
 	}

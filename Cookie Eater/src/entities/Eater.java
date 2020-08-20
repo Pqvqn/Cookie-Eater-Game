@@ -35,8 +35,6 @@ public class Eater extends Entity{
 	private double maxvel;
 	private double termvel;
 	private double fric;
-	private double minRecoil; //how fast player bounces off wall (min and max)
-	private double maxRecoil;
 
 	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
@@ -54,7 +52,7 @@ public class Eater extends Entity{
 	private boolean nearCookie;
 
 	public Eater(Board frame, int num, int cycletime) {
-		super(frame);
+		super(frame,cycletime);
 		id = num;
 		name = "Player "+id;
 		calibration_ratio = cycletime/15.0;
@@ -83,8 +81,6 @@ public class Eater extends Entity{
 		addShields(3);
 		shielded = false;
 		
-		minRecoil = 10*calibration_ratio;
-		maxRecoil = 50*calibration_ratio;
 		state = LIVE;
 		
 		extra_radius = 0;
@@ -158,10 +154,6 @@ public class Eater extends Entity{
 		friction*=calibration_ratio*calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
-	public double getMinRecoil() {return minRecoil;}
-	public void setMinRecoil(double r) {minRecoil = r;}
-	public double getMaxRecoil() {return maxRecoil;}
-	public void setMaxRecoil(double r) {maxRecoil = r;}
 	public double[][] getMovementRand() {return MR;}
 	public void addToMovement(double a, double v, double f) {
 		acceleration += a*calibration_ratio*calibration_ratio;

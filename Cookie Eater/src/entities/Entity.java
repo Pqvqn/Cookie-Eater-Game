@@ -49,10 +49,13 @@ public abstract class Entity {
 	protected int shield_length; //stun length
 	protected int shield_frames; //counting how deep into shield
 	protected boolean shield_tick; //countdown shield
+	protected double minRecoil; //how fast entity bounces off wall (min and max)
+	protected double maxRecoil;
 	protected String name;
 	protected Map<String,String> variableStates; //behavior-determining states
 	
-	public Entity(Board frame) {
+	public Entity(Board frame, int cycletime) {
+		calibration_ratio = cycletime/15.0;
 		board = frame;
 		scale = 1;
 		summons = new ArrayList<Summon2>();
@@ -83,6 +86,8 @@ public abstract class Entity {
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		shield_tick = true;
+		minRecoil = 10*calibration_ratio;
+		maxRecoil = 50*calibration_ratio;
 		bounds = null;
 		setUpStates();
 	}
@@ -274,6 +279,18 @@ public abstract class Entity {
 				removeShields(1); //use shield if can
 			}
 			shield_frames++;
+		}
+		scale = board.currFloor.getScale();
+		System.out.println(minRecoil);
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
+			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
+		}
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
+			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+			x_velocity *= rat;
+			y_velocity *= rat;
 		}
 	}
 	//collides with anything other than cookies
@@ -637,7 +654,7 @@ public abstract class Entity {
 		if(bounds==null) {
 			Rectangle r = new Rectangle();
 			for(Segment s : parts) {
-				r = r.union(s.getArea().getBounds());
+				r = r.union(s.getBounding());
 			}
 			bounds = r;
 			return bounds;
@@ -687,4 +704,8 @@ public abstract class Entity {
 	public boolean stateIs(String var, String state) {
 		return variableStates.get(var).equals(state);
 	}
+	public double getMinRecoil() {return minRecoil;}
+	public void setMinRecoil(double r) {minRecoil = r;}
+	public double getMaxRecoil() {return maxRecoil;}
+	public void setMaxRecoil(double r) {maxRecoil = r;}
 }

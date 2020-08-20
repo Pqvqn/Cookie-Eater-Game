@@ -15,8 +15,8 @@ public class EnemyCrawler extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyCrawler(Board frame, double xp, double yp) {
-		super(frame,xp,yp);
+	public EnemyCrawler(Board frame, int cycletime, double xp, double yp) {
+		super(frame,cycletime,xp,yp);
 		mass = 30;
 		setShields(3);
 		steals = true;

@@ -17,9 +17,9 @@ public abstract class Enemy extends Entity{
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
 	
-	public Enemy(Board frame, double xp, double yp) {
-		super(frame);
-		calibration_ratio = board.getAdjustedCycle();
+	public Enemy(Board frame, int cycletime, double xp, double yp) {
+		super(frame,cycletime);
+		calibration_ratio = cycletime;
 		board = frame;
 		ded=false;
 		x = xp;
@@ -80,6 +80,8 @@ public abstract class Enemy extends Entity{
 		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
 		normVel = normalVelocity*board.currFloor.getScale()*calrat;
 		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
+		minRecoil = 10*board.currFloor.getScale()*(calrat/15.0);
+		maxRecoil = 50*board.currFloor.getScale()*(calrat/15.0);
 		shield_length = (int)(.5+60*calrat);
 		special_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));

@@ -49,20 +49,20 @@ public class ExplorerSidekick extends Explorer{
 			testDirection(i);
 			xs[i] = tester.getCenterX();
 			ys[i] = tester.getCenterY();
-			bees[i][0] = xs[i];
-			bees[i][1] = ys[i];
+			//bees[i][0] = xs[i];
+			//bees[i][1] = ys[i];
 			yeehaw = false;
-			for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
-				if(tester.collidesWithRect(false, w.getX(), w.getY(), w.getW(), w.getH(),0)
+			//for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
+				if(tester.collidesWithArea(board.wallSpace)
 						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
-					yees[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
-					yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
+					//[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
+					//yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
 					dos[i] += -100;
 					yeehaw = true;
 				}
-			}
+			//}
 			for(Cookie c:board.cookies) { //if tester hits a cookie, prioritize this direction
-				if(tester.collidesWithCircle(true, c.getX(), c.getY(), c.getRadius())){
+				if(tester.collidesWithBounds(c.getBounds()) && tester.collidesWithArea(c.getArea())){
 					dos[i] += 1;
 				}
 			}
@@ -92,8 +92,8 @@ public class ExplorerSidekick extends Explorer{
 		tester.setLocation(xs[direction],ys[direction]);
 	}
 	boolean yeehaw;
-	double[][] bees = {{0,0},{0,0},{0,0},{0,0}};
-	double[][] yees = {{0,0},{0,0},{0,0},{0,0}};
+	//double[][] bees = {{0,0},{0,0},{0,0},{0,0}};
+	//double[][] yees = {{0,0},{0,0},{0,0},{0,0}};
 	public int doSpecial() {
 		return 0;
 	}

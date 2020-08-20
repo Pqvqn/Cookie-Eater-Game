@@ -15,8 +15,8 @@ public class EnemyBlob extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyBlob(Board frame, double xp, double yp) {
-		super(frame,xp,yp);
+	public EnemyBlob(Board frame, int cycletime, double xp, double yp) {
+		super(frame,cycletime,xp,yp);
 		mass = 30;
 		setShields(1);
 		steals = true;
