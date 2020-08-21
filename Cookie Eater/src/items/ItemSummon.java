@@ -16,14 +16,8 @@ public class ItemSummon extends Item{
 	}
 	public void prepare() {
 		//user's items given to summon
-		user.addSummon(summon);
-		ArrayList<Item> items = user.getItems().get(user.getCurrentSpecial());
-		for(int i=0; i<items.size(); i++) {
-			if(!items.get(i).equals(this)) {
-				user.getItems().get(user.getCurrentSpecial()).remove(items.get(i));
-				summon.addItem(user.getCurrentSpecial(),items.get(i));
-			}
-		}
+		user.addSummon(summon = new Summon2(board,user,board.getCycle()));
+		summon.eatItems();
 	}
 	public void initialize() {
 	
@@ -34,11 +28,8 @@ public class ItemSummon extends Item{
 	}
 	public void end(boolean interrupted) {
 		//undo user summon thing
-		ArrayList<Item> items = summon.getItems().get(user.getCurrentSpecial());
-		for(int i=0; i<items.size(); i++) {
-			summon.getItems().get(user.getCurrentSpecial()).remove(items.get(i));
-			user.addItem(user.getCurrentSpecial(),items.get(i));
-		}
+		summon.regurgitateItems();
+		user.removeSummon(summon);
 	}
 	public void amplify() {
 		super.amplify();

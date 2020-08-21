@@ -1,8 +1,10 @@
 package entities;
 
 import java.awt.*;
+import java.util.*;
 
 import ce3.*;
+import items.*;
 import levels.*;
 
 public class Summon2 extends Entity{
@@ -31,6 +33,30 @@ public class Summon2 extends Entity{
 		}
 		user.setSpecialFrames(special_frames); //keep player special use same as summon's
 	}
+	
+	//take all items from user
+	public void eatItems() {
+		ArrayList<Item> items = user.getItems().get(user.getCurrentSpecial());
+		for(int i=0; i<items.size(); i++) {
+			Item it = items.get(i);
+			if(!(it instanceof ItemSummon)) {
+				addItem(user.getCurrentSpecial(),it);
+				user.getItems().get(user.getCurrentSpecial()).remove(it);
+				it.setUser(this);
+			}
+		}
+	}
+	//give items back to user
+	public void regurgitateItems() {
+		ArrayList<Item> items = getItems().get(user.getCurrentSpecial());
+		for(int i=0; i<items.size(); i++) {
+			Item it = items.get(i);
+			user.addItem(user.getCurrentSpecial(),it);
+			getItems().get(user.getCurrentSpecial()).remove(it);
+			it.setUser(user);
+		}
+	}
+	
 	//code anchor points and whatnot
 	//also all collision stuff
 	public double getX() {return x;}

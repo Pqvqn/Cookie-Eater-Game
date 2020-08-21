@@ -5,54 +5,45 @@ import entities.Eater;
 public class ItemShield extends Item{
 
 	private double initminrecoil;
-	private double newminrecoil;
 	private double initmaxrecoil;
-	private double newmaxrecoil;
+	private double mult;
 	
 	public ItemShield(Board frame) {
 		super(frame);
 		name = "Shield";
 		desc="Shields the user.`Amplify: Recoil increases";
+		mult = 1;
 	}
 
 	public void prepare() {
-		if(isplayer) {
-			initminrecoil=((Eater)user).getMinRecoil();
-			newminrecoil=initminrecoil;
-			initmaxrecoil=((Eater)user).getMaxRecoil();
-			newmaxrecoil=initmaxrecoil;
-		}
+		initminrecoil=user.getMinRecoil(); //get starting recoil
+		initmaxrecoil=user.getMaxRecoil();
 	}
 	public void initialize() {
-	
+		user.setMinRecoil(initminrecoil*mult); //multiple recoil
+		user.setMaxRecoil(initmaxrecoil*mult);
 	}
 	
 	public void execute() {
 		if(checkCanceled())return;
-		user.setShielded(true);
-		if(isplayer) {
-			if(((Eater)user).getMinRecoil()!=newminrecoil)
-					((Eater)user).setMinRecoil(newminrecoil);
-			if(((Eater)user).getMaxRecoil()!=newmaxrecoil)
-					((Eater)user).setMaxRecoil(newmaxrecoil);
-		}
+		user.setShielded(true); //shield on
+		/*if(user.getMinRecoil()!=newminrecoil)
+				user.setMinRecoil(newminrecoil);
+		if(user.getMaxRecoil()!=newmaxrecoil)
+				user.setMaxRecoil(newmaxrecoil);*/
 	}
 	
 	public void end(boolean interrupted) {
-		if(isplayer) {
-			((Eater)user).setMinRecoil(initminrecoil);
-			((Eater)user).setMaxRecoil(initmaxrecoil);
-		}
+		user.setMinRecoil(initminrecoil); //reset recoil to original
+		user.setMaxRecoil(initmaxrecoil);
 		user.setShielded(false);
 	}
 	public void amplify() {
 		super.amplify();
-		newminrecoil+=initminrecoil;
-		newmaxrecoil+=initmaxrecoil;
+		mult*=2;
 	}
 	public void deamplify() {
 		super.deamplify();
-		newminrecoil-=initminrecoil;
-		newmaxrecoil-=initmaxrecoil;
+		mult/=2;
 	}
 }
