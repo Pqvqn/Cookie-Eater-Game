@@ -43,7 +43,7 @@ public class Board extends JFrame{
 	public LinkedList<Level> floors;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
-	private UIFpsCount fps;
+	public UIFpsCount fps;
 	private UILevelInfo lvl;
 	private UIDialogue dia;
 	private int cycletime;
@@ -94,6 +94,7 @@ public class Board extends JFrame{
 			addKeyListener(controls.get(i));
 		}
 		requestFocus();
+		setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		//setBackground(Color.GRAY);
 		//setForeground(Color.GRAY);
 		
@@ -233,7 +234,7 @@ public class Board extends JFrame{
 	public void updateUI() {
 		//fps counter
 		if(fpscheck--<=0) {
-			fps.update(lastFrame,System.currentTimeMillis());
+			//fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
 			if(check_calibration){
 				setCalibrations(getAdjustedCycle());

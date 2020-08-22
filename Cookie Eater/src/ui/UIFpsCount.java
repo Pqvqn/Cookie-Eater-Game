@@ -16,7 +16,7 @@ public class UIFpsCount extends UIElement{
 	}
 	public double update(long last, long curr) {
 		DecimalFormat rounder = new DecimalFormat("#.#");
-		double fps = Double.valueOf(rounder.format((100/((curr-last)/1000.0))));
+		double fps = Double.valueOf(rounder.format((1000.0/(curr-last))));
 		text.setText(""+fps);
 		return fps;
 	}

@@ -20,14 +20,16 @@ public class Draw extends JPanel{
 	private ArrayList<Eater> players;
 	private SpriteLevel boardImage;
 	private ArrayList<UIElement> ui;
+	private long lastMilliCount; //counting drawing framerate
 	
 	public Draw(Board frame) {
 		super();
 		board = frame;
-		setPreferredSize(new Dimension(board.X_RESOL, board.Y_RESOL));
+		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 		players = board.players;
 		setBackground(Color.GRAY);
 		ui = new ArrayList<UIElement>();
+		lastMilliCount = System.currentTimeMillis();
 		try {
 			boardImage = new SpriteLevel(board,board.walls);
 		} catch (IOException e) {
@@ -111,6 +113,9 @@ public class Draw extends JPanel{
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		g2.scale(screen.getWidth()/board.X_RESOL,screen.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
 		if(board.currFloor!=null)board.currFloor.paint(g);
 		for(int i=board.cookies.size()-1; i>=0; i--) {
@@ -130,7 +135,9 @@ public class Draw extends JPanel{
 		for(int i=0; i<ui.size(); i++) {
 			if(ui.get(i)!=null)ui.get(i).paint(g);
 		}
-		
+		//update fps counter
+		board.fps.update(lastMilliCount,System.currentTimeMillis());
+		lastMilliCount = System.currentTimeMillis();
 	}
 
 }
