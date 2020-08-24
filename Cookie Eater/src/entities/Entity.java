@@ -8,6 +8,7 @@ import ce3.*;
 import cookies.*;
 import items.*;
 import menus.*;
+import levels.*;
 
 public abstract class Entity {
 
@@ -177,7 +178,7 @@ public abstract class Entity {
 							double bmass = mass;
 							double bxv = x_velocity;
 							double byv = y_velocity;
-							double[] point = board.currFloor.areasHitPoint(getArea(),e.getArea());
+							double[] point = Level.areasHitPoint(getArea(),e.getArea());
 							collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
 							e.collideAt(this,point[0],point[1],bxv,byv,bmass);
 							while(collidesWithArea(e)) {
@@ -240,7 +241,7 @@ public abstract class Entity {
 			}
 			
 			if(!ghost && collidesWithArea(board.wallSpace)) {
-				double[] point = board.currFloor.areasHitPoint(board.wallSpace,getArea());
+				double[] point = Level.areasHitPoint(board.wallSpace,getArea());
 				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
 				triggerShield();
 				while(collidesWithArea(board.wallSpace)) {
@@ -277,6 +278,7 @@ public abstract class Entity {
 		if(shield_frames==0 && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
 			if(shield_stash.size()<=0) {
 				kill(); //kill if out of shields
+				return;
 			}else {
 				removeShields(1); //use shield if can
 			}

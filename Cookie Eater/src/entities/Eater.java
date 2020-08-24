@@ -13,7 +13,6 @@ import items.*;
 
 //import javax.swing.*;
 
-import levels.*;
 import sprites.*;
 import ui.*;
 import cookies.*;

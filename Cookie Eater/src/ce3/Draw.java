@@ -117,7 +117,7 @@ public class Draw extends JPanel{
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		g2.scale(screen.getWidth()/board.X_RESOL,screen.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
-		if(board.currFloor!=null)board.currFloor.paint(g);
+		//if(board.currFloor!=null)board.currFloor.paint(g);
 		for(int i=board.cookies.size()-1; i>=0; i--) {
 			if(i>=board.cookies.size())i=board.cookies.size()-1;
 			board.cookies.get(i).paint(g);

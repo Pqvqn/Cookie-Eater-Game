@@ -291,9 +291,9 @@ public abstract class Level{
 				Level.collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR);
 	}
 	
-	double[][][] linesss = new double[100][4][8];
-	double[] corr = null;
-	public void paint(Graphics g) {
+	//double[][][] linesss = new double[100][4][8];
+	//double[] corr = null;
+	/*public void paint(Graphics g) {
 		g.setColor(Color.RED);
 		for(int i=0; i<linesss.length; i++) {
 			for(int j=0; j<linesss[i].length; j++) {
@@ -312,7 +312,7 @@ public abstract class Level{
 			//}catch(InterruptedException e){};
 		}
 		linesss = new double[100][4][8];
-	}
+	}*/
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
 	public //static
@@ -332,18 +332,18 @@ public abstract class Level{
 		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
 		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
 		
-		double[][] b = {{x1, y1, x1+wx1, y1+wy1},
+		/*double[][] b = {{x1, y1, x1+wx1, y1+wy1},
 				{x1, y1, x1+hx1, y1+hy1},
 				{x1+wx1, y1+wy1, x1+wx1+hx1, y1+wy1+hy1},
 				{x1+hx1, y1+hy1, x1+wx1+hx1, y1+wy1+hy1}
 		};
-		linesss[(int)(Math.random()*100)] = b;
+		//linesss[(int)(Math.random()*100)] = b;
 		double[][] b2 = {{x2, y2, x2+wx2, y2+wy2},
 				{x2, y2, x2+hx2, y2+hy2},
 				{x2+wx2, y2+wy2, x2+wx2+hx2, y2+wy2+hy2},
 				{x2+hx2, y2+hy2, x2+wx2+hx2, y2+wy2+hy2}
 		};
-		linesss[(int)(Math.random()*100)] = b2;
+		//linesss[(int)(Math.random()*100)] = b2;*/
 		
 		boolean collision = false;
 		for(int i=1; i<=4; i++) { //all 1st rect sides
@@ -776,12 +776,12 @@ public abstract class Level{
 	}
 	
 	//returns collision point of two areas, determined by center point of bounding rectangle of intersection
-	public //static
+	public static
 	double[] areasHitPoint(Area a1, Area a2) {
 		a2.intersect(a1);
 		Rectangle r = a2.getBounds();
-		double[] b = {r.x+r.width/2,r.y+r.height/2};
-		corr = b;
+		//double[] b = {r.x+r.width/2,r.y+r.height/2};
+		//corr = b;
 		return new double[] {r.x+r.width/2,r.y+r.height/2};
 	}
 }
