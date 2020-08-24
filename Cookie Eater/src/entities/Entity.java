@@ -104,7 +104,6 @@ public abstract class Entity {
 		}
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				//execute on summon if it exists (TODO)
 				powerups.get(currSpecial).get(i).execute();
 			}
 			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
@@ -114,6 +113,9 @@ public abstract class Entity {
 					powerups.get(currSpecial).get(i).end(false);
 				}
 				currSpecial = -1;
+			}
+			for(int j=0; j<summons.size(); j++) {
+				summons.get(j).runUpdate();
 			}
 		}
 		for(int i=0; i<special_frames.size(); i++) {
@@ -281,7 +283,6 @@ public abstract class Entity {
 			shield_frames++;
 		}
 		scale = board.currFloor.getScale();
-		System.out.println(minRecoil);
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
 			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;

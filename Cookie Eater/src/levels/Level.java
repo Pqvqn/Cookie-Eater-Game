@@ -385,7 +385,6 @@ public abstract class Level{
 		AffineTransform at2 = AffineTransform.getRotateInstance(a2,x2,y2);
 		Shape bb = at2.createTransformedShape(b);
 		double[] aa = areasHitPoint(new Area(bb),new Area(cc));
-		System.out.println(aa[0]+" "+aa[1]);
 		return aa;
 	}
 	

@@ -18,6 +18,8 @@ public class ItemSummon extends Item{
 		//user's items given to summon
 		user.addSummon(summon = new Summon2(board,user,board.getCycle()));
 		summon.eatItems();
+		summon.activateSpecials();
+		summon.special(user.getCurrentSpecial());
 	}
 	public void initialize() {
 	

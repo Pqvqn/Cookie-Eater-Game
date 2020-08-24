@@ -148,7 +148,6 @@ public class Eater extends Entity{
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 		minRecoil *= calibration_ratio;
 		maxRecoil *= calibration_ratio;
-		System.out.println("MIN:"+minRecoil+" RAT:"+calrat);
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;

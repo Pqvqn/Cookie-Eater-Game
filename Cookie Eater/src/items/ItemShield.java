@@ -34,6 +34,7 @@ public class ItemShield extends Item{
 	}
 	
 	public void end(boolean interrupted) {
+
 		user.setMinRecoil(initminrecoil); //reset recoil to original
 		user.setMaxRecoil(initmaxrecoil);
 		user.setShielded(false);
