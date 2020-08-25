@@ -288,6 +288,11 @@ public class Explorer extends Entity{
 		friction*=calibration_ratio*calibration_ratio;
 		input_speed /= calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+	
+		//calibrate summons
+		for(int i=0; i<summons.size(); i++) {
+			summons.get(i).setCalibration(calrat);
+		}
 	}
 	/*//uses shield instead of killing
 	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {

@@ -114,8 +114,17 @@ public class Draw extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		g2.scale(screen.getWidth()/board.X_RESOL,screen.getHeight()/board.Y_RESOL);
+		//Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Rectangle screen_bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		
+		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
 		//if(board.currFloor!=null)board.currFloor.paint(g);
 		for(int i=board.cookies.size()-1; i>=0; i--) {

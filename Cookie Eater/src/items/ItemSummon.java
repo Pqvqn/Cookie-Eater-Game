@@ -27,6 +27,7 @@ public class ItemSummon extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		//summon's item progress given to user
+		user.setSpecialFrames(summon.getSpecialFrames()); //keep player special use same as summon's
 	}
 	public void end(boolean interrupted) {
 		//undo user summon thing

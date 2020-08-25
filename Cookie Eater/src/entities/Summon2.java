@@ -31,7 +31,6 @@ public class Summon2 extends Entity{
 			setXVel(user.getXVel());
 			setYVel(user.getYVel());
 		}
-		user.setSpecialFrames(special_frames); //keep player special use same as summon's
 	}
 	
 	//take all items from user
@@ -55,6 +54,16 @@ public class Summon2 extends Entity{
 			getItems().get(user.getCurrentSpecial()).remove(it);
 			it.setUser(user);
 		}
+	}
+	
+	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
+		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		
+		calibration_ratio = calrat;
+		
+		shield_length = (int)(.5+60*(1/calibration_ratio));
+		special_length = (int)(.5+60*(1/calibration_ratio));
+		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 	}
 	
 	//code anchor points and whatnot

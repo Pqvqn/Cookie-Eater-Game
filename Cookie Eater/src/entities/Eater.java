@@ -152,6 +152,11 @@ public class Eater extends Entity{
 		terminal_velocity*=calibration_ratio;
 		friction*=calibration_ratio*calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		
+		//calibrate summons
+		for(int i=0; i<summons.size(); i++) {
+			summons.get(i).setCalibration(calrat);
+		}
 	}
 	public double[][] getMovementRand() {return MR;}
 	public void addToMovement(double a, double v, double f) {

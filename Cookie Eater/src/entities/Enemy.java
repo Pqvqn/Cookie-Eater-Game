@@ -87,6 +87,11 @@ public abstract class Enemy extends Entity{
 		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));
 		shield_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		calibration_ratio = calrat;
+		
+		//calibrate summons
+		for(int i=0; i<summons.size(); i++) {
+			summons.get(i).setCalibration(calrat/15.0);
+		}
 	}
 	/*//when hit wall
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
