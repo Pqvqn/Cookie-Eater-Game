@@ -104,10 +104,14 @@ public abstract class Entity {
 			}
 		}
 		if(special) {
+			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
+			for(int j=0; j<summons.size(); j++) {
+				summons.get(j).runUpdate();
+			}
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).execute();
 			}
-			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
+
 			if(special_frames.get(currSpecial)>special_length) {
 				special = false;
 				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
@@ -115,9 +119,7 @@ public abstract class Entity {
 				}
 				currSpecial = -1;
 			}
-			for(int j=0; j<summons.size(); j++) {
-				summons.get(j).runUpdate();
-			}
+			
 		}
 		for(int i=0; i<special_frames.size(); i++) {
 			if(special_frames.get(i)>special_length) {
