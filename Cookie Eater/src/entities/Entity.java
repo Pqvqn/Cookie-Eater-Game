@@ -158,6 +158,7 @@ public abstract class Entity {
 	public void testCollisions() {
 	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
+			if(this instanceof Summon2)return; //temp
 			
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				if(i<board.cookies.size()) {

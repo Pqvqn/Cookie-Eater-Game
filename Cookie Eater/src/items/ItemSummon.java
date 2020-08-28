@@ -27,10 +27,12 @@ public class ItemSummon extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		//summon's item progress given to user
-		ArrayList<Double> kep = new ArrayList<Double>();
-		ArrayList<Double> las = summon.getSpecialFrames();
-		for(int i=0; i<las.size(); i++)kep.add(las.get(i));
-		if(summon!=null)user.setSpecialFrames(kep); //keep player special use same as summon's
+		if(summon!=null) {
+			ArrayList<Double> kep = new ArrayList<Double>();
+			ArrayList<Double> las = summon.getSpecialFrames();
+			for(int i=0; i<las.size(); i++)kep.add(las.get(i));
+			user.setSpecialFrames(kep); //keep player special use same as summon's
+		}
 	}
 	public void end(boolean interrupted) {
 		//undo user summon thing
