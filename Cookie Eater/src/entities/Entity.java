@@ -158,7 +158,6 @@ public abstract class Entity {
 	public void testCollisions() {
 	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
-			if(this instanceof Summon2)return; //temp
 			
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				if(i<board.cookies.size()) {
@@ -175,7 +174,7 @@ public abstract class Entity {
 			for(Entity e : board.present_npcs)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
-				if(!e.equals(this)) {
+				if(!e.equals(this) && (!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e)))) {
 					if(!e.getGhosted() && !ghost) {
 						if(collidesWithBounds(e) && collidesWithArea(e)) {
 							double bmass = mass;
@@ -243,7 +242,7 @@ public abstract class Entity {
 				}
 			}
 			
-			if(!ghost && collidesWithArea(board.wallSpace)) {
+			if(!ghost && collidesWithArea(board.wallSpace) && !(this instanceof Summon2)) {
 				double[] point = Level.areasHitPoint(board.wallSpace,getArea());
 				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
 				triggerShield();

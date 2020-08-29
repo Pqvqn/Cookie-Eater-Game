@@ -75,8 +75,8 @@ public class Summon2 extends Entity{
 	//also all collision stuff
 	public double getX() {return x;}
 	public double getY() {return y;}
-	public void setX(double xp) {x=xp;}
-	public void setY(double yp) {y=yp;}
+	public void setX(double xp) {x=xp;orientParts();}
+	public void setY(double yp) {y=yp;orientParts();}
 	
 	public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}
@@ -92,12 +92,14 @@ public class Summon2 extends Entity{
 	public double getAngle() {
 		return Math.atan2(y-homey,x-homex);
 	}
-
+	
+	public Entity getUser() {return user;}
+	
 	protected void buildBody() {
 		parts.add(body = new SegmentRectangle(board,this,x,y,getThickness(),getLength(),getAngle()));
 	}
 	public void orientParts() {
-		body.setLocation(homex,homey);
+		body.setLocation((homex+x)/2,(homey+y)/2);
 		body.setAngle(getAngle());
 		body.setDims(getThickness(),getLength());
 		super.orientParts();
@@ -110,6 +112,7 @@ public class Summon2 extends Entity{
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		g2.rotate(getAngle(),homex,homey);
 		g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
+		body.paint(g2);
 		g2.setTransform(at);
 	}
 }
