@@ -37,6 +37,7 @@ public class ItemSummon extends Item{
 	public void end(boolean interrupted) {
 		//undo user summon thing
 		summon.regurgitateItems();
+		summon.regurgitateCookies();
 		user.removeSummon(summon);
 	}
 	public void amplify() {

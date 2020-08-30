@@ -99,6 +99,14 @@ public class Cookie {
 				Eater player = board.player;
 				player.addScore(1);
 			}
+			if(consumer instanceof Summon2) {
+				Eater player = (Eater)(((Summon2)consumer).getUser());
+				player.addScore(1);
+				if(decayed) { //less value for decayed cookies
+					value = board.player.getDecayedValue();
+				}
+				board.player.addCash(value);
+			}
 			//consumer.giveCookie(this);
 		}
 		if(!decayed && consumer!=null) {

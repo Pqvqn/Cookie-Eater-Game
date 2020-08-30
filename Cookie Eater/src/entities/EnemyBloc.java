@@ -65,6 +65,7 @@ public class EnemyBloc extends Enemy{
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform(); //transformation to reset to
+		//bloc.paint(g2);
 		g2.rotate(bloc.getAngle(),x,y);
 		g2.fillRect((int)(.5+bloc.getEdgeX()),(int)(.5+bloc.getEdgeY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
 		g2.setTransform(origt);

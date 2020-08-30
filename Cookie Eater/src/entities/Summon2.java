@@ -5,6 +5,7 @@ import java.awt.geom.*;
 import java.util.*;
 
 import ce3.*;
+import cookies.*;
 import items.*;
 import levels.*;
 
@@ -32,9 +33,9 @@ public class Summon2 extends Entity{
 		if(anchored) { //if anchored to the user, move with user
 			//setXVel(user.getXVel());
 			//setYVel(user.getYVel());
-
 			homex = user.getX();
 			homey = user.getY();
+			orientParts();
 		}
 	}
 	
@@ -58,6 +59,13 @@ public class Summon2 extends Entity{
 			user.addItem(user.getCurrentSpecial(),it);
 			getItems().get(user.getCurrentSpecial()).remove(it);
 			it.setUser(user);
+		}
+	}
+	//give all cookies to user
+	public void regurgitateCookies() {
+		ArrayList<Cookie> stash = getStash();
+		for(int i=0; i<stash.size(); i++) {
+			user.giveCookie(stash.get(i));
 		}
 	}
 	
@@ -100,19 +108,21 @@ public class Summon2 extends Entity{
 	}
 	public void orientParts() {
 		body.setLocation((homex+x)/2,(homey+y)/2);
-		body.setAngle(getAngle());
+		body.setAngle(getAngle()+Math.PI/2);
 		body.setDims(getThickness(),getLength());
 		super.orientParts();
 	}
 	
 	public void paint(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
-		AffineTransform at = g2.getTransform();
+		
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
-		g2.rotate(getAngle(),homex,homey);
-		g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
 		body.paint(g2);
-		g2.setTransform(at);
+		//AffineTransform at = g2.getTransform();
+		//g2.rotate(body.getAngle(),homex,homey);
+		//g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
+
+		//g2.setTransform(at);
 	}
 }

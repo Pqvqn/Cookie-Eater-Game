@@ -71,8 +71,10 @@ public class SegmentRectangle extends Segment{
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform origt = g2.getTransform(); //transformation to reset to
 		g2.rotate(getAngle(),xPos,yPos);
 		g2.fillRect((int)(.5+getEdgeX()),(int)(.5+getEdgeY()),(int)(.5+getWidth()),(int)(.5+getLength()));
+		g2.setTransform(origt);
 	}
 	
 }
