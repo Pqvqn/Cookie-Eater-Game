@@ -18,7 +18,7 @@ public class EnemyBloc extends Enemy{
 	
 	public EnemyBloc(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
-		mass = 30;
+		mass = 60;
 		setShields(10);
 		steals = true;
 		friction = .999;
@@ -39,7 +39,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void orientParts() {
 		bloc.setLocation(x,y);
-		//bloc.setAngle(0);
+		if(target!=null)bloc.setAngle(Math.atan2(target.getY()-y,target.getX()-x));
 		super.orientParts();
 	}
 	public void runUpdate() {
