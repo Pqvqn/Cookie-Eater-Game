@@ -12,7 +12,7 @@ import levels.*;
 public class EnemyBloc extends Enemy{
 
 	private SegmentRectangle bloc;
-	//private SpriteEnemy sprite;
+	private SpriteEnemy sprite;
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
@@ -28,14 +28,14 @@ public class EnemyBloc extends Enemy{
 		name = "Bloc";
 	}
 	public void buildBody() {
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"bloc","blocMad"});
 		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,Math.random()*Math.PI));
-		/*try {
+		try {
 			sprite = new SpriteEnemy(board,bloc,imgs);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 	public void orientParts() {
 		bloc.setLocation(x,y);
@@ -57,18 +57,19 @@ public class EnemyBloc extends Enemy{
 	public void paint(Graphics g) {
 		if(getShielded()) {
 			g.setColor(Color.RED);
-			//sprite.setImage(NEUTRAL);
+			sprite.setImage(HIT);
 		}else {
 			g.setColor(Color.WHITE);
-			//sprite.setImage(HIT);
+			sprite.setImage(NEUTRAL);
 		}
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform(); //transformation to reset to
 		//bloc.paint(g2);
 		g2.rotate(bloc.getAngle(),x,y);
-		g2.fillRect((int)(.5+bloc.getEdgeX()),(int)(.5+bloc.getEdgeY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
+		sprite.paint(g);
+		//g2.fillRect((int)(.5+bloc.getEdgeX()),(int)(.5+bloc.getEdgeY()),(int)(.5+bloc.getWidth()),(int)(.5+bloc.getLength()));
 		g2.setTransform(origt);
-		//sprite.paint(g);
+
 	}
 }
