@@ -45,7 +45,8 @@ public class Summon2 extends Entity{
 	
 	//take all items from user
 	public void eatItems() {
-		ArrayList<Item> items = user.getItems().get(user.getCurrentSpecial());
+		ArrayList<Item> items = new ArrayList<Item>();
+		for(Item i : user.getItems().get(user.getCurrentSpecial()))items.add(i);
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i);
 			if(!(it instanceof ItemSummon)) {
@@ -57,7 +58,8 @@ public class Summon2 extends Entity{
 	}
 	//give items back to user
 	public void regurgitateItems() {
-		ArrayList<Item> items = getItems().get(user.getCurrentSpecial());
+		ArrayList<Item> items = new ArrayList<Item>();
+		for(Item i : getItems().get(user.getCurrentSpecial()))items.add(i);
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i);
 			user.addItem(user.getCurrentSpecial(),it);
@@ -72,6 +74,13 @@ public class Summon2 extends Entity{
 			user.giveCookie(stash.get(i));
 		}
 	}
+	
+	/*//prepares all items
+	public void prepareItems() {
+		for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+			powerups.get(currSpecial).get(i).prepare();
+		}
+	}*/
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
