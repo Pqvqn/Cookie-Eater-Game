@@ -37,7 +37,11 @@ public class Summon2 extends Entity{
 			homey = user.getY();
 			orientParts();
 		}
+		x+=x_velocity+user.getXVel();
+		y+=y_velocity+user.getYVel();
 	}
+	
+	public double getAim() {return user.getAim();}
 	
 	//take all items from user
 	public void eatItems() {
@@ -119,10 +123,10 @@ public class Summon2 extends Entity{
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		body.paint(g2);
-		//AffineTransform at = g2.getTransform();
-		//g2.rotate(body.getAngle(),homex,homey);
-		//g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
+		AffineTransform at = g2.getTransform();
+		g2.rotate(body.getAngle()-Math.PI/2,homex,homey);
+		g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
 
-		//g2.setTransform(at);
+		g2.setTransform(at);
 	}
 }
