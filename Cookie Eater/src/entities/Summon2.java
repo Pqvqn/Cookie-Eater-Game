@@ -105,7 +105,7 @@ public class Summon2 extends Entity{
 	public void setYVel(double a) {y_velocity = a;}
 	
 	public double getThickness() {
-		return getRadius()*2;
+		return getTotalRadius()*2;
 	}
 	public double getLength() {
 		return Level.lineLength(homex,homey,x,y);
@@ -134,7 +134,7 @@ public class Summon2 extends Entity{
 		body.paint(g2);
 		AffineTransform at = g2.getTransform();
 		g2.rotate(body.getAngle()-Math.PI/2,homex,homey);
-		g2.fillRect((int)(.5+homex),(int)(.5+homey-getRadius()),(int)(.5+getLength()),(int)(.5+getRadius()*2));
+		g2.fillRect((int)(.5+homex),(int)(.5+homey-getThickness()/2),(int)(.5+getLength()),(int)(.5+getThickness()));
 
 		g2.setTransform(at);
 	}

@@ -114,7 +114,8 @@ public abstract class Entity {
 
 			if(special_frames.get(currSpecial)>special_length) {
 				special = false;
-				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				int sz = powerups.get(currSpecial).size();
+				for(int i=0; i<sz; i++) {
 					powerups.get(currSpecial).get(i).end(false);
 				}
 				currSpecial = -1;
