@@ -42,6 +42,8 @@ public class Summon2 extends Entity{
 		}
 		x+=x_velocity+user.getXVel();
 		y+=y_velocity+user.getYVel();
+		x_velocity = 0;
+		y_velocity = 0;
 	}
 	
 	public double getAim() {return user.getAim();}
@@ -49,7 +51,10 @@ public class Summon2 extends Entity{
 	//take all items from user
 	public void eatItems() {
 		ArrayList<Item> items = new ArrayList<Item>();
-		for(Item i : user.getItems().get(user.getCurrentSpecial()))items.add(i);
+		ArrayList<Item> usersitems = user.getItems().get(user.getCurrentSpecial());
+		for(int i=0; i<usersitems.size(); i++) {
+			items.add(usersitems.get(i));
+		}
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i);
 			if(!(it instanceof ItemSummon)) {
