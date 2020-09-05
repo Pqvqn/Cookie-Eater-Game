@@ -23,6 +23,9 @@ public class Summon2 extends Entity{
 		anchored = true;
 		x = user.getX();
 		y = user.getY();
+		double rat = .001/(Level.lineLength(0,0,user.getXVel(),user.getYVel())); //set vels to user's, but miniscule
+		x_velocity = user.getXVel()*rat;
+		y_velocity = user.getYVel()*rat;
 		special_frames = user.getSpecialFrames();
 		buildBody();
 		orientParts();
