@@ -14,6 +14,7 @@ public class Summon2 extends Entity{
 	private Entity user;
 	private boolean anchored; //whether item is anchored to the summoner
 	private double homex,homey; //x and y position of edge 
+	private double relx,rely; //x and y relative to user
 	private SegmentRectangle body;
 	
 	public Summon2(Board frame, Entity summoner, int cycletime) {
@@ -40,8 +41,12 @@ public class Summon2 extends Entity{
 			homey = user.getY();
 			orientParts();
 		}
-		x+=x_velocity+user.getXVel();
-		y+=y_velocity+user.getYVel();
+		relx+=x_velocity;
+		rely+=y_velocity;
+		x = user.getX()+relx;
+		y = user.getY()+rely;
+		//x+=x_velocity+user.getXVel();
+		//y+=y_velocity+user.getYVel();
 		x_velocity = 0;
 		y_velocity = 0;
 	}
@@ -102,10 +107,16 @@ public class Summon2 extends Entity{
 	
 	//code anchor points and whatnot
 	//also all collision stuff
-	public double getX() {return x;}
-	public double getY() {return y;}
-	public void setX(double xp) {x=xp;orientParts();}
-	public void setY(double yp) {y=yp;orientParts();}
+	public double getX() {return relx;}
+	public double getY() {return rely;}
+	public void setX(double xp) {
+		relx=xp;
+		x=user.getX()+relx;
+		orientParts();}
+	public void setY(double yp) {
+		rely=yp;
+		y=user.getY()+rely;
+		orientParts();}
 	
 	public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}
