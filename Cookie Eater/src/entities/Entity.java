@@ -431,8 +431,6 @@ public abstract class Entity {
 	public void special(int index) {
 		if(board.currFloor.specialsEnabled()) {
 			if(special || special_frames.get(index)!=0 || !special_activated.get(index))return;
-			special=true;
-			special_activated.set(index, false);
 			currSpecial = index;
 			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).prepare();
@@ -441,6 +439,9 @@ public abstract class Entity {
 			for(int i=0; i<powerups.get(index).size(); i++) {
 				powerups.get(index).get(i).initialize();
 			}
+			special=true;
+			special_activated.set(index, false);
+			
 		}else {
 			currSpecial = index;
 

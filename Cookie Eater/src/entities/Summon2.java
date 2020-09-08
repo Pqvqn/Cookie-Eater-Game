@@ -28,6 +28,7 @@ public class Summon2 extends Entity{
 		x_velocity = user.getXVel()*rat;
 		y_velocity = user.getYVel()*rat;
 		special_frames = user.getSpecialFrames();
+		currSpecial = user.getCurrentSpecial();
 		buildBody();
 		orientParts();
 	}
