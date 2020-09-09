@@ -21,9 +21,12 @@ public class Summon2 extends Entity{
 		super(frame,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;
+		mass = 100;
 		anchored = true;
 		x = user.getX();
 		y = user.getY();
+		homex = user.getX();
+		homey = user.getY();
 		double rat = .001/(Level.lineLength(0,0,user.getXVel(),user.getYVel())); //set vels to user's, but miniscule
 		x_velocity = user.getXVel()*rat;
 		y_velocity = user.getYVel()*rat;
@@ -139,7 +142,7 @@ public class Summon2 extends Entity{
 	public Entity getUser() {return user;}
 	
 	protected void buildBody() {
-		parts.add(body = new SegmentRectangle(board,this,x,y,getThickness(),getLength(),getAngle()));
+		parts.add(body = new SegmentRectangle(board,this,homex,homey,getThickness(),getLength(),getAngle()));
 	}
 	public void orientParts() {
 		body.setLocation((homex+x)/2,(homey+y)/2);

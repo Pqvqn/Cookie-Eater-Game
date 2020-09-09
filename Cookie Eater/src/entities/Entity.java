@@ -175,7 +175,8 @@ public abstract class Entity {
 			for(Entity e : board.present_npcs)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
-				if(!e.equals(this) && (!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e)))) {
+				for(Summon2 s : e.getSummons())entities.add(s);
+				if(!e.equals(this) && (!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this))) && (!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e)))) {
 					if(!e.getGhosted() && !ghost) {
 						if(collidesWithBounds(e) && collidesWithArea(e)) {
 							double bmass = mass;
