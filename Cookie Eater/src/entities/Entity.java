@@ -348,6 +348,8 @@ public abstract class Entity {
 	public double getY() {return y;}
 	public void setX(double xp) {x=xp;}
 	public void setY(double yp) {y=yp;}
+	public double xChange(double xp) {return xp-x;}
+	public double yChange(double yp) {return yp-y;}
 	
 	public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}

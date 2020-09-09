@@ -123,6 +123,8 @@ public class Summon2 extends Entity{
 	public double getYVel() {return y_velocity;}
 	public void setXVel(double a) {x_velocity = a;}
 	public void setYVel(double a) {y_velocity = a;}
+	public double xChange(double xp) {return (xp-user.getX())-relx;}
+	public double yChange(double yp) {return (yp-user.getY())-rely;}
 	
 	public double getThickness() {
 		return getTotalRadius()*2;
