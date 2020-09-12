@@ -27,6 +27,7 @@ public class Board extends JFrame{
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public Area wallSpace;
+	public ArrayList<Explosion> effects;
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
@@ -77,6 +78,7 @@ public class Board extends JFrame{
 		enemies = new ArrayList<Enemy>();
 		npcs = new ArrayList<Explorer>();
 		present_npcs = new ArrayList<Explorer>();
+		effects = new ArrayList<Explosion>();
 		
 		controls = new ArrayList<Controls>();
 		for(int i=0; i<players.size(); i++) {
@@ -223,6 +225,9 @@ public class Board extends JFrame{
 		}
 		for(int i=0; i<enemies.size(); i++) {
 			enemies.get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		}
+		for(int i=0; i<effects.size(); i++) {
+			effects.get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
 		for(int i=0; i<present_npcs.size(); i++) {
 			present_npcs.get(i).setCalibration(cycle/15.0); //give npcs more accurate cycle time
