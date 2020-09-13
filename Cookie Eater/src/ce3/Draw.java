@@ -47,7 +47,9 @@ public class Draw extends JPanel{
 			repaint();
 			return;
 		}
-		
+		for(int i=0; i<board.effects.size(); i++) {
+			board.effects.get(i).runUpdate();
+		}
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}
@@ -141,9 +143,16 @@ public class Draw extends JPanel{
 			players.get(i).paint(g);
 		}
 		
+		for(int i=0; i<board.effects.size(); i++) {
+			board.effects.get(i).paint(g);
+		}
+		
 		for(int i=0; i<ui.size(); i++) {
 			if(ui.get(i)!=null)ui.get(i).paint(g);
 		}
+		
+		
+		
 		//update fps counter
 		if(board!=null && board.fps!=null)board.fps.update(lastMilliCount,System.currentTimeMillis());
 		lastMilliCount = System.currentTimeMillis();

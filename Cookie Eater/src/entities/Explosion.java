@@ -33,7 +33,11 @@ public class Explosion extends Entity{
 	public void kill() {
 		ded = true;
 		setRadius(0);
+		board.effects.remove(this);
 		//board.effects.remove(this);
+	}
+	//explosions cannot trigger shields, overriding
+	public void triggerShield() {
 	}
 	
 	public double getXVel() {return inc;}
@@ -45,6 +49,7 @@ public class Explosion extends Entity{
 		super.orientParts();
 	}
 	public void paint(Graphics g) {
+		if(boom!=null)boom.paint(g);
 		int opac = 255-(int)(.5+((double)getRadius()/maxRad)*255);
 		g.setColor(new Color(255,255,255,opac));
 		g.fillOval((int)(.5+boom.getCenterX()-boom.getRadius()),(int)(.5+boom.getCenterY()-boom.getRadius()),(int)(.5+boom.getRadius()*2),(int)(.5+boom.getRadius()*2));
