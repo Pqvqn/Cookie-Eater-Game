@@ -173,6 +173,7 @@ public abstract class Entity {
 			for(Entity e : board.players)entities.add(e);
 			for(Entity e : board.enemies)entities.add(e);
 			for(Entity e : board.present_npcs)entities.add(e);
+			for(Entity e : board.effects)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				for(Summon2 s : e.getSummons())entities.add(s);
@@ -307,6 +308,7 @@ public abstract class Entity {
 			for(Entity e : board.players)entities.add(e);
 			for(Entity e : board.enemies)entities.add(e);
 			for(Entity e : board.present_npcs)entities.add(e);
+			for(Entity e : board.effects)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
