@@ -41,7 +41,7 @@ public class ItemRebound extends Item{
 		last_bounce=1;
 		total = 0;
 	}
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		bounces++;
 		if((2+bounces-last_bounce) > Math.pow(last_bounce/consta*2, consta)) {
 			amplifyAll();

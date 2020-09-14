@@ -146,6 +146,7 @@ public class Board extends JFrame{
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
+		effects = new ArrayList<Explosion>();
 
 		buildBoard();
 		
@@ -185,6 +186,7 @@ public class Board extends JFrame{
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
+		effects = new ArrayList<Explosion>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();
 		currFloor=currFloor.getNext();

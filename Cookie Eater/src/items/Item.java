@@ -53,7 +53,7 @@ public abstract class Item {
 		return name;
 	}
 	//what to do when bounced off wall (mainly movement items) with x/y pos of bounce point
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		
 	}
 	public void amplify() {

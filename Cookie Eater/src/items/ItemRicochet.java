@@ -12,7 +12,7 @@ public class ItemRicochet extends Item{
 	
 	public ItemRicochet(Board frame) {
 		super(frame);
-		maxRad = 120;
+		maxRad = 150;
 		duration = 250;
 		booms = new ArrayList<Explosion>();
 		name = "Ricochet";
@@ -38,9 +38,11 @@ public class ItemRicochet extends Item{
 			i--;
 		}
 	}
-	public void bounce(double x, double y) {
-		booms.add(0,new Explosion(board,board.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currFloor.getScale(),duration,user));
-		board.effects.add(booms.get(0));
+	public void bounce(Object bouncedOff, double x, double y) {
+		if(!(bouncedOff instanceof Explosion)) { //dont create explosions when moved by explosions
+			booms.add(0,new Explosion(board,board.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currFloor.getScale(),duration,user));
+			board.effects.add(booms.get(0));
+		}
 	}
 
 	public void amplify() {

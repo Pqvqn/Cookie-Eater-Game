@@ -424,7 +424,7 @@ public abstract class Entity {
 			
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(xp,yp);
+				powerups.get(currSpecial).get(i).bounce(b,xp,yp);
 			}
 		}
 	}

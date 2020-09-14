@@ -48,7 +48,7 @@ public class ItemBoost extends Item{
 	public void end(boolean interrupted) {
 		user.lockControl(false);
 	}
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		initx = user.getXVel();
 		inity = user.getYVel();
 	}

@@ -28,7 +28,7 @@ public class ItemBounce extends Item{ //discontinued
 	public void end(boolean interrupted) {
 	
 	}
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		bounces++;
 		if(x-user.getX()!=0)storex=user.getXVel()*(Math.log(bounces+3)/Math.log(consta));
 		if(y-user.getY()!=0)storey=user.getYVel()*(Math.log(bounces+3)/Math.log(consta));

@@ -87,12 +87,12 @@ public class Cookie {
 	//delete self and increase score
 	public void kill(Entity consumer) {
 		if(consumer!=null) {
+			if(decayed) { //less value for decayed cookies
+				value = consumer.getDecayedValue();
+			}
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
 				player.addScore(1);
-				if(decayed) { //less value for decayed cookies
-					value = board.player.getDecayedValue();
-				}
 				board.player.addCash(value);
 			}
 			if(consumer instanceof Explorer) {
@@ -100,12 +100,16 @@ public class Cookie {
 				player.addScore(1);
 			}
 			if(consumer instanceof Summon2) {
-				Eater player = (Eater)(((Summon2)consumer).getUser());
-				player.addScore(1);
-				if(decayed) { //less value for decayed cookies
-					value = board.player.getDecayedValue();
+				if(((Summon2)consumer).getUser()!=null) {
+					kill(((Summon2)consumer).getUser());
+					return;
 				}
-				board.player.addCash(value);
+			}
+			if(consumer instanceof Explosion) {
+				if(((Explosion)consumer).getInitiator()!=null) {
+					kill(((Explosion)consumer).getInitiator());
+					return;
+				}
 			}
 			//consumer.giveCookie(this);
 		}

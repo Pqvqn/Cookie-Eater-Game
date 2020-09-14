@@ -53,7 +53,7 @@ public class ItemCircle extends Item{
 		count = 0;
 		user.averageVels(initx,-inity);
 	}
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		radians = Math.PI + ((user.getXVel()>=0) ? Math.atan(user.getYVel()/user.getXVel()) : Math.atan(user.getYVel()/user.getXVel()) + Math.PI);
 	}
 	public void amplify() {

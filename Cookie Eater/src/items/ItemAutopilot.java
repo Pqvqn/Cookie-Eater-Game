@@ -37,7 +37,7 @@ public class ItemAutopilot extends Item{
 	}
 	public void end(boolean interrupted) {
 	}
-	public void bounce(double x, double y) {
+	public void bounce(Object bouncedOff, double x, double y) {
 		adjustSpeeds();
 	}
 	public void amplify() {
