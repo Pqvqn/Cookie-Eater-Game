@@ -245,7 +245,7 @@ public abstract class Entity {
 				}
 			}
 			
-			if(!ghost && collidesWithArea(board.wallSpace) && !(this instanceof Summon2)) {
+			if(!ghost && collidesWithArea(board.wallSpace)) {
 				double[] point = Level.areasHitPoint(board.wallSpace,getArea());
 				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
 				triggerShield();

@@ -88,7 +88,21 @@ public class Summon2 extends Entity{
 	public void regurgitateCookies() {
 		ArrayList<Cookie> stash = getStash();
 		for(int i=0; i<stash.size(); i++) {
-			user.giveCookie(stash.get(i));
+			Cookie c = stash.get(i);
+			user.giveCookie(c);
+		}
+	}
+	
+	//don't install items
+	public void hitCookie(Cookie c) {
+		if(ded)return;
+		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase(this)) {
+			c.kill(this);
+			if(c instanceof CookieItem && !board.currFloor.installPickups()) {
+				user.pickupItem((CookieItem)c);
+			}else {
+				giveCookie(c);
+			}
 		}
 	}
 	

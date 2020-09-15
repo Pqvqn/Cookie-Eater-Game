@@ -19,7 +19,7 @@ public class EnemyBloc extends Enemy{
 	public EnemyBloc(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
 		mass = 60;
-		setShields(10);
+		setShields(2);
 		steals = true;
 		friction = .999;
 		terminalVelocity = 2;
