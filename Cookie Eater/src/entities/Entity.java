@@ -603,7 +603,7 @@ public abstract class Entity {
 				test.amplify();
 			}
 		}
-		if(add) {
+		if(add && i!=null) {
 			powerups.get(index).add(i);
 			i.setUser(this);
 		}

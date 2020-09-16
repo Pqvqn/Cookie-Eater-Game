@@ -2,6 +2,7 @@ package levels;
 
 
 import ce3.*;
+import cookies.CookieItem;
 import entities.*;
 
 import java.awt.*;
@@ -49,7 +50,32 @@ public class Floor4 extends Level{
 	}
 	
 	public void spawnEnemies() { 
-		for(int i=0;i<Math.random()*2+1;i++)spawnAtRandom(new EnemyBlob(board,board.getCycle(),0,0));
+		ArrayList<String> possible = new ArrayList<String>();
+		possible.add("Field");
+		possible.add("Boost");
+		possible.add("Boost");
+		possible.add("Ricochet");
+		possible.add("Ricochet");
+		possible.add("Teleport");
+		possible.add("Shield");
+		possible.add("Ghost");
+		possible.add("Return");
+		possible.add("Circle");
+		possible.add("Circle");
+		possible.add("Shrink");
+		for(int i=0;i<Math.random()*3;i++) {
+			Enemy e;
+			spawnAtRandom(e = new EnemyBlob(board,board.getCycle(),0,0));
+			if(Math.random()>.3)e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
+		}
+		
+		for(int i=0;i<(int)(Math.random()*2);i++) {
+			spawnAtRandom(new EnemyGlob(board,board.getCycle(),0,0));
+		}
+		for(int i=0;i<(int)(Math.random()*2);i++) {
+			spawnAtRandom(new EnemySlob(board,board.getCycle(),0,0));
+		}
+		
 	}
 
 }

@@ -53,7 +53,7 @@ public abstract class Enemy extends Entity{
 		y+=y_velocity;
 		x_velocity*=fric;
 		y_velocity*=fric;
-		if(Math.random()>.999) {
+		if(Math.random()>.999 && !powerups.get(0).isEmpty()) {
 			special(0); 
 		}
 		/*if(Math.abs(x_velocity)>fric) {
