@@ -666,6 +666,7 @@ public abstract class Entity {
 		if(bounds==null) {
 			Rectangle r = new Rectangle();
 			for(Segment s : parts) {
+				if(r.isEmpty())r=s.getBounding();
 				r = r.union(s.getBounding());
 			}
 			bounds = r;

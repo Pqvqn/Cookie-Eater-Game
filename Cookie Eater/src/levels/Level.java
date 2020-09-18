@@ -228,11 +228,11 @@ public abstract class Level{
 				break;
 			/*case "Clone":
 				b = new ItemClone(board);
-				break;
+				break;*/
 			case "Ricochet":
 				b = new ItemRicochet(board);
 				break;
-			case "Slash":
+			/*case "Slash":
 				b = new ItemSlash(board);
 				break;
 			case "Wall":
