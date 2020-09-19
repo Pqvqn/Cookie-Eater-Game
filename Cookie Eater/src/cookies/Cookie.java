@@ -109,6 +109,9 @@ public class Cookie {
 				if(((Explosion)consumer).getInitiator()!=null) {
 					kill(((Explosion)consumer).getInitiator());
 					return;
+				}else {
+					Eater player = board.player;
+					player.addScore(1);
 				}
 			}
 			//consumer.giveCookie(this);

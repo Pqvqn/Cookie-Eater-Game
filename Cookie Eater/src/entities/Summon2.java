@@ -16,6 +16,7 @@ public class Summon2 extends Entity{
 	private double homex,homey; //x and y position of edge 
 	private double relx,rely; //x and y relative to user
 	private SegmentRectangle body;
+	private boolean halt; //whether summon should maintain position
 	
 	public Summon2(Board frame, Entity summoner, int cycletime) {
 		super(frame,cycletime);
@@ -32,6 +33,7 @@ public class Summon2 extends Entity{
 		y_velocity = user.getYVel()*rat;
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
+		halt = false;
 		buildBody();
 		orientParts();
 	}
@@ -45,8 +47,10 @@ public class Summon2 extends Entity{
 			homey = user.getY();
 			orientParts();
 		}
-		relx+=x_velocity;
-		rely+=y_velocity;
+		if(!halt) {
+			relx+=x_velocity;
+			rely+=y_velocity;
+		}
 		x = user.getX()+relx;
 		y = user.getY()+rely;
 		//x+=x_velocity+user.getXVel();
@@ -122,6 +126,26 @@ public class Summon2 extends Entity{
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 	}
+	
+	//overrides normal collision; knocks user back
+	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
+		user.setXVel(user.getXVel()+x_velocity);
+		user.setYVel(user.getYVel()+y_velocity);
+		user.collideAt(b,xp,yp,oxv,oyv,om);
+		halt = true;
+		x_velocity = 0;
+		y_velocity = 0;
+		relx = 0;
+		rely = 0;
+		x = homex;
+		y = homey;
+		if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+				powerups.get(currSpecial).get(i).bounce(b,xp,yp);
+			}
+		}
+	}
+	
 	
 	//code anchor points and whatnot
 	//also all collision stuff

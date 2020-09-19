@@ -188,12 +188,12 @@ public abstract class Entity {
 							e.collideAt(this,point[0],point[1],bxv,byv,bmass);
 							while(collidesWithArea(e)) {
 								double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-								x+=(x-point[0])*rat;
-								y+=(y-point[1])*rat;
+								setX((getX()-point[0])*rat+getX());
+								setY((getY()-point[1])*rat+getY());
 								orientParts();
 								rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
-								e.x+=(e.x-point[0])*rat;
-								e.y+=(e.y-point[1])*rat;
+								e.setX((e.getX()-point[0])*rat+e.getX());
+								e.setY((e.getY()-point[1])*rat+e.getY());
 								e.orientParts();
 							}
 						}
@@ -251,8 +251,8 @@ public abstract class Entity {
 				triggerShield();
 				while(collidesWithArea(board.wallSpace)) {
 					double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-					x+=(x-point[0])*rat;
-					y+=(y-point[1])*rat;
+					setX((getX()-point[0])*rat+getX());
+					setY((getY()-point[1])*rat+getY());
 					orientParts();
 				}
 				/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
