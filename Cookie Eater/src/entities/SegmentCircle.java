@@ -40,13 +40,14 @@ public class SegmentCircle extends Segment{
 		super.setSize(s);
 		radius=s;}
 	public double getTotalRadius() {return getRadius()+extra_size*scale;}
-	public Area getArea() {
-		double r = getRadius();
+	public Area getArea(boolean extra) {
+		double r = (extra)?getTotalRadius():getRadius();
 		Ellipse2D.Double c = new Ellipse2D.Double(xPos-r,yPos-r,r*2,r*2);
 		return new Area(c);
 	}
-	public Rectangle getBounding() {
-		return new Rectangle((int)(.5+xPos-getRadius()),(int)(.5+yPos-getRadius()),(int)(.5+getRadius()*2),(int)(.5+getRadius()*2));
+	public Rectangle getBounding(boolean extra) {
+		double radd = (extra)?getTotalRadius():getRadius();
+		return new Rectangle((int)(.5+xPos-radd),(int)(.5+yPos-radd),(int)(.5+radd*2),(int)(.5+radd*2));
 	}
 	
 	public void paint(Graphics g) {

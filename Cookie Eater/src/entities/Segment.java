@@ -44,19 +44,19 @@ public abstract class Segment {
 	public double getExtraSize() {return extra_size;}
 	public double getAngle() {return angle;}
 	public void setAngle(double a) {angle = a;}
-	public Area getArea() {
+	public Area getArea(boolean extra) {
 		return new Area();
 	}
-	public Rectangle getBounding() {
+	public Rectangle getBounding(boolean extra) {
 		return new Rectangle();
 	}
-	public boolean collidesWithArea(Area a) {
-		Area b = getArea();
+	public boolean collidesWithArea(boolean extra, Area a) {
+		Area b = getArea(extra);
 		b.intersect(a);
 		return !b.isEmpty();
 	}
-	public boolean collidesWithBounds(Rectangle r) {
-		return getBounding().intersects(r);
+	public boolean collidesWithBounds(boolean extra, Rectangle r) {
+		return getBounding(extra).intersects(r);
 	}
 	public void paint(Graphics g) {
 		scale = board.currFloor.getScale();

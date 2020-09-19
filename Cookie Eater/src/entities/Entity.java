@@ -163,7 +163,7 @@ public abstract class Entity {
 			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
 				if(i<board.cookies.size()) {
 					Cookie c = board.cookies.get(i);
-					if(c!=null && collidesWithBounds(c.getBounds()) && collidesWithArea(c.getArea())) {
+					if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
 						hitCookie(c);
 					}
 				}
@@ -179,14 +179,14 @@ public abstract class Entity {
 				for(Summon2 s : e.getSummons())entities.add(s);
 				if(!e.equals(this) && (!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this))) && (!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e)))) {
 					if(!e.getGhosted() && !ghost) {
-						if(collidesWithBounds(e) && collidesWithArea(e)) {
+						if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
 							double bmass = mass;
 							double bxv = x_velocity;
 							double byv = y_velocity;
-							double[] point = Level.areasHitPoint(getArea(),e.getArea());
+							double[] point = Level.areasHitPoint(getArea(true),e.getArea(true));
 							collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
 							e.collideAt(this,point[0],point[1],bxv,byv,bmass);
-							while(collidesWithArea(e)) {
+							while(collidesWithArea(true,true,e)) {
 								double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 								setX((getX()-point[0])*rat+getX());
 								setY((getY()-point[1])*rat+getY());
@@ -245,11 +245,11 @@ public abstract class Entity {
 				}
 			}
 			
-			if(!ghost && collidesWithArea(board.wallSpace)) {
-				double[] point = Level.areasHitPoint(board.wallSpace,getArea());
+			if(!ghost && collidesWithArea(false,board.wallSpace)) {
+				double[] point = Level.areasHitPoint(board.wallSpace,getArea(false));
 				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
 				triggerShield();
-				while(collidesWithArea(board.wallSpace)) {
+				while(collidesWithArea(false,board.wallSpace)) {
 					double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
 					setX((getX()-point[0])*rat+getX());
 					setY((getY()-point[1])*rat+getY());
@@ -313,7 +313,7 @@ public abstract class Entity {
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
 					if(!e.getGhosted() && !ghost) {
-						return collidesWithBounds(e) && collidesWithArea(e);
+						return collidesWithBounds(true,true,e) && collidesWithArea(true,true,e);
 						/*for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
@@ -326,7 +326,7 @@ public abstract class Entity {
 					}
 				}
 			}
-			if(collidesWithArea(board.wallSpace))return true;
+			if(collidesWithArea(false,board.wallSpace))return true;
 			/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
 				if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){
@@ -343,7 +343,7 @@ public abstract class Entity {
 	//sets positions of all segments relative to location
 	public void orientParts() {
 		bounds = null;
-		bounds = getBounding();
+		bounds = getBounding(true);
 	}
 	public ArrayList<Segment> getParts(){return parts;}
 	
@@ -662,12 +662,12 @@ public abstract class Entity {
 	public boolean isDed() {return ded;}
 	public String getName() {return name;}
 	public Color getColor() {return null;}
-	public Rectangle getBounding() {
+	public Rectangle getBounding(boolean extra) {
 		if(bounds==null) {
 			Rectangle r = new Rectangle();
 			for(Segment s : parts) {
-				if(r.isEmpty())r=s.getBounding();
-				r = r.union(s.getBounding());
+				if(r.isEmpty())r=s.getBounding(extra);
+				r = r.union(s.getBounding(extra));
 			}
 			bounds = r;
 			return bounds;
@@ -676,24 +676,24 @@ public abstract class Entity {
 		}
 		
 	}
-	public Area getArea() {
+	public Area getArea(boolean extra) {
 		Area a = new Area();
 		for(Segment s : parts) {
-			a.add(s.getArea());
+			a.add(s.getArea(extra));
 		}
 		return a;
 	}
-	public boolean collidesWithBounds(Entity other) {
-		return collidesWithBounds(other.getBounding());
+	public boolean collidesWithBounds(boolean extra, boolean oextra, Entity other) {
+		return collidesWithBounds(extra,other.getBounding(oextra));
 	}
-	public boolean collidesWithArea(Entity other) {
-		return collidesWithArea(other.getArea());
+	public boolean collidesWithArea(boolean extra, boolean oextra, Entity other) {
+		return collidesWithArea(extra,other.getArea(oextra));
 	}
-	public boolean collidesWithBounds(Rectangle r) {
-		return getBounding().intersects(r);
+	public boolean collidesWithBounds(boolean extra, Rectangle r) {
+		return getBounding(extra).intersects(r);
 	}
-	public boolean collidesWithArea(Area a) {
-		Area b = getArea();
+	public boolean collidesWithArea(boolean extra, Area a) {
+		Area b = getArea(extra);
 		b.intersect(a);
 		return !b.isEmpty();
 	}

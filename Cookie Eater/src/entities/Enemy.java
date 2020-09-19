@@ -1,7 +1,7 @@
 package entities;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.*;
 import java.util.*;
 
 import ce3.*;
@@ -125,12 +125,17 @@ public abstract class Enemy extends Entity{
 			if(stash.get(0) instanceof CookieStore)r*=2;
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;
-			for(int i=0; i<board.walls.size(); i++) {
+			/*for(int i=0; i<board.walls.size(); i++) {
 				Wall w = board.walls.get(i);
 				if(Level.collidesCircleAndRect((int)(.5+x+addx),(int)(.5+y+addy),stash.get(0).getRadius(),w.getX(),w.getY(),w.getW(),w.getH())) {
 					hit = true;
 				}
-			}
+			}*/
+			double rr = stash.get(0).getRadius();
+			Ellipse2D.Double c = new Ellipse2D.Double((int)(.5+x+addx-rr),(int)(.5+y+addy-rr),(int)(.5+rr*2),(int)(.5+rr*2));
+			Area b = new Area(c);
+			b.intersect(board.wallSpace);
+			hit = !b.isEmpty();
 			if((int)(.5+x+addx)<0||(int)(.5+x+addx)>board.X_RESOL||(int)(.5+y+addy)<0||(int)(.5+y+addy)>board.Y_RESOL)hit=true;
 			if(!hit) {
 				Cookie remove = stash.remove(0);
@@ -163,6 +168,23 @@ public abstract class Enemy extends Entity{
 			g2.setTransform(origt);
 		}
 	}
+	
+	//overriding to not delete spoiled cookies and to not install pickups
+	public void giveCookie(Cookie c) {
+		if(c instanceof CookieItem) {
+			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
+			item_stash.add((CookieItem)c);
+		}else if(c instanceof CookieShield) {
+			shield_stash.add(((CookieShield)c));
+		}else if(c instanceof CookieStat) {
+			stat_stash.add(((CookieStat)c));
+		}else{
+			cash_stash.add(c);
+		}
+		if(c.getValue()>0 || !c.getDecayed())
+			activateSpecials();
+	}
+	
 	public double totalVel() {
 		return Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 	}

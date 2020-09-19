@@ -53,7 +53,7 @@ public class ExplorerSidekick extends Explorer{
 			//bees[i][1] = ys[i];
 			yeehaw = false;
 			//for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
-				if(tester.collidesWithArea(board.wallSpace)
+				if(tester.collidesWithArea(false,board.wallSpace)
 						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
 					//[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
 					//yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
@@ -62,7 +62,7 @@ public class ExplorerSidekick extends Explorer{
 				}
 			//}
 			for(Cookie c:board.cookies) { //if tester hits a cookie, prioritize this direction
-				if(tester.collidesWithBounds(c.getBounds()) && tester.collidesWithArea(c.getArea())){
+				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
 					dos[i] += 1;
 				}
 			}

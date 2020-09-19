@@ -47,25 +47,29 @@ public class SegmentRectangle extends Segment{
 	public double getCenterY() {
 		return yPos;
 	}
-	public double getEdgeX() {
+	/*public double getEdgeX() {
 		return xPos-getWidth()/2;
 	}
 	public double getEdgeY() {
 		return yPos-getLength()/2;
-	}
+	}*/
 	public void setDims(double w, double l) {
 		setSize(w);
 		ratio = l/w;
 	}
 	
-	public Area getArea() {
-		Rectangle2D.Double c = new Rectangle2D.Double(getEdgeX(),getEdgeY(),getWidth(),getLength());
+	public Area getArea(boolean extra) {
+		Rectangle2D.Double c = new Rectangle2D.Double(getCenterX()-(extra?getTotalWidth():getWidth())/2,getCenterY()-(extra?getTotalLength():getLength())/2,getWidth(),getLength());
 		AffineTransform at = AffineTransform.getRotateInstance(angle,xPos,yPos);
 		Shape cc = at.createTransformedShape(c);
 		return new Area(cc);
 	}
-	public Rectangle getBounding() {
-		return getArea().getBounds();
+	public Rectangle getBounding(boolean extra) {
+		//double rad = Math.sqrt(Math.pow(getWidth()/2,2)+Math.pow(getLength()/2,2));
+		Rectangle2D.Double c = new Rectangle2D.Double(getCenterX()-(extra?getTotalWidth():getWidth())/2,getCenterY()-(extra?getTotalLength():getLength())/2,getWidth(),getLength());
+		AffineTransform at = AffineTransform.getRotateInstance(angle,xPos,yPos);
+		Shape cc = at.createTransformedShape(c);
+		return cc.getBounds();
 	}
 	
 	public void paint(Graphics g) {
