@@ -7,7 +7,7 @@ import cookies.*;
 import levels.*;
 import menus.*;
 
-public class ExplorerShopkeep extends Explorer{
+public class ExplorerVendor extends Explorer{
 	
 	private SegmentCircle part;
 	
@@ -18,12 +18,12 @@ public class ExplorerShopkeep extends Explorer{
 	 * Gruntcount: 0...
 	 */
 	
-	public ExplorerShopkeep(Board frame, int cycletime) {
+	public ExplorerVendor(Board frame, int cycletime) {
 		super(frame,cycletime);
 		chooseResidence();
 		radius = 40;
-		min_cat = 4;
-		max_cat = 8;
+		min_cat = 2;
+		max_cat = 3;
 		mass = 400;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0);
 		input_speed = 30;
@@ -31,7 +31,7 @@ public class ExplorerShopkeep extends Explorer{
 		setShields(start_shields);
 		state = VENDOR;
 	}
-	public String getName() {return "Shopkeeper";}
+	public String getName() {return "Vendor";}
 	public void runEnds() {
 		super.runEnds();
 		for(int i=0; i<Math.random()*4-1; i++) {
@@ -39,10 +39,10 @@ public class ExplorerShopkeep extends Explorer{
 		}
 		for(int i=0; i<Math.random()*4-1 || to_sell.size()<min_cat; i++) {
 			double choose = Math.random()*10;
-			if(choose<=5) {
-				addRandomly(new CookieShield(board,0,0,30));
+			if(choose<=1) {
+				addRandomly(new CookieShield(board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+20));
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -79,10 +79,10 @@ public class ExplorerShopkeep extends Explorer{
 		super.createStash();
 		for(int i=0; i<4; i++) {
 			double choose = Math.random()*10;
-			if(choose<=5) {
-				addRandomly(new CookieShield(board,0,0,30));
+			if(choose<=1) {
+				addRandomly(new CookieShield(board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+20));
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -91,39 +91,53 @@ public class ExplorerShopkeep extends Explorer{
 	//chooses Item cookie to add to wares
 	public String findItem() {
 		String ret = "";
-		switch((int)(Math.random()*10)) {
+		switch((int)(Math.random()*15)) {
 		case 0:
-			ret = "Shield";
+			ret = "Boost";
 			break;
 		case 1:
-			ret = "Shield";
+			ret = "Circle";
 			break;
 		case 2:
-			ret = "Ghost";
+			ret = "Summon";
 			break;
 		case 3:
-			ret = "Field";
+			ret = "Summon";
 			break;
 		case 4:
-			ret = "Field";
+			ret = "Rebound";
 			break;
 		case 5:
-			ret = "Slowmo";
+			ret = "Recycle";
 			break;
 		case 6:
-			ret = "Shrink";
+			ret = "Autopilot";
 			break;
 		case 7:
-			ret = "Teleport";
+			ret = "Ricochet";
 			break;
 		case 8:
-			ret = "Return";
+			ret = "Flow";
 			break;
 		case 9:
-			ret = "Hold";
+			ret = "Repeat";
 			break;
+		case 10:
+			ret = "Recharge";
+			break;
+		case 11:
+			ret = "Repeat";
+			break;
+		case 12:
+			ret = "Flow";
+			break;
+		case 13:
+			ret = "Chain";
+			break;
+		case 14:
+			ret = "Chain";
 		default:
-			ret = "Shield";
+			ret = "Summon";
 			break;
 		}
 		return ret;
