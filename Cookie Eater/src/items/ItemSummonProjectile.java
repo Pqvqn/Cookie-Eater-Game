@@ -5,18 +5,18 @@ import java.util.*;
 import ce3.*;
 import entities.*;
 
-public class ItemSummon extends Item{
+public class ItemSummonProjectile extends Item{
 	
 	private Summon2 summon;
 	
-	public ItemSummon(Board frame) {
+	public ItemSummonProjectile(Board frame) {
 		super(frame);
-		name = "Summon";
-		desc="Items affect a separate summoned entity. `Amplify: Summon gains health";
+		name = "Projectile";
+		desc="Items affect a separate summoned entity that is free from the player. `Amplify: Summon gains health";
 	}
 	public void prepare() {
 		//user's items given to summon
-		user.addSummon(summon = new Summon2(board,user,board.getCycle()));
+		user.addSummon(summon = new Summon2(board,user,board.getCycle(),false));
 		summon.eatItems();
 		summon.activateSpecials();
 		summon.special(user.getCurrentSpecial());

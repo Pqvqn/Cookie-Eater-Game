@@ -99,10 +99,10 @@ public class ExplorerVendor extends Explorer{
 			ret = "Circle";
 			break;
 		case 2:
-			ret = "Summon";
+			ret = "Melee";
 			break;
 		case 3:
-			ret = "Summon";
+			ret = "Projectile";
 			break;
 		case 4:
 			ret = "Rebound";
@@ -137,7 +137,7 @@ public class ExplorerVendor extends Explorer{
 		case 14:
 			ret = "Chain";
 		default:
-			ret = "Summon";
+			ret = "Boost";
 			break;
 		}
 		return ret;

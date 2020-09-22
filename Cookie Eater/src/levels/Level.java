@@ -253,8 +253,11 @@ public abstract class Level{
 			case "Recharge":
 				b = new ItemRecharge(board);
 				break;
-			case "Summon":
-				b = new ItemSummon(board);
+			case "Melee":
+				b = new ItemSummonMelee(board);
+				break;
+			case "Projectile":
+				b = new ItemSummonProjectile(board);
 				break;
 			default:
 				b = null;

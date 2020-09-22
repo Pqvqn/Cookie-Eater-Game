@@ -1,6 +1,5 @@
 package items;
 import ce3.*;
-import entities.Eater;
 
 public class ItemShield extends Item{
 

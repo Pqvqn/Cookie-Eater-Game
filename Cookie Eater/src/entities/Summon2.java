@@ -12,18 +12,18 @@ import levels.*;
 public class Summon2 extends Entity{
 	
 	private Entity user;
-	private boolean anchored; //whether item is anchored to the summoner
+	private boolean anchor; //whether item is anchored to the summoner
 	private double homex,homey; //x and y position of edge 
 	private double relx,rely; //x and y relative to user
-	private SegmentRectangle body;
+	private Segment body;
 	private boolean halt; //whether summon should maintain position
 	
-	public Summon2(Board frame, Entity summoner, int cycletime) {
+	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored) {
 		super(frame,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;
 		mass = 100;
-		anchored = true;
+		anchor = anchored;
 		x = user.getX();
 		y = user.getY();
 		homex = user.getX();
@@ -40,23 +40,28 @@ public class Summon2 extends Entity{
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
-		if(anchored) { //if anchored to the user, move with user
+		if(anchor) { //if anchored to the user, move with user
 			//setXVel(user.getXVel());
 			//setYVel(user.getYVel());
 			homex = user.getX();
 			homey = user.getY();
-			orientParts();
+			if(!halt) {
+				relx+=x_velocity;
+				rely+=y_velocity;
+			}
+			x = user.getX()+relx;
+			y = user.getY()+rely;
+			x_velocity = 0;
+			y_velocity = 0;
+		}else {
+			x+=x_velocity;
+			y+=y_velocity;
 		}
-		if(!halt) {
-			relx+=x_velocity;
-			rely+=y_velocity;
-		}
-		x = user.getX()+relx;
-		y = user.getY()+rely;
+
+		orientParts();
 		//x+=x_velocity+user.getXVel();
 		//y+=y_velocity+user.getYVel();
-		x_velocity = 0;
-		y_velocity = 0;
+
 	}
 	
 	public double getAim() {return user.getAim();}
@@ -70,7 +75,7 @@ public class Summon2 extends Entity{
 		}
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i);
-			if(!(it instanceof ItemSummon)) {
+			if(!(it instanceof ItemSummonMelee) && !(it instanceof ItemSummonProjectile)) {
 				addItem(user.getCurrentSpecial(),it);
 				user.getItems().get(user.getCurrentSpecial()).remove(it);
 				it.setUser(this);
@@ -127,51 +132,92 @@ public class Summon2 extends Entity{
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
 	}
 	
-	//overrides normal collision; knocks user back
+	//overrides normal collision; knocks user back if anchored
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		user.setXVel(user.getXVel()+x_velocity);
-		user.setYVel(user.getYVel()+y_velocity);
-		user.collideAt(b,xp,yp,oxv,oyv,om);
-		halt = true;
-		x_velocity = 0;
-		y_velocity = 0;
-		relx = 0;
-		rely = 0;
-		x = homex;
-		y = homey;
-		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(b,xp,yp);
+		if(anchor) {
+			user.setXVel(user.getXVel()+x_velocity);
+			user.setYVel(user.getYVel()+y_velocity);
+			user.collideAt(b,xp,yp,oxv,oyv,om);
+			halt = true;
+			x_velocity = 0;
+			y_velocity = 0;
+			relx = 0;
+			rely = 0;
+			x = homex;
+			y = homey;
+			if(special) {
+				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
+					powerups.get(currSpecial).get(i).bounce(b,xp,yp);
+				}
 			}
+		}else {
+			super.collideAt(b,xp,yp,oxv,oyv,om);
 		}
 	}
 	
 	
-	//code anchor points and whatnot
-	//also all collision stuff
-	public double getX() {return relx;}
-	public double getY() {return rely;}
+	//position based on if anchored to player
+	public double getX() {
+		if(anchor) {
+			return relx;
+		}else {
+			return super.getX();
+		}
+	}
+	public double getY() {
+		if(anchor) {
+			return rely;
+		}else {
+			return super.getY();
+		}
+	}
 	public void setX(double xp) {
-		relx=xp;
-		x=user.getX()+relx;
-		orientParts();}
+		if(anchor) {
+			relx=xp;
+			x=user.getX()+relx;
+		}else {
+			super.setX(xp);
+		}
+		orientParts();
+		}
 	public void setY(double yp) {
-		rely=yp;
-		y=user.getY()+rely;
-		orientParts();}
+		if(anchor) {
+			rely=yp;
+			y=user.getY()+rely;
+		}else {
+			super.setY(yp);
+		}
+		orientParts();
+	}
 	
 	public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}
 	public void setXVel(double a) {x_velocity = a;}
 	public void setYVel(double a) {y_velocity = a;}
-	public double xChange(double xp) {return (xp-user.getX())-relx;}
-	public double yChange(double yp) {return (yp-user.getY())-rely;}
-	
+	public double xChange(double xp) {
+		if(anchor) {
+			return (xp-user.getX())-relx;
+		}else {
+			return super.xChange(xp);
+		}
+	}
+	public double yChange(double yp) {
+		if(anchor) {
+			return (yp-user.getY())-rely;
+		}else {
+			return super.yChange(yp);
+		}
+	}
 	public double getThickness() {
 		return getTotalRadius()*2;
 	}
 	public double getLength() {
-		return Level.lineLength(homex,homey,x,y);
+		if(anchor) {
+			return Level.lineLength(homex,homey,x,y);
+		}else {
+			return getTotalRadius()*2;
+		}
+		
 	}
 	public double getAngle() {
 		return Math.atan2(y-homey,x-homex);
@@ -180,12 +226,25 @@ public class Summon2 extends Entity{
 	public Entity getUser() {return user;}
 	
 	protected void buildBody() {
-		parts.add(body = new SegmentRectangle(board,this,homex,homey,getThickness(),getLength(),getAngle()));
+		//rectangle for anchored, circle for projectile
+		if(anchor) {
+			parts.add(body = new SegmentRectangle(board,this,homex,homey,getThickness(),getLength(),getAngle()));
+		}else {
+			parts.add(body = new SegmentCircle(board,this,homex,homey,getThickness()/2,getAngle()));
+		}
 	}
 	public void orientParts() {
-		body.setLocation((homex+x)/2,(homey+y)/2);
-		body.setAngle(getAngle()+Math.PI/2);
-		body.setDims(getThickness(),getLength());
+		if(anchor) {
+			body.setLocation((homex+x)/2,(homey+y)/2);
+			body.setAngle(getAngle()+Math.PI/2);
+		}else {
+			body.setLocation(x,y);
+		}
+		if(body instanceof SegmentRectangle) {
+			((SegmentRectangle)body).setDims(getThickness(),getLength());
+		}else {
+			body.setSize(radius);
+		}
 		super.orientParts();
 	}
 	
@@ -195,10 +254,17 @@ public class Summon2 extends Entity{
 		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(user.getShielded())g2.setColor(new Color(50,200,210));
 		body.paint(g2);
-		AffineTransform at = g2.getTransform();
-		g2.rotate(body.getAngle()-Math.PI/2,homex,homey);
-		g2.fillRect((int)(.5+homex),(int)(.5+homey-getThickness()/2),(int)(.5+getLength()),(int)(.5+getThickness()));
+		
+		//draw based on type of segment
+		if(body instanceof SegmentRectangle) {
+			AffineTransform at = g2.getTransform();
+			g2.rotate(body.getAngle()-Math.PI/2,homex,homey);
+			g2.fillRect((int)(.5+homex),(int)(.5+homey-getThickness()/2),(int)(.5+getLength()),(int)(.5+getThickness()));
+			g2.setTransform(at);
+		}else if(body instanceof SegmentCircle) {
+			g2.fillOval((int)(.5+x-getRadius()/2),(int)(.5+y-getRadius()/2),(int)(.5+getRadius()),(int)(.5+getRadius()));
+		}
 
-		g2.setTransform(at);
+
 	}
 }
