@@ -6,10 +6,15 @@ import java.util.ArrayList;
 import ce3.*;
 import cookies.*;
 import levels.*;
+import menus.Conversation;
 
 public class ExplorerSidekick extends Explorer{
 	
 	private SegmentCircle part;
+	/*STATES:
+	 * Name: None, Bart, Boy, etc.
+	 * Relationship: Stranger, Helper, Dislike, Partners
+	 */
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
 		super(frame,cycletime);
@@ -28,16 +33,31 @@ public class ExplorerSidekick extends Explorer{
 	public void runEnds() {
 		super.runEnds();
 		state = VENTURE;
-		if(Math.random()>1) { //.2
+		/*if(Math.random()>1) { //.2
 			for(int i=0; i<Math.random()*2+1; i++) {
 				residence = residence.getNext();
 			}
 		}else {
 			kill();
-		}
+		}*/
+		chooseResidence();
 	}
 	public void runUpdate() {
 		super.runUpdate();
+		if(state == STOP && stateIs("Relationship","Partners")) {
+			state = STAND;
+		}
+		if(state != VENTURE) {
+			if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+				speak(convo);
+				speaking++;
+			}
+			if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player.getX(), board.player.getY(), x, y)>=150) {
+				speak(null);
+				speaking = 0;
+			}
+			if(convo!=null)convo.test();
+		}
 	}
 	public void chooseDir() {
 		tester.setSize(radius*2);
@@ -61,7 +81,8 @@ public class ExplorerSidekick extends Explorer{
 					yeehaw = true;
 				}
 			//}
-			for(Cookie c:board.cookies) { //if tester hits a cookie, prioritize this direction
+			for(int j=0; j<board.cookies.size(); j++) { //if tester hits a cookie, prioritize this direction
+				Cookie c = board.cookies.get(j);
 				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
 					dos[i] += 1;
 				}
@@ -98,10 +119,18 @@ public class ExplorerSidekick extends Explorer{
 		return 0;
 	}
 	public void chooseResidence() {
-		residence = findFloor("Descending Labyrinths",false,0,2);
+		residence = findFloor("Descending Labyrinths",true,0,2);
 		//residence = findFloor("Forest Entrance",false,0,0);
 	}
-
+	public void setConvo() {
+		convo = new Conversation(board,this,"Recruit1","greet");
+		convo.setDisplayed(false);
+	}
+	public void setUpStates(){
+		super.setUpStates();
+		setState("Relationship","Stranger");
+		setState("Name","None");
+	}
 	public void createStash() {
 		super.createStash();
 		giveCookie(new CookieItem(board,0,0,Level.generateItem(board,"Ghost"),0));

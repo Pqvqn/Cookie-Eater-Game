@@ -1,0 +1,9 @@
+>greet
+:%Relationship;Dislike%... | %Name;None%Hello there. | Hello there, #Name#. [Hello] [Wanna join me?]
+::You new around here? [Yes] [And why do you want to know?]
+:::Ah, I better show you around some time. {Relationship;Helper}
+:::Gee, it was just a question. {Relationship;Dislike}
+::{Relationship;Partners} %Name;None% Sure, that sounds great! If I may ask, what's your name? | Sure!  [%Name;None%Bart] [%Name;None%Boy] [%Name;None%I won't say]
+:::Noted! {Name;Bart}
+:::Noted! {Name;Boy}
+:::Noted! {Name;None}

@@ -16,7 +16,7 @@ public class Explorer extends Entity{
 
 	protected Level residence; //which room this explorer is on
 	protected int state;
-	public static final int VENDOR = 0, VENTURE = 1, STAND = 2;
+	public static final int VENDOR = 0, VENTURE = 1, STAND = 2, STOP = 3;
 	protected int[][] shop_spots;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
@@ -94,6 +94,10 @@ public class Explorer extends Entity{
 				x = shop_spots[0][0];
 				y = shop_spots[0][1];
 			}
+			lock = true;
+		}else if(state == STOP) { //if staying in shop
+			x_velocity = 0; //reset speeds
+			y_velocity = 0;
 			lock = true;
 		}else if(state == STAND){
 			//traverse to cookie on board to purchase it
@@ -252,7 +256,7 @@ public class Explorer extends Entity{
 		shop_spots = b;
 		setX(position[0]); //put explorer in place
 		setY(position[1]);
-		state = STAND;
+		state = STOP;
 	}
 	//removes items from display and re-stashes them
 	public void packUp() {
@@ -438,7 +442,10 @@ public class Explorer extends Entity{
 		 convo = null;
 	}
 	public void levelComplete() {
-		residence = board.currFloor.getNext();
+		if(state == VENTURE || state == STAND) { //move on if in correct state
+			residence = board.currFloor.getNext();
+			state = VENTURE;
+		}
 	}
 	public int getState() {return state;}
 	//sets words in text box at bottom of screen - null for removing box

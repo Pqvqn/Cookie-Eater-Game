@@ -175,9 +175,7 @@ public class Board extends JFrame{
 	//advances level
 	public void nextLevel() {
 		for(int i=0; i<present_npcs.size(); i++) {
-			if(present_npcs.get(i).getState()==Explorer.VENTURE) {
-				present_npcs.get(i).levelComplete();
-			}
+			present_npcs.get(i).levelComplete();
 		}
 		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {

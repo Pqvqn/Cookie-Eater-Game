@@ -149,7 +149,7 @@ public abstract class Store extends Level{
 				
 			}else if(e.getState()==Explorer.VENDOR) {
 				e.sellWares(vendorSpaces[vendors++]);
-			}else if(e.getState()==Explorer.VENTURE) {
+			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND) {
 				e.standBy(passerbySpaces[passerbys++]);
 			}
 		}
