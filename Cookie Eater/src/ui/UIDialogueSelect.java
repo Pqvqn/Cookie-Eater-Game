@@ -40,7 +40,7 @@ public class UIDialogueSelect extends UIElement{
 			parts.remove(chosenHighlight);
 		}*/
 		
-		if(hovered>=0) {
+		if(hovered>=0 && !responses.isEmpty()) {
 			if(!parts.contains(hoverHighlight))parts.add(hoverHighlight);
 			hoverHighlight.setxPos(responses.get(hovered).getxPos());
 			hoverHighlight.setyPos(responses.get(hovered).getyPos());

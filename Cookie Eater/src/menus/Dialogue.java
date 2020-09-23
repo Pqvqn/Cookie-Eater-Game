@@ -56,22 +56,30 @@ public class Dialogue {
 			String opt = fulltext.substring(fulltext.indexOf(front)+1);
 			opt = opt.substring(0,opt.indexOf(back));
 			
-			//count how many duplicates exist
+			/*//count how many duplicates exist
 			int reps = 0;
 			String t = fulltext;
 			String r = front+opt+back;
 			while(t.contains(r)) {
 				t = t.substring(t.indexOf(r)+r.length());
 				reps++;
-			}
-		
-			//remove all of sequence
-			fulltext = fulltext.replace(front+opt+back,marker);
+			}*/
 			
-			//add to list according to number of duplicates
+
+			//remove first occurence of sequence
+			String fullopt = front+opt+back;
+			String first = fulltext.substring(0,fulltext.indexOf(fullopt));
+			int v = 1+fulltext.indexOf(fullopt)+fullopt.length();
+			String last = fulltext.substring(v-1);
+
+			fulltext =  first + marker + last;
+			
+			/*//add to list according to number of duplicates
 			for(int i=0; i<reps; i++) {
 				extracts.add(opt);
-			}
+			}*/
+			
+			extracts.add(opt);
 
 		}
 		return fulltext;
@@ -86,6 +94,7 @@ public class Dialogue {
 			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
 		}
 		
+		//$$ -> payments
 		ArrayList<String> payments = new ArrayList<String>();
 		text = extractFromText(text,"$","$","",payments);
 		for(int i=0; i<payments.size(); i++) {
@@ -120,7 +129,7 @@ public class Dialogue {
 				}
 			}
 			if(!passes) {
-				optionText.remove(i);
+				optionText.set(i,"~" + optionText.get(i));
 				i--;
 			}
 		}
@@ -223,11 +232,18 @@ public class Dialogue {
 		reader.reset();
 	}
 	public void display(boolean b) { //run when displayed
-	  if(b) {
-		  if((chooser==null || !chooser.inAction()) && !optionText.isEmpty())chooser = new Selection(board,getOptions(),0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_ENTER);
-	  }else {
-		  if(chooser!=null)chooser.close();
-	  }
+		if(b) {
+			ArrayList<String> opts = new ArrayList<String>();
+		  	ArrayList<String> orig = getOptions();
+			for(int i=0; i<orig.size(); i++) {
+				if(!orig.get(i).substring(0,1).equals("~")) {
+					opts.add(orig.get(i));
+				}
+			}
+		  if((chooser==null || !chooser.inAction()) && !optionText.isEmpty())chooser = new Selection(board,opts,0,-1,KeyEvent.VK_SPACE, KeyEvent.VK_ENTER);
+		}else {
+			if(chooser!=null)chooser.close();
+		}
 	}
 	
 }

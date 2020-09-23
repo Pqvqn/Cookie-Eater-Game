@@ -14,6 +14,9 @@ public class ExplorerSidekick extends Explorer{
 	/*STATES:
 	 * Name: None, Bart, Boy, etc.
 	 * Relationship: Stranger, Helper, Dislike, Partners
+	 * Pay: None, Split, Keep, Ready, Jest
+	 * MyCash: *double*
+	 * PlayerCash: *double*
 	 */
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
@@ -25,7 +28,7 @@ public class ExplorerSidekick extends Explorer{
 		mass = 200;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0);
 		input_speed = 30;
-		start_shields = 10;
+		start_shields = 50;
 		setShields(start_shields);
 		state = VENTURE;
 	}
@@ -33,6 +36,9 @@ public class ExplorerSidekick extends Explorer{
 	public void runEnds() {
 		super.runEnds();
 		state = VENTURE;
+		setState("Pay","None");
+		setState("MyCash","0");
+		setState("PlayerCash","0");
 		/*if(Math.random()>1) { //.2
 			for(int i=0; i<Math.random()*2+1; i++) {
 				residence = residence.getNext();
@@ -48,6 +54,11 @@ public class ExplorerSidekick extends Explorer{
 			state = STAND;
 		}
 		if(state != VENTURE) {
+			if(stateIs("Pay","Split") && (Double.parseDouble(getState("MyCash"))>0 || Double.parseDouble(getState("PlayerCash"))>0)) { //if splitting money; ready self for swap and calculate how much must be swapped
+				setState("Pay","Ready");
+				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash"))/2));
+				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash"))/2));
+			}
 			if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
 				speak(convo);
 				speaking++;
@@ -57,6 +68,10 @@ public class ExplorerSidekick extends Explorer{
 				speaking = 0;
 			}
 			if(convo!=null)convo.test();
+			if(stateIs("Pay","Split") && (Double.parseDouble(getState("MyCash"))==0 && Double.parseDouble(getState("PlayerCash"))==0)) {
+				setState("MyCash",""+getCash());
+				setState("PlayerCash",""+board.player.cash);
+			}
 		}
 	}
 	public void chooseDir() {
@@ -130,6 +145,9 @@ public class ExplorerSidekick extends Explorer{
 		super.setUpStates();
 		setState("Relationship","Stranger");
 		setState("Name","None");
+		setState("Pay","None");
+		setState("PlayerCash","0");
+		setState("MyCash","0");
 	}
 	public void createStash() {
 		super.createStash();
