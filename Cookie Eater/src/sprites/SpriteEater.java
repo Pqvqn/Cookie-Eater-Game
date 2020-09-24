@@ -31,12 +31,14 @@ public class SpriteEater extends Sprite{
 			new File("Cookie Eater/src/resources/explorers/eaterFaceSpecial.png")};
 	private File[] helmets = {new File("Cookie Eater/src/resources/explorers/eaterHelmNeutral.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterHelmUp.png"),
+			new File("Cookie Eater/src/resources/explorers/eaterHelmRight.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterHelmDown.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterHelmLeft.png"),
-			new File("Cookie Eater/src/resources/explorers/eaterHelmRight.png")};
+			new File("Cookie Eater/src/resources/explorers/eaterHelmLeft.png")};
+
 	private File bases;
 	private int expression;
-	private final int NEUTRAL=0, UP=1, DOWN=2, LEFT=3, RIGHT=4;
+	private final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
+	private BufferedImage[][] imgset;
 	
 	public SpriteEater(Board frame, Eater e) throws IOException {
 		super(frame);
@@ -51,43 +53,53 @@ public class SpriteEater extends Sprite{
 		imgs.add(base);
 		imgs.add(face);
 		imgs.add(helmet);
+		
+		imgset = new BufferedImage[expressions.length][5];
+		
+		//render all possible images and store them
+		for(int ie=0; ie<expressions.length; ie++) {
+			for(int id=-1; id<4; id++) {
+				BufferedImage imgcombo = new BufferedImage(fullw,fullh,BufferedImage.TYPE_INT_ARGB); //the image composited onto
+				facex = fullw/2; 
+				facey = fullh/2;
+				switch(id) {
+				case Explorer.UP:
+					facey /= 2;
+					helmet = ImageIO.read(helmets[UP]);
+					break;
+				case Explorer.DOWN:
+					facey *= 1.5;
+					helmet = ImageIO.read(helmets[DOWN]);
+					break;
+				case Explorer.RIGHT:
+					facex *= 1.5;
+					helmet = ImageIO.read(helmets[RIGHT]);
+					break;
+				case Explorer.LEFT:
+					facex /= 2;
+					helmet = ImageIO.read(helmets[LEFT]);
+					break;
+				case Explorer.NONE:
+					helmet = ImageIO.read(helmets[NEUTRAL]);
+					break;
+				}
+				base = ImageIO.read(bases);
+				face = ImageIO.read(expressions[ie]);
+				Graphics compiled =  imgcombo.getGraphics();
+				compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);
+				compiled.drawImage(base,(fullw-base.getWidth(null))/2,(fullh-base.getHeight(null))/2,null);
+				compiled.drawImage(helmet,(fullw-helmet.getWidth(null))/2,(fullh-helmet.getHeight(null))/2,null);
+				imgset[ie][id+1] = imgcombo;
+				
+			}
+		}
 	}
 	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {
-		fin = new BufferedImage(fullw,fullh,BufferedImage.TYPE_INT_ARGB); //the image composited onto
 		//scale = board.currFloor.getScale();
 		scale = (double)user.getRadius()/Eater.DEFAULT_RADIUS;
 		x = (int)(.5+user.getX());
 		y = (int)(.5+user.getY());
-		
-		facex = fullw/2; 
-		facey = fullh/2;
-		switch(user.getDir()) {
-		case Eater.UP:
-			//facey-=user.getRadius()/2;
-			facey /= 2;
-			helmet = ImageIO.read(helmets[UP]);
-			break;
-		case Eater.DOWN:
-			//facey+=user.getRadius()/2;
-			facey *= 1.5;
-			helmet = ImageIO.read(helmets[DOWN]);
-			break;
-		case Eater.RIGHT:
-			//facex+=user.getRadius()/2;
-			facex *= 1.5;
-			helmet = ImageIO.read(helmets[RIGHT]);
-			break;
-		case Eater.LEFT:
-			//facex-=user.getRadius()/2;
-			facex /= 2;
-			helmet = ImageIO.read(helmets[LEFT]);
-			break;
-		case Eater.NONE:
-			helmet = ImageIO.read(helmets[NEUTRAL]);
-			break;
-		}
-			
 		
 		expression = NORM;
 		
@@ -107,14 +119,7 @@ public class SpriteEater extends Sprite{
 			expression = DIE;
 			break;
 		}
-		
-		
-		base = ImageIO.read(bases);
-		face = ImageIO.read(expressions[expression]);
-		Graphics compiled =  fin.getGraphics();
-		compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);
-		compiled.drawImage(base,(fullw-base.getWidth(null))/2,(fullh-base.getHeight(null))/2,null);
-		compiled.drawImage(helmet,(fullw-helmet.getWidth(null))/2,(fullh-helmet.getHeight(null))/2,null);
+		fin = imgset[expression][user.getDir()+1]; //choose correct pre-rendered image
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
