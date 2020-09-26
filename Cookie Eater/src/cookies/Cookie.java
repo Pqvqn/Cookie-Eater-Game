@@ -106,8 +106,9 @@ public class Cookie {
 				}
 			}
 			if(consumer instanceof Explosion) {
-				if(((Explosion)consumer).getInitiator()!=null) {
-					kill(((Explosion)consumer).getInitiator());
+				Entity initiator = ((Explosion)consumer).getInitiator();
+				if(initiator!=null && !initiator.isDed()) {
+					kill(initiator);
 					return;
 				}else {
 					Eater player = board.player;

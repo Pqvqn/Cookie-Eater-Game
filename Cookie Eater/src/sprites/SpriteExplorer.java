@@ -21,8 +21,8 @@ public class SpriteExplorer extends Sprite{
 	private double scale;
 	private BufferedImage fin;
 	private int fullw, fullh; //pixel size of image
-	private final int NORM=0; //EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
-	private final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
+	public static final int NORM=0; //EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
+	public static final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
 	private File[] expressions;
 	private File[] helmets;
 	private File bases;
@@ -129,6 +129,9 @@ public class SpriteExplorer extends Sprite{
 		*/
 		fin = imgset[expression][user.getDir()+1]; //choose correct pre-rendered image
 		
+	}
+	public Image getCompiled(int exp, int dir) {
+		return imgset[exp][dir];
 	}
 	public void paint(Graphics g) {
 		super.paint(g);

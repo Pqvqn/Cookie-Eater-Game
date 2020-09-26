@@ -1,15 +1,12 @@
 package ui;
 
 import java.awt.*;
-import java.io.*;
-import java.io.IOException;
 import java.util.*;
-
-import javax.imageio.*;
 
 import ce3.*;
 import entities.*;
 import menus.*;
+import sprites.*;
 
 public class UIDialogue extends UIElement{
 
@@ -34,7 +31,7 @@ public class UIDialogue extends UIElement{
 		yPos=board.Y_RESOL-100;
 		
 		parts.add(new UIOval(board,xPos-730,yPos,(int)(.5+speaker.getRadius()/board.currFloor.getScale()*ratio),(int)(.5+speaker.getRadius()/board.currFloor.getScale()*ratio),speaker.getColor(),true)); //base
-		try {
+		/*try {
 			String speakerName = "eater";
 			spriteImg = ImageIO.read(new File("Cookie Eater/src/resources/explorers/"+speakerName+"Base.png"));
 			Graphics g = spriteImg.getGraphics();
@@ -45,7 +42,13 @@ public class UIDialogue extends UIElement{
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}*/
+		
+		//display speaker by taking right-facing-neutral-expression from its sprite
+		if(speaker instanceof Explorer) {
+			spriteImg = ((Explorer)speaker).getSprite().getCompiled(SpriteExplorer.NORM,SpriteExplorer.RIGHT);
 		}
+
 		parts.add(new UIImage(board,(int)(.5+xPos-730-((ratio/10.0)*(spriteImg.getWidth(null)/2.0))),(int)(.5+yPos-((ratio/10.0)*(spriteImg.getHeight(null)/2.0))),ratio/10.0,spriteImg)); //sprite
 		
 		parts.add(new UIRectangle(board,xPos-500,yPos-100,1000,100,new Color(0,0,0,150),true)); //backing

@@ -279,15 +279,15 @@ public abstract class Entity {
 	}*/
 	//sets off player shield
 	public void triggerShield() {
-		shielded=true;
-		if(shield_frames==0 && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
+		if(!shielded && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
+			shielded=true;
+			shield_frames++;
 			if(shield_stash.size()<=0) {
 				kill(); //kill if out of shields
 				return;
 			}else {
 				removeShields(1); //use shield if can
 			}
-			shield_frames++;
 		}
 		scale = board.currFloor.getScale();
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){

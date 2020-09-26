@@ -1,5 +1,5 @@
 >greet
-:%Relationship;Dislike%... | %Name;None%Hello there. | Hello there, #Name#. [Hello] [Wanna join me?] 
+:%Relationship;Friends% %Name;None%Hello again! | %Relationship;Friends%Hello again, #Name#! | %Relationship;Dislike%... | %Name;None%Hello there. | Hello there, #Name#. [Hello] [Wanna join me?] 
 ::%Pay;Ready%You want the money? | You new around here? [%Pay;None%Yes][%Pay;None%And why do you want to know?][%Pay;Ready%Yes]
 :::Ah, I better show you around some time. {Relationship;Helper}
 :::Gee, it was just a question. {Relationship;Dislike}

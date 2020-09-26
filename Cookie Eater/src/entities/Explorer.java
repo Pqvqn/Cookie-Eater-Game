@@ -446,6 +446,13 @@ public class Explorer extends Entity{
 			residence = board.currFloor.getNext();
 			state = VENTURE;
 		}
+		//reset special
+		if(special) {
+			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
+				powerups.get(currSpecial).get(i).end(true);
+		}
+		special = false;
+		currSpecial = -1;
 	}
 	public int getState() {return state;}
 	//sets words in text box at bottom of screen - null for removing box
@@ -456,6 +463,7 @@ public class Explorer extends Entity{
 		if(conversation!=null)conversation.test();
 	}
 	public Color getColor() {return coloration;}
+	public SpriteExplorer getSprite() {return sprite;}
 	public void paint(Graphics g) {
 		
 		for(int i=0; i<parts.size(); i++) {

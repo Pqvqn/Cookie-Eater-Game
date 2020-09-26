@@ -13,7 +13,7 @@ public class ExplorerSidekick extends Explorer{
 	private SegmentCircle part;
 	/*STATES:
 	 * Name: None, Bart, Boy, etc.
-	 * Relationship: Stranger, Helper, Dislike, Partners
+	 * Relationship: Stranger, Helper, Dislike, Partners, Friend
 	 * Pay: None, Split, Keep, Ready, Jest
 	 * MyCash: *double*
 	 * PlayerCash: *double*
@@ -39,6 +39,11 @@ public class ExplorerSidekick extends Explorer{
 		setState("Pay","None");
 		setState("MyCash","0");
 		setState("PlayerCash","0");
+		//if partners, become friends on run end
+		if(stateIs("Relationship","Partners")) {
+			setState("Relationship","Friends");
+		}
+
 		/*if(Math.random()>1) { //.2
 			for(int i=0; i<Math.random()*2+1; i++) {
 				residence = residence.getNext();
@@ -51,11 +56,6 @@ public class ExplorerSidekick extends Explorer{
 	public void runUpdate() {
 		super.runUpdate();
 		if(state != VENTURE) {
-			if(stateIs("Pay","Split") && state == STOP) { //if splitting money; ready self for swap and calculate how much must be swapped
-				setState("Pay","Ready");
-				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
-				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
-			}
 			if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
 				speak(convo);
 				speaking++;
@@ -74,6 +74,21 @@ public class ExplorerSidekick extends Explorer{
 			}
 		}
 	}
+	
+	public void levelComplete() {
+		super.levelComplete();
+		//if partnering and reach store, stop venturing
+		if(residence instanceof Store && stateIs("Relationship","Partners")) {
+			if(stateIs("Pay","Split")) { //if splitting, ready self for split and calculate how much
+				setState("Pay","Ready");
+				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
+				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
+			}
+			setState("Relationship","Friends");
+			state = STOP;
+		}
+	}
+	
 	public void chooseDir() {
 		tester.setSize(radius*2);
 		double[] xs = new double[4];
