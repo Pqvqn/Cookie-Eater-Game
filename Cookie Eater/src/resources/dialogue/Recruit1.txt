@@ -4,7 +4,7 @@
 :::Ah, I better show you around some time. {Relationship;Helper}
 :::Gee, it was just a question. {Relationship;Dislike}
 :::>payment
-::{Relationship;Partners} %Name;None% Sure, that sounds great! If I may ask, what's your name? | Sure!  [%Name;None%Bart] [%Name;None%Boy] [%Name;None%I won't say]
+::%Name;None% Sure, that sounds great! If I may ask, what's your name? | Sure!  [%Name;None%Bart] [%Name;None%Boy] [%Name;None%I won't say]
 :::Noted! {Name;Bart} [We good?]
 ::::>cash
 :::Noted! {Name;Boy} [We good?]
@@ -15,8 +15,8 @@
 
 >cash
 :How do you want to split the cookies? [50-50] [Finder's Keepers] [%Pay;None%Give it all to me.]
-::Cool, let's go. {Pay;Split}
-::Cool, let's go. {Pay;Keep}
+::Cool, let's go. {Pay;Split}{Relationship;Partners} 
+::Cool, let's go. {Pay;Keep}{Relationship;Partners} 
 ::No, seriously. [Ok ok I'll say] {Pay;Jest}
 :::>cash
 

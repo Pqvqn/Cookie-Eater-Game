@@ -50,14 +50,11 @@ public class ExplorerSidekick extends Explorer{
 	}
 	public void runUpdate() {
 		super.runUpdate();
-		if(state == STOP && stateIs("Relationship","Partners")) {
-			state = STAND;
-		}
 		if(state != VENTURE) {
-			if(stateIs("Pay","Split") && (Double.parseDouble(getState("MyCash"))>0 || Double.parseDouble(getState("PlayerCash"))>0)) { //if splitting money; ready self for swap and calculate how much must be swapped
+			if(stateIs("Pay","Split") && state == STOP) { //if splitting money; ready self for swap and calculate how much must be swapped
 				setState("Pay","Ready");
-				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash"))/2));
-				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash"))/2));
+				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
+				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
 			}
 			if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
 				speak(convo);
@@ -68,7 +65,10 @@ public class ExplorerSidekick extends Explorer{
 				speaking = 0;
 			}
 			if(convo!=null)convo.test();
-			if(stateIs("Pay","Split") && (Double.parseDouble(getState("MyCash"))==0 && Double.parseDouble(getState("PlayerCash"))==0)) {
+		}
+		if(state == STOP && stateIs("Relationship","Partners")) { //if partners
+			state = STAND; //ready self to venture
+			if(stateIs("Pay","Split")){ //if splitting, track baseline cash
 				setState("MyCash",""+getCash());
 				setState("PlayerCash",""+board.player.cash);
 			}
@@ -164,6 +164,7 @@ public class ExplorerSidekick extends Explorer{
 		super.orientParts();
 	}
 	public Cookie choosePurchase(ArrayList<Cookie> options) {
+		if(stateIs("Pay","Ready") || (Double.parseDouble(getState("MyCash"))>0))return null;
 		int highestweight = 4;
 		int highestindex = -1;
 		for(int i=0; i<options.size(); i++) {
