@@ -154,6 +154,9 @@ public abstract class Entity {
 	public void endCycle() {
 		bumped = new ArrayList<Object>();
 		bounds = null;
+		for(int i=0; i<summons.size(); i++) {
+			summons.get(i).endCycle();
+		}
 	}
 	//tests all collisions
 	public void testCollisions() {

@@ -18,7 +18,7 @@ public class Summon2 extends Entity{
 	private Segment body;
 	private boolean halt; //whether summon should maintain position
 	
-	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored) {
+	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored, int shields) {
 		super(frame,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;
@@ -28,6 +28,7 @@ public class Summon2 extends Entity{
 		y = user.getY();
 		homex = user.getX();
 		homey = user.getY();
+		setShields(shields);
 		double rat = .001/(Level.lineLength(0,0,user.getXVel(),user.getYVel())); //set vels to user's, but miniscule
 		x_velocity = user.getXVel()*rat;
 		y_velocity = user.getYVel()*rat;
@@ -98,7 +99,10 @@ public class Summon2 extends Entity{
 		ArrayList<Cookie> stash = getStash();
 		for(int i=0; i<stash.size(); i++) {
 			Cookie c = stash.get(i);
-			user.giveCookie(c);
+			//don't give stat and shield cookies
+			if(!(c instanceof CookieShield) && !(c instanceof CookieStat)) {
+				user.giveCookie(c);
+			}
 		}
 	}
 	
@@ -138,9 +142,9 @@ public class Summon2 extends Entity{
 			user.setXVel(user.getXVel()+x_velocity);
 			user.setYVel(user.getYVel()+y_velocity);
 			user.collideAt(b,xp,yp,oxv,oyv,om);
-			halt = true;
-			x_velocity = 0;
-			y_velocity = 0;
+			//halt = true;
+			//x_velocity = 0;
+			//y_velocity = 0;
 			relx = 0;
 			rely = 0;
 			x = homex;
@@ -151,6 +155,7 @@ public class Summon2 extends Entity{
 				}
 			}
 		}else {
+			if(b!=null&&bumped.contains(b)&&b instanceof Area)return; //if already hit, don't hit again
 			super.collideAt(b,xp,yp,oxv,oyv,om);
 		}
 	}
@@ -234,6 +239,7 @@ public class Summon2 extends Entity{
 		}
 	}
 	public void orientParts() {
+		if(ded)return;
 		if(anchor) {
 			body.setLocation((homex+x)/2,(homey+y)/2);
 			body.setAngle(getAngle()+Math.PI/2);
@@ -248,11 +254,20 @@ public class Summon2 extends Entity{
 		super.orientParts();
 	}
 	
+	//die
+	public void kill() {
+		super.kill();
+		ded = true;
+		parts = new ArrayList<Segment>();
+		body = null;
+	}
+	
 	public void paint(Graphics2D g2) {
+		if(ded)return;
 		g2.setColor(Color.WHITE);
 		
-		if(user.getGhosted())g2.setColor(new Color(255,255,255,100));
-		if(user.getShielded())g2.setColor(new Color(50,200,210));
+		if(getGhosted())g2.setColor(new Color(255,255,255,100));
+		if(getShielded())g2.setColor(new Color(50,200,210));
 		body.paint(g2);
 		
 		//draw based on type of segment
@@ -262,7 +277,7 @@ public class Summon2 extends Entity{
 			g2.fillRect((int)(.5+homex),(int)(.5+homey-getThickness()/2),(int)(.5+getLength()),(int)(.5+getThickness()));
 			g2.setTransform(at);
 		}else if(body instanceof SegmentCircle) {
-			g2.fillOval((int)(.5+x-getRadius()/2),(int)(.5+y-getRadius()/2),(int)(.5+getRadius()),(int)(.5+getRadius()));
+			g2.fillOval((int)(.5+x-getTotalRadius()/2),(int)(.5+y-getTotalRadius()/2),(int)(.5+getTotalRadius()),(int)(.5+getTotalRadius()));
 		}
 
 
