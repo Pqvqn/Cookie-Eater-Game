@@ -1,16 +1,20 @@
+>begin
+:%Relationship;Friends% %Name;None%Hello again! | %Relationship;Friends%Hello again, #Name#! | %Relationship;Dislike%... | %Name;None%Hello there. | Hello there, #Name#. [Hello]
+::>greet
+
 >greet
-:%Relationship;Friends% %Name;None%Hello again! | %Relationship;Friends%Hello again, #Name#! | %Relationship;Dislike%... | %Name;None%Hello there. | Hello there, #Name#. [Hello] [Wanna join me?] 
-::%Pay;Ready%You want the money? | You new around here? [%Pay;None%Yes][%Pay;None%And why do you want to know?][%Pay;Ready%Yes]
+:%Pay;Ready%You want the money? | How's it going? [%Pay;None%Pretty ok] [%Pay;None%Wanna join me?] [%Pay;Ready%Yes]
+::You new around here? [%Pay;None%Yes][%Pay;None%And why do you want to know?]
 :::Ah, I better show you around some time. {Relationship;Helper}
 :::Gee, it was just a question. {Relationship;Dislike}
-:::>payment
-::%Name;None% Sure, that sounds great! If I may ask, what's your name? | Sure!  [%Name;None%Bart] [%Name;None%Boy] [%Name;None%I won't say]
+::%Name;None% Sure, that sounds great! If I may ask, what's your name? | Sure!  [%Name;None%Bart] [%Name;None%Boy] [%Name;None%I won't say] [%Relationship;Friends%We good?]
 :::Noted! {Name;Bart} [We good?]
 ::::>cash
 :::Noted! {Name;Boy} [We good?]
 ::::>cash
 :::Noted! {Name;None} [We good?]
 ::::>cash
+:::>cash
 ::>payment
 
 >cash
@@ -21,4 +25,6 @@
 :::>cash
 
 >payment
-:Alright then. I give #MyCash# and you give #PlayerCash#. $Give;#MyCash#$ $Take;#PlayerCash#$ {MyCash;0} {PlayerCash;0} {Pay;None}
+:Alright then. I give #MyCash# and you give #PlayerCash#. $Give;#MyCash#$ $Take;#PlayerCash#$ {MyCash;0} {PlayerCash;0} {Pay;None} [Wanna continue together?] [Adios]
+::>cash
+::Adios.

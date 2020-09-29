@@ -153,7 +153,7 @@ public class ExplorerSidekick extends Explorer{
 		//residence = findFloor("Forest Entrance",false,0,0);
 	}
 	public void setConvo() {
-		convo = new Conversation(board,this,"Recruit1","greet");
+		convo = new Conversation(board,this,"Recruit1","begin");
 		convo.setDisplayed(false);
 	}
 	public void setUpStates(){

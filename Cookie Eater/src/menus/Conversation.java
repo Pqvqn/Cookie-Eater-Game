@@ -39,15 +39,21 @@ public class Conversation {
 	}
 	
 	public Dialogue nextLine(int option) { //gives next line, branching from the current line depending on option chosen
-		currentLine().display(false);
-		option = currentLine().getOptions().indexOf(getOptions().get(option)); //this line of code is legit holy
-		path.add(currentLine().getNext(option)); //go to next line
 		
-		currentLine().lineFunctionality();
+		Dialogue current = currentLine();
+		if(getOptions().isEmpty() || current.getOptions().isEmpty())return null;
 		
-		currentLine().display(true);
+		current.display(false);
+		option = current.getOptions().indexOf(getOptions().get(option)); //this line of code is legit holy
+		path.add(current.getNext(option)); //go to next line
+		
+		//do line functionality for new line
+		current = currentLine();
+		current.lineFunctionality();
+		
+		current.display(true);
 		speaker.speak(this); //speak line
-		return currentLine();
+		return current;
 	}/*
 	public void lineFunctionality() { //operates on line for any functionality before display
 		if(currentLine().getJump()!=null)skipTo(currentLine().getJump()); //if meant to jump lines, jump
