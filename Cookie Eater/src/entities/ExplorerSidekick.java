@@ -17,6 +17,9 @@ public class ExplorerSidekick extends Explorer{
 	 * Pay: None, Split, Keep, Ready, Jest
 	 * MyCash: *double*
 	 * PlayerCash: *double*
+	 * ToSell: *CookieItem*
+	 * AskPrice: *double*
+	 * Selling: Not, Is
 	 */
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
@@ -39,6 +42,9 @@ public class ExplorerSidekick extends Explorer{
 		setState("Pay","None");
 		setState("MyCash","0");
 		setState("PlayerCash","0");
+		setState("ToSell","");
+		setState("AskPrice","0");
+		setState("Selling","Not");
 		//if partners, become friends on run end
 		if(stateIs("Relationship","Partners")) {
 			setState("Relationship","Friends");
@@ -73,19 +79,44 @@ public class ExplorerSidekick extends Explorer{
 				setState("PlayerCash",""+board.player.cash);
 			}
 		}
+		//if confirmed item sale, conduct it
+		if(stateIs("Selling","Is")) {
+			setState("Selling","Not");
+			//get cookie to sell
+			for(int i=0; i<item_stash.size(); i++) {
+				CookieItem c = item_stash.get(i);
+				if(c.getItem().getName().equals(getState("ToSell"))){
+					c.setVendor(this);
+					c.setPrice(Double.parseDouble(getState("AskPrice")));
+					c.purchase(board.player);
+					board.player.giveCookie(c);
+					removeItem(0,c.getItem()); //this could be problematic
+					i=item_stash.size();
+				}
+			}
+		}
 	}
 	
 	public void levelComplete() {
 		super.levelComplete();
-		//if partnering and reach store, stop venturing
-		if(residence instanceof Store && stateIs("Relationship","Partners")) {
-			if(stateIs("Pay","Split")) { //if splitting, ready self for split and calculate how much
-				setState("Pay","Ready");
-				setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
-				setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
+		//run when entering store
+		if(residence instanceof Store) {
+			//if partnering and reach store, stop venturing
+			if(stateIs("Relationship","Partners")) {
+				if(stateIs("Pay","Split")) { //if splitting, ready self for split and calculate how much
+					setState("Pay","Ready");
+					setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
+					setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
+				}
+				setState("Relationship","Friends");
+				state = STOP;
 			}
-			setState("Relationship","Friends");
-			state = STOP;
+			
+			if(!item_stash.isEmpty() && (stateIs("Relationship","Partners") || stateIs("Relationship","Friends"))) {
+				CookieItem c = item_stash.get((int)(Math.random()*item_stash.size()));
+				setState("ToSell",c.getItem().getName());
+				setState("AskPrice",""+((int)(Math.random()*20)*.5+30));
+			}
 		}
 	}
 	
@@ -163,6 +194,9 @@ public class ExplorerSidekick extends Explorer{
 		setState("Pay","None");
 		setState("PlayerCash","0");
 		setState("MyCash","0");
+		setState("ToSell","");
+		setState("AskPrice","0");
+		setState("Selling","Not");
 	}
 	public void createStash() {
 		super.createStash();

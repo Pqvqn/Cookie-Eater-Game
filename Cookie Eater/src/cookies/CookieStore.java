@@ -38,6 +38,7 @@ public abstract class CookieStore extends Cookie{
 		return true;
 	}
 	public double price() {return price;}
+	public void setPrice(double p) {price = p;}
 	public void setDecayTime() {
 		decayCounter = 0;
 		decayed=false;

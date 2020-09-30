@@ -611,6 +611,15 @@ public abstract class Entity {
 			i.setUser(this);
 		}
 	}
+	public void removeItem(int index, Item i) {
+		for(int j=0; j<item_stash.size(); j++) {
+			if(item_stash.get(j).getItem().equals(i)) {
+				item_stash.remove(j);
+				j=item_stash.size();
+			}
+		}
+		powerups.get(index).remove(i);
+	}
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void extendSpecial(double time) {
 		for(int i=0; i<special_frames.size(); i++) {

@@ -25,6 +25,12 @@
 :::>cash
 
 >payment
-:Alright then. I give #MyCash# and you give #PlayerCash#. $Give;#MyCash#$ $Take;#PlayerCash#$ {MyCash;0} {PlayerCash;0} {Pay;None} [Wanna continue together?] [Adios]
+:Alright then. I give #MyCash# and you give #PlayerCash#. $Give;#MyCash#$ $Take;#PlayerCash#$ {MyCash;0} {PlayerCash;0} {Pay;None} [Wanna continue together?] [Adios] [Do you have anything for sale?]
 ::>cash
 ::Adios.
+::>purchase
+
+>purchase
+:Why, yes, I have this shiny new #ToSell# for just #AskPrice#. You want? [Yes] [No]
+::Deal! {Selling;Is}
+::Ok, see you.
