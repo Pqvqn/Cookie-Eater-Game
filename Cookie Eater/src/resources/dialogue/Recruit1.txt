@@ -31,6 +31,6 @@
 ::>purchase
 
 >purchase
-:Why, yes, I have this shiny new #ToSell# for just #AskPrice#. You want? [Yes] [No]
-::Deal! {Selling;Is}
+:Why, yes, I have this shiny new #ToSell# for just #AskPrice#. You want? [Yes] [No] $CheckAfford;#AskPrice#$
+::%CanSell;Yes% Deal! $SellItem;#ToSell#;#AskPrice#$ | %CanSell;No% Well, you can't afford it. Bye.
 ::Ok, see you.

@@ -19,12 +19,14 @@ public class ExplorerSidekick extends Explorer{
 	 * PlayerCash: *double*
 	 * ToSell: *CookieItem*
 	 * AskPrice: *double*
-	 * Selling: Not, Is, Ask
+	 * CanSell: Yes, No
 	 */
 	
 	/*FUNCTIONS:
-	 * Give: Give $
-	 * Take: Take $
+	 * Give: dollars
+	 * Take: dollars
+	 * SellItem: Item, Price
+	 * CheckAfford: AskPrice
 	 */
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
@@ -49,7 +51,7 @@ public class ExplorerSidekick extends Explorer{
 		setState("PlayerCash","0");
 		setState("ToSell","");
 		setState("AskPrice","0");
-		setState("Selling","Not");
+		setState("CanSell","No");
 		//if partners, become friends on run end
 		if(stateIs("Relationship","Partners")) {
 			setState("Relationship","Friends");
@@ -82,22 +84,6 @@ public class ExplorerSidekick extends Explorer{
 			if(stateIs("Pay","Split")){ //if splitting, track baseline cash
 				setState("MyCash",""+getCash());
 				setState("PlayerCash",""+board.player.cash);
-			}
-		}
-		//if confirmed item sale, conduct it
-		if(stateIs("Selling","Is")) {
-			setState("Selling","Not");
-			//get cookie to sell
-			for(int i=0; i<item_stash.size(); i++) {
-				CookieItem c = item_stash.get(i);
-				if(c.getItem().getName().equals(getState("ToSell"))){
-					c.setVendor(this);
-					c.setPrice(Double.parseDouble(getState("AskPrice")));
-					c.purchase(board.player);
-					board.player.giveCookie(c);
-					removeItem(0,c.getItem()); //this could be problematic
-					i=item_stash.size();
-				}
 			}
 		}
 	}
@@ -185,6 +171,31 @@ public class ExplorerSidekick extends Explorer{
 	public int doSpecial() {
 		return 0;
 	}
+	public void doFunction(String f, String[] args) {
+		super.doFunction(f,args);
+		switch(f) {
+
+		case "SellItem": //sell cookie item to player {item, price}
+			//find correct item cookie
+			for(int i=0; i<item_stash.size(); i++) {
+				CookieItem c = item_stash.get(i);
+				if(c.getItem().getName().equals(args[0])){
+					//sell the cookie
+					c.setVendor(this);
+					c.setPrice(Double.parseDouble(args[1]));
+					c.purchase(board.player);
+					board.player.giveCookie(c);
+					removeItem(0,c.getItem()); //this could be problematic
+					i=item_stash.size();
+				}
+			}
+			break;
+		
+		case "CheckAfford": //test if player can afford price {price}
+			setState("CanSell",(Double.parseDouble(args[0])<=board.player.getCash())?"Yes":"No");
+			break;
+		}
+	}
 	public void chooseResidence() {
 		residence = findFloor("Descending Labyrinths",true,0,2);
 		//residence = findFloor("Forest Entrance",false,0,0);
@@ -204,6 +215,7 @@ public class ExplorerSidekick extends Explorer{
 		setState("AskPrice","0");
 		setState("Selling","Not");
 	}
+	
 	public void createStash() {
 		super.createStash();
 		giveCookie(new CookieItem(board,0,0,Level.generateItem(board,"Ghost"),0));

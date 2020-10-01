@@ -94,21 +94,6 @@ public class Dialogue {
 			setText(getText().replaceFirst("@S@", speaker.getState(replace.get(i))));
 		}
 		
-		//$$ -> custom functions
-		ArrayList<String> functions = new ArrayList<String>();
-		text = extractFromText(text,"$","$","",functions);
-		for(int i=0; i<functions.size(); i++) {
-			String[] parts = functions.get(i).split(";");
-			//separate out arguments for function
-			String[] args = new String[parts.length - 1];
-			for(int j=1; j<parts.length; j++) {
-				args[j-1] = parts[j];
-			}
-
-			speaker.doFunction(parts[0],args);
-			
-		}
-		
 		//[] -> options
 		optionText = new ArrayList<String>();
 		text = extractFromText(text,"[","]","",optionText);
@@ -148,11 +133,21 @@ public class Dialogue {
 				conditionsMet = true;
 				text = possible[i];
 			}
-		}
-		//> -> jump
-		if(text.contains(">")) { //signal to jump to next line
-			String jumpLocation = text.substring(text.indexOf(">")+1);
-			convo.skipTo(jumpLocation); //if meant to jump lines, jump
+		}		
+
+		//$$ -> custom functions
+		ArrayList<String> functions = new ArrayList<String>();
+		text = extractFromText(text,"$","$","",functions);
+		for(int i=0; i<functions.size(); i++) {
+			String[] parts = functions.get(i).split(";");
+			//separate out arguments for function
+			String[] args = new String[parts.length - 1];
+			for(int j=1; j<parts.length; j++) {
+				args[j-1] = parts[j];
+			}
+
+			speaker.doFunction(parts[0],args);
+			
 		}
 
 		//{} -> speaker state changes / ; separates variable from state
@@ -173,6 +168,12 @@ public class Dialogue {
 				}
 			}
 			speaker.setState(parts[0], parts[1]);
+		}
+		
+		//> -> jump
+		if(text.contains(">")) { //signal to jump to next line
+			String jumpLocation = text.substring(text.indexOf(">")+1);
+			convo.skipTo(jumpLocation); //if meant to jump lines, jump
 		}
 		
 	}
