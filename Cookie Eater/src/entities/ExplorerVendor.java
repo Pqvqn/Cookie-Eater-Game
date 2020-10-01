@@ -18,6 +18,11 @@ public class ExplorerVendor extends Explorer{
 	 * Gruntcount: 0...
 	 */
 	
+	/*FUNCTIONS:
+	 * Give: Give $
+	 * Take: Take $
+	 */
+	
 	public ExplorerVendor(Board frame, int cycletime) {
 		super(frame,cycletime);
 		chooseResidence();

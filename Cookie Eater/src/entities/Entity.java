@@ -713,6 +713,13 @@ public abstract class Entity {
 	public void speak(Conversation convo) {
 		
 	}
+	//calls custom functions using string identifier
+	public void doFunction(String f, String[] args) {
+		switch(f) {
+		
+		}
+	}
+	
 	//sets up state variables and possible values
 	public void setUpStates(){
 		variableStates = new HashMap<String,String>();

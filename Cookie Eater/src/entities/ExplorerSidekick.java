@@ -19,7 +19,12 @@ public class ExplorerSidekick extends Explorer{
 	 * PlayerCash: *double*
 	 * ToSell: *CookieItem*
 	 * AskPrice: *double*
-	 * Selling: Not, Is
+	 * Selling: Not, Is, Ask
+	 */
+	
+	/*FUNCTIONS:
+	 * Give: Give $
+	 * Take: Take $
 	 */
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
@@ -116,6 +121,7 @@ public class ExplorerSidekick extends Explorer{
 				CookieItem c = item_stash.get((int)(Math.random()*item_stash.size()));
 				setState("ToSell",c.getItem().getName());
 				setState("AskPrice",""+((int)(Math.random()*20)*.5+30));
+				setState("Selling","Not");
 			}
 		}
 	}

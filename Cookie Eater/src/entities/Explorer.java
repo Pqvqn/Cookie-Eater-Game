@@ -343,6 +343,20 @@ public class Explorer extends Entity{
 		return hit;
 							
 	}*/
+	
+	public void doFunction(String f, String[] args) {
+		switch(f) {
+		case "Give": //pays player $ {dollars}
+			double dollars = Double.parseDouble(args[0]);
+			payCookies(board.player,dollars);
+			break;
+		case "Take": //takes $ from player {dollars}
+			double dollars2 = Double.parseDouble(args[0]);
+			board.player.payCookies(this,dollars2);
+			break;
+		}
+	}
+	
 	public int getDir() {return direction;}
 	public double getAim() {
 		switch(direction) {

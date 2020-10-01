@@ -18,6 +18,11 @@ public class ExplorerShopkeep extends Explorer{
 	 * Gruntcount: 0...
 	 */
 	
+	/*FUNCTIONS:
+	 * Give: Give $
+	 * Take: Take $
+	 */
+	
 	public ExplorerShopkeep(Board frame, int cycletime) {
 		super(frame,cycletime);
 		chooseResidence();
