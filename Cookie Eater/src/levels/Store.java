@@ -4,7 +4,7 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import entities.Explorer;
+import entities.*;
 import items.*;
 
 public abstract class Store extends Level{
@@ -17,6 +17,7 @@ public abstract class Store extends Level{
 	protected int shieldNum;
 	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	protected int[][] passerbySpaces; //spaces for passerbys
+	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
 	public Store(Board frame) {
 		super(frame);
@@ -34,29 +35,32 @@ public abstract class Store extends Level{
 	public boolean installPickups() {return true;}
 	public boolean takeDamage() {return false;}
 	
+	//places purchasable cookies on the board
 	public void placeCookies(){
 		
-		//shields
+		//all moved to npcs
+		
+		/*//shields
 		int[][] shieldSpawns = {{board.X_RESOL/2-200,150} , {board.X_RESOL/2+200,150} , {board.X_RESOL/2,150} ,
 				{board.X_RESOL/2-200,250} , {board.X_RESOL/2+200,250} , {board.X_RESOL/2,250}};
 		for(int i=0; i<shieldNum && i<shieldSpawns.length; i++) {
 			board.cookies.add(new CookieShield(board, shieldSpawns[i][0], shieldSpawns[i][1], shieldCost));
-		}
+		}*/
 	
-		//stats
+		/*//stats
 		board.cookies.add(new CookieStat(board,board.X_RESOL-390,315));
 		board.cookies.add(new CookieStat(board,board.X_RESOL-390,board.Y_RESOL-315));
-		board.cookies.add(new CookieStat(board,board.X_RESOL-185,board.Y_RESOL/2));
+		board.cookies.add(new CookieStat(board,board.X_RESOL-185,board.Y_RESOL/2));*/
 		
-		//items
+		/*//items
 		int i = (int)(Math.random()*catalogue.size());
 		placeItem(390,315,catalogue.get(i),prices.get(i));
 		i = (int)(Math.random()*catalogue.size());
 		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i));
 		i = (int)(Math.random()*catalogue.size());
-		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i));
+		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i));*/
 		
-		//pickups
+		/*//pickups
 		int[][] pickupSpawns = {{board.X_RESOL/2-200,board.Y_RESOL-150} , {board.X_RESOL/2+200,board.Y_RESOL-150} , {board.X_RESOL/2,board.Y_RESOL-150} ,
 				{board.X_RESOL/2-200,board.Y_RESOL-250} , {board.X_RESOL/2+200,board.Y_RESOL-250} , {board.X_RESOL/2,board.Y_RESOL-250}};
 		for(int j=0; !board.player.getPickups().isEmpty() && j<pickupSpawns.length; j++) {
@@ -64,7 +68,7 @@ public abstract class Store extends Level{
 			c.setPos(pickupSpawns[j][0],pickupSpawns[j][1]);
 			c.setPrice(installCost);
 			board.cookies.add(c);
-		}
+		}*/
 		
 		
 		board.player.setScoreToWin(2);
@@ -147,9 +151,11 @@ public abstract class Store extends Level{
 			Explorer e = board.present_npcs.get(i);
 			if(e==null) {
 				
-			}else if(e.getState()==Explorer.VENDOR) {
+			}else if(e instanceof ExplorerMechanic) { //put mechanic in right place
+				e.sellWares(mechanicSpaces);
+			}else if(e.getState()==Explorer.VENDOR) { //put vendors in shop locations
 				e.sellWares(vendorSpaces[vendors++]);
-			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND) {
+			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND) { //put npcs that are passing through in standby areas
 				e.standBy(passerbySpaces[passerbys++]);
 			}
 		}

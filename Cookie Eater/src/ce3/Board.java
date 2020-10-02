@@ -287,6 +287,7 @@ public class Board extends JFrame{
 	
 	//creates all the non-player characters and puts them in their starting levels
 	public void createNpcs(int cycle) {
+		npcs.add(new ExplorerMechanic(this,cycletime));
 		npcs.add(new ExplorerShopkeep(this,cycletime));
 		npcs.add(new ExplorerVendor(this,cycletime));
 		npcs.add(new ExplorerSidekick(this,cycletime));
