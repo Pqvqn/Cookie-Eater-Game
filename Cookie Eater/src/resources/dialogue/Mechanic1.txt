@@ -1,0 +1,4 @@
+>pup
+:... [Hello]
+:: %Pickups;none% ? | You have pickups, I suppose [%HasPUP;yes%Which ones?]
+:::#Pickups#, I suppose

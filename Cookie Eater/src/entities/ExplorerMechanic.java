@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.util.*;
 
 import ce3.*;
 import cookies.*;
@@ -12,7 +13,8 @@ public class ExplorerMechanic extends Explorer{
 	private SegmentCircle part;
 	
 	/*STATES:
-	 *
+	 * Pickups: none, *list, separated by comma*
+	 * HasPUP: yes, no
 	 */
 	
 	/*FUNCTIONS:
@@ -50,10 +52,24 @@ public class ExplorerMechanic extends Explorer{
 			speaking = 0;
 		}
 		if(convo!=null)convo.test();
+		
+		//nab all player pickups
+		ArrayList<CookieItem> pickups = board.player.getPickups();
+		while(!(pickups.isEmpty())) {
+			CookieItem c = pickups.remove(0);
+			to_sell.add(c);
+			if(getState("Pickups").equals("none")){
+				setState("Pickups",c.getItem().getName());
+			}else {
+				setState("Pickups",getState("Pickups")+", "+c.getItem().getName());
+			}
+			setState("HasPUP","yes");
+		}
+		
 	}
-	public void setConvo() {
-		//convo = new Conversation(board,this,"TestSpeech5","here");
-		//convo.setDisplayed(false);
+ 	public void setConvo() {
+		convo = new Conversation(board,this,"Mechanic1","pup");
+		convo.setDisplayed(false);
 	}
 	public void chooseDir() {
 		direction = NONE;
@@ -73,6 +89,8 @@ public class ExplorerMechanic extends Explorer{
 				residence = residence.getNext();
 			}while(!(residence instanceof Store) && residence.getNext()!=null);
 			createStash(); //reset stat cookies for each store
+			setState("Pickups","none");
+			setState("HasPUP","no");
 		}
 	}
 	
@@ -80,12 +98,14 @@ public class ExplorerMechanic extends Explorer{
 		super.createStash();
 		//stash contains 3 random stat changing cookies each time
 		for(int i=0; i<3; i++) {
-			addRandomly(new CookieStat(board,0,0));
+			to_sell.add(0,new CookieStat(board,0,0));
 		}
 	}
 	
 	public void setUpStates(){
 		super.setUpStates();
+		setState("Pickups","none");
+		setState("HasPUP","no");
 	}
 	
 	public void buildBody() {

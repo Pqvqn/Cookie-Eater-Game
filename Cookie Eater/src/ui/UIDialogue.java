@@ -45,11 +45,10 @@ public class UIDialogue extends UIElement{
 		}*/
 		
 		//display speaker by taking right-facing-neutral-expression from its sprite
-		if(speaker instanceof Explorer) {
-			spriteImg = ((Explorer)speaker).getSprite().getCompiled(SpriteExplorer.NORM,SpriteExplorer.RIGHT);
+		if(speaker instanceof Explorer && ((Explorer)speaker).getSprite()!=null) {
+			spriteImg =  ((Explorer)speaker).getSprite().getCompiled(SpriteExplorer.NORM,SpriteExplorer.RIGHT);
+			parts.add(new UIImage(board,(int)(.5+xPos-730-((ratio/10.0)*(spriteImg.getWidth(null)/2.0))),(int)(.5+yPos-((ratio/10.0)*(spriteImg.getHeight(null)/2.0))),ratio/10.0,spriteImg)); //sprite
 		}
-
-		parts.add(new UIImage(board,(int)(.5+xPos-730-((ratio/10.0)*(spriteImg.getWidth(null)/2.0))),(int)(.5+yPos-((ratio/10.0)*(spriteImg.getHeight(null)/2.0))),ratio/10.0,spriteImg)); //sprite
 		
 		parts.add(new UIRectangle(board,xPos-500,yPos-100,1000,100,new Color(0,0,0,150),true)); //backing
 		parts.add(name = new UIText(board,xPos-500,yPos-110,"",new Color(120,120,120,200),new Font("Arial",Font.BOLD,25)));
