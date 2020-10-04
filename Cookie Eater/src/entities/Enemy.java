@@ -16,6 +16,7 @@ public abstract class Enemy extends Entity{
 	protected boolean steals;
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
+	protected int shieldBounces; //number of bounces before this shield expires
 	
 	public Enemy(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime);
@@ -30,6 +31,7 @@ public abstract class Enemy extends Entity{
 		y_velocity=0;
 		mass = 100;
 		imgs = new ArrayList<String>();
+		shieldBounces = 0;
 		buildBody();
 		orientParts();
 		createStash();
@@ -147,6 +149,21 @@ public abstract class Enemy extends Entity{
 		ded=true;
 		wipeStash();
 	}
+	
+	public void triggerShield() {
+		//increment bounces while still shielded
+		if(shielded) {
+			shieldBounces++;
+		}else {
+			shieldBounces = 0;
+		}
+		super.triggerShield();
+		//kill if bounced too many times on one shield
+		if(shieldBounces >= getShields()*3) {
+			kill();
+		}
+	}
+	
 	//puts cookies in stash on spawn
 	public void createStash() {
 		

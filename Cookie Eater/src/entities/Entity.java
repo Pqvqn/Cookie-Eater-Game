@@ -280,7 +280,7 @@ public abstract class Entity {
 	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
 		
 	}*/
-	//sets off player shield
+	//sets off shield
 	public void triggerShield() {
 		if(!shielded && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
 			shielded=true;
