@@ -15,11 +15,13 @@ public class ExplorerMechanic extends Explorer{
 	/*STATES:
 	 * Pickups: none, *list, separated by comma*
 	 * HasPUP: yes, no
+	 * InstallPrice: *double*
 	 */
 	
 	/*FUNCTIONS:
-	 * Give: Give $
-	 * Take: Take $
+	 * Give: dollars
+	 * Take: dollars
+	 * Display: type = [Pups, Stats]
 	 */
 	
 	public ExplorerMechanic(Board frame, int cycletime) {
@@ -40,6 +42,7 @@ public class ExplorerMechanic extends Explorer{
 		super.runEnds();
 		//when player dies, reset to beginning
 		chooseResidence();
+		createStash(); //reset stat cookies for new run
 	}
 	public void runUpdate() {
 		super.runUpdate();
@@ -58,6 +61,8 @@ public class ExplorerMechanic extends Explorer{
 		while(!(pickups.isEmpty())) {
 			CookieItem c = pickups.remove(0);
 			to_sell.add(c);
+			c.setVendor(this);
+			c.setPrice(Double.parseDouble(getState("InstallPrice"))); //set new price for install
 			if(getState("Pickups").equals("none")){
 				setState("Pickups",c.getItem().getName());
 			}else {
@@ -97,6 +102,7 @@ public class ExplorerMechanic extends Explorer{
 	public void createStash() {
 		super.createStash();
 		//stash contains 3 random stat changing cookies each time
+		on_display = new ArrayList<CookieStore>();
 		for(int i=0; i<3; i++) {
 			to_sell.add(0,new CookieStat(board,0,0));
 		}
@@ -106,6 +112,37 @@ public class ExplorerMechanic extends Explorer{
 		super.setUpStates();
 		setState("Pickups","none");
 		setState("HasPUP","no");
+		setState("InstallPrice","10.0");
+	}
+	
+	public void doFunction(String f, String[] args) {
+		super.doFunction(f,args);
+		switch(f) {
+
+		case "Display": //put part of stash out to sell {type}
+			packUp();
+			switch(args[0]) {
+			case "Stats": //switch non-stats to back
+				if(!to_sell.isEmpty()) {
+					while(!(to_sell.get(0) instanceof CookieStat)) {
+						to_sell.add(to_sell.remove(0));
+					}
+				}
+				break;
+			case "Pups": //switch stats to back
+				if(!to_sell.isEmpty()) {
+					while(to_sell.get(0) instanceof CookieStat) {
+						to_sell.add(to_sell.remove(0));
+					}
+				}
+				break;
+			}
+			
+			
+			sellWares(shop_spots);
+			break;
+		
+		}
 	}
 	
 	public void buildBody() {

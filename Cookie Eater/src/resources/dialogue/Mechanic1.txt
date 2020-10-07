@@ -1,4 +1,7 @@
 >pup
-:... [Hello]
+:... [Hello] [Shuffle Me]
 :: %Pickups;none% ? | You have pickups, I suppose [%HasPUP;yes%Which ones?]
-:::#Pickups#, I suppose
+:::#Pickups#, I suppose [Can I buy them then?]
+::::$Display;Pups$ Sure, I suppose. [Ok, I'm done.]
+:::::$Display;Stats$ You're demanding, I suppose.
+:: Direct, I suppose. $Display;Stats$

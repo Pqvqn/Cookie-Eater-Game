@@ -262,6 +262,7 @@ public class Explorer extends Entity{
 	public void packUp() {
 		for(int i=on_display.size()-1; i>=0; i--) {
 			if(board.cookies.contains(on_display.get(i))){
+				board.cookies.remove(on_display.get(i));
 				to_sell.add(on_display.remove(i));
 			}else {
 				on_display.remove(i);
