@@ -121,25 +121,33 @@ public class ExplorerMechanic extends Explorer{
 
 		case "Display": //put part of stash out to sell {type}
 			packUp();
+			ArrayList<CookieStore> storage = new ArrayList<CookieStore>(); //not displayed cookies
 			switch(args[0]) {
 			case "Stats": //switch non-stats to back
 				if(!to_sell.isEmpty()) {
-					while(!(to_sell.get(0) instanceof CookieStat)) {
-						to_sell.add(to_sell.remove(0));
+					for(int i=to_sell.size()-1; i>=0; i--) {
+						if(!(to_sell.get(i) instanceof CookieStat)) {
+							storage.add(to_sell.remove(i));
+						}
 					}
 				}
 				break;
 			case "Pups": //switch stats to back
 				if(!to_sell.isEmpty()) {
-					while(to_sell.get(0) instanceof CookieStat) {
-						to_sell.add(to_sell.remove(0));
+					for(int i=to_sell.size()-1; i>=0; i--) {
+						if(to_sell.get(i) instanceof CookieStat) {
+							storage.add(to_sell.remove(i));
+						}
 					}
 				}
 				break;
 			}
 			
-			
 			sellWares(shop_spots);
+			
+			while(!storage.isEmpty()) {
+				to_sell.add(storage.remove(0));
+			}
 			break;
 		
 		}
