@@ -465,7 +465,9 @@ public class Explorer extends Entity{
 		if(special) {
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
 				powerups.get(currSpecial).get(i).end(true);
+			special_frames.set(currSpecial,0.0);
 		}
+		
 		special = false;
 		currSpecial = -1;
 	}

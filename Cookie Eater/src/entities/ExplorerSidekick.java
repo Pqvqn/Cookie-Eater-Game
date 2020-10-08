@@ -79,7 +79,7 @@ public class ExplorerSidekick extends Explorer{
 			}
 			if(convo!=null)convo.test();
 		}
-		if(state == STOP && stateIs("Relationship","Partners")) { //if partners
+		if(( state == STOP || state == STAND ) && stateIs("Relationship","Partners")) { //if partners
 			state = STAND; //ready self to venture
 			if(stateIs("Pay","Split")){ //if splitting, track baseline cash
 				setState("MyCash",""+getCash());
