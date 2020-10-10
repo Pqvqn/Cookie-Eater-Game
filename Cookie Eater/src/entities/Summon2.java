@@ -17,6 +17,8 @@ public class Summon2 extends Entity{
 	private double relx,rely; //x and y relative to user
 	private Segment body;
 	private boolean halt; //whether summon should maintain position
+	private double spawn; //multiplied by radius to produce distance from user that summon spawns
+	private double fric; //friction subtracted from velocity each cycle (for anchored only)
 	
 	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored, int shields) {
 		super(frame,cycletime);
@@ -24,8 +26,12 @@ public class Summon2 extends Entity{
 		radius = user.getRadius()/3;
 		mass = 100;
 		anchor = anchored;
-		x = user.getX();
-		y = user.getY();
+		//x = user.getX();
+		//y = user.getY();
+		double userAngle = Math.atan2(user.getYVel(),user.getXVel());
+		spawn = 2.5;
+		setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
+		setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
 		homex = user.getX();
 		homey = user.getY();
 		setShields(shields);
@@ -35,6 +41,7 @@ public class Summon2 extends Entity{
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
 		halt = false;
+		fric = .1;
 		buildBody();
 		orientParts();
 	}
@@ -57,6 +64,20 @@ public class Summon2 extends Entity{
 		}else {
 			x+=x_velocity;
 			y+=y_velocity;
+			if(x_velocity>fric) {
+				x_velocity-=fric;
+			}else if(x_velocity<-fric) {
+				x_velocity+=fric;
+			}else {
+				x_velocity = 0;
+			}
+			if(y_velocity>fric) {
+				y_velocity-=fric;
+			}else if(y_velocity<-fric) {
+				y_velocity+=fric;
+			}else {
+				y_velocity = 0;
+			}
 		}
 
 		orientParts();
@@ -66,6 +87,7 @@ public class Summon2 extends Entity{
 	}
 	
 	public double getAim() {return user.getAim();}
+	public boolean getAnchored() {return anchor;}
 	
 	//take all items from user
 	public void eatItems() {
@@ -183,7 +205,7 @@ public class Summon2 extends Entity{
 		}else {
 			super.setX(xp);
 		}
-		orientParts();
+		if(body!=null)orientParts();
 		}
 	public void setY(double yp) {
 		if(anchor) {
@@ -192,7 +214,7 @@ public class Summon2 extends Entity{
 		}else {
 			super.setY(yp);
 		}
-		orientParts();
+		if(body!=null)orientParts();
 	}
 	
 	public double getXVel() {return x_velocity;}

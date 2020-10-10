@@ -180,7 +180,9 @@ public abstract class Entity {
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				for(Summon2 s : e.getSummons())entities.add(s);
-				if(!e.equals(this) && (!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this))) && (!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e)))) {
+				if(!e.equals(this) && 
+						(!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this) && ((Summon2)e).getAnchored())) && 
+						(!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e) && ((Summon2)this).getAnchored()))) {
 					if(!e.getGhosted() && !ghost) {
 						if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
 							double bmass = mass;
