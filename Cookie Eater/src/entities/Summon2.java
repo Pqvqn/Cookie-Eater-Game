@@ -29,9 +29,11 @@ public class Summon2 extends Entity{
 		//x = user.getX();
 		//y = user.getY();
 		double userAngle = Math.atan2(user.getYVel(),user.getXVel());
-		spawn = 2.5;
-		setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
-		setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
+		spawn = 3.5;
+		setX(((anchored)?0:user.getX())+
+				Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
+		setY(((anchored)?0:user.getY())+
+				Math.sin(userAngle)*user.getRadius()*spawn);
 		homex = user.getX();
 		homey = user.getY();
 		setShields(shields);
@@ -206,7 +208,7 @@ public class Summon2 extends Entity{
 			super.setX(xp);
 		}
 		if(body!=null)orientParts();
-		}
+	}
 	public void setY(double yp) {
 		if(anchor) {
 			rely=yp;
