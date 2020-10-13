@@ -27,7 +27,7 @@ public class Board extends JFrame{
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public Area wallSpace;
-	public ArrayList<Explosion> effects;
+	public ArrayList<Effect> effects;
 	public ArrayList<Enemy> enemies;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
@@ -78,7 +78,7 @@ public class Board extends JFrame{
 		enemies = new ArrayList<Enemy>();
 		npcs = new ArrayList<Explorer>();
 		present_npcs = new ArrayList<Explorer>();
-		effects = new ArrayList<Explosion>();
+		effects = new ArrayList<Effect>();
 		
 		controls = new ArrayList<Controls>();
 		for(int i=0; i<players.size(); i++) {
@@ -146,7 +146,7 @@ public class Board extends JFrame{
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
-		effects = new ArrayList<Explosion>();
+		effects = new ArrayList<Effect>();
 
 		buildBoard();
 		
@@ -184,7 +184,7 @@ public class Board extends JFrame{
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
-		effects = new ArrayList<Explosion>();
+		effects = new ArrayList<Effect>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();
 		currFloor=currFloor.getNext();

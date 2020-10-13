@@ -77,7 +77,7 @@ public class ExplorerVendor extends Explorer{
 		return -1;
 	}
 	public void chooseResidence() {
-		residence = findFloor("Descending Labyrinths",true,0,2);
+		residence = findFloor("Dungeon Foyer",true,0,2);
 	}
 
 	public void createStash() {

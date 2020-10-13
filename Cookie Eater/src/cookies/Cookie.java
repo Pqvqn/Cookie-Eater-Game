@@ -105,8 +105,8 @@ public class Cookie {
 					return;
 				}
 			}
-			if(consumer instanceof Explosion) {
-				Entity initiator = ((Explosion)consumer).getInitiator();
+			if(consumer instanceof Effect) {
+				Entity initiator = ((Effect)consumer).getInitiator();
 				if(initiator!=null && !initiator.isDed()) {
 					kill(initiator);
 					return;

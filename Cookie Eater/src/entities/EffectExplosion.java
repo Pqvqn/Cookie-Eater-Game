@@ -8,21 +8,18 @@ import cookies.CookieItem;
 import cookies.CookieShield;
 import cookies.CookieStat;
 
-public class Explosion extends Entity{
+public class EffectExplosion extends Effect{
 
 	private SegmentCircle boom; //segment body
 	private double inc; //amount to increase radius by per tick
 	private double maxRad;
-	private Entity sparker;
 	
-	public Explosion(Board frame, int cycletime, int xp, int yp, double rad, int time, Entity initiator) {
-		super(frame,cycletime);
-		x = xp;
-		y = yp;
+	public EffectExplosion(Board frame, int cycletime, int xp, int yp, double rad, int time, Entity initiator) {
+		super(frame,cycletime,xp,yp,time,initiator);
 		inc = (double)cycletime/time * rad;
 		maxRad = rad;
 		mass = 100;
-		sparker = initiator;
+		setRadius(0);
 		buildBody();
 		orientParts();
 	}
@@ -40,13 +37,8 @@ public class Explosion extends Entity{
 	}
 	//remove explosion
 	public void kill() {
-		ded = true;
+		super.kill();
 		setRadius(0);
-		board.effects.remove(this);
-		//board.effects.remove(this);
-	}
-	public void giveCookie(Cookie c) {
-		if(sparker!=null)sparker.giveCookie(c);
 	}
 	
 	//explosions cannot trigger shields, overriding
@@ -55,7 +47,6 @@ public class Explosion extends Entity{
 	
 	public double getXVel() {return inc;}
 	public double getYVel() {return inc;}
-	public Entity getInitiator() {return sparker;}
 	
 	public void orientParts() {
 		boom.setLocation(x,y);
@@ -63,6 +54,7 @@ public class Explosion extends Entity{
 		super.orientParts();
 	}
 	public void paint(Graphics g) {
+		super.paint(g);
 		if(boom!=null)boom.paint(g);
 		int opac = 255-(int)(.5+((double)getRadius()/maxRad)*255);
 		g.setColor(new Color(255,255,255,opac));

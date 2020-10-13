@@ -1,4 +1,5 @@
 package items;
+import java.awt.geom.*;
 import java.util.*;
 
 import ce3.*;
@@ -8,13 +9,13 @@ public class ItemRicochet extends Item{
 	
 	private double maxRad;
 	private int duration;
-	private ArrayList<Explosion> booms;
+	private ArrayList<EffectExplosion> booms;
 	
 	public ItemRicochet(Board frame) {
 		super(frame);
 		maxRad = 150;
 		duration = 250;
-		booms = new ArrayList<Explosion>();
+		booms = new ArrayList<EffectExplosion>();
 		name = "Ricochet";
 		desc="Creates explosion on impact.`Amplify: Larger explosions";
 	}
@@ -39,9 +40,26 @@ public class ItemRicochet extends Item{
 		}
 	}
 	public void bounce(Object bouncedOff, double x, double y) {
-		if(!(bouncedOff instanceof Explosion)) { //dont create explosions when moved by explosions
-			booms.add(0,new Explosion(board,board.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currFloor.getScale(),duration,user));
-			board.effects.add(booms.get(0));
+		if(!(bouncedOff instanceof EffectExplosion)) { //dont create explosions when moved by explosions
+			EffectExplosion boom;
+			booms.add(0,boom = new EffectExplosion(board,board.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currFloor.getScale(),duration,user));
+			board.effects.add(boom);
+			
+			/*if(bouncedOff instanceof Area) {
+				double rat = 1/Math.sqrt(Math.pow(user.getX()-x,2)+Math.pow(user.getY()-y,2));
+				double xD = (user.getX()-x) * rat;
+				double yD = (user.getY()-y) * rat;
+				boom.orientParts();
+				boom.setRadius(1000000);
+				boom.orientParts();
+				while(boom.collidesWithAnything()) {
+					System.out.println(xD+" l "+yD);
+					boom.setX(boom.getX()+xD);
+					boom.setY(boom.getY()+yD);
+					boom.orientParts();
+				}
+				boom.setRadius(0);
+			}*/
 		}
 	}
 
