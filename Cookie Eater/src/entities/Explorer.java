@@ -484,9 +484,9 @@ public class Explorer extends Entity{
 	public void paint(Graphics g) {
 		
 		for(int i=0; i<parts.size(); i++) {
-			if(parts.get(i)!=null)parts.get(i).paint(g);
+			if(parts.get(i)!=null)parts.get(i).update();
 		}
-		if(tester!=null)tester.paint(g);
+		if(tester!=null)tester.update();
 		g.setColor(coloration);
 		g.fillOval((int)(.5+x-getRadius()), (int)(.5+y-getRadius()), (int)(.5+getRadius()*2), (int)(.5+getRadius()*2));
 		

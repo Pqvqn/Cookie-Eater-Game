@@ -292,7 +292,7 @@ public class Summon2 extends Entity{
 		
 		if(getGhosted())g2.setColor(new Color(255,255,255,100));
 		if(getShielded())g2.setColor(new Color(50,200,210));
-		body.paint(g2);
+		body.update();
 		
 		//draw based on type of segment
 		if(body instanceof SegmentRectangle) {

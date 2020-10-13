@@ -542,7 +542,7 @@ public class Eater extends Entity{
 	}
 	
 	public void paint(Graphics g) {
-		if(part!=null)part.paint(g);
+		if(part!=null)part.update();
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform origt = g2.getTransform();
 		for(int i=0; i<summons.size(); i++) { //draw summons

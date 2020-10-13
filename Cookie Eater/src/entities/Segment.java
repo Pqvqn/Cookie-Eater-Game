@@ -58,7 +58,7 @@ public abstract class Segment {
 	public boolean collidesWithBounds(boolean extra, Rectangle r) {
 		return getBounding(extra).intersects(r);
 	}
-	public void paint(Graphics g) {
+	public void update() {
 		scale = board.currFloor.getScale();
 	}
 }

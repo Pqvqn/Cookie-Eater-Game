@@ -45,21 +45,22 @@ public class ItemRicochet extends Item{
 			booms.add(0,boom = new EffectExplosion(board,board.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currFloor.getScale(),duration,user));
 			board.effects.add(boom);
 			
-			/*if(bouncedOff instanceof Area) {
+			//if colliding with an area instead of an entity, get out of area before exploding
+			if(bouncedOff instanceof Area) {
 				double rat = 1/Math.sqrt(Math.pow(user.getX()-x,2)+Math.pow(user.getY()-y,2));
-				double xD = (user.getX()-x) * rat;
+				double xD = (user.getX()-x) * rat; //amount to move by
 				double yD = (user.getY()-y) * rat;
+				boom.setRadius(.0001); //radius to .0001 for collision
 				boom.orientParts();
-				boom.setRadius(1000000);
-				boom.orientParts();
-				while(boom.collidesWithAnything()) {
-					System.out.println(xD+" l "+yD);
+				//move out of area
+				while(boom.collidesWithArea(false, (Area)bouncedOff)) {
 					boom.setX(boom.getX()+xD);
 					boom.setY(boom.getY()+yD);
 					boom.orientParts();
 				}
-				boom.setRadius(0);
-			}*/
+				boom.setRadius(0); //reset radius
+				boom.orientParts();
+			}
 		}
 	}
 

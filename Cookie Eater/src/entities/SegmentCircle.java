@@ -50,9 +50,9 @@ public class SegmentCircle extends Segment{
 		return new Rectangle((int)(.5+xPos-radd),(int)(.5+yPos-radd),(int)(.5+radd*2),(int)(.5+radd*2));
 	}
 	
-	public void paint(Graphics g) {
+	/*public void paint(Graphics g) {
 		super.paint(g);
-		//g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));
-	}
+		g.fillOval((int)(.5+xPos-radius*scale), (int)(.5+yPos-radius*scale), (int)(.5+radius*scale*2), (int)(.5+radius*scale*2));
+	}*/
 	
 }

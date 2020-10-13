@@ -51,11 +51,12 @@ public class EffectExplosion extends Effect{
 	public void orientParts() {
 		boom.setLocation(x,y);
 		boom.setSize(getRadius());
+		boom.update();
 		super.orientParts();
 	}
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(boom!=null)boom.paint(g);
+		if(boom!=null)boom.update();
 		int opac = 255-(int)(.5+((double)getRadius()/maxRad)*255);
 		g.setColor(new Color(255,255,255,opac));
 		g.fillOval((int)(.5+boom.getCenterX()-boom.getRadius()),(int)(.5+boom.getCenterY()-boom.getRadius()),(int)(.5+boom.getRadius()*2),(int)(.5+boom.getRadius()*2));

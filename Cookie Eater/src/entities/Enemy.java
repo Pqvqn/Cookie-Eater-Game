@@ -171,7 +171,7 @@ public abstract class Enemy extends Entity{
 	//draws
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) {
-			parts.get(i).paint(g);
+			parts.get(i).update();
 		}
 		if(currSpecial!=-1) {
 			Color meh = special_colors.get(currSpecial);
