@@ -7,7 +7,7 @@ import cookies.*;
 
 public class Effect extends Entity{
 
-	private Entity initiator;
+	protected Entity initiator;
 	
 	public Effect(Board frame, int cycletime, int xp, int yp, int time, Entity owner) {
 		super(frame,cycletime);

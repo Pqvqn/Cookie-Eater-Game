@@ -85,19 +85,19 @@ public class Controls implements KeyListener{
 				player.pay(100);
 				break;
 			case KeyEvent.VK_O:
-				//player.addItem(0, new ItemSummonMelee(board));
+				player.addItem(0, new ItemSummonMelee(board));
 				//player.addItem(0, new ItemSummonProjectile(board));
-				player.addItem(0, new ItemFlow(board));
+				//player.addItem(0, new ItemFlow(board));
 				//player.addItem(0, new ItemCircle(board));
 				//player.addItem(0, new ItemField(board));
-				player.addItem(0, new ItemBoost(board));
+				//player.addItem(0, new ItemBoost(board));
 				//player.addItem(0, new ItemCookieChain(board));
 				//player.addItem(0, new ItemRepeat(board));
 				//player.addItem(0, new ItemReturn(board));
 				//player.addItem(0, new ItemTeleport(board));
 				//player.addItem(0, new ItemSlowmo(board));
-				player.addItem(0, new ItemRicochet(board));
-				player.addItem(0, new ItemShield(board));
+				//player.addItem(0, new ItemRicochet(board));
+				//player.addItem(0, new ItemShield(board));
 				break;
 		}
 		

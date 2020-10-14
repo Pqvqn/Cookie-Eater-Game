@@ -1,0 +1,118 @@
+package entities;
+
+import java.awt.*;
+import java.util.*;
+
+import ce3.*;
+import cookies.*;
+
+public class EffectClone extends Effect{
+
+	
+	private int startx, starty, starta; //starting position of clone to reflect over
+	private boolean flipx, flipy, flipa; //whether should: reflect x pos, reflect y pos, swap x/y values
+	
+	public EffectClone(Board frame, int cycletime, int xp, int yp, int ap, double rad, int time, Entity initiator, boolean fx, boolean fy, boolean fa) {
+		super(frame,cycletime,xp,yp,time,initiator);
+		mass = initiator.getMass();
+		startx = xp;
+		starty = yp;
+		starta = ap;
+		flipx = fx;
+		flipy = fy;
+		flipa = fa;
+		buildBody();
+		orientParts();
+	}
+	
+	public void runUpdate() {
+		if(ded)return;
+		super.runUpdate();
+		
+		orientParts();
+	}
+	protected void buildBody() {
+		parts = new ArrayList<Segment>();
+		for(Segment s:initiator.getParts()) {
+			
+			double[] posState = transformState(s.getCenterX(), s.getCenterY(), s.getAngle());
+			
+			if(s instanceof SegmentCircle) {
+				SegmentCircle s2 = (SegmentCircle)s;
+				parts.add(new SegmentCircle(board,initiator, posState[0], posState[1], s2.getRadius()/board.currFloor.getScale(), posState[2]));
+			}else if(s instanceof SegmentRectangle) {
+				SegmentRectangle s2 = (SegmentRectangle)s;
+				parts.add(new SegmentRectangle(board,initiator, posState[0], posState[1], s2.getWidth(), s2.getLength(), posState[2]));
+			}
+		}
+	}
+	public void orientParts() {
+		boolean regen = initiator.getParts().size() != parts.size(); //whether list of parts needs to be regenerated
+		for(int i=0; i<initiator.getParts().size() && !regen; i++) {
+			Segment parentS = initiator.getParts().get(i);
+			Segment thisS = parts.get(i);
+			double[] posState = transformState(parentS.getCenterX(), parentS.getCenterY(), parentS.getAngle());
+			//set positions relative to original segment if same shape
+			if(parentS.getClass().equals(thisS.getClass())) {
+				thisS.setLocation(posState[0], posState[1]);
+				thisS.setAngle(posState[2]);
+				thisS.setSize(parentS.getSize());
+			}else { //if wrong shape, remake parts list
+				regen = true;
+			}
+		}
+		if(regen) {
+			buildBody();
+		}
+		
+		super.orientParts();
+	}
+	
+	//convert position state through transformations
+	public double[] transformState(double ax, double ay, double aa) {
+		double newAngle = aa;
+		double newX = ax;
+		double newY = ay;
+		
+		//change position values for each transformation
+		if(flipx) {
+			newX = 2 * startx - ax;
+			newAngle = starta + Math.PI - aa;
+		}
+		if(flipy) {
+			newY = 2 * starty - ay;
+			newAngle = starta - aa;
+		}
+		if(flipa) {
+			double storeX = newX;
+			newX = newY;
+			newY = storeX;
+			newAngle = Math.PI/2 - newAngle;
+		}
+		
+		return new double[] {newX, newY, newAngle};
+	}
+	
+	
+	//remove clone
+	public void kill() {
+		super.kill();
+	}
+	
+	//clones do not bounce off of walls?????
+	public void triggerShield() {
+	}
+	
+	public double getXVel() {return 0;}
+	public double getYVel() {return 0;}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		/*if(boom!=null)boom.update();
+		int opac = 255-(int)(.5+((double)getRadius()/maxRad)*255);
+		g.setColor(new Color(255,255,255,opac));
+		g.fillOval((int)(.5+boom.getCenterX()-boom.getRadius()),(int)(.5+boom.getCenterY()-boom.getRadius()),(int)(.5+boom.getRadius()*2),(int)(.5+boom.getRadius()*2));
+		*/
+	}
+	
+}
