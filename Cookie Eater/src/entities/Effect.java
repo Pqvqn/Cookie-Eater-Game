@@ -9,11 +9,11 @@ public class Effect extends Entity{
 
 	protected Entity initiator;
 	
-	public Effect(Board frame, int cycletime, int xp, int yp, int time, Entity owner) {
+	public Effect(Board frame, int cycletime, int xp, int yp, Entity owner) {
 		super(frame,cycletime);
 		x = xp;
 		y = yp;
-		owner = initiator;
+		initiator = owner;
 	}
 	
 	public void runUpdate() {

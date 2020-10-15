@@ -182,7 +182,8 @@ public abstract class Entity {
 				for(Summon2 s : e.getSummons())entities.add(s);
 				if(!e.equals(this) && 
 						(!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this) && ((Summon2)e).getAnchored())) && 
-						(!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e) && ((Summon2)this).getAnchored()))) {
+						(!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e) && ((Summon2)this).getAnchored()))
+						&& !(this instanceof Effect && e instanceof Effect)) {
 					if(!e.getGhosted() && !ghost) {
 						if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
 							double bmass = mass;
@@ -411,7 +412,10 @@ public abstract class Entity {
 	
 	//bounces accoridng to collision with moving mass at point 
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
-		if(b!=null&&bumped.contains(b)&&b instanceof Area)return; //if already hit, don't hit again
+		if(b!=null&&bumped.contains(b)) {
+			bumped.add(b);
+			return; //if already hit, don't hit again
+		}
 		bumped.add(b);
 		double actual_mass = mass;
 		for(Summon2 s: summons)actual_mass+=s.getMass();

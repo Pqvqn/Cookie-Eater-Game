@@ -12,8 +12,8 @@ public class EffectClone extends Effect{
 	private int startx, starty, starta; //starting position of clone to reflect over
 	private boolean flipx, flipy, flipa; //whether should: reflect x pos, reflect y pos, swap x/y values
 	
-	public EffectClone(Board frame, int cycletime, int xp, int yp, int ap, double rad, int time, Entity initiator, boolean fx, boolean fy, boolean fa) {
-		super(frame,cycletime,xp,yp,time,initiator);
+	public EffectClone(Board frame, int cycletime, int xp, int yp, int ap, Entity initiator, boolean fx, boolean fy, boolean fa) {
+		super(frame,cycletime,xp,yp,initiator);
 		mass = initiator.getMass();
 		startx = xp;
 		starty = yp;
@@ -21,6 +21,7 @@ public class EffectClone extends Effect{
 		flipx = fx;
 		flipy = fy;
 		flipa = fa;
+		bumped.add(initiator);
 		buildBody();
 		orientParts();
 	}
@@ -28,7 +29,6 @@ public class EffectClone extends Effect{
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
-		
 		orientParts();
 	}
 	protected void buildBody() {
@@ -101,18 +101,41 @@ public class EffectClone extends Effect{
 	
 	//clones do not bounce off of walls?????
 	public void triggerShield() {
+		kill();
 	}
 	
-	public double getXVel() {return 0;}
-	public double getYVel() {return 0;}
+	public double getXVel() {
+		double xv = initiator.getXVel();
+		double yv = initiator.getYVel();
+		if(flipx)xv*=-1;
+		if(flipy)yv*=-1;
+		if(flipa) {
+			double sxv = xv;
+			xv = yv;
+			yv = sxv;
+		}
+		return xv;
+	}
+	public double getYVel() {
+		double xv = initiator.getXVel();
+		double yv = initiator.getYVel();
+		if(flipx)xv*=-1;
+		if(flipy)yv*=-1;
+		if(flipa) {
+			double sxv = xv;
+			xv = yv;
+			yv = sxv;
+		}
+		return yv;
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		/*if(boom!=null)boom.update();
-		int opac = 255-(int)(.5+((double)getRadius()/maxRad)*255);
-		g.setColor(new Color(255,255,255,opac));
-		g.fillOval((int)(.5+boom.getCenterX()-boom.getRadius()),(int)(.5+boom.getCenterY()-boom.getRadius()),(int)(.5+boom.getRadius()*2),(int)(.5+boom.getRadius()*2));
-		*/
+		g.setColor(new Color(255,255,255,100));
+		for(int i=0; i<parts.size(); i++) {
+			parts.get(i).update();
+			parts.get(i).paint(g);
+		}
 	}
 	
 }

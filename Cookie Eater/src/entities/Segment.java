@@ -61,4 +61,7 @@ public abstract class Segment {
 	public void update() {
 		scale = board.currFloor.getScale();
 	}
+	public void paint(Graphics g) {
+		
+	}
 }
