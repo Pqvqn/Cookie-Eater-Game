@@ -96,7 +96,7 @@ public class ExplorerVendor extends Explorer{
 	//chooses Item cookie to add to wares
 	public String findItem() {
 		String ret = "";
-		switch((int)(Math.random()*15)) {
+		switch((int)(Math.random()*16)) {
 		case 0:
 			ret = "Boost";
 			break;
@@ -141,6 +141,8 @@ public class ExplorerVendor extends Explorer{
 			break;
 		case 14:
 			ret = "Chain";
+		case 15:
+			ret = "Clone";
 		default:
 			ret = "Boost";
 			break;

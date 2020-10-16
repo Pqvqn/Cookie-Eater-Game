@@ -18,13 +18,13 @@ public class ItemClone extends Item{
 		desc="Creates mirrored clone of user movement.`Amplify: More clones";
 	}
 	public void prepare() {
+	}
+	public void initialize() {
 		for(int i=0; i<num; i++) {
 			EffectClone clone;
 			clones.add(clone = new EffectClone(board,board.getCycle(),(int)(.5+user.getX()),(int)(.5+user.getY()),(int)(.5+user.getAim()),user,states[i%3+1][0],states[i%3+1][1],i>2));
 			board.effects.add(clone);
 		}
-	}
-	public void initialize() {
 	}
 	public void execute() {
 		if(checkCanceled())return;

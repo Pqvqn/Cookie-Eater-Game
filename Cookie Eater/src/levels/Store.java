@@ -129,7 +129,7 @@ public abstract class Store extends Level{
 		addToCatalogue(I,"Repeat",P,def*1.2);
 		//addToCatalogue(I,"Projectile",P,def*1.3);
 		addToCatalogue(I,"Rebound",P,def*1.2);
-		//addToCatalogue(I,"Clone",P,def*1.3);
+		addToCatalogue(I,"Clone",P,def*1.3);
 		addToCatalogue(I,"Ricochet",P,def*1.1);
 		//addToCatalogue(I,"Slash",P,def*1.1);
 		//addToCatalogue(I,"Wall",P,def*1.2);

@@ -21,7 +21,7 @@ public class EffectClone extends Effect{
 		flipx = fx;
 		flipy = fy;
 		flipa = fa;
-		bumped.add(initiator);
+		collides = false;
 		buildBody();
 		orientParts();
 	}
@@ -97,8 +97,8 @@ public class EffectClone extends Effect{
 	//remove clone
 	public void kill() {
 		super.kill();
+		parts = new ArrayList<Segment>();
 	}
-	
 	//clones do not bounce off of walls?????
 	public void triggerShield() {
 		kill();

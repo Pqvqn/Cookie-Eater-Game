@@ -180,29 +180,25 @@ public abstract class Entity {
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				for(Summon2 s : e.getSummons())entities.add(s);
-				if(!e.equals(this) && 
-						(!(e instanceof Summon2) || !(((Summon2)e).getUser().equals(this) && ((Summon2)e).getAnchored())) && 
-						(!(this instanceof Summon2) || !(((Summon2)this).getUser().equals(e) && ((Summon2)this).getAnchored()))
-						&& !(this instanceof Effect && e instanceof Effect)) {
-					if(!e.getGhosted() && !ghost) {
-						if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
-							double bmass = mass;
-							double bxv = x_velocity;
-							double byv = y_velocity;
-							double[] point = Level.areasHitPoint(getArea(true),e.getArea(true));
-							collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
-							e.collideAt(this,point[0],point[1],bxv,byv,bmass);
-							while(collidesWithArea(true,true,e)) {
-								double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-								setX((getX()-point[0])*rat+getX());
-								setY((getY()-point[1])*rat+getY());
-								orientParts();
-								rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
-								e.setX((e.getX()-point[0])*rat+e.getX());
-								e.setY((e.getY()-point[1])*rat+e.getY());
-								e.orientParts();
-							}
+				if(allowedToCollide(this,e)) {
+					if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
+						double bmass = mass;
+						double bxv = x_velocity;
+						double byv = y_velocity;
+						double[] point = Level.areasHitPoint(getArea(true),e.getArea(true));
+						collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
+						e.collideAt(this,point[0],point[1],bxv,byv,bmass);
+						while(collidesWithArea(true,true,e)) {
+							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+							setX((getX()-point[0])*rat+getX());
+							setY((getY()-point[1])*rat+getY());
+							orientParts();
+							rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
+							e.setX((e.getX()-point[0])*rat+e.getX());
+							e.setY((e.getY()-point[1])*rat+e.getY());
+							e.orientParts();
 						}
+					}
 						/*for(int k=0; k<e.getParts().size(); k++) {
 							Segment s = e.getParts().get(k);
 							if(s instanceof SegmentCircle) {
@@ -247,7 +243,6 @@ public abstract class Entity {
 								}
 							}
 						}*/
-					}
 				}
 			}
 			
@@ -306,6 +301,17 @@ public abstract class Entity {
 			x_velocity *= rat;
 			y_velocity *= rat;
 		}
+	}
+	//tests if two entities can collide
+	public static boolean allowedToCollide(Entity e1, Entity e2) {
+		if(e1.equals(e2))return false; //if entity is colliding with itself
+		if(e1.getGhosted() || e2.getGhosted())return false; //if either entity is ghosted
+		if(e1 instanceof Summon2 && ((Summon2)e1).getUser().equals(e2) && ((Summon2)e1).getAnchored())return false; //if one entity is the other's summon
+		if(e2 instanceof Summon2 && ((Summon2)e2).getUser().equals(e1) && ((Summon2)e2).getAnchored())return false;
+		if(e1 instanceof Effect && e2 instanceof Effect)return false; //if both entities are effects
+		if(e1 instanceof Effect && !((Effect)e1).doesCollision())return false; //if either entity is an effect that can't collide
+		if(e2 instanceof Effect && !((Effect)e2).doesCollision())return false;
+		return true;
 	}
 	//collides with anything other than cookies
 	public boolean collidesWithAnything() {

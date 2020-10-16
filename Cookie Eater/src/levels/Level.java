@@ -226,9 +226,9 @@ public abstract class Level{
 			case "Rebound":
 				b = new ItemRebound(board);
 				break;
-			/*case "Clone":
+			case "Clone":
 				b = new ItemClone(board);
-				break;*/
+				break;
 			case "Ricochet":
 				b = new ItemRicochet(board);
 				break;
