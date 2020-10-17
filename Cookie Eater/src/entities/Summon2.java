@@ -88,7 +88,7 @@ public class Summon2 extends Entity{
 
 	}
 	
-	public double getAim() {return user.getAim();}
+	public double getAim() {return getAngle();}
 	public boolean getAnchored() {return anchor;}
 	
 	//take all items from user

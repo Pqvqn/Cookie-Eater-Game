@@ -57,6 +57,9 @@ public class EffectClone extends Effect{
 				thisS.setLocation(posState[0], posState[1]);
 				thisS.setAngle(posState[2]);
 				thisS.setSize(parentS.getSize());
+				if(parentS instanceof SegmentRectangle){
+					((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+				}
 			}else { //if wrong shape, remake parts list
 				regen = true;
 			}
@@ -131,7 +134,7 @@ public class EffectClone extends Effect{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(new Color(255,255,255,100));
+		g.setColor(new Color(255,0,0,100));
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).update();
 			parts.get(i).paint(g);
