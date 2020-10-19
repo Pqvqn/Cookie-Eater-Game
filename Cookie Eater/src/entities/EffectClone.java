@@ -84,15 +84,15 @@ public class EffectClone extends Effect{
 		newY = starty + (flipa ? changeX : changeY);
 
 		if(flipx) {
-			newAngle = starta + Math.PI - aa;
+			newAngle = Math.PI - aa; //startaa??
 		}
 		if(flipy) {
-			newAngle = starta - aa;
+			newAngle = aa;
 		}
 		if(flipa) {
 			newAngle = Math.PI/2 - newAngle;
+			//newAngle = Math.atan2(Math.cos(newAngle),Math.sin(newAngle));
 		}
-		
 		return new double[] {newX, newY, newAngle};
 	}
 	
