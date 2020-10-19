@@ -86,8 +86,8 @@ public class Controls implements KeyListener{
 				break;
 			case KeyEvent.VK_O:
 				player.addItem(0, new ItemClone(board));
-				player.addItem(0, new ItemSummonMelee(board));
-				//player.addItem(0, new ItemSummonProjectile(board));
+				//player.addItem(0, new ItemSummonMelee(board));
+				player.addItem(0, new ItemSummonProjectile(board));
 				//player.addItem(0, new ItemFlow(board));
 				//player.addItem(0, new ItemCircle(board));
 				//player.addItem(0, new ItemField(board));

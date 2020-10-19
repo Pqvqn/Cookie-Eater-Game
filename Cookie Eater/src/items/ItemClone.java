@@ -20,9 +20,10 @@ public class ItemClone extends Item{
 	public void prepare() {
 	}
 	public void initialize() {
-		for(int i=0; i<num; i++) {
+		for(int i=1; i<=num; i++) {
 			EffectClone clone;
-			clones.add(clone = new EffectClone(board,board.getCycle(),(int)(.5-user.xChange(0)),(int)(.5-user.yChange(0)),(int)(.5+user.getAim()),user,states[i%3+1][0],states[i%3+1][1],i>2));
+			clones.add(clone = new EffectClone(board,board.getCycle(),(int)(.5-user.xChange(0)),(int)(.5-user.yChange(0)),(int)(.5+user.getAim()),user,
+					states[i%4][0],states[i%4][1],(i-1)%7>=3));
 			board.effects.add(clone);
 		}
 	}

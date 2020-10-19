@@ -301,7 +301,7 @@ public class Summon2 extends Entity{
 			g2.fillRect((int)(.5+homex),(int)(.5+homey-getThickness()/2),(int)(.5+getLength()),(int)(.5+getThickness()));
 			g2.setTransform(at);
 		}else if(body instanceof SegmentCircle) {
-			g2.fillOval((int)(.5+x-getTotalRadius()/2),(int)(.5+y-getTotalRadius()/2),(int)(.5+getTotalRadius()),(int)(.5+getTotalRadius()));
+			g2.fillOval((int)(.5+x-getTotalRadius()),(int)(.5+y-getTotalRadius()),(int)(.5+getTotalRadius()*2),(int)(.5+getTotalRadius()*2));
 		}
 
 

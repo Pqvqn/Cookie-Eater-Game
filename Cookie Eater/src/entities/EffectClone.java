@@ -78,18 +78,18 @@ public class EffectClone extends Effect{
 		double newY = ay;
 		
 		//change position values for each transformation
+		double changeX = (flipx) ? startx - ax : ax - startx;
+		double changeY = (flipy) ? starty - ay : ay - starty;
+		newX = startx + (flipa ? changeY : changeX);
+		newY = starty + (flipa ? changeX : changeY);
+
 		if(flipx) {
-			newX = 2 * startx - ax;
 			newAngle = starta + Math.PI - aa;
 		}
 		if(flipy) {
-			newY = 2 * starty - ay;
 			newAngle = starta - aa;
 		}
 		if(flipa) {
-			double storeX = newX;
-			newX = newY;
-			newY = storeX;
 			newAngle = Math.PI/2 - newAngle;
 		}
 		
