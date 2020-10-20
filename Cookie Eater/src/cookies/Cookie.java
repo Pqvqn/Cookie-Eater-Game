@@ -84,11 +84,18 @@ public class Cookie {
 		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currFloor.getScale();
 	}
 	
-	//delete self and increase score
 	public void kill(Entity consumer) {
+		kill(consumer,-1);
+	}
+	//delete self and increase score
+	public void kill(Entity consumer, double decayValue) {
 		if(consumer!=null) {
 			if(decayed) { //less value for decayed cookies
-				value = consumer.getDecayedValue();
+				if(decayValue>=0) {
+					value = decayValue;
+				}else {
+					value = consumer.getDecayedValue();
+				}
 			}
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
@@ -101,7 +108,7 @@ public class Cookie {
 			}
 			if(consumer instanceof Summon2) {
 				if(((Summon2)consumer).getUser()!=null) {
-					kill(((Summon2)consumer).getUser());
+					kill(((Summon2)consumer).getUser(),consumer.getDecayedValue());
 					return;
 				}
 			}
