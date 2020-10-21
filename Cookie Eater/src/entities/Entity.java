@@ -54,6 +54,7 @@ public abstract class Entity {
 	protected double maxRecoil;
 	protected String name;
 	protected Map<String,String> variableStates; //behavior-determining states
+	protected double[] relativeFrame = {0,0}; //coordinate offsets for relative frame
 	
 	public Entity(Board frame, int cycletime) {
 		calibration_ratio = cycletime/15.0;
@@ -359,17 +360,16 @@ public abstract class Entity {
 	}
 	public ArrayList<Segment> getParts(){return parts;}
 	
-	public double getX() {return x;}
-	public double getY() {return y;}
-	public void setX(double xp) {x=xp;}
-	public void setY(double yp) {y=yp;}
-	public double xChange(double xp) {return xp-x;}
-	public double yChange(double yp) {return yp-y;}
+	//position methods, rel determines if relative frame is used
+	public double getX(boolean rel) {return x+ (rel?relativeFrame[0]:0);}
+	public double getY(boolean rel) {return y+ (rel?relativeFrame[1]:0);}
+	public void setX(double xp, boolean rel) {x=xp+ (rel?relativeFrame[0]:0);}
+	public void setY(double yp, boolean rel) {y=yp+ (rel?relativeFrame[1]:0);}
 	
-	public double getXVel() {return x_velocity;}
-	public double getYVel() {return y_velocity;}
-	public void setXVel(double a) {x_velocity = a;}
-	public void setYVel(double a) {y_velocity = a;}
+	public double getXVel(boolean rel) {return x_velocity;}
+	public double getYVel(boolean rel) {return y_velocity;}
+	public void setXVel(double a, boolean rel) {x_velocity = a;}
+	public void setYVel(double a, boolean rel) {y_velocity = a;}
 	
 	public double getMass() {return mass;}
 	
