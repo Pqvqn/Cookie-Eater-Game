@@ -13,8 +13,8 @@ public class ItemReturn extends Item{
 		desc="Sends user back to starting point of special.`Amplify: Longer game freeze on return";
 	}
 	public void prepare() {
-		x=user.getX();
-		y=user.getY();
+		x=user.getX(true);
+		y=user.getY(true);
 	}
 	public void initialize() {
 
@@ -23,8 +23,8 @@ public class ItemReturn extends Item{
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		user.setX(x);
-		user.setY(y);
+		user.setX(x,true);
+		user.setY(y,true);
 		board.freeze(amps*100-100);
 	}
 	public void amplify() {

@@ -360,9 +360,19 @@ public abstract class Entity {
 	}
 	public ArrayList<Segment> getParts(){return parts;}
 	
+	//sets offset of relative frame
+	public void setRelativeFrame(double xShift, double yShift) {
+		relativeFrame[0] = xShift;
+		relativeFrame[1] = yShift;
+	}
+	
 	//position methods, rel determines if relative frame is used
+	public double getX() {return getX(false);}
+	public double getY() {return getY(false);}
 	public double getX(boolean rel) {return x+ (rel?relativeFrame[0]:0);}
 	public double getY(boolean rel) {return y+ (rel?relativeFrame[1]:0);}
+	public void setX(double xp) {setX(xp,false);}
+	public void setY(double yp) {setY(yp,false);}
 	public void setX(double xp, boolean rel) {x=xp+ (rel?relativeFrame[0]:0);}
 	public void setY(double yp, boolean rel) {y=yp+ (rel?relativeFrame[1]:0);}
 	

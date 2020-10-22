@@ -17,22 +17,22 @@ public class ItemGhost extends Item{
 		user.setGhost(true);
 		user.setOffstage(offstage_dist);
 		initod=user.getOffstage();
-		lastx = user.getX();
-		lasty = user.getY();
+		lastx = user.getX(true);
+		lasty = user.getY(true);
 	}
 	public void execute() {
 		if(checkCanceled())return;
 		if(!user.collidesWithAnything()) {
-			lastx = user.getX();
-			lasty = user.getY();
+			lastx = user.getX(true);
+			lasty = user.getY(true);
 		}
 	}
 	public void end(boolean interrupted) {
 		user.setGhost(false);
 		user.setOffstage(initod);
 		if(user.collidesWithAnything()) { //if user ends ghost while inside something, send them to last position that wasn't like that
-			user.setX(lastx);
-			user.setY(lasty);
+			user.setX(lastx,true);
+			user.setY(lasty,true);
 			//user.setXVel(0);
 			//user.setYVel(0);
 		}

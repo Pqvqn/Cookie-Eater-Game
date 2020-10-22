@@ -22,7 +22,7 @@ public class ItemClone extends Item{
 	public void initialize() {
 		for(int i=1; i<=num; i++) {
 			EffectClone clone;
-			clones.add(clone = new EffectClone(board,board.getCycle(),(int)(.5-user.xChange(0)),(int)(.5-user.yChange(0)),(int)(.5+user.getAim()),user,
+			clones.add(clone = new EffectClone(board,board.getCycle(),(int)(.5-user.getX(true)),(int)(.5-user.getY(true)),(int)(.5+user.getAim()),user,
 					states[i%4][0],states[i%4][1],(i-1)%7>=3));
 			board.effects.add(clone);
 		}

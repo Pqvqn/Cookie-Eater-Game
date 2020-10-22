@@ -16,7 +16,7 @@ public class ItemTeleport extends Item{
 	public void prepare() {
 		double maxDist=0;
 		for(Cookie c : board.cookies) { //find farthest cookie
-			double compare = Math.sqrt(Math.pow(user.xChange(c.getX()), 2)+Math.pow(user.yChange(c.getY()), 2));
+			double compare = Math.sqrt(Math.pow(c.getX() - user.getX(), 2)+Math.pow(Math.pow(c.getY() - user.getY(), 2)));
 			if(compare > maxDist) {
 				maxDist = compare;
 				target = c;
@@ -25,8 +25,8 @@ public class ItemTeleport extends Item{
 	}
 	public void initialize() {
 		if(target!=null) { //only if target found, teleport to it
-			user.setX(user.getX()+user.xChange(target.getX()));
-			user.setY(user.getY()+user.yChange(target.getY()));
+			user.setX(target.getX());
+			user.setY(target.getY());
 			board.freeze(amps*100-100);
 		}
 	}
