@@ -19,18 +19,18 @@ public class ItemBoost extends Item{
 	}
 	public void initialize() {
 		user.lockControl(true);
-		initx = user.getXVel();
-		inity = user.getYVel();
+		initx = user.getXVel(true);
+		inity = user.getYVel(true);
 	}
 	
 	public void execute() {	
 		if(checkCanceled())return;
-		if (user.getXVel()==0 && user.getYVel()==0) {
-			user.setXVel(Math.cos(dir));
-			user.setYVel(Math.sin(dir));
+		if (user.getXVel(true)==0 && user.getYVel(true)==0) {
+			user.setXVel(Math.cos(dir),true);
+			user.setYVel(Math.sin(dir),true);
 		}
-		double x = initx==0 ? user.getXVel() : initx;
-		double y = inity==0 ? user.getYVel() : inity;
+		double x = initx==0 ? user.getXVel(true) : initx;
+		double y = inity==0 ? user.getYVel(true) : inity;
 		double h = (board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale(); //speed of boost
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
@@ -41,16 +41,16 @@ public class ItemBoost extends Item{
 		//user.setXVel(x*r); //make fast
 		//user.setYVel(y*r);
 		user.averageVels(x*r, y*r);
-		initx = user.getXVel();
-		inity = user.getYVel();
+		initx = user.getXVel(true);
+		inity = user.getYVel(true);
 	}
 	
 	public void end(boolean interrupted) {
 		user.lockControl(false);
 	}
 	public void bounce(Object bouncedOff, double x, double y) {
-		initx = user.getXVel();
-		inity = user.getYVel();
+		initx = user.getXVel(true);
+		inity = user.getYVel(true);
 	}
 	public void amplify() {
 		super.amplify();

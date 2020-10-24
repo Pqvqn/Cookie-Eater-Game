@@ -16,7 +16,7 @@ public class ItemTeleport extends Item{
 	public void prepare() {
 		double maxDist=0;
 		for(Cookie c : board.cookies) { //find farthest cookie
-			double compare = Math.sqrt(Math.pow(c.getX() - user.getX(), 2)+Math.pow(Math.pow(c.getY() - user.getY(), 2)));
+			double compare = Math.sqrt(Math.pow(c.getX() - user.getX(), 2)+(Math.pow(c.getY() - user.getY(), 2)));
 			if(compare > maxDist) {
 				maxDist = compare;
 				target = c;

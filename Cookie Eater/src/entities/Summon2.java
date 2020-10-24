@@ -28,7 +28,7 @@ public class Summon2 extends Entity{
 		anchor = anchored;
 		//x = user.getX();
 		//y = user.getY();
-		double userAngle = Math.atan2(user.getYVel(),user.getXVel());
+		double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
 		spawn = 3.5;
 		setX(((anchored)?0:user.getX())+
 				Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
@@ -37,9 +37,9 @@ public class Summon2 extends Entity{
 		homex = user.getX();
 		homey = user.getY();
 		setShields(shields);
-		double rat = .001/(Level.lineLength(0,0,user.getXVel(),user.getYVel())); //set vels to user's, but miniscule
-		x_velocity = user.getXVel()*rat;
-		y_velocity = user.getYVel()*rat;
+		double rat = .001/(Level.lineLength(0,0,user.getXVel(true),user.getYVel(true))); //set vels to user's, but miniscule
+		x_velocity = user.getXVel(true)*rat;
+		y_velocity = user.getYVel(true)*rat;
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
 		halt = false;
@@ -219,24 +219,10 @@ public class Summon2 extends Entity{
 		if(body!=null)orientParts();
 	}
 	
-	public double getXVel() {return x_velocity;}
+	/*public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}
 	public void setXVel(double a) {x_velocity = a;}
-	public void setYVel(double a) {y_velocity = a;}
-	public double xChange(double xp) {
-		if(anchor) {
-			return (xp-user.getX())-relx;
-		}else {
-			return super.xChange(xp);
-		}
-	}
-	public double yChange(double yp) {
-		if(anchor) {
-			return (yp-user.getY())-rely;
-		}else {
-			return super.yChange(yp);
-		}
-	}
+	public void setYVel(double a) {y_velocity = a;}*/
 	public double getThickness() {
 		return getTotalRadius()*2;
 	}

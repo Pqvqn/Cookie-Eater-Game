@@ -56,7 +56,7 @@ public abstract class CookieStore extends Cookie{
 		if(board.cookies.contains(this)) {
 			if(!board.draw.getUIList().contains(info))board.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
-					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel()==0 && player.getYVel()==0,
+					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel(true)==0 && player.getYVel(true)==0,
 					price,price<=board.player.getCash(),name,desc);
 		}else {
 			info.setVisible(false);

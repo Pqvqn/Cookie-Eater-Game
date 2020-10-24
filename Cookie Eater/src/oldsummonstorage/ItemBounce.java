@@ -1,5 +1,6 @@
-package items;
+package oldsummonstorage;
 import ce3.*;
+import items.Item;
 
 public class ItemBounce extends Item{ //discontinued
 

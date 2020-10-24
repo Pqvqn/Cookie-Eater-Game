@@ -54,7 +54,8 @@ public abstract class Entity {
 	protected double maxRecoil;
 	protected String name;
 	protected Map<String,String> variableStates; //behavior-determining states
-	protected double[] relativeFrame = {0,0}; //coordinate offsets for relative frame
+	protected double[] relativeFrame = {0,0}; //x,y on main coordinates of relative frame's 0,0
+	protected double[] relativeVel = {0,0}; //velocity of the frame relative to the board
 	
 	public Entity(Board frame, int cycletime) {
 		calibration_ratio = cycletime/15.0;
@@ -361,9 +362,9 @@ public abstract class Entity {
 	public ArrayList<Segment> getParts(){return parts;}
 	
 	//sets offset of relative frame
-	public void setRelativeFrame(double xShift, double yShift) {
-		relativeFrame[0] = xShift;
-		relativeFrame[1] = yShift;
+	public void setRelativeFrame(double xP, double yP) {
+		relativeFrame[0] = xP;
+		relativeFrame[1] = yP;
 	}
 	
 	//position methods, rel determines if relative frame is used
@@ -376,10 +377,14 @@ public abstract class Entity {
 	public void setX(double xp, boolean rel) {x=xp+ (rel?relativeFrame[0]:0);}
 	public void setY(double yp, boolean rel) {y=yp+ (rel?relativeFrame[1]:0);}
 	
-	public double getXVel(boolean rel) {return x_velocity;}
-	public double getYVel(boolean rel) {return y_velocity;}
-	public void setXVel(double a, boolean rel) {x_velocity = a;}
-	public void setYVel(double a, boolean rel) {y_velocity = a;}
+	public double getXVel() {return getXVel(false);}
+	public double getYVel() {return getYVel(false);}
+	public double getXVel(boolean rel) {return x_velocity+ (rel?relativeVel[0]:0);}
+	public double getYVel(boolean rel) {return y_velocity+ (rel?relativeVel[1]:0);}
+	public void setXVel(double a) {setXVel(a,false);}
+	public void setYVel(double a) {setYVel(a,false);}
+	public void setXVel(double a, boolean rel) {x_velocity=a+ (rel?relativeVel[0]:0);}
+	public void setYVel(double a, boolean rel) {y_velocity=a+ (rel?relativeVel[1]:0);}
 	
 	public double getMass() {return mass;}
 	
@@ -391,12 +396,12 @@ public abstract class Entity {
 	//takes velocity changes from items and averages them
 	public void averageVels(double xVel, double yVel) {
 		if(countVels==0) {
-			setXVel(0);
-			setYVel(0);
+			setXVel(0,true);
+			setYVel(0,true);
 		}
 		countVels++;
-		setXVel((getXVel()*(countVels-1)+xVel)/countVels);
-		setYVel((getYVel()*(countVels-1)+yVel)/countVels);
+		setXVel((getXVel(true)*(countVels-1)+xVel)/countVels,true);
+		setYVel((getYVel(true)*(countVels-1)+yVel)/countVels,true);
 	}
 	
 	public void setShielded(boolean s) {shielded=s;shield_tick=!s;}

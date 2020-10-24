@@ -19,7 +19,7 @@ public class ItemFlow extends Item{
 	}
 	public void execute() {
 		if(checkCanceled())return;
-		double velocity = Math.sqrt(Math.pow(user.getXVel(),2)+Math.pow(user.getYVel(), 2)); //get user speed
+		double velocity = Math.sqrt(Math.pow(user.getXVel(true),2)+Math.pow(user.getYVel(true), 2)); //get user speed
 		velocity/=(board.getAdjustedCycle()/15.0);
 		velocity/=board.currFloor.getScale();
 		if(velocity<1)velocity=1;
