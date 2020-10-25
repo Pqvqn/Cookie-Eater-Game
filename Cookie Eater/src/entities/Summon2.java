@@ -14,9 +14,7 @@ public class Summon2 extends Entity{
 	private Entity user;
 	private boolean anchor; //whether item is anchored to the summoner
 	private double homex,homey; //x and y position of edge 
-	private double relx,rely; //x and y relative to user
 	private Segment body;
-	private boolean halt; //whether summon should maintain position
 	private double spawn; //multiplied by radius to produce distance from user that summon spawns
 	private double fric; //friction subtracted from velocity each cycle (for anchored only)
 	
@@ -30,10 +28,8 @@ public class Summon2 extends Entity{
 		//y = user.getY();
 		double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
 		spawn = 3.5;
-		setX(((anchored)?0:user.getX())+
-				Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
-		setY(((anchored)?0:user.getY())+
-				Math.sin(userAngle)*user.getRadius()*spawn);
+		setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
+		setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
 		homex = user.getX();
 		homey = user.getY();
 		setShields(shields);
@@ -42,7 +38,6 @@ public class Summon2 extends Entity{
 		y_velocity = user.getYVel(true)*rat;
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
-		halt = false;
 		fric = .1;
 		buildBody();
 		orientParts();
@@ -53,16 +48,18 @@ public class Summon2 extends Entity{
 		if(anchor) { //if anchored to the user, move with user
 			//setXVel(user.getXVel());
 			//setYVel(user.getYVel());
+			setRelativeFrame(user.getX(),user.getY());
+			setRelativeVel(user.getXVel(),user.getYVel());
 			homex = user.getX();
 			homey = user.getY();
-			if(!halt) {
-				relx+=x_velocity;
-				rely+=y_velocity;
-			}
+			x += getXVel(true);
+			y += getYVel(true);
+			/*relx+=x_velocity;
+			rely+=y_velocity;
 			x = user.getX()+relx;
 			y = user.getY()+rely;
 			x_velocity = 0;
-			y_velocity = 0;
+			y_velocity = 0;*/
 		}else {
 			x+=x_velocity;
 			y+=y_velocity;
@@ -169,8 +166,6 @@ public class Summon2 extends Entity{
 			//halt = true;
 			//x_velocity = 0;
 			//y_velocity = 0;
-			relx = 0;
-			rely = 0;
 			x = homex;
 			y = homey;
 			if(special) {
@@ -185,7 +180,7 @@ public class Summon2 extends Entity{
 	}
 	
 	
-	//position based on if anchored to player
+	/*//position based on if anchored to player
 	public double getX() {
 		if(anchor) {
 			return relx;
@@ -217,7 +212,7 @@ public class Summon2 extends Entity{
 			super.setY(yp);
 		}
 		if(body!=null)orientParts();
-	}
+	}*/
 	
 	/*public double getXVel() {return x_velocity;}
 	public double getYVel() {return y_velocity;}

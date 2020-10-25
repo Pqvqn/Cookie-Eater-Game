@@ -307,7 +307,7 @@ public abstract class Entity {
 	//tests if two entities can collide
 	public static boolean allowedToCollide(Entity e1, Entity e2) {
 		if(e1.equals(e2))return false; //if entity is colliding with itself
-		if((e1.getGhosted() && !e1.getShielded()) || (e2.getGhosted() && !e2.getShielded()))return false; //if either entity is ghosted
+		if((e1.getGhosted() && !e1.getShielded()) || (e2.getGhosted() && !e2.getShielded()))return false; //if either entity is ghosted but not shielded
 		if(e1 instanceof Summon2 && ((Summon2)e1).getUser().equals(e2) && ((Summon2)e1).getAnchored())return false; //if one entity is the other's summon
 		if(e2 instanceof Summon2 && ((Summon2)e2).getUser().equals(e1) && ((Summon2)e2).getAnchored())return false;
 		if(e1 instanceof Effect && e2 instanceof Effect)return false; //if both entities are effects
@@ -365,6 +365,11 @@ public abstract class Entity {
 	public void setRelativeFrame(double xP, double yP) {
 		relativeFrame[0] = xP;
 		relativeFrame[1] = yP;
+	}
+	//sets offset of relative frame velocity
+	public void setRelativeVel(double xV, double yV) {
+		relativeVel[0] = xV;
+		relativeVel[1] = yV;
 	}
 	
 	//position methods, rel determines if relative frame is used
