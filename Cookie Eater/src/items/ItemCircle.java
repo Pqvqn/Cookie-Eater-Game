@@ -20,8 +20,8 @@ public class ItemCircle extends Item{
 	public void prepare() {
 		radius=radiusunadjust*board.currFloor.getScale();
 		count = 0;
-		initx=user.getXVel();
-		inity=-1*user.getYVel();
+		initx=user.getXVel(true);
+		inity=-1*user.getYVel(true);
 		
 		if(initx==0 && inity==0) { //if not moving, base on direction
 			radians = user.getAim()+Math.PI;
@@ -54,7 +54,7 @@ public class ItemCircle extends Item{
 		user.averageVels(initx,-inity);
 	}
 	public void bounce(Object bouncedOff, double x, double y) {
-		radians = Math.PI + ((user.getXVel()>=0) ? Math.atan(user.getYVel()/user.getXVel()) : Math.atan(user.getYVel()/user.getXVel()) + Math.PI);
+		radians = Math.PI + ((user.getXVel(true)>=0) ? Math.atan(user.getYVel(true)/user.getXVel(true)) : Math.atan(user.getYVel(true)/user.getXVel(true)) + Math.PI);
 	}
 	public void amplify() {
 		super.amplify();
