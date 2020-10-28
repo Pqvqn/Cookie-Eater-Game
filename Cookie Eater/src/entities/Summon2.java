@@ -52,8 +52,8 @@ public class Summon2 extends Entity{
 			setRelativeVel(user.getXVel(),user.getYVel());
 			homex = user.getX();
 			homey = user.getY();
-			x += getXVel(true);
-			y += getYVel(true);
+			x += getXVel();
+			y += getYVel();
 			/*relx+=x_velocity;
 			rely+=y_velocity;
 			x = user.getX()+relx;

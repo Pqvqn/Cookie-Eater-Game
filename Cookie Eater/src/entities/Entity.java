@@ -384,8 +384,8 @@ public abstract class Entity {
 	
 	public double getXVel() {return getXVel(false);}
 	public double getYVel() {return getYVel(false);}
-	public double getXVel(boolean rel) {return x_velocity+ (rel?relativeVel[0]:0);}
-	public double getYVel(boolean rel) {return y_velocity+ (rel?relativeVel[1]:0);}
+	public double getXVel(boolean rel) {return x_velocity+ (rel?-relativeVel[0]:0);}
+	public double getYVel(boolean rel) {return y_velocity+ (rel?-relativeVel[1]:0);}
 	public void setXVel(double a) {setXVel(a,false);}
 	public void setYVel(double a) {setYVel(a,false);}
 	public void setXVel(double a, boolean rel) {x_velocity=a+ (rel?relativeVel[0]:0);}
