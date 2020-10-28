@@ -74,14 +74,17 @@ public class EffectClone extends Effect{
 	//convert position state through transformations
 	public double[] transformState(double ax, double ay, double aa) {
 		double newAngle = aa;
-		double newX = ax;
-		double newY = ay;
+		double newX = initiator.getRelativeFrame()[0] + ax;
+		double newY = initiator.getRelativeFrame()[1] + ay;
+		
+		double absstartx = initiator.getRelativeFrame()[0] + startx; //start position on board adjusted for current relative frame
+		double absstarty = initiator.getRelativeFrame()[1] + starty;
 		
 		//change position values for each transformation
-		double changeX = (flipx) ? startx - ax : ax - startx;
-		double changeY = (flipy) ? starty - ay : ay - starty;
-		newX = startx + (flipa ? changeY : changeX);
-		newY = starty + (flipa ? changeX : changeY);
+		double changeX = (flipx) ? absstartx - ax : ax - absstartx;
+		double changeY = (flipy) ? absstarty - ay : ay - absstarty;
+		newX = absstartx + (flipa ? changeY : changeX);
+		newY = absstarty + (flipa ? changeX : changeY);
 
 		if(flipx) {
 			newAngle = Math.PI - aa; //startaa??

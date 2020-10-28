@@ -90,7 +90,7 @@ public class Controls implements KeyListener{
 				//player.addItem(0, new ItemSummonProjectile(board));
 				//player.addItem(0, new ItemFlow(board));
 				//player.addItem(0, new ItemHold(board));
-				player.addItem(0, new ItemCircle(board));
+				//player.addItem(0, new ItemCircle(board));
 				//player.addItem(0, new ItemField(board));
 				//player.addItem(0, new ItemBoost(board));
 				//player.addItem(0, new ItemCookieChain(board));

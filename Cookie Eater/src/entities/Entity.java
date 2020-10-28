@@ -360,12 +360,16 @@ public abstract class Entity {
 		bounds = getBounding(true);
 	}
 	public ArrayList<Segment> getParts(){return parts;}
-	
+	//returns relative frame offsets
+	public double[] getRelativeFrame() {
+		return relativeFrame;
+	}
 	//sets offset of relative frame
 	public void setRelativeFrame(double xP, double yP) {
 		relativeFrame[0] = xP;
 		relativeFrame[1] = yP;
 	}
+	
 	//sets offset of relative frame velocity
 	public void setRelativeVel(double xV, double yV) {
 		relativeVel[0] = xV;
