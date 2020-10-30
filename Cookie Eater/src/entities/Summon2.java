@@ -48,10 +48,13 @@ public class Summon2 extends Entity{
 		if(anchor) { //if anchored to the user, move with user
 			//setXVel(user.getXVel());
 			//setYVel(user.getYVel());
+			double relxv = getXVel(true);double relyv = getYVel(true);
 			setRelativeFrame(user.getX(),user.getY());
 			setRelativeVel(user.getXVel(),user.getYVel());
+			setXVel(relxv,true);setYVel(relyv,true);
 			homex = user.getX();
 			homey = user.getY();
+
 			x += getXVel();
 			y += getYVel();
 			/*relx+=x_velocity;
