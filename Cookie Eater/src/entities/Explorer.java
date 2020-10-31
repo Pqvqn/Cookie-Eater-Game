@@ -421,7 +421,7 @@ public class Explorer extends Entity{
 		}
 		if(dir!=direction && direction!=NONE) {
 			direction = NONE;
-			averageVels(0,0);
+			averageVels(0,0,false);
 		}else {
 			direction = dir;
 		}

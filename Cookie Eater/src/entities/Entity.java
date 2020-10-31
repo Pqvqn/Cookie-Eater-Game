@@ -403,14 +403,14 @@ public abstract class Entity {
 	public void lockControl(boolean l) {lock = l;}
 	
 	//takes velocity changes from items and averages them
-	public void averageVels(double xVel, double yVel) {
+	public void averageVels(double xVel, double yVel, boolean rel) {
 		if(countVels==0) {
-			setXVel(0,true);
-			setYVel(0,true);
+			setXVel(0,rel);
+			setYVel(0,rel);
 		}
 		countVels++;
-		setXVel((getXVel(true)*(countVels-1)+xVel)/countVels,true);
-		setYVel((getYVel(true)*(countVels-1)+yVel)/countVels,true);
+		setXVel((getXVel(rel)*(countVels-1)+xVel)/countVels,rel);
+		setYVel((getYVel(rel)*(countVels-1)+yVel)/countVels,rel);
 	}
 	
 	public void setShielded(boolean s) {shielded=s;shield_tick=!s;}

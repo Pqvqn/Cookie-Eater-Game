@@ -18,7 +18,7 @@ public class ItemHold extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		for(int i=0; i<times; i++)
-			user.averageVels(0, 0);
+			user.averageVels(0, 0, false);
 	}
 	public void end(boolean interrupted) {
 		user.lockControl(false);

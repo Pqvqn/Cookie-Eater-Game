@@ -40,7 +40,7 @@ public class ItemBoost extends Item{
 		}
 		//user.setXVel(x*r); //make fast
 		//user.setYVel(y*r);
-		user.averageVels(x*r, y*r);
+		user.averageVels(x*r, y*r,true);
 		initx = user.getXVel(true);
 		inity = user.getYVel(true);
 	}

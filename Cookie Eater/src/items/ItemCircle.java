@@ -43,7 +43,7 @@ public class ItemCircle extends Item{
 			radians+=.1*(board.getAdjustedCycle()/15.0);
 		
 					
-			user.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))));
+			user.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))),true);
 
 		}else {count=0;}	
 	}
@@ -51,7 +51,7 @@ public class ItemCircle extends Item{
 	public void end(boolean interrupted) {
 		user.lockControl(false);
 		count = 0;
-		user.averageVels(initx,-inity);
+		user.averageVels(initx,-inity,true);
 	}
 	public void bounce(Object bouncedOff, double x, double y) {
 		radians = Math.PI + ((user.getXVel(true)>=0) ? Math.atan(user.getYVel(true)/user.getXVel(true)) : Math.atan(user.getYVel(true)/user.getXVel(true)) + Math.PI);

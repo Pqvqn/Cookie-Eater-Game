@@ -72,7 +72,7 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_SPACE:
 				if(board.currFloor.haltEnabled()) {
 					player.setDir(Eater.NONE);
-					player.averageVels(0,0);
+					player.averageVels(0,0,false);
 				}
 				break;
 			case KeyEvent.VK_C:
