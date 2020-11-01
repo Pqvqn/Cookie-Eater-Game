@@ -26,6 +26,7 @@ public class Summon2 extends Entity{
 		anchor = anchored;
 		//x = user.getX();
 		//y = user.getY();
+		if(anchor)setRelativeFrame(user.getX(),user.getY());
 		double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
 		spawn = 3.5;
 		setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user

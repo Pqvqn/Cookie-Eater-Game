@@ -12,12 +12,12 @@ public class EffectClone extends Effect{
 	private int startx, starty, starta; //starting position of clone to reflect over
 	private boolean flipx, flipy, flipa; //whether should: reflect x pos, reflect y pos, swap x/y values
 	
-	public EffectClone(Board frame, int cycletime, int xp, int yp, int ap, Entity initiator, boolean fx, boolean fy, boolean fa) {
-		super(frame,cycletime,xp,yp,initiator);
+	public EffectClone(Board frame, int cycletime, Entity initiator, boolean fx, boolean fy, boolean fa) {
+		super(frame,cycletime,(int)(.5+initiator.getX()),(int)(.5+initiator.getY()),initiator);
 		mass = initiator.getMass();
-		startx = xp;
-		starty = yp;
-		starta = ap;
+		startx = (int)(.5+initiator.getX(true));
+		starty = (int)(.5+initiator.getY(true));
+		starta = (int)(.5+initiator.getAim());
 		flipx = fx;
 		flipy = fy;
 		flipa = fa;
@@ -47,6 +47,11 @@ public class EffectClone extends Effect{
 		}
 	}
 	public void orientParts() {
+		
+		double[] posState1 = transformState(initiator.getX(), initiator.getY(), initiator.getAim());
+		setX(posState1[0]);
+		setY(posState1[1]);
+		
 		boolean regen = initiator.getParts().size() != parts.size(); //whether list of parts needs to be regenerated
 		for(int i=0; i<initiator.getParts().size() && !regen; i++) {
 			Segment parentS = initiator.getParts().get(i);
@@ -74,8 +79,8 @@ public class EffectClone extends Effect{
 	//convert position state through transformations
 	public double[] transformState(double ax, double ay, double aa) {
 		double newAngle = aa;
-		double newX = initiator.getRelativeFrame()[0] + ax;
-		double newY = initiator.getRelativeFrame()[1] + ay;
+		double newX = ax; //- initiator.getRelativeFrame()[0];
+		double newY = ay; //- initiator.getRelativeFrame()[1];
 		
 		double absstartx = initiator.getRelativeFrame()[0] + startx; //start position on board adjusted for current relative frame
 		double absstarty = initiator.getRelativeFrame()[1] + starty;
@@ -90,16 +95,26 @@ public class EffectClone extends Effect{
 			newAngle = Math.PI - aa; //startaa??
 		}
 		if(flipy) {
-			newAngle = aa;
+			newAngle = 2*Math.PI - aa;
 		}
 		if(flipa) {
-			newAngle = Math.PI/2 - newAngle;
+			//double yaxis = newAngle%(Math.PI*2)>Math.PI ? Math.PI*1.5 : Math.PI * .5;
+			//double xaxis = newAngle%(Math.PI*2)>Math.PI*.5 && newAngle%(Math.PI*2)<Math.PI*1.5 ? Math.PI : 0;
+			//newAngle = xaxis + yaxis - newAngle;
+			
 			//newAngle = Math.atan2(Math.cos(newAngle),Math.sin(newAngle));
+			
+			newAngle %= Math.PI * 2;
+			int quads = (int)(newAngle / (Math.PI * .5));
+			double rem = newAngle % (Math.PI * .5);
+			newAngle = Math.PI - rem + quads * Math.PI * .5;
 		}
 		return new double[] {newX, newY, newAngle};
 	}
 	
-	
+	public boolean canCollideWith(Entity e) {
+		return false;
+	}
 	//remove clone
 	public void kill() {
 		super.kill();
@@ -137,7 +152,7 @@ public class EffectClone extends Effect{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(new Color(255,0,0,100));
+		g.setColor(new Color(flipx?255:0,flipy?255:0,flipa?255:0,100));
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).update();
 			parts.get(i).paint(g);

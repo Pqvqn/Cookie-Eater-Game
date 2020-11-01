@@ -306,6 +306,7 @@ public abstract class Entity {
 	}
 	//tests if two entities can collide
 	public static boolean allowedToCollide(Entity e1, Entity e2) {
+		if(!e1.canCollideWith(e2) || !e2.canCollideWith(e1))return false; //if either entity specifically cannot collide
 		if(e1.equals(e2))return false; //if entity is colliding with itself
 		if((e1.getGhosted() && !e1.getShielded()) || (e2.getGhosted() && !e2.getShielded()))return false; //if either entity is ghosted but not shielded
 		if(e1 instanceof Summon2 && ((Summon2)e1).getUser().equals(e2) && ((Summon2)e1).getAnchored())return false; //if one entity is the other's summon
@@ -313,6 +314,10 @@ public abstract class Entity {
 		if(e1 instanceof Effect && e2 instanceof Effect)return false; //if both entities are effects
 		if(e1 instanceof Effect && !((Effect)e1).doesCollision())return false; //if either entity is an effect that can't collide
 		if(e2 instanceof Effect && !((Effect)e2).doesCollision())return false;
+		return true;
+	}
+	//if this entity class has specifications preventing collisions
+	public boolean canCollideWith(Entity e) {
 		return true;
 	}
 	//collides with anything other than cookies
@@ -379,8 +384,8 @@ public abstract class Entity {
 	//position methods, rel determines if relative frame is used
 	public double getX() {return getX(false);}
 	public double getY() {return getY(false);}
-	public double getX(boolean rel) {return x+ (rel?relativeFrame[0]:0);}
-	public double getY(boolean rel) {return y+ (rel?relativeFrame[1]:0);}
+	public double getX(boolean rel) {return x+ (rel?-relativeFrame[0]:0);}
+	public double getY(boolean rel) {return y+ (rel?-relativeFrame[1]:0);}
 	public void setX(double xp) {setX(xp,false);}
 	public void setY(double yp) {setY(yp,false);}
 	public void setX(double xp, boolean rel) {x=xp+ (rel?relativeFrame[0]:0);}
