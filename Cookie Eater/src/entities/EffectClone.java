@@ -92,10 +92,10 @@ public class EffectClone extends Effect{
 		newY = absstarty + (flipa ? changeX : changeY);
 
 		if(flipx) {
-			newAngle = Math.PI - aa; //startaa??
+			newAngle = Math.PI - newAngle; //startaa??
 		}
 		if(flipy) {
-			newAngle = 2*Math.PI - aa;
+			newAngle = 2*Math.PI - newAngle;
 		}
 		if(flipa) {
 			//double yaxis = newAngle%(Math.PI*2)>Math.PI ? Math.PI*1.5 : Math.PI * .5;
@@ -107,13 +107,13 @@ public class EffectClone extends Effect{
 			newAngle %= Math.PI * 2;
 			int quads = (int)(newAngle / (Math.PI * .5));
 			double rem = newAngle % (Math.PI * .5);
-			newAngle = Math.PI - rem + quads * Math.PI * .5;
+			newAngle = Math.PI * .5 - rem + quads * Math.PI * .5;
 		}
 		return new double[] {newX, newY, newAngle};
 	}
 	
 	public boolean canCollideWith(Entity e) {
-		return false;
+		return true;
 	}
 	//remove clone
 	public void kill() {

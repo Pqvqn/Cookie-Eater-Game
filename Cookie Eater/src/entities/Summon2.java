@@ -27,12 +27,12 @@ public class Summon2 extends Entity{
 		//x = user.getX();
 		//y = user.getY();
 		if(anchor)setRelativeFrame(user.getX(),user.getY());
-		double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
+		
 		spawn = 3.5;
-		setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
-		setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
 		homex = user.getX();
 		homey = user.getY();
+		setX(homex);
+		setY(homey);
 		setShields(shields);
 		double rat = .001/(Level.lineLength(0,0,user.getXVel(true),user.getYVel(true))); //set vels to user's, but miniscule
 		x_velocity = user.getXVel(true)*rat;
@@ -46,6 +46,13 @@ public class Summon2 extends Entity{
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
+		
+		if(getX() == homex && getY() == homey) { //if stacked
+			double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
+			setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
+			setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
+		}
+		
 		if(anchor) { //if anchored to the user, move with user
 			//setXVel(user.getXVel());
 			//setYVel(user.getYVel());
