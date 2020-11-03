@@ -258,6 +258,7 @@ public abstract class Entity {
 					setY((getY()-point[1])*rat+getY());
 					orientParts();
 				}
+
 				/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 					Wall w = board.walls.get(i);
 					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)){

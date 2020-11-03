@@ -11,6 +11,7 @@ public class EffectClone extends Effect{
 	
 	private int startx, starty, starta; //starting position of clone to reflect over
 	private boolean flipx, flipy, flipa; //whether should: reflect x pos, reflect y pos, swap x/y values
+	private boolean posLock; //whether to update position of this clone
 	
 	public EffectClone(Board frame, int cycletime, Entity initiator, boolean fx, boolean fy, boolean fa) {
 		super(frame,cycletime,(int)(.5+initiator.getX()),(int)(.5+initiator.getY()),initiator);
@@ -28,8 +29,12 @@ public class EffectClone extends Effect{
 	
 	public void runUpdate() {
 		if(ded)return;
-		super.runUpdate();
-		orientParts();
+		setShielded(initiator.getShielded());
+		setGhost(initiator.getGhosted());
+		if(!posLock || !shielded) {
+			orientParts();
+			super.runUpdate();
+		}
 	}
 	protected void buildBody() {
 		parts = new ArrayList<Segment>();
@@ -47,43 +52,69 @@ public class EffectClone extends Effect{
 		}
 	}
 	public void orientParts() {
-		
-		double[] posState1 = transformState(initiator.getX(), initiator.getY(), initiator.getAim());
-		setX(posState1[0]);
-		setY(posState1[1]);
-		
-		boolean regen = initiator.getParts().size() != parts.size(); //whether list of parts needs to be regenerated
-		for(int i=0; i<initiator.getParts().size() && !regen; i++) {
-			Segment parentS = initiator.getParts().get(i);
-			Segment thisS = parts.get(i);
-			double[] posState = transformState(parentS.getCenterX(), parentS.getCenterY(), parentS.getAngle());
-			//set positions relative to original segment if same shape
-			if(parentS.getClass().equals(thisS.getClass())) {
-				thisS.setLocation(posState[0], posState[1]);
-				thisS.setAngle(posState[2]);
-				thisS.setSize(parentS.getSize());
-				if(parentS instanceof SegmentRectangle){
-					((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+		if(posLock) {
+			boolean regen = initiator.getParts().size() != parts.size(); //whether list of parts needs to be regenerated
+			for(int i=0; i<initiator.getParts().size() && !regen; i++) {
+				Segment parentS = initiator.getParts().get(i);
+				Segment thisS = parts.get(i);
+				double[] posState = transformState(parentS.getCenterX(), parentS.getCenterY(), parentS.getAngle(),
+						initiator.getX(),initiator.getY(),initiator.getAim());
+				//set positions relative to original segment if same shape
+				if(parentS.getClass().equals(thisS.getClass())) {
+					thisS.setLocation(posState[0]-initiator.getX()+getX(), posState[1]-initiator.getY()+getY());
+					thisS.setAngle(posState[2]);
+					thisS.setSize(parentS.getSize());
+					if(parentS instanceof SegmentRectangle){
+						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+					}
+				}else { //if wrong shape, remake parts list
+					regen = true;
 				}
-			}else { //if wrong shape, remake parts list
-				regen = true;
+			}
+			if(regen) {
+				buildBody();
+			}
+		}else {
+			double[] posState1 = transformState(initiator.getX(), initiator.getY(), initiator.getAim());
+			setX(posState1[0]);
+			setY(posState1[1]);
+			
+			boolean regen = initiator.getParts().size() != parts.size(); //whether list of parts needs to be regenerated
+			for(int i=0; i<initiator.getParts().size() && !regen; i++) {
+				Segment parentS = initiator.getParts().get(i);
+				Segment thisS = parts.get(i);
+				double[] posState = transformState(parentS.getCenterX(), parentS.getCenterY(), parentS.getAngle());
+				//set positions relative to original segment if same shape
+				if(parentS.getClass().equals(thisS.getClass())) {
+					thisS.setLocation(posState[0], posState[1]);
+					thisS.setAngle(posState[2]);
+					thisS.setSize(parentS.getSize());
+					if(parentS instanceof SegmentRectangle){
+						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+					}
+				}else { //if wrong shape, remake parts list
+					regen = true;
+				}
+			}
+			if(regen) {
+				buildBody();
 			}
 		}
-		if(regen) {
-			buildBody();
-		}
-		
 		super.orientParts();
 	}
 	
-	//convert position state through transformations
 	public double[] transformState(double ax, double ay, double aa) {
+		return transformState(ax,ay,aa,startx,starty,starta);
+	}
+	
+	//convert position state through transformations
+	public double[] transformState(double ax, double ay, double aa, double sx, double sy, double sa) {
 		double newAngle = aa;
 		double newX = ax; //- initiator.getRelativeFrame()[0];
 		double newY = ay; //- initiator.getRelativeFrame()[1];
 		
-		double absstartx = initiator.getRelativeFrame()[0] + startx; //start position on board adjusted for current relative frame
-		double absstarty = initiator.getRelativeFrame()[1] + starty;
+		double absstartx = initiator.getRelativeFrame()[0] + sx; //start position on board adjusted for current relative frame
+		double absstarty = initiator.getRelativeFrame()[1] + sy;
 		
 		//change position values for each transformation
 		double changeX = (flipx) ? absstartx - ax : ax - absstartx;
@@ -112,9 +143,6 @@ public class EffectClone extends Effect{
 		return new double[] {newX, newY, newAngle};
 	}
 	
-	public boolean canCollideWith(Entity e) {
-		return true;
-	}
 	//remove clone
 	public void kill() {
 		super.kill();
@@ -122,7 +150,11 @@ public class EffectClone extends Effect{
 	}
 	//clones do not bounce off of walls?????
 	public void triggerShield() {
-		kill();
+		if(shielded) {
+			posLock = true;
+		}else {
+			kill();
+		}
 	}
 	
 	public double getXVel() {
