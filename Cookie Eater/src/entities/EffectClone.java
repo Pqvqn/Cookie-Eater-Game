@@ -63,9 +63,9 @@ public class EffectClone extends Effect{
 				if(parentS.getClass().equals(thisS.getClass())) {
 					thisS.setLocation(posState[0]-initiator.getX()+getX(), posState[1]-initiator.getY()+getY());
 					thisS.setAngle(posState[2]);
-					thisS.setSize(parentS.getSize());
+					thisS.setSize(parentS.getSize()+parentS.getExtraSize());
 					if(parentS instanceof SegmentRectangle){
-						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getTotalWidth(),((SegmentRectangle)parentS).getTotalLength());
 					}
 				}else { //if wrong shape, remake parts list
 					regen = true;
@@ -88,9 +88,9 @@ public class EffectClone extends Effect{
 				if(parentS.getClass().equals(thisS.getClass())) {
 					thisS.setLocation(posState[0], posState[1]);
 					thisS.setAngle(posState[2]);
-					thisS.setSize(parentS.getSize());
+					thisS.setSize(parentS.getSize()+parentS.getExtraSize());
 					if(parentS instanceof SegmentRectangle){
-						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getWidth(),((SegmentRectangle)parentS).getLength());
+						((SegmentRectangle)thisS).setDims(((SegmentRectangle)parentS).getTotalWidth(),((SegmentRectangle)parentS).getTotalLength());
 					}
 				}else { //if wrong shape, remake parts list
 					regen = true;

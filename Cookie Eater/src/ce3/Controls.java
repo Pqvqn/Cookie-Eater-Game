@@ -105,7 +105,7 @@ public class Controls implements KeyListener{
 				//player.addItem(0, new ItemTeleport(board));
 				//player.addItem(0, new ItemSlowmo(board));
 				//player.addItem(0, new ItemRicochet(board));
-				player.addItem(0, new ItemShield(board));
+				//player.addItem(0, new ItemShield(board));
 				//player.addItem(0, new ItemGhost(board));
 				//player.addItem(0, new ItemRecycle(board));
 				break;
