@@ -48,8 +48,7 @@ public class Eater extends Entity{
 	private UIShields shieldDisp;
 	private SpriteEater sprite;
 	private SegmentCircle part;
-	private boolean nearCookie;
-
+	
 	public Eater(Board frame, int num, int cycletime) {
 		super(frame,cycletime);
 		id = num;
@@ -171,8 +170,6 @@ public class Eater extends Entity{
 		if(friction<(MR[2][0])*calibration_ratio*calibration_ratio)friction=(MR[2][0])*calibration_ratio*calibration_ratio;
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
-	public boolean getNearCookie() {return nearCookie;}
-	public void setNearCookie(boolean n) {nearCookie = n;}
 	public Color getColor() {return coloration;}
 	public void spend(double amount) {
 		addCash(-amount);
@@ -555,7 +552,6 @@ public class Eater extends Entity{
 		//sprite
 		sprite.setColor(coloration);
 		sprite.paint(g);
-		nearCookie = false;
 		
 		/*int rate = 5;
 		int x=0, y=0;

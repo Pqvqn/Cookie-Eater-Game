@@ -7,7 +7,9 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 import ce3.*;
+import cookies.Cookie;
 import entities.*;
+import levels.Level;
 
 public class SpriteExplorer extends Sprite{
 
@@ -21,7 +23,7 @@ public class SpriteExplorer extends Sprite{
 	private double scale;
 	private BufferedImage fin;
 	private int fullw, fullh; //pixel size of image
-	public static final int NORM=0; //EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
+	public static final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
 	public static final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
 	private File[] expressions;
 	private File[] helmets;
@@ -108,7 +110,11 @@ public class SpriteExplorer extends Sprite{
 		scale = (double)user.getRadius()/Eater.DEFAULT_RADIUS;
 		x = (int)(.5+user.getX());
 		y = (int)(.5+user.getY());
-		/*if(user.getNearCookie())
+		
+		expression = NORM;
+		
+		Cookie nearest = board.nearestCookie(user.getX(),user.getY());
+		if(nearest!=null && Level.lineLength(user.getX(),user.getY(),nearest.getX(),nearest.getY())<user.getRadius()*2.5)
 			expression = EAT;
 		if(user.getShielded())
 			expression = HIT;
@@ -116,17 +122,14 @@ public class SpriteExplorer extends Sprite{
 			expression = SPECIAL;
 		}
 		
-		switch(user.getState()) {
+		/*switch(user.getState()) {
 		case Eater.WIN:
 			expression = WIN;
 			break;
 		case Eater.DEAD:
 			expression = DIE;
 			break;
-		}
-		
-		
-		*/
+		}*/
 		fin = imgset[expression][user.getDir()+1]; //choose correct pre-rendered image
 		
 	}

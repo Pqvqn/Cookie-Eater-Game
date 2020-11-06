@@ -42,12 +42,6 @@ public class Cookie {
 	}
 	
 	public void runUpdate() {
-		if(board.cookies.contains(this)) {
-			//delete self on collision with player
-			if(collidesWithCircle(board.player.getX(),board.player.getY(),board.player.getRadius()*2)) { 
-				board.player.setNearCookie(true);
-			}
-		}
 		if(board.player.getDir()!=Eater.NONE && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
 		}

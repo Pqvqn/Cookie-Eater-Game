@@ -8,7 +8,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import ce3.*;
+import cookies.*;
 import entities.*;
+import levels.*;
 
 public class SpriteEater extends Sprite{
 
@@ -103,7 +105,8 @@ public class SpriteEater extends Sprite{
 		
 		expression = NORM;
 		
-		if(user.getNearCookie())
+		Cookie nearest = board.nearestCookie(user.getX(),user.getY());
+		if(nearest!=null && Level.lineLength(user.getX(),user.getY(),nearest.getX(),nearest.getY())<user.getRadius()*2.5)
 			expression = EAT;
 		if(user.getShielded())
 			expression = HIT;
