@@ -37,6 +37,8 @@ public class ItemAutopilot extends Item{
 		double rat = ((board.getAdjustedCycle()/15.0)*(Math.sqrt(Math.pow(user.getXVel(true),2)+Math.pow(user.getYVel(true),2))/Level.lineLength(user.getX(), user.getY(), nearest.getX(), nearest.getY())));
 		initx = rat * (nearest.getX()-user.getX());
 		inity = rat * (nearest.getY()-user.getY());
+		
+		//AVERAGE VEL OVERRIDE
 	}
 	public void end(boolean interrupted) {
 	}

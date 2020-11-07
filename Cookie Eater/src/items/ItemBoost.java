@@ -29,10 +29,8 @@ public class ItemBoost extends Item{
 			user.setXVel(Math.cos(dir),true);
 			user.setYVel(Math.sin(dir),true);
 		}
-		//double x = initx==0 ? user.getXVel(true) : initx;
-		//double y = inity==0 ? user.getYVel(true) : inity;
-		double x = user.getXVel(true);
-		double y = user.getYVel(true);
+		double x = initx==0 ? user.getXVel(true) : initx;
+		double y = inity==0 ? user.getYVel(true) : inity;
 		double h = (board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale(); //speed of boost
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
@@ -43,8 +41,8 @@ public class ItemBoost extends Item{
 		//user.setXVel(x*r); //make fast
 		//user.setYVel(y*r);
 		user.averageVels(x*r, y*r,true);
-		initx = user.getXVel(true);
-		inity = user.getYVel(true);
+		//initx = user.getXVel(true);
+		//inity = user.getYVel(true);
 	}
 	
 	public void end(boolean interrupted) {

@@ -56,6 +56,7 @@ public abstract class Entity {
 	protected Map<String,String> variableStates; //behavior-determining states
 	protected double[] relativeFrame = {0,0}; //x,y on main coordinates of relative frame's 0,0
 	protected double[] relativeVel = {0,0}; //velocity of the frame relative to the board
+	protected boolean averageVelOverride; //whether the averageVels should be disregarded this cycle
 	
 	public Entity(Board frame, int cycletime) {
 		calibration_ratio = cycletime/15.0;
@@ -92,6 +93,7 @@ public abstract class Entity {
 		minRecoil = 10*calibration_ratio;
 		maxRecoil = 50*calibration_ratio;
 		bounds = null;
+		averageVelOverride = false;
 		setUpStates();
 	}
 	
@@ -410,14 +412,16 @@ public abstract class Entity {
 	
 	//takes velocity changes from items and averages them
 	public void averageVels(double xVel, double yVel, boolean rel) {
-		if(countVels==0) {
+		if(averageVelOverride)return;
+		if(countVels==0) { //if first, set velocity to given
 			setXVel(0,rel);
 			setYVel(0,rel);
 		}
 		countVels++;
-		setXVel((getXVel(rel)*(countVels-1)+xVel)/countVels,rel);
+		setXVel((getXVel(rel)*(countVels-1)+xVel)/countVels,rel); //average given velocity into current
 		setYVel((getYVel(rel)*(countVels-1)+yVel)/countVels,rel);
 	}
+	public void setAverageVelOverride(boolean b) {averageVelOverride = b;}
 	
 	public void setShielded(boolean s) {shielded=s;shield_tick=!s;}
 	public boolean getShielded() {return shielded;}
