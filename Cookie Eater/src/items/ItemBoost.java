@@ -25,12 +25,14 @@ public class ItemBoost extends Item{
 	
 	public void execute() {	
 		if(checkCanceled())return;
-		if (user.getXVel(true)==0 && user.getYVel(true)==0) {
+		if (initx==0 && inity==0) {
 			user.setXVel(Math.cos(dir),true);
 			user.setYVel(Math.sin(dir),true);
+			initx = user.getXVel(true);
+			inity = user.getYVel(true);
 		}
-		double x = initx==0 ? user.getXVel(true) : initx;
-		double y = inity==0 ? user.getYVel(true) : inity;
+		double x = initx;//==0 ? user.getXVel(true) : initx;
+		double y = inity;//==0 ? user.getYVel(true) : inity;
 		double h = (board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale(); //speed of boost
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
