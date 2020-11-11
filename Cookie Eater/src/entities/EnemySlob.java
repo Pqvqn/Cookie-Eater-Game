@@ -61,12 +61,12 @@ public class EnemySlob extends Enemy{
 			}
 		}else {
 			target = board.nearestCookie(x,y);
-			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)) {
+			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), board.walls)) {
 				normalVelocity = 2;
 				chargeCoords = new double[2];
-				chargeCoords[0]=player.getX();
-				chargeCoords[1]=player.getY();
-				angle = Math.atan2(player.getY()-y, player.getX()-x);
+				chargeCoords[0]=explorerTarget.getX();
+				chargeCoords[1]=explorerTarget.getY();
+				angle = Math.atan2(explorerTarget.getY()-y, explorerTarget.getX()-x);
 			}else {
 				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
 				if(target!=null) {

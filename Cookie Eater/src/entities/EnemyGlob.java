@@ -52,9 +52,9 @@ public class EnemyGlob extends Enemy{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+player.getX()),(int)(.5+player.getY()), board.walls)){
+		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), board.walls)){
 			normalVelocity = .6;
-			accelerateToTarget(player.getX(),player.getY());
+			accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
 		}else {
 			target = board.nearestCookie(x,y);
 			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;

@@ -10,7 +10,7 @@ import levels.*;
 
 public abstract class Enemy extends Entity{
 
-	protected Eater player;
+	protected Entity explorerTarget; //entity to bother
 	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
 	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
 	protected boolean steals;
@@ -26,7 +26,6 @@ public abstract class Enemy extends Entity{
 		x = xp;
 		y = yp;
 		radius = 30;
-		player = board.player;
 		x_velocity=0;
 		y_velocity=0;
 		mass = 100;
@@ -35,6 +34,7 @@ public abstract class Enemy extends Entity{
 		buildBody();
 		orientParts();
 		createStash();
+		explorerTarget = targetExplorer();
 		
 		fric = Math.pow(friction, calibration_ratio);
 		termVel = terminalVelocity*board.currFloor.getScale()*calibration_ratio;
@@ -49,6 +49,8 @@ public abstract class Enemy extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(ded)return;
+		if(explorerTarget==null || (!board.present_npcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
+			explorerTarget = targetExplorer(); //find target if none targeted or target died
 		setCalibration(board.getAdjustedCycle());
 	
 		x+=x_velocity;
@@ -162,6 +164,12 @@ public abstract class Enemy extends Entity{
 		if(shieldBounces >= getShields()*3) {
 			kill();
 		}
+	}
+	
+	//picks an npc or player from the board to target
+	public Entity targetExplorer() {
+		int e = (int)(Math.random()*(board.players.size()+board.present_npcs.size()));
+		return e>=board.players.size() ? board.present_npcs.get(e-board.players.size()) : board.players.get(e);
 	}
 	
 	//puts cookies in stash on spawn
