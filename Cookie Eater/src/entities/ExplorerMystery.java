@@ -1,0 +1,197 @@
+package entities;
+
+import java.awt.*;
+
+import ce3.*;
+import cookies.*;
+import levels.*;
+import menus.*;
+
+public class ExplorerMystery extends Explorer{
+	
+	private SegmentCircle part;
+	
+	/*STATES:
+	 * Pass: Yes, No
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*FUNCTIONS:
+	 * Give: Give $
+	 * Take: Take $
+	 * Gib: gibs
+	 */
+	
+	public ExplorerMystery(Board frame, int cycletime) {
+		super(frame,cycletime);
+		chooseResidence();
+		radius = 40;
+		min_cat = 4;
+		max_cat = 8;
+		mass = 400;
+		tester = new SegmentCircle(board,this,x,y,radius*2,0);
+		input_speed = 30;
+		start_shields = 1;
+		setShields(start_shields);
+		state = VENDOR;
+	}
+	public String getName() {return "Mystery";}
+	public void runEnds() {
+		super.runEnds();
+		for(int i=0; i<Math.random()*6-1; i++) {
+			removeRandomly();
+		}
+		for(int i=0; i<Math.random()*6-1 || to_sell.size()<min_cat; i++) {
+			double choose = Math.random()*10;
+			if(choose<=.5) {
+				addRandomly(new CookieShield(board,0,0,10));
+			}else {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
+			}
+
+		}
+		addCookies(50);
+		while(to_sell.size()>max_cat)removeRandomly();
+	}
+	public void runUpdate() {
+		super.runUpdate();
+		if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+			speak(convo);
+			speaking++;
+		}
+		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player.getX(), board.player.getY(), x, y)>=150) {
+			speak(null);
+			speaking = 0;
+		}
+		if(convo!=null)convo.test();
+	}
+	public void setConvo() {
+		convo = new Conversation(board,this,"Odd1","greet");
+		convo.setDisplayed(false);
+	}
+	public void chooseDir() {
+		direction = NONE;
+	}
+	public int doSpecial() {
+		return -1;
+	}
+	public void chooseResidence() {
+		residence = findFloor("Descending Labyrinths",true,0,2);
+	}
+
+	public void createStash() {
+		super.createStash();
+		for(int i=0; i<5; i++) {
+			double choose = Math.random()*10;
+			if(choose<=.5) {
+				addRandomly(new CookieShield(board,0,0,10));
+			}else {
+				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
+			}
+
+		}
+	}
+	public void doFunction(String f, String[] args) {
+		super.doFunction(f,args);
+		switch(f) {
+		case "Test": //tests if player bought all cookies
+			setState("Pass","No");
+			for(Cookie c:on_display) {
+				if(!board.cookies.contains(c)) {
+					setState("Pass","Yes");
+				}
+			}
+			
+		case "Gib": //give reward (unimplemented)
+		}
+	}
+	//chooses Item cookie to add to wares
+	public String findItem() {
+		String ret = "";
+		switch((int)(Math.random()*21)) {
+		case 0:
+			ret = "Autopilot";
+			break;
+		case 1:
+			ret = "Boost";
+			break;
+		case 2:
+			ret = "Circle";
+			break;
+		case 3:
+			ret = "Clone";
+			break;
+		case 4:
+			ret = "Chain";
+			break;
+		case 5:
+			ret = "Field";
+			break;
+		case 6:
+			ret = "Flow";
+			break;
+		case 7:
+			ret = "Ghost";
+			break;
+		case 8:
+			ret = "Hold";
+			break;
+		case 9:
+			ret = "Rebound";
+			break;
+		case 10:
+			ret = "Recharge";
+			break;
+		case 11:
+			ret = "Recycle";
+			break;
+		case 12:
+			ret = "Repeat";
+			break;
+		case 13:
+			ret = "Return";
+			break;
+		case 14:
+			ret = "Ricochet";
+			break;
+		case 15:
+			ret = "Shield";
+		case 16:
+			ret = "Shrink";
+		case 17:
+			ret = "Slowmo";
+		case 18:
+			ret = "Melee";
+		case 19:
+			ret = "Projectile";
+		case 20:
+			ret = "Teleport";
+		default:
+			ret = "Boost";
+			break;
+		}
+		return ret;
+	}
+	
+	public void setUpStates(){
+		super.setUpStates();
+		setState("Pass","No");
+	}
+	
+	public void buildBody() {
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+	}
+	public void orientParts() {
+		part.setLocation(x,y);
+		part.setSize(radius);
+		tester.setSize(radius*2);
+		tester.setExtraSize(radius*2);
+		super.orientParts();
+	}
+
+	public void paint(Graphics g) {
+		super.paint(g);
+	}
+}

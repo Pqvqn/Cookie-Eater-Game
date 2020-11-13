@@ -291,6 +291,7 @@ public class Board extends JFrame{
 		npcs.add(new ExplorerShopkeep(this,cycletime));
 		npcs.add(new ExplorerVendor(this,cycletime));
 		npcs.add(new ExplorerSidekick(this,cycletime));
+		npcs.add(new ExplorerMystery(this,cycletime));
 		for(int i=0; i<npcs.size(); i++) {
 			npcs.get(i).chooseResidence();
 			npcs.get(i).createStash();

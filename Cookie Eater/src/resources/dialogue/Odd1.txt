@@ -1,0 +1,6 @@
+>greet
+:Howdy ! [Did I pass?]
+::We 'll see . . . [Oh boy!]  $Test$
+:::%Pass;No% You 're not devoted enough . | %Pass;Yes% Indeed , you did ! | I . . . what are you ? [%Pass;No% What do I do?] [%Pass;Yes% Then gimme!]
+::::Buy all of it .
+::::Here . $Gib$
