@@ -97,14 +97,21 @@ public class ExplorerMystery extends Explorer{
 		super.doFunction(f,args);
 		switch(f) {
 		case "Test": //tests if player bought all cookies
-			setState("Pass","No");
+			setState("Pass","Yes");
 			for(Cookie c:on_display) {
-				if(!board.cookies.contains(c)) {
-					setState("Pass","Yes");
+				if(board.cookies.contains(c)) {
+					setState("Pass","No");
 				}
 			}
+			break;
 			
 		case "Gib": //give reward (unimplemented)
+			for(int i=0; i<5; i++) {
+				addRandomly(new CookieShield(board,0,0,0));
+			}
+			sellWares(shop_spots);
+		default:
+			break;
 		}
 	}
 	//chooses Item cookie to add to wares
@@ -158,16 +165,22 @@ public class ExplorerMystery extends Explorer{
 			break;
 		case 15:
 			ret = "Shield";
+			break;
 		case 16:
 			ret = "Shrink";
+			break;
 		case 17:
 			ret = "Slowmo";
+			break;
 		case 18:
 			ret = "Melee";
+			break;
 		case 19:
 			ret = "Projectile";
+			break;
 		case 20:
 			ret = "Teleport";
+			break;
 		default:
 			ret = "Boost";
 			break;

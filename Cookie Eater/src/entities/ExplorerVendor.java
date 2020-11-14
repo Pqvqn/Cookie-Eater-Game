@@ -141,8 +141,10 @@ public class ExplorerVendor extends Explorer{
 			break;
 		case 14:
 			ret = "Chain";
+			break;
 		case 15:
 			ret = "Clone";
+			break;
 		default:
 			ret = "Boost";
 			break;
