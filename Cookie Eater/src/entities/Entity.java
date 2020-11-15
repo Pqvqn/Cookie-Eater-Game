@@ -457,6 +457,11 @@ public abstract class Entity {
 			return; //if already hit, don't hit again
 		}
 		bumped.add(b);
+		if(x_velocity==0 && y_velocity==0) {
+			double rat = 1/Math.sqrt(Math.pow(x-xp,2)+Math.pow(y-yp,2));
+			x_velocity = (getX()-xp)*rat;
+			y_velocity = (getY()-yp)*rat;
+		}
 		double actual_mass = mass;
 		for(Summon2 s: summons)actual_mass+=s.getMass();
 		double pvx = (xp-x), pvy = (yp-y);

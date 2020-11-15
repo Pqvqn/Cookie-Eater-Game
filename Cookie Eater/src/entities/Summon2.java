@@ -121,6 +121,7 @@ public class Summon2 extends Entity{
 		for(Item i : getItems().get(user.getCurrentSpecial()))items.add(i);
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i);
+			it.end(true);
 			user.addItem(user.getCurrentSpecial(),it);
 			getItems().get(user.getCurrentSpecial()).remove(it);
 			it.setUser(user);
