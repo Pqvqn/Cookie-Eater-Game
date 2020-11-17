@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 import ce3.*;
 import entities.*;
+import sprites.SpriteExplorer;
 
 public class Dialogue {
 
@@ -168,6 +169,64 @@ public class Dialogue {
 				}
 			}
 			speaker.setState(parts[0], parts[1]);
+		}
+		
+		//^^ -> speaker emotion changes / separated by ; into expression category and state
+		ArrayList<String> expressionChanges = new ArrayList<String>();
+		text = extractFromText(text,"^","^","",expressionChanges);
+		for(int i=0; i<expressionChanges.size(); i++) {
+			String[] parts = expressionChanges.get(i).split(";");
+			//separate out arguments for expression
+			switch(parts[0]) {
+			case "Expression":
+				switch(parts[1]) {
+				case "Norm":
+					convo.setExpression(0,SpriteExplorer.NORM);
+					break;
+				case "Win":
+					convo.setExpression(0,SpriteExplorer.WIN);
+					break;
+				case "Die":
+					convo.setExpression(0,SpriteExplorer.DIE);
+					break;
+				case "Eat":
+					convo.setExpression(0,SpriteExplorer.EAT);
+					break;
+				case "Hit":
+					convo.setExpression(0,SpriteExplorer.HIT);
+					break;
+				case "Special":
+					convo.setExpression(0,SpriteExplorer.SPECIAL);
+					break;
+				default:
+					convo.setExpression(0,SpriteExplorer.NORM);
+					break;
+				}
+				break;
+			case "Direction":
+				switch(parts[1]) {
+				case "Right":
+					convo.setExpression(1,SpriteExplorer.RIGHT);
+					break;
+				case "Up":
+					convo.setExpression(1,SpriteExplorer.UP);
+					break;
+				case "Down":
+					convo.setExpression(1,SpriteExplorer.DOWN);
+					break;
+				case "Left":
+					convo.setExpression(1,SpriteExplorer.LEFT);
+					break;
+				case "Neutral":
+					convo.setExpression(1,SpriteExplorer.NEUTRAL);
+					break;
+				default:
+					convo.setExpression(1,SpriteExplorer.RIGHT);
+					break;
+				}
+				break;
+			}
+			
 		}
 		
 		//> -> jump

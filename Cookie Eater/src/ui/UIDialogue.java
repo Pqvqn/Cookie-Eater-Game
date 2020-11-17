@@ -22,7 +22,7 @@ public class UIDialogue extends UIElement{
 	private Image spriteImg;
 	private double ratio;
 	
-	public UIDialogue(Board frame, Dialogue words, ArrayList<String> options) {
+	public UIDialogue(Board frame, Dialogue words, ArrayList<String> options, int[] expressions) {
 		super(frame,0,0);
 		ratio = 10;
 		dialogue = words;
@@ -46,7 +46,7 @@ public class UIDialogue extends UIElement{
 		
 		//display speaker by taking right-facing-neutral-expression from its sprite
 		if(speaker instanceof Explorer && ((Explorer)speaker).getSprite()!=null) {
-			spriteImg =  ((Explorer)speaker).getSprite().getCompiled(SpriteExplorer.NORM,SpriteExplorer.RIGHT);
+			spriteImg =  ((Explorer)speaker).getSprite().getCompiled(expressions[0], expressions[1]);
 			parts.add(new UIImage(board,(int)(.5+xPos-730-((ratio/10.0)*(spriteImg.getWidth(null)/2.0))),(int)(.5+yPos-((ratio/10.0)*(spriteImg.getHeight(null)/2.0))),ratio/10.0,spriteImg)); //sprite
 		}
 		

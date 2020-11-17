@@ -457,26 +457,26 @@ public abstract class Entity {
 			return; //if already hit, don't hit again
 		}
 		bumped.add(b);
-		if(x_velocity==0 && y_velocity==0) {
+		if(x_velocity==0 && y_velocity==0) { //if no velocity, set vel slightly towards wall
 			double rat = 1/Math.sqrt(Math.pow(x-xp,2)+Math.pow(y-yp,2));
-			x_velocity = (getX()-xp)*rat;
-			y_velocity = (getY()-yp)*rat;
+			x_velocity = (xp-getX())*rat;
+			y_velocity = (yp-getY())*rat;
 		}
 		double actual_mass = mass;
-		for(Summon2 s: summons)actual_mass+=s.getMass();
-		double pvx = (xp-x), pvy = (yp-y);
-		double oxm = oxv*om, oym = oyv*om;
-		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass;
+		for(Summon2 s: summons)actual_mass+=s.getMass(); //adjust mass for summons
+		double pvx = (xp-x), pvy = (yp-y); //change in position from entity to collision point
+		double oxm = oxv*om, oym = oyv*om; //momentum of other entity
+		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass; //momentum of this entity
 		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
 		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
-		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy;
+		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy; //lost velocity conversion
 	
-		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy);
+		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy); //gained velocity conversion
 		
 		x_velocity=pvy*proejjjg-projdx/actual_mass;
 		y_velocity=-pvx*proejjjg-projdy/actual_mass;
 			
-		if(special) {
+		if(special) { //bounce any items
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
 				powerups.get(currSpecial).get(i).bounce(b,xp,yp);
 			}

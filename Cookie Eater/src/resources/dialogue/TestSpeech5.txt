@@ -1,10 +1,17 @@
+>greet
+:Hello there, Explorer. [Hello] [Wanna join me?]
+::You new around here? [Yes] [And why do you want to know?]
+:::Ah, I better show you around some time. {Relationship;Helper}
+:::Gee, it was just a question. {Relationship;Dislike}
+
+
 >here
-:Hello, #Relationship#. [hi] [*grunts*] [How do you do?] [Who am I?] [%Relationship;Enemy%I'll get you this time.]
-::bye [*leave*] [Wait!]
+:Hello, #Relationship#. [hi] [*grunts*] [How do you do?] [Who am I?] [%Relationship;Enemy%I'll get you this time.] ^Expression;Win^
+::bye [*leave*] [Wait!] ^Direction;Left^ ^Expression;Norm^
 :::%Grunts;did%At least he didn't grunt|...
-:::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!]
+:::What the heck do you want?? [Your life!] [Your money!] [Your hand in marriage!] ^Expression;Hit^ ^Direction;Right^
 ::::>organization
-::::Ah, well you should've said so! {Relationship;Friend} $Take;10$
+::::Ah, well you should've said so! {Relationship;Friend} $Give;10$
 ::::>dating sim
 ::>rude arc
 ::Well aren't you nosey! [Sorry!] [Ironic.]
@@ -25,7 +32,7 @@
 
 
 >organization
-:So, you've heard about the organization? [%Relationship;Enemy%I know you hate me] [%Grunts;did%Explains the grunts, right?] [%Relationship;Enemy%%Grunts;did%*grunts*]
+:So, you've heard about the organization? [%Relationship;Enemy%I know you hate me] [%Grunts;did%Explains the grunts, right?] [%Relationship;Enemy%%Grunts;did%*grunts*]  ^Expression;Special^
 ::yes
 ::Yes
 ::YES

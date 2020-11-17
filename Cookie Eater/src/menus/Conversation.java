@@ -5,6 +5,7 @@ import java.util.*;
 
 import ce3.*;
 import entities.*;
+import sprites.SpriteExplorer;
 
 public class Conversation {
 
@@ -16,12 +17,16 @@ public class Conversation {
 	private boolean displayed; //whether conversation is currently displayed
 	//private ArrayList<String> lines;
 	private ArrayList<Dialogue> path; //chosen dialogue, in order
+	private int[] expressions; //exp, dir of display image
 	
 	public Conversation(Board frame, Entity s, String filename, String placeInFile) {
 		board = frame;
 		speaker = s;
 		heading = placeInFile;
 		file = new File(FILEPATH+filename+ ".txt");
+		expressions = new int[2];
+		expressions[0] = SpriteExplorer.NORM;
+		expressions[1] = SpriteExplorer.RIGHT;
 		//lines = new ArrayList<String>();
 		try {
 			readFile();
@@ -91,6 +96,10 @@ public class Conversation {
 		return opts;
 	}
 	public Entity getSpeaker() {return speaker;}
+	public int[] getExpression() {return expressions;}
+	public void setExpression(int ind, int val) {
+		expressions[ind] = val;
+	}
 	private void readFile() throws FileNotFoundException,IOException {
 		path = new ArrayList<Dialogue>();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));

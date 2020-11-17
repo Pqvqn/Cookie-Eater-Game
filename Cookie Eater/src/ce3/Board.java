@@ -319,7 +319,7 @@ public class Board extends JFrame{
 		if(convo==null) {
 			dia = null;
 		}else {
-			dia = new UIDialogue(this,convo.currentLine(),convo.getOptions());
+			dia = new UIDialogue(this,convo.currentLine(),convo.getOptions(),convo.getExpression());
 			draw.addUI(dia);
 		}
 	}
