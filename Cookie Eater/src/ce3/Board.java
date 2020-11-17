@@ -266,7 +266,7 @@ public class Board extends JFrame{
 		draw.updateBG();
 		wallSpace = new Area();
 		for(Wall w : walls) {
-			wallSpace.add(new Area(new Rectangle(w.getX(),w.getY(),w.getW(),w.getH())));
+			wallSpace.add(w.getArea());
 		}
 	}
 	
