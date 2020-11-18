@@ -77,7 +77,7 @@ public abstract class Level{
 			for(int pX = xOrig; pX<board.X_RESOL-board.BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
 				for(Wall w : board.walls) { //only place if not too close to any walls
-					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH())) 
+					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA())) 
 						place = false;
 				}
 				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player.getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
@@ -282,7 +282,7 @@ public abstract class Level{
 				(Math.sqrt((cX-(rX+rW))*(cX-(rX+rW)) + (cY-(rY+rH))*(cY-(rY+rH)))<=cR) ||
 				(cX >= rX && cX <= rX+rW && cY >= rY && cY <= rY+rH);
 	}
-	public //static
+	public static
 	boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA) { //supposed to be static
 		
 		double wX = rW * Math.cos(rA);
@@ -399,7 +399,7 @@ public abstract class Level{
 	public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
 		boolean hit = false;
 		for(Wall w : walls) {
-			if(collidesLineAndRect(x1, y1, x2, y2, w.getX(), w.getY(), w.getW(), w.getH())) 
+			if(collidesLineAndRect(x1, y1, x2, y2, w.getX(), w.getY(), w.getW(), w.getH(), w.getA())) 
 				hit = true;
 		}
 		return !hit;
@@ -424,6 +424,29 @@ public abstract class Level{
 				collidesLineAndLine(x1,y1,x2,y2,rX,rY+rH,rX+rW,rY+rH) || //bottom
 				collidesLineAndLine(x1,y1,x2,y2,rX+rW,rY,rX+rW,rY+rH) || //right
 				(x1>=rX && x1<=rX+rW && y1>=rY && y1<=rY+rH); //both points inside rectangle
+	}
+	//tests if a line and a rectangle overlap
+	public static boolean collidesLineAndRect(double x1, double y1, double x2, double y2, double rX, double rY, double rW, double rH, double rA) {
+		double wX = rW * Math.cos(rA);
+		double wY = rW * Math.sin(rA);
+		double hX = rH * Math.cos(rA+Math.PI/2);
+		double hY = rH * Math.sin(rA+Math.PI/2);
+		if(Math.abs(hX)<.0000001)hX=0;
+		
+		return collidesLineAndLine(x1,y1,x2,y2,rX, rY, rX+wX, rY+wY) || //top
+				collidesLineAndLine(x1,y1,x2,y2,rX, rY, rX+hX, rY+hY) || //left
+				collidesLineAndLine(x1,y1,x2,y2,rX+wX, rY+wY, rX+wX+hX, rY+wY+hY) || //right
+				collidesLineAndLine(x1,y1,x2,y2,rX+hX, rY+hY, rX+wX+hX, rY+wY+hY) || //bottom
+				//test if each of the line points are inside the rectangle
+				(collidesLineAndCircle(rX, rY, rX+wX, rY+wY, x1, y1, lineLength(rX, rY, rX+hX, rY+hY)) &&
+				collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, x1, y1, lineLength(rX, rY, rX+hX, rY+hY)) &&
+				collidesLineAndCircle(rX, rY, rX+hX, rY+hY, x1, y1, lineLength(rX, rY, rX+wX, rY+wY)) &&
+				collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, x1, y1, lineLength(rX, rY, rX+wX, rY+wY)))
+				||
+				(collidesLineAndCircle(rX, rY, rX+wX, rY+wY, x2, y2, lineLength(rX, rY, rX+hX, rY+hY)) &&
+				collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, x2, y2, lineLength(rX, rY, rX+hX, rY+hY)) &&
+				collidesLineAndCircle(rX, rY, rX+hX, rY+hY, x2, y2, lineLength(rX, rY, rX+wX, rY+wY)) &&
+				collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, x2, y2, lineLength(rX, rY, rX+wX, rY+wY)));
 	}
 	//tests if a line and a circle overlap
 	public static boolean collidesLineAndCircle(double x1, double y1, double x2, double y2, double cX, double cY, double cR) {

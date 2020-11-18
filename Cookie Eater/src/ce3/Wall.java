@@ -30,11 +30,18 @@ public class Wall {
 		a = 0;
 	}
 	
-	public int getX() {return x;}
-	public int getY() {return y;}
+	public int getAbsX() {return x;}
+	public int getAbsY() {return y;}
 	public int getW() {return w;}
 	public int getH() {return h;}
 	public double getA() {return a;}
+	//x and y adjusted for rotation
+	public double getX() {
+		return (x+w/2) - Math.sqrt(w*w + h*h)/2 * Math.cos(a+Math.atan2(h,w));
+	}
+	public double getY() {
+		return (y+h/2) - Math.sqrt(w*w + h*h)/2 * Math.sin(a+Math.atan2(h,w));
+	}
 
 	public Area getArea() {
 		Rectangle2D.Double c = new Rectangle2D.Double(x,y,w,h);
