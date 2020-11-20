@@ -488,6 +488,7 @@ public abstract class Entity {
 	
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
+		if(this instanceof Eater && (((Eater)this).getState() == Eater.WIN || ((Eater)this).getState() == Eater.DEAD))return; //when game paused, don't special
 		if(board.currFloor.specialsEnabled()) {
 			if(special || special_frames.get(index)!=0 || !special_activated.get(index))return;
 			currSpecial = index;
