@@ -65,7 +65,7 @@ public class Wall {
 
 	public Area getArea() {
 		Rectangle2D.Double c = new Rectangle2D.Double(x,y,w,h);
-		AffineTransform at = AffineTransform.getRotateInstance(a,ox,oy);
+		AffineTransform at = AffineTransform.getRotateInstance(a+Math.PI,ox,oy);
 		Shape cc = at.createTransformedShape(c);
 		return new Area(cc);
 	}

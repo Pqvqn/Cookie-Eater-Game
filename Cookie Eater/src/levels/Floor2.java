@@ -49,7 +49,7 @@ public class Floor2 extends Level{
 			}
 			board.walls.add(new Wall(board,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)); //adds wall to list of walls
 		}
-		board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.PI/5));
+		board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
 	}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
