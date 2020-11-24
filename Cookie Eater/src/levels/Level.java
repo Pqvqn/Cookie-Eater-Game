@@ -627,33 +627,33 @@ public abstract class Level{
 		}
 	}
 	//creates nodes and connections
-		public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
-			nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes
-			ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
-			for(int i=0; i<areas.length; i++) {
-				ranges.add(areas[i]);
+	public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
+		nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes
+		ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
+		for(int i=0; i<areas.length; i++) {
+			ranges.add(areas[i]);
+		}
+		for(int i=1; i<=num; i++) { //make num of extra nodes
+			if(i<=areas.length) { //if some region empty
+				int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
+				nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
+			}else{
+				nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 			}
-			for(int i=1; i<=num; i++) { //make num of extra nodes
-				if(i<=areas.length) { //if some region empty
-					int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
-					nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
-				}else{
-					nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
-				}
-				int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
-				lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
-				//splitLine(lineRad,nodes.get(c)[0],nodes.get(c)[1],nodes.get(i)[0],nodes.get(i)[1]);//make two lines for path
-			}
-			for(int[] b : lines) { //add lineDiv number of nodes along lines
-				double diffX = b[0]-b[2], diffY = b[1]-b[3];
-				double currX = b[2], currY=b[3];
-				for(int i=0; i<ldiv; i++) {
-					currX+=diffX/ldiv;
-					currY+=diffY/ldiv;
-					nodes.add(new int[] {(int)(currX+.5),(int)(currY+.5),lrad});
-				}
+			int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
+			lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
+			//splitLine(lineRad,nodes.get(c)[0],nodes.get(c)[1],nodes.get(i)[0],nodes.get(i)[1]);//make two lines for path
+		}
+		for(int[] b : lines) { //add lineDiv number of nodes along lines
+			double diffX = b[0]-b[2], diffY = b[1]-b[3];
+			double currX = b[2], currY=b[3];
+			for(int i=0; i<ldiv; i++) {
+				currX+=diffX/ldiv;
+				currY+=diffY/ldiv;
+				nodes.add(new int[] {(int)(currX+.5),(int)(currY+.5),lrad});
 			}
 		}
+	}
 		
 		
 		//places walls that don't touch paths or nodes
@@ -699,17 +699,33 @@ public abstract class Level{
 						}
 						h--;*/
 						while(rectOK(x,y,w,h,a,i,j,max)) {
+							x-=10;w+=10;
+						}
+						x+=10;w-=10;
+						while(rectOK(x,y,w,h,a,i,j,max)) {
 							x--;w++;
 						}
 						x++;w--;
+						while(rectOK(x,y,w,h,a,i,j,max)) {
+							y-=10;h+=10;
+						}
+						y+=10;h-=10;
 						while(rectOK(x,y,w,h,a,i,j,max)) {
 							y--;h++;
 						}
 						y++;h--;
 						while(rectOK(x,y,w,h,a,i,j,max)) {
+							w+=10;
+						}
+						w-=10;
+						while(rectOK(x,y,w,h,a,i,j,max)) {
 							w++;
 						}
 						w--;
+						while(rectOK(x,y,w,h,a,i,j,max)) {
+							h+=10;
+						}
+						h-=10;
 						while(rectOK(x,y,w,h,a,i,j,max)) {
 							h++;
 						}

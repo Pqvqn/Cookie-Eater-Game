@@ -38,7 +38,8 @@ public class Floor4 extends Level{
 	public void build() {
 		super.build();
 		genPaths(9, 100, 150, 80, 10, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
-		genWalls(10, 40, 600); //wall separation, wall min size, wall max size
+		//genWalls(50, 40, 600); //wall separation, wall min size, wall max size
+		genWalls(20, 40, 300);
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
