@@ -90,8 +90,8 @@ public abstract class Entity {
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		shield_frames = 0;
 		shield_tick = true;
-		minRecoil = 10*calibration_ratio;
-		maxRecoil = 50*calibration_ratio;
+		minRecoil = 7*calibration_ratio;
+		maxRecoil = 30*calibration_ratio;
 		bounds = null;
 		averageVelOverride = false;
 		setUpStates();
@@ -463,7 +463,7 @@ public abstract class Entity {
 			y_velocity = (yp-getY())*rat;
 		}
 		double actual_mass = mass;
-		for(Summon2 s: summons)actual_mass+=s.getMass(); //adjust mass for summons
+		//for(Summon2 s: summons)actual_mass+=s.getMass(); //adjust mass for summons
 		double pvx = (xp-x), pvy = (yp-y); //change in position from entity to collision point
 		double oxm = oxv*om, oym = oyv*om; //momentum of other entity
 		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass; //momentum of this entity

@@ -72,7 +72,7 @@ public class Eater extends Entity{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = friction*scale;
+		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
 		score = 0;
 		cash = 0;
 		pickups = new ArrayList<CookieItem>();
@@ -135,7 +135,7 @@ public class Eater extends Entity{
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
-		friction/=calibration_ratio*calibration_ratio;
+		//friction/=calibration_ratio*calibration_ratio;
 		minRecoil /= calibration_ratio;
 		maxRecoil /= calibration_ratio;
 		
@@ -149,7 +149,8 @@ public class Eater extends Entity{
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
-		friction*=calibration_ratio*calibration_ratio;
+		//friction*=calibration_ratio*calibration_ratio;
+		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
 		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		
 		//calibrate summons
@@ -349,7 +350,7 @@ public class Eater extends Entity{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = friction*scale;
+		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
@@ -445,19 +446,19 @@ public class Eater extends Entity{
 			switch(direction) {
 				case UP: //if up
 					if(y_velocity>-maxvel) //if below speed cap
-						y_velocity-=accel+fric; //increase speed upward
+						y_velocity-=accel; //increase speed upward
 					break;
 				case RIGHT:
 					if(x_velocity<maxvel)
-						x_velocity+=accel+fric;
+						x_velocity+=accel;
 					break;
 				case DOWN:
 					if(y_velocity<maxvel)
-						y_velocity+=accel+fric;
+						y_velocity+=accel;
 					break;
 				case LEFT:
 					if(x_velocity>-maxvel)
-						x_velocity-=accel+fric;
+						x_velocity-=accel;
 					break;
 			}
 		}
@@ -465,20 +466,24 @@ public class Eater extends Entity{
 		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
 		x+=x_velocity; //move
 		y+=y_velocity;
-		if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
+		x_velocity*=fric; //multiply by friction to remove some vel
+		y_velocity*=fric; 
+		/*if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
 			x_velocity=0;
 		}else if(x_velocity>0) { //if positive speed, subtract friction
 			x_velocity-=fric;
 		}else if(x_velocity<0) { //if negative speed, add friction
 			x_velocity+=fric;
-		}
+		}*
 		if(Math.abs(y_velocity)<fric){
 			y_velocity=0;
 		}else if(y_velocity>0) {
 			y_velocity-=fric;
 		}else if(y_velocity<0) {
 			y_velocity+=fric;
-		}
+		}*/
+		
+		
 		/*x_positions.add(x);
 		y_positions.add(y);
 		x_positions.remove();

@@ -22,7 +22,7 @@ public class Summon2 extends Entity{
 		super(frame,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;
-		mass = 100;
+		mass = 70;
 		anchor = anchored;
 		//x = user.getX();
 		//y = user.getY();
