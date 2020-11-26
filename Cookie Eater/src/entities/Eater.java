@@ -67,12 +67,12 @@ public class Eater extends Entity{
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		terminal_velocity = 50*calibration_ratio;
-		friction = .1*calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(.1, calibration_ratio*6);
 		averageStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
+		fric = friction;
 		score = 0;
 		cash = 0;
 		pickups = new ArrayList<CookieItem>();
@@ -136,6 +136,7 @@ public class Eater extends Entity{
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
 		//friction/=calibration_ratio*calibration_ratio;
+		friction = Math.pow(1-friction,1/(calibration_ratio*6));
 		minRecoil /= calibration_ratio;
 		maxRecoil /= calibration_ratio;
 		
@@ -150,8 +151,8 @@ public class Eater extends Entity{
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
 		//friction*=calibration_ratio*calibration_ratio;
-		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		friction = 1-Math.pow(friction, calibration_ratio*6);
+		coloration = new Color((int)((Math.pow(1-friction,1/(calibration_ratio*6))-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		
 		//calibrate summons
 		for(int i=0; i<summons.size(); i++) {
@@ -166,10 +167,12 @@ public class Eater extends Entity{
 		max_velocity += v*calibration_ratio;
 		if(max_velocity>(MR[1][0]+MR[1][1])*calibration_ratio)max_velocity=(MR[1][0]+MR[1][1])*calibration_ratio;
 		if(max_velocity<(MR[1][0])*calibration_ratio)max_velocity=(MR[1][0])*calibration_ratio;
-		friction += f*calibration_ratio*calibration_ratio;
-		if(friction>(MR[2][0]+MR[2][1])*calibration_ratio*calibration_ratio)friction=(MR[2][0]+MR[2][1])*calibration_ratio*calibration_ratio;
-		if(friction<(MR[2][0])*calibration_ratio*calibration_ratio)friction=(MR[2][0])*calibration_ratio*calibration_ratio;
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		friction = Math.pow(1-friction,1/(calibration_ratio*6));
+		friction += f;
+		if(friction>(MR[2][0]+MR[2][1]))friction=(MR[2][0]+MR[2][1]);
+		if(friction<(MR[2][0]))friction=(MR[2][0]);
+		friction = 1-Math.pow(friction, calibration_ratio*6);
+		coloration = new Color((int)((Math.pow(1-friction,1/(calibration_ratio*6))-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 	}
 	public Color getColor() {return coloration;}
 	public void spend(double amount) {
@@ -336,7 +339,7 @@ public class Eater extends Entity{
 		shield_frames = 0;
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0.0);
 		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		coloration = new Color((int)((Math.pow(1-friction,1/(calibration_ratio*6))-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
 		x_velocity=0;
 		y_velocity=0;
 		if(board.mode == Main.LEVELS) {
@@ -350,7 +353,7 @@ public class Eater extends Entity{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = 1-Math.pow(friction/850*scale, calibration_ratio);
+		fric = friction;
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
@@ -404,7 +407,7 @@ public class Eater extends Entity{
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
-		friction*=calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(friction, calibration_ratio*6);
 	}
 	public void averageStats() {
 		acceleration=MR[0][1]/2+MR[0][0];
@@ -413,7 +416,7 @@ public class Eater extends Entity{
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
-		friction*=calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(friction, calibration_ratio*6);
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
