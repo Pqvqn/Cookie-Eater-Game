@@ -35,7 +35,7 @@ public class Eater extends Entity{
 	private double termvel;
 	private double fric;
 
-	private double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
+	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
 	private boolean dO; //continue movement
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
@@ -450,18 +450,22 @@ public class Eater extends Entity{
 				case UP: //if up
 					if(y_velocity>-maxvel) //if below speed cap
 						y_velocity-=accel; //increase speed upward
+						y_velocity/=fric;
 					break;
 				case RIGHT:
 					if(x_velocity<maxvel)
 						x_velocity+=accel;
+						x_velocity/=fric;
 					break;
 				case DOWN:
 					if(y_velocity<maxvel)
 						y_velocity+=accel;
+						y_velocity/=fric;
 					break;
 				case LEFT:
 					if(x_velocity>-maxvel)
 						x_velocity-=accel;
+						x_velocity/=fric;
 					break;
 			}
 		}
