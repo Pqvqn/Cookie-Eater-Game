@@ -16,7 +16,8 @@ public class Summon2 extends Entity{
 	private double homex,homey; //x and y position of edge 
 	private Segment body;
 	private double spawn; //multiplied by radius to produce distance from user that summon spawns
-	private double fric; //friction subtracted from velocity each cycle (for anchored only)
+	private double fric; //represents reduction in velocity per cycle (for non anchored only)
+	private double friction;
 	
 	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored, int shields) {
 		super(frame,cycletime);
@@ -39,7 +40,8 @@ public class Summon2 extends Entity{
 		y_velocity = user.getYVel(true)*rat;
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
-		fric = .1;
+		friction = .15;
+		fric = 1-Math.pow(friction, calibration_ratio*6);
 		buildBody();
 		orientParts();
 	}
@@ -72,9 +74,11 @@ public class Summon2 extends Entity{
 			x_velocity = 0;
 			y_velocity = 0;*/
 		}else {
-			x+=x_velocity;
+			x+=x_velocity; //move
 			y+=y_velocity;
-			if(x_velocity>fric) {
+			x_velocity*=fric; //multiply by friction to remove some vel
+			y_velocity*=fric; 
+			/*if(x_velocity>fric) {
 				x_velocity-=fric;
 			}else if(x_velocity<-fric) {
 				x_velocity+=fric;
@@ -87,7 +91,7 @@ public class Summon2 extends Entity{
 				y_velocity+=fric;
 			}else {
 				y_velocity = 0;
-			}
+			}*/
 		}
 
 		orientParts();
@@ -163,7 +167,7 @@ public class Summon2 extends Entity{
 		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		
 		calibration_ratio = calrat;
-		
+		fric = 1-Math.pow(friction, calibration_ratio*6);
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
