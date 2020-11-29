@@ -36,12 +36,19 @@ public class Board extends JFrame{
 	public ArrayList<Menu> menus;
 	public final int BORDER_THICKNESS = 20;
 
-	private final Level[] FLOOR_SEQUENCE = {new Store1(this),new Floor1(this),
+	public final Level[][] FLOOR_SEQUENCE = {
+			{new Store1(this),new Floor1(this),
 			new Store2(this),new Floor2(this),new Floor2(this),
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
-			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)}; //order of floors
-			//new FloorBiggy(this)}; 
+			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)},
+			
+			{new Store1(this),new Floor2(this),
+			new Store3(this),new Floor4(this),new Floor3(this),
+			new Store2(this),new Floor1(this),new Floor1(this),new Floor1(this), 
+			new Store1(this),new Floor2(this),new Floor5(this),new Floor4(this),new Floor4(this),new Floor5(this)}
+	}; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
+	public int currDungeon;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	public UIFpsCount fps;
@@ -103,13 +110,26 @@ public class Board extends JFrame{
 		add(draw);
 		pack();
 		
+		loadDungeon(0);
+		
+		//ui
+		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));	
+		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));	
+		
+		//run the game
+		while(true)
+			run(cycletime);
+	}
+	
+	public void loadDungeon(int num) {
+		currDungeon = num;
 		//converting list of floors to linked list
 		floors = new LinkedList<Level>();
 		if(mode==Main.LEVELS) {
-			for(int i=FLOOR_SEQUENCE.length-1; i>=0; i--) {
-				floors.add(FLOOR_SEQUENCE[i]);
-				if(i<FLOOR_SEQUENCE.length-1) 
-					FLOOR_SEQUENCE[i].setNext(FLOOR_SEQUENCE[i+1]);
+			for(int i=FLOOR_SEQUENCE[num].length-1; i>=0; i--) {
+				floors.add(FLOOR_SEQUENCE[num][i]);
+				if(i<FLOOR_SEQUENCE[num].length-1) 
+					FLOOR_SEQUENCE[num][i].setNext(FLOOR_SEQUENCE[num][i+1]);
 			}
 		}else if(mode==Main.PVP) {
 			floors.add(new Floor1(this));
@@ -120,15 +140,7 @@ public class Board extends JFrame{
 		//create floor 1
 		resetGame();
 
-		
-		
-		//ui
-		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));	
-		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));	
-		
-		//run the game
-		while(true)
-			run(cycletime);
+				
 	}
 	
 	public int getCycle() {return cycletime;}

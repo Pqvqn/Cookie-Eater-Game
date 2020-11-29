@@ -84,6 +84,9 @@ public class Controls implements KeyListener{
 			case KeyEvent.VK_K:
 				player.pay(100);
 				break;
+			case KeyEvent.VK_L:
+				board.loadDungeon((board.currDungeon+1)%board.FLOOR_SEQUENCE.length);
+				break;
 			case KeyEvent.VK_O:
 				//player.addItem(0, new ItemSummonMelee(board));
 				player.addItem(0, new ItemSummonProjectile(board));
