@@ -57,12 +57,12 @@ public class Explorer extends Entity{
 		acceleration = .5*calibration_ratio*calibration_ratio;
 		max_velocity = 10*calibration_ratio;
 		terminal_velocity = 50*calibration_ratio;
-		friction = .1*calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(.1, calibration_ratio*6);
 		averageStats();
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = friction*scale;
+		fric = friction;
 		direction = NONE;
 		coloration = Color.gray;
 		input_counter = 0;
@@ -121,24 +121,28 @@ public class Explorer extends Entity{
 		accel = acceleration*scale;
 		maxvel = max_velocity*scale;
 		termvel = terminal_velocity*scale;
-		fric = friction*scale;
+		fric = friction;
 		if(!lock) {
 			switch(direction) {
 				case UP: //if up
 					if(y_velocity>-maxvel) //if below speed cap
-						y_velocity-=accel+fric; //increase speed upward
+						y_velocity-=accel; //increase speed upward
+						y_velocity/=fric;
 					break;
 				case RIGHT:
 					if(x_velocity<maxvel)
-						x_velocity+=accel+fric;
+						x_velocity+=accel;
+						x_velocity/=fric;
 					break;
 				case DOWN:
 					if(y_velocity<maxvel)
-						y_velocity+=accel+fric;
+						y_velocity+=accel;
+						y_velocity/=fric;
 					break;
 				case LEFT:
 					if(x_velocity>-maxvel)
-						x_velocity-=accel+fric;
+						x_velocity-=accel;
+						x_velocity/=fric;
 					break;
 			}
 		}
@@ -146,20 +150,8 @@ public class Explorer extends Entity{
 		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
 		x+=x_velocity; //move
 		y+=y_velocity;
-		if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
-			x_velocity=0;
-		}else if(x_velocity>0) { //if positive speed, subtract friction
-			x_velocity-=fric;
-		}else if(x_velocity<0) { //if negative speed, add friction
-			x_velocity+=fric;
-		}
-		if(Math.abs(y_velocity)<fric){
-			y_velocity=0;
-		}else if(y_velocity>0) {
-			y_velocity-=fric;
-		}else if(y_velocity<0) {
-			y_velocity+=fric;
-		}
+		x_velocity*=fric; //multiply by friction to remove some vel
+		y_velocity*=fric;
 		int spec = (special)?-1:doSpecial();
 		if(spec!=-1 && special_activated.get(spec)) {
 			special(spec);
@@ -275,7 +267,7 @@ public class Explorer extends Entity{
 		acceleration/=calibration_ratio*calibration_ratio;
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
-		friction/=calibration_ratio*calibration_ratio;
+		friction = Math.pow(1-friction,1/(calibration_ratio*6));
 		minRecoil /= calibration_ratio;
 		maxRecoil /= calibration_ratio;
 		input_speed *= calibration_ratio;
@@ -290,10 +282,10 @@ public class Explorer extends Entity{
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
-		friction*=calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(friction, calibration_ratio*6);
 		input_speed /= calibration_ratio;
-		coloration = new Color((int)((friction/calibration_ratio/calibration_ratio-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
-	
+		coloration = new Color((int)((Math.pow(1-friction,1/(calibration_ratio*6))-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
+		
 		//calibrate summons
 		for(int i=0; i<summons.size(); i++) {
 			summons.get(i).setCalibration(calrat);
@@ -381,19 +373,23 @@ public class Explorer extends Entity{
 		double xv = x_velocity, yv = y_velocity; //used to find average x/y velocities over time period
 		switch(dir) { //change velocity based on direction accelerating in
 			case UP:
-				xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				//xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				xv *= Math.pow(fric,input_speed);
 				yv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-yv)/accel), 0))*accel)/2);
 				break;
 			case DOWN:
-				xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				//xv-=Math.signum(xv)*(((input_speed-Math.max(input_speed-Math.abs(xv/fric), 0))*fric)/2);
+				xv *= Math.pow(fric,input_speed);
 				yv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-yv)/accel), 0))*accel)/2);
 				break;
 			case LEFT:
-				yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				//yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				yv *= Math.pow(fric,input_speed);
 				xv+=-1*(((input_speed-Math.max(input_speed-(Math.abs(-1*maxvel-xv)/accel), 0))*accel)/2);
 				break;
 			case RIGHT:
-				yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				//yv-=Math.signum(yv)*(((input_speed-Math.max(input_speed-Math.abs(yv/fric), 0))*fric)/2);
+				yv *= Math.pow(fric,input_speed);
 				xv+=1*(((input_speed-Math.max(input_speed-(Math.abs(1*maxvel-xv)/accel), 0))*accel)/2);
 				break;
 		}
@@ -444,7 +440,7 @@ public class Explorer extends Entity{
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
-		friction*=calibration_ratio*calibration_ratio;
+		friction = 1-Math.pow(friction, calibration_ratio*6);
 	}
 	//prepares explorer at start of new level
 	public void spawn() {

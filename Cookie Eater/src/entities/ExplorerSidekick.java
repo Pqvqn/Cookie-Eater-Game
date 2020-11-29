@@ -130,7 +130,7 @@ public class ExplorerSidekick extends Explorer{
 						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
 					//[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
 					//yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
-					dos[i] += -100;
+					dos[i] += -500;
 					yeehaw = true;
 				}
 			//}
