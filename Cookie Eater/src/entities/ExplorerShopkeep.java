@@ -25,7 +25,6 @@ public class ExplorerShopkeep extends Explorer{
 	
 	public ExplorerShopkeep(Board frame, int cycletime) {
 		super(frame,cycletime);
-		chooseResidence();
 		radius = 40;
 		min_cat = 4;
 		max_cat = 8;

@@ -25,7 +25,6 @@ public class ExplorerVendor extends Explorer{
 	
 	public ExplorerVendor(Board frame, int cycletime) {
 		super(frame,cycletime);
-		chooseResidence();
 		radius = 40;
 		min_cat = 2;
 		max_cat = 3;

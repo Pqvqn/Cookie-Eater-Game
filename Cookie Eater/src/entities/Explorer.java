@@ -51,7 +51,7 @@ public class Explorer extends Entity{
 		on_display = new ArrayList<CookieStore>();
 		pickups = new ArrayList<CookieItem>();
 		name = getName();
-		chooseResidence();
+		//chooseResidence();
 		state = VENDOR;
 		
 		acceleration = .5*calibration_ratio*calibration_ratio;

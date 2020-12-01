@@ -42,9 +42,9 @@ public class Board extends JFrame{
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)},
 			
-			{new Store1(this),new Floor2(this),
+			{new Store2(this),new Floor2(this),
 			new Store3(this),new Floor4(this),new Floor3(this),
-			new Store2(this),new Floor1(this),new Floor1(this),new Floor1(this), 
+			new Store4(this),new Floor1(this),new Floor1(this),new Floor1(this), 
 			new Store1(this),new Floor2(this),new Floor5(this),new Floor4(this),new Floor4(this),new Floor5(this)}
 	}; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
@@ -110,6 +110,9 @@ public class Board extends JFrame{
 		add(draw);
 		pack();
 		
+		//create all of this game's npcs
+		createNpcs(cycletime);
+		
 		loadDungeon(0);
 		
 		//ui
@@ -134,9 +137,7 @@ public class Board extends JFrame{
 		}else if(mode==Main.PVP) {
 			floors.add(new Floor1(this));
 		}
-		
-		//create all of this game's npcs
-		createNpcs(cycletime);
+		resetNpcs();
 		//create floor 1
 		resetGame();
 
@@ -304,6 +305,9 @@ public class Board extends JFrame{
 		npcs.add(new ExplorerVendor(this,cycletime));
 		npcs.add(new ExplorerSidekick(this,cycletime));
 		npcs.add(new ExplorerMystery(this,cycletime));
+	}
+	//resets npcs for new dungeon
+	public void resetNpcs() {
 		for(int i=0; i<npcs.size(); i++) {
 			npcs.get(i).chooseResidence();
 			npcs.get(i).createStash();

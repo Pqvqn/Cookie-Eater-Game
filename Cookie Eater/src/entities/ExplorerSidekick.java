@@ -31,7 +31,6 @@ public class ExplorerSidekick extends Explorer{
 	
 	public ExplorerSidekick(Board frame, int cycletime) {
 		super(frame,cycletime);
-		chooseResidence();
 		radius = 40;
 		min_cat = 3;
 		max_cat = 8;

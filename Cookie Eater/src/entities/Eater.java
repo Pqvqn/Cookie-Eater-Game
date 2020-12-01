@@ -357,6 +357,7 @@ public class Eater extends Entity{
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		direction = NONE;
+		score = 0;
 	}
 	//resets killed players
 	public void revive() {

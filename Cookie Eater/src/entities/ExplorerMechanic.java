@@ -26,7 +26,6 @@ public class ExplorerMechanic extends Explorer{
 	
 	public ExplorerMechanic(Board frame, int cycletime) {
 		super(frame,cycletime);
-		chooseResidence();
 		radius = 40;
 		min_cat = 3;
 		max_cat = 3;
