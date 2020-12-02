@@ -48,12 +48,12 @@ public class EnemyCrawler extends Enemy{
 		if(tar1!=null && tar2!=null) {
 			double dist1 = Level.lineLength(tar1.getX(),tar1.getY(),x,yp);
 			double dist2 = Level.lineLength(tar2.getX(),tar2.getY(),xp,y);
-			boolean see1 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar1.getX(),tar1.getY(), board.walls);
-			boolean see2 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar2.getX(),tar2.getY(), board.walls);
+			boolean see1 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar1.getX(),tar1.getY(), (int)(radius*scale*1.5), board.wallSpace);
+			boolean see2 = Level.lineOfSight((int)(.5+x),(int)(.5+y),tar2.getX(),tar2.getY(), (int)(radius*scale*1.5), board.wallSpace);
 			target = ((dist1<dist2 && see1) || !see2) ? tar1 : tar2; //target is the closest cookie to a border wall close to the player
 		}
 		
-		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
+		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 		if(target!=null) {
 			accelerateToTarget(target.getX(),target.getY());
 		}

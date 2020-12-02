@@ -52,12 +52,12 @@ public class EnemyGlob extends Enemy{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), board.walls)){
+		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)){
 			normalVelocity = .6;
 			accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
 		}else {
 			target = board.nearestCookie(x,y);
-			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
+			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 			if(target!=null) {
 				normalVelocity = .2;
 				accelerateToTarget(target.getX(),target.getY());

@@ -44,7 +44,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void runUpdate() {
 		target = board.nearestCookie(x,y);
-		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), board.walls))target = null;
+		if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 		if(target!=null) {
 			accelerateToTarget(target.getX(),target.getY());
 		}

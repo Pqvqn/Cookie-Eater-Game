@@ -76,9 +76,12 @@ public abstract class Level{
 		for(int pY = yOrig; pY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
 			for(int pX = xOrig; pX<board.X_RESOL-board.BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
-				for(Wall w : board.walls) { //only place if not too close to any walls
+				/*for(Wall w : board.walls) { //only place if not too close to any walls
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA(),w.getOX(),w.getOY())) 
 						place = false;
+				}*/
+				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),board.wallSpace)) {
+					place = false;
 				}
 				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player.getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
 					place = false;
@@ -92,7 +95,7 @@ public abstract class Level{
 		//remove cookies that player can't access
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
-			if(splitSight((int)(board.player.getRadius()*scale*1.5),currCookie.getX(),currCookie.getY(),(int)(.5+board.player.getX()),(int)(.5+board.player.getY()))) {
+			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player.getX()),(int)(.5+board.player.getY()),(int)(board.player.getRadius()*scale*1.5),board.wallSpace)) {
 				currCookie.setAccess(true);
 				
 			}
@@ -106,7 +109,7 @@ public abstract class Level{
 				if(!currCookie.getAccess()) {
 					for(int j=0; j<board.cookies.size(); j++) {
 						Cookie testCookie = board.cookies.get(j);
-						if(testCookie.getAccess() && splitSight((int)(board.player.getRadius()*scale*1.5),currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY())) {
+						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player.getRadius()*scale*1.5),board.wallSpace)) {
 							currCookie.setAccess(true);
 							did=true;
 							j=board.cookies.size();
@@ -426,17 +429,35 @@ public abstract class Level{
 	
 	
 	//tests if there is an unbroken line between two points
-	public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
+	/*public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
 		boolean hit = false;
 		for(Wall w : walls) {
 			if(collidesLineAndRect(x1, y1, x2, y2, w.getX(), w.getY(), w.getW(), w.getH(), w.getA(), w.getOX(), w.getOY())) 
 				hit = true;
 		}
 		return !hit;
+	}*/
+	public static boolean lineOfSight(int x1, int y1, int x2, int y2, int wid, Area walls) {
+		double xm = (x1+x2)/2,ym = (y1+y2)/2;
+		double am = Math.atan2(y2-y1,x2-x1);
+		double lm = lineLength(x1,y1,x2,y2);
+		double rx = xm-Math.cos(am)*(lm/2)-Math.cos(am+Math.PI/2)*(wid/2), ry = ym-Math.sin(am)*(lm/2)-Math.sin(am+Math.PI/2)*(wid/2);
+		Rectangle2D.Double sight = new Rectangle2D.Double(rx,ry,lm,wid);
+		AffineTransform at = AffineTransform.getRotateInstance(am,rx,ry);
+		Shape cc = at.createTransformedShape(sight);
+		Area a = new Area(cc);
+		a.intersect(walls);
+		return a.isEmpty();
+	}
+	public static boolean areaToPlace(int x1, int y1, int rad, Area walls) {
+		Ellipse2D.Double field = new Ellipse2D.Double(x1-rad,y1-rad,rad*2,rad*2);
+		Area a = new Area(field);
+		a.intersect(walls);
+		return a.isEmpty();
 	}
 	
 	//turns one line into two, one on each side of the circle instead of center
-	public boolean splitSight(int rad, int x1, int y1, int x2, int y2) {
+	/*public boolean splitSight(int rad, int x1, int y1, int x2, int y2) {
 		double x = Math.abs(y1-y2);
 		double y = Math.abs(x1-x2);
 		double h = rad;
@@ -446,7 +467,7 @@ public abstract class Level{
 		}else {
 			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r), board.walls) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r), board.walls); 
 		}
-	}
+	}*/
 	//tests if a line and a rectangle overlap
 	public static boolean collidesLineAndRect(double x1, double y1, double x2, double y2, double rX, double rY, double rW, double rH) {
 		return collidesLineAndLine(x1,y1,x2,y2,rX,rY,rX+rW,rY) || //top
