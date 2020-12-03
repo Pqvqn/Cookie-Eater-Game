@@ -42,10 +42,10 @@ public class Board extends JFrame{
 			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
 			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)},
 			
-			{new Store2(this),new Floor2(this),
-			new Store3(this),new Floor4(this),new Floor3(this),
-			new Store4(this),new Floor1(this),new Floor1(this),new Floor1(this), 
-			new Store1(this),new Floor2(this),new Floor5(this),new Floor4(this),new Floor4(this),new Floor5(this)}
+			{new Store2(this),new FloorRound(this),
+			new Store3(this),new FloorRound(this),new FloorRound(this),
+			new Store4(this),new FloorRound(this),new FloorRound(this),new FloorRound(this), 
+			new Store1(this),new FloorRound(this),new FloorRound(this),new FloorRound(this),new FloorRound(this),new FloorRound(this)}
 	}; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
 	public int currDungeon;
