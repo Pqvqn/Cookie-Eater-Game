@@ -86,7 +86,7 @@ public class Wall {
 			Shape cc = at.createTransformedShape(c);
 			return new Area(cc);
 		}else if(shape == CIRCLE) {
-			Ellipse2D.Double c = new Ellipse2D.Double(x+r,y+r,r*2,r*2);
+			Ellipse2D.Double c = new Ellipse2D.Double(x-r,y-r,r*2,r*2);
 			return new Area(c);
 		}else {
 			return new Area();

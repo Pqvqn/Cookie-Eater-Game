@@ -26,6 +26,7 @@ public abstract class Level{
 	protected String nameAbbrev;
 
 	protected ArrayList<int[]> nodes;
+	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
 	public Level(Board frame) {
@@ -674,8 +675,15 @@ public abstract class Level{
 				nodes.add(new int[] {(int)(currX+.5),(int)(currY+.5),lrad});
 			}
 		}
+		bodes = nodes;
 	}
-		
+	public void paint(Graphics g) {
+		if(bodes==null)return;
+		for(int[] n : bodes) {
+			g.setColor(Color.RED);
+			g.drawOval(n[0]-n[2],n[1]-n[2],n[2]*2,n[2]*2);
+		}
+	}
 		
 	//places walls that don't touch paths or nodes
 	public void genWalls(int sep, int min, int max) {
@@ -799,20 +807,20 @@ public abstract class Level{
 	}
 	//places walls that don't touch paths or nodes
 	public void genRoundWalls(int sep, int min, int max) {
-		for(int i=board.BORDER_THICKNESS; i<board.Y_RESOL; i+=sep) {
-			for(int j=board.BORDER_THICKNESS; j<board.X_RESOL; j+=sep) {
-				int x=j,y=i,r=1;
-				if(circOK(x,y,r,max)) { //if center is valid
-					while(circOK(x,y,r,max)) {
+		for(int i=0; i<board.Y_RESOL; i+=sep) {
+			for(int j=0; j<board.X_RESOL; j+=sep) {
+				int r=1;
+				if(circOK(j,i,r,max)) { //if center is valid
+					while(circOK(j,i,r,max)) {
 						r+=10;
 					}
 					r-=10;
-					while(circOK(x,y,r,max)) {
+					while(circOK(j,i,r,max)) {
 						r++;
 					}
 					r--;
 					if(r>=min) //remove small walls
-						board.walls.add(new Wall(board,x,y,r));
+						board.walls.add(new Wall(board,j,i,r));
 				}
 			}
 		}

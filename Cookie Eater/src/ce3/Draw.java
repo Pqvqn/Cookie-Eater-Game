@@ -131,7 +131,6 @@ public class Draw extends JPanel{
 		
 		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
-		//if(board.currFloor!=null)board.currFloor.paint(g);
 		for(int i=board.cookies.size()-1; i>=0; i--) {
 			if(i>=board.cookies.size())i=board.cookies.size()-1;
 			board.cookies.get(i).paint(g);
@@ -154,7 +153,7 @@ public class Draw extends JPanel{
 			if(ui.get(i)!=null)ui.get(i).paint(g);
 		}
 		
-		
+		if(board.currFloor!=null)board.currFloor.paint(g);
 		
 		//update fps counter
 		if(board!=null && board.fps!=null)board.fps.update(lastMilliCount,System.currentTimeMillis());
