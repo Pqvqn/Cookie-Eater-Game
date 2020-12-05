@@ -2,6 +2,7 @@ package levels;
 
 import ce3.*;
 import cookies.Cookie;
+import mechanisms.*;
 
 public class TestRoom extends Level{
 

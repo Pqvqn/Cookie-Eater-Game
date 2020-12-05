@@ -6,6 +6,7 @@ import ce3.*;
 import cookies.*;
 import entities.*;
 import items.*;
+import mechanisms.*;
 
 public abstract class Store extends Level{
 

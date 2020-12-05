@@ -1,11 +1,12 @@
-package ce3;
+package mechanisms;
 
 import java.awt.*;
 import java.awt.geom.*;
 
+import ce3.Board;
 import levels.Level;
 
-public class Wall {
+public class Wall extends Mechanism{
 	
 	//private Board board;
 	int x,y;
@@ -93,4 +94,7 @@ public class Wall {
 		}
 	}
 	
+	public void runUpdate() {
+		
+	}
 }

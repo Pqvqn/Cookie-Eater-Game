@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 import ce3.*;
+import mechanisms.*;
 import sprites.*;
 
 public class EnemySpawner extends Enemy{

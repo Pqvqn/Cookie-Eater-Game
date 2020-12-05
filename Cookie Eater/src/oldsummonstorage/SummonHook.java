@@ -7,6 +7,7 @@ import ce3.*;
 import cookies.*;
 import entities.*;
 import levels.*;
+import mechanisms.Wall;
 
 public class SummonHook extends Summon{
 	

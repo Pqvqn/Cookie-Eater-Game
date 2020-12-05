@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import ce3.*;
 import cookies.CookieItem;
 import entities.*;
+import mechanisms.*;
 
 public class Floor2 extends Level{
 

@@ -35,7 +35,7 @@ public class FloorRound extends Level{
 	
 	public void build() {
 		super.build();
-		genPaths(4, 200, 300, 100, 10, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
+		genPaths(4, 100, 300, 100, 10, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
 		genRoundWalls(100, 50, 600); //wall separation, wall min size, wall max size
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();

@@ -5,6 +5,7 @@ import java.awt.*;
 import ce3.*;
 import cookies.*;
 import entities.Entity;
+import mechanisms.Wall;
 
 public abstract class Summon {
 

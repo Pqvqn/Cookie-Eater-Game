@@ -47,6 +47,9 @@ public class Draw extends JPanel{
 			repaint();
 			return;
 		}
+		for(int i=0; i<board.mechanisms.size(); i++) {
+			board.mechanisms.get(i).runUpdate();
+		}
 		for(int i=0; i<board.effects.size(); i++) {
 			board.effects.get(i).runUpdate();
 		}
@@ -131,6 +134,9 @@ public class Draw extends JPanel{
 		
 		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
+		for(int i=0; i<board.mechanisms.size(); i++) {
+			board.mechanisms.get(i).paint(g);
+		}
 		for(int i=board.cookies.size()-1; i>=0; i--) {
 			if(i>=board.cookies.size())i=board.cookies.size()-1;
 			board.cookies.get(i).paint(g);

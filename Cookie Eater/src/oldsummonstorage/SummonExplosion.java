@@ -6,6 +6,7 @@ import ce3.*;
 import cookies.*;
 import entities.Entity;
 import levels.*;
+import mechanisms.Wall;
 
 public class SummonExplosion extends Summon{
 	

@@ -10,6 +10,7 @@ import java.util.*;
 import javax.imageio.ImageIO;
 
 import ce3.*;
+import mechanisms.*;
 
 public class SpriteLevel extends Sprite{
 

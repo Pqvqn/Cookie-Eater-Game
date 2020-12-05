@@ -8,6 +8,7 @@ import javax.swing.*;
 import cookies.*;
 import entities.*;
 import levels.*;
+import mechanisms.*;
 import ui.*;
 import menus.*;
 import menus.Menu;
@@ -26,6 +27,7 @@ public class Board extends JFrame{
 	public Draw draw;
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
+	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public Area wallSpace;
 	public ArrayList<Effect> effects;
 	public ArrayList<Enemy> enemies;

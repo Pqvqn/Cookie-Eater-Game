@@ -7,6 +7,7 @@ import ce3.*;
 import cookies.*;
 import sprites.*;
 import levels.*;
+import mechanisms.*;
 
 public class EnemyGlob extends Enemy{
 

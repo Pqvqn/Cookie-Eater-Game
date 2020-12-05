@@ -2,6 +2,7 @@ package levels;
 
 import ce3.*;
 import cookies.*;
+import mechanisms.*;
 
 public class Store1 extends Store{
 	

@@ -7,6 +7,7 @@ import cookies.*;
 import entities.Eater;
 import entities.Entity;
 import levels.*;
+import mechanisms.Wall;
 
 public class SummonProjectile extends Summon{
 	
