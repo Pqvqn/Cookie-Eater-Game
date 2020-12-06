@@ -8,8 +8,6 @@ import levels.Level;
 
 public class Wall extends Mechanism{
 	
-	//private Board board;
-	int x,y;
 	int w,h;
 	double a;
 	int ox,oy; //origin to rotate around
@@ -18,10 +16,8 @@ public class Wall extends Mechanism{
 	static final int CIRCLE = 0, RECTANGLE = 1;
 	
 	public Wall(Board frame, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
-		//board = frame;
+		super(frame, xPos, yPos);
 		shape = RECTANGLE;
-		x = xPos;
-		y = yPos; 
 		w = width;
 		h = height;
 		a = angle;
@@ -30,10 +26,8 @@ public class Wall extends Mechanism{
 	}
 	
 	public Wall(Board frame, int xPos, int yPos, int width, int height, double angle) {
-		//board = frame;
-		shape = RECTANGLE;
-		x = xPos;
-		y = yPos; 
+		super(frame, xPos, yPos);
+		shape = RECTANGLE; 
 		w = width;
 		h = height;
 		a = angle;
@@ -42,10 +36,8 @@ public class Wall extends Mechanism{
 	}
 	
 	public Wall(Board frame, int xPos, int yPos, int width, int height) {
-		//board = frame;
+		super(frame, xPos, yPos);
 		shape = RECTANGLE;
-		x = xPos;
-		y = yPos; 
 		w = width;
 		h = height;
 		a = 0;
@@ -54,10 +46,8 @@ public class Wall extends Mechanism{
 	}
 	
 	public Wall(Board frame, int xPos, int yPos, int radius) {
-		//board = frame;
+		super(frame, xPos, yPos);
 		shape = CIRCLE;
-		x = xPos;
-		y = yPos; 
 		r = radius;
 		a = 0;
 		ox=x;

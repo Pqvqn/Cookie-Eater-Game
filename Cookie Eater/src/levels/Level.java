@@ -59,6 +59,10 @@ public abstract class Level{
 		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
 		
 	}
+	//adds a level mechanism to the board
+	public void addMechanism(Mechanism m) {
+		board.mechanisms.add(m);
+	}
 	public void placeCookies() {
 		placeCookies(100,100);
 	}
