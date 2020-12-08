@@ -133,6 +133,9 @@ public class SpriteLevel extends Sprite{
 		g.drawImage(floor,0,0,board.X_RESOL,board.Y_RESOL,null);
 		//walls
 		Area wallSpace = board.wallSpace;
+		for(Mechanism m : board.mechanisms) {
+			wallSpace.add(m.getArea());
+		}
 		if(wallList==null)return;
 		/*for(Wall w : wallList) {
 			x=w.getX();

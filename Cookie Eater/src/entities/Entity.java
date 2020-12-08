@@ -9,6 +9,7 @@ import cookies.*;
 import items.*;
 import menus.*;
 import levels.*;
+import mechanisms.*;
 
 public abstract class Entity {
 
@@ -249,7 +250,25 @@ public abstract class Entity {
 						}*/
 				}
 			}
-			
+			//test collision with level mechamisms
+			if(!ghost) {
+				for(Mechanism m : board.mechanisms) {
+					Area ma = m.getArea();
+					if(collidesWithArea(false,ma)) {
+						double[] point = Level.areasHitPoint(ma,getArea(false));
+						collideAt(ma,point[0],point[1],0,0,999999999);
+						triggerShield();
+						while(collidesWithArea(false,ma)) {
+							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
+							setX((getX()-point[0])*rat+getX());
+							setY((getY()-point[1])*rat+getY());
+							orientParts();
+						}
+					}
+				}
+			}
+				
+			//test collision with static walls
 			if(!ghost && collidesWithArea(false,board.wallSpace)) {
 				double[] point = Level.areasHitPoint(board.wallSpace,getArea(false));
 				collideAt(board.wallSpace,point[0],point[1],0,0,999999999);
@@ -349,6 +368,9 @@ public abstract class Entity {
 				}
 			}
 			if(collidesWithArea(false,board.wallSpace))return true;
+			for(Mechanism m : board.mechanisms) {
+				if(collidesWithArea(false,m.getArea()))return true;
+			}
 			/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
 				Wall w = board.walls.get(i);
 				if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH())){

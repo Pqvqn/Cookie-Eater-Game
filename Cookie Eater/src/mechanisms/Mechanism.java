@@ -1,6 +1,7 @@
 package mechanisms;
 
 import java.awt.*;
+import java.awt.geom.Area;
 
 import ce3.*;
 
@@ -17,6 +18,11 @@ public class Mechanism {
 	
 	public void runUpdate() {
 		
+	}
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public Area getArea() {
+		return new Area();
 	}
 	
 	public void paint(Graphics g) {

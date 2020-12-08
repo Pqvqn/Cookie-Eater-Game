@@ -54,8 +54,6 @@ public class Wall extends Mechanism{
 		oy=y;
 	}
 	
-	public int getX() {return x;}
-	public int getY() {return y;}
 	public int getW() {return w;}
 	public int getH() {return h;}
 	public double getA() {return a;}
