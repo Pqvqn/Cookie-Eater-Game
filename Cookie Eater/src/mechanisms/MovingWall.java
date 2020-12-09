@@ -35,12 +35,17 @@ public class MovingWall extends Wall{
 	}
 	
 	public void runUpdate() {
+		//x and y to move from and to
 		double prevX = path[checkpoint%path.length][0], prevY = path[checkpoint%path.length][1];
 		double nextX = path[(checkpoint+1)%path.length][0], nextY = path[(checkpoint+1)%path.length][1];
-		
+		//conversion for x/y distances into x/y speeds
 		double rat = speed/Math.sqrt(Math.pow(prevX-nextX,2)+Math.pow(prevY-nextY,2));
-		x += rat * (nextX-prevX);
-		y += rat * (nextY-prevY);
+		//move wall
+		move((int)(.5+ rat * (nextX-prevX)),(int)(.5+ rat * (nextY-prevY)));
+		//target next checkpoint if close enough to current
+		if(Math.abs(path[(checkpoint+1)%path.length][0]-x)<=speed*2 && Math.abs(path[checkpoint%path.length][1]-y)<=speed*2){
+			checkpoint++;
+		}
 	}
 	
 }

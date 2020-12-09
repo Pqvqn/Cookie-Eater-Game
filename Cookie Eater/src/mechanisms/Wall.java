@@ -67,6 +67,13 @@ public class Wall extends Mechanism{
 	}
 	public int getOX() {return ox;}
 	public int getOY() {return oy;}
+	
+	public void move(int dx, int dy) {
+		x+=dx;
+		y+=dy;
+		ox+=dx;
+		oy+=dy;
+	}
 
 	public Area getArea() {
 		if(shape == RECTANGLE) {
