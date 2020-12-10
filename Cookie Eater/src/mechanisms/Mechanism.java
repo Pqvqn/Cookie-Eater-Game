@@ -8,7 +8,7 @@ import ce3.*;
 public class Mechanism {
 
 	Board board;
-	int x,y;
+	double x,y;
 	
 	public Mechanism(Board frame, int xPos, int yPos) {
 		frame = board;
@@ -19,8 +19,8 @@ public class Mechanism {
 	public void runUpdate() {
 		
 	}
-	public int getX() {return x;}
-	public int getY() {return y;}
+	public double getX() {return x;}
+	public double getY() {return y;}
 	public Area getArea() {
 		return new Area();
 	}

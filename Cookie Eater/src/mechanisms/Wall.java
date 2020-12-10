@@ -10,7 +10,7 @@ public class Wall extends Mechanism{
 	
 	int w,h;
 	double a;
-	int ox,oy; //origin to rotate around
+	double ox,oy; //origin to rotate around
 	int r;
 	int shape;
 	static final int CIRCLE = 0, RECTANGLE = 1;
@@ -65,10 +65,10 @@ public class Wall extends Mechanism{
 	public double getAdjY() {
 		return oy - Level.lineLength(x,y,ox,oy) * Math.sin(a+Math.atan2(y-oy,x-ox));
 	}
-	public int getOX() {return ox;}
-	public int getOY() {return oy;}
+	public double getOX() {return ox;}
+	public double getOY() {return oy;}
 	
-	public void move(int dx, int dy) {
+	public void move(double dx, double dy) {
 		x+=dx;
 		y+=dy;
 		ox+=dx;
