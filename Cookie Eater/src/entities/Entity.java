@@ -256,7 +256,7 @@ public abstract class Entity {
 					Area ma = m.getArea();
 					if(collidesWithArea(false,ma)) {
 						double[] point = Level.areasHitPoint(ma,getArea(false));
-						collideAt(ma,point[0],point[1],0,0,999999999);
+						collideAt(ma,point[0],point[1],m.getXVel(),m.getYVel(),m.getMass());
 						triggerShield();
 						while(collidesWithArea(false,ma)) {
 							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
