@@ -65,7 +65,7 @@ public class MovingWall extends Wall{
 			yV = rat * (nextY-prevY);
 			move(xV,yV);
 			//target next checkpoint if close enough to current
-			if(Math.sqrt(Math.pow(path[(checkpoint+1)%path.length][0]-x,2) + Math.pow(path[(checkpoint+1)%path.length][1]-y,2))<=speed){
+			if(Math.sqrt(Math.pow(path[(checkpoint+1)%path.length][0]-x,2) + Math.pow(path[(checkpoint+1)%path.length][1]-y,2))<=speed*2){
 				checkpoint++;
 			}
 			

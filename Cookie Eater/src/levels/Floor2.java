@@ -50,10 +50,14 @@ public class Floor2 extends Level{
 			}
 			board.walls.add(new Wall(board,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)); //adds wall to list of walls
 		}
-		board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
-		board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*400)+100));
-		double[][] path = {{200,200},{1100,300},{200,500}};
-		board.mechanisms.add(new MovingWall(board,200,200,100,100,path,5));
+		//board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
+		//board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*400)+100));
+		double[][] path = new double[(int)(Math.random()*3+2)][2];
+		for(int i=0; i<path.length; i++) {
+			path[i][0] = (int)(Math.random()*(board.X_RESOL-100))+50;
+			path[i][1] = (int)(Math.random()*(board.Y_RESOL-100))+50;
+		}
+		board.mechanisms.add(new MovingWall(board,(int)path[0][0],(int)path[0][1],(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2,path,Math.random()*10));
 	}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
