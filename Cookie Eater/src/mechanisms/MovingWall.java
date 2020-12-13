@@ -4,33 +4,32 @@ import ce3.Board;
 
 public class MovingWall extends Wall{
 	
-	double[][] path; //path of points to move from
-	double speed; //speed to move towards next point
+	WallPath path; //path of points to move from
 	int checkpoint; //current checkpoint index on path
 	boolean moving; //whether moving or still
 	double xV,yV; //last x and y velocity of movement
 
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, int originX, int originY, double[][] paths, double initspeed) {
+	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, int originX, int originY, WallPath path) {
 		super(frame,xPos,yPos,width,height,angle,originX,originY);
-		initPaths(paths,initspeed);
+		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, double[][] paths, double initspeed) {
+	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, WallPath path) {
 		super(frame,xPos,yPos,width,height,angle);
-		initPaths(paths,initspeed);
+		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double[][] paths, double initspeed) {
+	public MovingWall(Board frame, int xPos, int yPos, int width, int height, WallPath path) {
 		super(frame,xPos,yPos,width,height);
-		initPaths(paths,initspeed);
+		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int radius, double[][] paths, double initspeed) {
+	public MovingWall(Board frame, int xPos, int yPos, int radius, WallPath path) {
 		super(frame,xPos,yPos,radius);
-		initPaths(paths,initspeed);
+		initPaths(path);
 	}
 	
-	private void initPaths(double[][] paths, double initSpeed) {
+	private void initPaths(WallPath paths) {
 		double area; //area of wall geometry to determine mass
 		double density = 2; //mass per unit area
 		if(shape == CIRCLE) {
@@ -41,7 +40,6 @@ public class MovingWall extends Wall{
 			mass = area*density;
 		}
 		path = paths;
-		speed = initSpeed;
 		checkpoint = 0;
 		moving = true;
 	}
@@ -56,8 +54,10 @@ public class MovingWall extends Wall{
 	public void runUpdate() {
 		if(moving) {
 			//x and y to move from and to
-			double prevX = path[checkpoint%path.length][0], prevY = path[checkpoint%path.length][1];
-			double nextX = path[(checkpoint+1)%path.length][0], nextY = path[(checkpoint+1)%path.length][1];
+			double[][] pos = path.getSegment();
+			double nextX=pos[1][0], nextY=pos[1][1], prevX=pos[0][0], prevY=pos[0][1];
+			double speed = path.getSpeed();
+			
 			//conversion for x/y distances into x/y speeds
 			double rat = speed/Math.sqrt(Math.pow(prevX-nextX,2)+Math.pow(prevY-nextY,2));
 			//move wall
@@ -65,11 +65,12 @@ public class MovingWall extends Wall{
 			yV = rat * (nextY-prevY);
 			move(xV,yV);
 			//target next checkpoint if close enough to current
-			if(Math.sqrt(Math.pow(path[(checkpoint+1)%path.length][0]-x,2) + Math.pow(path[(checkpoint+1)%path.length][1]-y,2))<=speed*2){
+			if(Math.sqrt(Math.pow(nextX-x,2) + Math.pow(nextY-y,2))<=speed*2){
 				checkpoint++;
 			}
 			
 		}
 	}
-	
 }
+
+
