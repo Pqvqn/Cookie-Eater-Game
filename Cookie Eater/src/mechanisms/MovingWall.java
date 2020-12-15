@@ -5,7 +5,6 @@ import ce3.Board;
 public class MovingWall extends Wall{
 	
 	WallPath path; //path of points to move from
-	int checkpoint; //current checkpoint index on path
 	boolean moving; //whether moving or still
 	double xV,yV; //last x and y velocity of movement
 
@@ -40,7 +39,7 @@ public class MovingWall extends Wall{
 			mass = area*density;
 		}
 		path = paths;
-		checkpoint = 0;
+		path.reset();
 		moving = true;
 	}
 	
@@ -64,9 +63,15 @@ public class MovingWall extends Wall{
 			xV = rat * (nextX-prevX);
 			yV = rat * (nextY-prevY);
 			move(xV,yV);
+			if(shape==CIRCLE) {
+				r+=path.getExpansion()[0];
+			}else if(shape==RECTANGLE) {
+				w+=path.getExpansion()[0];
+				h+=path.getExpansion()[1];
+			}
 			//target next checkpoint if close enough to current
 			if(Math.sqrt(Math.pow(nextX-x,2) + Math.pow(nextY-y,2))<=speed*2){
-				checkpoint++;
+				path.advance();
 			}
 			
 		}
