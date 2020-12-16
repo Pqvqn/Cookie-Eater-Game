@@ -72,6 +72,10 @@ public class MovingWall extends Wall{
 			//target next checkpoint if close enough to current
 			if(Math.sqrt(Math.pow(nextX-x,2) + Math.pow(nextY-y,2))<=speed*2){
 				path.advance();
+				w = path.size()[0];
+				h = path.size()[1];
+				x = path.position()[0];
+				y = path.position()[1];
 			}
 			
 		}

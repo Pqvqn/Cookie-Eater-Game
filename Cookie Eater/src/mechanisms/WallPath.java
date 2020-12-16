@@ -3,7 +3,7 @@ package mechanisms;
 public class WallPath {
 	
 
-	final int SPEED=0,TIME=1; //mode options (timed based on constant speed or on set time)
+	public static final int SPEED=0,TIME=1; //mode options (timed based on constant speed or on set time)
 	int checkpoint; //last passed stop on path index
 	
 	//arrays of attributes for each positions
@@ -75,4 +75,10 @@ public class WallPath {
 	public void reset() {checkpoint = 0;}
 	//move to next checkpoint
 	public void advance() {checkpoint++;}
+
+	public double[] position(){return positions[checkpoint()];}
+	public double rate(){return rates[checkpoint()];}
+	public int mode(){return modes[checkpoint()];}
+	public double[] size(){return sizes[checkpoint()];}
+
 }

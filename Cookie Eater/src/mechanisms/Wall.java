@@ -8,10 +8,10 @@ import levels.Level;
 
 public class Wall extends Mechanism{
 	
-	int w,h;
+	double w,h;
 	double a;
 	double ox,oy; //origin to rotate around
-	int r;
+	double r;
 	int shape;
 	static final int CIRCLE = 0, RECTANGLE = 1;
 	
@@ -54,10 +54,10 @@ public class Wall extends Mechanism{
 		oy=y;
 	}
 	
-	public int getW() {return w;}
-	public int getH() {return h;}
+	public double getW() {return w;}
+	public double getH() {return h;}
 	public double getA() {return a;}
-	public int getR() {return r;}
+	public double getR() {return r;}
 	//x and y adjusted for rotation
 	public double getAdjX() {
 		return ox - Level.lineLength(x,y,ox,oy) * Math.cos(a+Math.atan2(y-oy,x-ox));
