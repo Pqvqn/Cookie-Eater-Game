@@ -61,9 +61,14 @@ public class Floor2 extends Level{
 			double rate = Math.random()*10;
 			int sizea = (int)(Math.random()*200)+100;
 			int sizeb = (int)(Math.random()*200)+100;
-			path.setCheckpoint(i,x,y,mode,rate,sizea,sizeb);
+			double a = Math.random()*Math.PI*4-Math.PI*2;
+			path.setCheckpoint(i,x,y,mode,rate,sizea,sizeb,a);
 		}
-		board.mechanisms.add(new MovingWall(board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),(int)(.5+path.size()[1]),path));
+		board.mechanisms.add(new MovingWall(board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),(int)(.5+path.size()[1]),path.angle(),path));
+		WallPath path2 = new WallPath(2);
+		path2.setCheckpoint(0,300,200,WallPath.TIME,15,200,50,Math.PI*2);
+		path2.setCheckpoint(1,300,200,WallPath.TIME,15,200,50,Math.PI*-2);
+		board.mechanisms.add(new MovingWall(board,(int)(.5+path2.position()[0]),(int)(.5+path2.position()[1]),(int)(.5+path2.size()[0]),(int)(.5+path2.size()[1]),path2.angle(),path2));
 	}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));

@@ -11,12 +11,14 @@ public class WallPath {
 	double[] rates;
 	int[] modes;
 	double[][] sizes;
+	double[] angles;
 	
 	public WallPath(int numStops) {
 		positions = new double[numStops][2];
 		rates = new double[numStops];
 		modes = new int[numStops];
 		sizes = new double[numStops][2];
+		angles = new double[numStops];
 	}
 	
 	//get line representing current movement from last checkpoint to next checkpoint
@@ -32,6 +34,7 @@ public class WallPath {
 			return rates[checkpoint()];
 		}else if(modes[checkpoint()] == TIME) {
 			double[][] seg = getSegment();
+			if(rates[checkpoint()]==0)return 0;
 			return (levels.Level.lineLength(seg[0][0],seg[0][1],seg[1][0],seg[1][1]))/rates[checkpoint()];
 		}else {
 			return 0;
@@ -41,6 +44,7 @@ public class WallPath {
 	public double getTime() {
 		if(modes[checkpoint()] == SPEED) {
 			double[][] seg = getSegment();
+			if(rates[checkpoint()]==0)return 1;
 			return (levels.Level.lineLength(seg[0][0],seg[0][1],seg[1][0],seg[1][1]))/rates[checkpoint()];
 		}else if(modes[checkpoint()] == TIME) {
 			return rates[checkpoint()];
@@ -56,15 +60,21 @@ public class WallPath {
 		}
 		return ret;
 	}
+	//gets rotation amount
+	public double getRotation() {
+		double ret = (angles[nextpoint()] - angles[checkpoint()])/getTime();
+		return ret;
+	}
 	
 	//set a checkpoint's values
-	public void setCheckpoint(int checkpoint, double x, double y, int mode, double rate, double sizea, double sizeb) {
+	public void setCheckpoint(int checkpoint, double x, double y, int mode, double rate, double sizea, double sizeb, double angle) {
 		positions[checkpoint][0] = x;
 		positions[checkpoint][1] = y;
 		rates[checkpoint] = rate;
 		modes[checkpoint] = mode;
 		sizes[checkpoint][0] = sizea;
 		sizes[checkpoint][1] = sizeb;
+		angles[checkpoint] = angle;
 	}
 	
 	//last checkpoint
@@ -80,5 +90,6 @@ public class WallPath {
 	public double rate(){return rates[checkpoint()];}
 	public int mode(){return modes[checkpoint()];}
 	public double[] size(){return sizes[checkpoint()];}
+	public double angle() {return angles[checkpoint()];}
 
 }

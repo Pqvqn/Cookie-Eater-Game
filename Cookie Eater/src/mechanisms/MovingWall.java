@@ -57,18 +57,22 @@ public class MovingWall extends Wall{
 			double nextX=pos[1][0], nextY=pos[1][1], prevX=pos[0][0], prevY=pos[0][1];
 			double speed = path.getSpeed();
 			
-			//conversion for x/y distances into x/y speeds
-			double rat = speed/Math.sqrt(Math.pow(prevX-nextX,2)+Math.pow(prevY-nextY,2));
-			//move wall
-			xV = rat * (nextX-prevX);
-			yV = rat * (nextY-prevY);
-			move(xV,yV);
+			if(Math.sqrt(Math.pow(prevX-nextX,2)+Math.pow(prevY-nextY,2))!=0){
+				//conversion for x/y distances into x/y speeds
+				double rat = speed/Math.sqrt(Math.pow(prevX-nextX,2)+Math.pow(prevY-nextY,2));
+				//move wall
+				xV = rat * (nextX-prevX);
+				yV = rat * (nextY-prevY);
+				move(xV,yV);
+			}
+			
 			if(shape==CIRCLE) {
 				r+=path.getExpansion()[0];
 			}else if(shape==RECTANGLE) {
 				w+=path.getExpansion()[0];
 				h+=path.getExpansion()[1];
 			}
+			a+=path.getRotation();
 			//target next checkpoint if close enough to current
 			if(Math.sqrt(Math.pow(nextX-x,2) + Math.pow(nextY-y,2))<=speed*2){
 				path.advance();
@@ -76,6 +80,7 @@ public class MovingWall extends Wall{
 				h = path.size()[1];
 				x = path.position()[0];
 				y = path.position()[1];
+				a = path.angle();
 			}
 			
 		}
