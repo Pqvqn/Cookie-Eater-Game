@@ -13,12 +13,16 @@ public class WallPath {
 	double[][] sizes;
 	double[] angles;
 	
+	//counts updates to advance to next checkpoint
+	int updates;
+	
 	public WallPath(int numStops) {
 		positions = new double[numStops][2];
 		rates = new double[numStops];
 		modes = new int[numStops];
 		sizes = new double[numStops][2];
 		angles = new double[numStops];
+		updates = 0;
 	}
 	
 	//get line representing current movement from last checkpoint to next checkpoint
@@ -75,6 +79,14 @@ public class WallPath {
 		sizes[checkpoint][0] = sizea;
 		sizes[checkpoint][1] = sizeb;
 		angles[checkpoint] = angle;
+	}
+	
+	public void update() {
+		updates++;
+		if(updates>=getTime()) {
+			updates=0;
+			advance();
+		}
 	}
 	
 	//last checkpoint

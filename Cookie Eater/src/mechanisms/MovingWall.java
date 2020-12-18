@@ -72,10 +72,15 @@ public class MovingWall extends Wall{
 				w+=path.getExpansion()[0];
 				h+=path.getExpansion()[1];
 			}
+			
 			a+=path.getRotation();
-			//target next checkpoint if close enough to current
-			if(Math.sqrt(Math.pow(nextX-x,2) + Math.pow(nextY-y,2))<=speed*2){
-				path.advance();
+			
+			//update path
+			int check = path.checkpoint();
+			path.update();
+
+			//target next checkpoint if correct time passed
+			if(check!=path.checkpoint()){
 				w = path.size()[0];
 				h = path.size()[1];
 				x = path.position()[0];
