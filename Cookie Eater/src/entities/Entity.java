@@ -23,22 +23,30 @@ public abstract class Entity {
 	protected double radius; //represents size
 	protected double countVels; //number of averaged velocities in cycle
 	protected boolean lock; //can entity control its movement
-	protected boolean shielded; //in stun after shield use
 	protected boolean ghost; //if the entity is in ghost mode
 	protected double extra_radius; //area outside of the model, interacts with everything other than walls
 	protected ArrayList<Summon2> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
-	protected boolean special; //whether a special is active
 	protected double calibration_ratio; //framerate ratio
+	
+	//shields
+	protected boolean shielded; //in stun after shield use
+	protected boolean shield_tick; //countdown shield
+	private int shield_length, shieldlen; //stun length
+	private int shield_frames; //counting how deep into shield
+	
+	//specials
+	protected boolean special; //whether a special is active
+	protected int special_length, speciallen; //how long special lasts
 	protected ArrayList<ArrayList<Item>> powerups;
 	protected int currSpecial;
-	protected int special_length; //how long special lasts
 	protected ArrayList<Double> special_frames; //counting how deep into special
-	protected int special_cooldown; //frames between uses of special
+	protected int special_cooldown, specialcool; //frames between uses of special
 	protected double special_use_speed; //"frames" passed per frame of special use
 	protected int special_recharges; //how many recharges have been set off in a row
 	protected ArrayList<Boolean> special_activated; //if special is triggerable
 	protected ArrayList<Color> special_colors; //color associated with each special
+	
 	protected ArrayList<Cookie> cash_stash; //only plain cookies
 	protected ArrayList<CookieItem> item_stash; //item cookies
 	protected ArrayList<CookieShield> shield_stash; //shields
@@ -48,11 +56,15 @@ public abstract class Entity {
 	protected boolean ded; //am i deceased
 	protected Rectangle bounds; //rectangle bounding box of all parts
 	protected int offstage; //how far entity can go past the screen's edge before getting hit
-	protected int shield_length; //stun length
-	protected int shield_frames; //counting how deep into shield
-	protected boolean shield_tick; //countdown shield
-	protected double minRecoil; //how fast entity bounces off wall (min and max)
-	protected double maxRecoil;
+	
+	//movement stats
+	private double min_recoil, minrec; //how fast entity bounces off wall (min and max)
+	private double max_recoil, maxrec;
+	private double acceleration, accel; //added to dimensional speed depending on direction
+	private double max_velocity, maxvel; //cap on accelerated-to dimensional speed
+	private double terminal_velocity, termvel; //maximum possible dimensional speed
+	private double friction, fric; //removed from dimensional speed
+	
 	protected String name;
 	protected Map<String,String> variableStates; //behavior-determining states
 	protected double[] relativeFrame = {0,0}; //x,y on main coordinates of relative frame's 0,0
@@ -71,9 +83,9 @@ public abstract class Entity {
 		stat_stash = new ArrayList<CookieStat>();
 		parts = new ArrayList<Segment>();
 		special = false;
-		special_length = (int)(.5+60*(1/calibration_ratio));
+		special_length = 60;
 		special_frames = new ArrayList<Double>();
-		special_cooldown = (int)(.5+180*(1/calibration_ratio));
+		special_cooldown = 180;
 		special_use_speed = 1;
 		special_recharges = 0;
 		special_colors = new ArrayList<Color>();
@@ -88,11 +100,11 @@ public abstract class Entity {
 		currSpecial = -1;
 		decayed_value = 0;
 		offstage = 0;
-		shield_length = (int)(.5+60*(1/calibration_ratio));
+		shield_length = 60;
 		shield_frames = 0;
 		shield_tick = true;
-		minRecoil = 7*calibration_ratio;
-		maxRecoil = 30*calibration_ratio;
+		min_recoil = 7;
+		max_recoil = 30;
 		bounds = null;
 		averageVelOverride = false;
 		setUpStates();
@@ -102,12 +114,16 @@ public abstract class Entity {
 		if(ded)return;
 		countVels = 0;
 		scale = board.currFloor.getScale();
+		
+		//shields
 		if(shielded && shield_tick) {
-			if(shield_frames++>shield_length) {
+			if(shield_frames++>shieldlen) {
 				shielded=false;
 				shield_frames = 0;
 			}
 		}
+		
+		//specials
 		if(special) {
 			special_frames.set(currSpecial,special_frames.get(currSpecial)+special_use_speed); //increase special timer
 			for(int j=0; j<summons.size(); j++) {
@@ -117,7 +133,7 @@ public abstract class Entity {
 				powerups.get(currSpecial).get(i).execute();
 			}
 
-			if(special_frames.get(currSpecial)>special_length) {
+			if(special_frames.get(currSpecial)>speciallen) {
 				special = false;
 				int sz = powerups.get(currSpecial).size();
 				for(int i=0; i<sz; i++) {
@@ -128,10 +144,10 @@ public abstract class Entity {
 			
 		}
 		for(int i=0; i<special_frames.size(); i++) {
-			if(special_frames.get(i)>special_length) {
+			if(special_frames.get(i)>speciallen) {
 				special_frames.set(i,special_frames.get(i)+1);
 				special_recharges=0;
-				if(special_frames.get(i)>special_length+special_cooldown) {
+				if(special_frames.get(i)>speciallen+specialcool) {
 					special_frames.set(i,0.0);
 				}
 			}
@@ -150,10 +166,23 @@ public abstract class Entity {
 				stat_stash.get(i).runUpdate();
 			}
 		}
+		
+		//collisions
 		testCollisions();
 		if(outOfBounds()) {
 			killBounceEdge(!shielded);
 		}
+		
+		doMovement();
+	}
+	//runs movement physics
+	public void doMovement() {
+		if(Math.abs(x_velocity)>termvel)x_velocity = termvel * Math.signum(x_velocity); //make sure it's not too fast
+		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
+		x+=x_velocity; //move
+		y+=y_velocity;
+		x_velocity*=fric; //multiply by friction to remove some vel
+		y_velocity*=fric;
 	}
 	//resets after cycle end
 	public void endCycle() {
@@ -315,13 +344,13 @@ public abstract class Entity {
 			}
 		}
 		scale = board.currFloor.getScale();
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
-			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minrec){
+			double rat = (minrec)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;
 			y_velocity *= rat;
 		}
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
-			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
+		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxrec){
+			double rat = (maxrec)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;
 			y_velocity *= rat;
 		}
@@ -429,6 +458,24 @@ public abstract class Entity {
 	
 	//direction accelerating towards
 	public double getAim() {return 0.0;}
+	
+	public double getMaxVel() {return maxvel;}
+	public double getFriction() {return fric;}
+	
+	//calibrates all movement and timing stats for scale and framerate
+	public void calibrateStats() {
+		accel = acceleration*scale*calibration_ratio*calibration_ratio;
+		maxvel = max_velocity*scale*calibration_ratio;
+		termvel = terminal_velocity*scale*calibration_ratio;
+		fric = 1-Math.pow(friction, calibration_ratio*6);
+		minrec = min_recoil*scale*calibration_ratio;
+		maxrec = max_recoil*scale*calibration_ratio;
+		
+		shieldlen = (int)(.5+shield_length*(1/calibration_ratio));
+		speciallen = (int)(.5+special_length*(1/calibration_ratio));
+		specialcool = (int)(.5+special_cooldown*(1/calibration_ratio));
+	}
+	
 	
 	public void lockControl(boolean l) {lock = l;}
 	
@@ -697,7 +744,7 @@ public abstract class Entity {
 	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
 	public void extendSpecial(double time) {
 		for(int i=0; i<special_frames.size(); i++) {
-			if(special_frames.get(i)<special_length && special_frames.get(i)!=0) {
+			if(special_frames.get(i)<speciallen && special_frames.get(i)!=0) {
 				if(special_frames.get(i)>time) {
 					special_frames.set(i,special_frames.get(i)-time);
 				}else {
@@ -706,8 +753,8 @@ public abstract class Entity {
 			}
 		}
 	}
-	public int getSpecialLength() {return special_length;}
-	public int getSpecialCooldown() {return special_cooldown;}
+	public int getSpecialLength() {return speciallen;}
+	public int getSpecialCooldown() {return specialcool;}
 	public ArrayList<Double> getSpecialFrames() {return special_frames;}
 	public void setSpecialFrames(ArrayList<Double> sf) {special_frames = sf;}
 	public ArrayList<Color> getSpecialColors() {return special_colors;}
@@ -810,8 +857,8 @@ public abstract class Entity {
 	public boolean stateIs(String var, String state) {
 		return variableStates.get(var).equals(state);
 	}
-	public double getMinRecoil() {return minRecoil;}
-	public void setMinRecoil(double r) {minRecoil = r;}
-	public double getMaxRecoil() {return maxRecoil;}
-	public void setMaxRecoil(double r) {maxRecoil = r;}
+	public double getMinRecoil() {return minrec;}
+	public void setMinRecoil(double r) {min_recoil = r;}
+	public double getMaxRecoil() {return maxrec;}
+	public void setMaxRecoil(double r) {max_recoil = r;}
 }

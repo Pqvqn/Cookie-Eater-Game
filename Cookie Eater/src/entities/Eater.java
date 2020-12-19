@@ -19,21 +19,11 @@ import cookies.*;
 
 public class Eater extends Entity{
 	
-	//private Queue<Double> x_positions; //previous positions for trail effect
-	//private Queue<Double> y_positions;
-	//private final int TRAIL_LENGTH = 10;
 	private int id;
 	public static final int DEFAULT_RADIUS = 40;
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
-	private double acceleration; //added to dimensional speed depending on direction
-	private double max_velocity; //cap on accelerated-to dimensional speed
-	private double terminal_velocity; //maximum possible dimensional speed
-	private double friction; //removed from dimensional speed
-	private double accel; //scalable movement stats
-	private double maxvel;
-	private double termvel;
-	private double fric;
+
 
 	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
@@ -65,10 +55,6 @@ public class Eater extends Entity{
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
 		
-		acceleration = .5;
-		max_velocity = 10;
-		terminal_velocity = 50;
-		friction = .1;
 		averageStats();
 		
 		score = 0;
@@ -82,12 +68,6 @@ public class Eater extends Entity{
 		extra_radius = 0;
 		ghost = false;
 		mass = 200;
-		/*x_positions = new LinkedList<Double>();
-		y_positions = new LinkedList<Double>();
-		for(int i=0; i<=TRAIL_LENGTH; i++) {
-			x_positions.add(START_X);
-			y_positions.add(START_Y);
-		}*/
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -110,7 +90,6 @@ public class Eater extends Entity{
 			return Math.PI/2;
 		}}
 	public void setDir(int dir) {direction = dir;}
-	public double getMaxVel() {return maxvel;}
 	public int getState() {return state;}
 	public int getScore() {return score;}
 	public void addScore(int s) {score+=s;}
@@ -126,20 +105,11 @@ public class Eater extends Entity{
 		super.addItem(index, i);
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
-	public double getFriction() {return fric;}
 	
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
-		minRecoil /= calibration_ratio;
-		maxRecoil /= calibration_ratio;
 		
 		calibration_ratio = calrat;
-		
-		shield_length = (int)(.5+60*(1/calibration_ratio));
-		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		minRecoil *= calibration_ratio;
-		maxRecoil *= calibration_ratio;
 		
 		calibrateStats();
 		
@@ -186,63 +156,6 @@ public class Eater extends Entity{
 
 		}
 	}
-	//currently unused trail stuff
-	/*public int getTrailX() {
-		if(x_positions.peek()==null) {
-			return -1;
-		}
-		double curr = x_positions.remove();
-		x_positions.add(curr);
-		return (int)(curr+.5);
-	}
-	public int getTrailY() {
-		if(y_positions.peek()==null) {
-			return -1;
-		}
-		double curr = y_positions.remove();
-		y_positions.add(curr);
-		return (int)(curr+.5);
-	}
-	public int getTrailLength() {
-		return TRAIL_LENGTH;
-	}
-
-	public String getTrailLists() {
-		String ret = "";
-		for(int i=0; i<=TRAIL_LENGTH; i++) {
-			double yes = x_positions.remove();
-			ret+=yes+" ";
-			x_positions.add(yes);
-		}
-		ret+=" - - ";
-		for(int i=0; i<=TRAIL_LENGTH; i++) {
-			double yes = y_positions.remove();
-			ret+=yes+" ";
-			y_positions.add(yes);
-		}
-		return ret;
-	}*/
-	
-	//tests if hits rectangle
-	/*public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
-		/*return (x + radius > oX && x - radius < oX + oW) &&
-				(y + radius > oY && y - radius < oY + oH);
-		boolean hit = false;
-		for(int i=0; i<parts.size(); i++) {
-			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH,0))hit=true;
-		}
-		return hit;
-		//return Level.collidesCircleAndRect((int)(x+.5),(int)(y+.5),radius*scale,oX,oY,oW,oH);
-			/*(Math.abs(x - oX) <= radius && y>=oY && y<=oY+oH) ||
-				(Math.abs(x - (oX+oW)) <= radius && y>=oY && y<=oY+oH)||
-				(Math.abs(y - oY) <= radius && x>=oX && x<=oX+oW) ||
-				(Math.abs(y - (oY+oH)) <= radius && x>=oX && x<=oX+oW) ||
-				(Math.sqrt((x-oX)*(x-oX) + (y-oY)*(y-oY))<=radius) ||
-				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-oY)*(y-oY))<=radius) ||
-				(Math.sqrt((x-oX)*(x-oX) + (y-(oY+oH))*(y-(oY+oH)))<=radius) ||
-				(Math.sqrt((x-(oX+oW))*(x-(oX+oW)) + (y-(oY+oH))*(y-(oY+oH)))<=radius);
-						
-	}*/
 	//reset back to first level
 	public void kill() {
 		//coloration = Color.black;
@@ -278,17 +191,7 @@ public class Eater extends Entity{
 			reset();
 		}
 	}
-	/*//kill, but only if no bounce
-	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
-			kill();
-			return;
-		}else if (!shielded && board.currFloor.takeDamage()){//only remove shields if not in stun and shield to be broken
-			removeShields(1);
-		}
-		bounceShield(w,rx,ry,rw,rh);
-		
-	}*/
+	
 	//move to next level
 	public void win() {
 		//coloration = Color.green;
@@ -358,33 +261,7 @@ public class Eater extends Entity{
 		averageStats();
 		reset();
 	}
-	/*//uses shield instead of killing
-	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
-		shielded = true;
-		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
-		//collideAt(w,point[0],point[1],0,0,999999999);
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
-			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
-			x_velocity *= rat;
-			y_velocity *= rat;
-		}
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
-			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
-			x_velocity *= rat;
-			y_velocity *= rat;
-		}
-		while(collidesWithRect(false,rx,ry,rw,rh)) {
-			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-			x+=(x-point[0])*rat; //move out of other
-			y+=(y-point[1])*rat;
-			orientParts();
-		}
-		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
-			}
-		}
-	}*/
+	
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {
 		acceleration = Math.random()*MR[0][1]+MR[0][0];
@@ -401,13 +278,7 @@ public class Eater extends Entity{
 		colorize();
 		calibrateStats();
 	}
-	//calibrates all movement and timing stats for scale and framerate
-	public void calibrateStats() {
-		accel = acceleration*scale*calibration_ratio*calibration_ratio;
-		maxvel = max_velocity*scale*calibration_ratio;
-		termvel = terminal_velocity*scale*calibration_ratio;
-		fric = 1-Math.pow(friction, calibration_ratio*6);
-	}
+
 	//creates player color based on stats
 	public void colorize() {
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
@@ -463,66 +334,9 @@ public class Eater extends Entity{
 					break;
 			}
 		}
-		if(Math.abs(x_velocity)>termvel)x_velocity = termvel * Math.signum(x_velocity); //make sure it's not too fast
-		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
-		x+=x_velocity; //move
-		y+=y_velocity;
-		x_velocity*=fric; //multiply by friction to remove some vel
-		y_velocity*=fric; 
-		/*if(Math.abs(x_velocity)<fric){ //if speed is less than what friction removes, set to 0
-			x_velocity=0;
-		}else if(x_velocity>0) { //if positive speed, subtract friction
-			x_velocity-=fric;
-		}else if(x_velocity<0) { //if negative speed, add friction
-			x_velocity+=fric;
-		}*
-		if(Math.abs(y_velocity)<fric){
-			y_velocity=0;
-		}else if(y_velocity>0) {
-			y_velocity-=fric;
-		}else if(y_velocity<0) {
-			y_velocity+=fric;
-		}*/
-		
-		
-		/*x_positions.add(x);
-		y_positions.add(y);
-		x_positions.remove();
-		y_positions.remove();*/
 		if(score>=scoreToWin&&board.mode==Main.LEVELS) //win if all cookies eaten
 			win();
-		
 
-		/*if(!ghost) {
-			for(int i=0; i<board.walls.size(); i++) { //test collision with all walls, die if hit one
-				Wall rect = board.walls.get(i);
-				if(collidesWithRect(rect.getX(), rect.getY(), rect.getW(), rect.getH())) {
-					i=board.walls.size();
-					killBounce(rect,!shielded);
-				}
-			}
-			for(int i=0; i<board.players.size(); i++) { //test collisions with players
-				Eater other = board.players.get(i);
-				if(!other.equals(this)) {
-					if(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius()))	{
-						double xv = x_velocity; //storing velocities
-						double yv = y_velocity;
-						//collide for this one and then other one
-						double[] point = Level.circAndCircHitPoint(x,y,getTotalRadius(),other.getX(),other.getY(),other.getTotalRadius());
-						collideAt(other,point[0],point[1],other.getXVel(),other.getYVel(),other.getMass());
-						other.collideAt(this, point[0],point[1],xv,yv, mass);
-						while(collidesWithCircle(other.getX(),other.getY(),other.getTotalRadius())) {
-							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-							x+=(x-point[0])*rat; //move out of other
-							y+=(y-point[1])*rat;
-							rat = 1/Math.sqrt(Math.pow(other.getX()-point[0],2)+Math.pow(other.getY()-point[1],2));
-							other.setX(other.getX()+(other.getX()-point[0])*rat); //move out
-							other.setY(other.getY()+(other.getY()-point[1])*rat);
-						}
-					}
-				}
-			}
-		}*/
 		orientParts();
 	}
 	public void initUI() {
@@ -553,20 +367,11 @@ public class Eater extends Entity{
 			g2.setTransform(origt);
 		}
 		
-		
-		
 		//sprite
 		sprite.setColor(coloration);
 		sprite.paint(g);
 		
-		/*int rate = 5;
-		int x=0, y=0;
-		int diam = player.getRadius()*2-player.getTrailLength()*rate;
-		double alphaChange = 255/(player.getTrailLength());
-		for(int i=0; i<=player.getTrailLength(); i++) {
-			Color color = new Color(200,100,0,255);//(int)(i*alphaChange)
-			g.setColor(color);
-			g.fillOval(player.getTrailX()-(diam+i*rate)/2, player.getTrailY()-(diam+i*rate)/2, diam+i*rate, diam+i*rate);}*/
+
 		
 	}
 ;}
