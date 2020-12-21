@@ -84,8 +84,8 @@ public abstract class Enemy extends Entity{
 		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
 		normVel = normalVelocity*board.currFloor.getScale()*calrat;
 		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
-		minRecoil = 10*board.currFloor.getScale()*(calrat/15.0);
-		maxRecoil = 50*board.currFloor.getScale()*(calrat/15.0);
+		min_recoil = 10*board.currFloor.getScale()*(calrat/15.0);
+		max_recoil = 50*board.currFloor.getScale()*(calrat/15.0);
 		shield_length = (int)(.5+60*calrat);
 		special_length = (int)(.5+60*(1/(calibration_ratio/15)));
 		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));
@@ -97,19 +97,6 @@ public abstract class Enemy extends Entity{
 			summons.get(i).setCalibration(calrat/15.0);
 		}
 	}
-	/*//when hit wall
-	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		shielded=true;
-		shield_length = (int)(.5+60*board.getAdjustedCycle());
-		if(shield_frames==0) {
-			if(shield_stash.size()<=0) {
-				kill();
-			}else {
-				removeShields(1);
-			}
-			shield_frames++;
-		}
-	}*/
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
 		targetx = tarX;

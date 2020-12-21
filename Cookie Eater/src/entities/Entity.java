@@ -32,8 +32,8 @@ public abstract class Entity {
 	//shields
 	protected boolean shielded; //in stun after shield use
 	protected boolean shield_tick; //countdown shield
-	private int shield_length, shieldlen; //stun length
-	private int shield_frames; //counting how deep into shield
+	protected int shield_length, shieldlen; //stun length
+	protected int shield_frames; //counting how deep into shield
 	
 	//specials
 	protected boolean special; //whether a special is active
@@ -58,12 +58,12 @@ public abstract class Entity {
 	protected int offstage; //how far entity can go past the screen's edge before getting hit
 	
 	//movement stats
-	private double min_recoil, minrec; //how fast entity bounces off wall (min and max)
-	private double max_recoil, maxrec;
-	private double acceleration, accel; //added to dimensional speed depending on direction
-	private double max_velocity, maxvel; //cap on accelerated-to dimensional speed
-	private double terminal_velocity, termvel; //maximum possible dimensional speed
-	private double friction, fric; //removed from dimensional speed
+	protected double min_recoil, minrec; //how fast entity bounces off wall (min and max)
+	protected double max_recoil, maxrec;
+	protected double acceleration, accel; //added to dimensional speed depending on direction
+	protected double max_velocity, maxvel; //cap on accelerated-to dimensional speed
+	protected double terminal_velocity, termvel; //maximum possible dimensional speed
+	protected double friction, fric; //removed from dimensional speed
 	
 	protected String name;
 	protected Map<String,String> variableStates; //behavior-determining states
@@ -103,8 +103,16 @@ public abstract class Entity {
 		shield_length = 60;
 		shield_frames = 0;
 		shield_tick = true;
+		
+		//default movement stats
+		acceleration = .5;
+		max_velocity = 10;
+		terminal_velocity = 50;
+		friction = .95;
 		min_recoil = 7;
 		max_recoil = 30;
+		
+		
 		bounds = null;
 		averageVelOverride = false;
 		setUpStates();
@@ -552,7 +560,16 @@ public abstract class Entity {
 		}
 	}
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-	
+		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		
+		calibration_ratio = calrat;
+		
+		calibrateStats();
+		
+		//calibrate summons
+		for(int i=0; i<summons.size(); i++) {
+			summons.get(i).setCalibration(calrat);
+		}
 	}
 	
 	//activates special A (all powerups tied to A)
@@ -861,4 +878,5 @@ public abstract class Entity {
 	public void setMinRecoil(double r) {min_recoil = r;}
 	public double getMaxRecoil() {return maxrec;}
 	public void setMaxRecoil(double r) {max_recoil = r;}
+	
 }

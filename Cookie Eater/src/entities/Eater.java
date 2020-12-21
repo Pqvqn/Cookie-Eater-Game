@@ -106,18 +106,6 @@ public class Eater extends Entity{
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	
-	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
-		
-		calibration_ratio = calrat;
-		
-		calibrateStats();
-		
-		//calibrate summons
-		for(int i=0; i<summons.size(); i++) {
-			summons.get(i).setCalibration(calrat);
-		}
-	}
 	public double[][] getMovementRand() {return MR;}
 	public void addToMovement(double a, double v, double f) {
 		acceleration += a;
@@ -292,24 +280,6 @@ public class Eater extends Entity{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		super.runUpdate();
-		if(parts.isEmpty())buildBody();
-		if(state == DEAD) { //if dead in multiplayer
-			x_velocity = 0; //reset speeds
-			y_velocity = 0;
-		}
-		if(!dO)return; //if paused
-		if(board.mode == Main.PVP) {
-			boolean allDead = true;
-			for(Eater e : board.players) { //check if any players aren't dead or winning
-				if(!e.equals(this) && e.getState() != DEAD) {
-					allDead = false;
-				}
-			}
-			if(allDead) { //win if last man standing
-				win();
-			}
-		}
 		if(!lock) {
 			switch(direction) {
 				case UP: //if up
@@ -334,6 +304,25 @@ public class Eater extends Entity{
 					break;
 			}
 		}
+		super.runUpdate();
+		if(parts.isEmpty())buildBody();
+		if(state == DEAD) { //if dead in multiplayer
+			x_velocity = 0; //reset speeds
+			y_velocity = 0;
+		}
+		if(!dO)return; //if paused
+		if(board.mode == Main.PVP) {
+			boolean allDead = true;
+			for(Eater e : board.players) { //check if any players aren't dead or winning
+				if(!e.equals(this) && e.getState() != DEAD) {
+					allDead = false;
+				}
+			}
+			if(allDead) { //win if last man standing
+				win();
+			}
+		}
+		
 		if(score>=scoreToWin&&board.mode==Main.LEVELS) //win if all cookies eaten
 			win();
 

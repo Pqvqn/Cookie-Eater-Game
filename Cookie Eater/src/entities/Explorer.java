@@ -268,8 +268,8 @@ public class Explorer extends Entity{
 		max_velocity/=calibration_ratio;
 		terminal_velocity/=calibration_ratio;
 		friction = Math.pow(1-friction,1/(calibration_ratio*6));
-		minRecoil /= calibration_ratio;
-		maxRecoil /= calibration_ratio;
+		min_recoil /= calibration_ratio;
+		max_recoil /= calibration_ratio;
 		input_speed *= calibration_ratio;
 		
 		calibration_ratio = calrat;
@@ -277,8 +277,8 @@ public class Explorer extends Entity{
 		shield_length = (int)(.5+60*(1/calibration_ratio));
 		special_length = (int)(.5+60*(1/calibration_ratio));
 		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		minRecoil *= calibration_ratio;
-		maxRecoil *= calibration_ratio;
+		min_recoil *= calibration_ratio;
+		max_recoil *= calibration_ratio;
 		acceleration*=calibration_ratio*calibration_ratio;
 		max_velocity*=calibration_ratio;
 		terminal_velocity*=calibration_ratio;
