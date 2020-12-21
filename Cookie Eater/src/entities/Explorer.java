@@ -26,14 +26,6 @@ public class Explorer extends Entity{
 	protected double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	protected int direction;
-	protected double acceleration; //added to dimensional speed depending on direction
-	protected double max_velocity; //cap on accelerated-to dimensional speed
-	protected double terminal_velocity; //maximum possible dimensional speed
-	protected double friction; //removed from dimensional speed
-	protected double accel; //scalable movement stats
-	protected double maxvel;
-	protected double termvel;
-	protected double fric;
 	protected Color coloration;
 	protected Segment tester; //segment used to test possible movement paths to choose optimal one
 	protected double input_speed; //how many frames must pass between inputs
@@ -53,18 +45,11 @@ public class Explorer extends Entity{
 		name = getName();
 		//chooseResidence();
 		state = VENDOR;
-		
-		acceleration = .5*calibration_ratio*calibration_ratio;
-		max_velocity = 10*calibration_ratio;
-		terminal_velocity = 50*calibration_ratio;
-		friction = 1-Math.pow(.1, calibration_ratio*6);
-		averageStats();
-		accel = acceleration*scale;
-		maxvel = max_velocity*scale;
-		termvel = terminal_velocity*scale;
-		fric = friction;
-		direction = NONE;
 		coloration = Color.gray;
+		averageStats();
+		
+		direction = NONE;
+
 		input_counter = 0;
 		speaking = 0;
 		setShields(start_shields);
@@ -85,6 +70,30 @@ public class Explorer extends Entity{
 	}
 	//updates every cycle
 	public void runUpdate() {
+		if(!lock) {
+			switch(direction) {
+				case UP: //if up
+					if(y_velocity>-maxvel) //if below speed cap
+						y_velocity-=accel; //increase speed upward
+						y_velocity/=fric;
+					break;
+				case RIGHT:
+					if(x_velocity<maxvel)
+						x_velocity+=accel;
+						x_velocity/=fric;
+					break;
+				case DOWN:
+					if(y_velocity<maxvel)
+						y_velocity+=accel;
+						y_velocity/=fric;
+					break;
+				case LEFT:
+					if(x_velocity>-maxvel)
+						x_velocity-=accel;
+						x_velocity/=fric;
+					break;
+			}
+		}
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
 		if(state == VENDOR) { //if selling
@@ -118,40 +127,7 @@ public class Explorer extends Entity{
 			lock = false;
 		}
 		scale = board.currFloor.getScale();
-		accel = acceleration*scale;
-		maxvel = max_velocity*scale;
-		termvel = terminal_velocity*scale;
-		fric = friction;
-		if(!lock) {
-			switch(direction) {
-				case UP: //if up
-					if(y_velocity>-maxvel) //if below speed cap
-						y_velocity-=accel; //increase speed upward
-						y_velocity/=fric;
-					break;
-				case RIGHT:
-					if(x_velocity<maxvel)
-						x_velocity+=accel;
-						x_velocity/=fric;
-					break;
-				case DOWN:
-					if(y_velocity<maxvel)
-						y_velocity+=accel;
-						y_velocity/=fric;
-					break;
-				case LEFT:
-					if(x_velocity>-maxvel)
-						x_velocity-=accel;
-						x_velocity/=fric;
-					break;
-			}
-		}
-		if(Math.abs(x_velocity)>termvel)x_velocity = termvel * Math.signum(x_velocity); //make sure it's not too fast
-		if(Math.abs(y_velocity)>termvel)y_velocity = termvel * Math.signum(y_velocity);
-		x+=x_velocity; //move
-		y+=y_velocity;
-		x_velocity*=fric; //multiply by friction to remove some vel
-		y_velocity*=fric;
+		
 		int spec = (special)?-1:doSpecial();
 		if(spec!=-1 && special_activated.get(spec)) {
 			special(spec);
@@ -262,81 +238,6 @@ public class Explorer extends Entity{
 		}
 	}
 	
-	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
-		acceleration/=calibration_ratio*calibration_ratio;
-		max_velocity/=calibration_ratio;
-		terminal_velocity/=calibration_ratio;
-		friction = Math.pow(1-friction,1/(calibration_ratio*6));
-		min_recoil /= calibration_ratio;
-		max_recoil /= calibration_ratio;
-		input_speed *= calibration_ratio;
-		
-		calibration_ratio = calrat;
-		
-		shield_length = (int)(.5+60*(1/calibration_ratio));
-		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-		min_recoil *= calibration_ratio;
-		max_recoil *= calibration_ratio;
-		acceleration*=calibration_ratio*calibration_ratio;
-		max_velocity*=calibration_ratio;
-		terminal_velocity*=calibration_ratio;
-		friction = 1-Math.pow(friction, calibration_ratio*6);
-		input_speed /= calibration_ratio;
-		coloration = new Color((int)((Math.pow(1-friction,1/(calibration_ratio*6))-MR[2][0])/MR[2][1]*255),(int)((max_velocity/calibration_ratio-MR[1][0])/MR[1][1]*255),(int)((acceleration/calibration_ratio/calibration_ratio-MR[0][0])/MR[0][1]*255));
-		
-		//calibrate summons
-		for(int i=0; i<summons.size(); i++) {
-			summons.get(i).setCalibration(calrat);
-		}
-	}
-	/*//uses shield instead of killing
-	public void bounceShield(Wall w,int rx,int ry,int rw,int rh) {
-		shielded = true;
-		double[] point = board.currFloor.circAndRectHitPoint(x,y,radius*scale,rx,ry,rw,rh);
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minRecoil*scale){
-			double rat = (minRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
-			x_velocity *= rat;
-			y_velocity *= rat;
-		}
-		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)>maxRecoil*scale){
-			double rat = (maxRecoil*scale)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
-			x_velocity *= rat;
-			y_velocity *= rat;
-		}
-		while(collidesWithRect(false,rx,ry,rw,rh)) {
-			double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-			x+=(x-point[0])*rat; //move out of other
-			y+=(y-point[1])*rat;
-			orientParts();
-		}
-		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(point[0],point[1]);
-			}
-		}
-	}*/
-	/*public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		if(!shielded && shield_stash.size()<=0 && board.currFloor.takeDamage()) { //kill if no shields, otherwise bounce
-			kill();
-			return;
-		}else if (!shielded && board.currFloor.takeDamage()){//only remove shields if not in stun and shield to be broken
-			removeShields(1);
-		}
-		bounceShield(w,rx,ry,rw,rh);
-		
-	}*/
-	/*//tests if hits rectangle
-	public boolean collidesWithRect(boolean extra, int oX, int oY, int oW, int oH) {
-		boolean hit = false;
-		for(int i=0; i<parts.size(); i++) {
-			if(parts.get(i).collidesWithRect(extra,oX,oY,oW,oH,0))hit=true;
-		}
-		return hit;
-							
-	}*/
-	
 	public void doFunction(String f, String[] args) {
 		switch(f) {
 		case "Give": //pays player $ {dollars}
@@ -433,14 +334,25 @@ public class Explorer extends Entity{
 	public void pay(double amount) {
 		addCookies(amount);
 	}
+	//gives a random set of movement stats and colors accordingly
+	public void randomizeStats() {
+		acceleration = Math.random()*MR[0][1]+MR[0][0];
+		max_velocity = Math.random()*MR[1][1]+MR[1][0];
+		friction = Math.random()*MR[2][1]+MR[2][0];
+		colorize();
+		calibrateStats();
+	}
+	//gives average of each stat
 	public void averageStats() {
 		acceleration=MR[0][1]/2+MR[0][0];
 		max_velocity=MR[1][1]/2+MR[1][0];
 		friction=MR[2][1]/2+MR[2][0];
+		colorize();
+		calibrateStats();
+	}
+	//creates color based on stats
+	public void colorize() {
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
-		acceleration*=calibration_ratio*calibration_ratio;
-		max_velocity*=calibration_ratio;
-		friction = 1-Math.pow(friction, calibration_ratio*6);
 	}
 	//prepares explorer at start of new level
 	public void spawn() {
