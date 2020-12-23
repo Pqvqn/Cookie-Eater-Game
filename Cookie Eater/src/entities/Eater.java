@@ -43,7 +43,6 @@ public class Eater extends Entity{
 		super(frame,cycletime);
 		id = num;
 		name = "Player "+id;
-		calibration_ratio = cycletime/15.0;
 		dO= true;
 		ded = false;
 		board = frame;

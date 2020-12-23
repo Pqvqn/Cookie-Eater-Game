@@ -11,8 +11,6 @@ import levels.*;
 public abstract class Enemy extends Entity{
 
 	protected Entity explorerTarget; //entity to bother
-	protected double fric, termVel, normVel, accel; //movement stats, adjusted for scale/cycle
-	protected double friction, terminalVelocity, normalVelocity, acceleration; //unadjusted, constant stats
 	protected boolean steals;
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
@@ -20,7 +18,6 @@ public abstract class Enemy extends Entity{
 	
 	public Enemy(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime);
-		calibration_ratio = cycletime;
 		board = frame;
 		ded=false;
 		x = xp;
@@ -35,11 +32,6 @@ public abstract class Enemy extends Entity{
 		orientParts();
 		createStash();
 		explorerTarget = targetExplorer();
-		
-		fric = Math.pow(friction, calibration_ratio);
-		termVel = terminalVelocity*board.currFloor.getScale()*calibration_ratio;
-		normVel = normalVelocity*board.currFloor.getScale()*calibration_ratio;
-		accel = acceleration*board.currFloor.getScale()*calibration_ratio*calibration_ratio;
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
@@ -51,51 +43,11 @@ public abstract class Enemy extends Entity{
 		if(ded)return;
 		if(explorerTarget==null || (!board.present_npcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
 			explorerTarget = targetExplorer(); //find target if none targeted or target died
-		setCalibration(board.getAdjustedCycle());
 	
-		x+=x_velocity;
-		y+=y_velocity;
-		x_velocity*=fric;
-		y_velocity*=fric;
 		if(Math.random()>.999 && !powerups.get(0).isEmpty()) {
 			special(0); 
 		}
-		/*if(Math.abs(x_velocity)>fric) {
-			x_velocity-=Math.signum(x_velocity)*fric;
-		}else {
-			x_velocity=0;
-		}
-		if(Math.abs(y_velocity)>fric) {
-			y_velocity-=Math.signum(y_velocity)*fric;
-		}else {
-			y_velocity=0;
-		}*/
-		if(Math.abs(x_velocity)>termVel) {
-			x_velocity=Math.signum(x_velocity)*termVel;
-		}
-		if(Math.abs(y_velocity)>termVel) {
-			y_velocity=Math.signum(y_velocity)*termVel;
-		}
 		orientParts();
-	}
-	public void setCalibration(double calrat) {
-		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
-		fric = Math.pow(friction, calrat);
-		termVel = terminalVelocity*board.currFloor.getScale()*calrat;
-		normVel = normalVelocity*board.currFloor.getScale()*calrat;
-		accel = acceleration*board.currFloor.getScale()*calrat*calrat;
-		min_recoil = 10*board.currFloor.getScale()*(calrat/15.0);
-		max_recoil = 50*board.currFloor.getScale()*(calrat/15.0);
-		shield_length = (int)(.5+60*calrat);
-		special_length = (int)(.5+60*(1/(calibration_ratio/15)));
-		special_cooldown = (int)(.5+180*(1/(calibration_ratio/15)));
-		shield_length = (int)(.5+60*(1/(calibration_ratio/15)));
-		calibration_ratio = calrat;
-		
-		//calibrate summons
-		for(int i=0; i<summons.size(); i++) {
-			summons.get(i).setCalibration(calrat/15.0);
-		}
 	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {
@@ -104,8 +56,8 @@ public abstract class Enemy extends Entity{
 		if(lock)return;
 		double rat = accel / Level.lineLength(x, y, tarX, tarY);
 		if(Level.lineLength(x, y, tarX, tarY)==0) rat = 0;
-		if(Math.abs(x_velocity)<normVel)x_velocity+=rat*(tarX-x);
-		if(Math.abs(y_velocity)<normVel)y_velocity+=rat*(tarY-y);
+		if(Math.abs(x_velocity)<maxvel)x_velocity+=rat*(tarX-x);
+		if(Math.abs(y_velocity)<maxvel)y_velocity+=rat*(tarY-y);
 	}
 	//deletes this enemy
 	public void kill() {

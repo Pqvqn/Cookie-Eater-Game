@@ -17,15 +17,19 @@ public class EnemyParasite extends Enemy{
 	
 	public EnemyParasite(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
+		averageStats();
 		mass = 30;
 		setShields(3);
 		steals = true;
-		friction = .9;
-		terminalVelocity = 10;
-		normalVelocity = 10;
-		acceleration = .1;
 		stickPoint = new double[2];
 		name = "Parasite";
+	}
+	public void averageStats() {
+		acceleration=.5;
+		max_velocity=50;
+		friction=.2;
+		terminal_velocity=50;
+		calibrateStats();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});

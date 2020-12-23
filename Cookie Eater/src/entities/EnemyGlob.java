@@ -23,14 +23,18 @@ public class EnemyGlob extends Enemy{
 	
 	public EnemyGlob(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
+		averageStats();
 		mass = 90;
 		setShields(3);
 		steals = true;
-		friction = .999;
-		terminalVelocity = 2;
-		normalVelocity = .2;
-		acceleration = .005;
 		name = "Tres Blob";
+	}
+	public void averageStats() {
+		acceleration=.25;
+		max_velocity=5;
+		friction=.15;
+		terminal_velocity=50;
+		calibrateStats();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
@@ -54,13 +58,13 @@ public class EnemyGlob extends Enemy{
 	}
 	public void runUpdate() {
 		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)){
-			normalVelocity = .6;
+			maxvel = .6;
 			accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
 		}else {
 			target = board.nearestCookie(x,y);
 			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 			if(target!=null) {
-				normalVelocity = .2;
+				maxvel = .2;
 				accelerateToTarget(target.getX(),target.getY());
 			}
 		}

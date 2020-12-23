@@ -38,7 +38,6 @@ public class Explorer extends Entity{
 	
 	public Explorer(Board frame, int cycletime) {
 		super(frame,cycletime);
-		calibration_ratio = cycletime/15.0;
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
 		pickups = new ArrayList<CookieItem>();

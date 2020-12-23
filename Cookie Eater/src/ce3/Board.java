@@ -239,7 +239,7 @@ public class Board extends JFrame{
 	
 	public void setCalibrations(double cycle) {
 		for(int i=0; i<players.size(); i++) {
-			players.get(i).setCalibration(cycle/15.0); //give player more accurate cycle time
+			players.get(i).setCalibration(cycle); //give player more accurate cycle time
 		}
 		for(int i=0; i<enemies.size(); i++) {
 			enemies.get(i).setCalibration(cycle); //give enemies more accurate cycle time
@@ -248,7 +248,7 @@ public class Board extends JFrame{
 			effects.get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
 		for(int i=0; i<present_npcs.size(); i++) {
-			present_npcs.get(i).setCalibration(cycle/15.0); //give npcs more accurate cycle time
+			present_npcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time

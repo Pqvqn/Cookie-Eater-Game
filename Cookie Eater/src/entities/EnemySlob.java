@@ -24,17 +24,21 @@ public class EnemySlob extends Enemy{
 	
 	public EnemySlob(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
+		averageStats();
 		mass = 60;
 		setShields(5);
 		steals = true;
-		friction = .999;
-		terminalVelocity = 3;
-		normalVelocity = .2;
-		acceleration = .05;
 		angle = 0;
 		chargeCoords = null;
 		prevCookies = 0;
 		name = "Charger";
+	}
+	public void averageStats() {
+		acceleration=1;
+		max_velocity=5;
+		friction=.15;
+		terminal_velocity=80;
+		calibrateStats();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
@@ -63,7 +67,7 @@ public class EnemySlob extends Enemy{
 		}else {
 			target = board.nearestCookie(x,y);
 			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)) {
-				normalVelocity = 2;
+				maxvel = 2;
 				chargeCoords = new double[2];
 				chargeCoords[0]=explorerTarget.getX();
 				chargeCoords[1]=explorerTarget.getY();
@@ -71,7 +75,7 @@ public class EnemySlob extends Enemy{
 			}else {
 				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 				if(target!=null) {
-					normalVelocity = .1;
+					maxvel = .1;
 					accelerateToTarget(target.getX(),target.getY());
 					angle = Math.atan2(target.getY()-y, target.getX()-x);
 					

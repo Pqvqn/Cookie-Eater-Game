@@ -18,15 +18,19 @@ public class EnemySpawner extends Enemy{
 	
 	public EnemySpawner(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
+		averageStats();
 		mass = 1000;
 		setShields(0);
 		steals = true;
-		friction = .999;
-		terminalVelocity = 6;
-		normalVelocity = .2;
-		acceleration = .05;
 		spawns = new ArrayList<Enemy>();
 		name = "Spawner";
+	}
+	public void averageStats() {
+		acceleration=1;
+		max_velocity=5;
+		friction=.15;
+		terminal_velocity=80;
+		calibrateStats();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobEmpty","blobMadEmpty"});

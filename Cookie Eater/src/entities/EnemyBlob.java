@@ -18,14 +18,18 @@ public class EnemyBlob extends Enemy{
 	
 	public EnemyBlob(Board frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
+		averageStats();
 		mass = 30;
 		setShields(1);
 		steals = true;
-		friction = .999;
-		terminalVelocity = 2;
-		normalVelocity = .2;
-		acceleration = .01;
 		name = "Blob";
+	}
+	public void averageStats() {
+		acceleration=.5;
+		max_velocity=5;
+		friction=.15;
+		terminal_velocity=50;
+		calibrateStats();
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad"});

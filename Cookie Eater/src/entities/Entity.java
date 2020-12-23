@@ -562,7 +562,7 @@ public abstract class Entity {
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
 		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
 		
-		calibration_ratio = calrat;
+		calibration_ratio = calrat/15.0;
 		
 		calibrateStats();
 		
