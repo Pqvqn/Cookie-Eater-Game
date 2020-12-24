@@ -41,13 +41,15 @@ public abstract class Enemy extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(ded)return;
-		if(explorerTarget==null || (!board.present_npcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
-			explorerTarget = targetExplorer(); //find target if none targeted or target died
-	
 		if(Math.random()>.999 && !powerups.get(0).isEmpty()) {
 			special(0); 
 		}
 		orientParts();
+	}
+	public void doMovement() {
+		if(explorerTarget==null || (!board.present_npcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
+			explorerTarget = targetExplorer(); //find target if none targeted or target died
+		super.doMovement();
 	}
 	//accelerates towards target coordinate
 	public void accelerateToTarget(double tarX, double tarY) {

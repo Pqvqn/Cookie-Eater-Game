@@ -279,30 +279,6 @@ public class Eater extends Entity{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		if(!lock) {
-			switch(direction) {
-				case UP: //if up
-					if(y_velocity>-maxvel) //if below speed cap
-						y_velocity-=accel; //increase speed upward
-						y_velocity/=fric;
-					break;
-				case RIGHT:
-					if(x_velocity<maxvel)
-						x_velocity+=accel;
-						x_velocity/=fric;
-					break;
-				case DOWN:
-					if(y_velocity<maxvel)
-						y_velocity+=accel;
-						y_velocity/=fric;
-					break;
-				case LEFT:
-					if(x_velocity>-maxvel)
-						x_velocity-=accel;
-						x_velocity/=fric;
-					break;
-			}
-		}
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
 		if(state == DEAD) { //if dead in multiplayer
@@ -327,6 +303,34 @@ public class Eater extends Entity{
 
 		orientParts();
 	}
+	public void doMovement() {
+		if(!lock) {
+			switch(direction) {
+				case UP: //if up
+					if(y_velocity>-maxvel) //if below speed cap
+						y_velocity-=accel; //increase speed upward
+						y_velocity/=fric;
+					break;
+				case RIGHT:
+					if(x_velocity<maxvel)
+						x_velocity+=accel;
+						x_velocity/=fric;
+					break;
+				case DOWN:
+					if(y_velocity<maxvel)
+						y_velocity+=accel;
+						y_velocity/=fric;
+					break;
+				case LEFT:
+					if(x_velocity>-maxvel)
+						x_velocity-=accel;
+						x_velocity/=fric;
+					break;
+			}
+		}
+		super.doMovement();
+	}
+	
 	public void initUI() {
 		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
 		board.draw.addUI(scoreboard = new UIScoreCount(board,board.X_RESOL-170,board.Y_RESOL-100));

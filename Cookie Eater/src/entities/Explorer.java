@@ -69,30 +69,6 @@ public class Explorer extends Entity{
 	}
 	//updates every cycle
 	public void runUpdate() {
-		if(!lock) {
-			switch(direction) {
-				case UP: //if up
-					if(y_velocity>-maxvel) //if below speed cap
-						y_velocity-=accel; //increase speed upward
-						y_velocity/=fric;
-					break;
-				case RIGHT:
-					if(x_velocity<maxvel)
-						x_velocity+=accel;
-						x_velocity/=fric;
-					break;
-				case DOWN:
-					if(y_velocity<maxvel)
-						y_velocity+=accel;
-						y_velocity/=fric;
-					break;
-				case LEFT:
-					if(x_velocity>-maxvel)
-						x_velocity-=accel;
-						x_velocity/=fric;
-					break;
-			}
-		}
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
 		if(state == VENDOR) { //if selling
@@ -132,6 +108,33 @@ public class Explorer extends Entity{
 			special(spec);
 		}
 		orientParts();
+	}
+	public void doMovement() {
+		if(!lock) {
+			switch(direction) {
+				case UP: //if up
+					if(y_velocity>-maxvel) //if below speed cap
+						y_velocity-=accel; //increase speed upward
+						y_velocity/=fric;
+					break;
+				case RIGHT:
+					if(x_velocity<maxvel)
+						x_velocity+=accel;
+						x_velocity/=fric;
+					break;
+				case DOWN:
+					if(y_velocity<maxvel)
+						y_velocity+=accel;
+						y_velocity/=fric;
+					break;
+				case LEFT:
+					if(x_velocity>-maxvel)
+						x_velocity-=accel;
+						x_velocity/=fric;
+					break;
+			}
+		}
+		super.doMovement();
 	}
 
 	//dies on floor

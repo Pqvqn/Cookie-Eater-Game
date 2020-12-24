@@ -16,8 +16,6 @@ public class Summon2 extends Entity{
 	private double homex,homey; //x and y position of edge 
 	private Segment body;
 	private double spawn; //multiplied by radius to produce distance from user that summon spawns
-	private double fric; //represents reduction in velocity per cycle (for non anchored only)
-	private double friction;
 	
 	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored, int shields) {
 		super(frame,cycletime);
@@ -25,8 +23,6 @@ public class Summon2 extends Entity{
 		radius = user.getRadius()/3;
 		mass = 70;
 		anchor = anchored;
-		//x = user.getX();
-		//y = user.getY();
 		if(anchor)setRelativeFrame(user.getX(),user.getY());
 		
 		spawn = 3.5;
@@ -35,29 +31,31 @@ public class Summon2 extends Entity{
 		setX(homex);
 		setY(homey);
 		setShields(shields);
+		friction = .2;
+		calibrateStats();
 		double rat = .001/(Level.lineLength(0,0,user.getXVel(true),user.getYVel(true))); //set vels to user's, but miniscule
 		x_velocity = user.getXVel(true)*rat;
 		y_velocity = user.getYVel(true)*rat;
 		special_frames = user.getSpecialFrames();
 		currSpecial = user.getCurrentSpecial();
-		friction = .15;
-		fric = 1-Math.pow(friction, calibration_ratio*6);
 		buildBody();
 		orientParts();
+
 	}
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
-		
+		orientParts();
+
+	}
+	
+	public void doMovement() {
 		if(getX() == homex && getY() == homey) { //if stacked
 			double userAngle = Math.atan2(user.getYVel(true),user.getXVel(true));
 			setX(user.getX()+Math.cos(userAngle)*user.getRadius()*spawn); //set x a little bit out from user
 			setY(user.getY()+Math.sin(userAngle)*user.getRadius()*spawn);
 		}
-		
 		if(anchor) { //if anchored to the user, move with user
-			//setXVel(user.getXVel());
-			//setYVel(user.getYVel());
 			double relxv = getXVel(true);double relyv = getYVel(true);
 			setRelativeFrame(user.getX(),user.getY());
 			setRelativeVel(user.getXVel(),user.getYVel());
@@ -67,37 +65,9 @@ public class Summon2 extends Entity{
 
 			x += getXVel();
 			y += getYVel();
-			/*relx+=x_velocity;
-			rely+=y_velocity;
-			x = user.getX()+relx;
-			y = user.getY()+rely;
-			x_velocity = 0;
-			y_velocity = 0;*/
 		}else {
-			x+=x_velocity; //move
-			y+=y_velocity;
-			x_velocity*=fric; //multiply by friction to remove some vel
-			y_velocity*=fric; 
-			/*if(x_velocity>fric) {
-				x_velocity-=fric;
-			}else if(x_velocity<-fric) {
-				x_velocity+=fric;
-			}else {
-				x_velocity = 0;
-			}
-			if(y_velocity>fric) {
-				y_velocity-=fric;
-			}else if(y_velocity<-fric) {
-				y_velocity+=fric;
-			}else {
-				y_velocity = 0;
-			}*/
+			super.doMovement();
 		}
-
-		orientParts();
-		//x+=x_velocity+user.getXVel();
-		//y+=y_velocity+user.getYVel();
-
 	}
 	
 	public double getAim() {return getAngle();}
@@ -156,32 +126,12 @@ public class Summon2 extends Entity{
 		}
 	}
 	
-	/*//prepares all items
-	public void prepareItems() {
-		for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-			powerups.get(currSpecial).get(i).prepare();
-		}
-	}*/
-	
-	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
-		
-		calibration_ratio = calrat;
-		fric = 1-Math.pow(friction, calibration_ratio*6);
-		shield_length = (int)(.5+60*(1/calibration_ratio));
-		special_length = (int)(.5+60*(1/calibration_ratio));
-		special_cooldown = (int)(.5+180*(1/calibration_ratio));
-	}
-	
 	//overrides normal collision; knocks user back if anchored
 	public void collideAt(Object b, double xp, double yp, double oxv, double oyv, double om) {
 		if(anchor) {
 			user.setXVel(user.getXVel()+x_velocity);
 			user.setYVel(user.getYVel()+y_velocity);
 			user.collideAt(b,xp,yp,oxv,oyv,om);
-			//halt = true;
-			//x_velocity = 0;
-			//y_velocity = 0;
 			x = homex;
 			y = homey;
 			if(special) {
@@ -196,44 +146,6 @@ public class Summon2 extends Entity{
 	}
 	
 	
-	/*//position based on if anchored to player
-	public double getX() {
-		if(anchor) {
-			return relx;
-		}else {
-			return super.getX();
-		}
-	}
-	public double getY() {
-		if(anchor) {
-			return rely;
-		}else {
-			return super.getY();
-		}
-	}
-	public void setX(double xp) {
-		if(anchor) {
-			relx=xp;
-			x=user.getX()+relx;
-		}else {
-			super.setX(xp);
-		}
-		if(body!=null)orientParts();
-	}
-	public void setY(double yp) {
-		if(anchor) {
-			rely=yp;
-			y=user.getY()+rely;
-		}else {
-			super.setY(yp);
-		}
-		if(body!=null)orientParts();
-	}*/
-	
-	/*public double getXVel() {return x_velocity;}
-	public double getYVel() {return y_velocity;}
-	public void setXVel(double a) {x_velocity = a;}
-	public void setYVel(double a) {y_velocity = a;}*/
 	public double getThickness() {
 		return getTotalRadius()*2;
 	}
