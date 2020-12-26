@@ -13,9 +13,10 @@ public class Audio {
 	public Audio(Board frame) {
 		board = frame;
         
-       playFile(new File("Cookie Eater/src/resources/sounds/testmusic.wav"));
+       //playSound("testmusic");
 	}
 	
+	//plays sound from audio file
 	public void playFile(File soundfile) {
 		try {
 	    	AudioInputStream stream = AudioSystem.getAudioInputStream(soundfile.getAbsoluteFile());  
@@ -35,5 +36,9 @@ public class Audio {
 			e.printStackTrace();
 		}  
 	}
-
+	
+	//plays sound based on name of file from sound package
+	public void playSound(String title) {
+		playFile(new File("Cookie Eater/src/resources/sounds/"+title+".wav"));
+	}
 }

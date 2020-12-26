@@ -84,6 +84,7 @@ public class Cookie {
 	//delete self and increase score
 	public void kill(Entity consumer, double decayValue) {
 		if(consumer!=null) {
+			board.audio.playSound("chomp");
 			if(decayed) { //less value for decayed cookies
 				if(decayValue>=0) {
 					value = decayValue;
