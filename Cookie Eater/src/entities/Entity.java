@@ -553,14 +553,14 @@ public abstract class Entity {
 		x_velocity=pvy*proejjjg-projdx/actual_mass;
 		y_velocity=-pvx*proejjjg-projdy/actual_mass;
 		
-		//handle sound based on intensity
+		//handle sound volume based on intensity
 		double impact = Math.abs(
 				actual_mass*Math.sqrt(Math.pow(x_velocity,2)+Math.pow(y_velocity,2)) -
 				om*Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2)));
 		double maxImpact = board.player.termvel*board.player.mass/2;
-		int levels = 3;
-		int impactVal = (int)(impact/(maxImpact/levels));
-		board.audio.playSound("bonk"+impactVal);
+		if(impact > maxImpact)impact = maxImpact;
+		float impactVal = (float)(impact/maxImpact) * (Audio.VOLUME_RANGE) + Audio.VOLUME_LOW;
+		board.audio.playSound("bonk2",impactVal);
 		
 		if(special) { //bounce any items
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
