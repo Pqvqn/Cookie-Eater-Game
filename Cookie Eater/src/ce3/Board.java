@@ -24,8 +24,9 @@ public class Board extends JFrame{
 	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	public Eater player;
-	public Draw draw;
-	public Audio audio;
+	public Draw draw; //handles graphics
+	public Audio audio; //handles sound effects
+	public Music music; //handles music/background sound
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
@@ -82,6 +83,7 @@ public class Board extends JFrame{
 		}
 		draw = new Draw(this);
 		audio = new Audio(this);
+        music = new Music(this);
 		
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();

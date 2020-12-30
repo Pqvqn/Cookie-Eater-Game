@@ -21,7 +21,22 @@ public class Audio {
         	File f = new File("Cookie Eater/src/resources/sounds/"+p+".wav");
 			loaded.put(p,f);
         }
+
        //playSound("testmusic",VOLUME_HIGH);
+	}
+	
+	//plays clip
+	public void playClip(Clip clip) {
+		if(clip.isRunning())clip.stop();
+        clip.setFramePosition(0);
+
+		clip.start();
+	}
+	
+	//adjusts clip volume
+	public void setClipVolume(Clip clip, float volume) {
+        FloatControl gain = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gain.setValue(volume);
 	}
 	
 	//plays sound from audio file
@@ -31,11 +46,10 @@ public class Audio {
 			AudioInputStream stream = AudioSystem.getAudioInputStream(soundfile.getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(stream);
-	        if(clip.isRunning())clip.stop();
-	        clip.setFramePosition(0);
-	        FloatControl gain = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-	        gain.setValue(volume);
-			clip.start();
+			
+			setClipVolume(clip,volume);
+			playClip(clip);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
