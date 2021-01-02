@@ -6,18 +6,20 @@ import java.awt.event.*;
 import ce3.*;
 import ui.*;
 
-public class Button implements MouseListener{
+public class MenuButton implements MouseListener{
 
 	private Board board;
 	private OnClick onClick;
 	private Rectangle bounding;
 	private UIButton ui;
+	private String text;
 	
-	public Button(Board frame, OnClick oc, int x, int y, int w, int h) {
+	public MenuButton(Board frame, OnClick oc, String t, int x, int y, int w, int h) {
 		board = frame;
 		onClick = oc;
 		bounding = new Rectangle(x,y,w,h);
-		ui = new UIButton();
+		ui = new UIButton(board,this);
+		text = t;
 	}
 	
 	@Override
@@ -43,7 +45,7 @@ public class Button implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		ui.highlight(bounding.contains(new Point(e.getX(),e.getY())));
 	}
 
 	@Override
@@ -51,6 +53,10 @@ public class Button implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Rectangle bounds() {return bounding;}
+	public String text() {return text;}
+	
 	public interface OnClick{
 		public void click();
 	}
