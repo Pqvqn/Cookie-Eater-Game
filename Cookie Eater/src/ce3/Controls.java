@@ -109,6 +109,8 @@ public class Controls implements KeyListener{
 				//player.addItem(0, new ItemGhost(board));
 				//player.addItem(0, new ItemRecycle(board));
 				break;
+			case KeyEvent.VK_ESCAPE:
+				board.set.show(!board.set.isVisible());
 		}
 		
 	}

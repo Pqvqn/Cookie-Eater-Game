@@ -56,8 +56,9 @@ public class Board extends JFrame{
 	public Level currFloor;
 	private long lastFrame; //time of last frame
 	public UIFpsCount fps;
-	private UILevelInfo lvl;
-	private UIDialogue dia;
+	public UILevelInfo lvl;
+	public UIDialogue dia;
+	public UISettings set;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
@@ -124,7 +125,8 @@ public class Board extends JFrame{
 		
 		//ui
 		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));	
-		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));	
+		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));
+		set = new UISettings(this,0,0);
 		
 		//run the game
 		while(true)

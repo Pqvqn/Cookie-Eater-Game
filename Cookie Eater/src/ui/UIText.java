@@ -28,7 +28,7 @@ public class UIText extends UIElement{
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.setFont(font);
-		g.drawString(text,xPos,yPos);
+		if(text!=null)g.drawString(text,xPos,yPos);
 	}
 	
 	

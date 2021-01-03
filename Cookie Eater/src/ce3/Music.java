@@ -32,7 +32,7 @@ public class Music {
 				}
 				if(board.currFloor!=null) {
 					//if no clip is playing or the current song doesn't fit, play new
-			        if(clip!=null && clip.isRunning() && currentSongIsValid()) {
+			        if((clip!=null && clip.isRunning() && currentSongIsValid()) || board.audio.mute) {
 					}else {
 						playSong(chosenSong());
 					}

@@ -15,7 +15,7 @@ public class Audio {
 	
 	public Audio(Board frame) {
 		board = frame;
-		mute = false;
+		mute = true;
 		loaded = new HashMap<String,File>();
         for(String p : preload) {
         	File f = new File("Cookie Eater/src/resources/sounds/"+p+".wav");
@@ -27,6 +27,7 @@ public class Audio {
 	
 	//plays clip
 	public void playClip(Clip clip) {
+		if(mute)return;
 		if(clip.isRunning())clip.stop();
         clip.setFramePosition(0);
 
@@ -41,7 +42,6 @@ public class Audio {
 	
 	//plays sound from audio file
 	public void playFile(File soundfile, float volume) {
-		if(mute)return;
 		try {
 			AudioInputStream stream = AudioSystem.getAudioInputStream(soundfile.getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();

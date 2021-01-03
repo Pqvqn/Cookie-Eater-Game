@@ -24,5 +24,9 @@ public class UIButton extends UIElement{
 		backing.setColor((highlighted)?new Color(255,255,255,50):new Color(0,0,0,50));
 	}
 	
+	public boolean isHighlighted() {
+		return highlighted;
+	}
+	
 	
 }
