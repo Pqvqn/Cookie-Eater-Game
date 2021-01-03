@@ -118,6 +118,14 @@ public class Draw extends JPanel{
 		}
 	}
 	
+	//converts screen coordinate to game engine location
+	public Point convertPoint(Point b) {
+		SwingUtilities.convertPointFromScreen(b, this);
+		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Point bb = new Point((int)(.5+b.x * (board.X_RESOL/screen.getWidth())),(int)(.5+b.y * (board.Y_RESOL/screen.getHeight())));
+		return bb;
+	}
+	
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

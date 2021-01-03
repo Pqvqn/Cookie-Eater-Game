@@ -14,7 +14,7 @@ public class UISettings extends UIElement{
 		OnClick oc = () -> {
 			System.out.println("AAA");
 		};
-		b = new MenuButton(board, oc, "ahh", 500,500,500,500);
+		b = new MenuButton(board, oc, "ahh", 500,500,200,200);
 	}
 	
 	public void show(boolean s) {

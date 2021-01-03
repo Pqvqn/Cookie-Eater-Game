@@ -49,7 +49,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(bounding.contains(new Point(e.getX(),e.getY()))) {
+		if(bounding.contains(board.draw.convertPoint(e.getLocationOnScreen()))) {
 			onClick.click();
 		}
 	}
@@ -85,7 +85,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(bounding.contains(new Point(e.getX(),e.getY()))) {
+		if(bounding.contains(board.draw.convertPoint(e.getLocationOnScreen()))) {
 			ui.highlight(true);
 		}else {
 			if(ui.isHighlighted()) {
