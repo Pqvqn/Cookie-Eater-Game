@@ -16,9 +16,13 @@ public class UIImage extends UIElement{
 		ratio = r;
 		img = i;
 	}
+	
+	public void setImage(Image i) {
+		img = i;
+	}
 
 	public void paint(Graphics g) {
-		g.drawImage(img, xPos, yPos, (int)(.5+img.getWidth(null)*ratio), (int)(.5+img.getHeight(null)*ratio), null);
+		if(img!=null)g.drawImage(img, xPos, yPos, (int)(.5+img.getWidth(null)*ratio), (int)(.5+img.getHeight(null)*ratio), null);
 	}
 	
 	

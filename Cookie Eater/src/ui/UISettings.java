@@ -6,19 +6,19 @@ import menus.MenuButton.*;
 
 public class UISettings extends UIElement{
 	
-	private MenuButton b;
+	private MenuButton mute;
 	private boolean visible;
 	
 	public UISettings(Board frame, int x, int y) {
 		super(frame,x,y);
 		OnClick oc = () -> {
-			System.out.println("AAA");
+			board.audio.toggleMute();
 		};
-		b = new MenuButton(board, oc, "ahh", 500,500,200,200);
+		mute = new MenuButton(board, oc, new String[] {"unmute", "mute"}, true, 500,500,200,200);
 	}
 	
 	public void show(boolean s) {
-		b.show(s);
+		mute.show(s);
 		if(visible!=s) {
 			if(s) {
 				if(!board.draw.getUIList().contains(this))board.draw.addUI(this);

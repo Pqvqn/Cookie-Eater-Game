@@ -12,16 +12,21 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	private OnClick onClick;
 	private Rectangle bounding;
 	private UIButton ui;
-	private String text;
 	private boolean visible;
+	private boolean usesImage;
+	private String[] states;
+	private int currState;
 	
-	public MenuButton(Board frame, OnClick oc, String t, int x, int y, int w, int h) {
+	public MenuButton(Board frame, OnClick oc, String[] statelist, boolean img, int x, int y, int w, int h) {
 		board = frame;
 		onClick = oc;
 		bounding = new Rectangle(x,y,w,h);
-		text = t;
-		ui = new UIButton(board,this);
+		states = statelist;
+		currState = 0;
 		visible = false;
+		
+		ui = new UIButton(board,this);
+
 	}
 	
 	public void show(boolean s) {
@@ -50,6 +55,9 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(bounding.contains(board.draw.convertPoint(e.getLocationOnScreen()))) {
+			currState++;
+			if(currState >= states.length)currState = 0;
+			ui.trigger(currState);
 			onClick.click();
 		}
 	}
@@ -97,7 +105,10 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	
 	
 	public Rectangle bounds() {return bounding;}
-	public String text() {return text;}
+	public int currentState() {return currState;}
+	public String getState() {return states[currState];}
+	public String[] stateList() {return states;}
+	public boolean usesImage() {return usesImage;}
 	
 	public interface OnClick{
 		public void click();

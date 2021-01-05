@@ -31,19 +31,7 @@ public class UIDialogue extends UIElement{
 		yPos=board.Y_RESOL-100;
 		
 		parts.add(new UIOval(board,xPos-730,yPos,(int)(.5+speaker.getRadius()/board.currFloor.getScale()*ratio),(int)(.5+speaker.getRadius()/board.currFloor.getScale()*ratio),speaker.getColor(),true)); //base
-		/*try {
-			String speakerName = "eater";
-			spriteImg = ImageIO.read(new File("Cookie Eater/src/resources/explorers/"+speakerName+"Base.png"));
-			Graphics g = spriteImg.getGraphics();
-			Image face = ImageIO.read(new File("Cookie Eater/src/resources/explorers/"+speakerName+"Face.png"));
-			g.drawImage(face,(int)(.5+(spriteImg.getWidth(null)*.75-face.getWidth(null)/2.0)),(int)(.5+(spriteImg.getHeight(null)*.5-face.getHeight(null)/2.0)),null);
-			speakerName = speaker.getName().toLowerCase();
-			g.drawImage(ImageIO.read(new File("Cookie Eater/src/resources/explorers/"+speakerName+"HelmRight.png")),0,0,null);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
+
 		//display speaker by taking right-facing-neutral-expression from its sprite
 		if(speaker instanceof Explorer && ((Explorer)speaker).getSprite()!=null) {
 			spriteImg =  ((Explorer)speaker).getSprite().getCompiled(expressions[0], expressions[1]);

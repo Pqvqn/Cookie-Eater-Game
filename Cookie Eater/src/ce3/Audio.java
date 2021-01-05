@@ -75,5 +75,6 @@ public class Audio {
 	}
 	
 	public void setMute(boolean m) {mute = m;}
+	public void toggleMute() {setMute(!mute);}
 	
 }
