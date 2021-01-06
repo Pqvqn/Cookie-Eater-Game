@@ -24,7 +24,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 		states = statelist;
 		currState = 0;
 		visible = false;
-		
+		usesImage = img;
 		ui = new UIButton(board,this);
 
 	}

@@ -14,7 +14,7 @@ public class UISettings extends UIElement{
 		OnClick oc = () -> {
 			board.audio.toggleMute();
 		};
-		mute = new MenuButton(board, oc, new String[] {"unmute", "mute"}, true, 500,500,200,200);
+		mute = new MenuButton(board, oc, new String[] {"mute.png", "unmute.png"}, true, 500,500,400,200);
 	}
 	
 	public void show(boolean s) {

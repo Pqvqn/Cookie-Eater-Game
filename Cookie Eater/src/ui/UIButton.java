@@ -30,7 +30,7 @@ public class UIButton extends UIElement{
 		for(int i=0; i<button.stateList().length; i++) {
 			if(button.usesImage()) {
 				try {
-					images[i] = ImageIO.read(new File("Cookie Eater/src/resources/enemies/"+button.stateList()[i]));
+					images[i] = ImageIO.read(new File("Cookie Eater/src/resources/ui/"+button.stateList()[i]));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -42,9 +42,11 @@ public class UIButton extends UIElement{
 		
 		parts.add(text = new UIText(board,xPos+5,yPos+30,   (texts[0]!=null)?texts[0]:"",
 				new Color(255,255,255,150),new Font("Arial",Font.BOLD,30))); //text
-		parts.add(img = new UIImage(board,xPos,yPos,    
-				(images[0]!=null)?Math.min(rect.getWidth()/images[0].getWidth(null),rect.getHeight()/images[0].getHeight(null)):1,
-				(images[0]!=null)?images[0]:null));
+		//ratio to rescale image
+		double rat = (images[0]!=null)?Math.min(rect.getWidth()/images[0].getWidth(null),rect.getHeight()/images[0].getHeight(null)):1;
+		parts.add(img = new UIImage(board,xPos+(int)(.5+rect.getWidth()/2-rat*(images[0]!=null?images[0].getWidth(null)/2:0)),
+				yPos+(int)(.5+rect.getHeight()/2-rat*(images[0]!=null?images[0].getHeight(null)/2:0)),   
+				rat, (images[0]!=null)?images[0]:null));
 				
 		parts.add(backing = new UIRectangle(board,(int)rect.getX(),(int)rect.getY(),(int)rect.getWidth(),(int)rect.getHeight(),new Color(0,0,0,50),true));
 		highlighted = false;
