@@ -36,6 +36,9 @@ public class Music {
 			        	if(board.audio.mute && clip!=null && clip.isRunning()) {
 			        		clip.close();
 			        	}
+			        	if(clip!=null && clip.isRunning() && currentSongIsValid())  {
+							board.audio.setClipVolume(clip,Audio.VOLUME_NORM);
+			        	}
 					}else {
 						playSong(chosenSong());
 					}
@@ -71,6 +74,7 @@ public class Music {
 			stream = AudioSystem.getAudioInputStream(f.getAbsoluteFile());
 			clip = AudioSystem.getClip();
 			clip.open(stream);
+			board.audio.setClipVolume(clip,Audio.VOLUME_NORM);
 			board.audio.playClip(clip);
 
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {

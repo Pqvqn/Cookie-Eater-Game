@@ -8,15 +8,17 @@ import javax.sound.sampled.*;
 public class Audio {
 	
 	private Board board;
-	public static final float VOLUME_LOW = -15.0f,VOLUME_HIGH = 6.0f,VOLUME_NORM = 0f,VOLUME_RANGE=VOLUME_HIGH-VOLUME_LOW;
+	public static final float VOLUME_LOW = -20.0f,VOLUME_HIGH = 6.0f,VOLUME_NORM = 0f,VOLUME_RANGE=VOLUME_HIGH-VOLUME_LOW;
+	public float volumeReduction; //negative offset of max volume, all volumes are adjusted relative to original range
 	public HashMap<String,File> loaded; //already loaded sound files to be accessed by string name
 	private final String[] preload = {"bonk2","chomp"}; //files to load at start of program
 	public boolean mute; //whether audio should play at all
 	
 	public Audio(Board frame) {
 		board = frame;
-		mute = true;
+		mute = false;
 		loaded = new HashMap<String,File>();
+		volumeReduction = 0;
         for(String p : preload) {
         	File f = new File("Cookie Eater/src/resources/sounds/"+p+".wav");
 			loaded.put(p,f);
@@ -37,7 +39,11 @@ public class Audio {
 	//adjusts clip volume
 	public void setClipVolume(Clip clip, float volume) {
         FloatControl gain = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gain.setValue(volume);
+        
+        //adjust for a reduced volume
+        float adjustedVolume = ((volume-VOLUME_LOW)/VOLUME_RANGE) * (VOLUME_HIGH-VOLUME_LOW-volumeReduction) + VOLUME_LOW;
+
+        gain.setValue(adjustedVolume);
 	}
 	
 	//plays sound from audio file
@@ -76,5 +82,6 @@ public class Audio {
 	
 	public void setMute(boolean m) {mute = m;}
 	public void toggleMute() {setMute(!mute);}
+	public void setVolumeReduction(float r) {volumeReduction = r;}
 	
 }

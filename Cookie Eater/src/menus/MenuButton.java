@@ -29,6 +29,8 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 
 	}
 	
+	public void setClick(OnClick oc) {onClick = oc;}
+	
 	public void show(boolean s) {
 		if(s!=visible) {
 			if(s) {
