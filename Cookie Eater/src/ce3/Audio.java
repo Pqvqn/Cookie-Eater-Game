@@ -16,7 +16,7 @@ public class Audio {
 	
 	public Audio(Board frame) {
 		board = frame;
-		mute = false;
+		mute = true;
 		loaded = new HashMap<String,File>();
 		volumeReduction = 0;
         for(String p : preload) {
