@@ -55,16 +55,18 @@ public class Board extends JFrame{
 	public int currDungeon;
 	public Level currFloor;
 	private long lastFrame; //time of last frame
-	public UIFpsCount fps;
-	public UILevelInfo lvl;
-	public UIDialogue dia;
-	public UISettings set;
+	public UIFpsCount ui_fps;
+	public UILevelInfo ui_lvl;
+	public UIDialogue ui_dia;
+	public UISettings ui_set;
+	public UITitleScreen ui_tis;
 	private int cycletime;
 	private int fpscheck;
 	private int true_cycle;
 	private int skipframes;
 	public int playerCount;
 	public boolean check_calibration;
+	public boolean pause;
 	
 	public Board(int m) {
 		super("Cookie Eater");
@@ -72,6 +74,7 @@ public class Board extends JFrame{
 		cycletime=5;
 		fpscheck=100;
 		skipframes = 0;
+		pause = false;
 		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
@@ -124,9 +127,12 @@ public class Board extends JFrame{
 		loadDungeon(0);
 		
 		//ui
-		draw.addUI(fps = new UIFpsCount(this,10,10,Color.WHITE));	
-		draw.addUI(lvl = new UILevelInfo(this,X_RESOL/2,30));
-		set = new UISettings(this,0,0);
+		draw.addUI(ui_fps = new UIFpsCount(this,10,10,Color.WHITE));	
+		draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
+		ui_set = new UISettings(this,0,0);
+		ui_tis = new UITitleScreen(this,0,0);
+		
+		ui_tis.show();
 		
 		//run the game
 		while(true)
@@ -227,8 +233,14 @@ public class Board extends JFrame{
 		spawnNpcs();
 	}
 		
+	public void pause(boolean p) {
+		pause = p;
+	}
+	
 	public void run(int time) {
-		if(skipframes>0) {
+		if(pause) {
+			
+		}else if(skipframes>0) {
 			skipframes--;
 		}else {
 			updateUI();
@@ -272,10 +284,10 @@ public class Board extends JFrame{
 			fpscheck=100;
 		}
 		//level display
-		lvl.update(currFloor.getName());
+		ui_lvl.update(currFloor.getName());
 		
 		//dialogue
-		if(dia!=null)dia.update();
+		if(ui_dia!=null)ui_dia.update();
 		
 		//player's ui
 		for(int i=0; i<players.size(); i++) {
@@ -342,16 +354,16 @@ public class Board extends JFrame{
 	}
 	
 	public void setDialogue(Entity speaker, Conversation convo) { //sets the current dialogue
-		draw.removeUI(dia);
+		draw.removeUI(ui_dia);
 		if(convo==null) {
-			dia = null;
+			ui_dia = null;
 		}else {
-			dia = new UIDialogue(this,convo.currentLine(),convo.getOptions(),convo.getExpression());
-			draw.addUI(dia);
+			ui_dia = new UIDialogue(this,convo.currentLine(),convo.getOptions(),convo.getExpression());
+			draw.addUI(ui_dia);
 		}
 	}
 	public boolean inConvo() { //if player is in dialogue
-		return dia != null;
+		return ui_dia != null;
 	}
 
 }

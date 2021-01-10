@@ -170,7 +170,7 @@ public class Draw extends JPanel{
 		if(board.currFloor!=null)board.currFloor.paint(g);
 		
 		//update fps counter
-		if(board!=null && board.fps!=null)board.fps.update(lastMilliCount,System.currentTimeMillis());
+		if(board!=null && board.ui_fps!=null)board.ui_fps.update(lastMilliCount,System.currentTimeMillis());
 		lastMilliCount = System.currentTimeMillis();
 	}
 

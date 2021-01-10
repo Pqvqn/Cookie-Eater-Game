@@ -28,7 +28,7 @@ public class Controls implements KeyListener{
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if(board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
+		if(board.pause || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		int key = e.getKeyCode();
 		
@@ -110,7 +110,7 @@ public class Controls implements KeyListener{
 				//player.addItem(0, new ItemRecycle(board));
 				break;
 			case KeyEvent.VK_ESCAPE:
-				board.set.show(!board.set.isVisible());
+				board.ui_set.show(!board.ui_set.isVisible());
 		}
 		
 	}
