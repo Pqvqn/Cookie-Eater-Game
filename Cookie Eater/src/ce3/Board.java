@@ -66,7 +66,7 @@ public class Board extends JFrame{
 	private int skipframes;
 	public int playerCount;
 	public boolean check_calibration;
-	public boolean pause;
+	public boolean show_title;
 	
 	public Board(int m) {
 		super("Cookie Eater");
@@ -74,7 +74,7 @@ public class Board extends JFrame{
 		cycletime=5;
 		fpscheck=100;
 		skipframes = 0;
-		pause = false;
+		show_title = true;
 		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
@@ -232,15 +232,9 @@ public class Board extends JFrame{
 		setDialogue(null,null);
 		spawnNpcs();
 	}
-		
-	public void pause(boolean p) {
-		pause = p;
-	}
 	
 	public void run(int time) {
-		if(pause) {
-			
-		}else if(skipframes>0) {
+		if(skipframes>0) {
 			skipframes--;
 		}else {
 			updateUI();

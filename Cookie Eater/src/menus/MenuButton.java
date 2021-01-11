@@ -16,8 +16,9 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	private boolean usesImage;
 	private String[] states;
 	private int currState;
+	private UIElement uiManager;
 	
-	public MenuButton(Board frame, OnClick oc, String[] statelist, boolean img, int x, int y, int w, int h) {
+	public MenuButton(Board frame, UIElement manager, OnClick oc, String[] statelist, boolean img, int x, int y, int w, int h) {
 		board = frame;
 		onClick = oc;
 		bounding = new Rectangle(x,y,w,h);
@@ -25,6 +26,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 		currState = 0;
 		visible = false;
 		usesImage = img;
+		uiManager = manager;
 		ui = new UIButton(board,this);
 
 	}
@@ -34,11 +36,11 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	public void show(boolean s) {
 		if(s!=visible) {
 			if(s) {
-				board.draw.addUI(ui);
+				uiManager.addElement(ui);
 				board.addMouseListener(this);
 				board.addMouseMotionListener(this);
 			}else {
-				board.draw.removeUI(ui);
+				uiManager.removeElement(ui);
 				board.removeMouseListener(this);
 				board.removeMouseMotionListener(this);
 			}

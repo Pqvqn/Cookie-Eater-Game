@@ -36,7 +36,7 @@ public class UISettings extends UIElement{
 		
 		
 		//toggles which menu is selected
-		sel = new MenuButton(board, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
+		sel = new MenuButton(board, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
 		oc = () -> {
 			//select menu from list based on button state
 			SubMenu[] sels = {SubMenu.MAIN,SubMenu.DEBUG};
@@ -48,7 +48,7 @@ public class UISettings extends UIElement{
 		debugButtons.add(sel);
 				
 		//volume control
-		MenuButton vol = new MenuButton(board, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 500,500,400,200);
+		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 500,500,400,200);
 		oc = () -> {
 			//select volume from list based on button state
 			int[] vols = {0,10,20};
@@ -64,7 +64,7 @@ public class UISettings extends UIElement{
 		mainButtons.add(vol);
 		
 		//gives the player a shield
-		MenuButton givsh = new MenuButton(board, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
+		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {
 			board.player.addShields(1);
 		};
@@ -72,15 +72,24 @@ public class UISettings extends UIElement{
 		debugButtons.add(givsh);
 		
 		//kills player to return to first floor
-		MenuButton reset = new MenuButton(board, null, new String[] {"end run"}, false, 120,325,200,100);
+		MenuButton reset = new MenuButton(board, this, null, new String[] {"end run"}, false, 120,325,200,100);
 		oc = () -> {
 			board.player.kill();
 		};
 		reset.setClick(oc);
 		debugButtons.add(reset);
 		
+		//kills player to return to first floor
+		MenuButton title = new MenuButton(board, this, null, new String[] {"title screen"}, false, 120,25,200,100);
+		oc = () -> {
+			board.player.kill();
+			board.ui_tis.show();
+		};
+		title.setClick(oc);
+		debugButtons.add(title);
+		
 		//moves to next floor
-		MenuButton advance = new MenuButton(board, null, new String[] {"advance floor"}, false, 120,175,200,100);
+		MenuButton advance = new MenuButton(board, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
 			if(!board.inConvo())board.player.win();
 		};
@@ -88,7 +97,7 @@ public class UISettings extends UIElement{
 		debugButtons.add(advance);
 		
 		//gives player 10 cookies
-		MenuButton givco = new MenuButton(board, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
+		MenuButton givco = new MenuButton(board, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
 		oc = () -> {
 			board.player.pay(10);
 		};
@@ -103,7 +112,7 @@ public class UISettings extends UIElement{
 			String pw = powerups[i];
 			int rows = 6, xs=400, ys=100, gap=50, wid=200, hei=100; //values for placement of buttons
 			
-			MenuButton givit = new MenuButton(board, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
+			MenuButton givit = new MenuButton(board, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
 				board.player.addItem(0,Level.generateItem(board,pw));
 			};

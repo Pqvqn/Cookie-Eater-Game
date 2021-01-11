@@ -28,7 +28,7 @@ public class Controls implements KeyListener{
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if(board.pause || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
+		if(board.show_title || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		int key = e.getKeyCode();
 		

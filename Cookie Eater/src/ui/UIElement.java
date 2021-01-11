@@ -22,10 +22,12 @@ public abstract class UIElement {
 	public int getyPos() {return yPos;}
 	public void setyPos(int yPos) {this.yPos = yPos;}
 
+	public void addElement(UIElement e) {parts.add(e);}
+	public void removeElement(UIElement e) {parts.remove(e);}
 	
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) { //paint all uielements within
-			parts.get(i).paint(g);
+			if(parts.get(i)!=null)parts.get(i).paint(g);
 		}
 	}
 }

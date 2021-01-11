@@ -27,7 +27,7 @@ public class Draw extends JPanel{
 		board = frame;
 		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 		players = board.players;
-		setBackground(Color.GRAY);
+		setBackground(Color.BLACK);
 		ui = new ArrayList<UIElement>();
 		lastMilliCount = System.currentTimeMillis();
 		try {
@@ -43,7 +43,8 @@ public class Draw extends JPanel{
 	}
 	//update all objects
 	public void runUpdate() {
-		if(board.player.getDir()==Eater.NONE && !board.currFloor.haltEnabled()) { //if player hasn't moved yet, don't do actions
+		if(board.show_title || //if title screen is on, do not update
+				(board.player.getDir()==Eater.NONE && !board.currFloor.haltEnabled())) { //if player hasn't moved yet, don't do actions
 			repaint();
 			return;
 		}
@@ -97,6 +98,9 @@ public class Draw extends JPanel{
 	public void addUI(UIElement thing) {
 		ui.add(thing);
 	}
+	public void addUI(UIElement thing,int index) {
+		ui.add(index,thing);
+	}
 	public void removeUI(UIElement thing) {
 		ui.remove(thing);
 	}
@@ -142,6 +146,12 @@ public class Draw extends JPanel{
 		
 		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
+		
+		if(board.show_title && board.ui_tis!=null) {
+			board.ui_tis.paint(g);
+			return;
+		}
+		
 		for(int i=0; i<board.mechanisms.size(); i++) {
 			board.mechanisms.get(i).paint(g);
 		}
