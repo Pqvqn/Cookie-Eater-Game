@@ -11,41 +11,28 @@ import menus.MenuButton.*;
 public class UISettings extends UIElement{
 	
 	private boolean visible;
-	
-	//ids for menus of buttons in settings menu
-	enum SubMenu {
-		MAIN,
-		DEBUG
-	}
-	//lists of buttons in each menu
-	private ArrayList<MenuButton> mainButtons;
-	private ArrayList<MenuButton> debugButtons;
 	//menu selector button
 	private MenuButton sel;
+	private SubmenuHandler menuHandler;
 	
 	public UISettings(Board frame, int x, int y) {
 		super(frame,x,y);
-		makeButtons();
-		
+		makeButtons();	
 	}
 	
 	public void makeButtons() {
+		menuHandler = new SubmenuHandler("MAIN");
 		OnClick oc;
-		mainButtons = new ArrayList<MenuButton>();
-		debugButtons = new ArrayList<MenuButton>();
-		
 		
 		//toggles which menu is selected
 		sel = new MenuButton(board, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
 		oc = () -> {
 			//select menu from list based on button state
-			SubMenu[] sels = {SubMenu.MAIN,SubMenu.DEBUG};
-			int a = sel.currentState();
-			displayMenu(sels[a]);
+			menuHandler.displayMenu(sel.getState());
 		};
 		sel.setClick(oc);
-		mainButtons.add(sel);
-		debugButtons.add(sel);
+		menuHandler.addButton("MAIN",sel);
+		menuHandler.addButton("DEBUG",sel);
 				
 		//volume control
 		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 500,500,400,200);
@@ -61,7 +48,7 @@ public class UISettings extends UIElement{
 			}
 		};
 		vol.setClick(oc);
-		mainButtons.add(vol);
+		menuHandler.addButton("MAIN",vol);
 		
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
@@ -69,7 +56,7 @@ public class UISettings extends UIElement{
 			board.player.addShields(1);
 		};
 		givsh.setClick(oc);
-		debugButtons.add(givsh);
+		menuHandler.addButton("DEBUG",givsh);
 		
 		//kills player to return to first floor
 		MenuButton reset = new MenuButton(board, this, null, new String[] {"end run"}, false, 120,325,200,100);
@@ -77,7 +64,7 @@ public class UISettings extends UIElement{
 			board.player.kill();
 		};
 		reset.setClick(oc);
-		debugButtons.add(reset);
+		menuHandler.addButton("DEBUG",reset);
 		
 		//kills player to return to first floor
 		MenuButton title = new MenuButton(board, this, null, new String[] {"title screen"}, false, 120,25,200,100);
@@ -86,7 +73,7 @@ public class UISettings extends UIElement{
 			board.ui_tis.show();
 		};
 		title.setClick(oc);
-		debugButtons.add(title);
+		menuHandler.addButton("DEBUG",title);
 		
 		//moves to next floor
 		MenuButton advance = new MenuButton(board, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
@@ -94,7 +81,7 @@ public class UISettings extends UIElement{
 			if(!board.inConvo())board.player.win();
 		};
 		advance.setClick(oc);
-		debugButtons.add(advance);
+		menuHandler.addButton("DEBUG",advance);
 		
 		//gives player 10 cookies
 		MenuButton givco = new MenuButton(board, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
@@ -102,7 +89,7 @@ public class UISettings extends UIElement{
 			board.player.pay(10);
 		};
 		givco.setClick(oc);
-		debugButtons.add(givco);
+		menuHandler.addButton("DEBUG",givco);
 
 		//gives player item in name
 		String[] powerups = {"Boost","Circle","Chain","Field","Hold","Recycle","Shield","Slowmo","Ghost",
@@ -117,42 +104,16 @@ public class UISettings extends UIElement{
 				board.player.addItem(0,Level.generateItem(board,pw));
 			};
 			givit.setClick(oc);
-			debugButtons.add(givit);
+			menuHandler.addButton("DEBUG",givit);
 		}
 		
 		
 	}
 	
-	//sets visibility of a menu
-	public void showMenu(SubMenu m, boolean s) {
-		ArrayList<MenuButton> menu = null;
-		switch(m) {
-		case MAIN:
-			menu = mainButtons;
-			break;
-		case DEBUG:
-			menu = debugButtons;
-			break;
-		}
-		if(menu==null)return;
-		for(int i=0; i<menu.size(); i++) {
-			menu.get(i).show(s);
-		}
-	}
 	
-	//show the chosen menu and hide all others
-	public void displayMenu(SubMenu m) {//
-		for(SubMenu om : SubMenu.values()) {
-			if(om!=m) {
-				showMenu(om,false);
-			}
-		}
-		showMenu(m,true);
-	}
 	
 	public void show(boolean s) {
-		displayMenu(SubMenu.MAIN);
-		showMenu(SubMenu.MAIN,s);
+		menuHandler.showFull(s);
 		sel.resetState();
 		if(visible!=s) {
 			if(s) {
