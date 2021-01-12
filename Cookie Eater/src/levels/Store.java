@@ -155,9 +155,9 @@ public abstract class Store extends Level{
 			}else if(e instanceof ExplorerMechanic) { //put mechanic in right place
 				e.sellWares(mechanicSpaces);
 			}else if(e.getState()==Explorer.VENDOR) { //put vendors in shop locations
-				e.sellWares(vendorSpaces[vendors++]);
+				if(vendors<vendorSpaces.length)e.sellWares(vendorSpaces[vendors++]);
 			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND) { //put npcs that are passing through in standby areas
-				e.standBy(passerbySpaces[passerbys++]);
+				if(passerbys<passerbySpaces.length)e.standBy(passerbySpaces[passerbys++]);
 			}
 		}
 	}

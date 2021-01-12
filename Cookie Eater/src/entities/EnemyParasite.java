@@ -25,14 +25,14 @@ public class EnemyParasite extends Enemy{
 		name = "Parasite";
 	}
 	public void averageStats() {
-		acceleration=.5;
-		max_velocity=50;
-		friction=.2;
-		terminal_velocity=50;
+		acceleration=10;
+		max_velocity=1000;
+		friction=.5;
+		terminal_velocity=1000;
 		calibrateStats();
 	}
 	public void buildBody() {
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blobMad","blobMad"});
 		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
