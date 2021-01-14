@@ -50,6 +50,16 @@ public class UISettings extends UIElement{
 		vol.setClick(oc);
 		menuHandler.addButton("MAIN",vol);
 		
+		//set controls
+		MenuButton stup = new MenuButton(board, this, null, 
+				new String[] {"UP = "+(char)board.controls.get(0).getMovementKey(0,Controls.UPKEY)}, false, 300,300,100,100);
+				
+		oc = () -> {
+			//ask board to await key press to reassign
+		};
+		stup.setClick(oc);
+		menuHandler.addButton("MAIN",stup);
+		
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {

@@ -14,11 +14,11 @@ public class Controls implements KeyListener{
 	private Board board;
 	private Eater player;
 	//controls for each player added
-	private final int[][] CONTROLSCHEMES = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT},
+	private int[][] controlSchemes = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT},
 			{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D},
 			{KeyEvent.VK_I,KeyEvent.VK_K,KeyEvent.VK_J,KeyEvent.VK_L},
 			{KeyEvent.VK_NUMPAD8,KeyEvent.VK_NUMPAD5,KeyEvent.VK_NUMPAD4,KeyEvent.VK_NUMPAD6}};
-	private final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
+	public static final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
 	private int scheme;
 	
 	public Controls(Board parent, Eater body, int c) {
@@ -33,13 +33,13 @@ public class Controls implements KeyListener{
 		int key = e.getKeyCode();
 		
 		//test key against this player's controls
-		if(key==CONTROLSCHEMES[scheme][UPKEY]) { 
+		if(key==controlSchemes[scheme][UPKEY]) { 
 			player.setDir(Eater.UP);
-		}else if(key==CONTROLSCHEMES[scheme][RIGHTKEY]) {
+		}else if(key==controlSchemes[scheme][RIGHTKEY]) {
 			player.setDir(Eater.RIGHT);
-		}else if(key==CONTROLSCHEMES[scheme][DOWNKEY]) {
+		}else if(key==controlSchemes[scheme][DOWNKEY]) {
 			player.setDir(Eater.DOWN);
-		}else if(key==CONTROLSCHEMES[scheme][LEFTKEY]) {
+		}else if(key==controlSchemes[scheme][LEFTKEY]) {
 			player.setDir(Eater.LEFT);
 		}
 		
@@ -115,6 +115,13 @@ public class Controls implements KeyListener{
 		
 	}
 
+	public void setMovementKey(int playerNum, int direction, int keyCode) {
+		controlSchemes[playerNum][direction] = keyCode;
+	}
+	public int getMovementKey(int playerNum, int direction) {
+		return controlSchemes[playerNum][direction];
+	}
+	
 	public void keyReleased(KeyEvent e) {
 		
 	}
