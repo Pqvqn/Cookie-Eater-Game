@@ -57,6 +57,20 @@ public class UIButton extends UIElement{
 		img.setImage(images[button.currentState()]);
 	}
 	
+	public void updateState(int state, String val, boolean useImage) {
+		if(useImage) {
+			try {
+				images[state] = ImageIO.read(new File("Cookie Eater/src/resources/ui/"+val));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			texts[state] = val;
+		}
+		trigger(state);
+	}
+	
 	public void highlight(boolean h) {
 		highlighted = h;
 		backing.setColor((highlighted)?new Color(255,255,255,50):new Color(0,0,0,50));

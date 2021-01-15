@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 import entities.*;
 import items.*;
+import menus.*;
 
 //import javax.swing.*;
 
@@ -20,14 +21,25 @@ public class Controls implements KeyListener{
 			{KeyEvent.VK_NUMPAD8,KeyEvent.VK_NUMPAD5,KeyEvent.VK_NUMPAD4,KeyEvent.VK_NUMPAD6}};
 	public static final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2;
 	private int scheme;
+	private int[] awaitKey; //playerNum,keyBind for key awaiting reassignment
+	private MenuButton awaitingButton; //button that initiated key await
 	
 	public Controls(Board parent, Eater body, int c) {
 		board = parent;
 		player = body;
 		scheme = c;
+		awaitKey = null;
 	}
 	
 	public void keyPressed(KeyEvent e) {
+		if(awaitKey!=null) {
+			setKeyBind(awaitKey[0],awaitKey[1],e.getKeyCode());
+			if(awaitingButton!=null)awaitingButton.setCurrStateValue(""+e.getKeyChar());
+			awaitKey = null;
+			awaitingButton = null;
+			return;
+		}
+		
 		if(board.show_title || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		int key = e.getKeyCode();
@@ -115,11 +127,17 @@ public class Controls implements KeyListener{
 		
 	}
 
-	public void setMovementKey(int playerNum, int direction, int keyCode) {
-		controlSchemes[playerNum][direction] = keyCode;
+	public void setKeyBind(int playerNum, int keyBind, int keyCode) {
+		controlSchemes[playerNum][keyBind] = keyCode;
 	}
-	public int getMovementKey(int playerNum, int direction) {
-		return controlSchemes[playerNum][direction];
+	public int getKeyBind(int playerNum, int keyBind) {
+		return controlSchemes[playerNum][keyBind];
+	}
+	public void awaitKeyBind(MenuButton button, int playerNum, int keyBind) {
+		awaitingButton = button;
+		awaitKey = new int[2];
+		awaitKey[0] = playerNum;
+		awaitKey[1] = keyBind;
 	}
 	
 	public void keyReleased(KeyEvent e) {

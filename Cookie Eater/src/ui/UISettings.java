@@ -35,7 +35,7 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("DEBUG",sel);
 				
 		//volume control
-		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 500,500,400,200);
+		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);
 		oc = () -> {
 			//select volume from list based on button state
 			int[] vols = {0,10,20};
@@ -51,14 +51,24 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("MAIN",vol);
 		
 		//set controls
-		MenuButton stup = new MenuButton(board, this, null, 
-				new String[] {"UP = "+(char)board.controls.get(0).getMovementKey(0,Controls.UPKEY)}, false, 300,300,100,100);
-				
-		oc = () -> {
-			//ask board to await key press to reassign
-		};
-		stup.setClick(oc);
-		menuHandler.addButton("MAIN",stup);
+		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY};
+		String[] keyNames = {"up","down","left","right"};
+		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520}};
+		for(int i=0; i<4; i++) {
+			MenuButton keyset = new MenuButton(board, this, null, 
+					new String[] {java.awt.event.KeyEvent.getKeyText(board.controls.get(0).getKeyBind(0,keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
+			final String keyname = keyNames[i];
+			final int keybind = keyBinds[i];
+			oc = () -> {
+				//ask board to await key press to reassign
+				keyset.setCurrStateValue(keyname+" =");
+				board.controls.get(0).awaitKeyBind(keyset,0,keybind);
+			};
+			keyset.setClick(oc);
+			menuHandler.addButton("MAIN",keyset);
+		}
+		
+	
 		
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
