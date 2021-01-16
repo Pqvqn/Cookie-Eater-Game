@@ -60,13 +60,16 @@ public class Controls implements KeyListener{
 			board.menus.get(i).keyPress(key);
 		}
 
-				
+		boolean isP1 = player.getID()==0;
+			
 		//debug keys
 		switch(key) {
 			case KeyEvent.VK_BACK_SPACE:
+				if(!isP1)break;
 				player.kill();
 				break;
 			case KeyEvent.VK_ENTER:
+				if(!isP1)break;
 				if(!board.inConvo())player.win();
 				break;
 			case KeyEvent.VK_SHIFT:
@@ -88,6 +91,7 @@ public class Controls implements KeyListener{
 				}
 				break;
 			case KeyEvent.VK_ESCAPE:
+				if(!isP1)break;
 				board.ui_set.show(!board.ui_set.isVisible());
 				break;
 		}

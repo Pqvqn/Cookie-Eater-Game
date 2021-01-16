@@ -65,23 +65,26 @@ public class SpriteEater extends Sprite{
 				facex = fullw/2; 
 				facey = fullh/2;
 				switch(id) {
-				case Explorer.UP:
+				case Eater.UP:
 					facey /= 2;
 					helmet = ImageIO.read(helmets[UP]);
 					break;
-				case Explorer.DOWN:
+				case Eater.DOWN:
 					facey *= 1.5;
 					helmet = ImageIO.read(helmets[DOWN]);
 					break;
-				case Explorer.RIGHT:
+				case Eater.RIGHT:
 					facex *= 1.5;
 					helmet = ImageIO.read(helmets[RIGHT]);
 					break;
-				case Explorer.LEFT:
+				case Eater.LEFT:
 					facex /= 2;
 					helmet = ImageIO.read(helmets[LEFT]);
 					break;
-				case Explorer.NONE:
+				case Eater.NONE:
+					helmet = ImageIO.read(helmets[NEUTRAL]);
+					break;
+				case Eater.CORPSE:
 					helmet = ImageIO.read(helmets[NEUTRAL]);
 					break;
 				}
@@ -122,7 +125,7 @@ public class SpriteEater extends Sprite{
 			expression = DIE;
 			break;
 		}
-		fin = imgset[expression][user.getDir()+1]; //choose correct pre-rendered image
+		fin = imgset[expression][(user.getDir()<-1)?0:user.getDir()+1]; //choose correct pre-rendered image
 	}
 	public void paint(Graphics g) {
 		super.paint(g);

@@ -42,7 +42,7 @@ public class Cookie {
 	}
 	
 	public void runUpdate() {
-		if(board.player().getDir()!=Eater.NONE && decayCounter++>=adjustedDecayTime){	
+		if(!board.playersMoving() && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
 		}
 	}

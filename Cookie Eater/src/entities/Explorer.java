@@ -24,7 +24,7 @@ public class Explorer extends Entity{
 	protected SpriteExplorer sprite;
 	
 	protected double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
-	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
+	public static final int CORPSE=-2, NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	protected int direction;
 	protected Color coloration;
 	protected Segment tester; //segment used to test possible movement paths to choose optimal one
@@ -70,6 +70,10 @@ public class Explorer extends Entity{
 	//updates every cycle
 	public void runUpdate() {
 		super.runUpdate();
+		if(direction == CORPSE) {
+			orientParts();
+			return;
+		}
 		if(parts.isEmpty())buildBody();
 		if(state == VENDOR) { //if selling
 			x_velocity = 0; //reset speeds
@@ -139,7 +143,6 @@ public class Explorer extends Entity{
 
 	//dies on floor
 	public void kill() {
-		if(!ded)System.out.println("oops i died but there no code");
 		ded = true;
 		board.present_npcs.remove(this);
 		if(special) {
@@ -149,6 +152,7 @@ public class Explorer extends Entity{
 		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
 		pickups = new ArrayList<CookieItem>();
 		special = false;
+		direction = CORPSE;
 		x_velocity = 0;
 		y_velocity = 0;
 		wipeStash();
@@ -162,7 +166,6 @@ public class Explorer extends Entity{
 		offstage = 0;
 		averageStats();
 		reset();
-		chooseResidence();
 	}
 	//reset npc for new FLOOR
 	public void reset() {
@@ -367,6 +370,10 @@ public class Explorer extends Entity{
 		 convo = null;
 	}
 	public void levelComplete() {
+		if(direction == CORPSE) {
+			chooseResidence();
+			return;
+		}
 		if(state == VENTURE || state == STAND) { //move on if in correct state
 			residence = board.currFloor.getNext();
 			state = VENTURE;

@@ -21,7 +21,7 @@ public class Eater extends Entity{
 	
 	private int id;
 	public static final int DEFAULT_RADIUS = 40;
-	public static final int NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
+	public static final int CORPSE=-2, NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	private int direction;
 
 
@@ -154,6 +154,7 @@ public class Eater extends Entity{
 		pickups = new ArrayList<CookieItem>();
 		state = DEAD;
 		special = false;
+		direction = CORPSE;
 		board.draw.repaint();
 		x_velocity = 0;
 		y_velocity = 0;
@@ -282,8 +283,7 @@ public class Eater extends Entity{
 		super.runUpdate();
 		if(parts.isEmpty())buildBody();
 		if(state == DEAD) { //if dead in multiplayer
-			x_velocity = 0; //reset speeds
-			y_velocity = 0;
+			orientParts(); //orient parts to keep colliding
 		}
 		if(!dO)return; //if paused
 		if(board.mode == Main.PVP) {
@@ -349,6 +349,7 @@ public class Eater extends Entity{
 	public void updateUIItems() {
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
+	public int getID() {return id;}
 	
 	public void paint(Graphics g) {
 		if(part!=null)part.update();
@@ -366,4 +367,4 @@ public class Eater extends Entity{
 
 		
 	}
-;}
+}

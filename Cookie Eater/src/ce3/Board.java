@@ -151,6 +151,15 @@ public class Board extends JFrame{
 			return null;
 		}
 	}
+	//tests if players have changed direction from stationary
+	public boolean playersMoving() {
+		for(int i=0; i<players.size(); i++) {
+			if(players.get(i).getDir() == Eater.NONE) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public void loadDungeon(int num) {
 		currDungeon = num;

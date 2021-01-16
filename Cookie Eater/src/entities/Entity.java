@@ -666,7 +666,7 @@ public abstract class Entity {
 	public void setDecayedValue(double dv) {decayed_value=dv;}
 	public int getShields() {return shield_stash.size();}
 	public void removeShields(int num) {
-		for(int i=0; i<num && !cash_stash.isEmpty(); i++) {
+		for(int i=0; i<num && !shield_stash.isEmpty(); i++) {
 			shield_stash.remove(0);
 		}
 	}

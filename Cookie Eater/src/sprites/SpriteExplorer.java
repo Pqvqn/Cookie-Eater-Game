@@ -89,6 +89,9 @@ public class SpriteExplorer extends Sprite{
 				case Explorer.NONE:
 					helmet = ImageIO.read(helmets[NEUTRAL]);
 					break;
+				case Explorer.CORPSE:
+					helmet = ImageIO.read(helmets[NEUTRAL]);
+					break;
 				}
 				base = ImageIO.read(bases);
 				face = ImageIO.read(expressions[ie]);
@@ -130,7 +133,7 @@ public class SpriteExplorer extends Sprite{
 			expression = DIE;
 			break;
 		}*/
-		fin = imgset[expression][user.getDir()+1]; //choose correct pre-rendered image
+		fin = imgset[expression][(user.getDir()<-1)?0:user.getDir()+1]; //choose correct pre-rendered image
 		
 	}
 	public Image getCompiled(int exp, int dir) {
