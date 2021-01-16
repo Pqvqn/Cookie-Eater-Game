@@ -244,11 +244,11 @@ public class Explorer extends Entity{
 		switch(f) {
 		case "Give": //pays player $ {dollars}
 			double dollars = Double.parseDouble(args[0]);
-			payCookies(board.player,dollars);
+			payCookies(board.player(),dollars);
 			break;
 		case "Take": //takes $ from player {dollars}
 			double dollars2 = Double.parseDouble(args[0]);
-			board.player.payCookies(this,dollars2);
+			board.player().payCookies(this,dollars2);
 			break;
 		}
 	}

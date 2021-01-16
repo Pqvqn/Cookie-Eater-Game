@@ -45,18 +45,18 @@ public class ExplorerMechanic extends Explorer{
 	}
 	public void runUpdate() {
 		super.runUpdate();
-		if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+		if(convo!=null && speaking<=0 && Level.lineLength(board.player().getX(), board.player().getY(), x, y)<150) {
 			speak(convo);
 			speaking++;
 		}
-		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player.getX(), board.player.getY(), x, y)>=150) {
+		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
 			speak(null);
 			speaking = 0;
 		}
 		if(convo!=null)convo.test();
 		
 		//nab all player pickups
-		ArrayList<CookieItem> pickups = board.player.getPickups();
+		ArrayList<CookieItem> pickups = board.player().getPickups();
 		while(!(pickups.isEmpty())) {
 			CookieItem c = pickups.remove(0);
 			to_sell.add(c);

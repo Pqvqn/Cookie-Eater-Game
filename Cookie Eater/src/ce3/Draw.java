@@ -44,7 +44,7 @@ public class Draw extends JPanel{
 	//update all objects
 	public void runUpdate() {
 		if(board.show_title || //if title screen is on, do not update
-				(board.player.getDir()==Eater.NONE && !board.currFloor.haltEnabled())) { //if player hasn't moved yet, don't do actions
+				(board.player().getDir()==Eater.NONE && !board.currFloor.haltEnabled())) { //if player hasn't moved yet, don't do actions
 			repaint();
 			return;
 		}

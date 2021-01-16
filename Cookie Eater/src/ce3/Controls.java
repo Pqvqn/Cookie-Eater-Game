@@ -87,42 +87,9 @@ public class Controls implements KeyListener{
 					player.averageVels(0,0,false);
 				}
 				break;
-			case KeyEvent.VK_C:
-				player.pay(1);
-				break;
-			case KeyEvent.VK_X:
-				player.addShields(1);
-				break;
-			case KeyEvent.VK_K:
-				player.pay(100);
-				break;
-			case KeyEvent.VK_L:
-				board.loadDungeon((board.currDungeon+1)%board.FLOOR_SEQUENCE.length);
-				break;
-			case KeyEvent.VK_O:
-				//player.addItem(0, new ItemSummonMelee(board));
-				player.addItem(0, new ItemSummonProjectile(board));
-
-				//player.addItem(0, new ItemClone(board));
-				//player.addItem(0, new ItemFlow(board));
-				//player.addItem(0, new ItemHold(board));
-				//player.addItem(0, new ItemAutopilot(board));
-				//player.addItem(0, new ItemField(board));
-				//player.addItem(0, new ItemBoost(board));
-				//player.addItem(0, new ItemCircle(board));
-
-				//player.addItem(0, new ItemCookieChain(board));
-				//player.addItem(0, new ItemRepeat(board));
-				//player.addItem(0, new ItemReturn(board));
-				//player.addItem(0, new ItemTeleport(board));
-				//player.addItem(0, new ItemSlowmo(board));
-				//player.addItem(0, new ItemRicochet(board));
-				//player.addItem(0, new ItemShield(board));
-				//player.addItem(0, new ItemGhost(board));
-				//player.addItem(0, new ItemRecycle(board));
-				break;
 			case KeyEvent.VK_ESCAPE:
 				board.ui_set.show(!board.ui_set.isVisible());
+				break;
 		}
 		
 	}

@@ -42,7 +42,7 @@ public class Cookie {
 	}
 	
 	public void runUpdate() {
-		if(board.player.getDir()!=Eater.NONE && decayCounter++>=adjustedDecayTime){	
+		if(board.player().getDir()!=Eater.NONE && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
 		}
 	}
@@ -95,10 +95,10 @@ public class Cookie {
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
 				player.addScore(1);
-				board.player.addCash(value);
+				board.player().addCash(value);
 			}
 			if(consumer instanceof Explorer) {
-				Eater player = board.player;
+				Eater player = board.player();
 				player.addScore(1);
 			}
 			if(consumer instanceof Summon2) {
@@ -113,7 +113,7 @@ public class Cookie {
 					kill(initiator);
 					return;
 				}else {
-					Eater player = board.player;
+					Eater player = board.player();
 					player.addScore(1);
 				}
 			}

@@ -68,11 +68,11 @@ public class ExplorerSidekick extends Explorer{
 	public void runUpdate() {
 		super.runUpdate();
 		if(state != VENTURE) {
-			if(convo!=null && speaking<=0 && Level.lineLength(board.player.getX(), board.player.getY(), x, y)<150) {
+			if(convo!=null && speaking<=0 && Level.lineLength(board.player().getX(), board.player().getY(), x, y)<150) {
 				speak(convo);
 				speaking++;
 			}
-			if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player.getX(), board.player.getY(), x, y)>=150) {
+			if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
 				speak(null);
 				speaking = 0;
 			}
@@ -82,7 +82,7 @@ public class ExplorerSidekick extends Explorer{
 			state = STAND; //ready self to venture
 			if(stateIs("Pay","Split")){ //if splitting, track baseline cash
 				setState("MyCash",""+getCash());
-				setState("PlayerCash",""+board.player.cash);
+				setState("PlayerCash",""+board.player().cash);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ public class ExplorerSidekick extends Explorer{
 				if(stateIs("Pay","Split")) { //if splitting, ready self for split and calculate how much
 					setState("Pay","Ready");
 					setState("MyCash",""+(getCash()-Double.parseDouble(getState("MyCash")))/2);
-					setState("PlayerCash",""+(board.player.cash-Double.parseDouble(getState("PlayerCash")))/2);
+					setState("PlayerCash",""+(board.player().cash-Double.parseDouble(getState("PlayerCash")))/2);
 				}
 				setState("Relationship","Friends");
 				state = STOP;
@@ -182,8 +182,8 @@ public class ExplorerSidekick extends Explorer{
 					//sell the cookie
 					c.setVendor(this);
 					c.setPrice(Double.parseDouble(args[1]));
-					c.purchase(board.player);
-					board.player.giveCookie(c);
+					c.purchase(board.player());
+					board.player().giveCookie(c);
 					removeItem(0,c.getItem()); //this could be problematic
 					i=item_stash.size();
 				}
@@ -191,7 +191,7 @@ public class ExplorerSidekick extends Explorer{
 			break;
 		
 		case "CheckAfford": //test if player can afford price {price}
-			setState("CanSell",(Double.parseDouble(args[0])<=board.player.getCash())?"Yes":"No");
+			setState("CanSell",(Double.parseDouble(args[0])<=board.player().getCash())?"Yes":"No");
 			break;
 		}
 	}

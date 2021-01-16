@@ -42,7 +42,7 @@ public class Floor2 extends Level{
 	public void genWalls(int num) {
 		for(int i=0; i<num; i++) {
 			int x=-1,y=-1,w=-1,h=-1; //regenerate wall until it doesn't overlap player start
-			while(x<0 || collidesCircleAndRect((int)(startx+.5),(int)(starty+.5),board.player.getRadius()*3,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)) {
+			while(x<0 || collidesCircleAndRect((int)(startx+.5),(int)(starty+.5),board.player().getRadius()*3,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)) {
 				x=(int)(Math.random()*board.X_RESOL);
 				y=(int)(Math.random()*board.Y_RESOL);
 				w=(int)(Math.random()*300)+200;

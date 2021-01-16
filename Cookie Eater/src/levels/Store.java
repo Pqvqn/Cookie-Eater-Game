@@ -64,15 +64,15 @@ public abstract class Store extends Level{
 		/*//pickups
 		int[][] pickupSpawns = {{board.X_RESOL/2-200,board.Y_RESOL-150} , {board.X_RESOL/2+200,board.Y_RESOL-150} , {board.X_RESOL/2,board.Y_RESOL-150} ,
 				{board.X_RESOL/2-200,board.Y_RESOL-250} , {board.X_RESOL/2+200,board.Y_RESOL-250} , {board.X_RESOL/2,board.Y_RESOL-250}};
-		for(int j=0; !board.player.getPickups().isEmpty() && j<pickupSpawns.length; j++) {
-			CookieItem c = board.player.getPickups().remove(0);
+		for(int j=0; !board.player().getPickups().isEmpty() && j<pickupSpawns.length; j++) {
+			CookieItem c = board.player().getPickups().remove(0);
 			c.setPos(pickupSpawns[j][0],pickupSpawns[j][1]);
 			c.setPrice(installCost);
 			board.cookies.add(c);
 		}*/
 		
 		
-		board.player.setScoreToWin(2);
+		board.player().setScoreToWin(2);
 	}
 	
 	

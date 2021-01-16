@@ -8,7 +8,6 @@ import ui.*;
 
 public abstract class CookieStore extends Cookie{
 	
-	protected Eater player;
 	protected UIPurchaseInfo info;
 	protected String name;
 	protected double price;
@@ -19,7 +18,6 @@ public abstract class CookieStore extends Cookie{
 	public CookieStore(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
 		decayTime = Integer.MAX_VALUE;
-		player = board.player;
 		region = 200;
 		price = 0;
 		name = "";
@@ -54,11 +52,12 @@ public abstract class CookieStore extends Cookie{
 	public void runUpdate() {
 		super.runUpdate();
 		if(board.cookies.contains(this)) {
+			Eater player = board.player();
 			if(!board.draw.getUIList().contains(info))board.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
 					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel(true)==0 && player.getYVel(true)==0
 					&& board.nearestCookie(player.getX(),player.getY()).equals(this),
-					price,price<=board.player.getCash(),name,desc);
+					price,price<=board.player().getCash(),name,desc);
 		}else {
 			info.setVisible(false);
 		}

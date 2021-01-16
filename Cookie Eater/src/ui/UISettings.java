@@ -73,7 +73,7 @@ public class UISettings extends UIElement{
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {
-			board.player.addShields(1);
+			board.player().addShields(1);
 		};
 		givsh.setClick(oc);
 		menuHandler.addButton("DEBUG",givsh);
@@ -81,7 +81,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton reset = new MenuButton(board, this, null, new String[] {"end run"}, false, 120,325,200,100);
 		oc = () -> {
-			board.player.kill();
+			board.player().kill();
 		};
 		reset.setClick(oc);
 		menuHandler.addButton("DEBUG",reset);
@@ -89,7 +89,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton title = new MenuButton(board, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
-			board.player.kill();
+			board.player().kill();
 			board.ui_tis.show();
 		};
 		title.setClick(oc);
@@ -98,7 +98,7 @@ public class UISettings extends UIElement{
 		//moves to next floor
 		MenuButton advance = new MenuButton(board, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
-			if(!board.inConvo())board.player.win();
+			if(!board.inConvo())board.player().win();
 		};
 		advance.setClick(oc);
 		menuHandler.addButton("DEBUG",advance);
@@ -106,7 +106,7 @@ public class UISettings extends UIElement{
 		//gives player 10 cookies
 		MenuButton givco = new MenuButton(board, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
 		oc = () -> {
-			board.player.pay(10);
+			board.player().pay(10);
 		};
 		givco.setClick(oc);
 		menuHandler.addButton("DEBUG",givco);
@@ -121,7 +121,7 @@ public class UISettings extends UIElement{
 			
 			MenuButton givit = new MenuButton(board, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
-				board.player.addItem(0,Level.generateItem(board,pw));
+				board.player().addItem(0,Level.generateItem(board,pw));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);

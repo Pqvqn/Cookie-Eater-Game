@@ -21,8 +21,8 @@ public class TestRoom extends Level{
 	}
 	
 	public void build() {
-		startx = board.player.getX();
-		starty = board.player.getY();
+		startx = board.player().getX();
+		starty = board.player().getY();
 		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS));
 		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
 		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
@@ -39,6 +39,6 @@ public class TestRoom extends Level{
 					(int)(Math.random()*(board.X_RESOL-2*wid))+wid,
 					(int)(Math.random()*(board.Y_RESOL-2*wid))+wid));
 		}
-		board.player.setScoreToWin(20);
+		board.player().setScoreToWin(20);
 	}
 }

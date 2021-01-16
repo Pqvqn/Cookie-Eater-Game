@@ -557,7 +557,7 @@ public abstract class Entity {
 		double impact = Math.abs(
 				actual_mass*Math.sqrt(Math.pow(x_velocity,2)+Math.pow(y_velocity,2)) -
 				om*Math.sqrt(Math.pow(oxv,2)+Math.pow(oyv,2)));
-		double maxImpact = board.player.termvel*board.player.mass/2;
+		double maxImpact = board.player().termvel*board.player().mass/2;
 		if(impact > maxImpact)impact = maxImpact;
 		float impactVal = (float)(impact/maxImpact) * (Audio.VOLUME_RANGE) + Audio.VOLUME_LOW;
 		board.audio.playSound("bonk2",impactVal);

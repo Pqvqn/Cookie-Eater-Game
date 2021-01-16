@@ -23,7 +23,7 @@ public class Board extends JFrame{
 	private static final long serialVersionUID = 1L;
 	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
-	public Eater player;
+	private Eater player;
 	public Draw draw; //handles graphics
 	public Audio audio; //handles sound effects
 	public Music music; //handles music/background sound
@@ -121,8 +121,10 @@ public class Board extends JFrame{
 		add(draw);
 		pack();
 		
-		//create all of this game's npcs
-		createNpcs(cycletime);
+		if(mode == Main.LEVELS) {
+			//create all of this game's npcs
+			createNpcs(cycletime);
+		}
 		
 		loadDungeon(0);
 		
@@ -137,6 +139,17 @@ public class Board extends JFrame{
 		//run the game
 		while(true)
 			run(cycletime);
+	}
+	
+	//returns eater to be acted on by other classes
+	public Eater player() {
+		if(mode == Main.LEVELS) {
+			return player;
+		}else if(mode == Main.PVP) {
+			return players.get(0);
+		}else {
+			return null;
+		}
 	}
 	
 	public void loadDungeon(int num) {

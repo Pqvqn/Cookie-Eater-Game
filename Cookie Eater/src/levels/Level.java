@@ -89,7 +89,7 @@ public abstract class Level{
 				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),board.wallSpace)) {
 					place = false;
 				}
-				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player.getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
+				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
 					place = false;
 				}
 				if(place) { //place cookies, increment count
@@ -101,7 +101,7 @@ public abstract class Level{
 		//remove cookies that player can't access
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
-			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player.getX()),(int)(.5+board.player.getY()),(int)(board.player.getRadius()*scale*1.5),board.wallSpace)) {
+			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player().getX()),(int)(.5+board.player().getY()),(int)(board.player().getRadius()*scale*1.5),board.wallSpace)) {
 				currCookie.setAccess(true);
 				
 			}
@@ -115,7 +115,7 @@ public abstract class Level{
 				if(!currCookie.getAccess()) {
 					for(int j=0; j<board.cookies.size(); j++) {
 						Cookie testCookie = board.cookies.get(j);
-						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player.getRadius()*scale*1.5),board.wallSpace)) {
+						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player().getRadius()*scale*1.5),board.wallSpace)) {
 							currCookie.setAccess(true);
 							did=true;
 							j=board.cookies.size();
@@ -133,7 +133,7 @@ public abstract class Level{
 			}
 		}
 		
-		board.player.setScoreToWin(cooks);
+		board.player().setScoreToWin(cooks);
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
@@ -155,7 +155,7 @@ public abstract class Level{
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
 		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));
-		if(e instanceof Explorer)board.player.setScoreToWin(board.player.getScoreToWin()-1);
+		if(e instanceof Explorer)board.player().setScoreToWin(board.player().getScoreToWin()-1);
 		e.setX(c.getX());
 		e.setY(c.getY());
 		e.orientParts();

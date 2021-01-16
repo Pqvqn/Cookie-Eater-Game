@@ -19,7 +19,7 @@ public class CookieStat extends CookieStore{
 	
 	public CookieStat(Board frame, int startx, int starty) {
 		super(frame,startx,starty);
-		mr = player.getMovementRand();
+		mr = board.player().getMovementRand();
 		accelChange = 0;
 		maxvelChange = 0;
 		fricChange = 0;
