@@ -284,6 +284,7 @@ public class Eater extends Entity{
 		if(parts.isEmpty())buildBody();
 		if(state == DEAD) { //if dead in multiplayer
 			orientParts(); //orient parts to keep colliding
+			lock = true;
 		}
 		if(!dO)return; //if paused
 		if(board.mode == Main.PVP) {

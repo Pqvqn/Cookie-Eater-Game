@@ -3,6 +3,7 @@ package ui;
 import java.util.*;
 
 import ce3.*;
+import entities.*;
 import items.*;
 import levels.*;
 import menus.*;
@@ -14,6 +15,8 @@ public class UISettings extends UIElement{
 	//menu selector button
 	private MenuButton sel;
 	private SubmenuHandler menuHandler;
+	private Eater player;
+	private ArrayList<MenuButton> updateList; //buttons which need to have state updated depending on which player hit settings
 	
 	public UISettings(Board frame, int x, int y) {
 		super(frame,x,y);
@@ -21,6 +24,7 @@ public class UISettings extends UIElement{
 	}
 	
 	public void makeButtons() {
+		updateList = new ArrayList<MenuButton>();
 		menuHandler = new SubmenuHandler("MAIN");
 		OnClick oc;
 		
@@ -51,29 +55,29 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("MAIN",vol);
 		
 		//set controls
-		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY};
-		String[] keyNames = {"up","down","left","right"};
-		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520}};
-		for(int i=0; i<4; i++) {
+		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
+		String[] keyNames = {"up","down","left","right","esc"};
+		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520},{260,280}};
+		int playerid = (player==null)?0:player.getID();
+		for(int i=0; i<keyBinds.length; i++) {
 			MenuButton keyset = new MenuButton(board, this, null, 
-					new String[] {java.awt.event.KeyEvent.getKeyText(board.controls.get(0).getKeyBind(0,keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
+					new String[] {java.awt.event.KeyEvent.getKeyText(board.controls.get(playerid).getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
 			final String keyname = keyNames[i];
 			final int keybind = keyBinds[i];
 			oc = () -> {
 				//ask board to await key press to reassign
 				keyset.setCurrStateValue(keyname+" =");
-				board.controls.get(0).awaitKeyBind(keyset,0,keybind);
+				board.controls.get(this.getSelectedPlayer().getID()).awaitKeyBind(keyset,keybind);
 			};
 			keyset.setClick(oc);
 			menuHandler.addButton("MAIN",keyset);
+			updateList.add(keyset);
 		}
-		
-	
 		
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {
-			board.player().addShields(1);
+			player.addShields(1);
 		};
 		givsh.setClick(oc);
 		menuHandler.addButton("DEBUG",givsh);
@@ -81,7 +85,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton reset = new MenuButton(board, this, null, new String[] {"end run"}, false, 120,325,200,100);
 		oc = () -> {
-			board.player().kill();
+			player.kill();
 		};
 		reset.setClick(oc);
 		menuHandler.addButton("DEBUG",reset);
@@ -89,7 +93,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton title = new MenuButton(board, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
-			board.player().kill();
+			player.kill();
 			board.ui_tis.show();
 		};
 		title.setClick(oc);
@@ -98,7 +102,7 @@ public class UISettings extends UIElement{
 		//moves to next floor
 		MenuButton advance = new MenuButton(board, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
-			if(!board.inConvo())board.player().win();
+			if(!board.inConvo())player.win();
 		};
 		advance.setClick(oc);
 		menuHandler.addButton("DEBUG",advance);
@@ -106,7 +110,7 @@ public class UISettings extends UIElement{
 		//gives player 10 cookies
 		MenuButton givco = new MenuButton(board, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
 		oc = () -> {
-			board.player().pay(10);
+			player.pay(10);
 		};
 		givco.setClick(oc);
 		menuHandler.addButton("DEBUG",givco);
@@ -121,7 +125,7 @@ public class UISettings extends UIElement{
 			
 			MenuButton givit = new MenuButton(board, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
-				board.player().addItem(0,Level.generateItem(board,pw));
+				player.addItem(0,Level.generateItem(board,pw));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
@@ -129,8 +133,22 @@ public class UISettings extends UIElement{
 		
 		
 	}
-	
-	
+	//update controls for selected player
+	public void updateButtons() {
+		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
+		for(int i=0; i<updateList.size(); i++) {
+			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(board.controls.get(player.getID()).getKeyBind(keyBinds[i])));
+		}
+	}
+	public Eater getSelectedPlayer() {return player;}
+	//show from perspective of a specific player
+	public void show(boolean s, Eater p) {
+		if(player==null || player.equals(p)) { //don't let players override other player's settings menu
+			player = p;
+			updateButtons();
+			show(s);
+		}
+	}
 	
 	public void show(boolean s) {
 		menuHandler.showFull(s);
@@ -140,6 +158,7 @@ public class UISettings extends UIElement{
 				if(!board.draw.getUIList().contains(this))board.draw.addUI(this);
 			}else {
 				if(board.draw.getUIList().contains(this))board.draw.removeUI(this);
+				player = null;
 			}
 		}
 		visible = s;
