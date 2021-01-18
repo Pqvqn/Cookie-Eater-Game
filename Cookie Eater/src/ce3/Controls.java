@@ -46,9 +46,20 @@ public class Controls implements KeyListener{
 			return;
 		}
 		
-		if(board.show_title || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; //if isnt ready, don't allow input
 		
 		int key = e.getKeyCode();
+		boolean isP1 = scheme==0;
+		
+		//settings menus and keys that must register even when game is paused
+		if(key == KeyEvent.VK_ESCAPE && isP1) {
+			board.ui_set.show(!board.ui_set.isVisible());
+		}else if(key==controlSchemes[scheme][PAUSEKEY]) { 
+			board.ui_set.show(!board.ui_set.isVisible(),player);
+		}
+
+		//if isnt ready, don't allow input
+		if((board.isPaused() && !board.awaiting_start) || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; 
+
 		
 		//test key against this player's controls
 		if(key==controlSchemes[scheme][UPKEY]) { 
@@ -59,16 +70,12 @@ public class Controls implements KeyListener{
 			player.setDir(Eater.DOWN);
 		}else if(key==controlSchemes[scheme][LEFTKEY]) {
 			player.setDir(Eater.LEFT);
-		}else if(key==controlSchemes[scheme][PAUSEKEY]) { 
-			board.ui_set.show(!board.ui_set.isVisible(),player);
 		}
 		
 		//send key to menus
 		for(int i=board.menus.size()-1; i>=0; i--) {
 			board.menus.get(i).keyPress(key);
 		}
-
-		boolean isP1 = scheme==0;
 			
 		//debug keys
 		switch(key) {
@@ -97,10 +104,6 @@ public class Controls implements KeyListener{
 					player.setDir(Eater.NONE);
 					player.averageVels(0,0,false);
 				}
-				break;
-			case KeyEvent.VK_ESCAPE:
-				if(!isP1)break;
-				board.ui_set.show(!board.ui_set.isVisible());
 				break;
 		}
 		

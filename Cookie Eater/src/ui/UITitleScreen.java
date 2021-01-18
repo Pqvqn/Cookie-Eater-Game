@@ -11,7 +11,7 @@ public class UITitleScreen extends UIElement{
 
 	private UIRectangle backing;
 	private UIText title;
-	private boolean shown;
+	private boolean visible;
 	private SubmenuHandler menuHandler;
 	
 	public UITitleScreen(Board frame, int x, int y) {
@@ -44,19 +44,21 @@ public class UITitleScreen extends UIElement{
 	
 	//display title screen and lock board
 	public void show() {
-		if(shown)return;
-		shown = true;
+		if(visible)return;
+		visible = true;
 		board.draw.addUI(this);
-		board.show_title = true;
 		menuHandler.showFull(true);
 	}
 	//remove title screen and free board
 	public void hide() {
-		if(!shown)return;
-		shown = false;
+		if(!visible)return;
+		visible = false;
 		board.draw.removeUI(this);
-		board.show_title = false;
 		menuHandler.showFull(false);
+	}
+	
+	public boolean isVisible() {
+		return visible;
 	}
 
 }

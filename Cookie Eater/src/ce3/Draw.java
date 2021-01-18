@@ -43,8 +43,7 @@ public class Draw extends JPanel{
 	}
 	//update all objects
 	public void runUpdate() {
-		if(board.show_title || //if title screen is on, do not update
-				(!board.playersMoving() && !board.currFloor.haltEnabled())) { //if player hasn't moved yet, don't do actions
+		if((board.isPaused())) { //if board is paused, do not update
 			repaint();
 			return;
 		}
@@ -147,7 +146,7 @@ public class Draw extends JPanel{
 		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
 		
-		if(board.show_title && board.ui_tis!=null) {
+		if(board.isPaused() && board.ui_tis!=null && board.ui_tis.isVisible()) {
 			board.ui_tis.paint(g);
 			return;
 		}

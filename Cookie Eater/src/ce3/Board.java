@@ -66,7 +66,7 @@ public class Board extends JFrame{
 	private int skipframes;
 	public int playerCount;
 	public boolean check_calibration;
-	public boolean show_title;
+	public boolean awaiting_start;
 	
 	public Board(int m) {
 		super("Cookie Eater");
@@ -74,7 +74,6 @@ public class Board extends JFrame{
 		cycletime=5;
 		fpscheck=100;
 		skipframes = 0;
-		show_title = true;
 		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
@@ -151,14 +150,27 @@ public class Board extends JFrame{
 			return null;
 		}
 	}
-	//tests if players have changed direction from stationary
-	public boolean playersMoving() {
-		for(int i=0; i<players.size(); i++) {
-			if(players.get(i).getDir() == Eater.NONE) {
-				return false;
+	//test if board should be paused
+	public boolean isPaused() {
+		//tests if players are waiting to change direction
+		if(awaiting_start) {
+			//test if players have moved directions; begin if so
+			boolean ready = true;
+			for(int i=0; i<players.size(); i++) {
+				if(players.get(i).getDir() == Eater.NONE && !currFloor.haltEnabled()) {
+					ready = false;
+				}
+			}
+			//unpause if players are aimed
+			if(ready) {
+				awaiting_start = false;
+			}else {
+				return true;
 			}
 		}
-		return true;
+		//tests if settings window is up
+		if((ui_set!=null && ui_set.isVisible()) || (ui_set!=null && ui_tis.isVisible()))return true;
+		return false;
 	}
 	
 	public void loadDungeon(int num) {
@@ -221,6 +233,7 @@ public class Board extends JFrame{
 		}
 		setDialogue(null,null);
 		spawnNpcs();
+		awaiting_start = true;
 	}
 			
 	//advances level
@@ -253,6 +266,7 @@ public class Board extends JFrame{
 		}
 		setDialogue(null,null);
 		spawnNpcs();
+		awaiting_start = true;
 	}
 	
 	public void run(int time) {

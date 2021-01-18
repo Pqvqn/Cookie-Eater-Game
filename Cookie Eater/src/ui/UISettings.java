@@ -37,7 +37,21 @@ public class UISettings extends UIElement{
 		sel.setClick(oc);
 		menuHandler.addButton("MAIN",sel);
 		menuHandler.addButton("DEBUG",sel);
-				
+		
+		//selects which player the menu corresponds to
+		String[] opts = new String[board.players.size()];
+		for(int i=0; i<board.players.size(); i++) {
+			opts[i] = "P"+i;
+		}
+		MenuButton psel = new MenuButton(board, this, null, opts, false, 10,10,100,100);
+		oc = () -> {
+			Eater p = board.players.get(psel.currentState());
+			this.show(false);
+			this.show(true, p);
+		};
+		psel.setClick(oc);
+		menuHandler.addButton("MAIN",psel);
+		
 		//volume control
 		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);
 		oc = () -> {

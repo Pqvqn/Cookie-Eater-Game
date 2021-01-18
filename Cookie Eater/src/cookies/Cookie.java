@@ -42,7 +42,7 @@ public class Cookie {
 	}
 	
 	public void runUpdate() {
-		if(!board.playersMoving() && decayCounter++>=adjustedDecayTime){	
+		if(!board.isPaused() && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
 		}
 	}
