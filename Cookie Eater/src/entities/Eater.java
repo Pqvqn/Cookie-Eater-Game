@@ -207,6 +207,7 @@ public class Eater extends Entity{
 			for(Eater e : board.players) {
 				e.revive();
 			}
+			board.awaiting_start = true;
 		}
 	}
 	//resets player to floor-beginning state
@@ -241,6 +242,7 @@ public class Eater extends Entity{
 		cash = 0;
 		setShields(3);
 		//randomizeStats();
+		direction = NONE;
 		
 		decayed_value = 0;
 		extra_radius = 0;
@@ -284,7 +286,7 @@ public class Eater extends Entity{
 		if(parts.isEmpty())buildBody();
 		if(state == DEAD) { //if dead in multiplayer
 			orientParts(); //orient parts to keep colliding
-			lock = true;
+			//lock = true;
 		}
 		if(!dO)return; //if paused
 		if(board.mode == Main.PVP) {
@@ -295,6 +297,7 @@ public class Eater extends Entity{
 				}
 			}
 			if(allDead) { //win if last man standing
+				//lock = true;
 				win();
 			}
 		}

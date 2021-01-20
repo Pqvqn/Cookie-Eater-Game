@@ -17,16 +17,12 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 
-public class Board extends JFrame{
+public class Board{
 
-
-	private static final long serialVersionUID = 1L;
 	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
+	public final int BORDER_THICKNESS = 20;
 	private Eater player;
-	public Draw draw; //handles graphics
-	public Audio audio; //handles sound effects
-	public Music music; //handles music/background sound
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
@@ -38,7 +34,6 @@ public class Board extends JFrame{
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Controls> controls;
 	public ArrayList<Menu> menus;
-	public final int BORDER_THICKNESS = 20;
 
 	public final Level[][] FLOOR_SEQUENCE = {
 			{new Store1(this),new Floor1(this),
@@ -54,27 +49,14 @@ public class Board extends JFrame{
 	public LinkedList<Level> floors;
 	public int currDungeon;
 	public Level currFloor;
-	private long lastFrame; //time of last frame
-	public UIFpsCount ui_fps;
-	public UILevelInfo ui_lvl;
-	public UIDialogue ui_dia;
-	public UISettings ui_set;
-	public UITitleScreen ui_tis;
-	private int cycletime;
-	private int fpscheck;
-	private int true_cycle;
-	private int skipframes;
 	public int playerCount;
-	public boolean check_calibration;
 	public boolean awaiting_start;
 	
-	public Board(int m) {
-		super("Cookie Eater");
+	public UILevelInfo ui_lvl;
+	public UIDialogue ui_dia;
+	
+	public Board(int m, int cycletime) {
 		mode = m;
-		cycletime=5;
-		fpscheck=100;
-		skipframes = 0;
-		check_calibration = true;
 		//initializing classes
 		players = new ArrayList<Eater>();
 		playerCount = 4;
@@ -84,9 +66,7 @@ public class Board extends JFrame{
 			for(int i=0; i<playerCount; i++)
 				players.add(new Eater(this,i,cycletime));
 		}
-		draw = new Draw(this);
-		audio = new Audio(this);
-        music = new Music(this);
+		
 		
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
@@ -103,23 +83,7 @@ public class Board extends JFrame{
 		}
 		menus = new ArrayList<Menu>();
 		
-		//window settings
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setUndecorated(false);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setVisible(true);
-		setFocusable(true);
-		for(int i=0; i<controls.size(); i++) {
-			addKeyListener(controls.get(i));
-		}
-		requestFocus();
-		setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		//setBackground(Color.GRAY);
-		//setForeground(Color.GRAY);
-		
-		add(draw);
-		pack();
-		
+		draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
 		if(mode == Main.LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
@@ -127,17 +91,6 @@ public class Board extends JFrame{
 		
 		loadDungeon(0);
 		
-		//ui
-		draw.addUI(ui_fps = new UIFpsCount(this,10,10,Color.WHITE));	
-		draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
-		ui_set = new UISettings(this,0,0);
-		ui_tis = new UITitleScreen(this,0,0);
-		
-		ui_tis.show();
-		
-		//run the game
-		while(true)
-			run(cycletime);
 	}
 	
 	//returns eater to be acted on by other classes
@@ -191,12 +144,7 @@ public class Board extends JFrame{
 		resetGame();
 
 				
-	}
-	
-	public int getCycle() {return cycletime;}
-	public double getAdjustedCycle() {return true_cycle/100.0;}
-	public void setCycle(int tim) {cycletime=tim;}
-	
+	}	
 	
 	//go back to first level
 	public void resetGame() {
@@ -269,21 +217,7 @@ public class Board extends JFrame{
 		awaiting_start = true;
 	}
 	
-	public void run(int time) {
-		if(skipframes>0) {
-			skipframes--;
-		}else {
-			updateUI();
-			draw.runUpdate(); //update all game objects
-		}
-		try {
-			Thread.sleep(time); //time between updates
-		}catch(InterruptedException e){};
-	}
-	public void freeze(int time) { //freeze-frame for length of time
-		time/=getAdjustedCycle();
-		skipframes+=time;
-	}
+	
 	
 	public void setCalibrations(double cycle) {
 		for(int i=0; i<players.size(); i++) {
@@ -303,16 +237,6 @@ public class Board extends JFrame{
 		}
 	}
 	public void updateUI() {
-		//fps counter
-		if(fpscheck--<=0) {
-			//fps.update(lastFrame,System.currentTimeMillis());
-			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
-			if(check_calibration){
-				setCalibrations(getAdjustedCycle());
-			}
-			lastFrame = System.currentTimeMillis();
-			fpscheck=100;
-		}
 		//level display
 		ui_lvl.update(currFloor.getName());
 		
