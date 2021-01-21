@@ -15,7 +15,7 @@ public class Music {
 	Clip clip;
 	File file;
 	
-	public Music(Board frame){
+	public Music(Game frame){
 		board = frame;
 		tracks = new File[2];
 		tracks[0] = new File("Cookie Eater/src/resources/sounds/testmusic.wav");

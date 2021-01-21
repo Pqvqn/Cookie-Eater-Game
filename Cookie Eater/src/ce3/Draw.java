@@ -22,7 +22,7 @@ public class Draw extends JPanel{
 	private ArrayList<UIElement> ui;
 	private long lastMilliCount; //counting drawing framerate
 	
-	public Draw(Board frame) {
+	public Draw(Game frame) {
 		super();
 		board = frame;
 		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());

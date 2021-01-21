@@ -2,6 +2,7 @@ package ce3;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -15,6 +16,8 @@ public class Game extends JFrame {
 	public Draw draw; //handles graphics
 	public Audio audio; //handles sound effects
 	public Music music; //handles music/background sound
+	public HashMap<String,Board> boards;
+	public Board board;
 	
 	//fps/calibration
 	private long lastFrame; //time of last frame
@@ -29,6 +32,10 @@ public class Game extends JFrame {
 	public UISettings ui_set;
 	public UITitleScreen ui_tis;
 	
+	//modes
+	public static final int LEVELS = 0, PVP = 1;
+	public int mode;
+	
 	public Game() {
 		super("Cookie Eater");
 		cycletime=5;
@@ -39,6 +46,7 @@ public class Game extends JFrame {
 		draw = new Draw(this);
 		audio = new Audio(this);
         music = new Music(this);
+        board = new Board(this,LEVELS,cycletime);
         
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,8 +54,8 @@ public class Game extends JFrame {
   		setExtendedState(JFrame.MAXIMIZED_BOTH);
   		setVisible(true);
   		setFocusable(true);
-  		for(int i=0; i<controls.size(); i++) {
-  			addKeyListener(controls.get(i));
+  		for(int i=0; i<board.controls.size(); i++) {
+  			addKeyListener(board.controls.get(i));
   		}
   		requestFocus();
   		setSize(Toolkit.getDefaultToolkit().getScreenSize());

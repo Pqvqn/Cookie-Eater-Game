@@ -19,6 +19,7 @@ import java.util.*;
 
 public class Board{
 
+	public Game game;
 	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	public final int BORDER_THICKNESS = 20;
@@ -51,12 +52,15 @@ public class Board{
 	public Level currFloor;
 	public int playerCount;
 	public boolean awaiting_start;
+	public int cycletime;
 	
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
 	
-	public Board(int m, int cycletime) {
+	public Board(Game g, int m, int cycle) {
+		game = g;
 		mode = m;
+		cycletime = cycle;
 		//initializing classes
 		players = new ArrayList<Eater>();
 		playerCount = 4;
@@ -83,7 +87,7 @@ public class Board{
 		}
 		menus = new ArrayList<Menu>();
 		
-		draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
+		game.draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
 		if(mode == Main.LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
@@ -122,7 +126,7 @@ public class Board{
 			}
 		}
 		//tests if settings window is up
-		if((ui_set!=null && ui_set.isVisible()) || (ui_set!=null && ui_tis.isVisible()))return true;
+		if((game.ui_set!=null && game.ui_set.isVisible()) || (game.ui_set!=null && game.ui_tis.isVisible()))return true;
 		return false;
 	}
 	
@@ -253,7 +257,7 @@ public class Board{
 	//create walls
 	public void buildBoard() {
 		currFloor.build();
-		draw.updateBG();
+		game.draw.updateBG();
 		wallSpace = new Area();
 		for(Wall w : walls) {
 			wallSpace.add(w.getArea());
@@ -308,12 +312,12 @@ public class Board{
 	}
 	
 	public void setDialogue(Entity speaker, Conversation convo) { //sets the current dialogue
-		draw.removeUI(ui_dia);
+		game.draw.removeUI(ui_dia);
 		if(convo==null) {
 			ui_dia = null;
 		}else {
 			ui_dia = new UIDialogue(this,convo.currentLine(),convo.getOptions(),convo.getExpression());
-			draw.addUI(ui_dia);
+			game.draw.addUI(ui_dia);
 		}
 	}
 	public boolean inConvo() { //if player is in dialogue

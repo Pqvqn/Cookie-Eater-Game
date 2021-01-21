@@ -14,7 +14,7 @@ public class Audio {
 	private final String[] preload = {"bonk2","chomp"}; //files to load at start of program
 	public boolean mute; //whether audio should play at all
 	
-	public Audio(Board frame) {
+	public Audio(Game frame) {
 		board = frame;
 		mute = true;
 		loaded = new HashMap<String,File>();
