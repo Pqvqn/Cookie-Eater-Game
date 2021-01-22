@@ -14,7 +14,7 @@ public class UITitleScreen extends UIElement{
 	private boolean visible;
 	private SubmenuHandler menuHandler;
 	
-	public UITitleScreen(Board frame, int x, int y) {
+	public UITitleScreen(Game frame, int x, int y) {
 		super(frame, x, y);
 		parts.add(backing = new UIRectangle(board,0,0,board.X_RESOL,board.Y_RESOL,Color.GRAY,true));
 		parts.add(title = new UIText(board,200,350,"Cookie Eater 3",Color.WHITE,new Font("Arial",Font.BOLD,160)));

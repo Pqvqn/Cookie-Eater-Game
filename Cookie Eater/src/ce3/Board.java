@@ -20,6 +20,7 @@ import java.util.*;
 public class Board{
 
 	public Game game;
+	public static final int LEVELS = 0, PVP = 1;
 	public int mode;
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	public final int BORDER_THICKNESS = 20;
@@ -33,7 +34,6 @@ public class Board{
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
-	public ArrayList<Controls> controls;
 	public ArrayList<Menu> menus;
 
 	public final Level[][] FLOOR_SEQUENCE = {
@@ -57,18 +57,18 @@ public class Board{
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
 	
-	public Board(Game g, int m, int cycle) {
+	public Board(Game g, int gamemode, int dungeon, int cycle) {
 		game = g;
-		mode = m;
+		mode = gamemode;
 		cycletime = cycle;
 		//initializing classes
 		players = new ArrayList<Eater>();
 		playerCount = 4;
-		if(mode==Main.LEVELS) {
-			players.add(player = new Eater(this,0,cycletime));
-		}else if(mode==Main.PVP) { //add number of players
+		if(mode==LEVELS) {
+			players.add(player = new Eater(game,0,cycletime));
+		}else if(mode==PVP) { //add number of players
 			for(int i=0; i<playerCount; i++)
-				players.add(new Eater(this,i,cycletime));
+				players.add(new Eater(game,i,cycletime));
 		}
 		
 		
@@ -80,28 +80,88 @@ public class Board{
 		npcs = new ArrayList<Explorer>();
 		present_npcs = new ArrayList<Explorer>();
 		effects = new ArrayList<Effect>();
-		
-		controls = new ArrayList<Controls>();
-		for(int i=0; i<players.size(); i++) {
-			controls.add(new Controls(this,players.get(i),i));
-		}
 		menus = new ArrayList<Menu>();
 		
-		game.draw.addUI(ui_lvl = new UILevelInfo(this,X_RESOL/2,30));
-		if(mode == Main.LEVELS) {
+		game.draw.addUI(ui_lvl = new UILevelInfo(game,X_RESOL/2,30));
+		if(mode == LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
 		}
 		
-		loadDungeon(0);
+		loadDungeon(dungeon);
 		
 	}
 	
+	
+	public void updateUI() {
+		//level display
+		ui_lvl.update(currFloor.getName());
+		
+		//dialogue
+		if(ui_dia!=null)ui_dia.update();
+		
+		//player's ui
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).updateUI();
+		}
+
+	}
+	//update all objects
+	public void runUpdate() {
+		updateUI();
+		if(isPaused())//if board is paused, do not update
+			return;
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).runUpdate();
+		}
+		for(int i=0; i<effects.size(); i++) {
+			effects.get(i).runUpdate();
+		}
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).runUpdate();
+		}
+		for(int i=0; i<present_npcs.size(); i++) {
+			present_npcs.get(i).runUpdate();
+		}
+		for(int i=0; i<cookies.size(); i++) {
+			if(i<cookies.size()) {
+				Cookie curr = cookies.get(i);
+				if(curr!=null)
+				curr.runUpdate();
+				if(i<cookies.size()&&cookies.get(i)!=null&&curr!=null&&!cookies.get(i).equals(curr))
+					i--;
+			}
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			if(i<enemies.size()) {
+				Enemy curr = enemies.get(i);
+				curr.runUpdate();
+				if(i<enemies.size()&&!enemies.get(i).equals(curr))
+					i--;
+			}
+		}
+		for(int i=0; i<effects.size(); i++) {
+			effects.get(i).endCycle();
+		}
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).endCycle();
+		}
+		for(int i=0; i<present_npcs.size(); i++) {
+			present_npcs.get(i).endCycle();
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			if(i<enemies.size()) {
+				Enemy curr = enemies.get(i);
+				curr.endCycle();
+			}
+		}
+		game.draw.runUpdate();
+	}
 	//returns eater to be acted on by other classes
 	public Eater player() {
-		if(mode == Main.LEVELS) {
+		if(mode == LEVELS) {
 			return player;
-		}else if(mode == Main.PVP) {
+		}else if(mode == PVP) {
 			return players.get(0);
 		}else {
 			return null;
@@ -130,25 +190,7 @@ public class Board{
 		return false;
 	}
 	
-	public void loadDungeon(int num) {
-		currDungeon = num;
-		//converting list of floors to linked list
-		floors = new LinkedList<Level>();
-		if(mode==Main.LEVELS) {
-			for(int i=FLOOR_SEQUENCE[num].length-1; i>=0; i--) {
-				floors.add(FLOOR_SEQUENCE[num][i]);
-				if(i<FLOOR_SEQUENCE[num].length-1) 
-					FLOOR_SEQUENCE[num][i].setNext(FLOOR_SEQUENCE[num][i+1]);
-			}
-		}else if(mode==Main.PVP) {
-			floors.add(new Floor1(this));
-		}
-		resetNpcs();
-		//create floor 1
-		resetGame();
-
-				
-	}	
+	
 	
 	//go back to first level
 	public void resetGame() {
@@ -172,7 +214,7 @@ public class Board{
 			npcs.get(i).runEnds();
 		
 		cookies = new ArrayList<Cookie>();
-		if(mode==Main.LEVELS) {
+		if(mode==LEVELS) {
 		makeCookies();}
 		spawnEnemies();
 		for(int i=0; i<npcs.size(); i++) {
@@ -221,7 +263,25 @@ public class Board{
 		awaiting_start = true;
 	}
 	
-	
+	public void loadDungeon(int num) {
+		currDungeon = num;
+		//converting list of floors to linked list
+		floors = new LinkedList<Level>();
+		if(mode==LEVELS) {
+			for(int i=FLOOR_SEQUENCE[num].length-1; i>=0; i--) {
+				floors.add(FLOOR_SEQUENCE[num][i]);
+				if(i<FLOOR_SEQUENCE[num].length-1) 
+					FLOOR_SEQUENCE[num][i].setNext(FLOOR_SEQUENCE[num][i+1]);
+			}
+		}else if(mode==PVP) {
+			floors.add(new Floor1(this));
+		}
+		resetNpcs();
+		//create floor 1
+		resetGame();
+
+				
+	}	
 	
 	public void setCalibrations(double cycle) {
 		for(int i=0; i<players.size(); i++) {
@@ -239,19 +299,6 @@ public class Board{
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
 		}
-	}
-	public void updateUI() {
-		//level display
-		ui_lvl.update(currFloor.getName());
-		
-		//dialogue
-		if(ui_dia!=null)ui_dia.update();
-		
-		//player's ui
-		for(int i=0; i<players.size(); i++) {
-			players.get(i).updateUI();
-		}
-
 	}
 	
 	//create walls
@@ -316,7 +363,7 @@ public class Board{
 		if(convo==null) {
 			ui_dia = null;
 		}else {
-			ui_dia = new UIDialogue(this,convo.currentLine(),convo.getOptions(),convo.getExpression());
+			ui_dia = new UIDialogue(game,convo.currentLine(),convo.getOptions(),convo.getExpression());
 			game.draw.addUI(ui_dia);
 		}
 	}

@@ -38,14 +38,14 @@ public class Eater extends Entity{
 	private UIShields shieldDisp;
 	private SpriteEater sprite;
 	private SegmentCircle part;
+	private Controls controls; //covers inputs
 	
-	public Eater(Board frame, int num, int cycletime) {
+	public Eater(Game frame, int num, int cycletime) {
 		super(frame,cycletime);
 		id = num;
 		name = "Player "+id;
 		dO= true;
 		ded = false;
-		board = frame;
 		x=board.X_RESOL/2;
 		y=board.Y_RESOL/2;
 		direction = NONE;
@@ -53,6 +53,7 @@ public class Eater extends Entity{
 		y_velocity = 0;
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
+		controls = new Controls(game, this, id);
 		
 		averageStats();
 		

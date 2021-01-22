@@ -9,7 +9,7 @@ public class UIImage extends UIElement{
 	private double ratio;
 	private Image img;
 	
-	public UIImage(Board frame, int x, int y, double r, Image i) {
+	public UIImage(Game frame, int x, int y, double r, Image i) {
 		super(frame,x,y);
 		xPos = x;
 		yPos = y;

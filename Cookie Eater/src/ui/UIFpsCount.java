@@ -9,7 +9,7 @@ public class UIFpsCount extends UIElement{
 
 	private UIText text;
 	
-	public UIFpsCount(Board frame, int x, int y, Color c) {
+	public UIFpsCount(Game frame, int x, int y, Color c) {
 		super(frame,x,y);
 		text = new UIText(board,x,y,"",c,new Font(Font.MONOSPACED,Font.PLAIN,15));
 		parts.add(text);

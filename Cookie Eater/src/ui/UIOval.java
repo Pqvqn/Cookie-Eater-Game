@@ -10,7 +10,7 @@ public class UIOval extends UIElement{
 	private Color color;
 	private boolean filled;
 
-	public UIOval(Board frame, int x, int y, int w, int h, Color c, boolean fill) {
+	public UIOval(Game frame, int x, int y, int w, int h, Color c, boolean fill) {
 		super(frame,x,y);
 		xPos = x;
 		yPos = y;

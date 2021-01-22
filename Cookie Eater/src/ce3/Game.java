@@ -1,8 +1,7 @@
 package ce3;
 
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.util.HashMap;
+import java.awt.*;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -16,8 +15,9 @@ public class Game extends JFrame {
 	public Draw draw; //handles graphics
 	public Audio audio; //handles sound effects
 	public Music music; //handles music/background sound
-	public HashMap<String,Board> boards;
-	public Board board;
+	public HashMap<String,Board> boards; //board save structure
+	public Board board; //current board that is running
+	public ArrayList<Controls> controls; //all active key listeners/controls
 	
 	//fps/calibration
 	private long lastFrame; //time of last frame
@@ -33,8 +33,6 @@ public class Game extends JFrame {
 	public UITitleScreen ui_tis;
 	
 	//modes
-	public static final int LEVELS = 0, PVP = 1;
-	public int mode;
 	
 	public Game() {
 		super("Cookie Eater");
@@ -46,7 +44,9 @@ public class Game extends JFrame {
 		draw = new Draw(this);
 		audio = new Audio(this);
         music = new Music(this);
-        board = new Board(this,LEVELS,cycletime);
+        
+        controls = new ArrayList<Controls>();
+        loadDungeon(Board.LEVELS,0);
         
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,9 +54,6 @@ public class Game extends JFrame {
   		setExtendedState(JFrame.MAXIMIZED_BOTH);
   		setVisible(true);
   		setFocusable(true);
-  		for(int i=0; i<board.controls.size(); i++) {
-  			addKeyListener(board.controls.get(i));
-  		}
   		requestFocus();
   		setSize(Toolkit.getDefaultToolkit().getScreenSize());
   		//setBackground(Color.GRAY);
@@ -98,18 +95,32 @@ public class Game extends JFrame {
 		skipframes+=time;
 	}
 	
+	public void loadDungeon(int mode, int dungeon) {
+		for(int i=0; i<controls.size(); i++) {
+			removeKeyListener(controls.get(i));
+		}
+		controls = new ArrayList<Controls>();
+		board = new Board(this,mode,dungeon,cycletime);
+		draw.setBoard(board);
+	}	
+	
 	public void updateUI() {
 		//fps counter
 		if(fpscheck--<=0) {
 			//fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
 			if(check_calibration){
-				setCalibrations(getAdjustedCycle());
+				board.setCalibrations(getAdjustedCycle());
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
 		}
 		board.updateUI();
 
+	}
+	
+	public void addControls(Controls c) {
+		addKeyListener(c);
+		controls.add(c);
 	}
 }

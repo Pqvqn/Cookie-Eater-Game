@@ -10,7 +10,7 @@ public class UIItemsAll extends UIElement{
 
 	private ArrayList<UIItems> specials;
 	
-	public UIItemsAll(Board frame, int x, int y, ArrayList<Color> colors) {
+	public UIItemsAll(Game frame, int x, int y, ArrayList<Color> colors) {
 		super(frame,x,y);
 		specials = new ArrayList<UIItems>();
 		specials.add(new UIItems(frame, x, y-150, 0, colors.get(0)));

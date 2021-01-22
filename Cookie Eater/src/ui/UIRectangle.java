@@ -10,7 +10,7 @@ public class UIRectangle extends UIElement{
 	private Color color;
 	private boolean filled;
 
-	public UIRectangle(Board frame, int x, int y, int w, int h, Color c, boolean fill) {
+	public UIRectangle(Game frame, int x, int y, int w, int h, Color c, boolean fill) {
 		super(frame,x,y);
 		xPos = x;
 		yPos = y;

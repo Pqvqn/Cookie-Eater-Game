@@ -10,7 +10,7 @@ public class UIText extends UIElement{
 	private Color color;
 	private Font font;
 
-	public UIText(Board frame, int x, int y, String t, Color c, Font f) {
+	public UIText(Game frame, int x, int y, String t, Color c, Font f) {
 		super(frame, x, y);
 		text = t;
 		xPos = x;

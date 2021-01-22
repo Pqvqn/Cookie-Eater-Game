@@ -12,7 +12,7 @@ public class UIParagraph extends UIElement{
 	private Font font;
 	private int separation, passageWidth;
 
-	public UIParagraph(Board frame, int x, int y, ArrayList<String> ts, Color c, Font f, int sep, int wid) {
+	public UIParagraph(Game frame, int x, int y, ArrayList<String> ts, Color c, Font f, int sep, int wid) {
 		super(frame, x, y);
 		if(ts==null) {
 			textLines = new ArrayList<String>();

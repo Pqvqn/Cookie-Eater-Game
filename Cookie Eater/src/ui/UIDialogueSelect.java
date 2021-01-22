@@ -12,7 +12,7 @@ public class UIDialogueSelect extends UIElement{
 	private UIRectangle hoverHighlight;
 	private UIRectangle backing;
 	
-	public UIDialogueSelect(Board frame, ArrayList<String> options, int x, int y) {
+	public UIDialogueSelect(Game frame, ArrayList<String> options, int x, int y) {
 		super(frame,x,y);
 		parts.add(backing = new UIRectangle(board, xPos, yPos, options.size()*210-10, 40, new Color(50, 50, 50, 100), true)); //backing
 		//parts.add(chosenHighlight = new UIRectangle(board, xPos, yPos, 200, 40, new Color(255, 255, 255, 50), true));

@@ -20,7 +20,7 @@ public class UIButton extends UIElement{
 	
 	private MenuButton button;
 	
-	public UIButton(Board frame, MenuButton b) {
+	public UIButton(Game frame, MenuButton b) {
 		super(frame,(int)b.bounds().getX(),(int)b.bounds().getY());
 		button = b;
 		Rectangle rect = button.bounds();

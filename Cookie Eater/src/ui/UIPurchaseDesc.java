@@ -14,7 +14,7 @@ public class UIPurchaseDesc extends UIElement{
 	private int passageWidth; //amount of characters allowed
 	private CookieStore user;
 	
-	public UIPurchaseDesc(Board frame, CookieStore c) {
+	public UIPurchaseDesc(Game frame, CookieStore c) {
 		super(frame,0,0);
 		user=c;
 		xPos=user.getX();

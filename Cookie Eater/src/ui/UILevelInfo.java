@@ -8,7 +8,7 @@ public class UILevelInfo extends UIElement{
 
 	private UIText name;
 	
-	public UILevelInfo(Board frame, int x, int y) {
+	public UILevelInfo(Game frame, int x, int y) {
 		super(frame,x,y);
 		parts.add(name = new UIText(board,x,y,"",new Color(255,255,255,200),new Font("Arial",Font.BOLD,30)));
 	}

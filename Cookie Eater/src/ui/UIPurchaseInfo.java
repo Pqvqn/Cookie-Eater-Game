@@ -14,7 +14,7 @@ public class UIPurchaseInfo extends UIElement{
 	private CookieStore user;
 	private UIRectangle backing;
 	
-	public UIPurchaseInfo(Board frame, CookieStore c) {
+	public UIPurchaseInfo(Game frame, CookieStore c) {
 		super(frame,0,0);
 		user = c;
 		xPos=user.getX();

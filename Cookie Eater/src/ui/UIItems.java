@@ -20,7 +20,7 @@ public class UIItems extends UIElement{
 	private int myIndex;
 	private Color theme_color;
 	
-	public UIItems(Board frame, int x, int y, int index, Color c) {
+	public UIItems(Game frame, int x, int y, int index, Color c) {
 		super(frame,x,y);
 		itemDisplays = new ArrayList<UIText>();
 		parts.add(list_backing = new UIRectangle(board,xPos+50,yPos-SEPARATION,SIZE*5,SEPARATION+10,new Color(0,0,0,100),true));

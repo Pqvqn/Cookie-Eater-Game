@@ -12,7 +12,7 @@ public class UIShields extends UIElement{
 	private final int SEPARATION = 30;
 	private final int SIZE = 50;
 	
-	public UIShields(Board frame, int x, int y) {
+	public UIShields(Game frame, int x, int y) {
 		super(frame,x,y);
 		shields = new ArrayList<UIOval>();
 		//parts.add(shields = new UIText(board,x,y,"",new Color(100,200,255),new Font("Arial",Font.ITALIC,30)));

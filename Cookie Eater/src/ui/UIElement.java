@@ -8,12 +8,12 @@ import ce3.*;
 public abstract class UIElement {
 	
 	protected ArrayList<UIElement> parts; //uielements within this one
-	protected Board board;
+	protected Game game;
 	protected int xPos, yPos; //location
 
-	public UIElement(Board frame, int x, int y) {
+	public UIElement(Game frame, int x, int y) {
 		parts = new ArrayList<UIElement>();
-		board = frame;
+		game = frame;
 		xPos = x; yPos = y;
 	}
 	

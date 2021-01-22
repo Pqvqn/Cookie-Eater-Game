@@ -16,6 +16,7 @@ public class Draw extends JPanel{
 	
 
 	private static final long serialVersionUID = 1L;
+	private Game game;
 	private Board board;
 	private ArrayList<Eater> players;
 	private SpriteLevel boardImage;
@@ -24,12 +25,17 @@ public class Draw extends JPanel{
 	
 	public Draw(Game frame) {
 		super();
-		board = frame;
+		game = frame;
 		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-		players = board.players;
 		setBackground(Color.BLACK);
 		ui = new ArrayList<UIElement>();
 		lastMilliCount = System.currentTimeMillis();
+		setBoard(game.board);
+	}
+	
+	public void setBoard(Board b) {
+		board = b;
+		players = board.players;
 		try {
 			boardImage = new SpriteLevel(board,board.walls);
 		} catch (IOException e) {
@@ -41,56 +47,8 @@ public class Draw extends JPanel{
 	public void update(Graphics g) {
 		paint(g);
 	}
-	//update all objects
+	//repaint every cycle
 	public void runUpdate() {
-		if((board.isPaused())) { //if board is paused, do not update
-			repaint();
-			return;
-		}
-		for(int i=0; i<board.mechanisms.size(); i++) {
-			board.mechanisms.get(i).runUpdate();
-		}
-		for(int i=0; i<board.effects.size(); i++) {
-			board.effects.get(i).runUpdate();
-		}
-		for(int i=0; i<players.size(); i++) {
-			players.get(i).runUpdate();
-		}
-		for(int i=0; i<board.present_npcs.size(); i++) {
-			board.present_npcs.get(i).runUpdate();
-		}
-		for(int i=0; i<board.cookies.size(); i++) {
-			if(i<board.cookies.size()) {
-				Cookie curr = board.cookies.get(i);
-				if(curr!=null)
-				curr.runUpdate();
-				if(i<board.cookies.size()&&board.cookies.get(i)!=null&&curr!=null&&!board.cookies.get(i).equals(curr))
-					i--;
-			}
-		}
-		for(int i=0; i<board.enemies.size(); i++) {
-			if(i<board.enemies.size()) {
-				Enemy curr = board.enemies.get(i);
-				curr.runUpdate();
-				if(i<board.enemies.size()&&!board.enemies.get(i).equals(curr))
-					i--;
-			}
-		}
-		for(int i=0; i<board.effects.size(); i++) {
-			board.effects.get(i).endCycle();
-		}
-		for(int i=0; i<players.size(); i++) {
-			players.get(i).endCycle();
-		}
-		for(int i=0; i<board.present_npcs.size(); i++) {
-			board.present_npcs.get(i).endCycle();
-		}
-		for(int i=0; i<board.enemies.size(); i++) {
-			if(i<board.enemies.size()) {
-				Enemy curr = board.enemies.get(i);
-				curr.endCycle();
-			}
-		}
 		repaint();
 	}
 	
@@ -146,8 +104,8 @@ public class Draw extends JPanel{
 		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
 		boardImage.paint(g);
 		
-		if(board.isPaused() && board.ui_tis!=null && board.ui_tis.isVisible()) {
-			board.ui_tis.paint(g);
+		if(board.isPaused() && game.ui_tis!=null && game.ui_tis.isVisible()) {
+			game.ui_tis.paint(g);
 			return;
 		}
 		
@@ -179,7 +137,7 @@ public class Draw extends JPanel{
 		if(board.currFloor!=null)board.currFloor.paint(g);
 		
 		//update fps counter
-		if(board!=null && board.ui_fps!=null)board.ui_fps.update(lastMilliCount,System.currentTimeMillis());
+		if(board!=null && game.ui_fps!=null)game.ui_fps.update(lastMilliCount,System.currentTimeMillis());
 		lastMilliCount = System.currentTimeMillis();
 	}
 

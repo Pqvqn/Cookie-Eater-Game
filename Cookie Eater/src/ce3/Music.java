@@ -10,13 +10,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Music {
 	
-	private Board board;
+	private Game game;
 	private File[] tracks; //temporary organization for music
 	Clip clip;
 	File file;
 	
 	public Music(Game frame){
-		board = frame;
+		game = frame;
 		tracks = new File[2];
 		tracks[0] = new File("Cookie Eater/src/resources/sounds/testmusic.wav");
 		tracks[1] = new File("Cookie Eater/src/resources/sounds/exammusic.wav");
@@ -30,14 +30,14 @@ public class Music {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(board.currFloor!=null) {
+				if(game.board.currFloor!=null) {
 					//if no clip is playing or the current song doesn't fit, play new
-			        if((clip!=null && clip.isRunning() && currentSongIsValid()) || board.audio.mute) {
-			        	if(board.audio.mute && clip!=null && clip.isRunning()) {
+			        if((clip!=null && clip.isRunning() && currentSongIsValid()) || game.audio.mute) {
+			        	if(game.audio.mute && clip!=null && clip.isRunning()) {
 			        		clip.close();
 			        	}
 			        	if(clip!=null && clip.isRunning() && currentSongIsValid())  {
-							board.audio.setClipVolume(clip,Audio.VOLUME_NORM);
+							game.audio.setClipVolume(clip,Audio.VOLUME_NORM);
 			        	}
 					}else {
 						playSong(chosenSong());
@@ -51,7 +51,7 @@ public class Music {
 	
 	//test if the current playing song should continue
 	public boolean currentSongIsValid() {
-		if(board.currFloor.getName().equals("Hostile Tunnels")) {
+		if(game.board.currFloor.getName().equals("Hostile Tunnels")) {
 			return tracks[1]==file;
 		}else {
 			return tracks[0]==file;
@@ -59,7 +59,7 @@ public class Music {
 	}
 	//choose the song to play at this moment
 	public File chosenSong() {
-		if(board.currFloor.getName().equals("Hostile Tunnels")) {
+		if(game.board.currFloor.getName().equals("Hostile Tunnels")) {
 			return tracks[1];
 		}else {
 			return tracks[0];
@@ -74,8 +74,8 @@ public class Music {
 			stream = AudioSystem.getAudioInputStream(f.getAbsoluteFile());
 			clip = AudioSystem.getClip();
 			clip.open(stream);
-			board.audio.setClipVolume(clip,Audio.VOLUME_NORM);
-			board.audio.playClip(clip);
+			game.audio.setClipVolume(clip,Audio.VOLUME_NORM);
+			game.audio.playClip(clip);
 
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block

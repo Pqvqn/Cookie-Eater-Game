@@ -18,7 +18,7 @@ public class UISettings extends UIElement{
 	private Eater player;
 	private ArrayList<MenuButton> updateList; //buttons which need to have state updated depending on which player hit settings
 	
-	public UISettings(Board frame, int x, int y) {
+	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
 		makeButtons();	
 	}

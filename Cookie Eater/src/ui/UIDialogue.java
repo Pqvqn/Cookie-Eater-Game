@@ -22,7 +22,7 @@ public class UIDialogue extends UIElement{
 	private Image spriteImg;
 	private double ratio;
 	
-	public UIDialogue(Board frame, Dialogue words, ArrayList<String> options, int[] expressions) {
+	public UIDialogue(Game frame, Dialogue words, ArrayList<String> options, int[] expressions) {
 		super(frame,0,0);
 		ratio = 10;
 		dialogue = words;

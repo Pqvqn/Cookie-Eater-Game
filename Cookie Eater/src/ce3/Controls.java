@@ -12,6 +12,7 @@ import menus.*;
 
 public class Controls implements KeyListener{
 
+	private Game game;
 	private Board board;
 	private Eater player;
 	//controls for each player added
@@ -30,8 +31,10 @@ public class Controls implements KeyListener{
 	private int awaitKey; //keybind for key awaiting reassignment
 	private MenuButton awaitingButton; //button that initiated key await
 	
-	public Controls(Board parent, Eater body, int c) {
-		board = parent;
+	public Controls(Game frame, Eater body, int c) {
+		game = frame;
+		game.addControls(this);
+		board = game.board;
 		player = body;
 		scheme = c;
 		awaitKey = -1;
@@ -52,13 +55,13 @@ public class Controls implements KeyListener{
 		
 		//settings menus and keys that must register even when game is paused
 		if(key == KeyEvent.VK_ESCAPE && isP1) {
-			board.ui_set.show(!board.ui_set.isVisible());
+			game.ui_set.show(!game.ui_set.isVisible());
 		}else if(key==controlSchemes[scheme][PAUSEKEY]) { 
-			board.ui_set.show(!board.ui_set.isVisible(),player);
+			game.ui_set.show(!game.ui_set.isVisible(),player);
 		}
 
 		//if isnt ready, don't allow input
-		if((board.isPaused() && !board.awaiting_start) || board.getAdjustedCycle()<=0 || board.getAdjustedCycle()>=10000)return; 
+		if((board.isPaused() && !board.awaiting_start) || game.getAdjustedCycle()<=0 || game.getAdjustedCycle()>=10000)return; 
 
 		
 		//test key against this player's controls
