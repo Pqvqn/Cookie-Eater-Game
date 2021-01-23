@@ -38,7 +38,7 @@ public class Eater extends Entity{
 	private UIShields shieldDisp;
 	private SpriteEater sprite;
 	private SegmentCircle part;
-	private Controls controls; //covers inputs
+	public Controls controls; //covers inputs
 	
 	public Eater(Game frame, int num, int cycletime) {
 		super(frame,cycletime);
@@ -156,12 +156,12 @@ public class Eater extends Entity{
 		state = DEAD;
 		special = false;
 		direction = CORPSE;
-		board.draw.repaint();
+		game.draw.runUpdate();
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
 		//if levels, reset
-		if(board.mode==Main.LEVELS) {
+		if(board.mode==Board.LEVELS) {
 			try {
 				Thread.sleep(200); //movement freeze
 			}catch(InterruptedException e){};
@@ -190,18 +190,18 @@ public class Eater extends Entity{
 		}
 		state = WIN;
 		special = false;
-		board.draw.repaint();
+		game.draw.runUpdate();
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
 		try { //movement freeze
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
-		if(board.mode == Main.LEVELS) {
+		if(board.mode == Board.LEVELS) {
 			board.nextLevel();
 			score = 0;
 			reset();
-		}else if(board.mode == Main.PVP) {
+		}else if(board.mode == Board.PVP) {
 			try { //movement freeze
 				Thread.sleep(200);
 			}catch(InterruptedException e){};
@@ -223,10 +223,10 @@ public class Eater extends Entity{
 		colorize();
 		x_velocity=0;
 		y_velocity=0;
-		if(board.mode == Main.LEVELS) {
+		if(board.mode == Board.LEVELS) {
 			x = board.currFloor.getStartX();
 			y = board.currFloor.getStartY();
-		}else if (board.mode==Main.PVP) {
+		}else if (board.mode==Board.PVP) {
 			x = board.currFloor.getStarts()[id][0];
 			y = board.currFloor.getStarts()[id][1];
 		}
@@ -290,7 +290,7 @@ public class Eater extends Entity{
 			//lock = true;
 		}
 		if(!dO)return; //if paused
-		if(board.mode == Main.PVP) {
+		if(board.mode == Board.PVP) {
 			boolean allDead = true;
 			for(Eater e : board.players) { //check if any players aren't dead or winning
 				if(!e.equals(this) && e.getState() != DEAD) {
@@ -303,7 +303,7 @@ public class Eater extends Entity{
 			}
 		}
 		
-		if(score>=scoreToWin&&board.mode==Main.LEVELS) //win if all cookies eaten
+		if(score>=scoreToWin&&board.mode==Board.LEVELS) //win if all cookies eaten
 			win();
 
 		orientParts();
@@ -337,9 +337,9 @@ public class Eater extends Entity{
 	}
 	
 	public void initUI() {
-		board.draw.addUI(itemDisp = new UIItemsAll(board,50,board.Y_RESOL-50,getSpecialColors()));
-		board.draw.addUI(scoreboard = new UIScoreCount(board,board.X_RESOL-170,board.Y_RESOL-100));
-		board.draw.addUI(shieldDisp = new UIShields(board,board.X_RESOL-50,90+60*id));
+		game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.Y_RESOL-50,getSpecialColors()));
+		game.draw.addUI(scoreboard = new UIScoreCount(game,board.X_RESOL-170,board.Y_RESOL-100));
+		game.draw.addUI(shieldDisp = new UIShields(game,board.X_RESOL-50,90+60*id));
 	}
 	public void updateUI() {
 		

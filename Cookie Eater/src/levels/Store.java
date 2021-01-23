@@ -20,7 +20,7 @@ public abstract class Store extends Level{
 	protected int[][] passerbySpaces; //spaces for passerbys
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
-	public Store(Board frame) {
+	public Store(Game frame) {
 		super(frame);
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
@@ -110,8 +110,8 @@ public abstract class Store extends Level{
 	
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
-		Item b = generateItem(board,i);
-		board.cookies.add(new CookieItem(board, x, y, b, p));
+		Item b = generateItem(game,i);
+		board.cookies.add(new CookieItem(game, x, y, b, p));
 	}
 	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
 		addToCatalogue(I,"Boost",P,def*1);

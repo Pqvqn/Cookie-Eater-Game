@@ -14,7 +14,7 @@ public class CookieItem extends CookieStore{
 	private Item myItem;
 	private SpriteStoreCookie sprite;
 	
-	public CookieItem(Board frame, int startx, int starty, Item i, double cost) {
+	public CookieItem(Game frame, int startx, int starty, Item i, double cost) {
 		super(frame,startx,starty);
 		myItem = i;
 		price = cost;

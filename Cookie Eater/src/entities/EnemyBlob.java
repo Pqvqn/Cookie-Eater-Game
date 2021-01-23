@@ -16,7 +16,7 @@ public class EnemyBlob extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyBlob(Board frame, int cycletime, double xp, double yp) {
+	public EnemyBlob(Game frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
 		averageStats();
 		mass = 30;

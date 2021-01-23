@@ -6,7 +6,7 @@ public class ItemReturn extends Item{
 	private double x,y;
 	private int amps;
 	
-	public ItemReturn(Board frame) {
+	public ItemReturn(Game frame) {
 		super(frame);
 		amps = 1;
 		name = "Return";
@@ -25,7 +25,7 @@ public class ItemReturn extends Item{
 	public void end(boolean interrupted) {
 		user.setX(x,true);
 		user.setY(y,true);
-		board.freeze(amps*100-100);
+		game.freeze(amps*100-100);
 	}
 	public void amplify() {
 		super.amplify();

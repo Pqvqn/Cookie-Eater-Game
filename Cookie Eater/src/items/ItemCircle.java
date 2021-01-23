@@ -9,7 +9,7 @@ public class ItemCircle extends Item{
 	private double radians;
 	private double initx,inity;
 	
-	public ItemCircle(Board frame) {
+	public ItemCircle(Game frame) {
 		super(frame);
 		count = 0;
 		radians = 0;
@@ -40,11 +40,11 @@ public class ItemCircle extends Item{
 	public void execute() {
 		if(checkCanceled())return;
 		if(count<=Math.PI*2) {
-			count+=.1*(board.getAdjustedCycle()/15.0);
-			radians+=.1*(board.getAdjustedCycle()/15.0);
+			count+=.1*(game.getAdjustedCycle()/15.0);
+			radians+=.1*(game.getAdjustedCycle()/15.0);
 		
 					
-			user.averageVels(radius*Math.cos(radians+.1*(board.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(board.getAdjustedCycle()/15.0))),true);
+			user.averageVels(radius*Math.cos(radians+.1*(game.getAdjustedCycle()/15.0))-radius*Math.cos(radians), -(radius*Math.sin(radians)-radius*Math.sin(radians-.1*(game.getAdjustedCycle()/15.0))),true);
 
 		}else {count=0;}	
 	}

@@ -6,7 +6,7 @@ public class ItemShrink extends Item{
 	private double radius_fraction;
 	private double start_radius;
 	
-	public ItemShrink(Board frame) {
+	public ItemShrink(Game frame) {
 		super(frame);
 		name = "Shrink";
 		desc="Decreases user's size.`Amplify: More shrinkage";

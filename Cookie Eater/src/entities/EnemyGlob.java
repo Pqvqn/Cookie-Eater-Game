@@ -21,7 +21,7 @@ public class EnemyGlob extends Enemy{
 	private final int NEUTRAL=0,HIT=1;
 
 	
-	public EnemyGlob(Board frame, int cycletime, double xp, double yp) {
+	public EnemyGlob(Game frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
 		averageStats();
 		mass = 90;

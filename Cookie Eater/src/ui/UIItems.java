@@ -23,10 +23,10 @@ public class UIItems extends UIElement{
 	public UIItems(Game frame, int x, int y, int index, Color c) {
 		super(frame,x,y);
 		itemDisplays = new ArrayList<UIText>();
-		parts.add(list_backing = new UIRectangle(board,xPos+50,yPos-SEPARATION,SIZE*5,SEPARATION+10,new Color(0,0,0,100),true));
-		parts.add(new UIRectangle(board,xPos-10,yPos+10-100,50,100,new Color(0,0,0,100),true)); //bar backing
-		parts.add(new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,255,255,10),true)); //bar unfill
-		parts.add(bar = new UIRectangle(board,xPos,yPos+20-100,30,80,new Color(0,0,0,100),true));
+		parts.add(list_backing = new UIRectangle(game,xPos+50,yPos-SEPARATION,SIZE*5,SEPARATION+10,new Color(0,0,0,100),true));
+		parts.add(new UIRectangle(game,xPos-10,yPos+10-100,50,100,new Color(0,0,0,100),true)); //bar backing
+		parts.add(new UIRectangle(game,xPos,yPos+20-100,30,80,new Color(0,255,255,10),true)); //bar unfill
+		parts.add(bar = new UIRectangle(game,xPos,yPos+20-100,30,80,new Color(0,0,0,100),true));
 		barHeight = bar.gethLen();
 		barY = bar.getyPos();
 		myIndex = index;
@@ -43,7 +43,7 @@ public class UIItems extends UIElement{
 				i--;
 			}
 			for(int i=0; i<list.size(); i++) {
-				UIText newOne = new UIText(board,xPos+60,yPos-i*SEPARATION,list.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
+				UIText newOne = new UIText(game,xPos+60,yPos-i*SEPARATION,list.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
 				itemDisplays.add(newOne);
 				parts.add(newOne);
 			}

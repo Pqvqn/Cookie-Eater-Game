@@ -6,7 +6,7 @@ public class ItemRecycle extends Item{
 	private double value;
 	private double initvalue;
 	
-	public ItemRecycle(Board frame) {
+	public ItemRecycle(Game frame) {
 		super(frame);
 		name = "Recycle";
 		desc="Spoiled cookies give some cash.`Amplify: Cash per spoiled cookie increases";

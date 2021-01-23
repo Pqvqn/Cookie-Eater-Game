@@ -5,7 +5,7 @@ public class ItemHold extends Item{
 	
 	private int times;
 	
-	public ItemHold(Board frame) {
+	public ItemHold(Game frame) {
 		super(frame);
 		name = "Hold";
 		desc="Holds user in place.`Amplify: Pulls down speed more";

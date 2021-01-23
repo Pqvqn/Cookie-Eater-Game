@@ -24,7 +24,7 @@ public class ExplorerMechanic extends Explorer{
 	 * Display: type = [Pups, Stats]
 	 */
 	
-	public ExplorerMechanic(Board frame, int cycletime) {
+	public ExplorerMechanic(Game frame, int cycletime) {
 		super(frame,cycletime);
 		radius = 40;
 		min_cat = 3;
@@ -49,7 +49,7 @@ public class ExplorerMechanic extends Explorer{
 			speak(convo);
 			speaking++;
 		}
-		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
+		if(speaking>0 && speaking++>1000/game.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
 			speak(null);
 			speaking = 0;
 		}
@@ -103,7 +103,7 @@ public class ExplorerMechanic extends Explorer{
 		//stash contains 3 random stat changing cookies each time
 		on_display = new ArrayList<CookieStore>();
 		for(int i=0; i<3; i++) {
-			to_sell.add(0,new CookieStat(board,0,0));
+			to_sell.add(0,new CookieStat(game,0,0));
 		}
 	}
 	

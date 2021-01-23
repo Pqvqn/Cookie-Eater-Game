@@ -6,6 +6,7 @@ import entities.Entity;
 
 public abstract class Item {
 
+	protected Game game;
 	protected Board board;
 	protected Entity user;
 	protected int amps;
@@ -15,8 +16,9 @@ public abstract class Item {
 	protected String desc;
 	protected boolean isplayer;
 	
-	public Item(Board frame) {
-		board = frame;
+	public Item(Game frame) {
+		game = frame;
+		board = game.board;
 		user = null;
 		amps=0;
 		cancel = false;

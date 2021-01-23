@@ -24,7 +24,7 @@ public class ExplorerMystery extends Explorer{
 	 * Gib: gibs
 	 */
 	
-	public ExplorerMystery(Board frame, int cycletime) {
+	public ExplorerMystery(Game frame, int cycletime) {
 		super(frame,cycletime);
 		radius = 40;
 		min_cat = 4;
@@ -45,9 +45,9 @@ public class ExplorerMystery extends Explorer{
 		for(int i=0; i<Math.random()*6-1 || to_sell.size()<min_cat; i++) {
 			double choose = Math.random()*10;
 			if(choose<=.5) {
-				addRandomly(new CookieShield(board,0,0,10));
+				addRandomly(new CookieShield(game,0,0,10));
 			}else {
-				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -60,7 +60,7 @@ public class ExplorerMystery extends Explorer{
 			speak(convo);
 			speaking++;
 		}
-		if(speaking>0 && speaking++>1000/board.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
+		if(speaking>0 && speaking++>1000/game.getAdjustedCycle() && Level.lineLength(board.player().getX(), board.player().getY(), x, y)>=150) {
 			speak(null);
 			speaking = 0;
 		}
@@ -85,9 +85,9 @@ public class ExplorerMystery extends Explorer{
 		for(int i=0; i<5; i++) {
 			double choose = Math.random()*10;
 			if(choose<=.5) {
-				addRandomly(new CookieShield(board,0,0,10));
+				addRandomly(new CookieShield(game,0,0,10));
 			}else {
-				addRandomly(new CookieItem(board,0,0,Level.generateItem(board,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -106,7 +106,7 @@ public class ExplorerMystery extends Explorer{
 			
 		case "Gib": //give reward (unimplemented)
 			for(int i=0; i<5; i++) {
-				addRandomly(new CookieShield(board,0,0,0));
+				addRandomly(new CookieShield(game,0,0,0));
 			}
 			sellWares(shop_spots);
 		default:

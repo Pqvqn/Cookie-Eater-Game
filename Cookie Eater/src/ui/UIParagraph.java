@@ -31,7 +31,7 @@ public class UIParagraph extends UIElement{
 	public void initiateLines() {
 		parts = new ArrayList<UIElement>();
 		for(int i=0; i<textLines.size(); i++)
-			parts.add(new UIText(board, xPos, yPos+separation*i, textLines.get(i), color, font));
+			parts.add(new UIText(game, xPos, yPos+separation*i, textLines.get(i), color, font));
 	}
 	
 	public ArrayList<String> getLines() {return textLines;}

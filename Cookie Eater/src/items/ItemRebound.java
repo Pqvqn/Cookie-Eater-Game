@@ -12,7 +12,7 @@ public class ItemRebound extends Item{
 	private int total;
 	private ArrayList<Item> items;
 	
-	public ItemRebound(Board frame) {
+	public ItemRebound(Game frame) {
 		super(frame);
 		consta = 2;
 		name = "Rebound";

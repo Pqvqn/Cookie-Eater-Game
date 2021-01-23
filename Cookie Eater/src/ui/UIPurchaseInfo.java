@@ -19,10 +19,10 @@ public class UIPurchaseInfo extends UIElement{
 		user = c;
 		xPos=user.getX();
 		yPos=user.getY()-50;
-		parts.add(backing = new UIRectangle(board,xPos-100,yPos-100,200,100,new Color(0,0,0,100),true));
-		parts.add(price = new UIText(board,xPos-80,yPos-20,"",new Color(120,120,120,150),new Font("Arial",Font.BOLD,25)));
-		parts.add(item = new UIText(board,xPos-80,yPos-50,"",new Color(255,255,255,150),new Font("Arial",Font.BOLD,30)));
-		parts.add(extended = new UIPurchaseDesc(board, c));
+		parts.add(backing = new UIRectangle(game,xPos-100,yPos-100,200,100,new Color(0,0,0,100),true));
+		parts.add(price = new UIText(game,xPos-80,yPos-20,"",new Color(120,120,120,150),new Font("Arial",Font.BOLD,25)));
+		parts.add(item = new UIText(game,xPos-80,yPos-50,"",new Color(255,255,255,150),new Font("Arial",Font.BOLD,30)));
+		parts.add(extended = new UIPurchaseDesc(game, c));
 		visible = true;
 	}
 	public void update(boolean show1, boolean show2, double cost, boolean afford, String name, String desc) {

@@ -6,7 +6,7 @@ public class ItemField extends Item{
 	private double added_radius;
 	private double start_radius;
 	
-	public ItemField(Board frame) {
+	public ItemField(Game frame) {
 		super(frame);
 		name = "Field";
 		desc="Larger collection area.`Amplify: Area increases";

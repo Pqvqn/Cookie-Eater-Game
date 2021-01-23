@@ -24,12 +24,13 @@ public class UISettings extends UIElement{
 	}
 	
 	public void makeButtons() {
+		Board board = game.board;
 		updateList = new ArrayList<MenuButton>();
 		menuHandler = new SubmenuHandler("MAIN");
 		OnClick oc;
 		
 		//toggles which menu is selected
-		sel = new MenuButton(board, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
+		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
 		oc = () -> {
 			//select menu from list based on button state
 			menuHandler.displayMenu(sel.getState());
@@ -43,7 +44,7 @@ public class UISettings extends UIElement{
 		for(int i=0; i<board.players.size(); i++) {
 			opts[i] = "P"+i;
 		}
-		MenuButton psel = new MenuButton(board, this, null, opts, false, 10,10,100,100);
+		MenuButton psel = new MenuButton(game, this, null, opts, false, 10,10,100,100);
 		oc = () -> {
 			Eater p = board.players.get(psel.currentState());
 			this.show(false);
@@ -53,16 +54,16 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("MAIN",psel);
 		
 		//volume control
-		MenuButton vol = new MenuButton(board, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);
+		MenuButton vol = new MenuButton(game, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);
 		oc = () -> {
 			//select volume from list based on button state
 			int[] vols = {0,10,20};
 			int a = vol.currentState()-1;
 			if(a>-1) {
-				board.audio.setMute(false);
-				board.audio.setVolumeReduction(vols[a]);
+				game.audio.setMute(false);
+				game.audio.setVolumeReduction(vols[a]);
 			}else {
-				board.audio.setMute(true);
+				game.audio.setMute(true);
 			}
 		};
 		vol.setClick(oc);
@@ -74,14 +75,14 @@ public class UISettings extends UIElement{
 		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520},{260,280}};
 		int playerid = (player==null)?0:player.getID();
 		for(int i=0; i<keyBinds.length; i++) {
-			MenuButton keyset = new MenuButton(board, this, null, 
-					new String[] {java.awt.event.KeyEvent.getKeyText(board.controls.get(playerid).getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
+			MenuButton keyset = new MenuButton(game, this, null, 
+					new String[] {java.awt.event.KeyEvent.getKeyText(player.controls.getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
 			final String keyname = keyNames[i];
 			final int keybind = keyBinds[i];
 			oc = () -> {
 				//ask board to await key press to reassign
 				keyset.setCurrStateValue(keyname+" =");
-				board.controls.get(this.getSelectedPlayer().getID()).awaitKeyBind(keyset,keybind);
+				this.getSelectedPlayer().controls.awaitKeyBind(keyset,keybind);
 			};
 			keyset.setClick(oc);
 			menuHandler.addButton("MAIN",keyset);
@@ -89,7 +90,7 @@ public class UISettings extends UIElement{
 		}
 		
 		//gives the player a shield
-		MenuButton givsh = new MenuButton(board, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
+		MenuButton givsh = new MenuButton(game, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {
 			player.addShields(1);
 		};
@@ -97,7 +98,7 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("DEBUG",givsh);
 		
 		//kills player to return to first floor
-		MenuButton reset = new MenuButton(board, this, null, new String[] {"end run"}, false, 120,325,200,100);
+		MenuButton reset = new MenuButton(game, this, null, new String[] {"end run"}, false, 120,325,200,100);
 		oc = () -> {
 			player.kill();
 		};
@@ -105,16 +106,16 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("DEBUG",reset);
 		
 		//kills player to return to first floor
-		MenuButton title = new MenuButton(board, this, null, new String[] {"title screen"}, false, 120,25,200,100);
+		MenuButton title = new MenuButton(game, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
 			player.kill();
-			board.ui_tis.show();
+			game.ui_tis.show();
 		};
 		title.setClick(oc);
 		menuHandler.addButton("DEBUG",title);
 		
 		//moves to next floor
-		MenuButton advance = new MenuButton(board, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
+		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
 			if(!board.inConvo())player.win();
 		};
@@ -122,7 +123,7 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("DEBUG",advance);
 		
 		//gives player 10 cookies
-		MenuButton givco = new MenuButton(board, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
+		MenuButton givco = new MenuButton(game, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
 		oc = () -> {
 			player.pay(10);
 		};
@@ -137,9 +138,9 @@ public class UISettings extends UIElement{
 			String pw = powerups[i];
 			int rows = 6, xs=400, ys=100, gap=50, wid=200, hei=100; //values for placement of buttons
 			
-			MenuButton givit = new MenuButton(board, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
+			MenuButton givit = new MenuButton(game, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
-				player.addItem(0,Level.generateItem(board,pw));
+				player.addItem(0,Level.generateItem(game,pw));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
@@ -151,7 +152,7 @@ public class UISettings extends UIElement{
 	public void updateButtons() {
 		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
 		for(int i=0; i<updateList.size(); i++) {
-			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(board.controls.get(player.getID()).getKeyBind(keyBinds[i])));
+			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(player.controls.getKeyBind(keyBinds[i])));
 		}
 	}
 	public Eater getSelectedPlayer() {return player;}
@@ -169,9 +170,9 @@ public class UISettings extends UIElement{
 		sel.resetState();
 		if(visible!=s) {
 			if(s) {
-				if(!board.draw.getUIList().contains(this))board.draw.addUI(this);
+				if(!game.draw.getUIList().contains(this))game.draw.addUI(this);
 			}else {
-				if(board.draw.getUIList().contains(this))board.draw.removeUI(this);
+				if(game.draw.getUIList().contains(this))game.draw.removeUI(this);
 				player = null;
 			}
 		}

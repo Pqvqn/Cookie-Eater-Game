@@ -8,27 +8,27 @@ public class ItemSlowmo extends Item{
 	private boolean initcc; //starting boolean for checking calibration
 	private double initact; //starting adjusted cycle time
 	
-	public ItemSlowmo(Board frame) {
+	public ItemSlowmo(Game frame) {
 		super(frame);
 		prop = .5;
 		name = "Slowmo";
 		desc="Slows down time.`Amplify: Slowing factor increases";
 	}
 	public void prepare() {
-		initTime=board.getCycle();
-		initcc=board.check_calibration;
-		initact=board.getAdjustedCycle();
+		initTime=game.getCycle();
+		initcc=game.check_calibration;
+		initact=game.getAdjustedCycle();
 	}
 	public void initialize() {
-		board.setCycle((int)(.5+initTime*(1/prop)));
-		board.check_calibration = false;
+		game.setCycle((int)(.5+initTime*(1/prop)));
+		game.check_calibration = false;
 	}
 	public void execute() {
 		if(checkCanceled())return;
 	}
 	public void end(boolean interrupted) {
-		board.setCycle(initTime);
-		board.check_calibration = initcc;
+		game.setCycle(initTime);
+		game.check_calibration = initcc;
 		board.setCalibrations(initact);
 	}
 	public void amplify() {

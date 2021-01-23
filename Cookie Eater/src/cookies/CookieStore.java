@@ -15,20 +15,20 @@ public abstract class CookieStore extends Cookie{
 	protected String desc;
 	protected Entity vendor;
 	
-	public CookieStore(Board frame, int startx, int starty) {
+	public CookieStore(Game frame, int startx, int starty) {
 		super(frame,startx,starty);
 		decayTime = Integer.MAX_VALUE;
 		region = 200;
 		price = 0;
 		name = "";
 		desc = "";
-		info = new UIPurchaseInfo(board,this);
+		info = new UIPurchaseInfo(game,this);
 		if(board.cookies!=null && board.cookies.contains(this))
-			board.draw.addUI(info);
+			game.draw.addUI(info);
 	}
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
-		board.draw.removeUI(info);
+		game.draw.removeUI(info);
 		board.cookies.remove(board.cookies.indexOf(this));
 	}
 	//purchase cookie, return if purchase is successful or not
@@ -53,7 +53,7 @@ public abstract class CookieStore extends Cookie{
 		super.runUpdate();
 		if(board.cookies.contains(this)) {
 			Eater player = board.player();
-			if(!board.draw.getUIList().contains(info))board.draw.addUI(info);
+			if(!game.draw.getUIList().contains(info))game.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
 					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel(true)==0 && player.getYVel(true)==0
 					&& board.nearestCookie(player.getX(),player.getY()).equals(this),

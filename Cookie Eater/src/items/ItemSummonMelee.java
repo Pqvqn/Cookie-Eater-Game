@@ -7,10 +7,10 @@ import entities.*;
 
 public class ItemSummonMelee extends Item{
 	
-	private Summon2 summon;
+	private Summon summon;
 	private int hitpoints;
 	
-	public ItemSummonMelee(Board frame) {
+	public ItemSummonMelee(Game frame) {
 		super(frame);
 		hitpoints = 0;
 		name = "Melee";
@@ -18,7 +18,7 @@ public class ItemSummonMelee extends Item{
 	}
 	public void prepare() {
 		//user's items given to summon
-		user.addSummon(summon = new Summon2(board,user,board.getCycle(),true,hitpoints));
+		user.addSummon(summon = new Summon(game,user,game.getCycle(),true,hitpoints));
 		summon.eatItems();
 		summon.activateSpecials();
 		summon.special(user.getCurrentSpecial());

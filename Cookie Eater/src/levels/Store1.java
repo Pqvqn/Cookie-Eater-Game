@@ -6,7 +6,7 @@ import mechanisms.*;
 
 public class Store1 extends Store{
 	
-	public Store1(Board frame) {
+	public Store1(Game frame) {
 		super(frame);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
@@ -21,10 +21,10 @@ public class Store1 extends Store{
 	public void placeCookies(){
 	
 		//stats
-		board.cookies.add(new CookieStat(board,board.X_RESOL/2+200,board.Y_RESOL/2));
-		board.cookies.add(new CookieStat(board,board.X_RESOL/2-200,board.Y_RESOL/2));
-		board.cookies.add(new CookieStat(board,board.X_RESOL/2,board.Y_RESOL/2+200));
-		board.cookies.add(new CookieStat(board,board.X_RESOL/2,board.Y_RESOL/2-200));
+		board.cookies.add(new CookieStat(game,board.X_RESOL/2+200,board.Y_RESOL/2));
+		board.cookies.add(new CookieStat(game,board.X_RESOL/2-200,board.Y_RESOL/2));
+		board.cookies.add(new CookieStat(game,board.X_RESOL/2,board.Y_RESOL/2+200));
+		board.cookies.add(new CookieStat(game,board.X_RESOL/2,board.Y_RESOL/2-200));
 		
 		
 		board.player().setScoreToWin(2);

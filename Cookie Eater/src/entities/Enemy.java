@@ -16,9 +16,8 @@ public abstract class Enemy extends Entity{
 	protected double targetx, targety;
 	protected int shieldBounces; //number of bounces before this shield expires
 	
-	public Enemy(Board frame, int cycletime, double xp, double yp) {
+	public Enemy(Game frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime);
-		board = frame;
 		ded=false;
 		x = xp;
 		y = yp;

@@ -9,7 +9,7 @@ import cookies.*;
 import items.*;
 import levels.*;
 
-public class Summon2 extends Entity{
+public class Summon extends Entity{
 	
 	private Entity user;
 	private boolean anchor; //whether item is anchored to the summoner
@@ -17,7 +17,7 @@ public class Summon2 extends Entity{
 	private Segment body;
 	private double spawn; //multiplied by radius to produce distance from user that summon spawns
 	
-	public Summon2(Board frame, Entity summoner, int cycletime, boolean anchored, int shields) {
+	public Summon(Game frame, Entity summoner, int cycletime, boolean anchored, int shields) {
 		super(frame,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;

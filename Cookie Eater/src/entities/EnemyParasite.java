@@ -15,7 +15,7 @@ public class EnemyParasite extends Enemy{
 	private double[] stickPoint; //offset from entity to attach to
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyParasite(Board frame, int cycletime, double xp, double yp) {
+	public EnemyParasite(Game frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
 		averageStats();
 		mass = 30;

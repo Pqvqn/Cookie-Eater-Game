@@ -14,8 +14,8 @@ public class UIDialogueResponse extends UIElement{
 	public UIDialogueResponse(Game frame, String words, int x, int y) {
 		super(frame,x,y);
 		width = Math.max(words.length()*17,200);
-		parts.add(new UIText(board,xPos+5,yPos+30,words,new Color(255,255,255,150),new Font("Arial",Font.BOLD,30))); //text
-		parts.add(backing = new UIRectangle(board,xPos,yPos,width,40,new Color(0,0,0,50),true));
+		parts.add(new UIText(game,xPos+5,yPos+30,words,new Color(255,255,255,150),new Font("Arial",Font.BOLD,30))); //text
+		parts.add(backing = new UIRectangle(game,xPos,yPos,width,40,new Color(0,0,0,50),true));
 		selected = false;
 	}
 	

@@ -4,7 +4,7 @@ import ce3.*;
 
 public class Store3 extends Store{
 	
-	public Store3(Board frame) {
+	public Store3(Game frame) {
 		super(frame);
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";

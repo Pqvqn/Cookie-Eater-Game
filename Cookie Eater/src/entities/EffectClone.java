@@ -13,7 +13,7 @@ public class EffectClone extends Effect{
 	private boolean flipx, flipy, flipa; //whether should: reflect x pos, reflect y pos, swap x/y values
 	private boolean posLock; //whether to update position of this clone
 	
-	public EffectClone(Board frame, int cycletime, Entity initiator, boolean fx, boolean fy, boolean fa) {
+	public EffectClone(Game frame, int cycletime, Entity initiator, boolean fx, boolean fy, boolean fa) {
 		super(frame,cycletime,(int)(.5+initiator.getX()),(int)(.5+initiator.getY()),initiator);
 		mass = initiator.getMass();
 		startx = (int)(.5+initiator.getX(true));

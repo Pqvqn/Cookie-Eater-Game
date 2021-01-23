@@ -40,15 +40,15 @@ public class UIButton extends UIElement{
 			}
 		}
 		
-		parts.add(text = new UIText(board,xPos+5,yPos+30,   (texts[0]!=null)?texts[0]:"",
+		parts.add(text = new UIText(game,xPos+5,yPos+30,   (texts[0]!=null)?texts[0]:"",
 				new Color(255,255,255,150),new Font("Arial",Font.BOLD,30))); //text
 		//ratio to rescale image
 		double rat = (images[0]!=null)?Math.min(rect.getWidth()/images[0].getWidth(null),rect.getHeight()/images[0].getHeight(null)):1;
-		parts.add(img = new UIImage(board,xPos+(int)(.5+rect.getWidth()/2-rat*(images[0]!=null?images[0].getWidth(null)/2:0)),
+		parts.add(img = new UIImage(game,xPos+(int)(.5+rect.getWidth()/2-rat*(images[0]!=null?images[0].getWidth(null)/2:0)),
 				yPos+(int)(.5+rect.getHeight()/2-rat*(images[0]!=null?images[0].getHeight(null)/2:0)),   
 				rat, (images[0]!=null)?images[0]:null));
 				
-		parts.add(backing = new UIRectangle(board,(int)rect.getX(),(int)rect.getY(),(int)rect.getWidth(),(int)rect.getHeight(),new Color(0,0,0,50),true));
+		parts.add(backing = new UIRectangle(game,(int)rect.getX(),(int)rect.getY(),(int)rect.getWidth(),(int)rect.getHeight(),new Color(0,0,0,50),true));
 		highlighted = false;
 	}
 	

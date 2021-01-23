@@ -15,6 +15,7 @@ public abstract class Level{
 	
 	protected double scale; //zoom in/out of level
 	protected Level next; //level to move to once completed
+	protected Game game;
 	protected Board board;
 	protected double startx; //player start pos.
 	protected double starty;
@@ -30,14 +31,15 @@ public abstract class Level{
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
-	public Level(Board frame) {
+	public Level(Game frame) {
 		this(frame,null);
 	}
 	
-	public Level(Board frame, Level nextFloor) {
+	public Level(Game frame, Level nextFloor) {
 		next = nextFloor;
 		scale = 1;
-		board = frame;
+		game = frame;
+		board = game.board;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		double distToWall = board.BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
@@ -93,7 +95,7 @@ public abstract class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					board.cookies.add(new Cookie(board,pX,pY));
+					board.cookies.add(new Cookie(game,pX,pY));
 					cooks++;
 				}
 			}
@@ -184,89 +186,89 @@ public abstract class Level{
 	public double[][] getStarts(){return startposs;}
 	
 	//creates an item from its name
-	public static Item generateItem(Board board, String i) {
+	public static Item generateItem(Game game, String i) {
 			Item b;
 			switch(i) {
 			case "Boost":
-				b = new ItemBoost(board);
+				b = new ItemBoost(game);
 				break;
 			/*case "Bounce":
-				b = new ItemBounce(board);
+				b = new ItemBounce(game);
 				break;*/
 			case "Circle":
-				b = new ItemCircle(board);
+				b = new ItemCircle(game);
 				break;
 			case "Chain":
-				b = new ItemCookieChain(board);
+				b = new ItemCookieChain(game);
 				break;
 			case "Field":
-				b = new ItemField(board);
+				b = new ItemField(game);
 				break;
 			case "Hold":
-				b = new ItemHold(board);
+				b = new ItemHold(game);
 				break;
 			case "Recycle":
-				b = new ItemRecycle(board);
+				b = new ItemRecycle(game);
 				break;
 			case "Shield":
-				b = new ItemShield(board);
+				b = new ItemShield(game);
 				break;
 			case "Slowmo":
-				b = new ItemSlowmo(board);
+				b = new ItemSlowmo(game);
 				break;
 			case "Ghost":
-				b = new ItemGhost(board);
+				b = new ItemGhost(game);
 				break;
 			case "Return":
-				b = new ItemReturn(board);
+				b = new ItemReturn(game);
 				break;
 			case "Teleport":
-				b = new ItemTeleport(board);
+				b = new ItemTeleport(game);
 				break;
 			/*case "Jab":
-				b = new ItemJab(board);
+				b = new ItemJab(game);
 				break;*/
 			case "Repeat":
-				b = new ItemRepeat(board);
+				b = new ItemRepeat(game);
 				break;
 			/*case "Projectile":
-				b = new ItemProjectile(board);
+				b = new ItemProjectile(game);
 				break;*/
 			case "Rebound":
-				b = new ItemRebound(board);
+				b = new ItemRebound(game);
 				break;
 			case "Clone":
-				b = new ItemClone(board);
+				b = new ItemClone(game);
 				break;
 			case "Ricochet":
-				b = new ItemRicochet(board);
+				b = new ItemRicochet(game);
 				break;
 			/*case "Slash":
-				b = new ItemSlash(board);
+				b = new ItemSlash(game);
 				break;
 			case "Wall":
-				b = new ItemWall(board);
+				b = new ItemWall(game);
 				break;*/
 			case "Shrink":
-				b = new ItemShrink(board);
+				b = new ItemShrink(game);
 				break;
 			/*case "Hook":
-				b = new ItemHook(board);
+				b = new ItemHook(game);
 				break;*/
 			case "Autopilot":
-				b = new ItemAutopilot(board);
+				b = new ItemAutopilot(game);
 				break;
 			case "Flow":
-				b = new ItemFlow(board);
+				b = new ItemFlow(game);
 				break;
 			case "Recharge":
-				b = new ItemRecharge(board);
+				b = new ItemRecharge(game);
 				break;
 			case "Melee":
-				b = new ItemSummonMelee(board);
+				b = new ItemSummonMelee(game);
 				break;
 			case "Projectile":
-				b = new ItemSummonProjectile(board);
+				b = new ItemSummonProjectile(game);
 				break;
 			default:
 				b = null;

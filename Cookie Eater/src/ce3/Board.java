@@ -37,15 +37,15 @@ public class Board{
 	public ArrayList<Menu> menus;
 
 	public final Level[][] FLOOR_SEQUENCE = {
-			{new Store1(this),new Floor1(this),
-			new Store2(this),new Floor2(this),new Floor2(this),
-			new Store3(this),new Floor3(this),new Floor3(this),new Floor3(this), 
-			new Store4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor4(this),new Floor5(this)},
+			{new Store1(game),new Floor1(game),
+			new Store2(game),new Floor2(game),new Floor2(game),
+			new Store3(game),new Floor3(game),new Floor3(game),new Floor3(game), 
+			new Store4(game),new Floor4(game),new Floor4(game),new Floor4(game),new Floor4(game),new Floor5(game)},
 			
-			{new Store2(this),new FloorRound(this),
-			new Store3(this),new Floor4(this),new FloorRound(this),
-			new Store4(this),new FloorRound(this),new FloorRound(this),new FloorRound(this), 
-			new Store1(this),new FloorRound(this),new FloorRound(this),new FloorRound(this),new FloorRound(this),new FloorRound(this)}
+			{new Store2(game),new FloorRound(game),
+			new Store3(game),new Floor4(game),new FloorRound(game),
+			new Store4(game),new FloorRound(game),new FloorRound(game),new FloorRound(game), 
+			new Store1(game),new FloorRound(game),new FloorRound(game),new FloorRound(game),new FloorRound(game),new FloorRound(game)}
 	}; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
 	public int currDungeon;
@@ -274,7 +274,7 @@ public class Board{
 					FLOOR_SEQUENCE[num][i].setNext(FLOOR_SEQUENCE[num][i+1]);
 			}
 		}else if(mode==PVP) {
-			floors.add(new Floor1(this));
+			floors.add(new Floor1(game));
 		}
 		resetNpcs();
 		//create floor 1
@@ -328,11 +328,11 @@ public class Board{
 	
 	//creates all the non-player characters and puts them in their starting levels
 	public void createNpcs(int cycle) {
-		npcs.add(new ExplorerMechanic(this,cycletime));
-		npcs.add(new ExplorerShopkeep(this,cycletime));
-		npcs.add(new ExplorerVendor(this,cycletime));
-		npcs.add(new ExplorerSidekick(this,cycletime));
-		npcs.add(new ExplorerMystery(this,cycletime));
+		npcs.add(new ExplorerMechanic(game,cycletime));
+		npcs.add(new ExplorerShopkeep(game,cycletime));
+		npcs.add(new ExplorerVendor(game,cycletime));
+		npcs.add(new ExplorerSidekick(game,cycletime));
+		npcs.add(new ExplorerMystery(game,cycletime));
 	}
 	//resets npcs for new dungeon
 	public void resetNpcs() {

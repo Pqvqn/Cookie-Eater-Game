@@ -10,7 +10,7 @@ public class ItemClone extends Item{
 	private ArrayList<EffectClone> clones;
 	private final boolean[][] states = {{false,false},{true,true},{true,false},{false,true}};
 	
-	public ItemClone(Board frame) {
+	public ItemClone(Game frame) {
 		super(frame);
 		clones = new ArrayList<EffectClone>();
 		num = 1;
@@ -22,7 +22,7 @@ public class ItemClone extends Item{
 	public void initialize() {
 		for(int i=1; i<=num; i++) {
 			EffectClone clone;
-			clones.add(clone = new EffectClone(board,board.getCycle(),user,states[i%4][0],states[i%4][1],(i-1)%7>=3));
+			clones.add(clone = new EffectClone(game,game.getCycle(),user,states[i%4][0],states[i%4][1],(i-1)%7>=3));
 			board.effects.add(clone);
 		}
 	}

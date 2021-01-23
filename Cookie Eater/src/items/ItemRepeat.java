@@ -11,7 +11,7 @@ public class ItemRepeat extends Item{
 	private int wait;
 	private ArrayList<Item> items;
 	
-	public ItemRepeat(Board frame) {
+	public ItemRepeat(Game frame) {
 		super(frame);
 		ratio = 2;
 		name = "Repeat";

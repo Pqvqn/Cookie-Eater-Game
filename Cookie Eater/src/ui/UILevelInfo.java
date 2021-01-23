@@ -10,7 +10,7 @@ public class UILevelInfo extends UIElement{
 	
 	public UILevelInfo(Game frame, int x, int y) {
 		super(frame,x,y);
-		parts.add(name = new UIText(board,x,y,"",new Color(255,255,255,200),new Font("Arial",Font.BOLD,30)));
+		parts.add(name = new UIText(game,x,y,"",new Color(255,255,255,200),new Font("Arial",Font.BOLD,30)));
 	}
 	public void update(String s) {
 		name.setText(s);

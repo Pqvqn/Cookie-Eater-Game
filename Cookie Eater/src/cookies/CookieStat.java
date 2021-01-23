@@ -17,7 +17,7 @@ public class CookieStat extends CookieStore{
 	private final double increment = .05; //stat increment
 	private SpriteStoreCookie sprite;
 	
-	public CookieStat(Board frame, int startx, int starty) {
+	public CookieStat(Game frame, int startx, int starty) {
 		super(frame,startx,starty);
 		mr = board.player().getMovementRand();
 		accelChange = 0;

@@ -6,7 +6,7 @@ public class ItemRecharge extends Item{
 	private double cash;
 	private double chargeamount; //cookie value needed to recharge first time
 	
-	public ItemRecharge(Board frame) {
+	public ItemRecharge(Game frame) {
 		super(frame);
 		chargeamount = 5;
 		name = "Recharge";

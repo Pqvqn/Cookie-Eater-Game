@@ -21,8 +21,8 @@ public class UIPurchaseDesc extends UIElement{
 		yPos=user.getY()+60;
 		separation = 20;
 		passageWidth = 25;
-		parts.add(backing = new UIRectangle(board,xPos-100,yPos-100,200,100,new Color(0,0,0,150),true)); //backing
-		parts.add(text = new UIParagraph(board,xPos-90,yPos-75,null,new Color(255,255,255,255),new Font("Arial",Font.ITALIC,15),separation,passageWidth));
+		parts.add(backing = new UIRectangle(game,xPos-100,yPos-100,200,100,new Color(0,0,0,150),true)); //backing
+		parts.add(text = new UIParagraph(game,xPos-90,yPos-75,null,new Color(255,255,255,255),new Font("Arial",Font.ITALIC,15),separation,passageWidth));
 		visible = true;
 	}
 	public void update(boolean show, String desc) {

@@ -13,15 +13,14 @@ public class FloorBiggy extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public FloorBiggy(Board frame) {
+	public FloorBiggy(Game frame) {
 		this(frame,null);
 	}
-	public FloorBiggy(Board frame, Level nextFloor) {
+	public FloorBiggy(Game frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Big Boi";
 		next = nextFloor;
 		scale = .3;
-		board = frame;
 		minDecay = 3600;
 		maxDecay = 18000;
 		//shieldCost = 250;

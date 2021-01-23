@@ -22,7 +22,7 @@ public class EnemySlob extends Enemy{
 	private final int NEUTRAL=0,HIT=1;
 
 	
-	public EnemySlob(Board frame, int cycletime, double xp, double yp) {
+	public EnemySlob(Game frame, int cycletime, double xp, double yp) {
 		super(frame,cycletime,xp,yp);
 		averageStats();
 		mass = 60;

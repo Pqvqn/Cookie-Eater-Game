@@ -15,6 +15,7 @@ public class Cookie {
 	protected int x,y;
 	public static final int DEFAULT_RADIUS=30;
 	protected int radius;
+	protected Game game;
 	protected Board board;
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
@@ -24,8 +25,9 @@ public class Cookie {
 	private SpriteCookie sprite;
 	private double value;
 	
-	public Cookie(Board frame, int startx, int starty) {
-		board = frame;
+	public Cookie(Game frame, int startx, int starty) {
+		game = frame;
+		board = game.board;
 		
 		x=startx;
 		y=starty;
@@ -84,7 +86,7 @@ public class Cookie {
 	//delete self and increase score
 	public void kill(Entity consumer, double decayValue) {
 		if(consumer!=null) {
-			board.audio.playSound("chomp",-10f);
+			game.audio.playSound("chomp",-10f);
 			if(decayed) { //less value for decayed cookies
 				if(decayValue>=0) {
 					value = decayValue;
@@ -101,9 +103,9 @@ public class Cookie {
 				Eater player = board.player();
 				player.addScore(1);
 			}
-			if(consumer instanceof Summon2) {
-				if(((Summon2)consumer).getUser()!=null) {
-					kill(((Summon2)consumer).getUser(),consumer.getDecayedValue());
+			if(consumer instanceof Summon) {
+				if(((Summon)consumer).getUser()!=null) {
+					kill(((Summon)consumer).getUser(),consumer.getDecayedValue());
 					return;
 				}
 			}

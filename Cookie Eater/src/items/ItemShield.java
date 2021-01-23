@@ -7,7 +7,7 @@ public class ItemShield extends Item{
 	private double initmaxrecoil;
 	private double mult;
 	
-	public ItemShield(Board frame) {
+	public ItemShield(Game frame) {
 		super(frame);
 		name = "Shield";
 		desc="Shields the user.`Amplify: Recoil increases";

@@ -15,16 +15,15 @@ public class Floor3 extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public Floor3(Board frame) {
+	public Floor3(Game frame) {
 		this(frame,null);
 	}
-	public Floor3(Board frame, Level nextFloor) {
+	public Floor3(Game frame, Level nextFloor) {
 		super(frame, nextFloor);
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";
 		next = nextFloor;
 		scale = .9;
-		board = frame;
 		minDecay = 90;
 		maxDecay = 3000;
 		nodes = new ArrayList<int[]>();
@@ -47,6 +46,7 @@ public class Floor3 extends Level{
 	}
 
 	public void spawnEnemies() { 
+		int cycle = game.getCycle();
 		ArrayList<String> possible = new ArrayList<String>();
 		possible.add("Field");
 		possible.add("Boost");
@@ -54,12 +54,12 @@ public class Floor3 extends Level{
 		possible.add("Teleport");
 		for(int i=0;i<Math.random()*3;i++) {
 			Enemy e;
-			spawnAtRandom(e = new EnemyBlob(board,board.getCycle(),0,0));
-			if(Math.random()>.5)e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
+			spawnAtRandom(e = new EnemyBlob(game,cycle,0,0));
+			if(Math.random()>.5)e.giveCookie(new CookieItem(game,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		
 		for(int i=0;i<1;i++) {
-			spawnAtRandom(new EnemyGlob(board,board.getCycle(),0,0));
+			spawnAtRandom(new EnemyGlob(game,cycle,0,0));
 		}
 		
 	}

@@ -8,7 +8,7 @@ import ui.*;
 
 public class MenuButton implements MouseListener, MouseMotionListener{
 
-	private Board board;
+	private Game game;
 	private OnClick onClick;
 	private Rectangle bounding;
 	private UIButton ui;
@@ -18,8 +18,8 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	private int currState;
 	private UIElement uiManager;
 	
-	public MenuButton(Board frame, UIElement manager, OnClick oc, String[] statelist, boolean img, int x, int y, int w, int h) {
-		board = frame;
+	public MenuButton(Game frame, UIElement manager, OnClick oc, String[] statelist, boolean img, int x, int y, int w, int h) {
+		game = frame;
 		onClick = oc;
 		bounding = new Rectangle(x,y,w,h);
 		states = statelist;
@@ -27,7 +27,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 		visible = false;
 		usesImage = img;
 		uiManager = manager;
-		ui = new UIButton(board,this);
+		ui = new UIButton(game,this);
 
 	}
 	
@@ -37,12 +37,12 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 		if(s!=visible) {
 			if(s) {
 				uiManager.addElement(ui);
-				board.addMouseListener(this);
-				board.addMouseMotionListener(this);
+				game.addMouseListener(this);
+				game.addMouseMotionListener(this);
 			}else {
 				uiManager.removeElement(ui);
-				board.removeMouseListener(this);
-				board.removeMouseMotionListener(this);
+				game.removeMouseListener(this);
+				game.removeMouseMotionListener(this);
 			}
 		}
 		visible = s;
@@ -58,7 +58,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(bounding.contains(board.draw.convertPoint(e.getLocationOnScreen()))) {
+		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen()))) {
 			currState++;
 			if(currState >= states.length)currState = 0;
 			ui.trigger(currState);
@@ -97,7 +97,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(bounding.contains(board.draw.convertPoint(e.getLocationOnScreen()))) {
+		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen()))) {
 			ui.highlight(true);
 		}else {
 			if(ui.isHighlighted()) {

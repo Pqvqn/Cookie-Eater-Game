@@ -3,8 +3,8 @@ package ui;
 import java.awt.*;
 import java.util.*;
 
-import ce3.Board;
-import items.Item;
+import ce3.*;
+import items.*;
 
 public class UIItemsAll extends UIElement{
 

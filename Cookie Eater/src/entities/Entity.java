@@ -15,6 +15,7 @@ public abstract class Entity {
 
 	//parent class of moving, colliding objects on the stage
 	
+	protected Game game;
 	protected Board board; //main board
 	protected double scale; //zoom in/out of screen
 	protected double x, y; //position
@@ -25,7 +26,7 @@ public abstract class Entity {
 	protected boolean lock; //can entity control its movement
 	protected boolean ghost; //if the entity is in ghost mode
 	protected double extra_radius; //area outside of the model, interacts with everything other than walls
-	protected ArrayList<Summon2> summons; //constructed objects owned by entity
+	protected ArrayList<Summon> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
 	protected double calibration_ratio; //framerate ratio
 	
@@ -71,11 +72,12 @@ public abstract class Entity {
 	protected double[] relativeVel = {0,0}; //velocity of the frame relative to the board
 	protected boolean averageVelOverride; //whether the averageVels should be disregarded this cycle
 	
-	public Entity(Board frame, int cycletime) {
+	public Entity(Game frame, int cycletime) {
 		calibration_ratio = cycletime/15.0;
-		board = frame;
+		game = frame;
+		board = game.board;
 		scale = 1;
-		summons = new ArrayList<Summon2>();
+		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
 		cash_stash = new ArrayList<Cookie>();
 		shield_stash = new ArrayList<CookieShield>();
@@ -221,7 +223,7 @@ public abstract class Entity {
 			for(Entity e : board.effects)entities.add(e);
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
-				for(Summon2 s : e.getSummons())entities.add(s);
+				for(Summon s : e.getSummons())entities.add(s);
 				if(allowedToCollide(this,e)) {
 					if(collidesWithBounds(true,true,e) && collidesWithArea(true,true,e)) {
 						double bmass = mass;
@@ -368,8 +370,8 @@ public abstract class Entity {
 		if(!e1.canCollideWith(e2) || !e2.canCollideWith(e1))return false; //if either entity specifically cannot collide
 		if(e1.equals(e2))return false; //if entity is colliding with itself
 		if((e1.getGhosted() && !e1.getShielded()) || (e2.getGhosted() && !e2.getShielded()))return false; //if either entity is ghosted but not shielded
-		if(e1 instanceof Summon2 && ((Summon2)e1).getUser().equals(e2) && ((Summon2)e1).getAnchored())return false; //if one entity is the other's summon
-		if(e2 instanceof Summon2 && ((Summon2)e2).getUser().equals(e1) && ((Summon2)e2).getAnchored())return false;
+		if(e1 instanceof Summon && ((Summon)e1).getUser().equals(e2) && ((Summon)e1).getAnchored())return false; //if one entity is the other's summon
+		if(e2 instanceof Summon && ((Summon)e2).getUser().equals(e1) && ((Summon)e2).getAnchored())return false;
 		if(e1 instanceof Effect && e2 instanceof Effect)return false; //if both entities are effects
 		if(e1 instanceof Effect && !((Effect)e1).doesCollision())return false; //if either entity is an effect that can't collide
 		if(e2 instanceof Effect && !((Effect)e2).doesCollision())return false;
@@ -521,9 +523,9 @@ public abstract class Entity {
 	public double getRadius() {return radius*scale;}
 	public double getTotalRadius() {return (radius+extra_radius)*scale;}
 	
-	public void addSummon(Summon2 s) {summons.add(s);}
-	public void removeSummon(Summon2 s) {summons.remove(s);}
-	public ArrayList<Summon2> getSummons() {return summons;}
+	public void addSummon(Summon s) {summons.add(s);}
+	public void removeSummon(Summon s) {summons.remove(s);}
+	public ArrayList<Summon> getSummons() {return summons;}
 	
 	public void addBump(Object b) {bumped.add(b);}
 	
@@ -560,7 +562,7 @@ public abstract class Entity {
 		double maxImpact = board.player().termvel*board.player().mass/2;
 		if(impact > maxImpact)impact = maxImpact;
 		float impactVal = (float)(impact/maxImpact) * (Audio.VOLUME_RANGE) + Audio.VOLUME_LOW;
-		board.audio.playSound("bonk2",impactVal);
+		game.audio.playSound("bonk2",impactVal);
 		
 		if(special) { //bounce any items
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
@@ -569,7 +571,7 @@ public abstract class Entity {
 		}
 	}
 	public void setCalibration(double calrat) { //recalibrate everything that used cycle to better match current fps
-		if(!board.check_calibration || calrat==calibration_ratio || board.getAdjustedCycle()/(double)board.getCycle()>2 || board.getAdjustedCycle()/(double)board.getCycle()<.5)return;
+		if(!game.check_calibration || calrat==calibration_ratio || game.getAdjustedCycle()/(double)game.getCycle()>2 || game.getAdjustedCycle()/(double)game.getCycle()<.5)return;
 		
 		calibration_ratio = calrat/15.0;
 		
@@ -672,7 +674,7 @@ public abstract class Entity {
 	}
 	public void addShields(int num) {
 		for(int i=0; i<num; i++) {
-			CookieShield s = new CookieShield(board,0,0,0);
+			CookieShield s = new CookieShield(game,0,0,0);
 			shield_stash.add(s);
 		}
 	}
@@ -698,10 +700,10 @@ public abstract class Entity {
 	}
 	public void addCookies(double num) {
 		for(int i=0; i<num%1; i++) {
-			cash_stash.add(new Cookie(board,0,0));
+			cash_stash.add(new Cookie(game,0,0));
 		}
 		if(num>0) {
-			Cookie c = new Cookie(board,0,0);
+			Cookie c = new Cookie(game,0,0);
 			c.setValue(num);
 			cash_stash.add(c);
 			
