@@ -4,7 +4,6 @@ import java.util.*;
 
 import ce3.*;
 import entities.*;
-import items.*;
 import levels.*;
 import menus.*;
 import menus.MenuButton.*;
@@ -73,7 +72,7 @@ public class UISettings extends UIElement{
 		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
 		String[] keyNames = {"up","down","left","right","esc"};
 		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520},{260,280}};
-		int playerid = (player==null)?0:player.getID();
+		//int playerid = (player==null)?0:player.getID();
 		for(int i=0; i<keyBinds.length; i++) {
 			MenuButton keyset = new MenuButton(game, this, null, 
 					new String[] {java.awt.event.KeyEvent.getKeyText(getSelectedPlayer().controls.getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
@@ -92,7 +91,7 @@ public class UISettings extends UIElement{
 		//gives the player a shield
 		MenuButton givsh = new MenuButton(game, this, null, new String[] {"give 1 shield"}, false, 120,475,200,100);
 		oc = () -> {
-			player.addShields(1);
+			getSelectedPlayer().addShields(1);
 		};
 		givsh.setClick(oc);
 		menuHandler.addButton("DEBUG",givsh);
@@ -100,7 +99,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton reset = new MenuButton(game, this, null, new String[] {"end run"}, false, 120,325,200,100);
 		oc = () -> {
-			player.kill();
+			board.killPlayers();
 		};
 		reset.setClick(oc);
 		menuHandler.addButton("DEBUG",reset);
@@ -108,7 +107,7 @@ public class UISettings extends UIElement{
 		//kills player to return to first floor
 		MenuButton title = new MenuButton(game, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
-			player.kill();
+			board.killPlayers();
 			game.ui_tis.show();
 		};
 		title.setClick(oc);
@@ -117,7 +116,7 @@ public class UISettings extends UIElement{
 		//moves to next floor
 		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
-			if(!board.inConvo())player.win();
+			if(!board.inConvo())getSelectedPlayer().win();
 		};
 		advance.setClick(oc);
 		menuHandler.addButton("DEBUG",advance);
@@ -125,7 +124,7 @@ public class UISettings extends UIElement{
 		//gives player 10 cookies
 		MenuButton givco = new MenuButton(game, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
 		oc = () -> {
-			player.pay(10);
+			getSelectedPlayer().pay(10);
 		};
 		givco.setClick(oc);
 		menuHandler.addButton("DEBUG",givco);
@@ -140,7 +139,7 @@ public class UISettings extends UIElement{
 			
 			MenuButton givit = new MenuButton(game, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
-				player.addItem(0,Level.generateItem(game,pw));
+				getSelectedPlayer().addItem(0,Level.generateItem(game,pw));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
@@ -152,7 +151,7 @@ public class UISettings extends UIElement{
 	public void updateButtons() {
 		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
 		for(int i=0; i<updateList.size(); i++) {
-			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(player.controls.getKeyBind(keyBinds[i])));
+			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(getSelectedPlayer().controls.getKeyBind(keyBinds[i])));
 		}
 	}
 	public Eater getSelectedPlayer() {return (player==null)?game.board.players.get(0):player;}

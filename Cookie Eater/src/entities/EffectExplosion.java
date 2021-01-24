@@ -3,10 +3,6 @@ package entities;
 import java.awt.*;
 
 import ce3.*;
-import cookies.Cookie;
-import cookies.CookieItem;
-import cookies.CookieShield;
-import cookies.CookieStat;
 
 public class EffectExplosion extends Effect{
 

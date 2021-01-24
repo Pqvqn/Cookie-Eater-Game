@@ -2,10 +2,8 @@ package levels;
 
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import ce3.*;
-import cookies.CookieItem;
 import entities.*;
 import mechanisms.*;
 
@@ -77,19 +75,19 @@ public class Floor2 extends Level{
 		//ArrayList<String> possible = new ArrayList<String>();
 		//possible.add("Field");
 		for(int i=0;i<Math.random()*3-1;i++) {
-			Enemy e;
-			spawnAtRandom(e = new EnemyBlob(game,board,cycle,0,0));
+			//Enemy e;
+			spawnAtRandom(new EnemyBlob(game,board,cycle,0,0));
 			//e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		for(int i=0;i<Math.random()*2-1;i++) {
-			Enemy e;
-			spawnAtRandom(e = new EnemyBloc(game,board,cycle,0,0));
+			//Enemy e;
+			spawnAtRandom(new EnemyBloc(game,board,cycle,0,0));
 			//e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		
 		for(int i=0;i<Math.random()*3-1;i++) {
-			Enemy e;
-			spawnAtRandom(e = new EnemyParasite(game,board,cycle,0,0));}
+			//Enemy e;
+			spawnAtRandom(new EnemyParasite(game,board,cycle,0,0));}
 		
 		/*for(int i=0;i<1;i++) {
 			Enemy e;

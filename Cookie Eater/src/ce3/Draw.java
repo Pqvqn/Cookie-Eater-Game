@@ -7,7 +7,6 @@ import java.util.*;
 
 import javax.swing.*;
 
-import cookies.*;
 import entities.*;
 import ui.*;
 import sprites.*;

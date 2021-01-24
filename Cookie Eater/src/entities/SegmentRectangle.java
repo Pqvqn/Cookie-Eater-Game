@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import ce3.*;
-import levels.*;
-import items.*;
 
 public class SegmentRectangle extends Segment{
 

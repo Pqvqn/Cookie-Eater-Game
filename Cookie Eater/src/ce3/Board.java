@@ -1,10 +1,5 @@
 package ce3;
 
-//import java.awt.*;
-//import java.awt.event.*;
-
-import javax.swing.*;
-
 import cookies.*;
 import entities.*;
 import levels.*;
@@ -13,7 +8,6 @@ import ui.*;
 import menus.*;
 import menus.Menu;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 
@@ -192,6 +186,10 @@ public class Board{
 		if((game.ui_set!=null && game.ui_set.isVisible()) || (game.ui_set!=null && game.ui_tis.isVisible()))return true;
 		return false;
 	}
+	//tests if waiting for players should be allowed to input to start match
+	public boolean awaitingStart() {
+		return awaiting_start && !game.ui_set.isVisible();
+	}
 	
 	
 	
@@ -344,7 +342,12 @@ public class Board{
 			npcs.get(i).createStash();
 		}
 	}
-	
+	//kills all players
+	public void killPlayers() {
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).kill();
+		}
+	}
 	//returns nearest cookie to a given point on the board
 	public Cookie nearestCookie(double x, double y) {
 		double bestDist = Integer.MAX_VALUE;

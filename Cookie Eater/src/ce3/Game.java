@@ -85,6 +85,7 @@ public class Game extends JFrame {
 		}else {
 			updateUI();
 			draw.runUpdate(); //update all game objects
+			board.runUpdate();
 		}
 		try {
 			Thread.sleep(time); //time between updates

@@ -6,7 +6,6 @@ import java.util.*;
 import ce3.*;
 import entities.*;
 import menus.*;
-import sprites.*;
 
 public class UIDialogue extends UIElement{
 

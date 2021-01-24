@@ -7,7 +7,7 @@ import javax.sound.sampled.*;
 
 public class Audio {
 	
-	private Game game;
+	//private Game game;
 	public static final float VOLUME_LOW = -20.0f,VOLUME_HIGH = 6.0f,VOLUME_NORM = 0f,VOLUME_RANGE=VOLUME_HIGH-VOLUME_LOW;
 	public float volumeReduction; //negative offset of max volume, all volumes are adjusted relative to original range
 	public HashMap<String,File> loaded; //already loaded sound files to be accessed by string name
@@ -15,7 +15,7 @@ public class Audio {
 	public boolean mute; //whether audio should play at all
 	
 	public Audio(Game frame) {
-		game = frame;
+		//game = frame;
 		mute = true;
 		loaded = new HashMap<String,File>();
 		volumeReduction = 0;

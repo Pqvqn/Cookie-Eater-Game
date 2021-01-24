@@ -5,7 +5,6 @@ import java.awt.geom.*;
 
 import ce3.*;
 import sprites.*;
-import items.*;
 
 public abstract class Segment {
 

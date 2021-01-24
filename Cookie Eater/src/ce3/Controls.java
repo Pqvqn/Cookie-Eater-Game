@@ -4,7 +4,6 @@ package ce3;
 import java.awt.event.*;
 
 import entities.*;
-import items.*;
 import menus.*;
 
 //import javax.swing.*;
@@ -61,8 +60,7 @@ public class Controls implements KeyListener{
 		}
 
 		//if isnt ready, don't allow input
-		if((board.isPaused() && !board.awaiting_start) || game.getAdjustedCycle()<=0 || game.getAdjustedCycle()>=10000)return; 
-
+		if((board.isPaused() && !board.awaitingStart()) || game.getAdjustedCycle()<=0 || game.getAdjustedCycle()>=10000)return; 
 		
 		//test key against this player's controls
 		if(key==controlSchemes[scheme][UPKEY]) { 

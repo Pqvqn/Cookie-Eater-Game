@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.*;
-import java.util.*;
 
 import ce3.*;
 import menus.*;
@@ -9,15 +8,15 @@ import menus.MenuButton.*;
 
 public class UITitleScreen extends UIElement{
 
-	private UIRectangle backing;
-	private UIText title;
+	//private UIRectangle backing;
+	//private UIText title;
 	private boolean visible;
 	private SubmenuHandler menuHandler;
 	
 	public UITitleScreen(Game frame, int x, int y) {
 		super(frame, x, y);
-		parts.add(backing = new UIRectangle(game,0,0,game.board.X_RESOL,game.board.Y_RESOL,Color.GRAY,true));
-		parts.add(title = new UIText(game,200,350,"Cookie Eater 3",Color.WHITE,new Font("Arial",Font.BOLD,160)));
+		parts.add(new UIRectangle(game,0,0,game.board.X_RESOL,game.board.Y_RESOL,Color.GRAY,true)); //backing
+		parts.add(new UIText(game,200,350,"Cookie Eater 3",Color.WHITE,new Font("Arial",Font.BOLD,160))); //title
 		makeButtons();
 	}
 	
@@ -36,11 +35,20 @@ public class UITitleScreen extends UIElement{
 
 		MenuButton dungeon = new MenuButton(game, this, null, new String[] {"Dungeon: Vaults","Dungeon: Inners"}, false, 800,700,400,200);
 		oc = () -> {
-			//start game
+			//switch selected dungeon generation
 			board.loadDungeon(dungeon.currentState());
 		};
 		dungeon.setClick(oc);
 		menuHandler.addButton("MAIN",dungeon);
+		
+		MenuButton mode = new MenuButton(game, this, null, new String[] {"Mode: Levels","Mode: PvP"}, false, 300,700,400,200);
+		oc = () -> {
+			//switch selected game mode
+			int[] modes = {Board.LEVELS,Board.PVP};
+	        game.loadDungeon(modes[mode.currentState()],0);
+		};
+		mode.setClick(oc);
+		menuHandler.addButton("MAIN",mode);
 	}
 	
 	//display title screen and lock board

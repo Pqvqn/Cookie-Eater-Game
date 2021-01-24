@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
-import cookies.*;
 
 public class EffectClone extends Effect{
 
