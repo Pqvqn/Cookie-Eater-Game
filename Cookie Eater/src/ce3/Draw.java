@@ -30,7 +30,6 @@ public class Draw extends JPanel{
 		setBackground(Color.BLACK);
 		ui = new ArrayList<UIElement>();
 		lastMilliCount = System.currentTimeMillis();
-		setBoard(game.board);
 	}
 	
 	public void setBoard(Board b) {

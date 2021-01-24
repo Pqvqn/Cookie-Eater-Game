@@ -18,7 +18,7 @@ public class ItemSummonProjectile extends Item{
 	}
 	public void prepare() {
 		//user's items given to summon
-		user.addSummon(summon = new Summon(game,user,game.getCycle(),false,hitpoints));
+		user.addSummon(summon = new Summon(game,board,user,game.getCycle(),false,hitpoints));
 		summon.eatItems();
 		summon.activateSpecials();
 		summon.special(user.getCurrentSpecial());

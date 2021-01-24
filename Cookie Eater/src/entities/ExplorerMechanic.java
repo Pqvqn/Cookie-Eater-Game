@@ -24,8 +24,8 @@ public class ExplorerMechanic extends Explorer{
 	 * Display: type = [Pups, Stats]
 	 */
 	
-	public ExplorerMechanic(Game frame, int cycletime) {
-		super(frame,cycletime);
+	public ExplorerMechanic(Game frame, Board gameboard, int cycletime) {
+		super(frame,gameboard,cycletime);
 		radius = 40;
 		min_cat = 3;
 		max_cat = 3;
@@ -103,7 +103,7 @@ public class ExplorerMechanic extends Explorer{
 		//stash contains 3 random stat changing cookies each time
 		on_display = new ArrayList<CookieStore>();
 		for(int i=0; i<3; i++) {
-			to_sell.add(0,new CookieStat(game,0,0));
+			to_sell.add(0,new CookieStat(game,board,0,0));
 		}
 	}
 	

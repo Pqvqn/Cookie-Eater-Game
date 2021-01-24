@@ -15,15 +15,15 @@ public abstract class CookieStore extends Cookie{
 	protected String desc;
 	protected Entity vendor;
 	
-	public CookieStore(Game frame, int startx, int starty) {
-		super(frame,startx,starty);
+	public CookieStore(Game frame, Board gameboard, int startx, int starty) {
+		super(frame,gameboard,startx,starty);
 		decayTime = Integer.MAX_VALUE;
 		region = 200;
 		price = 0;
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(game,this);
-		if(board.cookies!=null && board.cookies.contains(this))
+		if(board==null || board.cookies!=null && board.cookies.contains(this))
 			game.draw.addUI(info);
 	}
 	//attempt to kill cookie - consumed if being eaten

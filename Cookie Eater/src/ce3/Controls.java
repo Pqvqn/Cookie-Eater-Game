@@ -31,10 +31,10 @@ public class Controls implements KeyListener{
 	private int awaitKey; //keybind for key awaiting reassignment
 	private MenuButton awaitingButton; //button that initiated key await
 	
-	public Controls(Game frame, Eater body, int c) {
+	public Controls(Game frame, Board gameboard, Eater body, int c) {
 		game = frame;
 		game.addControls(this);
-		board = game.board;
+		board = gameboard;
 		player = body;
 		scheme = c;
 		awaitKey = -1;

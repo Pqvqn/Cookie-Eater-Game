@@ -36,8 +36,8 @@ public class Explorer extends Entity{
 	protected Conversation convo;
 	protected Cookie target;
 	
-	public Explorer(Game frame, int cycletime) {
-		super(frame,cycletime);
+	public Explorer(Game frame, Board gameboard, int cycletime) {
+		super(frame,gameboard,cycletime);
 		to_sell = new ArrayList<CookieStore>();
 		on_display = new ArrayList<CookieStore>();
 		pickups = new ArrayList<CookieItem>();

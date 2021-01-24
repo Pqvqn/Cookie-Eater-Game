@@ -13,6 +13,7 @@ import mechanisms.*;
 
 public abstract class Level{
 	
+	public final int BORDER_THICKNESS = 20;
 	protected double scale; //zoom in/out of level
 	protected Level next; //level to move to once completed
 	protected Game game;
@@ -31,18 +32,18 @@ public abstract class Level{
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
-	public Level(Game frame) {
-		this(frame,null);
+	public Level(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
 	
-	public Level(Game frame, Level nextFloor) {
+	public Level(Game frame, Board gameboard, Level nextFloor) {
 		next = nextFloor;
 		scale = 1;
 		game = frame;
-		board = game.board;
+		board = gameboard;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
-		double distToWall = board.BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
+		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.X_RESOL-distToWall,board.Y_RESOL-distToWall},{distToWall,distToWall},{distToWall,board.Y_RESOL-distToWall},{board.X_RESOL-distToWall,distToWall}};
 		startposs = sp;
 	}
@@ -55,10 +56,10 @@ public abstract class Level{
 	public void build() {
 		startx = board.players.get(0).getX(); //start floor where last floor ended
 		starty = board.players.get(0).getY();
-		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
-		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,0,board.X_RESOL,BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,board.Y_RESOL-BORDER_THICKNESS,board.X_RESOL,BORDER_THICKNESS));
+		board.walls.add(new Wall(game,board,board.X_RESOL-BORDER_THICKNESS,0,BORDER_THICKNESS,board.Y_RESOL));
 		
 	}
 	//adds a level mechanism to the board
@@ -74,15 +75,15 @@ public abstract class Level{
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
 		//vars for first/last cookie in line
-		int xOrig = board.BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1, yOrig = board.BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1;
+		int xOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1, yOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1;
 		int tY = 0, tX = 0;
 		//adjust cookie grid to be centered
-		for(tY = yOrig; tY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; tY+=separation);
-		for(tX = xOrig; tX<board.X_RESOL-board.BORDER_THICKNESS-clearance; tX+=separation);
+		for(tY = yOrig; tY<board.Y_RESOL-BORDER_THICKNESS-clearance; tY+=separation);
+		for(tX = xOrig; tX<board.X_RESOL-BORDER_THICKNESS-clearance; tX+=separation);
 		xOrig+=(board.X_RESOL-tX-xOrig)/2;
 		yOrig+=(board.Y_RESOL-tY-yOrig)/2;
-		for(int pY = yOrig; pY<board.Y_RESOL-board.BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
-			for(int pX = xOrig; pX<board.X_RESOL-board.BORDER_THICKNESS-clearance; pX+=separation) {
+		for(int pY = yOrig; pY<board.Y_RESOL-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
+			for(int pX = xOrig; pX<board.X_RESOL-BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
 				/*for(Wall w : board.walls) { //only place if not too close to any walls
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA(),w.getOX(),w.getOY())) 
@@ -95,7 +96,7 @@ public abstract class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					board.cookies.add(new Cookie(game,pX,pY));
+					board.cookies.add(new Cookie(game,board,pX,pY));
 					cooks++;
 				}
 			}
@@ -695,8 +696,8 @@ public abstract class Level{
 	//places walls that don't touch paths or nodes
 	public void genWalls(int sep, int min, int max) {
 		//for(int i=0; i<num; i++) { //make num of walls
-		for(int i=board.BORDER_THICKNESS; i<board.Y_RESOL; i+=sep) {
-			for(int j=board.BORDER_THICKNESS; j<board.X_RESOL; j+=sep) {
+		for(int i=BORDER_THICKNESS; i<board.Y_RESOL; i+=sep) {
+			for(int j=BORDER_THICKNESS; j<board.X_RESOL; j+=sep) {
 				//int cX = (int)(Math.random()*board.X_RESOL), cY = (int)(Math.random()*board.Y_RESOL); //choose wall center
 				int x=j,y=i,w=1,h=1;
 				double a = Math.random()*Math.PI*2;
@@ -767,7 +768,7 @@ public abstract class Level{
 					}
 					h--;
 					if(h>=min && w>=min) //remove small walls
-						board.walls.add(new Wall(board,x,y,w,h,a,i,j));
+						board.walls.add(new Wall(game,board,x,y,w,h,a,i,j));
 				}
 			}
 		}
@@ -827,7 +828,7 @@ public abstract class Level{
 					}
 					r--;
 					if(r>=min) //remove small walls
-						board.walls.add(new Wall(board,j,i,r));
+						board.walls.add(new Wall(game,board,j,i,r));
 				}
 			}
 		}

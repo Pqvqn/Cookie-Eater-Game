@@ -101,7 +101,6 @@ public class Game extends JFrame {
 		}
 		controls = new ArrayList<Controls>();
 		board = new Board(this,mode,dungeon,cycletime);
-		draw.setBoard(board);
 	}	
 	
 	public void updateUI() {

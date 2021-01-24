@@ -17,8 +17,8 @@ public class Summon extends Entity{
 	private Segment body;
 	private double spawn; //multiplied by radius to produce distance from user that summon spawns
 	
-	public Summon(Game frame, Entity summoner, int cycletime, boolean anchored, int shields) {
-		super(frame,cycletime);
+	public Summon(Game frame, Board gameboard, Entity summoner, int cycletime, boolean anchored, int shields) {
+		super(frame,gameboard,cycletime);
 		user = summoner;
 		radius = user.getRadius()/3;
 		mass = 70;

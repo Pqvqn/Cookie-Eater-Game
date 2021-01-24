@@ -23,8 +23,8 @@ public class ExplorerVendor extends Explorer{
 	 * Take: Take $
 	 */
 	
-	public ExplorerVendor(Game frame, int cycletime) {
-		super(frame,cycletime);
+	public ExplorerVendor(Game frame, Board gameboard, int cycletime) {
+		super(frame,gameboard,cycletime);
 		radius = 40;
 		min_cat = 2;
 		max_cat = 3;
@@ -44,9 +44,9 @@ public class ExplorerVendor extends Explorer{
 		for(int i=0; i<Math.random()*4-1 || to_sell.size()<min_cat; i++) {
 			double choose = Math.random()*10;
 			if(choose<=1) {
-				addRandomly(new CookieShield(game,0,0,10));
+				addRandomly(new CookieShield(game,board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -84,9 +84,9 @@ public class ExplorerVendor extends Explorer{
 		for(int i=0; i<4; i++) {
 			double choose = Math.random()*10;
 			if(choose<=1) {
-				addRandomly(new CookieShield(game,0,0,10));
+				addRandomly(new CookieShield(game,board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}

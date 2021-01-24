@@ -15,11 +15,11 @@ public class Floor3 extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public Floor3(Game frame) {
-		this(frame,null);
+	public Floor3(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
-	public Floor3(Game frame, Level nextFloor) {
-		super(frame, nextFloor);
+	public Floor3(Game frame, Board gameboard, Level nextFloor) {
+		super(frame,gameboard, nextFloor);
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";
 		next = nextFloor;
@@ -54,12 +54,12 @@ public class Floor3 extends Level{
 		possible.add("Teleport");
 		for(int i=0;i<Math.random()*3;i++) {
 			Enemy e;
-			spawnAtRandom(e = new EnemyBlob(game,cycle,0,0));
-			if(Math.random()>.5)e.giveCookie(new CookieItem(game,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
+			spawnAtRandom(e = new EnemyBlob(game,board,cycle,0,0));
+			if(Math.random()>.5)e.giveCookie(new CookieItem(game,board,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		
 		for(int i=0;i<1;i++) {
-			spawnAtRandom(new EnemyGlob(game,cycle,0,0));
+			spawnAtRandom(new EnemyGlob(game,board,cycle,0,0));
 		}
 		
 	}

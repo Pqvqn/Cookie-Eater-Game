@@ -7,12 +7,14 @@ import ce3.*;
 
 public class Mechanism {
 
+	Game game;
 	Board board;
 	double x,y;
 	double mass;
 	
-	public Mechanism(Board frame, int xPos, int yPos) {
-		frame = board;
+	public Mechanism(Game frame, Board gameboard, int xPos, int yPos) {
+		game = frame;
+		board = gameboard;
 		x = xPos;
 		y = yPos;
 		mass = 100;

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import ce3.Board;
+import ce3.Game;
 import levels.Level;
 
 public class Wall extends Mechanism{
@@ -15,8 +16,8 @@ public class Wall extends Mechanism{
 	int shape;
 	static final int CIRCLE = 0, RECTANGLE = 1;
 	
-	public Wall(Board frame, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
-		super(frame, xPos, yPos);
+	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
+		super(frame, gameboard, xPos, yPos);
 		shape = RECTANGLE;
 		w = width;
 		h = height;
@@ -25,8 +26,8 @@ public class Wall extends Mechanism{
 		oy=originY;
 	}
 	
-	public Wall(Board frame, int xPos, int yPos, int width, int height, double angle) {
-		super(frame, xPos, yPos);
+	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle) {
+		super(frame, gameboard, xPos, yPos);
 		shape = RECTANGLE; 
 		w = width;
 		h = height;
@@ -35,8 +36,8 @@ public class Wall extends Mechanism{
 		oy=y+h/2;
 	}
 	
-	public Wall(Board frame, int xPos, int yPos, int width, int height) {
-		super(frame, xPos, yPos);
+	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height) {
+		super(frame, gameboard, xPos, yPos);
 		shape = RECTANGLE;
 		w = width;
 		h = height;
@@ -45,8 +46,8 @@ public class Wall extends Mechanism{
 		oy=y+h/2;
 	}
 	
-	public Wall(Board frame, int xPos, int yPos, int radius) {
-		super(frame, xPos, yPos);
+	public Wall(Game frame, Board gameboard, int xPos, int yPos, int radius) {
+		super(frame, gameboard, xPos, yPos);
 		shape = CIRCLE;
 		r = radius;
 		a = 0;

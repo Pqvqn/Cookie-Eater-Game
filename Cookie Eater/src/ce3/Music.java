@@ -30,7 +30,7 @@ public class Music {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(game.board.currFloor!=null) {
+				if(game.board!=null && game.board.currFloor!=null) {
 					//if no clip is playing or the current song doesn't fit, play new
 			        if((clip!=null && clip.isRunning() && currentSongIsValid()) || game.audio.mute) {
 			        	if(game.audio.mute && clip!=null && clip.isRunning()) {

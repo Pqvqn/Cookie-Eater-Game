@@ -12,8 +12,8 @@ public class CookieShield extends CookieStore{
 	
 	private SpriteStoreCookie sprite;
 	
-	public CookieShield(Game frame, int startx, int starty, double cost) {
-		super(frame,startx,starty);
+	public CookieShield(Game frame, Board gameboard, int startx, int starty, double cost) {
+		super(frame,gameboard,startx,starty);
 		price = cost;
 		name = "+1 Shield";
 		try {

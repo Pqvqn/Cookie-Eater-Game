@@ -14,8 +14,8 @@ public class EffectExplosion extends Effect{
 	private double inc; //amount to increase radius by per tick
 	private double maxRad;
 	
-	public EffectExplosion(Game frame, int cycletime, int xp, int yp, double rad, int time, Entity initiator) {
-		super(frame,cycletime,xp,yp,initiator);
+	public EffectExplosion(Game frame, Board gameboard, int cycletime, int xp, int yp, double rad, int time, Entity initiator) {
+		super(frame,gameboard,cycletime,xp,yp,initiator);
 		inc = (double)cycletime/time * rad;
 		maxRad = rad;
 		mass = 100;

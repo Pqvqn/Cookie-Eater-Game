@@ -40,8 +40,8 @@ public class Eater extends Entity{
 	private SegmentCircle part;
 	public Controls controls; //covers inputs
 	
-	public Eater(Game frame, int num, int cycletime) {
-		super(frame,cycletime);
+	public Eater(Game frame, Board gameboard, int num, int cycletime) {
+		super(frame,gameboard,cycletime);
 		id = num;
 		name = "Player "+id;
 		dO= true;
@@ -53,7 +53,7 @@ public class Eater extends Entity{
 		y_velocity = 0;
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
-		controls = new Controls(game, this, id);
+		controls = new Controls(game, board, this, id);
 		
 		averageStats();
 		

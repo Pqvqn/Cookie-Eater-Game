@@ -16,8 +16,8 @@ public class EnemyCrawler extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyCrawler(Game frame, int cycletime, double xp, double yp) {
-		super(frame,cycletime,xp,yp);
+	public EnemyCrawler(Game frame, Board gameboard, int cycletime, double xp, double yp) {
+		super(frame,gameboard,cycletime,xp,yp);
 		averageStats();
 		mass = 30;
 		setShields(3);

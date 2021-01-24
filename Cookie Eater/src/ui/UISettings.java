@@ -76,7 +76,7 @@ public class UISettings extends UIElement{
 		int playerid = (player==null)?0:player.getID();
 		for(int i=0; i<keyBinds.length; i++) {
 			MenuButton keyset = new MenuButton(game, this, null, 
-					new String[] {java.awt.event.KeyEvent.getKeyText(player.controls.getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
+					new String[] {java.awt.event.KeyEvent.getKeyText(getSelectedPlayer().controls.getKeyBind(keyBinds[i]))}, false, keyPos[i][0],keyPos[i][1],100,100);
 			final String keyname = keyNames[i];
 			final int keybind = keyBinds[i];
 			oc = () -> {
@@ -155,7 +155,7 @@ public class UISettings extends UIElement{
 			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(player.controls.getKeyBind(keyBinds[i])));
 		}
 	}
-	public Eater getSelectedPlayer() {return player;}
+	public Eater getSelectedPlayer() {return (player==null)?game.board.players.get(0):player;}
 	//show from perspective of a specific player
 	public void show(boolean s, Eater p) {
 		if(player==null || player.equals(p)) { //don't let players override other player's settings menu

@@ -29,8 +29,8 @@ public class ExplorerSidekick extends Explorer{
 	 * CheckAfford: AskPrice
 	 */
 	
-	public ExplorerSidekick(Game frame, int cycletime) {
-		super(frame,cycletime);
+	public ExplorerSidekick(Game frame, Board gameboard, int cycletime) {
+		super(frame,gameboard,cycletime);
 		radius = 40;
 		min_cat = 3;
 		max_cat = 8;
@@ -217,7 +217,7 @@ public class ExplorerSidekick extends Explorer{
 	
 	public void createStash() {
 		super.createStash();
-		giveCookie(new CookieItem(game,0,0,Level.generateItem(game,"Ghost"),0));
+		giveCookie(new CookieItem(game,board,0,0,Level.generateItem(game,"Ghost"),0));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));

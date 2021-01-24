@@ -17,11 +17,11 @@ public class FloorRound extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public FloorRound(Game frame) {
-		this(frame,null);
+	public FloorRound(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
-	public FloorRound(Game frame, Level nextFloor) {
-		super(frame, nextFloor);
+	public FloorRound(Game frame, Board gameboard, Level nextFloor) {
+		super(frame,gameboard, nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 		next = nextFloor;
@@ -48,7 +48,7 @@ public class FloorRound extends Level{
 		int y = (int)(.5+Math.random()*board.Y_RESOL);
 		path.setCheckpoint(0,x,y,WallPath.TIME,100,0,0,0);
 		path.setCheckpoint(1,x,y,WallPath.TIME,100,200,0,0);
-		board.mechanisms.add(new MovingWall(board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path));
+		board.mechanisms.add(new MovingWall(game,board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path));
 		
 		
 		
@@ -68,17 +68,17 @@ public class FloorRound extends Level{
 		int cycle = game.getCycle();
 		for(int i=0;i<Math.random()*3;i++) {
 			Enemy e;
-			spawnAtRandom(e = new EnemyBlob(game,cycle,0,0));
-			if(Math.random()>.5)e.giveCookie(new CookieItem(game,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
+			spawnAtRandom(e = new EnemyBlob(game,board,cycle,0,0));
+			if(Math.random()>.5)e.giveCookie(new CookieItem(game,board,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		for(int i=0;i<Math.random()*2;i++) {
-			spawnAtRandom(new EnemyParasite(game,cycle,0,0));
+			spawnAtRandom(new EnemyParasite(game,board,cycle,0,0));
 		}
 		for(int i=0;i<1;i++) {
-			spawnAtRandom(new EnemyBlob(game,cycle,0,0));
+			spawnAtRandom(new EnemyBlob(game,board,cycle,0,0));
 		}
 		for(int i=0;i<1;i++) {
-			spawnAtRandom(new EnemyGlob(game,cycle,0,0));
+			spawnAtRandom(new EnemyGlob(game,board,cycle,0,0));
 		}
 		
 	}

@@ -14,11 +14,11 @@ public class Floor5 extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public Floor5(Game frame) {
-		this(frame,null);
+	public Floor5(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
-	public Floor5(Game frame, Level nextFloor) {
-		super(frame, nextFloor);
+	public Floor5(Game frame, Board gameboard, Level nextFloor) {
+		super(frame,gameboard, nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 		next = nextFloor;
@@ -43,11 +43,11 @@ public class Floor5 extends Level{
 		super.placeCookies(15,(int)(100*scale));
 	}
 	public void spawnEnemies() { 
-		for(int i=0;i<Math.random()*5+1;i++)spawnAtRandom(new EnemyBlob(game,game.getCycle(),0,0));
-		for(int i=0;i<Math.random()*2;i++)spawnAtRandom(new EnemySlob(game,game.getCycle(),0,0));
-		for(int i=0;i<Math.random()*2;i++)spawnAtRandom(new EnemyGlob(game,game.getCycle(),0,0));
-		for(int i=0;i<1;i++)spawnAtRandom(new EnemySpawner(game,game.getCycle(),0,0));
-		for(int i=0;i<Math.random()*2+1;i++)spawnAtRandom(new EnemyCrawler(game,game.getCycle(),0,0));
+		for(int i=0;i<Math.random()*5+1;i++)spawnAtRandom(new EnemyBlob(game,board,game.getCycle(),0,0));
+		for(int i=0;i<Math.random()*2;i++)spawnAtRandom(new EnemySlob(game,board,game.getCycle(),0,0));
+		for(int i=0;i<Math.random()*2;i++)spawnAtRandom(new EnemyGlob(game,board,game.getCycle(),0,0));
+		for(int i=0;i<1;i++)spawnAtRandom(new EnemySpawner(game,board,game.getCycle(),0,0));
+		for(int i=0;i<Math.random()*2+1;i++)spawnAtRandom(new EnemyCrawler(game,board,game.getCycle(),0,0));
 	}
 		
 }

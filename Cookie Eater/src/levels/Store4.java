@@ -4,8 +4,8 @@ import ce3.*;
 
 public class Store4 extends Store{
 	
-	public Store4(Game frame) {
-		super(frame);
+	public Store4(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		name = "Frozen Chambers";
 		nameAbbrev = "ice";
 		scale = .85;

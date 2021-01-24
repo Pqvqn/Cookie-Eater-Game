@@ -20,8 +20,8 @@ public abstract class Store extends Level{
 	protected int[][] passerbySpaces; //spaces for passerbys
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
-	public Store(Game frame) {
-		super(frame);
+	public Store(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
 		startx = board.X_RESOL/2;
@@ -77,30 +77,30 @@ public abstract class Store extends Level{
 	
 	
 	public void build() {
-		board.walls.add(new Wall(board,0,0,board.X_RESOL,board.BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(board,0,0,board.BORDER_THICKNESS,board.Y_RESOL));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-board.BORDER_THICKNESS,board.X_RESOL,board.BORDER_THICKNESS));
-		board.walls.add(new Wall(board,board.X_RESOL-board.BORDER_THICKNESS,0,board.BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,0,board.X_RESOL,BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,board.Y_RESOL-BORDER_THICKNESS,board.X_RESOL,BORDER_THICKNESS));
+		board.walls.add(new Wall(game,board,board.X_RESOL-BORDER_THICKNESS,0,BORDER_THICKNESS,board.Y_RESOL));
 		
-		board.walls.add(new Wall(board,0,0,625,150));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-150,625,150));
-		board.walls.add(new Wall(board,board.X_RESOL-625,0,625,150));
-		board.walls.add(new Wall(board,board.X_RESOL-625,board.Y_RESOL-150,625,150));
+		board.walls.add(new Wall(game,board,0,0,625,150));
+		board.walls.add(new Wall(game,board,0,board.Y_RESOL-150,625,150));
+		board.walls.add(new Wall(game,board,board.X_RESOL-625,0,625,150));
+		board.walls.add(new Wall(game,board,board.X_RESOL-625,board.Y_RESOL-150,625,150));
 		
-		board.walls.add(new Wall(board,625-75,0,75,350));
-		board.walls.add(new Wall(board,625-75,board.Y_RESOL-350,75,350));
-		board.walls.add(new Wall(board,board.X_RESOL-625,0,75,350));
-		board.walls.add(new Wall(board,board.X_RESOL-625,board.Y_RESOL-350,75,350));
+		board.walls.add(new Wall(game,board,625-75,0,75,350));
+		board.walls.add(new Wall(game,board,625-75,board.Y_RESOL-350,75,350));
+		board.walls.add(new Wall(game,board,board.X_RESOL-625,0,75,350));
+		board.walls.add(new Wall(game,board,board.X_RESOL-625,board.Y_RESOL-350,75,350));
 		
-		board.walls.add(new Wall(board,0,0,230,250));
-		board.walls.add(new Wall(board,board.X_RESOL-230,0,230,250));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-250,230,250));
-		board.walls.add(new Wall(board,board.X_RESOL-230,board.Y_RESOL-250,230,250));
+		board.walls.add(new Wall(game,board,0,0,230,250));
+		board.walls.add(new Wall(game,board,board.X_RESOL-230,0,230,250));
+		board.walls.add(new Wall(game,board,0,board.Y_RESOL-250,230,250));
+		board.walls.add(new Wall(game,board,board.X_RESOL-230,board.Y_RESOL-250,230,250));
 		
-		board.walls.add(new Wall(board,0,0,130,350));
-		board.walls.add(new Wall(board,board.X_RESOL-130,0,130,350));
-		board.walls.add(new Wall(board,0,board.Y_RESOL-350,130,350));
-		board.walls.add(new Wall(board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
+		board.walls.add(new Wall(game,board,0,0,130,350));
+		board.walls.add(new Wall(game,board,board.X_RESOL-130,0,130,350));
+		board.walls.add(new Wall(game,board,0,board.Y_RESOL-350,130,350));
+		board.walls.add(new Wall(game,board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
 	}
 	
 	public void spawnEnemies() {}
@@ -111,7 +111,7 @@ public abstract class Store extends Level{
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
 		Item b = generateItem(game,i);
-		board.cookies.add(new CookieItem(game, x, y, b, p));
+		board.cookies.add(new CookieItem(game, board, x, y, b, p));
 	}
 	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
 		addToCatalogue(I,"Boost",P,def*1);

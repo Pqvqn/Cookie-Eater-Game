@@ -25,9 +25,9 @@ public class Cookie {
 	private SpriteCookie sprite;
 	private double value;
 	
-	public Cookie(Game frame, int startx, int starty) {
+	public Cookie(Game frame, Board gameboard, int startx, int starty) {
 		game = frame;
-		board = game.board;
+		board = gameboard;
 		
 		x=startx;
 		y=starty;

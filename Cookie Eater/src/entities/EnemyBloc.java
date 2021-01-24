@@ -17,8 +17,8 @@ public class EnemyBloc extends Enemy{
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemyBloc(Game frame, int cycletime, double xp, double yp) {
-		super(frame,cycletime,xp,yp);
+	public EnemyBloc(Game frame, Board gameboard, int cycletime, double xp, double yp) {
+		super(frame,gameboard,cycletime,xp,yp);
 		averageStats();
 		mass = 60;
 		setShields(2);

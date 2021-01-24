@@ -12,11 +12,11 @@ public class Floor1 extends Level{
 	//private Board board;
 	//public double startx;
 	//public double starty;
-	public Floor1(Game frame) {
-		this(frame,null);
+	public Floor1(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
-	public Floor1(Game frame, Level nextFloor) {
-		super(frame, nextFloor);
+	public Floor1(Game frame, Board gameboard, Level nextFloor) {
+		super(frame,gameboard, nextFloor);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		next = nextFloor;

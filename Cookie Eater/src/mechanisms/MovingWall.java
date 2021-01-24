@@ -1,6 +1,7 @@
 package mechanisms;
 
 import ce3.Board;
+import ce3.Game;
 
 public class MovingWall extends Wall{
 	
@@ -8,23 +9,23 @@ public class MovingWall extends Wall{
 	boolean moving; //whether moving or still
 	double xV,yV; //last x and y velocity of movement
 
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, int originX, int originY, WallPath path) {
-		super(frame,xPos,yPos,width,height,angle,originX,originY);
+	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY, WallPath path) {
+		super(frame,gameboard,xPos,yPos,width,height,angle,originX,originY);
 		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, double angle, WallPath path) {
-		super(frame,xPos,yPos,width,height,angle);
+	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, WallPath path) {
+		super(frame,gameboard,xPos,yPos,width,height,angle);
 		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int width, int height, WallPath path) {
-		super(frame,xPos,yPos,width,height);
+	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, WallPath path) {
+		super(frame,gameboard,xPos,yPos,width,height);
 		initPaths(path);
 	}
 	
-	public MovingWall(Board frame, int xPos, int yPos, int radius, WallPath path) {
-		super(frame,xPos,yPos,radius);
+	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int radius, WallPath path) {
+		super(frame,gameboard,xPos,yPos,radius);
 		initPaths(path);
 	}
 	

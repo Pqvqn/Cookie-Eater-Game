@@ -72,10 +72,10 @@ public abstract class Entity {
 	protected double[] relativeVel = {0,0}; //velocity of the frame relative to the board
 	protected boolean averageVelOverride; //whether the averageVels should be disregarded this cycle
 	
-	public Entity(Game frame, int cycletime) {
+	public Entity(Game frame, Board gameboard, int cycletime) {
 		calibration_ratio = cycletime/15.0;
 		game = frame;
-		board = game.board;
+		board = gameboard;
 		scale = 1;
 		summons = new ArrayList<Summon>();
 		bumped = new ArrayList<Object>();
@@ -674,7 +674,7 @@ public abstract class Entity {
 	}
 	public void addShields(int num) {
 		for(int i=0; i<num; i++) {
-			CookieShield s = new CookieShield(game,0,0,0);
+			CookieShield s = new CookieShield(game,board,0,0,0);
 			shield_stash.add(s);
 		}
 	}
@@ -700,10 +700,10 @@ public abstract class Entity {
 	}
 	public void addCookies(double num) {
 		for(int i=0; i<num%1; i++) {
-			cash_stash.add(new Cookie(game,0,0));
+			cash_stash.add(new Cookie(game,board,0,0));
 		}
 		if(num>0) {
-			Cookie c = new Cookie(game,0,0);
+			Cookie c = new Cookie(game,board,0,0);
 			c.setValue(num);
 			cash_stash.add(c);
 			

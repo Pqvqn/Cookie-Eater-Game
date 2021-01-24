@@ -13,11 +13,11 @@ public class FloorBiggy extends Level{
 			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
 			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
 	
-	public FloorBiggy(Game frame) {
-		this(frame,null);
+	public FloorBiggy(Game frame, Board gameboard) {
+		this(frame,gameboard,null);
 	}
-	public FloorBiggy(Game frame, Level nextFloor) {
-		super(frame, nextFloor);
+	public FloorBiggy(Game frame, Board gameboard, Level nextFloor) {
+		super(frame,gameboard, nextFloor);
 		name = "Big Boi";
 		next = nextFloor;
 		scale = .3;

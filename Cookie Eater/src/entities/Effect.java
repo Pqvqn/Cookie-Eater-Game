@@ -10,8 +10,8 @@ public class Effect extends Entity{
 	protected Entity initiator; //entity that created and profits from this effect
 	protected boolean collides; //whether this effect collides with entities
 	
-	public Effect(Game frame, int cycletime, int xp, int yp, Entity owner) {
-		super(frame,cycletime);
+	public Effect(Game frame, Board gameboard, int cycletime, int xp, int yp, Entity owner) {
+		super(frame,gameboard,cycletime);
 		x = xp;
 		y = yp;
 		initiator = owner;

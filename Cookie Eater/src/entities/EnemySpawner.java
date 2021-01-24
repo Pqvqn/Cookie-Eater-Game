@@ -16,8 +16,8 @@ public class EnemySpawner extends Enemy{
 	private ArrayList<Enemy> spawns;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemySpawner(Game frame, int cycletime, double xp, double yp) {
-		super(frame,cycletime,xp,yp);
+	public EnemySpawner(Game frame, Board gameboard, int cycletime, double xp, double yp) {
+		super(frame,gameboard,cycletime,xp,yp);
 		averageStats();
 		mass = 1000;
 		setShields(0);
@@ -55,7 +55,7 @@ public class EnemySpawner extends Enemy{
 		}
 		if(currCookies-prevCookies>=30||spawns.size()==0) { //if enough collected, or no spawns, attempt spawn
 			double angle = Math.random()*2*Math.PI; //choose random angle, turn into position
-			Enemy newE = new EnemyBlob(game,game.getCycle(),x+board.currFloor.getScale()*150*Math.cos(angle),y+board.currFloor.getScale()*150*Math.sin(angle));
+			Enemy newE = new EnemyBlob(game,board,game.getCycle(),x+board.currFloor.getScale()*150*Math.cos(angle),y+board.currFloor.getScale()*150*Math.sin(angle));
 			if(!collidesWithAnything()) { //if won't hit something, add spawn to lists and reset cookie collection count
 				spawns.add(newE);
 				board.enemies.add(newE);
