@@ -27,6 +27,7 @@ public class UITitleScreen extends UIElement{
 		
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
+			game.ui_set.show(false);
 			//start game
 			this.hide();
 		};

@@ -65,6 +65,12 @@ public class Eater extends Entity{
 		
 		state = LIVE;
 		
+		//set special colors to be unique in pvp
+		if(board.mode == Board.PVP) {
+			Color[] specialColorOrder = {Color.CYAN,Color.MAGENTA,Color.YELLOW,Color.GREEN};
+			special_colors.set(0,specialColorOrder[id]);
+		}
+		
 		extra_radius = 0;
 		ghost = false;
 		mass = 200;
@@ -337,7 +343,14 @@ public class Eater extends Entity{
 	}
 	
 	public void initUI() {
-		game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.Y_RESOL-50,getSpecialColors()));
+		if(board.mode == Board.LEVELS) {
+			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.Y_RESOL-50,3,2,getSpecialColors()));
+		}else if(board.mode == Board.PVP) {
+			game.draw.addUI(itemDisp = new UIItemsAll(game,
+					(id==1||id==2)?50:board.X_RESOL-250,(id==1||id==3)?150:board.Y_RESOL-50,
+					1,id,getSpecialColors()));
+		}
+
 		game.draw.addUI(scoreboard = new UIScoreCount(game,board.X_RESOL-170,board.Y_RESOL-100));
 		game.draw.addUI(shieldDisp = new UIShields(game,board.X_RESOL-50,90+60*id));
 	}

@@ -34,6 +34,9 @@ public class Draw extends JPanel{
 	public void setBoard(Board b) {
 		board = b;
 		players = board.players;
+		boolean add_fps = ui.contains(game.ui_fps);
+		ui = new ArrayList<UIElement>();
+		if(add_fps)ui.add(game.ui_fps);
 		try {
 			boardImage = new SpriteLevel(board,board.walls);
 		} catch (IOException e) {

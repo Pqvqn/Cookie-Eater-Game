@@ -91,10 +91,10 @@ public abstract class Entity {
 		special_use_speed = 1;
 		special_recharges = 0;
 		special_colors = new ArrayList<Color>();
-		special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,0,255));special_colors.add(new Color(255,255,0));
+		special_colors.add(new Color(255,0,255));special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
 		powerups = new ArrayList<ArrayList<Item>>();
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0.0);
 			special_activated.add(false);

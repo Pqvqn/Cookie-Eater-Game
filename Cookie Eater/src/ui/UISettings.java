@@ -69,9 +69,9 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("MAIN",vol);
 		
 		//set controls
-		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
-		String[] keyNames = {"up","down","left","right","esc"};
-		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520},{260,280}};
+		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.SPECIALKEY,Controls.PAUSEKEY};
+		String[] keyNames = {"up","down","left","right","special","esc"};
+		int[][] keyPos = {{300,400},{300,520},{180,520},{420,520},{180,400},{260,280}};
 		//int playerid = (player==null)?0:player.getID();
 		for(int i=0; i<keyBinds.length; i++) {
 			MenuButton keyset = new MenuButton(game, this, null, 
@@ -144,12 +144,23 @@ public class UISettings extends UIElement{
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
 		}
+		//shows fps
+		MenuButton fps = new MenuButton(game, this, null, new String[] {"show fps","hide fps"}, false, 1420,555,100,100);
+		oc = () -> {
+			if(fps.currentState()==1 && !game.draw.getUIList().contains(game.ui_fps)) {
+				game.draw.addUI((game.ui_fps));
+			}else if(fps.currentState()==0 && game.draw.getUIList().contains(game.ui_fps)) {
+				game.draw.removeUI((game.ui_fps));
+			}
+		};
+		fps.setClick(oc);
+		menuHandler.addButton("DEBUG",fps);
 		
 		
 	}
 	//update controls for selected player
 	public void updateButtons() {
-		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.PAUSEKEY};
+		int[] keyBinds = {Controls.UPKEY,Controls.DOWNKEY,Controls.LEFTKEY,Controls.RIGHTKEY,Controls.SPECIALKEY,Controls.PAUSEKEY};
 		for(int i=0; i<updateList.size(); i++) {
 			updateList.get(i).setCurrStateValue(java.awt.event.KeyEvent.getKeyText(getSelectedPlayer().controls.getKeyBind(keyBinds[i])));
 		}

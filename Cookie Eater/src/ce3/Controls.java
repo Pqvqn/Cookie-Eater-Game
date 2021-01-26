@@ -16,16 +16,16 @@ public class Controls implements KeyListener{
 	private Eater player;
 	//controls for each player added
 	private int[][] controlSchemes = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,
-			KeyEvent.VK_END},
+			KeyEvent.VK_SHIFT,KeyEvent.VK_END},
 		{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,
-			KeyEvent.VK_2},
+			KeyEvent.VK_Q,KeyEvent.VK_2},
 		{KeyEvent.VK_P,KeyEvent.VK_SEMICOLON,KeyEvent.VK_L,KeyEvent.VK_QUOTE,
-			KeyEvent.VK_0},
+			KeyEvent.VK_O,KeyEvent.VK_0},
 		{KeyEvent.VK_Y,KeyEvent.VK_H,KeyEvent.VK_G,KeyEvent.VK_J,
-			KeyEvent.VK_6},
+			KeyEvent.VK_T,KeyEvent.VK_6},
 		{KeyEvent.VK_NUMPAD8,KeyEvent.VK_NUMPAD5,KeyEvent.VK_NUMPAD4,KeyEvent.VK_NUMPAD6,
-			KeyEvent.VK_SLASH}};
-	public static final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2, PAUSEKEY = 4;
+			KeyEvent.VK_NUMPAD7,KeyEvent.VK_SLASH}};
+	public static final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2, SPECIALKEY = 4, PAUSEKEY = 5;
 	private int scheme;
 	private int awaitKey; //keybind for key awaiting reassignment
 	private MenuButton awaitingButton; //button that initiated key await
@@ -71,6 +71,8 @@ public class Controls implements KeyListener{
 			player.setDir(Eater.DOWN);
 		}else if(key==controlSchemes[scheme][LEFTKEY]) {
 			player.setDir(Eater.LEFT);
+		}else if(key==controlSchemes[scheme][SPECIALKEY]) {
+			player.special(0);
 		}
 		
 		//send key to menus
@@ -88,23 +90,26 @@ public class Controls implements KeyListener{
 				if(!isP1)break;
 				if(!board.inConvo())player.win();
 				break;
-			case KeyEvent.VK_SHIFT:
-				e.consume();
-				player.special(0); 
-				break;
-			case KeyEvent.VK_CONTROL:
-				e.consume();
-				player.special(1); 
-				break;
-			case KeyEvent.VK_ALT:
-				e.consume();
-				player.special(2); 
-				break;
 			case KeyEvent.VK_SPACE:
 				if(board.currFloor.haltEnabled()) {
 					player.setDir(Eater.NONE);
 					player.averageVels(0,0,false);
 				}
+				break;
+			case KeyEvent.VK_SHIFT:
+				if(game.board.mode==Board.PVP)break;
+				e.consume();
+				player.special(1); 
+				break;
+			case KeyEvent.VK_CONTROL:
+				if(game.board.mode==Board.PVP)break;
+				e.consume();
+				player.special(0); 
+				break;
+			case KeyEvent.VK_ALT:
+				if(game.board.mode==Board.PVP)break;
+				e.consume();
+				player.special(2); 
 				break;
 		}
 		

@@ -63,7 +63,7 @@ public class Game extends JFrame {
   		pack();
   		
   		//ui
-		draw.addUI(ui_fps = new UIFpsCount(this,10,10,Color.WHITE));	
+		ui_fps = new UIFpsCount(this,10,10,Color.WHITE);	
 		ui_set = new UISettings(this,0,0);
 		ui_tis = new UITitleScreen(this,0,0);
 		
