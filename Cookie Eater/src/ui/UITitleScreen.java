@@ -21,35 +21,40 @@ public class UITitleScreen extends UIElement{
 	}
 	
 	public void makeButtons() {
-		Board board = game.board;
+		//Board board = game.board;
 		OnClick oc;
 		menuHandler = new SubmenuHandler("MAIN");
 		
+		MenuButton mode = new MenuButton(game, this, null, new String[] {"Mode: Levels","Mode: PvP"}, false, 300,700,200,200);
+		MenuButton dungeon = new MenuButton(game, this, null, new String[] {"Dungeon: Vaults","Dungeon: Inners"}, false, 800,700,200,200);
+		MenuButton pcount = new MenuButton(game, this, null, new String[] {"1 P","2 P","3 P","4 P"}, false, 550,700,200,200);
+		oc = () -> {
+			//switch selected dungeon generation
+		};
+		dungeon.setClick(oc);
+		menuHandler.addButton("MAIN",dungeon);
+		oc = () -> {
+			//switch selected game mode
+		};
+		mode.setClick(oc);
+		menuHandler.addButton("MAIN",mode);
+		oc = () -> {
+			//switch number of players
+		};
+		pcount.setClick(oc);
+		menuHandler.addButton("MAIN",pcount);
+		
+		
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
+			int[] modes = {Board.LEVELS,Board.PVP};
 			game.ui_set.show(false);
-			//start game
+			game.loadDungeon(modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
+			//start game, load board from other buttons
 			this.hide();
 		};
 		start.setClick(oc);
 		menuHandler.addButton("MAIN",start);
-
-		MenuButton dungeon = new MenuButton(game, this, null, new String[] {"Dungeon: Vaults","Dungeon: Inners"}, false, 800,700,400,200);
-		oc = () -> {
-			//switch selected dungeon generation
-			board.loadDungeon(dungeon.currentState());
-		};
-		dungeon.setClick(oc);
-		menuHandler.addButton("MAIN",dungeon);
-		
-		MenuButton mode = new MenuButton(game, this, null, new String[] {"Mode: Levels","Mode: PvP"}, false, 300,700,400,200);
-		oc = () -> {
-			//switch selected game mode
-			int[] modes = {Board.LEVELS,Board.PVP};
-	        game.loadDungeon(modes[mode.currentState()],0);
-		};
-		mode.setClick(oc);
-		menuHandler.addButton("MAIN",mode);
 	}
 	
 	//display title screen and lock board

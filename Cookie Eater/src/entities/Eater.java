@@ -39,6 +39,7 @@ public class Eater extends Entity{
 	private SpriteEater sprite;
 	private SegmentCircle part;
 	public Controls controls; //covers inputs
+	private int startShields;
 	
 	public Eater(Game frame, Board gameboard, int num, int cycletime) {
 		super(frame,gameboard,cycletime);
@@ -60,7 +61,8 @@ public class Eater extends Entity{
 		score = 0;
 		cash = 0;
 		pickups = new ArrayList<CookieItem>();
-		addShields(3);
+		startShields = 3;
+		addShields(startShields);
 		shielded = false;
 		
 		state = LIVE;
@@ -175,7 +177,7 @@ public class Eater extends Entity{
 			score = 0;
 			cash = 0;
 			wipeStash();
-			setShields(3);
+			setShields(startShields);
 			//randomizeStats();
 			
 			decayed_value = 0;
@@ -247,7 +249,7 @@ public class Eater extends Entity{
 	public void revive() {
 		score = 0;
 		cash = 0;
-		setShields(3);
+		setShields(startShields);
 		//randomizeStats();
 		direction = NONE;
 		
@@ -345,14 +347,15 @@ public class Eater extends Entity{
 	public void initUI() {
 		if(board.mode == Board.LEVELS) {
 			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.Y_RESOL-50,3,2,getSpecialColors()));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,board.X_RESOL-170,board.Y_RESOL-100));
+			game.draw.addUI(shieldDisp = new UIShields(game,board.X_RESOL-80,90+60*id,3));
 		}else if(board.mode == Board.PVP) {
 			game.draw.addUI(itemDisp = new UIItemsAll(game,
 					(id==1||id==2)?50:board.X_RESOL-250,(id==1||id==3)?150:board.Y_RESOL-50,
 					1,id,getSpecialColors()));
+			game.draw.addUI(shieldDisp = new UIShields(game,(id==1||id==2)?350:board.X_RESOL-350,(id==1||id==3)?130:board.Y_RESOL-70,id));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,(id==1||id==2)?50:board.X_RESOL-100,(id==1||id==3)?200:board.Y_RESOL-200));
 		}
-
-		game.draw.addUI(scoreboard = new UIScoreCount(game,board.X_RESOL-170,board.Y_RESOL-100));
-		game.draw.addUI(shieldDisp = new UIShields(game,board.X_RESOL-50,90+60*id));
 	}
 	public void updateUI() {
 		

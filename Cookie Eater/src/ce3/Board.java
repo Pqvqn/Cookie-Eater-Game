@@ -40,13 +40,13 @@ public class Board{
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
 	
-	public Board(Game g, int gamemode, int dungeon, int cycle) {
+	public Board(Game g, int gamemode, int dungeon, int playercount, int cycle) {
 		game = g;
 		mode = gamemode;
 		cycletime = cycle;
 		//initializing classes
 		players = new ArrayList<Eater>();
-		playerCount = 4;
+		playerCount = playercount;
 		if(mode==LEVELS) {
 			players.add(player = new Eater(game,this,0,cycletime));
 		}else if(mode==PVP) { //add number of players
@@ -275,7 +275,14 @@ public class Board{
 					floorSequence[num][i].setNext(floorSequence[num][i+1]);
 			}
 		}else if(mode==PVP) {
-			floors.add(new Floor1(game,this));
+			if(num==0) {
+				floors.add(new Arena2(game,this));
+			}else if(num==1) {
+				floors.add(new ArenaRound(game,this));
+			}else {
+				floors.add(new Arena1(game,this));
+			}
+
 		}
 		resetNpcs();
 		//create floor 1

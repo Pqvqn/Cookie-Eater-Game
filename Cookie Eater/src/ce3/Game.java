@@ -46,7 +46,7 @@ public class Game extends JFrame {
         music = new Music(this);
         
         controls = new ArrayList<Controls>();
-        loadDungeon(Board.LEVELS,0);
+        loadDungeon(Board.LEVELS,0,1);
         
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,12 +96,12 @@ public class Game extends JFrame {
 		skipframes+=time;
 	}
 	
-	public void loadDungeon(int mode, int dungeon) {
+	public void loadDungeon(int mode, int dungeon, int playercount) {
 		for(int i=0; i<controls.size(); i++) {
 			removeKeyListener(controls.get(i));
 		}
 		controls = new ArrayList<Controls>();
-		board = new Board(this,mode,dungeon,cycletime);
+		board = new Board(this,mode,dungeon,playercount,cycletime);
 	}	
 	
 	public void updateUI() {
