@@ -8,7 +8,7 @@ import ce3.*;
 import mechanisms.*;
 import sprites.*;
 
-public class EnemySpawner extends Enemy{
+public class EnemySpawnerArena extends Enemy{
 
 	private SegmentCircle blob;
 	private SpriteEnemy sprite;
@@ -16,10 +16,10 @@ public class EnemySpawner extends Enemy{
 	private ArrayList<Enemy> spawns;
 	private final int NEUTRAL=0,HIT=1;
 	
-	public EnemySpawner(Game frame, Board gameboard, int cycletime, double xp, double yp) {
+	public EnemySpawnerArena(Game frame, Board gameboard, int cycletime, double xp, double yp) {
 		super(frame,gameboard,cycletime,xp,yp);
 		averageStats();
-		mass = 1000;
+		mass = 1000000;
 		setShields(0);
 		steals = true;
 		spawns = new ArrayList<Enemy>();
@@ -59,6 +59,7 @@ public class EnemySpawner extends Enemy{
 			if(!newE.collidesWithAnything()) { //if won't hit something, add spawn to lists and reset cookie collection count
 				spawns.add(newE);
 				board.enemies.add(newE);
+				newE.addCookies(5);
 				prevCookies = currCookies;
 			}
 		}

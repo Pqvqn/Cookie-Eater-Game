@@ -183,14 +183,13 @@ public class Board{
 			}
 		}
 		//tests if settings window is up
-		if((game.ui_set!=null && game.ui_set.isVisible()) || (game.ui_set!=null && game.ui_tis.isVisible()))return true;
+		if((game.ui_set!=null && game.ui_set.isVisible()) || (game.ui_tis!=null && game.ui_tis.isVisible()))return true;
 		return false;
 	}
 	//tests if waiting for players should be allowed to input to start match
 	public boolean awaitingStart() {
 		return awaiting_start && !game.ui_set.isVisible();
 	}
-	
 	
 	
 	//go back to first level

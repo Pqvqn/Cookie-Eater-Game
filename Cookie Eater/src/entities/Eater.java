@@ -216,7 +216,7 @@ public class Eater extends Entity{
 			for(Eater e : board.players) {
 				e.revive();
 			}
-			board.awaiting_start = true;
+			board.resetGame();
 		}
 	}
 	//resets player to floor-beginning state

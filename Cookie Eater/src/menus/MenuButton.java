@@ -115,6 +115,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	public boolean usesImage() {return usesImage;}
 	public void resetState() {currState=0;ui.trigger(currState);}
 	public void setCurrStateValue(String s) {states[currState]=s;ui.updateState(currState,states[currState],usesImage());}
+	public void setStateList(String[] list) {states = list;}
 	
 	public interface OnClick{
 		public void click();

@@ -19,7 +19,7 @@ public class EnemyBlob extends Enemy{
 	public EnemyBlob(Game frame, Board gameboard, int cycletime, double xp, double yp) {
 		super(frame,gameboard,cycletime,xp,yp);
 		averageStats();
-		mass = 30;
+		mass = 45;
 		setShields(1);
 		steals = true;
 		name = "Blob";

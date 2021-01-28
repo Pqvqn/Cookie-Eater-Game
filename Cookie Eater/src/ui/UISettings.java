@@ -50,7 +50,7 @@ public class UISettings extends UIElement{
 			this.show(true, p);
 		};
 		psel.setClick(oc);
-		menuHandler.addButton("MAIN",psel);
+		//menuHandler.addButton("MAIN",psel);
 		
 		//volume control
 		MenuButton vol = new MenuButton(game, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);
