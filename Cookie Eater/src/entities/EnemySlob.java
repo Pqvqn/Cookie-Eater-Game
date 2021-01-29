@@ -67,7 +67,7 @@ public class EnemySlob extends Enemy{
 		}else {
 			target = board.nearestCookie(x,y);
 			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)) {
-				maxvel = 2;
+				max_velocity = 10;
 				chargeCoords = new double[2];
 				chargeCoords[0]=explorerTarget.getX();
 				chargeCoords[1]=explorerTarget.getY();
@@ -75,7 +75,7 @@ public class EnemySlob extends Enemy{
 			}else {
 				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 				if(target!=null) {
-					maxvel = .1;
+					max_velocity = 5;
 					accelerateToTarget(target.getX(),target.getY());
 					angle = Math.atan2(target.getY()-y, target.getX()-x);
 					

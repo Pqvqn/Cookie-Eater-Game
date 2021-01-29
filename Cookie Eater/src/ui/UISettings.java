@@ -95,6 +95,13 @@ public class UISettings extends UIElement{
 		};
 		givsh.setClick(oc);
 		menuHandler.addButton("DEBUG",givsh);
+		//gives the player 100 shields
+		MenuButton givmsh = new MenuButton(game, this, null, new String[] {"give 100 shields"}, false, 120,625,200,100);
+		oc = () -> {
+			getSelectedPlayer().addShields(100);
+		};
+		givmsh.setClick(oc);
+		menuHandler.addButton("DEBUG",givmsh);
 		
 		//kills player to return to first floor
 		MenuButton reset = new MenuButton(game, this, null, new String[] {"end run"}, false, 120,325,200,100);
@@ -122,7 +129,7 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("DEBUG",advance);
 		
 		//gives player 10 cookies
-		MenuButton givco = new MenuButton(game, this, null, new String[] {"give 10 cookies"}, false, 120,625,200,100);
+		MenuButton givco = new MenuButton(game, this, null, new String[] {"give 10 cookies"}, false, 120,775,200,100);
 		oc = () -> {
 			getSelectedPlayer().pay(10);
 		};
