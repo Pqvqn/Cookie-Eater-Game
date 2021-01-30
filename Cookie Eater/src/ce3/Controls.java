@@ -72,7 +72,8 @@ public class Controls implements KeyListener{
 		}else if(key==controlSchemes[scheme][LEFTKEY]) {
 			player.setDir(Eater.LEFT);
 		}else if(key==controlSchemes[scheme][SPECIALKEY]) {
-			player.special(0);
+			if(board.mode == Board.PVP)
+				player.special(0);
 		}
 		
 		//send key to menus

@@ -1,6 +1,6 @@
 package mechanisms;
 
-public class WallPath {
+public class Path {
 	
 
 	public static final int SPEED=0,TIME=1; //mode options (timed based on constant speed or on set time)
@@ -16,7 +16,7 @@ public class WallPath {
 	//counts updates to advance to next checkpoint
 	int updates;
 	
-	public WallPath(int numStops) {
+	public Path(int numStops) {
 		positions = new double[numStops][2];
 		rates = new double[numStops];
 		modes = new int[numStops];

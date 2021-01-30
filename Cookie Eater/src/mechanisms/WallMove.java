@@ -3,33 +3,33 @@ package mechanisms;
 import ce3.Board;
 import ce3.Game;
 
-public class MovingWall extends Wall{
+public class WallMove extends Wall{
 	
-	WallPath path; //path of points to move from
+	Path path; //path of points to move from
 	boolean moving; //whether moving or still
 	double xV,yV; //last x and y velocity of movement
 
-	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY, WallPath path) {
+	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY, Path path) {
 		super(frame,gameboard,xPos,yPos,width,height,angle,originX,originY);
 		initPaths(path);
 	}
 	
-	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, WallPath path) {
+	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, Path path) {
 		super(frame,gameboard,xPos,yPos,width,height,angle);
 		initPaths(path);
 	}
 	
-	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, WallPath path) {
+	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, Path path) {
 		super(frame,gameboard,xPos,yPos,width,height);
 		initPaths(path);
 	}
 	
-	public MovingWall(Game frame, Board gameboard, int xPos, int yPos, int radius, WallPath path) {
+	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, Path path) {
 		super(frame,gameboard,xPos,yPos,radius);
 		initPaths(path);
 	}
 	
-	private void initPaths(WallPath paths) {
+	private void initPaths(Path paths) {
 		double area; //area of wall geometry to determine mass
 		double density = 2; //mass per unit area
 		if(shape == CIRCLE) {

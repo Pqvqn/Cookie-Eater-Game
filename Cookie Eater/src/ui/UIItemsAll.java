@@ -21,7 +21,7 @@ public class UIItemsAll extends UIElement{
 		//boolean bottom = corner==0 || corner==2;
 		int[][] offsets = {{0,0},{0,150*(top?1:-1)},{250*(left?1:-1),0},{250*(left?1:-1),150*(top?1:-1)}};
 		for(int i=0; i<numSlots; i++) {
-			specials.add(new UIItems(frame, x+offsets[i][0], y+offsets[i][1], 0, colors.get(i%colors.size())));
+			specials.add(new UIItems(frame, x+offsets[i][0], y+offsets[i][1], i, colors.get(i%colors.size())));
 		}
 		
 		for(int i=0; i<specials.size(); i++) {

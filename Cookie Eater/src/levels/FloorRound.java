@@ -4,8 +4,8 @@ package levels;
 import ce3.*;
 import cookies.*;
 import entities.*;
-import mechanisms.MovingWall;
-import mechanisms.WallPath;
+import mechanisms.WallMove;
+import mechanisms.Path;
 
 import java.awt.*;
 import java.util.*;
@@ -43,12 +43,12 @@ public class FloorRound extends Level{
 		
 		
 		int len = 2;
-		WallPath path = new WallPath(len);
+		Path path = new Path(len);
 		int x = (int)(.5+Math.random()*board.X_RESOL);
 		int y = (int)(.5+Math.random()*board.Y_RESOL);
-		path.setCheckpoint(0,x,y,WallPath.TIME,100,0,0,0);
-		path.setCheckpoint(1,x,y,WallPath.TIME,100,200,0,0);
-		board.mechanisms.add(new MovingWall(game,board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path));
+		path.setCheckpoint(0,x,y,Path.TIME,100,0,0,0);
+		path.setCheckpoint(1,x,y,Path.TIME,100,200,0,0);
+		board.mechanisms.add(new WallMove(game,board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path));
 		
 		
 		

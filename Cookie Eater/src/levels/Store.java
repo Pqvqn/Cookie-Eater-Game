@@ -101,6 +101,15 @@ public abstract class Store extends Level{
 		board.walls.add(new Wall(game,board,board.X_RESOL-130,0,130,350));
 		board.walls.add(new Wall(game,board,0,board.Y_RESOL-350,130,350));
 		board.walls.add(new Wall(game,board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
+		
+		//add cases to every item
+		int caseWidth = 70;
+		for(int i=0; i<vendorSpaces.length; i++) {
+			for(int j=1; j<vendorSpaces[i].length; j++) {
+				//board.walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));
+				board.walls.add(new WallCase(game,board,vendorSpaces[i][j][0],vendorSpaces[i][j][1],caseWidth/2));
+			}
+		}
 	}
 	
 	public void spawnEnemies() {}
