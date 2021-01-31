@@ -77,8 +77,10 @@ public class Controls implements KeyListener{
 		}
 		
 		//send key to menus
-		for(int i=board.menus.size()-1; i>=0; i--) {
-			board.menus.get(i).keyPress(key);
+		if(isP1) {
+			for(int i=board.menus.size()-1; i>=0; i--) {
+				board.menus.get(i).keyPress(key);
+			}
 		}
 			
 		//debug keys

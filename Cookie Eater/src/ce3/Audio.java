@@ -22,6 +22,9 @@ public class Audio {
         for(String p : preload) {
         	File f = new File("Cookie Eater/src/resources/sounds/"+p+".wav");
 			loaded.put(p,f);
+			mute = true;
+			playSound(p);
+			mute = true;
         }
 
        //playSound("testmusic",VOLUME_HIGH);

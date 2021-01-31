@@ -243,50 +243,6 @@ public abstract class Entity {
 							e.orientParts();
 						}
 					}
-						/*for(int k=0; k<e.getParts().size(); k++) {
-							Segment s = e.getParts().get(k);
-							if(s instanceof SegmentCircle) {
-								SegmentCircle s2 = (SegmentCircle)s;
-								if(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
-									double bmass = mass;
-									double bxv = x_velocity;
-									double byv = y_velocity;
-									double[] point = parts.get(j).circHitPoint(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius());
-									collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
-									e.collideAt(this,point[0],point[1],bxv,byv,bmass);
-									while(parts.get(j).collidesWithCircle(true,s2.getCenterX(),s2.getCenterY(),s2.getTotalRadius())) {
-										double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-										x+=(x-point[0])*rat;
-										y+=(y-point[1])*rat;
-										orientParts();
-										rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
-										e.x+=(e.x-point[0])*rat;
-										e.y+=(e.y-point[1])*rat;
-										e.orientParts();
-									}
-								}
-							}else if(s instanceof SegmentRectangle) {
-								SegmentRectangle s2 = (SegmentRectangle)s;
-								if(parts.get(j).collidesWithRect(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle())) {
-									double bmass = mass;
-									double bxv = x_velocity;
-									double byv = y_velocity;
-									double[] point = parts.get(j).rectHitPoint(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle());
-									collideAt(e,point[0],point[1],e.getXVel(),e.getYVel(),e.getMass());
-									e.collideAt(this,point[0],point[1],bxv,byv,bmass);
-									while(parts.get(j).collidesWithRect(true,s2.getCenterX(),s2.getCenterY(),s2.getWidth(),s2.getLength(),s2.getAngle())) {
-										double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-										x+=(x-point[0])*rat;
-										y+=(y-point[1])*rat;
-										orientParts();
-										rat = 1/Math.sqrt(Math.pow(e.x-point[0],2)+Math.pow(e.y-point[1],2));
-										e.x+=(e.x-point[0])*rat;
-										e.y+=(e.y-point[1])*rat;
-										e.orientParts();
-									}
-								}
-							}
-						}*/
 				}
 			}
 			//test collision with level mechamisms
@@ -319,28 +275,10 @@ public abstract class Entity {
 					orientParts();
 				}
 
-				/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
-					Wall w = board.walls.get(i);
-					if(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)){
-						double[] point = parts.get(j).rectHitPoint(false,w.getX(),w.getY(),w.getW(),w.getH(),0);
-						collideAt(w,point[0],point[1],0,0,999999999);
-						bounce(w,w.getX(),w.getY(),w.getW(),w.getH());
-						while(parts.get(j).collidesWithRect(false,w.getX(),w.getY(),w.getW(),w.getH(),0)) {
-							double rat = 1/Math.sqrt(Math.pow(x-point[0],2)+Math.pow(y-point[1],2));
-							x+=(x-point[0])*rat;
-							y+=(y-point[1])*rat;
-							orientParts();
-						}
-					}
-				}*/
 			}
 			
-		//}
 	}
-	/*//hits wall
-	public void bounce(Wall w,int rx,int ry,int rw,int rh) {
-		
-	}*/
+
 	//sets off shield
 	public void triggerShield() {
 		if(!shielded && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
@@ -536,6 +474,7 @@ public abstract class Entity {
 			return; //if already hit, don't hit again
 		}
 		bumped.add(b);
+		
 		if(x_velocity==0 && y_velocity==0) { //if no velocity, set vel slightly towards wall
 			double rat = 1/Math.sqrt(Math.pow(x-xp,2)+Math.pow(y-yp,2));
 			x_velocity = (xp-getX())*rat;
@@ -544,15 +483,16 @@ public abstract class Entity {
 		double actual_mass = mass;
 		//for(Summon2 s: summons)actual_mass+=s.getMass(); //adjust mass for summons
 		double pvx = (xp-x), pvy = (yp-y); //change in position from entity to collision point
+		if(Math.abs(pvx)<1)pvx=0;if(Math.abs(pvy)<1)pvy=0; //make slight differences into differences of 0
 		double oxm = oxv*om, oym = oyv*om; //momentum of other entity
 		double txm = x_velocity*actual_mass, tym = y_velocity*actual_mass; //momentum of this entity
 		double oProj = Math.abs((oxm*pvx+oym*pvy)/(pvx*pvx+pvy*pvy));
 		double tProj = Math.abs((txm*pvx+tym*pvy)/(pvx*pvx+pvy*pvy));
 		double projdx = (oProj+tProj)*pvx,projdy = (oProj+tProj)*pvy; //lost velocity conversion
 	
-		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy); //gained velocity conversion
+		double proejjjg = (x_velocity*pvy+y_velocity*-pvx)/(pvx*pvx+pvy*pvy); //normalize
 		
-		x_velocity=pvy*proejjjg-projdx/actual_mass;
+		x_velocity=pvy*proejjjg-projdx/actual_mass; //calculate final velocities
 		y_velocity=-pvx*proejjjg-projdy/actual_mass;
 		
 		//handle sound volume based on intensity
@@ -563,6 +503,12 @@ public abstract class Entity {
 		if(impact > maxImpact)impact = maxImpact;
 		float impactVal = (float)(impact/maxImpact) * (Audio.VOLUME_RANGE) + Audio.VOLUME_LOW;
 		game.audio.playSound("bonk2",impactVal);
+		
+		if(x_velocity==0 && y_velocity==0) { //if no velocity, set vel slightly away from wall
+			double rat = 1/Math.sqrt(Math.pow(x-xp,2)+Math.pow(y-yp,2));
+			x_velocity = (getX()-xp)*rat;
+			y_velocity = (getY()-yp)*rat;
+		}
 		
 		if(special) { //bounce any items
 			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
