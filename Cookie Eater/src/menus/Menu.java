@@ -23,4 +23,8 @@ public class Menu {
 		board.menus.remove(this);
 	}
 	
+	public void reopen() {
+		board.menus.add(this);
+	}
+	
 }

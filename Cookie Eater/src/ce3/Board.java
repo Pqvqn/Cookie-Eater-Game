@@ -39,6 +39,7 @@ public class Board{
 	
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
+	public UIConfirmation ui_cnf;
 	
 	public Board(Game g, int gamemode, int dungeon, int playercount, int cycle) {
 		game = g;
@@ -381,6 +382,17 @@ public class Board{
 	}
 	public boolean inConvo() { //if player is in dialogue
 		return ui_dia != null;
+	}
+	public void requestConfirmation(Selection s) {
+		if(game.draw.getUIList().contains(ui_cnf))return;
+		s.reopen();
+		game.draw.addUI(ui_cnf);
+	}
+	
+	public void endConfirmation(Selection s) {
+		if(!game.draw.getUIList().contains(ui_cnf))return;
+		s.close();
+		game.draw.removeUI(ui_cnf);
 	}
 
 }

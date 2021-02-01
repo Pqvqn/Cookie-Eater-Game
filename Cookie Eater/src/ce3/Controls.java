@@ -91,7 +91,7 @@ public class Controls implements KeyListener{
 				break;
 			case KeyEvent.VK_ENTER:
 				if(!isP1)break;
-				if(!board.inConvo())player.win();
+				//if(!board.inConvo())player.win();
 				break;
 			case KeyEvent.VK_SPACE:
 				if(board.currFloor.haltEnabled()) {
