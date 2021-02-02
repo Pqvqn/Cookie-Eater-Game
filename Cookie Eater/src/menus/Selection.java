@@ -19,12 +19,13 @@ public class Selection extends Menu{
 		keyNext = knext;
 		keySelect = kselect;
 	}
-	
+	public ArrayList<String> getOptions(){return options;}
 	public int getChosenIndex() {return chosen;}
 	public Object getChosenOption() {return options.get(chosen);}
 	public int getHoveredIndex() {return hovered;}
 	
 	public boolean hasChosen() {return chosen>=0;}
+	public void resetChosen() {chosen=-1;}
 	
 	public void keyPress(int key) {
 		if(key == keyPrev)

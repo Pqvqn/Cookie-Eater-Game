@@ -98,6 +98,9 @@ public class Board{
 		//dialogue
 		if(ui_dia!=null)ui_dia.update();
 		
+		//confirmation
+		if(ui_cnf!=null)ui_cnf.update();
+		
 		//player's ui
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).updateUI();
@@ -383,16 +386,18 @@ public class Board{
 	public boolean inConvo() { //if player is in dialogue
 		return ui_dia != null;
 	}
-	public void requestConfirmation(Selection s) {
-		if(game.draw.getUIList().contains(ui_cnf))return;
+	public void requestConfirmation(Selection s, int x, int y, String text) {
+		if(ui_cnf!=null)return;
 		s.reopen();
+		ui_cnf = new UIConfirmation(game,x,y,text,s);
 		game.draw.addUI(ui_cnf);
 	}
 	
 	public void endConfirmation(Selection s) {
-		if(!game.draw.getUIList().contains(ui_cnf))return;
+		if(ui_cnf==null)return;
 		s.close();
 		game.draw.removeUI(ui_cnf);
+		ui_cnf = null;
 	}
 
 }

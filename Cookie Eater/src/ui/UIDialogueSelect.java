@@ -7,7 +7,7 @@ import ce3.*;
 
 public class UIDialogueSelect extends UIElement{
 	
-	private ArrayList<UIDialogueResponse> responses;
+	private ArrayList<UIResponse> responses;
 	//private UIRectangle chosenHighlight;
 	private UIRectangle hoverHighlight;
 	private UIRectangle backing;
@@ -16,10 +16,10 @@ public class UIDialogueSelect extends UIElement{
 		super(frame,x,y);
 		parts.add(backing = new UIRectangle(game, xPos, yPos, options.size()*210-10, 40, new Color(50, 50, 50, 100), true)); //backing
 		//parts.add(chosenHighlight = new UIRectangle(board, xPos, yPos, 200, 40, new Color(255, 255, 255, 50), true));
-		responses = new ArrayList<UIDialogueResponse>();
+		responses = new ArrayList<UIResponse>();
 		int wid = 0;
 		for(int i=0; i<options.size(); i++) {
-			UIDialogueResponse a = new UIDialogueResponse(game,options.get(i),x+wid,y);
+			UIResponse a = new UIResponse(game,options.get(i),x+wid,y,200);
 			responses.add(a);
 			parts.add(a);
 			wid += a.getWidth() + 10;

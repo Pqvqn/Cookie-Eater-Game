@@ -48,6 +48,7 @@ public abstract class CookieStore extends Cookie{
 	public Entity getVendor() {
 		return vendor;
 	}
+	public String getName() {return name;}
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
