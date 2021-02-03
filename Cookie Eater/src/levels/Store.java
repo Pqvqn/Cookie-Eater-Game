@@ -36,42 +36,8 @@ public abstract class Store extends Level{
 	public boolean installPickups() {return true;}
 	public boolean takeDamage() {return false;}
 	
-	//places purchasable cookies on the board
+	//places not-npc owned purchasable cookies on the board
 	public void placeCookies(){
-		
-		//all moved to npcs
-		
-		/*//shields
-		int[][] shieldSpawns = {{board.X_RESOL/2-200,150} , {board.X_RESOL/2+200,150} , {board.X_RESOL/2,150} ,
-				{board.X_RESOL/2-200,250} , {board.X_RESOL/2+200,250} , {board.X_RESOL/2,250}};
-		for(int i=0; i<shieldNum && i<shieldSpawns.length; i++) {
-			board.cookies.add(new CookieShield(board, shieldSpawns[i][0], shieldSpawns[i][1], shieldCost));
-		}*/
-	
-		/*//stats
-		board.cookies.add(new CookieStat(board,board.X_RESOL-390,315));
-		board.cookies.add(new CookieStat(board,board.X_RESOL-390,board.Y_RESOL-315));
-		board.cookies.add(new CookieStat(board,board.X_RESOL-185,board.Y_RESOL/2));*/
-		
-		/*//items
-		int i = (int)(Math.random()*catalogue.size());
-		placeItem(390,315,catalogue.get(i),prices.get(i));
-		i = (int)(Math.random()*catalogue.size());
-		placeItem(390,board.Y_RESOL-315,catalogue.get(i),prices.get(i));
-		i = (int)(Math.random()*catalogue.size());
-		placeItem(185,board.Y_RESOL/2,catalogue.get(i),prices.get(i));*/
-		
-		/*//pickups
-		int[][] pickupSpawns = {{board.X_RESOL/2-200,board.Y_RESOL-150} , {board.X_RESOL/2+200,board.Y_RESOL-150} , {board.X_RESOL/2,board.Y_RESOL-150} ,
-				{board.X_RESOL/2-200,board.Y_RESOL-250} , {board.X_RESOL/2+200,board.Y_RESOL-250} , {board.X_RESOL/2,board.Y_RESOL-250}};
-		for(int j=0; !board.player().getPickups().isEmpty() && j<pickupSpawns.length; j++) {
-			CookieItem c = board.player().getPickups().remove(0);
-			c.setPos(pickupSpawns[j][0],pickupSpawns[j][1]);
-			c.setPrice(installCost);
-			board.cookies.add(c);
-		}*/
-		
-		
 		board.player().setScoreToWin(2);
 	}
 	

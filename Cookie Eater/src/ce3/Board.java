@@ -74,15 +74,18 @@ public class Board{
 		}
 		
 		Level[][] floseq = {
+				//vaults
 				{new Store1(game,this),new Floor1(game,this),
 				new Store2(game,this),new Floor2(game,this),new Floor2(game,this),
 				new Store3(game,this),new Floor3(game,this),new Floor3(game,this),new Floor3(game,this), 
 				new Store4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor5(game,this)},
-				
+				//inners
 				{new Store2(game,this),new FloorRound(game,this),
 				new Store3(game,this),new Floor4(game,this),new FloorRound(game,this),
 				new Store4(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this), 
-				new Store1(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this)}
+				new Store1(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this)},
+				//training
+				{new Training1(game,this)}
 		};
 		floorSequence = floseq;
 		
@@ -350,6 +353,10 @@ public class Board{
 		for(int i=0; i<npcs.size(); i++) {
 			npcs.get(i).chooseResidence();
 			npcs.get(i).createStash();
+			if(npcs.get(i).getResidence() == null) {
+				npcs.remove(i);
+				i--;
+			}
 		}
 	}
 	//kills all players

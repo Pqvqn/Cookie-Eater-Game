@@ -195,7 +195,11 @@ public class Explorer extends Entity{
 			}
 			point = point.getNext();
 		}
-		return board.floors.get(backup);
+		if(board.floors.size()>backup) {
+			return board.floors.get(backup);
+		}else {
+			return null;
+		}
 	}
 	//creates a completely new stash of items
 	public void createStash() {

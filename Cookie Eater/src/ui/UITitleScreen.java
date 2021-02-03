@@ -26,7 +26,7 @@ public class UITitleScreen extends UIElement{
 		menuHandler = new SubmenuHandler("MAIN");
 		
 		MenuButton mode = new MenuButton(game, this, null, new String[] {"Mode: Levels","Mode: PvP"}, false, 300,700,200,200);
-		MenuButton dungeon = new MenuButton(game, this, null, new String[] {"Dungeon: Vaults","Dungeon: Inners"}, false, 800,700,200,200);
+		MenuButton dungeon = new MenuButton(game, this, null, new String[] {"Dungeon: Vaults","Dungeon: Inners","Dungeon: Training"}, false, 800,700,200,200);
 		MenuButton pcount = new MenuButton(game, this, null, new String[] {"1 P","2 P","3 P","4 P"}, false, 550,700,200,200);
 		oc = () -> {
 			//switch selected dungeon generation
