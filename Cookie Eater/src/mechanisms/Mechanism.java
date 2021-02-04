@@ -35,4 +35,8 @@ public class Mechanism {
 	public void paint(Graphics g) {
 		
 	}
+	
+	public void remove() {
+		board.mechanisms.remove(this);
+	}
 }

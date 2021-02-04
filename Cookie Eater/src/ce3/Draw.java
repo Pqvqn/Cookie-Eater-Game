@@ -84,7 +84,7 @@ public class Draw extends JPanel{
 	public Point convertPoint(Point b) {
 		SwingUtilities.convertPointFromScreen(b, this);
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		Point bb = new Point((int)(.5+b.x * (board.X_RESOL/screen.getWidth())),(int)(.5+b.y * (board.Y_RESOL/screen.getHeight())));
+		Point bb = new Point((int)(.5+b.x * (Board.DEF_X_RESOL/screen.getWidth())),(int)(.5+b.y * (Board.DEF_Y_RESOL/screen.getHeight())));
 		return bb;
 	}
 	
@@ -102,13 +102,14 @@ public class Draw extends JPanel{
 		}
 		Rectangle screen_bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
-		g2.scale(screen_bounds.getWidth()/board.X_RESOL,screen_bounds.getHeight()/board.Y_RESOL);
-		boardImage.paint(g);
+		g2.scale(screen_bounds.getWidth()/Board.DEF_X_RESOL,screen_bounds.getHeight()/Board.DEF_Y_RESOL);
 		
-		if(board.isPaused() && game.ui_tis!=null && game.ui_tis.isVisible()) {
+		if(board==null || board.isPaused() && game.ui_tis!=null && game.ui_tis.isVisible()) {
 			game.ui_tis.paint(g);
 			return;
 		}
+		
+		boardImage.paint(g);
 		
 		for(int i=0; i<board.mechanisms.size(); i++) {
 			board.mechanisms.get(i).paint(g);

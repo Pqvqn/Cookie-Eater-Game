@@ -19,14 +19,14 @@ public class UISettings extends UIElement{
 	
 	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
-		makeButtons();	
 	}
 	
 	public void makeButtons() {
-		Board board = game.board;
-		updateList = new ArrayList<MenuButton>();
+		if(menuHandler!=null)menuHandler.delete();
 		menuHandler = new SubmenuHandler("MAIN");
+		updateList = new ArrayList<MenuButton>();
 		OnClick oc;
+		Board board = game.board;
 		
 		//toggles which menu is selected
 		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
@@ -50,7 +50,7 @@ public class UISettings extends UIElement{
 			this.show(true, p);
 		};
 		psel.setClick(oc);
-		//menuHandler.addButton("MAIN",psel);
+		menuHandler.addButton("MAIN",psel);
 		
 		//volume control
 		MenuButton vol = new MenuButton(game, this, null, new String[] {"mutevol.png", "highvol.png", "midvol.png", "lowvol.png"}, true, 600,500,400,200);

@@ -32,6 +32,8 @@ public class UIConfirmation extends UIElement{
 		}
 	}
 	
+	public boolean sameSelection(Selection s) {return selector==s;}
+	
 	public void update() {
 		for(int i=0; i<responses.size(); i++) {
 			responses.get(i).select(i == selector.getChosenIndex());

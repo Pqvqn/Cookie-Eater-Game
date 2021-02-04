@@ -15,7 +15,7 @@ public class UITitleScreen extends UIElement{
 	
 	public UITitleScreen(Game frame, int x, int y) {
 		super(frame, x, y);
-		parts.add(new UIRectangle(game,0,0,game.board.X_RESOL,game.board.Y_RESOL,Color.GRAY,true)); //backing
+		parts.add(new UIRectangle(game,0,0,Board.DEF_X_RESOL,Board.DEF_Y_RESOL,Color.GRAY,true)); //backing
 		parts.add(new UIText(game,200,350,"Cookie Eater 3",Color.WHITE,new Font("Arial",Font.BOLD,160))); //title
 		makeButtons();
 	}
@@ -48,8 +48,8 @@ public class UITitleScreen extends UIElement{
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
 			int[] modes = {Board.LEVELS,Board.PVP};
-			game.ui_set.show(false);
 			game.loadDungeon(modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
+			game.ui_set.show(false);
 			//start game, load board from other buttons
 			this.hide();
 		};

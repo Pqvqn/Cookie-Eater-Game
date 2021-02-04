@@ -45,8 +45,7 @@ public class Game extends JFrame {
 		audio = new Audio(this);
         music = new Music(this);
         
-        controls = new ArrayList<Controls>();
-        loadDungeon(Board.LEVELS,0,1);
+        controls = new ArrayList<Controls>(); 
         
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +84,7 @@ public class Game extends JFrame {
 		}else {
 			updateUI();
 			draw.runUpdate(); //update all game objects
-			board.runUpdate();
+			if(board!=null)board.runUpdate();
 		}
 		try {
 			Thread.sleep(time); //time between updates
@@ -102,6 +101,7 @@ public class Game extends JFrame {
 		}
 		controls = new ArrayList<Controls>();
 		board = new Board(this,mode,dungeon,playercount,cycletime);
+		ui_set.makeButtons();
 	}	
 	
 	public void updateUI() {
@@ -109,13 +109,13 @@ public class Game extends JFrame {
 		if(fpscheck--<=0) {
 			//fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
-			if(check_calibration){
+			if(check_calibration && board!=null){
 				board.setCalibrations(getAdjustedCycle());
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
 		}
-		board.updateUI();
+		if(board!=null)board.updateUI();
 
 	}
 	

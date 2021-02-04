@@ -47,5 +47,15 @@ public class SubmenuHandler {
 		}
 		showMenu(menuKey,true);
 	}
+	//removes all buttons
+	public void delete() {
+		Iterator<ArrayList<MenuButton>> it = menuListings.values().iterator();
+		while(it.hasNext()) {
+			ArrayList<MenuButton> buttons = it.next();
+			for(int i=0; i<buttons.size(); i++) {
+				buttons.get(i).show(false);
+			}
+		}
+	}
 	
 }

@@ -16,6 +16,7 @@ public class Board{
 	public Game game;
 	public static final int LEVELS = 0, PVP = 1;
 	public int mode;
+	public static final int DEF_Y_RESOL = 1020, DEF_X_RESOL = 1920; //default board dimensions
 	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
 	private Eater player;
 	public ArrayList<Cookie> cookies;
@@ -207,6 +208,10 @@ public class Board{
 			cookies.get(i).kill(null);
 			i--;
 		}
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).remove();
+			i--;
+		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
@@ -245,6 +250,10 @@ public class Board{
 		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
+			i--;
+		}
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).remove();
 			i--;
 		}
 		enemies = new ArrayList<Enemy>();
@@ -402,6 +411,7 @@ public class Board{
 	
 	public void endConfirmation(Selection s) {
 		if(ui_cnf==null)return;
+		if(!ui_cnf.sameSelection(s))return; //if the intended selection is not the currently displayed one
 		s.close();
 		game.draw.removeUI(ui_cnf);
 		ui_cnf = null;

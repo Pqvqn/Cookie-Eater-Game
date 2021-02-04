@@ -35,6 +35,11 @@ public class WallCase extends Wall{
 		board.menus.remove(confirmation);
 	}
 	
+	public void remove() {
+		super.remove();
+		board.endConfirmation(confirmation);
+	}
+	
 	public void runUpdate() {
 		//check if confirmation should display because player is within range
 		for(int i=0; i<board.players.size(); i++){
