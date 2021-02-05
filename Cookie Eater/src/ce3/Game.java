@@ -95,7 +95,7 @@ public class Game extends JFrame {
 		skipframes+=time;
 	}
 	
-	public void loadDungeon(int mode, int dungeon, int playercount) {
+	public void createDungeon(int mode, int dungeon, int playercount) {
 		for(int i=0; i<controls.size(); i++) {
 			removeKeyListener(controls.get(i));
 		}
