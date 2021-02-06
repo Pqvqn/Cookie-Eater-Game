@@ -1,6 +1,7 @@
 package ce3;
 
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class Game extends JFrame {
 	public UISettings ui_set;
 	public UITitleScreen ui_tis;
 	
-	//modes
+	public String saveFilePath; //path of game save files
 	
 	public Game() {
 		super("Cookie Eater");
@@ -40,6 +41,8 @@ public class Game extends JFrame {
 		fpscheck=100;
 		skipframes = 0;
 		check_calibration = true;
+		
+		saveFilePath = System.getProperty("user.home")+"/Documents/CookieEater/";
 		
 		draw = new Draw(this);
 		audio = new Audio(this);
@@ -95,6 +98,7 @@ public class Game extends JFrame {
 		skipframes+=time;
 	}
 	
+	//generate new Board based on settings
 	public void createDungeon(int mode, int dungeon, int playercount) {
 		for(int i=0; i<controls.size(); i++) {
 			removeKeyListener(controls.get(i));
@@ -103,6 +107,23 @@ public class Game extends JFrame {
 		board = new Board(this,mode,dungeon,playercount,cycletime);
 		ui_set.makeButtons();
 	}	
+	//load saved Board or create from file if not saved
+	public void loadDungeon(String name) {
+		for(int i=0; i<controls.size(); i++) {
+			removeKeyListener(controls.get(i));
+		}
+		controls = new ArrayList<Controls>();
+		
+		if(boards.get(name)!=null) {
+			board = boards.get(name);
+		}else {
+			File f = new File(saveFilePath+name+".txt");
+			SaveData bsave = new SaveData(f);
+			board = new Board(this,bsave,cycletime);
+		}
+		
+		ui_set.makeButtons();
+	}
 	
 	public void updateUI() {
 		//fps counter
