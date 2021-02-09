@@ -118,8 +118,15 @@ public class Game extends JFrame {
 			board = boards.get(name);
 		}else {
 			File f = new File(saveFilePath+name+".txt");
-			SaveData bsave = new SaveData(f);
-			board = new Board(this,bsave,cycletime);
+			SaveData bsave;
+			try {
+				bsave = new SaveData(f);
+				board = new Board(this,bsave,cycletime);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 		
 		ui_set.makeButtons();

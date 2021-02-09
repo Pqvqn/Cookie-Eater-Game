@@ -93,7 +93,14 @@ public class Board{
 		loadDungeon(dungeon);
 		
 	}
-	
+	//read data from save
+	public Board(Game g, SaveData data, int cycle) {
+		
+	}
+	//write data tp save
+	public void createSave() {
+		SaveData data = new SaveData();
+	}
 	
 	public void updateUI() {
 		//level display

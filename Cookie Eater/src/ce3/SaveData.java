@@ -17,6 +17,12 @@ public class SaveData {
 		interpretString(s);
 	}
 	
+	public SaveData() {}
+	
+	public void addData(String tag, ArrayList<Object> data) {
+		dataStorage.put(tag,data);
+	}
+	
 	private void interpretString(String s) {
 		//split sections of data
 		String[] sections = s.split("|");

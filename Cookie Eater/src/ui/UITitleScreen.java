@@ -97,7 +97,7 @@ public class UITitleScreen extends UIElement{
 			MenuButton loadsave = new MenuButton(game, this, null, new String[] {saveName}, false,xp, 700, 200,200);
 			oc = () -> {
 				//load saved board
-				game.loadDungeon(game.boards.get(saveName));
+				game.loadDungeon(saveName);
 			};
 			loadsave.setClick(oc);
 			menuHandler.addButton("LOADGAME",loadsave);
