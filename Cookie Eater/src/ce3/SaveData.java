@@ -19,10 +19,23 @@ public class SaveData {
 	
 	public SaveData() {}
 	
+	//add data point (replace current list with list of size 1)
+	public void addData(String tag, Object data) {
+		dataStorage.put(tag,new ArrayList<Object>());
+		dataStorage.get(tag).add(data);
+	}
+	
+	//add data point (add point to current list at index)
+	public void addData(String tag, Object data, int index) {
+		dataStorage.get(tag).add(index,data);
+	}
+	
+	//add data point (replace list with new list)
 	public void addData(String tag, ArrayList<Object> data) {
 		dataStorage.put(tag,data);
 	}
 	
+	//add data points in string form to storage
 	private void interpretString(String s) {
 		//split sections of data
 		String[] sections = s.split("|");
@@ -46,12 +59,13 @@ public class SaveData {
 			dataStorage.put(parts[0],info2);
 		}
 	}
-
-	public Object getData(String tag) {
+	
+	//get info by its tag
+	public ArrayList<Object> getData(String tag) {
 		return dataStorage.get(tag);
 	}
 	
-	
+	//convert storage into string form
 	public String toString() {
 		String ret = "*";
 		Iterator<String> it = dataStorage.keySet().iterator();
@@ -63,6 +77,13 @@ public class SaveData {
 			}
 		}
 		return ret;
+	}
+	
+	//saves storage string to file
+	public void saveToFile(File f) throws FileNotFoundException {
+		try (PrintWriter out = new PrintWriter(f)) {
+		    out.println(this);
+		}
 	}
 	
 }
