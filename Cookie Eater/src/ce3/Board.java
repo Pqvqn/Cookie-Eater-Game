@@ -9,8 +9,7 @@ import menus.*;
 import menus.Menu;
 
 import java.awt.geom.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class Board{
@@ -95,7 +94,7 @@ public class Board{
 		loadDungeon(dungeon);
 		
 	}
-	String testVar;
+	public String testVar;
 	//read data from save
 	public Board(Game g, SaveData data, int cycle) {
 		testVar = (String)(data.getData("test").get(0));
@@ -104,8 +103,16 @@ public class Board{
 	public void createSave() {
 		SaveData data = new SaveData();
 		data.addData("test",testVar);
+		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/test.txt");
 		try {
-			data.saveToFile(new File(System.getProperty("user.home")+"/Documents/CookieEater/test.txt"));
+			f.getParentFile().mkdirs();
+			f.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			data.saveToFile(f);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

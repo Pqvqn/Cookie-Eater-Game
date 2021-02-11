@@ -9,15 +9,19 @@ public class SaveData {
 	private HashMap<String,ArrayList<Object>> dataStorage; //keeps tags and data
 	
 	public SaveData(File f) throws IOException {
+		this();
 		String data = Files.readString(f.toPath()); //read full file into string
 		interpretString(data);
 	}
 	
 	public SaveData(String s) {
+		this();
 		interpretString(s);
 	}
 	
-	public SaveData() {}
+	public SaveData() {
+		dataStorage = new HashMap<String,ArrayList<Object>>();
+	}
 	
 	//add data point (replace current list with list of size 1)
 	public void addData(String tag, Object data) {
@@ -73,6 +77,7 @@ public class SaveData {
 			String tag = it.next();
 			ret+="|"+tag+":";
 			for(Object o : dataStorage.get(tag)) {
+				System.out.println(dataStorage.get(tag));
 				ret+=o.toString()+";";
 			}
 		}

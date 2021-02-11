@@ -29,7 +29,7 @@ public class UISettings extends UIElement{
 		Board board = game.board;
 		
 		//toggles which menu is selected
-		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG"}, false, 1300,700,400,200);
+		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG","TEST"}, false, 1300,700,400,200);
 		oc = () -> {
 			//select menu from list based on button state
 			menuHandler.displayMenu(sel.getState());
@@ -37,6 +37,7 @@ public class UISettings extends UIElement{
 		sel.setClick(oc);
 		menuHandler.addButton("MAIN",sel);
 		menuHandler.addButton("DEBUG",sel);
+		menuHandler.addButton("TEST",sel);
 		
 		//selects which player the menu corresponds to
 		String[] opts = new String[board.players.size()];
@@ -163,6 +164,29 @@ public class UISettings extends UIElement{
 		fps.setClick(oc);
 		menuHandler.addButton("DEBUG",fps);
 		
+		//load
+		MenuButton testl = new MenuButton(game, this, null, new String[] {"test L"}, false, 120,775,200,200);
+		oc = () -> {
+			game.loadDungeon("test");
+		};
+		testl.setClick(oc);
+		menuHandler.addButton("TEST",testl);
+		
+		//save
+		MenuButton tests = new MenuButton(game, this, null, new String[] {"test S"}, false, 620,775,200,200);
+		oc = () -> {
+			game.board.createSave();
+		};
+		tests.setClick(oc);
+		menuHandler.addButton("TEST",tests);
+		
+		//print
+		MenuButton testp = new MenuButton(game, this, null, new String[] {"test P"}, false, 1120,775,200,200);
+		oc = () -> {
+			System.out.println(game.board.testVar);
+		};
+		testp.setClick(oc);
+		menuHandler.addButton("TEST",testp);
 		
 	}
 	//update controls for selected player

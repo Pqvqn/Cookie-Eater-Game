@@ -50,6 +50,8 @@ public class Game extends JFrame {
         
         controls = new ArrayList<Controls>(); 
         
+        boards = new HashMap<String,Board>();
+        
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   		setUndecorated(false);
