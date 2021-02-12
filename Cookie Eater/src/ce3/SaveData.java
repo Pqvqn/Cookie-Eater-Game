@@ -7,6 +7,8 @@ import java.util.*;
 public class SaveData {
 	
 	private HashMap<String,ArrayList<Object>> dataStorage; //keeps tags and data
+	private final String sectionSep = "]", tagSep = ":", infoSep = ";"; //strings for separating data file information
+	private final String savedataMark = "*"; //strings for marking certain data types
 	
 	public SaveData(File f) throws IOException {
 		this();
@@ -42,17 +44,17 @@ public class SaveData {
 	//add data points in string form to storage
 	private void interpretString(String s) {
 		//split sections of data
-		String[] sections = s.split("|");
+		String[] sections = s.split(sectionSep);
 		for(int i=0; i<sections.length; i++) {
 			//split tag from information
-			String[] parts = sections[i].split(":");
+			String[] parts = sections[i].split(tagSep);
 			//split parts of information
-			String[] info = parts[1].split(";");
+			String[] info = parts[1].split(infoSep);
 			ArrayList<Object> info2 = new ArrayList<Object>();
 			
 			//test for type of info before adding
 			for(String s2:info) {
-				if(s2.substring(0,1).equals("*")) { //savedata
+				if(s2.substring(0,1).equals(savedataMark)) { //savedata
 					info2.add(new SaveData(s2.substring(1)));
 				}else { //string
 					info2.add(s2);
@@ -71,14 +73,14 @@ public class SaveData {
 	
 	//convert storage into string form
 	public String toString() {
-		String ret = "*";
+		String ret = savedataMark;
 		Iterator<String> it = dataStorage.keySet().iterator();
 		while(it.hasNext()) {
 			String tag = it.next();
-			ret+="|"+tag+":";
+			ret+=sectionSep+tag+tagSep;
 			for(Object o : dataStorage.get(tag)) {
 				System.out.println(dataStorage.get(tag));
-				ret+=o.toString()+";";
+				ret+=o.toString()+infoSep;
 			}
 		}
 		return ret;

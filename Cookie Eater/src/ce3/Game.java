@@ -130,7 +130,6 @@ public class Game extends JFrame {
 			}
 
 		}
-		
 		ui_set.makeButtons();
 	}
 	
