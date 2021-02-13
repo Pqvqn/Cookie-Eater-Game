@@ -46,23 +46,27 @@ public class SaveData {
 		//split sections of data
 		String[] sections = s.split(sectionSep);
 		for(int i=0; i<sections.length; i++) {
+			
 			//split tag from information
 			String[] parts = sections[i].split(tagSep);
-			//split parts of information
-			String[] info = parts[1].split(infoSep);
-			ArrayList<Object> info2 = new ArrayList<Object>();
-			
-			//test for type of info before adding
-			for(String s2:info) {
-				if(s2.substring(0,1).equals(savedataMark)) { //savedata
-					info2.add(new SaveData(s2.substring(1)));
-				}else { //string
-					info2.add(s2);
+			if(parts.length==2) { //valid data must have tag and info
+				
+				//split parts of information
+				String[] info = parts[1].split(infoSep);
+				ArrayList<Object> info2 = new ArrayList<Object>();
+				
+				//test for type of info before adding
+				for(String s2:info) {
+					if(s2.substring(0,1).equals(savedataMark)) { //savedata
+						info2.add(new SaveData(s2.substring(1)));
+					}else { //string
+						info2.add(s2);
+					}
 				}
+				
+				//add to data storage
+				dataStorage.put(parts[0],info2);
 			}
-			
-			//add to data storage
-			dataStorage.put(parts[0],info2);
 		}
 	}
 	
@@ -79,7 +83,6 @@ public class SaveData {
 			String tag = it.next();
 			ret+=sectionSep+tag+tagSep;
 			for(Object o : dataStorage.get(tag)) {
-				System.out.println(dataStorage.get(tag));
 				ret+=o.toString()+infoSep;
 			}
 		}

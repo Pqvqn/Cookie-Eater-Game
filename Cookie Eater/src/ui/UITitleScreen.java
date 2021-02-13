@@ -82,7 +82,11 @@ public class UITitleScreen extends UIElement{
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
 			int[] modes = {Board.LEVELS,Board.PVP};
-			game.createDungeon(modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
+			System.out.println("savename: "); //temp
+			Scanner sc = new Scanner(System.in);
+			String sn = sc.nextLine();
+			sc.close();
+			game.createDungeon(sn,modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
 			game.ui_set.show(false);
 			//start game, load board from other buttons
 			this.hide();

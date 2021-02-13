@@ -51,6 +51,16 @@ public class Game extends JFrame {
         controls = new ArrayList<Controls>(); 
         
         boards = new HashMap<String,Board>();
+        //load all save file names into saved game map
+        File dir = new File(saveFilePath);
+        File[] savefiles = dir.listFiles();
+        if (savefiles != null) {
+          for (int i=0; i<savefiles.length; i++) {
+        	  String name = savefiles[i].getName();
+        	  name = name.substring(0,name.indexOf("."));
+        	  boards.put(name,null);
+          }
+        }
         
         //window settings
   		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,13 +111,14 @@ public class Game extends JFrame {
 	}
 	
 	//generate new Board based on settings
-	public void createDungeon(int mode, int dungeon, int playercount) {
+	public void createDungeon(String name, int mode, int dungeon, int playercount) {
 		for(int i=0; i<controls.size(); i++) {
 			removeKeyListener(controls.get(i));
 		}
 		controls = new ArrayList<Controls>();
-		board = new Board(this,mode,dungeon,playercount,cycletime);
+		board = new Board(this,name,mode,dungeon,playercount,cycletime);
 		ui_set.makeButtons();
+		boards.put(name,board);
 	}	
 	//load saved Board or create from file if not saved
 	public void loadDungeon(String name) {
@@ -124,6 +135,7 @@ public class Game extends JFrame {
 			try {
 				bsave = new SaveData(f);
 				board = new Board(this,bsave,cycletime);
+				boards.put(name,board);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

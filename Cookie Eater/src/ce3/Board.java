@@ -15,6 +15,7 @@ import java.util.*;
 public class Board{
 
 	public Game game;
+	public String savename;
 	public static final int LEVELS = 0, PVP = 1;
 	public int mode;
 	public static final int DEF_Y_RESOL = 1020, DEF_X_RESOL = 1920; //default board dimensions
@@ -43,8 +44,9 @@ public class Board{
 	public UIDialogue ui_dia;
 	public UIConfirmation ui_cnf;
 	
-	public Board(Game g, int gamemode, int dungeon, int playercount, int cycle) {
+	public Board(Game g, String name, int gamemode, int dungeon, int playercount, int cycle) {
 		game = g;
+		savename = name;
 		mode = gamemode;
 		cycletime = cycle;
 		//initializing classes
@@ -92,18 +94,20 @@ public class Board{
 		floorSequence = floseq;
 		
 		loadDungeon(dungeon);
-		
+		testVar = "blehg";
 	}
 	public String testVar;
 	//read data from save
 	public Board(Game g, SaveData data, int cycle) {
+		savename = (String)(data.getData("savename").get(0));
 		testVar = (String)(data.getData("test").get(0));
 	}
 	//write data tp 
 	public void createSave() {
 		SaveData data = new SaveData();
 		data.addData("test",testVar);
-		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/test.txt");
+		data.addData("savename",savename);
+		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
 			f.getParentFile().mkdirs();
 			f.createNewFile();
