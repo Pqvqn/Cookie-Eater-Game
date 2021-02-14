@@ -24,6 +24,7 @@ public class UITitleScreen extends UIElement{
 	public void makeButtons() {
 		//Board board = game.board;
 		OnClick oc;
+		if(menuHandler!=null)menuHandler.delete();
 		menuHandler = new SubmenuHandler("MAIN");
 		
 		MenuButton quit = new MenuButton(game,this,null,new String[]{"X Quit"},false,100,700,120,120);
@@ -82,9 +83,12 @@ public class UITitleScreen extends UIElement{
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
 			int[] modes = {Board.LEVELS,Board.PVP};
-			System.out.println("savename: "); //temp
+			
 			Scanner sc = new Scanner(System.in);
-			String sn = sc.nextLine();
+			System.out.println("savename: "); //temp
+			String sn = null;
+			while(sn == null)
+				if(sc.hasNextLine())sn = sc.nextLine();
 			sc.close();
 			game.createDungeon(sn,modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
 			game.ui_set.show(false);
@@ -102,6 +106,8 @@ public class UITitleScreen extends UIElement{
 			oc = () -> {
 				//load saved board
 				game.loadDungeon(saveName);
+				game.ui_set.show(false);
+				this.hide();
 			};
 			loadsave.setClick(oc);
 			menuHandler.addButton("LOADGAME",loadsave);
@@ -112,6 +118,7 @@ public class UITitleScreen extends UIElement{
 	//display title screen and lock board
 	public void show() {
 		if(visible)return;
+		makeButtons();
 		visible = true;
 		game.draw.addUI(this);
 		menuHandler.showFull(true);

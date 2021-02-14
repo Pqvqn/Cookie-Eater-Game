@@ -142,6 +142,9 @@ public class Game extends JFrame {
 			}
 
 		}
+		for(int i=0; i<board.players.size(); i++) {
+			addControls(board.players.get(i).controls);
+		}
 		ui_set.makeButtons();
 	}
 	

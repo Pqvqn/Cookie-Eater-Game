@@ -112,10 +112,11 @@ public class UISettings extends UIElement{
 		reset.setClick(oc);
 		menuHandler.addButton("DEBUG",reset);
 		
-		//kills player to return to first floor
+		//shows title screen and saves board
 		MenuButton title = new MenuButton(game, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
-			board.killPlayers();
+			game.board.createSave();
+			game.board = null;
 			game.ui_tis.show();
 		};
 		title.setClick(oc);

@@ -83,7 +83,7 @@ public class SaveData {
 			String tag = it.next();
 			ret+=sectionSep+tag+tagSep;
 			for(Object o : dataStorage.get(tag)) {
-				ret+=o.toString()+infoSep;
+				if(o!=null)ret+=o.toString()+infoSep;
 			}
 		}
 		return ret;
