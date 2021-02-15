@@ -129,6 +129,7 @@ public class Game extends JFrame {
 		
 		if(boards.get(name)!=null) {
 			board = boards.get(name);
+			board.loadUp();
 		}else {
 			File f = new File(saveFilePath+name+".txt");
 			SaveData bsave;
@@ -142,9 +143,7 @@ public class Game extends JFrame {
 			}
 
 		}
-		for(int i=0; i<board.players.size(); i++) {
-			addControls(board.players.get(i).controls);
-		}
+
 		ui_set.makeButtons();
 	}
 	

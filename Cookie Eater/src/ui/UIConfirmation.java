@@ -33,6 +33,7 @@ public class UIConfirmation extends UIElement{
 	}
 	
 	public boolean sameSelection(Selection s) {return selector==s;}
+	public Selection getSelection() {return selector;}
 	
 	public void update() {
 		for(int i=0; i<responses.size(); i++) {

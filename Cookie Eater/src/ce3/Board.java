@@ -101,6 +101,7 @@ public class Board{
 	public Board(Game g, SaveData data, int cycle) {
 		savename = (String)(data.getData("savename").get(0));
 		testVar = (String)(data.getData("test").get(0));
+		endConfirmation(ui_cnf.getSelection());
 	}
 	//write data tp 
 	public void createSave() {
@@ -120,6 +121,15 @@ public class Board{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	//load board back up after closing out
+	public void loadUp() {
+		game.draw.setBoard(this);
+		game.draw.updateBG();
+		for(int i=0; i<players.size(); i++) {
+			game.addControls(players.get(i).controls);
 		}
 	}
 	

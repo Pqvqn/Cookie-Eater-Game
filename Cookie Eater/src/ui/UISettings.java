@@ -117,6 +117,7 @@ public class UISettings extends UIElement{
 		oc = () -> {
 			game.board.createSave();
 			game.board = null;
+			this.show(false);
 			game.ui_tis.show();
 		};
 		title.setClick(oc);

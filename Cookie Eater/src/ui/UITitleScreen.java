@@ -79,17 +79,15 @@ public class UITitleScreen extends UIElement{
 		pcount.setClick(oc);
 		menuHandler.addButton("NEWGAME",pcount);
 		
-		
+		Scanner sc = new Scanner(System.in);
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
 			int[] modes = {Board.LEVELS,Board.PVP};
 			
-			Scanner sc = new Scanner(System.in);
+
 			System.out.println("savename: "); //temp
 			String sn = null;
-			while(sn == null)
-				if(sc.hasNextLine())sn = sc.nextLine();
-			sc.close();
+			if(sc.hasNextLine())sn = sc.nextLine();
 			game.createDungeon(sn,modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
 			game.ui_set.show(false);
 			//start game, load board from other buttons
