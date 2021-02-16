@@ -9,10 +9,10 @@ import java.util.*;
 
 public class Floor5 extends Level{
 	
-	private int[][] areas = {{0,board.X_RESOL/2,0,board.Y_RESOL/2}, //regions of board - one node per until all filled
-			{0,board.X_RESOL/2,board.Y_RESOL/2,board.Y_RESOL},
-			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
-			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
+	private int[][] areas = {{0,board.x_resol/2,0,board.y_resol/2}, //regions of board - one node per until all filled
+			{0,board.x_resol/2,board.y_resol/2,board.y_resol},
+			{board.x_resol/2,board.x_resol,0,board.y_resol/2},
+			{board.x_resol/2,board.x_resol,board.y_resol/2,board.y_resol}};
 	
 	public Floor5(Game frame, Board gameboard) {
 		this(frame,gameboard,null);

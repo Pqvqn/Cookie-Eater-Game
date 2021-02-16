@@ -32,7 +32,7 @@ public class Training1 extends Training{
 		board.cookies.add(new CookieStat(game,board,600,600,3,-1,1));
 		board.cookies.add(new CookieStat(game,board,600,800,3,-1,2));
 		
-		int xr = board.X_RESOL;
+		int xr = board.x_resol;
 		
 		board.cookies.add(new CookieStat(game,board,xr-800,500,0,0,0));
 		

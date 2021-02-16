@@ -40,20 +40,20 @@ public class Floor2 extends Level{
 		for(int i=0; i<num; i++) {
 			int x=-1,y=-1,w=-1,h=-1; //regenerate wall until it doesn't overlap player start
 			while(x<0 || collidesCircleAndRect((int)(startx+.5),(int)(starty+.5),board.player().getRadius()*3,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)) {
-				x=(int)(Math.random()*board.X_RESOL);
-				y=(int)(Math.random()*board.Y_RESOL);
+				x=(int)(Math.random()*board.x_resol);
+				y=(int)(Math.random()*board.y_resol);
 				w=(int)(Math.random()*300)+200;
 				h=(int)(Math.random()*300)+200;
 			}
 			board.walls.add(new Wall(game,board,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)); //adds wall to list of walls
 		}
-		//board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
-		//board.walls.add(new Wall(board,(int)(Math.random()*(board.X_RESOL-100))+50,(int)(Math.random()*(board.Y_RESOL-100))+50,(int)(Math.random()*400)+100));
+		//board.walls.add(new Wall(board,(int)(Math.random()*(board.x_resol-100))+50,(int)(Math.random()*(board.y_resol-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
+		//board.walls.add(new Wall(board,(int)(Math.random()*(board.x_resol-100))+50,(int)(Math.random()*(board.y_resol-100))+50,(int)(Math.random()*400)+100));
 		int len = (int)(Math.random()*3+2);
 		Path path = new Path(len);
 		for(int i=0; i<len; i++) {
-			int x = (int)(Math.random()*(board.X_RESOL-100))+50;
-			int y = (int)(Math.random()*(board.Y_RESOL-100))+50;
+			int x = (int)(Math.random()*(board.x_resol-100))+50;
+			int y = (int)(Math.random()*(board.y_resol-100))+50;
 			int mode = Path.SPEED;
 			double rate = Math.random()*10;
 			int sizea = (int)(Math.random()*200)+100;

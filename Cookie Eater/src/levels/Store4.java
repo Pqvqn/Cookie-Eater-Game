@@ -12,12 +12,12 @@ public class Store4 extends Store{
 		shieldCost = 75;
 		defaultItemCost = 90;
 		installCost = 10;
-		int[][][] vs = {{{board.X_RESOL/2-200,board.Y_RESOL-110} , {board.X_RESOL/2+200,board.Y_RESOL-110} , {board.X_RESOL/2,board.Y_RESOL-110} , {board.X_RESOL/2-200,board.Y_RESOL-260} , {board.X_RESOL/2+200,board.Y_RESOL-260} , {board.X_RESOL/2,board.Y_RESOL-260}} ,
-				{{board.X_RESOL/2-200,110} , {board.X_RESOL/2+200,110} , {board.X_RESOL/2,110} , {board.X_RESOL/2-200,260} , {board.X_RESOL/2+200,260} , {board.X_RESOL/2,260}} };
+		int[][][] vs = {{{board.x_resol/2-200,board.y_resol-110} , {board.x_resol/2+200,board.y_resol-110} , {board.x_resol/2,board.y_resol-110} , {board.x_resol/2-200,board.y_resol-260} , {board.x_resol/2+200,board.y_resol-260} , {board.x_resol/2,board.y_resol-260}} ,
+				{{board.x_resol/2-200,110} , {board.x_resol/2+200,110} , {board.x_resol/2,110} , {board.x_resol/2-200,260} , {board.x_resol/2+200,260} , {board.x_resol/2,260}} };
 		vendorSpaces = vs;
-		int[][] ps = {{board.X_RESOL/2-300,400}};
+		int[][] ps = {{board.x_resol/2-300,400}};
 		passerbySpaces = ps;
-		int[][] ms = {{board.X_RESOL-200,board.Y_RESOL/2+180},{board.X_RESOL-390,315},{board.X_RESOL-390,board.Y_RESOL-315},{board.X_RESOL-185,board.Y_RESOL/2}};
+		int[][] ms = {{board.x_resol-200,board.y_resol/2+180},{board.x_resol-390,315},{board.x_resol-390,board.y_resol-315},{board.x_resol-185,board.y_resol/2}};
 		mechanicSpaces = ms;
 		configureCatalogue(defaultItemCost,catalogue,prices);
 	}

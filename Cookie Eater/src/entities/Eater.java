@@ -47,8 +47,8 @@ public class Eater extends Entity{
 		name = "Player "+id;
 		dO= true;
 		ded = false;
-		x=board.X_RESOL/2;
-		y=board.Y_RESOL/2;
+		x=board.x_resol/2;
+		y=board.y_resol/2;
 		direction = NONE;
 		x_velocity = 0;
 		y_velocity = 0;
@@ -346,15 +346,15 @@ public class Eater extends Entity{
 	
 	public void initUI() {
 		if(board.mode == Board.LEVELS) {
-			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.Y_RESOL-50,3,2,getSpecialColors()));
-			game.draw.addUI(scoreboard = new UIScoreCount(game,board.X_RESOL-170,board.Y_RESOL-100));
-			game.draw.addUI(shieldDisp = new UIShields(game,board.X_RESOL-80,90+60*id,3));
+			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.y_resol-50,3,2,getSpecialColors()));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,board.x_resol-170,board.y_resol-100));
+			game.draw.addUI(shieldDisp = new UIShields(game,board.x_resol-80,90+60*id,3));
 		}else if(board.mode == Board.PVP) {
 			game.draw.addUI(itemDisp = new UIItemsAll(game,
-					(id==1||id==2)?50:board.X_RESOL-250,(id==1||id==3)?150:board.Y_RESOL-50,
+					(id==1||id==2)?50:board.x_resol-250,(id==1||id==3)?150:board.y_resol-50,
 					1,id,getSpecialColors()));
-			game.draw.addUI(shieldDisp = new UIShields(game,(id==1||id==2)?350:board.X_RESOL-350,(id==1||id==3)?130:board.Y_RESOL-70,id));
-			game.draw.addUI(scoreboard = new UIScoreCount(game,(id==1||id==2)?50:board.X_RESOL-100,(id==1||id==3)?200:board.Y_RESOL-200));
+			game.draw.addUI(shieldDisp = new UIShields(game,(id==1||id==2)?350:board.x_resol-350,(id==1||id==3)?130:board.y_resol-70,id));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,(id==1||id==2)?50:board.x_resol-100,(id==1||id==3)?200:board.y_resol-200));
 		}
 	}
 	public void updateUI() {

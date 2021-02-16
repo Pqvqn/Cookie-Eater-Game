@@ -24,8 +24,8 @@ public abstract class Store extends Level{
 		super(frame,gameboard);
 		catalogue = new ArrayList<String>();
 		prices = new ArrayList<Double>();
-		startx = board.X_RESOL/2;
-		starty = board.Y_RESOL/2;
+		startx = board.x_resol/2;
+		starty = board.y_resol/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 		shieldNum = 6;
@@ -43,30 +43,30 @@ public abstract class Store extends Level{
 	
 	
 	public void build() {
-		board.walls.add(new Wall(game,board,0,0,board.X_RESOL,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.Y_RESOL));
-		board.walls.add(new Wall(game,board,0,board.Y_RESOL-BORDER_THICKNESS,board.X_RESOL,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.X_RESOL-BORDER_THICKNESS,0,BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
+		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
 		
 		board.walls.add(new Wall(game,board,0,0,625,150));
-		board.walls.add(new Wall(game,board,0,board.Y_RESOL-150,625,150));
-		board.walls.add(new Wall(game,board,board.X_RESOL-625,0,625,150));
-		board.walls.add(new Wall(game,board,board.X_RESOL-625,board.Y_RESOL-150,625,150));
+		board.walls.add(new Wall(game,board,0,board.y_resol-150,625,150));
+		board.walls.add(new Wall(game,board,board.x_resol-625,0,625,150));
+		board.walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-150,625,150));
 		
 		board.walls.add(new Wall(game,board,625-75,0,75,350));
-		board.walls.add(new Wall(game,board,625-75,board.Y_RESOL-350,75,350));
-		board.walls.add(new Wall(game,board,board.X_RESOL-625,0,75,350));
-		board.walls.add(new Wall(game,board,board.X_RESOL-625,board.Y_RESOL-350,75,350));
+		board.walls.add(new Wall(game,board,625-75,board.y_resol-350,75,350));
+		board.walls.add(new Wall(game,board,board.x_resol-625,0,75,350));
+		board.walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-350,75,350));
 		
 		board.walls.add(new Wall(game,board,0,0,230,250));
-		board.walls.add(new Wall(game,board,board.X_RESOL-230,0,230,250));
-		board.walls.add(new Wall(game,board,0,board.Y_RESOL-250,230,250));
-		board.walls.add(new Wall(game,board,board.X_RESOL-230,board.Y_RESOL-250,230,250));
+		board.walls.add(new Wall(game,board,board.x_resol-230,0,230,250));
+		board.walls.add(new Wall(game,board,0,board.y_resol-250,230,250));
+		board.walls.add(new Wall(game,board,board.x_resol-230,board.y_resol-250,230,250));
 		
 		board.walls.add(new Wall(game,board,0,0,130,350));
-		board.walls.add(new Wall(game,board,board.X_RESOL-130,0,130,350));
-		board.walls.add(new Wall(game,board,0,board.Y_RESOL-350,130,350));
-		board.walls.add(new Wall(game,board,board.X_RESOL-130,board.Y_RESOL-350,130,350));
+		board.walls.add(new Wall(game,board,board.x_resol-130,0,130,350));
+		board.walls.add(new Wall(game,board,0,board.y_resol-350,130,350));
+		board.walls.add(new Wall(game,board,board.x_resol-130,board.y_resol-350,130,350));
 		
 		//add cases to every item
 		int caseWidth = 70;

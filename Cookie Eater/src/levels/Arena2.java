@@ -16,7 +16,7 @@ public class Arena2 extends Arena{
 		int cycle = game.getCycle();
 		for(int i=0;i<1;i++) {
 			Enemy e;
-			e = new EnemySpawnerArena(game,board,cycle,board.X_RESOL/2,board.Y_RESOL/2);
+			e = new EnemySpawnerArena(game,board,cycle,board.x_resol/2,board.y_resol/2);
 			board.enemies.add(e);
 
 		}

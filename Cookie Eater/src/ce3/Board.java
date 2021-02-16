@@ -19,7 +19,7 @@ public class Board{
 	public static final int LEVELS = 0, PVP = 1;
 	public int mode;
 	public static final int DEF_Y_RESOL = 1020, DEF_X_RESOL = 1920; //default board dimensions
-	public final int Y_RESOL = 1020, X_RESOL = 1920; //board dimensions
+	public int y_resol = 1020, x_resol = 1920; //board dimensions
 	private Eater player;
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
@@ -71,7 +71,7 @@ public class Board{
 		
 		game.draw.setBoard(this);
 		
-		game.draw.addUI(ui_lvl = new UILevelInfo(game,X_RESOL/2,30));
+		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		if(mode == LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
@@ -97,17 +97,52 @@ public class Board{
 		testVar = "blehg";
 	}
 	public String testVar;
+	/*list of variables that need to be put in
+	private Eater player;
+	public ArrayList<Cookie> cookies;
+	public ArrayList<Wall> walls;
+	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
+	public Area wallSpace;
+	public ArrayList<Effect> effects;
+	public ArrayList<Enemy> enemies;
+	public ArrayList<Eater> players;
+	public ArrayList<Explorer> npcs;
+	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
+	public ArrayList<Menu> menus;
+
+	private Level[][] floorSequence; //order of floors for each dungeon 
+	public LinkedList<Level> floors;
+	public Level currFloor;
+	*/
 	//read data from save
 	public Board(Game g, SaveData data, int cycle) {
+		game = g;
+		cycletime = cycle;		
+		
 		savename = (String)(data.getData("savename").get(0));
 		testVar = (String)(data.getData("test").get(0));
-		endConfirmation(ui_cnf.getSelection());
+		mode = (Integer)(data.getData("mode").get(0));
+		x_resol = (Integer)(data.getData("resolution").get(0));
+		y_resol = (Integer)(data.getData("resolution").get(1));
+		currDungeon = (Integer)(data.getData("currentdungeon").get(0));
+		playerCount = (Integer)(data.getData("playercount").get(0));
+		awaiting_start = (Boolean)(data.getData("awaiting").get(0));
+		
+		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
+		game.draw.setBoard(this);
 	}
 	//write data tp 
 	public void createSave() {
 		SaveData data = new SaveData();
 		data.addData("test",testVar);
 		data.addData("savename",savename);
+		data.addData("mode",mode);
+		data.addData("resolution",x_resol,0);
+		data.addData("resolution",y_resol,1);
+		data.addData("currentdungeon",currDungeon);
+		data.addData("playercount",playerCount);
+		data.addData("awaiting",awaiting_start);
+		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
 			f.getParentFile().mkdirs();
@@ -131,6 +166,7 @@ public class Board{
 		for(int i=0; i<players.size(); i++) {
 			game.addControls(players.get(i).controls);
 		}
+		endConfirmation(ui_cnf.getSelection());
 	}
 	
 	public void updateUI() {

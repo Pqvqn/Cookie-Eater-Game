@@ -320,10 +320,10 @@ public class Explorer extends Entity{
 
 		}else if(Math.abs(x-xt)<getRadius()) {
 			dir = y<yt ? DOWN : UP; 
-		}else if(Math.abs(y-board.Y_RESOL/2)<getRadius()) {
+		}else if(Math.abs(y-board.y_resol/2)<getRadius()) {
 			dir = x>xt ? LEFT : RIGHT; 
 		}else {
-			dir = y<board.Y_RESOL/2 ? DOWN : UP; 
+			dir = y<board.y_resol/2 ? DOWN : UP; 
 		}
 		if(dir!=direction && direction!=NONE) {
 			direction = NONE;

@@ -12,10 +12,10 @@ import java.util.*;
 
 public class FloorRound extends Level{
 	
-	private int[][] areas = {{0,board.X_RESOL/2,0,board.Y_RESOL/2}, //regions of board - one node per until all filled
-			{0,board.X_RESOL/2,board.Y_RESOL/2,board.Y_RESOL},
-			{board.X_RESOL/2,board.X_RESOL,0,board.Y_RESOL/2},
-			{board.X_RESOL/2,board.X_RESOL,board.Y_RESOL/2,board.Y_RESOL}};
+	private int[][] areas = {{0,board.x_resol/2,0,board.y_resol/2}, //regions of board - one node per until all filled
+			{0,board.x_resol/2,board.y_resol/2,board.y_resol},
+			{board.x_resol/2,board.x_resol,0,board.y_resol/2},
+			{board.x_resol/2,board.x_resol,board.y_resol/2,board.y_resol}};
 	
 	public FloorRound(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
@@ -44,8 +44,8 @@ public class FloorRound extends Level{
 		
 		int len = 2;
 		Path path = new Path(len);
-		int x = (int)(.5+Math.random()*board.X_RESOL);
-		int y = (int)(.5+Math.random()*board.Y_RESOL);
+		int x = (int)(.5+Math.random()*board.x_resol);
+		int y = (int)(.5+Math.random()*board.y_resol);
 		path.setCheckpoint(0,x,y,Path.TIME,100,0,0,0);
 		path.setCheckpoint(1,x,y,Path.TIME,100,200,0,0);
 		board.mechanisms.add(new WallMove(game,board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path));

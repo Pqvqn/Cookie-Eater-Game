@@ -44,7 +44,7 @@ public abstract class Level{
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
-		double[][] sp = {{board.X_RESOL-distToWall,board.Y_RESOL-distToWall},{distToWall,distToWall},{distToWall,board.Y_RESOL-distToWall},{board.X_RESOL-distToWall,distToWall}};
+		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
 	}
 	//returns string that names the floor
@@ -56,10 +56,10 @@ public abstract class Level{
 	public void build() {
 		startx = board.players.get(0).getX(); //start floor where last floor ended
 		starty = board.players.get(0).getY();
-		board.walls.add(new Wall(game,board,0,0,board.X_RESOL,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.Y_RESOL));
-		board.walls.add(new Wall(game,board,0,board.Y_RESOL-BORDER_THICKNESS,board.X_RESOL,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.X_RESOL-BORDER_THICKNESS,0,BORDER_THICKNESS,board.Y_RESOL));
+		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
+		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
 		
 	}
 	//adds a level mechanism to the board
@@ -78,12 +78,12 @@ public abstract class Level{
 		int xOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1, yOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1;
 		int tY = 0, tX = 0;
 		//adjust cookie grid to be centered
-		for(tY = yOrig; tY<board.Y_RESOL-BORDER_THICKNESS-clearance; tY+=separation);
-		for(tX = xOrig; tX<board.X_RESOL-BORDER_THICKNESS-clearance; tX+=separation);
-		xOrig+=(board.X_RESOL-tX-xOrig)/2;
-		yOrig+=(board.Y_RESOL-tY-yOrig)/2;
-		for(int pY = yOrig; pY<board.Y_RESOL-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
-			for(int pX = xOrig; pX<board.X_RESOL-BORDER_THICKNESS-clearance; pX+=separation) {
+		for(tY = yOrig; tY<board.y_resol-BORDER_THICKNESS-clearance; tY+=separation);
+		for(tX = xOrig; tX<board.x_resol-BORDER_THICKNESS-clearance; tX+=separation);
+		xOrig+=(board.x_resol-tX-xOrig)/2;
+		yOrig+=(board.y_resol-tY-yOrig)/2;
+		for(int pY = yOrig; pY<board.y_resol-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
+			for(int pX = xOrig; pX<board.x_resol-BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
 				/*for(Wall w : board.walls) { //only place if not too close to any walls
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA(),w.getOX(),w.getOY())) 
@@ -668,7 +668,7 @@ public abstract class Level{
 				int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
 				nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
 			}else{
-				nodes.add(new int[] {(int)(Math.random()*board.X_RESOL),(int)(Math.random()*board.Y_RESOL),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
+				nodes.add(new int[] {(int)(Math.random()*board.x_resol),(int)(Math.random()*board.y_resol),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 			}
 			int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
 			lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
@@ -696,9 +696,9 @@ public abstract class Level{
 	//places walls that don't touch paths or nodes
 	public void genWalls(int sep, int min, int max) {
 		//for(int i=0; i<num; i++) { //make num of walls
-		for(int i=BORDER_THICKNESS; i<board.Y_RESOL; i+=sep) {
-			for(int j=BORDER_THICKNESS; j<board.X_RESOL; j+=sep) {
-				//int cX = (int)(Math.random()*board.X_RESOL), cY = (int)(Math.random()*board.Y_RESOL); //choose wall center
+		for(int i=BORDER_THICKNESS; i<board.y_resol; i+=sep) {
+			for(int j=BORDER_THICKNESS; j<board.x_resol; j+=sep) {
+				//int cX = (int)(Math.random()*board.x_resol), cY = (int)(Math.random()*board.y_resol); //choose wall center
 				int x=j,y=i,w=1,h=1;
 				double a = Math.random()*Math.PI*2;
 				if(rectOK(x,y,w,h,a,i,j,max)) { //if center is valid
@@ -780,8 +780,8 @@ public abstract class Level{
 			return false; //false if wall too big
 		}
 		double[][] corners = corners(x,y,w,h,ox,oy,a);
-		/*if(Math.min(Math.min(x,x+hX+wX),Math.min(x+wX,x+hX))<=0 || (Math.max(Math.max(x,x+hX+wX),Math.max(x+wX,x+hX))>=board.X_RESOL 
-				|| Math.min(Math.min(y,y+hY+wY),Math.min(y+wY,y+hY))<=0 || (Math.max(Math.max(y,y+hY+wY),Math.max(y+wY,y+hY))>=board.Y_RESOL))) {
+		/*if(Math.min(Math.min(x,x+hX+wX),Math.min(x+wX,x+hX))<=0 || (Math.max(Math.max(x,x+hX+wX),Math.max(x+wX,x+hX))>=board.x_resol 
+				|| Math.min(Math.min(y,y+hY+wY),Math.min(y+wY,y+hY))<=0 || (Math.max(Math.max(y,y+hY+wY),Math.max(y+wY,y+hY))>=board.y_resol))) {
 			return false; //false if some point is outside board
 		}*/
 		for(int[] node : nodes) {
@@ -807,7 +807,7 @@ public abstract class Level{
 		}
 		int num = 0;
 		for(int i=0; i<4; i++) {
-			if(corners[i][0]<=0 || corners[i][0]>=board.X_RESOL || corners[i][1]<=0 || corners[i][1]>=board.Y_RESOL)num++;
+			if(corners[i][0]<=0 || corners[i][0]>=board.x_resol || corners[i][1]<=0 || corners[i][1]>=board.y_resol)num++;
 		}
 		if(num>=2) 
 			return false; //false if at least 2 corners are outside
@@ -815,8 +815,8 @@ public abstract class Level{
 	}
 	//places walls that don't touch paths or nodes
 	public void genRoundWalls(int sep, int min, int max) {
-		for(int i=0; i<board.Y_RESOL; i+=sep) {
-			for(int j=0; j<board.X_RESOL; j+=sep) {
+		for(int i=0; i<board.y_resol; i+=sep) {
+			for(int j=0; j<board.x_resol; j+=sep) {
 				int r=1;
 				if(circOK(j,i,r,max)) { //if center is valid
 					while(circOK(j,i,r,max)) {

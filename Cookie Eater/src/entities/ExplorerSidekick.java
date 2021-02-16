@@ -126,7 +126,7 @@ public class ExplorerSidekick extends Explorer{
 			yeehaw = false;
 			//for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
 				if(tester.collidesWithArea(false,board.wallSpace)
-						|| xs[i]<0 || xs[i]>board.X_RESOL || ys[i]<0 || ys[i]>board.Y_RESOL) {
+						|| xs[i]<0 || xs[i]>board.x_resol || ys[i]<0 || ys[i]>board.y_resol) {
 					//[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
 					//yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
 					dos[i] += -500;

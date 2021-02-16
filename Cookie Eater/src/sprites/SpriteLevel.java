@@ -33,7 +33,7 @@ public class SpriteLevel extends Sprite{
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
 		lvl = removeSpace(board.currFloor.getName());
-		BufferedImage wallMask = new BufferedImage(board.X_RESOL,board.Y_RESOL,BufferedImage.TYPE_INT_ARGB);
+		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D newg = wallMask.createGraphics();
 		
 		//tile default image, dimensions, and offset from 0x0
@@ -42,7 +42,7 @@ public class SpriteLevel extends Sprite{
 		int wid = (int)(.5+tile.getWidth(null)*board.currFloor.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currFloor.getScale());
 		int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
 		//list of names of all tiles on board
-		String[][] tiles = new String[(int)(2+board.Y_RESOL/hei)][(int)(2+board.X_RESOL/wid)];
+		String[][] tiles = new String[(int)(2+board.y_resol/hei)][(int)(2+board.x_resol/wid)];
 		int pr = prefix.length();
 		tiles[0][0] = chooseImage(null,null); //top-left corner
 		for(int i=1; i<tiles.length; i++) { //left side
@@ -75,8 +75,8 @@ public class SpriteLevel extends Sprite{
 		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallB.png"));
 		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();
-		for(int i=0; i<board.X_RESOL;i++){ //masking wallF onto wall using wallMask based on blue channel
-			for(int j=0; j<board.Y_RESOL;j++){
+		for(int i=0; i<board.x_resol;i++){ //masking wallF onto wall using wallMask based on blue channel
+			for(int j=0; j<board.y_resol;j++){
 				int rgb = wallF.getRGB(i, j);
 				int mask = wallMask.getRGB(i,j);
 				int color = rgb & 0x00ffffff;
@@ -130,7 +130,7 @@ public class SpriteLevel extends Sprite{
 		
 		//images
 		//floor
-		g.drawImage(floor,0,0,board.X_RESOL,board.Y_RESOL,null);
+		g.drawImage(floor,0,0,board.x_resol,board.y_resol,null);
 		//walls
 		Area wallSpace = new Area(board.wallSpace);
 		for(Mechanism m : board.mechanisms) {
@@ -145,7 +145,7 @@ public class SpriteLevel extends Sprite{
 			wallSpace.add(new Area(new Rectangle(x,y,wid,hei)));
 		}*/
 		g.setClip(wallSpace);
-		g.drawImage(wall,0,0,board.X_RESOL,board.Y_RESOL,null);
+		g.drawImage(wall,0,0,board.x_resol,board.y_resol,null);
 		g.setClip(null);
 	}
 }

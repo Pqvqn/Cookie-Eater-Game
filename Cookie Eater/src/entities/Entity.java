@@ -741,7 +741,7 @@ public abstract class Entity {
 	public void setOffstage(int d) {offstage=d;}
 	//tests if off screen
 	public boolean outOfBounds() {
-		return x<0-offstage || x>board.X_RESOL+offstage || y<0-offstage || y>board.Y_RESOL+offstage;
+		return x<0-offstage || x>board.x_resol+offstage || y<0-offstage || y>board.y_resol+offstage;
 	}
 	//kill, but only if no bounce (on edge)
 	public void killBounceEdge(boolean breakShield) {
@@ -754,13 +754,13 @@ public abstract class Entity {
 		if(x<0) {
 			//bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);
 			collideAt(board.wallSpace,x-radius,y,0,0,999999999);
-		}else if(x>board.X_RESOL) {
+		}else if(x>board.x_resol) {
 			//bounce(null,board.X_RESOL+(int)(.5+radius*scale)+offstage,-100,100-(int)(.5+radius*scale),board.Y_RESOL+1000);
 			collideAt(board.wallSpace,x+radius,y,0,0,999999999);
 		}else if(y<0) {
 			//bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
 			collideAt(board.wallSpace,x,y-radius,0,0,999999999);
-		}else if(y>board.Y_RESOL) {
+		}else if(y>board.y_resol) {
 			//bounce(null,-100,board.Y_RESOL+(int)(.5+radius*scale)+offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
 			collideAt(board.wallSpace,x,y+radius,0,0,999999999);
 		}
