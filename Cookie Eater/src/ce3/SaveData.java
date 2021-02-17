@@ -8,7 +8,7 @@ public class SaveData {
 	
 	private HashMap<String,ArrayList<Object>> dataStorage; //keeps tags and data
 	private final String sectionSep = "]", tagSep = ":", infoSep = ";"; //strings for separating data file information
-	private final String savedataMark = "*"; //strings for marking certain data types
+	private final String savedataOpen = "{", savedataClose = "}"; //strings for marking certain data types
 	
 	public SaveData(File f) throws IOException {
 		this();
@@ -56,9 +56,22 @@ public class SaveData {
 				ArrayList<Object> info2 = new ArrayList<Object>();
 				
 				//test for type of info before adding
-				for(String s2:info) {
-					if(s2.substring(0,1).equals(savedataMark)) { //savedata
-						info2.add(new SaveData(s2.substring(1)));
+				for(int j=0; j<info.length; j++) {
+					String s2 = info[j];
+					
+					if(s2.contains(savedataOpen)) { //savedata
+						String s3 = "";
+						int markCount = 0;
+						for(; markCount!=0 && j<info.length; j++) { //continue until all sub-datas are closed
+							s3+=sectionSep+info[j];
+							if(info[j].contains(savedataOpen)) {
+								markCount++;
+							}if(info[j].contains(savedataClose)) {
+								markCount--;
+							}
+						}
+						
+						info2.add(new SaveData(s3));
 					}else { //string
 						info2.add(s2);
 					}
@@ -77,7 +90,7 @@ public class SaveData {
 	
 	//convert storage into string form
 	public String toString() {
-		String ret = savedataMark;
+		String ret = savedataOpen;
 		Iterator<String> it = dataStorage.keySet().iterator();
 		while(it.hasNext()) {
 			String tag = it.next();
@@ -86,6 +99,7 @@ public class SaveData {
 				if(o!=null)ret+=o.toString()+infoSep;
 			}
 		}
+		ret+=savedataClose;
 		return ret;
 	}
 	
