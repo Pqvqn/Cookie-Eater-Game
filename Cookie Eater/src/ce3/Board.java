@@ -119,14 +119,14 @@ public class Board{
 		game = g;
 		cycletime = cycle;		
 		
-		savename = (String)(data.getData("savename").get(0));
-		testVar = (String)(data.getData("test").get(0));
-		mode = (Integer)(data.getData("mode").get(0));
-		x_resol = (Integer)(data.getData("resolution").get(0));
-		y_resol = (Integer)(data.getData("resolution").get(1));
-		currDungeon = (Integer)(data.getData("currentdungeon").get(0));
-		playerCount = (Integer)(data.getData("playercount").get(0));
-		awaiting_start = (Boolean)(data.getData("awaiting").get(0));
+		savename = data.getString("savename",0);
+		testVar = data.getString("test",0);
+		mode = data.getInteger("mode",0);
+		x_resol = data.getInteger("resolution",0);
+		y_resol = data.getInteger("resolution",1);
+		currDungeon = data.getInteger("currentdungeon",0);
+		playerCount = data.getInteger("playercount",0);
+		awaiting_start = data.getBoolean("awaiting",0);
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -161,12 +161,12 @@ public class Board{
 	
 	//load board back up after closing out
 	public void loadUp() {
-		game.draw.setBoard(this);
+		game.draw.setBoard(this); //update draw for new board
 		game.draw.updateBG();
-		for(int i=0; i<players.size(); i++) {
+		for(int i=0; i<players.size(); i++) { //add controls to game
 			game.addControls(players.get(i).controls);
 		}
-		endConfirmation(ui_cnf.getSelection());
+		if(ui_cnf!=null)endConfirmation(ui_cnf.getSelection()); //remove lingering ui
 	}
 	
 	public void updateUI() {

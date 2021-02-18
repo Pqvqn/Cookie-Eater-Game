@@ -33,6 +33,7 @@ public class SaveData {
 	
 	//add data point (add point to current list at index)
 	public void addData(String tag, Object data, int index) {
+		if(dataStorage.get(tag)==null)dataStorage.put(tag,new ArrayList<Object>());
 		dataStorage.get(tag).add(index,data);
 	}
 	
@@ -83,10 +84,31 @@ public class SaveData {
 		}
 	}
 	
-	//get info by its tag
+	//get info list by its tag
 	public ArrayList<Object> getData(String tag) {
 		return dataStorage.get(tag);
 	}
+	//get info list by its tag
+	public Object getData(String tag, int index) {
+		return dataStorage.get(tag).get(index);
+	}
+	//get first info in string form
+	public String getString(String tag, int index) {
+		return getData(tag,index).toString();
+	}
+	//get first info in double form
+	public Double getDouble(String tag, int index) {
+		return Double.parseDouble(getString(tag,index));
+	}
+	//get first info in integer form
+	public Integer getInteger(String tag, int index) {
+		return Integer.parseInt(getString(tag,index));
+	}
+	//get first info in boolean form
+	public Boolean getBoolean(String tag, int index) {
+		return Boolean.parseBoolean(getString(tag,index));
+	}
+
 	
 	//convert storage into string form
 	public String toString() {
