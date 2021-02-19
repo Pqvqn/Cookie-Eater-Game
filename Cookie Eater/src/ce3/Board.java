@@ -128,6 +128,10 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
+		SaveData sd = (SaveData)data.getData("testsd",0);
+		System.out.println(sd);
+		System.out.println(sd.getData("wow"));
+		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
 	}
@@ -142,6 +146,10 @@ public class Board{
 		data.addData("currentdungeon",currDungeon);
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
+		
+		SaveData sd = new SaveData();
+		sd.addData("wow","no");
+		data.addData("testsd",sd);
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {

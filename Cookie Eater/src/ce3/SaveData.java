@@ -51,33 +51,35 @@ public class SaveData {
 			//split tag from information
 			String[] parts = sections[i].split(tagSep);
 			if(parts.length==2) { //valid data must have tag and info
-				
+
 				//split parts of information
 				String[] info = parts[1].split(infoSep);
 				ArrayList<Object> info2 = new ArrayList<Object>();
-				
 				//test for type of info before adding
 				for(int j=0; j<info.length; j++) {
 					String s2 = info[j];
-					
 					if(s2.contains(savedataOpen)) { //savedata
 						String s3 = "";
 						int markCount = 0;
-						for(; markCount!=0 && j<info.length; j++) { //continue until all sub-datas are closed
-							s3+=sectionSep+info[j];
-							if(info[j].contains(savedataOpen)) {
+						if(sections[i].contains(savedataOpen)) {
+							markCount++;
+						}if(sections[i].contains(savedataClose)) {
+							markCount--;
+						}
+						for(i+=1; markCount!=0 && i<sections.length; i++) { //continue until all sub-datas are closed
+							s3+=sectionSep+sections[i];
+							if(sections[i].contains(savedataOpen)) {
 								markCount++;
-							}if(info[j].contains(savedataClose)) {
+							}if(sections[i].contains(savedataClose)) {
 								markCount--;
 							}
 						}
-						
+						i--;
 						info2.add(new SaveData(s3));
 					}else { //string
 						info2.add(s2);
 					}
 				}
-				
 				//add to data storage
 				dataStorage.put(parts[0],info2);
 			}
