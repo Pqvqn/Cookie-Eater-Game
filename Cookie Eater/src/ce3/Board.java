@@ -128,8 +128,13 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
+		ArrayList<SaveData> playerData = data.getSaveDataList("players");
+		players = new ArrayList<Eater>();
+		for(int i=0; i<playerCount; i++) {
+			players.add(new Eater(playerData.get(i)));
+		}
+		
 		SaveData sd = (SaveData)data.getData("testsd",0);
-		System.out.println(sd);
 		System.out.println(sd.getData("wow"));
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
@@ -146,6 +151,12 @@ public class Board{
 		data.addData("currentdungeon",currDungeon);
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
+		
+		ArrayList<SaveData> playerData = new ArrayList<SaveData>();
+		for(int i=0; i<playerCount; i++) {
+			playerData.add(players.get(i).getSaveData());
+		}
+		data.addData("players",playerData);
 		
 		SaveData sd = new SaveData();
 		sd.addData("wow","no");

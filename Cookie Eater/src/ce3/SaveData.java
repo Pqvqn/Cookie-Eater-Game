@@ -90,25 +90,39 @@ public class SaveData {
 	public ArrayList<Object> getData(String tag) {
 		return dataStorage.get(tag);
 	}
-	//get info list by its tag
+	//get info by its tag
 	public Object getData(String tag, int index) {
 		return dataStorage.get(tag).get(index);
 	}
-	//get first info in string form
+	//get info in string form
 	public String getString(String tag, int index) {
 		return getData(tag,index).toString();
 	}
-	//get first info in double form
+	//get info in double form
 	public Double getDouble(String tag, int index) {
 		return Double.parseDouble(getString(tag,index));
 	}
-	//get first info in integer form
+	//get info in integer form
 	public Integer getInteger(String tag, int index) {
 		return Integer.parseInt(getString(tag,index));
 	}
-	//get first info in boolean form
+	//get info in boolean form
 	public Boolean getBoolean(String tag, int index) {
 		return Boolean.parseBoolean(getString(tag,index));
+	}
+	//get info in list of SaveData instances form
+	public ArrayList<SaveData> getSaveDataList(String tag) {
+		ArrayList<SaveData> ret = new ArrayList<SaveData>();
+		ArrayList<Object> get = getData(tag);
+		for(int i=0; i<get.size(); i++) {
+			Object o = get.get(i);
+			if(o instanceof SaveData) {
+				ret.add((SaveData)o);
+			}else {
+				ret.add(new SaveData(o.toString()));
+			}
+		}
+		return ret;
 	}
 
 	
@@ -119,11 +133,19 @@ public class SaveData {
 		while(it.hasNext()) {
 			String tag = it.next();
 			ret+=sectionSep+tag+tagSep;
+			boolean firstEntry = true;
 			for(Object o : dataStorage.get(tag)) {
-				if(o!=null)ret+=o.toString()+infoSep;
+				if(firstEntry) {
+					firstEntry = false;
+				}else {
+					ret+=infoSep;
+				}
+				if(o!=null) {
+					ret+=o.toString();
+				}
 			}
 		}
-		ret+=savedataClose;
+		ret+=sectionSep+savedataClose;
 		return ret;
 	}
 	
