@@ -120,6 +120,59 @@ public abstract class Entity {
 		setUpStates();
 	}
 	
+	public Entity(Game frame, Board gameboard, SaveData sd, int cycle) {
+		calibration_ratio = cycle/15.0;
+		game = frame;
+		board = gameboard;
+		
+		bumped = new ArrayList<Object>();
+		bounds = null;
+		averageVelOverride = false;
+		special = false;
+		special_frames = new ArrayList<Double>();
+		special_recharges = 0;
+		special_activated = new ArrayList<Boolean>();
+		currSpecial = -1;
+		shield_frames = 0;
+		
+		scale = sd.getInteger("scale",0);
+		//summons = new ArrayList<Summon>();
+		//cash_stash = new ArrayList<Cookie>();
+		//shield_stash = new ArrayList<CookieShield>();
+		//item_stash = new ArrayList<CookieItem>();
+		//stat_stash = new ArrayList<CookieStat>();
+		//parts = new ArrayList<Segment>();
+		special_length = sd.getInteger("specialframes",0);
+		special_cooldown = sd.getInteger("specialframes",1);
+		special_use_speed = sd.getInteger("specialframes",2);
+		//special_colors = new ArrayList<Color>();
+		//special_colors.add(new Color(255,0,255));special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,255,0));
+		/*powerups = new ArrayList<ArrayList<Item>>();
+		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
+			powerups.add(new ArrayList<Item>());
+			special_frames.add(0.0);
+			special_activated.add(false);
+		}*/
+		decayed_value = sd.getInteger("decayedvalue",2);
+		offstage = sd.getInteger("offstage",2);
+		shield_length = sd.getInteger("shieldframes",0);
+		shield_tick = sd.getBoolean("shieldframes",1);
+		
+		acceleration = sd.getInteger("movement",0);
+		max_velocity = sd.getInteger("movement",1);
+		terminal_velocity = sd.getInteger("movement",2);
+		friction = sd.getInteger("movement",3);
+		min_recoil = sd.getInteger("movement",4);
+		max_recoil = sd.getInteger("movement",5);
+		
+
+		//setUpStates();
+	}
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		return data;
+	}
+	
 	public void runUpdate() {
 		if(ded)return;
 		countVels = 0;

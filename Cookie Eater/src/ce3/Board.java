@@ -131,7 +131,7 @@ public class Board{
 		ArrayList<SaveData> playerData = data.getSaveDataList("players");
 		players = new ArrayList<Eater>();
 		for(int i=0; i<playerCount; i++) {
-			players.add(new Eater(playerData.get(i)));
+			players.add(new Eater(game,this,playerData.get(i),cycletime));
 		}
 		
 		SaveData sd = (SaveData)data.getData("testsd",0);
