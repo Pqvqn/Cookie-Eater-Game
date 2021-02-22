@@ -145,16 +145,18 @@ public abstract class Entity {
 		special_length = sd.getInteger("specialframes",0);
 		special_cooldown = sd.getInteger("specialframes",1);
 		special_use_speed = sd.getInteger("specialframes",2);
-		//special_colors = new ArrayList<Color>();
-		//special_colors.add(new Color(255,0,255));special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,255,0));
+		special_colors = new ArrayList<Color>();
+		for(int i=0; i<sd.getData("specialcolor").size(); i++) {
+			special_colors.add(new Color(sd.getInteger("specialcolor",i)));
+		}
 		/*powerups = new ArrayList<ArrayList<Item>>();
 		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0.0);
 			special_activated.add(false);
 		}*/
-		decayed_value = sd.getInteger("decayedvalue",2);
-		offstage = sd.getInteger("offstage",2);
+		decayed_value = sd.getInteger("decayedvalue",0);
+		offstage = sd.getInteger("offstage",0);
 		shield_length = sd.getInteger("shieldframes",0);
 		shield_tick = sd.getBoolean("shieldframes",1);
 		
@@ -170,6 +172,24 @@ public abstract class Entity {
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
+		data.addData("scale",scale);
+		data.addData("specialframes",special_length,0);
+		data.addData("specialframes",special_cooldown,0);
+		data.addData("specialframes",special_use_speed,0);
+		for(int i=0; i<special_colors.size(); i++) {
+			data.addData("specialcolor",special_colors.get(i).getRGB(),i);
+		}
+		data.addData("decayedvalue",decayed_value);
+		data.addData("offstage",offstage);
+		data.addData("shieldframes",shield_length,0);
+		data.addData("shieldframes",shield_tick,1);
+		
+		data.addData("movement",acceleration,0);
+		data.addData("movement",max_velocity,1);
+		data.addData("movement",terminal_velocity,2);
+		data.addData("movement",friction,3);
+		data.addData("movement",min_recoil,4);
+		data.addData("movement",max_recoil,5);
 		return data;
 	}
 	
