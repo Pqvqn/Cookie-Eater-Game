@@ -43,6 +43,29 @@ public class Cookie {
 		}
 	}
 	
+	public Cookie(Game frame, Board gameboard, SaveData sd) {
+		game = frame;
+		board = gameboard;
+		x = sd.getInteger("position",0);
+		y = sd.getInteger("position",1);
+		radius = sd.getInteger("radius",0);
+		value = sd.getInteger("value",0);
+		setDecayTime();
+		try {
+			sprite = new SpriteCookie(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		data.addData("position",x,0);
+		data.addData("position",y,1);
+		data.addData("radius",radius);
+		data.addData("value",value);
+		return data;
+	}
 	public void runUpdate() {
 		if(!board.isPaused() && decayCounter++>=adjustedDecayTime){	
 			decayed=true;
