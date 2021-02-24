@@ -25,37 +25,41 @@ public class Cookie {
 	private SpriteCookie sprite;
 	private double value;
 	
-	public Cookie(Game frame, Board gameboard, int startx, int starty) {
+	public Cookie(Game frame, Board gameboard, int startx, int starty, boolean basic) { //basic = is a general cookie to be collected for points
 		game = frame;
 		board = gameboard;
 		
 		x=startx;
 		y=starty;
 		radius=DEFAULT_RADIUS;
-		accessible=false;
-		setDecayTime();
-		value = 1;
-		try {
-			sprite = new SpriteCookie(board,this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(basic) {
+			accessible=false;
+			setDecayTime();
+			value = 1;
+			try {
+				sprite = new SpriteCookie(board,this);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public Cookie(Game frame, Board gameboard, SaveData sd) {
+	public Cookie(Game frame, Board gameboard, SaveData sd, boolean basic) {
 		game = frame;
 		board = gameboard;
 		x = sd.getInteger("position",0);
 		y = sd.getInteger("position",1);
 		radius = sd.getInteger("radius",0);
 		value = sd.getInteger("value",0);
-		setDecayTime();
-		try {
-			sprite = new SpriteCookie(board,this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(basic) {
+			setDecayTime();
+			try {
+				sprite = new SpriteCookie(board,this);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	public SaveData getSaveData() {

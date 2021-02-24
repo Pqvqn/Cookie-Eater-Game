@@ -135,7 +135,7 @@ public class Game extends JFrame {
 			SaveData bsave;
 			try {
 				bsave = new SaveData(f);
-				board = new Board(this,bsave,cycletime);
+ 
 				boards.put(name,board);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

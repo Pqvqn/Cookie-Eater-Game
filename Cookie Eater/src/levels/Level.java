@@ -96,7 +96,7 @@ public abstract class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					board.cookies.add(new Cookie(game,board,pX,pY));
+					board.cookies.add(new Cookie(game,board,pX,pY,true));
 					cooks++;
 				}
 			}

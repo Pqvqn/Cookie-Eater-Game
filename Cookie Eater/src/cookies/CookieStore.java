@@ -16,7 +16,7 @@ public abstract class CookieStore extends Cookie{
 	protected Entity vendor;
 	
 	public CookieStore(Game frame, Board gameboard, int startx, int starty) {
-		super(frame,gameboard,startx,starty);
+		super(frame,gameboard,startx,starty,false);
 		decayTime = Integer.MAX_VALUE;
 		region = 200;
 		price = 0;
@@ -26,6 +26,26 @@ public abstract class CookieStore extends Cookie{
 		if(board==null || board.cookies!=null && board.cookies.contains(this))
 			game.draw.addUI(info);
 	}
+	public CookieStore(Game frame, Board gameboard, SaveData sd) {
+		super(frame,gameboard,sd,false);
+		decayTime = Integer.MAX_VALUE;
+		name = sd.getString("name",0);
+		desc = sd.getString("description",0);
+		price = sd.getInteger("price",0);
+		region = sd.getInteger("region",0);
+		info = new UIPurchaseInfo(game,this);
+		if(board==null || board.cookies!=null && board.cookies.contains(this))
+			game.draw.addUI(info);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("name",name);
+		data.addData("description",desc);
+		data.addData("price",price);
+		data.addData("region",region);
+		return data;
+	}
+	
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
 		game.draw.removeUI(info);

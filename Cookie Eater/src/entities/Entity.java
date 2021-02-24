@@ -719,11 +719,11 @@ public abstract class Entity {
 	}
 	public void addCookies(double num) {
 		while((int)num>0) {
-			cash_stash.add(new Cookie(game,board,(int)getX(),(int)getY()));
+			cash_stash.add(new Cookie(game,board,(int)getX(),(int)getY(),true));
 			num--;
 		}
 		if(num>0) {
-			Cookie c = new Cookie(game,board,(int)getX(),(int)getY());
+			Cookie c = new Cookie(game,board,(int)getX(),(int)getY(),true);
 			c.setValue(num);
 			cash_stash.add(c);
 			
