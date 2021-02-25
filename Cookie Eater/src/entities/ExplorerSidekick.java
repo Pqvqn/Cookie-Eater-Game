@@ -103,7 +103,8 @@ public class ExplorerSidekick extends Explorer{
 			}
 			
 			if(!item_stash.isEmpty() && (stateIs("Relationship","Partners") || stateIs("Relationship","Friends"))) {
-				CookieItem c = item_stash.get((int)(Math.random()*item_stash.size()));
+				int randomSlot = (int)(Math.random()*item_stash.size());
+				CookieItem c = item_stash.get(randomSlot).get((int)(Math.random()*item_stash.get(randomSlot).size()));
 				setState("ToSell",c.getItem().getName());
 				setState("AskPrice",""+((int)(Math.random()*20)*.5+30));
 				setState("Selling","Not");
@@ -177,15 +178,17 @@ public class ExplorerSidekick extends Explorer{
 		case "SellItem": //sell cookie item to player {item, price}
 			//find correct item cookie
 			for(int i=0; i<item_stash.size(); i++) {
-				CookieItem c = item_stash.get(i);
-				if(c.getItem().getName().equals(args[0])){
-					//sell the cookie
-					c.setVendor(this);
-					c.setPrice(Double.parseDouble(args[1]));
-					c.purchase(board.player());
-					board.player().giveCookie(c);
-					removeItem(0,c.getItem()); //this could be problematic
-					i=item_stash.size();
+				for(int j=0; j<item_stash.get(i).size(); j++) {
+					CookieItem c = item_stash.get(i).get(j);
+					if(c.getItem().getName().equals(args[0])){
+						//sell the cookie
+						c.setVendor(this);
+						c.setPrice(Double.parseDouble(args[1]));
+						c.purchase(board.player());
+						board.player().giveCookie(c);
+						removeItem(i,c); //this could be problematic
+						i=item_stash.size();
+					}
 				}
 			}
 			break;

@@ -2,6 +2,7 @@ package items;
 import java.util.*;
 
 import ce3.*;
+import cookies.*;
 
 public class ItemRepeat extends Item{
 
@@ -9,7 +10,7 @@ public class ItemRepeat extends Item{
 	private int time;
 	private int ratio;
 	private int wait;
-	private ArrayList<Item> items;
+	private ArrayList<CookieItem> items;
 	
 	public ItemRepeat(Game frame) {
 		super(frame);
@@ -27,26 +28,32 @@ public class ItemRepeat extends Item{
 	}
 	public void execute() {
 		if(count++>=time) {
-			for(int i = items.indexOf(this)+1; i<items.size(); i++) {
-				items.get(i).execute();
+			//execute the items after this one before ending all
+			int index;
+			for(index=0;index<items.size() && items.get(index).getItem() instanceof ItemRepeat;index++);
+			for(int i = index; i<items.size(); i++) {
+				items.get(i).getItem().execute();
 			}
+			//end all items
 			for(int i = 0; i<items.size(); i++) {
-				items.get(i).end(true);
-				items.get(i).cancelCycles(wait);
+				items.get(i).getItem().end(true);
+				items.get(i).getItem().cancelCycles(wait);
 			}
 			
 			count=-wait+1;
 			return;
 		}
+		//keep special held
 		if(count<-1) {
 			user.extendSpecial(1);
 		}
+		//restart special
 		if(count==-1) {
 			for(int i = 0; i<items.size(); i++) {
-				items.get(i).prepare();
+				items.get(i).getItem().prepare();
 			}
 			for(int i = 0; i<items.size(); i++) {
-				items.get(i).initialize();
+				items.get(i).getItem().initialize();
 			}
 		}
 	}

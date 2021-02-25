@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
-import items.*;
+import cookies.*;
 
 public class UIItems extends UIElement{
 
@@ -32,8 +32,8 @@ public class UIItems extends UIElement{
 		myIndex = index;
 		theme_color = c;
 	}
-	public void update(boolean listOut, ArrayList<ArrayList<Item>> pItems, ArrayList<Double> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
-		ArrayList<Item> list = pItems.get(myIndex);
+	public void update(boolean listOut, ArrayList<ArrayList<CookieItem>> pItems, ArrayList<Double> frames, int cooldown, int duration, ArrayList<Boolean> activated) {
+		ArrayList<CookieItem> list = pItems.get(myIndex);
 		double framecount = frames.get(myIndex);
 		if(listOut || list.size()!=itemDisplays.size()) { //add all items into list
 			list_backing.sethLen((list.size()>0) ? list.size()*(SEPARATION)+10 : SEPARATION+10);
@@ -43,7 +43,7 @@ public class UIItems extends UIElement{
 				i--;
 			}
 			for(int i=0; i<list.size(); i++) {
-				UIText newOne = new UIText(game,xPos+60,yPos-i*SEPARATION,list.get(i).name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
+				UIText newOne = new UIText(game,xPos+60,yPos-i*SEPARATION,list.get(i).getItem().name(),new Color(255,255,255,75),new Font("Arial",Font.BOLD,SIZE));
 				itemDisplays.add(newOne);
 				parts.add(newOne);
 			}

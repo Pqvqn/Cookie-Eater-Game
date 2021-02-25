@@ -40,7 +40,7 @@ public abstract class Enemy extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(ded)return;
-		if(Math.random()>.999 && !powerups.get(0).isEmpty()) {
+		if(Math.random()>.999 && !getPowerups().isEmpty()) {
 			special(0); 
 		}
 		orientParts();
@@ -137,8 +137,7 @@ public abstract class Enemy extends Entity{
 	//overriding to not delete spoiled cookies and to not install pickups
 	public void giveCookie(Cookie c) {
 		if(c instanceof CookieItem) {
-			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
-			item_stash.add((CookieItem)c);
+			addItem(getCurrentSpecial(), (CookieItem)c);
 		}else if(c instanceof CookieShield) {
 			shield_stash.add(((CookieShield)c));
 		}else if(c instanceof CookieStat) {

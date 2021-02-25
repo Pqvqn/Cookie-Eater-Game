@@ -8,7 +8,6 @@ import java.util.*;
 import ce3.*;
 import levels.*;
 import cookies.*;
-import items.*;
 import sprites.*;
 import menus.*;
 
@@ -146,10 +145,11 @@ public class Explorer extends Entity{
 		ded = true;
 		board.present_npcs.remove(this);
 		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
-				powerups.get(currSpecial).get(i).end(true);
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).getItem().end(true);
 		}
-		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
+
 		pickups = new ArrayList<CookieItem>();
 		special = false;
 		direction = CORPSE;
@@ -384,8 +384,9 @@ public class Explorer extends Entity{
 		}
 		//reset special
 		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
-				powerups.get(currSpecial).get(i).end(true);
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).getItem().end(true);
 			special_frames.set(currSpecial,0.0);
 		}
 		

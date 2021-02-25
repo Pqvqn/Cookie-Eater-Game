@@ -3,6 +3,7 @@ package ui;
 import java.util.*;
 
 import ce3.*;
+import cookies.*;
 import entities.*;
 import levels.*;
 import menus.*;
@@ -149,7 +150,8 @@ public class UISettings extends UIElement{
 			
 			MenuButton givit = new MenuButton(game, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
-				getSelectedPlayer().addItem(0,Level.generateItem(game,pw));
+				getSelectedPlayer().addItem(player.getCurrentSpecial(),
+						new CookieItem(game,board,0,0,Level.generateItem(game,pw),0.0));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);

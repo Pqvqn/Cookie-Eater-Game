@@ -75,29 +75,29 @@ public class Summon extends Entity{
 	
 	//take all items from user
 	public void eatItems() {
-		ArrayList<Item> items = new ArrayList<Item>();
-		ArrayList<Item> usersitems = user.getItems().get(user.getCurrentSpecial());
+		ArrayList<CookieItem> items = new ArrayList<CookieItem>();
+		ArrayList<CookieItem> usersitems = user.getPowerups();
 		for(int i=0; i<usersitems.size(); i++) {
 			items.add(usersitems.get(i));
 		}
 		for(int i=0; i<items.size(); i++) {
-			Item it = items.get(i);
+			Item it = items.get(i).getItem();
 			if(!(it instanceof ItemSummonMelee) && !(it instanceof ItemSummonProjectile)) {
-				addItem(user.getCurrentSpecial(),it);
-				user.getItems().get(user.getCurrentSpecial()).remove(it);
+				addItem(user.getCurrentSpecial(),items.get(i));
+				user.removeItem(user.getCurrentSpecial(),items.get(i));
 				it.setUser(this);
 			}
 		}
 	}
 	//give items back to user
 	public void regurgitateItems() {
-		ArrayList<Item> items = new ArrayList<Item>();
-		for(Item i : getItems().get(user.getCurrentSpecial()))items.add(i);
+		ArrayList<CookieItem> items = new ArrayList<CookieItem>();
+		for(CookieItem i : getPowerups())items.add(i);
 		for(int i=0; i<items.size(); i++) {
-			Item it = items.get(i);
+			Item it = items.get(i).getItem();
 			it.end(true);
-			user.addItem(user.getCurrentSpecial(),it);
-			getItems().get(user.getCurrentSpecial()).remove(it);
+			user.addItem(user.getCurrentSpecial(),items.get(i));
+			removeItem(user.getCurrentSpecial(),items.get(i));
 			it.setUser(user);
 		}
 	}
@@ -135,8 +135,9 @@ public class Summon extends Entity{
 			x = homex;
 			y = homey;
 			if(special) {
-				for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-					powerups.get(currSpecial).get(i).bounce(b,xp,yp);
+				ArrayList<CookieItem> powerups = getPowerups();
+				for(int i=0; i<powerups.size(); i++) {
+					powerups.get(i).getItem().bounce(b,xp,yp);
 				}
 			}
 		}else {

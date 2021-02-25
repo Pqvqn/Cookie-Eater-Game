@@ -9,8 +9,6 @@ import ce3.*;
 
 import java.io.*;
 
-import items.*;
-
 //import javax.swing.*;
 
 import sprites.*;
@@ -109,7 +107,7 @@ public class Eater extends Entity{
 	public void pickupItem(CookieItem i) {
 		pickups.add(i);
 	}
-	public void addItem(int index, Item i) {
+	public void addItem(int index, CookieItem i) {
 		super.addItem(index, i);
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
@@ -156,10 +154,10 @@ public class Eater extends Entity{
 	public void kill() {
 		//coloration = Color.black;
 		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
-				powerups.get(currSpecial).get(i).end(true);
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).getItem().end(true);
 		}
-		for(int i=0; i<powerups.size(); i++)powerups.set(i, new ArrayList<Item>());
 		pickups = new ArrayList<CookieItem>();
 		state = DEAD;
 		special = false;
@@ -193,8 +191,9 @@ public class Eater extends Entity{
 	public void win() {
 		//coloration = Color.green;
 		if(special) {
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) //stop special
-				powerups.get(currSpecial).get(i).end(true);
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).getItem().end(true);
 		}
 		state = WIN;
 		special = false;

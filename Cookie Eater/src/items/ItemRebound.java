@@ -2,7 +2,8 @@ package items;
 import java.util.*;
 
 import ce3.*;
-import entities.Eater;
+import cookies.*;
+import entities.*;
 
 public class ItemRebound extends Item{
 
@@ -10,7 +11,7 @@ public class ItemRebound extends Item{
 	private int bounces;
 	private int last_bounce;
 	private int total;
-	private ArrayList<Item> items;
+	private ArrayList<CookieItem> items;
 	
 	public ItemRebound(Game frame) {
 		super(frame);
@@ -19,7 +20,7 @@ public class ItemRebound extends Item{
 		desc="Amplifies items after bouncing`Amplify: Amplifies after less bounces";
 	}
 	public void prepare() {
-		items = user.getItems().get(user.getCurrentSpecial());
+		items = user.getPowerups();
 		bounces=0;
 		last_bounce=1;
 		total = 0;
@@ -54,15 +55,15 @@ public class ItemRebound extends Item{
 	}
 	public void amplifyAll() {
 		for(int i=0; i<items.size(); i++) {
-			if(!items.get(i).equals(this)) {
-			items.get(i).amplify();
+			if(!items.get(i).getItem().equals(this)) {
+			items.get(i).getItem().amplify();
 			}
 		}
 	}
 	public void deamplifyAll() {
 		for(int i=0; i<items.size(); i++) {
-			if(!items.get(i).equals(this)) {
-			items.get(i).deamplify();
+			if(!items.get(i).getItem().equals(this)) {
+			items.get(i).getItem().deamplify();
 			}
 		}
 	}

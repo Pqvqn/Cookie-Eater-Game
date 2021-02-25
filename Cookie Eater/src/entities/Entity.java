@@ -6,7 +6,6 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import items.*;
 import menus.*;
 import levels.*;
 import mechanisms.*;
@@ -39,7 +38,7 @@ public abstract class Entity {
 	//specials
 	protected boolean special; //whether a special is active
 	protected int special_length, speciallen; //how long special lasts
-	protected ArrayList<ArrayList<Item>> powerups;
+	//protected ArrayList<ArrayList<Item>> powerups;
 	protected int currSpecial;
 	protected ArrayList<Double> special_frames; //counting how deep into special
 	protected int special_cooldown, specialcool; //frames between uses of special
@@ -49,7 +48,7 @@ public abstract class Entity {
 	protected ArrayList<Color> special_colors; //color associated with each special
 	
 	protected ArrayList<Cookie> cash_stash; //only plain cookies
-	protected ArrayList<CookieItem> item_stash; //item cookies
+	protected ArrayList<ArrayList<CookieItem>> item_stash; //item cookies (separated based on slot)
 	protected ArrayList<CookieShield> shield_stash; //shields
 	protected ArrayList<CookieStat> stat_stash; //stat changers
 	protected double decayed_value; //value of spoiled cookies
@@ -81,7 +80,7 @@ public abstract class Entity {
 		bumped = new ArrayList<Object>();
 		cash_stash = new ArrayList<Cookie>();
 		shield_stash = new ArrayList<CookieShield>();
-		item_stash = new ArrayList<CookieItem>();
+		item_stash = new ArrayList<ArrayList<CookieItem>>();
 		stat_stash = new ArrayList<CookieStat>();
 		parts = new ArrayList<Segment>();
 		special = false;
@@ -93,9 +92,8 @@ public abstract class Entity {
 		special_colors = new ArrayList<Color>();
 		special_colors.add(new Color(255,0,255));special_colors.add(new Color(0,255,255));special_colors.add(new Color(255,255,0));
 		special_activated = new ArrayList<Boolean>();
-		powerups = new ArrayList<ArrayList<Item>>();
 		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
-			powerups.add(new ArrayList<Item>());
+			item_stash.add(new ArrayList<CookieItem>());
 			special_frames.add(0.0);
 			special_activated.add(false);
 		}
@@ -212,15 +210,16 @@ public abstract class Entity {
 			for(int j=0; j<summons.size(); j++) {
 				summons.get(j).runUpdate();
 			}
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).execute();
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).getItem().execute();
 			}
 
 			if(special_frames.get(currSpecial)>speciallen) {
 				special = false;
-				int sz = powerups.get(currSpecial).size();
+				int sz = powerups.size();
 				for(int i=0; i<sz; i++) {
-					powerups.get(currSpecial).get(i).end(false);
+					powerups.get(i).getItem().end(false);
 				}
 				currSpecial = -1;
 			}
@@ -240,7 +239,9 @@ public abstract class Entity {
 				cash_stash.get(i).runUpdate();
 			}
 			for(int i=0; i<item_stash.size(); i++) {
-				item_stash.get(i).runUpdate();
+				for(int j=0; j<item_stash.get(i).size(); j++) {
+					item_stash.get(i).get(j).runUpdate();
+				}
 			}
 			for(int i=0; i<shield_stash.size(); i++) {
 				shield_stash.get(i).runUpdate();
@@ -584,8 +585,9 @@ public abstract class Entity {
 		}
 		
 		if(special) { //bounce any items
-			for(int i=0; i<powerups.get(currSpecial).size(); i++) {
-				powerups.get(currSpecial).get(i).bounce(b,xp,yp);
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).getItem().bounce(b,xp,yp);
 			}
 		}
 	}
@@ -608,12 +610,13 @@ public abstract class Entity {
 		if(board.currFloor.specialsEnabled()) {
 			if(special || special_frames.get(index)!=0 || !special_activated.get(index))return;
 			currSpecial = index;
-			for(int i=0; i<powerups.get(index).size(); i++) {
-				powerups.get(index).get(i).prepare();
+			ArrayList<CookieItem> powerups = item_stash.get(index);
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).getItem().prepare();
 			}
 			//cut off
-			for(int i=0; i<powerups.get(index).size(); i++) {
-				powerups.get(index).get(i).initialize();
+			for(int i=0; i<powerups.size(); i++) {
+				powerups.get(i).getItem().initialize();
 			}
 			special=true;
 			special_activated.set(index, false);
@@ -640,8 +643,7 @@ public abstract class Entity {
 	
 	public void giveCookie(Cookie c) {
 		if(c instanceof CookieItem) {
-			addItem(getCurrentSpecial(), ((CookieItem)c).getItem());
-			item_stash.add((CookieItem)c);
+			addItem(getCurrentSpecial(), (CookieItem)c);
 		}else if(c instanceof CookieShield) {
 			shield_stash.add(((CookieShield)c));
 		}else if(c instanceof CookieStat) {
@@ -669,18 +671,18 @@ public abstract class Entity {
 	public ArrayList<Cookie> getStash() {
 		ArrayList<Cookie> stash = new ArrayList<Cookie>();
 		for(Cookie c : cash_stash)stash.add(c);
-		for(Cookie c : item_stash)stash.add(c);
+		for(ArrayList<CookieItem> c : item_stash)for(CookieItem c2 : c)stash.add(c2);
 		for(Cookie c : shield_stash)stash.add(c);
 		for(Cookie c : stat_stash)stash.add(c);
 		return stash;}
 	public ArrayList<Cookie> getCashStash() {return cash_stash;}
 	public ArrayList<CookieShield> getShieldStash() {return shield_stash;}
-	public ArrayList<CookieItem> getItemStash() {return item_stash;}
+	public ArrayList<ArrayList<CookieItem>> getItemStash() {return item_stash;}
 	public ArrayList<CookieStat> getStatStash() {return stat_stash;}
 	public void wipeStash() {
 		cash_stash = new ArrayList<Cookie>();
 		shield_stash = new ArrayList<CookieShield>();
-		item_stash = new ArrayList<CookieItem>();
+		item_stash = new ArrayList<ArrayList<CookieItem>>();
 		stat_stash = new ArrayList<CookieStat>();
 	}
 	public double getDecayedValue() {return decayed_value;}
@@ -765,31 +767,28 @@ public abstract class Entity {
 		}
 		return total;
 	}
-	public void addItem(int index, Item i) {
+	public void addItem(int index, CookieItem i) {
 		if(index<0)index=0;
 		boolean add = true;
-		for(int j=0; j<powerups.get(index).size(); j++) { //see if item already in list
-			Item test = powerups.get(index).get(j);
+		ArrayList<CookieItem> powerups = item_stash.get(index);
+		for(int j=0; j<powerups.size(); j++) { //see if item already in list
+			CookieItem test = powerups.get(j);
 			if(i.getName().equals(test.getName())) { //if duplicate, amplify instead of adding
 				add = false;
-				test.amplify();
+				test.getItem().amplify();
 			}
 		}
 		if(add && i!=null) {
-			powerups.get(index).add(i);
-			i.setUser(this);
+			item_stash.get(index).add(i);
+			i.getItem().setUser(this);
 		}
 	}
-	public void removeItem(int index, Item i) {
-		for(int j=0; j<item_stash.size(); j++) {
-			if(item_stash.get(j).getItem().equals(i)) {
-				item_stash.remove(j);
-				j=item_stash.size();
-			}
+	public void removeItem(int index, CookieItem i) {
+		if(item_stash.get(index).contains(i)) {
+			item_stash.get(index).remove(i);
 		}
-		powerups.get(index).remove(i);
 	}
-	public ArrayList<ArrayList<Item>> getItems() {return powerups;}
+
 	public void extendSpecial(double time) {
 		for(int i=0; i<special_frames.size(); i++) {
 			if(special_frames.get(i)<speciallen && special_frames.get(i)!=0) {
@@ -809,6 +808,8 @@ public abstract class Entity {
 	public int getCurrentSpecial() {return currSpecial;}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
+	public ArrayList<CookieItem> getPowerups() {return item_stash.get(currSpecial);}
+	public ArrayList<ArrayList<CookieItem>> getItems() {return item_stash;}
 	
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}
