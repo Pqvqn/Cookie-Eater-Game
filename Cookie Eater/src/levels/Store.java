@@ -85,7 +85,7 @@ public abstract class Store extends Level{
 	
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
-		Item b = generateItem(game,i);
+		Item b = Item.generateItem(game,i);
 		board.cookies.add(new CookieItem(game, board, x, y, b, p));
 	}
 	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	

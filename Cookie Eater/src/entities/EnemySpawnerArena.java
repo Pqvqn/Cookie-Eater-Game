@@ -6,9 +6,9 @@ import java.util.*;
 
 import ce3.*;
 import cookies.*;
-import levels.*;
 import mechanisms.*;
 import sprites.*;
+import items.*;
 
 public class EnemySpawnerArena extends Enemy{
 
@@ -127,7 +127,7 @@ public class EnemySpawnerArena extends Enemy{
 				possible.add("Projectile");
 				possible.add("Teleport");
 				newE.giveCookie(new CookieItem(game,board,0,0,
-						Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),(int)(Math.random()*50)+10));
+						Item.generateItem(game,possible.get((int)(Math.random()*possible.size()))),(int)(Math.random()*50)+10));
 			}
 				
 		}

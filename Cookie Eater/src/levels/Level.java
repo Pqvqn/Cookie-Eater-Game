@@ -8,7 +8,6 @@ import java.util.*;
 import ce3.*;
 import cookies.*;
 import entities.*;
-import items.*;
 import mechanisms.*;
 
 public abstract class Level{
@@ -186,96 +185,7 @@ public abstract class Level{
 	
 	public double[][] getStarts(){return startposs;}
 	
-	//creates an item from its name
-	public static Item generateItem(Game game, String i) {
-			Item b;
-			switch(i) {
-			case "Boost":
-				b = new ItemBoost(game);
-				break;
-			/*case "Bounce":
-				b = new ItemBounce(game);
-				break;*/
-			case "Circle":
-				b = new ItemCircle(game);
-				break;
-			case "Chain":
-				b = new ItemCookieChain(game);
-				break;
-			case "Field":
-				b = new ItemField(game);
-				break;
-			case "Hold":
-				b = new ItemHold(game);
-				break;
-			case "Recycle":
-				b = new ItemRecycle(game);
-				break;
-			case "Shield":
-				b = new ItemShield(game);
-				break;
-			case "Slowmo":
-				b = new ItemSlowmo(game);
-				break;
-			case "Ghost":
-				b = new ItemGhost(game);
-				break;
-			case "Return":
-				b = new ItemReturn(game);
-				break;
-			case "Teleport":
-				b = new ItemTeleport(game);
-				break;
-			/*case "Jab":
-				b = new ItemJab(game);
-				break;*/
-			case "Repeat":
-				b = new ItemRepeat(game);
-				break;
-			/*case "Projectile":
-				b = new ItemProjectile(game);
-				break;*/
-			case "Rebound":
-				b = new ItemRebound(game);
-				break;
-			case "Clone":
-				b = new ItemClone(game);
-				break;
-			case "Ricochet":
-				b = new ItemRicochet(game);
-				break;
-			/*case "Slash":
-				b = new ItemSlash(game);
-				break;
-			case "Wall":
-				b = new ItemWall(game);
-				break;*/
-			case "Shrink":
-				b = new ItemShrink(game);
-				break;
-			/*case "Hook":
-				b = new ItemHook(game);
-				break;*/
-			case "Autopilot":
-				b = new ItemAutopilot(game);
-				break;
-			case "Flow":
-				b = new ItemFlow(game);
-				break;
-			case "Recharge":
-				b = new ItemRecharge(game);
-				break;
-			case "Melee":
-				b = new ItemSummonMelee(game);
-				break;
-			case "Projectile":
-				b = new ItemSummonProjectile(game);
-				break;
-			default:
-				b = null;
-			}
-			return b;
-		}
+	
 	
 	//gives length of line rom start/end points
 	public static double lineLength(double x1, double y1, double x2, double y2) {

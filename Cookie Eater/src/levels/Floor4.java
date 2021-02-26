@@ -2,8 +2,9 @@ package levels;
 
 
 import ce3.*;
-import cookies.CookieItem;
+import cookies.*;
 import entities.*;
+import items.*;
 
 import java.awt.*;
 import java.util.*;
@@ -67,7 +68,7 @@ public class Floor4 extends Level{
 		for(int i=0;i<Math.random()*3;i++) {
 			Enemy e;
 			spawnAtRandom(e = new EnemyBlob(game,board,cycle,0,0));
-			if(Math.random()>.3)e.giveCookie(new CookieItem(game,board,0,0,Level.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
+			if(Math.random()>.3)e.giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,possible.get((int)(Math.random()*possible.size()))),0));
 		}
 		
 		for(int i=0;i<(int)(Math.random()*2);i++) {

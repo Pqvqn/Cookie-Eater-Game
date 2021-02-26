@@ -31,8 +31,10 @@ public class CookieItem extends CookieStore{
 	}
 	public CookieItem(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
-		myItem = new Item(frame, sd.getSaveDataList("item").get(0)); //get item (will deal with later)
+		SaveData itemsd = sd.getSaveDataList("item").get(0);
+		myItem = Item.generateItem(game,itemsd.getString("name",0));
 		if(myItem!=null) {
+			myItem.loadFromData(itemsd);
 			try {
 				sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
 			} catch (IOException e) {

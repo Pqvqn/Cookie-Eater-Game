@@ -1,12 +1,13 @@
 package entities;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 import ce3.*;
 import cookies.*;
 import levels.*;
-import menus.Conversation;
+import menus.*;
+import items.*;
 
 public class ExplorerSidekick extends Explorer{
 	
@@ -220,7 +221,7 @@ public class ExplorerSidekick extends Explorer{
 	
 	public void createStash() {
 		super.createStash();
-		giveCookie(new CookieItem(game,board,0,0,Level.generateItem(game,"Ghost"),0));
+		giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,"Ghost"),0));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));

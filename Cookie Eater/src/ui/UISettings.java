@@ -5,7 +5,7 @@ import java.util.*;
 import ce3.*;
 import cookies.*;
 import entities.*;
-import levels.*;
+import items.*;
 import menus.*;
 import menus.MenuButton.*;
 
@@ -151,7 +151,7 @@ public class UISettings extends UIElement{
 			MenuButton givit = new MenuButton(game, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
 				getSelectedPlayer().addItem(player.getCurrentSpecial(),
-						new CookieItem(game,board,0,0,Level.generateItem(game,pw),0.0));
+						new CookieItem(game,board,0,0,Item.generateItem(game,pw),0.0));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);

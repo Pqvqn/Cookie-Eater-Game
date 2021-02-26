@@ -6,6 +6,7 @@ import ce3.*;
 import cookies.*;
 import levels.*;
 import menus.*;
+import items.*;
 
 public class ExplorerShopkeep extends Explorer{
 	
@@ -46,7 +47,7 @@ public class ExplorerShopkeep extends Explorer{
 			if(choose<=5) {
 				addRandomly(new CookieShield(game,board,0,0,30));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+20));
+				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+20));
 			}
 
 		}
@@ -86,7 +87,7 @@ public class ExplorerShopkeep extends Explorer{
 			if(choose<=5) {
 				addRandomly(new CookieShield(game,board,0,0,30));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Level.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+20));
+				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+20));
 			}
 
 		}
