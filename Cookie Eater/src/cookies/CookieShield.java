@@ -25,6 +25,19 @@ public class CookieShield extends CookieStore{
 		desc = "One extra shield.`Allows player to bounce off of walls.";
 		
 	}
+	public CookieShield(Game frame, Board gameboard, SaveData sd) {
+		super(frame,gameboard,sd);
+		try {
+			sprite = new SpriteStoreCookie(board,this,"cookieNewShield");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		return data;
+	}
 	public boolean purchase(Entity buyer) {
 		if(buyer.getCash()>=price) {
 			//board.player.addShields(1);

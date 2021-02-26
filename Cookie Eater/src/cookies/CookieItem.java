@@ -29,6 +29,23 @@ public class CookieItem extends CookieStore{
 			desc = myItem.getDesc();
 		}
 	}
+	public CookieItem(Game frame, Board gameboard, SaveData sd) {
+		super(frame,gameboard,sd);
+		myItem = new Item(frame, sd.getSaveDataList("item").get(0)); //get item (will deal with later)
+		if(myItem!=null) {
+			try {
+				sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("item",myItem.getSaveData());
+		return data;
+	}
 	public void setPrice(double p) {price = p;}
 	public boolean purchase(Entity buyer) {
 		if(buyer.getCash()>=price) {

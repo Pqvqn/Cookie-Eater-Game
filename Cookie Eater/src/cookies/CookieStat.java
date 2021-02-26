@@ -30,6 +30,21 @@ public class CookieStat extends CookieStore{
 		mr = board.player().getMovementRand();
 		setStatChanges(type, direction, bonus);
 	}
+	public CookieStat(Game frame, Board gameboard, SaveData sd) {
+		super(frame,gameboard,sd);
+		mr = board.player().getMovementRand();
+		accelChange = sd.getInteger("stats",0);
+		maxvelChange = sd.getInteger("stats",1);
+		fricChange = sd.getInteger("stats",2);
+		setImage();
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("stats",accelChange,0);
+		data.addData("stats",maxvelChange,1);
+		data.addData("stats",fricChange,2);
+		return data;
+	}
 	public void setStatChanges(int type, int direction, int bonus) {
 		accelChange = 0;
 		maxvelChange = 0;
