@@ -70,6 +70,19 @@ public class Cookie {
 		data.addData("value",value);
 		return data;
 	}
+	//return Cookie created by SaveData, testing for correct type of Cookie
+	public static Cookie loadFromData(Game frame, Board gameboard, SaveData sd) {
+		switch(sd.getString("type",0)) {
+		case "item":
+			return new CookieItem(frame, gameboard, sd);
+		case "shield":
+			return new CookieShield(frame, gameboard, sd);
+		case "stat":
+			return new CookieStat(frame, gameboard, sd);
+		default:
+			return new Cookie(frame, gameboard, sd, true);
+		}
+	}
 	public void runUpdate() {
 		if(!board.isPaused() && decayCounter++>=adjustedDecayTime){	
 			decayed=true;

@@ -135,10 +135,35 @@ public abstract class Entity {
 		
 		scale = sd.getInteger("scale",0);
 		//summons = new ArrayList<Summon>();
-		//cash_stash = new ArrayList<Cookie>();
-		//shield_stash = new ArrayList<CookieShield>();
-		//item_stash = new ArrayList<CookieItem>();
-		//stat_stash = new ArrayList<CookieStat>();
+		
+		cash_stash = new ArrayList<Cookie>();
+		ArrayList<SaveData> cash_data = sd.getSaveDataList("cashstash");
+		for(int i=0; i<cash_data.size(); i++) {
+			cash_stash.add(new Cookie(game, board, cash_data.get(i), true));
+		}
+		shield_stash = new ArrayList<CookieShield>();
+		ArrayList<SaveData> shield_data = sd.getSaveDataList("shieldstash");
+		for(int i=0; i<shield_data.size(); i++) {
+			shield_stash.add(new CookieShield(game, board, shield_data.get(i)));
+		}
+		stat_stash = new ArrayList<CookieStat>();
+		ArrayList<SaveData> stat_data = sd.getSaveDataList("statstash");
+		for(int i=0; i<stat_data.size(); i++) {
+			stat_stash.add(new CookieStat(game, board, stat_data.get(i)));
+		}
+		
+		item_stash = new ArrayList<ArrayList<CookieItem>>();
+		SaveData all_item_data = sd.getSaveDataList("itemstash").get(0);
+		for(int i=0; i<all_item_data.numTags(); i++) {
+			ArrayList<SaveData> item_data = all_item_data.getSaveDataList("slot"+i);
+			if(item_data!=null) {
+				item_stash.add(0, new ArrayList<CookieItem>());
+				for(int j=0; j<stat_data.size(); j++) {
+					item_stash.get(i).add(new CookieItem(game, board, item_data.get(j)));
+				}
+			}
+		}
+		
 		//parts = new ArrayList<Segment>();
 		special_length = sd.getInteger("specialframes",0);
 		special_cooldown = sd.getInteger("specialframes",1);
@@ -147,8 +172,7 @@ public abstract class Entity {
 		for(int i=0; i<sd.getData("specialcolor").size(); i++) {
 			special_colors.add(new Color(sd.getInteger("specialcolor",i)));
 		}
-		/*powerups = new ArrayList<ArrayList<Item>>();
-		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
+		/*for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
 			powerups.add(new ArrayList<Item>());
 			special_frames.add(0.0);
 			special_activated.add(false);
@@ -188,6 +212,25 @@ public abstract class Entity {
 		data.addData("movement",friction,3);
 		data.addData("movement",min_recoil,4);
 		data.addData("movement",max_recoil,5);
+		
+		for(int i=0; i<cash_stash.size(); i++) {
+			data.addData("cashstash",cash_stash.get(i).getSaveData());
+		}
+		for(int i=0; i<shield_stash.size(); i++) {
+			data.addData("shieldstash",shield_stash.get(i).getSaveData());
+		}		
+		for(int i=0; i<stat_stash.size(); i++) {
+			data.addData("statstash",stat_stash.get(i).getSaveData());
+		}
+		SaveData itemData = new SaveData();
+		for(int i=0; i<item_stash.size(); i++) {
+			for(int j=0; j<item_stash.get(i).size(); j++) {
+				itemData.addData("slot"+i,item_stash.get(i).get(j).getSaveData());
+			}
+		}
+		data.addData("itemstash",itemData);
+		
+		
 		return data;
 	}
 	

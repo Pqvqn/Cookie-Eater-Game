@@ -36,6 +36,7 @@ public class CookieShield extends CookieStore{
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
+		data.addData("type","shield");
 		return data;
 	}
 	public boolean purchase(Entity buyer) {

@@ -45,6 +45,7 @@ public class CookieItem extends CookieStore{
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
+		data.addData("type","item");
 		data.addData("item",myItem.getSaveData());
 		return data;
 	}

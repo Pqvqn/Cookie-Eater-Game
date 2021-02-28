@@ -124,7 +124,11 @@ public class SaveData {
 		}
 		return ret;
 	}
-
+	
+	//number of tags registered
+	public int numTags() {
+		return dataStorage.size();
+	}
 	
 	//convert storage into string form
 	public String toString() {

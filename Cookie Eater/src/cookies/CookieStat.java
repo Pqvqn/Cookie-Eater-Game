@@ -40,6 +40,7 @@ public class CookieStat extends CookieStore{
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
+		data.addData("type","stat");
 		data.addData("stats",accelChange,0);
 		data.addData("stats",maxvelChange,1);
 		data.addData("stats",fricChange,2);
