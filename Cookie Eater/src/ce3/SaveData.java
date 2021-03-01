@@ -130,6 +130,10 @@ public class SaveData {
 		return dataStorage.size();
 	}
 	
+	public HashMap<String, ArrayList<Object>> dataMap(){
+		return dataStorage;
+	}
+	
 	//convert storage into string form
 	public String toString() {
 		String ret = savedataOpen;

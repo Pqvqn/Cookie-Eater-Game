@@ -153,13 +153,13 @@ public abstract class Entity {
 		}
 		
 		item_stash = new ArrayList<ArrayList<CookieItem>>();
-		SaveData all_item_data = sd.getSaveDataList("itemstash").get(0);
-		for(int i=0; i<all_item_data.numTags(); i++) {
-			ArrayList<SaveData> item_data = all_item_data.getSaveDataList("slot"+i);
-			if(item_data!=null) {
+		SaveData allItemData = sd.getSaveDataList("itemstash").get(0);
+		for(int i=0; i<allItemData.numTags(); i++) {
+			ArrayList<SaveData> itemData = allItemData.getSaveDataList("slot"+i);
+			if(itemData!=null) {
 				item_stash.add(0, new ArrayList<CookieItem>());
 				for(int j=0; j<stat_data.size(); j++) {
-					item_stash.get(i).add(new CookieItem(game, board, item_data.get(j)));
+					item_stash.get(i).add(new CookieItem(game, board, itemData.get(j)));
 				}
 			}
 		}
@@ -172,11 +172,10 @@ public abstract class Entity {
 		for(int i=0; i<sd.getData("specialcolor").size(); i++) {
 			special_colors.add(new Color(sd.getInteger("specialcolor",i)));
 		}
-		/*for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
-			powerups.add(new ArrayList<Item>());
+		for(int i=0; i<(gameboard.mode==Board.PVP?1:3); i++) {
 			special_frames.add(0.0);
 			special_activated.add(false);
-		}*/
+		}
 		decayed_value = sd.getInteger("decayedvalue",0);
 		offstage = sd.getInteger("offstage",0);
 		shield_length = sd.getInteger("shieldframes",0);
@@ -189,8 +188,13 @@ public abstract class Entity {
 		min_recoil = sd.getInteger("movement",4);
 		max_recoil = sd.getInteger("movement",5);
 		
-
-		//setUpStates();
+		variableStates = new HashMap<String,String>();
+		HashMap<String,ArrayList<Object>> stateData = sd.getSaveDataList("customstates").get(0).dataMap();
+		Iterator<String> stateit = stateData.keySet().iterator();
+		while(stateit.hasNext()) {
+			String key = stateit.next();
+			variableStates.put(key, stateData.get(key).get(0).toString());
+		}
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
@@ -230,6 +234,13 @@ public abstract class Entity {
 		}
 		data.addData("itemstash",itemData);
 		
+		SaveData stateData = new SaveData();
+		Iterator<String> stateit = variableStates.keySet().iterator();
+		while(stateit.hasNext()) {
+			String key = stateit.next();
+			stateData.addData(key, variableStates.get(key));
+		}
+		data.addData("customstates",stateData);
 		
 		return data;
 	}
