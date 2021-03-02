@@ -14,6 +14,16 @@ public class SegmentCircle extends Segment{
 		radius = rad;
 		size = rad;
 	}
+	public SegmentCircle(Board frame, Entity host, SaveData sd) {
+		super(frame, host, sd);
+		radius = sd.getDouble("radius",0);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("type","circ");
+		data.addData("radius",radius);
+		return data;
+	}
 	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
 		return board.currFloor.collidesCircleAndRect(xPos, yPos, (extra)?getTotalRadius():getRadius(), x, y, w, h, a);
 	}

@@ -195,6 +195,8 @@ public abstract class Entity {
 			String key = stateit.next();
 			variableStates.put(key, stateData.get(key).get(0).toString());
 		}
+		
+		//include position, mass, radius, etc.
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();

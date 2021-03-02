@@ -24,6 +24,36 @@ public abstract class Segment {
 		angle = a;
 		owner = host;
 	}
+	public Segment(Board frame, Entity host, SaveData sd) {
+		board = frame;
+		owner = host;
+		xPos = sd.getDouble("position",0);
+		yPos = sd.getDouble("position",1);
+		angle = sd.getDouble("angle",0);
+		size = sd.getDouble("size",0);
+		extra_size = sd.getDouble("size",1);
+		scale = sd.getDouble("scale",0);
+	}
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		data.addData("position",xPos,0);
+		data.addData("position",yPos,1);
+		data.addData("angle",angle);
+		data.addData("size",size,0);
+		data.addData("size",extra_size,1);
+		data.addData("scale",scale);
+		return data;
+	}
+	public static Segment loadFromData(Board frame, Entity host, SaveData sd) {
+		switch(sd.getString("type",0)) {
+		case "circ":
+			return new SegmentCircle(frame, host, sd);
+		case "rect":
+			return new SegmentRectangle(frame, host, sd);
+		default:
+			return new SegmentCircle(frame, host, sd);
+		}
+	}
 	public Entity getOwner() {return owner;}
 	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {return false;}
 	public boolean collidesWithCircle(boolean extra, double x, double y, double r) {return false;}

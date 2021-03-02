@@ -14,6 +14,16 @@ public class SegmentRectangle extends Segment{
 		ratio = len/wid;
 		size = wid;
 	}
+	public SegmentRectangle(Board frame, Entity host, SaveData sd) {
+		super(frame, host, sd);
+		ratio = sd.getDouble("ratio",0);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("type","rect");
+		data.addData("ratio",ratio);
+		return data;
+	}
 	/*public boolean collidesWithRect(boolean extra, double x, double y, double w, double h, double a) {
 		return board.currFloor.collidesRectAndRect(xPos, yPos, (extra)?getTotalWidth():getWidth(), (extra)?getTotalLength():getLength(), angle, x, y, w, h, a);
 	}
