@@ -51,7 +51,7 @@ public class Cookie {
 		x = sd.getInteger("position",0);
 		y = sd.getInteger("position",1);
 		radius = sd.getInteger("radius",0);
-		value = sd.getInteger("value",0);
+		value = sd.getDouble("value",0);
 		if(basic) {
 			setDecayTime();
 			try {

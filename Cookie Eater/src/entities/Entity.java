@@ -133,8 +133,23 @@ public abstract class Entity {
 		currSpecial = -1;
 		shield_frames = 0;
 		
-		scale = sd.getInteger("scale",0);
+		scale = sd.getDouble("scale",0);
 		//summons = new ArrayList<Summon>();
+		
+		name = sd.getString("name",0);
+		x = sd.getDouble("position",0);
+		y = sd.getDouble("position",1);
+		relativeFrame[0] = sd.getDouble("position",2);
+		relativeFrame[1] = sd.getDouble("position",3);
+		x_velocity = sd.getDouble("velocity",0);
+		y_velocity = sd.getDouble("velocity",1);
+		relativeVel[0] = sd.getDouble("velocity",2);
+		relativeVel[1] = sd.getDouble("velocity",3);
+		radius = sd.getDouble("size",0);
+		extra_radius = sd.getDouble("size",1);
+		shielded = sd.getBoolean("shielded",0);
+		ghost = sd.getBoolean("ghosted",0);
+		lock = sd.getBoolean("locked",0);
 		
 		cash_stash = new ArrayList<Cookie>();
 		ArrayList<SaveData> cash_data = sd.getSaveDataList("cashstash");
@@ -164,10 +179,15 @@ public abstract class Entity {
 			}
 		}
 		
-		//parts = new ArrayList<Segment>();
+		parts = new ArrayList<Segment>();
+		ArrayList<SaveData> part_data = sd.getSaveDataList("segments");
+		for(int i=0; i<part_data.size(); i++) {
+			parts.add(Segment.loadFromData(board, this, part_data.get(i)));
+		}
+		
 		special_length = sd.getInteger("specialframes",0);
 		special_cooldown = sd.getInteger("specialframes",1);
-		special_use_speed = sd.getInteger("specialframes",2);
+		special_use_speed = sd.getDouble("specialframes",2);
 		special_colors = new ArrayList<Color>();
 		for(int i=0; i<sd.getData("specialcolor").size(); i++) {
 			special_colors.add(new Color(sd.getInteger("specialcolor",i)));
@@ -176,17 +196,17 @@ public abstract class Entity {
 			special_frames.add(0.0);
 			special_activated.add(false);
 		}
-		decayed_value = sd.getInteger("decayedvalue",0);
+		decayed_value = sd.getDouble("decayedvalue",0);
 		offstage = sd.getInteger("offstage",0);
 		shield_length = sd.getInteger("shieldframes",0);
 		shield_tick = sd.getBoolean("shieldframes",1);
 		
-		acceleration = sd.getInteger("movement",0);
-		max_velocity = sd.getInteger("movement",1);
-		terminal_velocity = sd.getInteger("movement",2);
-		friction = sd.getInteger("movement",3);
-		min_recoil = sd.getInteger("movement",4);
-		max_recoil = sd.getInteger("movement",5);
+		acceleration = sd.getDouble("movement",0);
+		max_velocity = sd.getDouble("movement",1);
+		terminal_velocity = sd.getDouble("movement",2);
+		friction = sd.getDouble("movement",3);
+		min_recoil = sd.getDouble("movement",4);
+		max_recoil = sd.getDouble("movement",5);
 		
 		variableStates = new HashMap<String,String>();
 		HashMap<String,ArrayList<Object>> stateData = sd.getSaveDataList("customstates").get(0).dataMap();
@@ -195,12 +215,31 @@ public abstract class Entity {
 			String key = stateit.next();
 			variableStates.put(key, stateData.get(key).get(0).toString());
 		}
-		
-		//include position, mass, radius, etc.
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("scale",scale);
+		
+		data.addData("name",name);
+		data.addData("position",x,0);
+		data.addData("position",y,1);
+		data.addData("position",relativeFrame[0],2);
+		data.addData("position",relativeFrame[1],3);
+		data.addData("velocity",x_velocity,0);
+		data.addData("velocity",y_velocity,1);
+		data.addData("velocity",relativeVel[0],2);
+		data.addData("velocity",relativeVel[1],3);
+		data.addData("size",radius,0);
+		data.addData("size",extra_radius,1);
+		data.addData("shielded",shielded);
+		data.addData("ghosted",ghost);
+		data.addData("locked",lock);
+		
+		for(int i=0; i<parts.size(); i++) {
+			data.addData("segments",parts.get(i).getSaveData());
+		}
+		
+		
 		data.addData("specialframes",special_length,0);
 		data.addData("specialframes",special_cooldown,0);
 		data.addData("specialframes",special_use_speed,0);
