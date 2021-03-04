@@ -81,6 +81,46 @@ public class Eater extends Entity{
 			e.printStackTrace();
 		}
 	}
+	/*
+	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
+	private Color coloration;
+	private UIItemsAll itemDisp; //ui parts
+	private UIScoreCount scoreboard;
+	private UIShields shieldDisp;
+	private SpriteEater sprite;
+	private SegmentCircle part;
+	public Controls controls; //covers inputs
+	 */
+	public Eater(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		id = sd.getInteger("id",0);
+		direction = sd.getInteger("direction",0);
+		startShields = sd.getInteger("startshields",0);
+		addShields(startShields);
+		state = sd.getInteger("state",0);
+		cash = sd.getDouble("cash",0);
+		coloration = new Color(sd.getInteger("color",0));
+		
+		pickups = new ArrayList<CookieItem>();
+		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
+		for(int i=0; i<pickup_data.size(); i++) {
+			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("id",id);
+		data.addData("direction",direction);
+		data.addData("startshields",startShields);
+		data.addData("state",state);
+		data.addData("cash",cash);
+		data.addData("color",coloration.getRGB());
+		
+		for(int i=0; i<pickups.size(); i++) {
+			data.addData("pickupstash",pickups.get(i).getSaveData());
+		}	
+		return data;
+	}
 	public int getDir() {return direction;}
 	public double getAim() {
 		switch(direction) {
