@@ -34,7 +34,7 @@ public class EnemyBloc extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"bloc","blocMad"});
-		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,Math.random()*Math.PI));
+		parts.add(bloc = new SegmentRectangle(board,this,x,y,60,60,Math.random()*Math.PI,"body"));
 		try {
 			sprite = new SpriteEnemy(board,bloc,imgs);
 		} catch (IOException e) {

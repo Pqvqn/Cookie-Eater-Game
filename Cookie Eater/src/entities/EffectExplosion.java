@@ -29,7 +29,7 @@ public class EffectExplosion extends Effect{
 		orientParts();
 	}
 	protected void buildBody() {
-		parts.add(boom = new SegmentCircle(board,this,x,y,getRadius(),0));
+		parts.add(boom = new SegmentCircle(board,this,x,y,getRadius(),0,"blast"));
 	}
 	//remove explosion
 	public void kill() {

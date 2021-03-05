@@ -34,7 +34,7 @@ public class EnemySpawner extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,"body"));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {

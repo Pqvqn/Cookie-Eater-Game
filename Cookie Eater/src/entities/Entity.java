@@ -174,7 +174,9 @@ public abstract class Entity {
 			if(itemData!=null) {
 				item_stash.add(0, new ArrayList<CookieItem>());
 				for(int j=0; j<stat_data.size(); j++) {
-					item_stash.get(i).add(new CookieItem(game, board, itemData.get(j)));
+					CookieItem ci = new CookieItem(game, board, itemData.get(j));
+					item_stash.get(i).add(ci);
+					ci.getItem().setUser(this);
 				}
 			}
 		}

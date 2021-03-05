@@ -167,9 +167,9 @@ public class Summon extends Entity{
 	protected void buildBody() {
 		//rectangle for anchored, circle for projectile
 		if(anchor) {
-			parts.add(body = new SegmentRectangle(board,this,homex,homey,getThickness(),getLength(),getAngle()));
+			parts.add(body = new SegmentRectangle(board,this,homex,homey,getThickness(),getLength(),getAngle(),"body"));
 		}else {
-			parts.add(body = new SegmentCircle(board,this,homex,homey,getThickness()/2,getAngle()));
+			parts.add(body = new SegmentCircle(board,this,homex,homey,getThickness()/2,getAngle(),"body"));
 		}
 	}
 	public void orientParts() {

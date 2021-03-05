@@ -83,12 +83,10 @@ public class Eater extends Entity{
 	}
 	/*
 	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
-	private Color coloration;
 	private UIItemsAll itemDisp; //ui parts
 	private UIScoreCount scoreboard;
 	private UIShields shieldDisp;
 	private SpriteEater sprite;
-	private SegmentCircle part;
 	public Controls controls; //covers inputs
 	 */
 	public Eater(Game frame, Board gameboard, SaveData sd, int cycle) {
@@ -105,6 +103,12 @@ public class Eater extends Entity{
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
 		for(int i=0; i<pickup_data.size(); i++) {
 			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+		}
+	
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				part = (SegmentCircle)testPart;
+			}
 		}
 	}
 	public SaveData getSaveData() {
@@ -322,7 +326,7 @@ public class Eater extends Entity{
 		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
 	}
 	public void buildBody() {
-		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));
 	}
 	public void orientParts() {
 		part.setLocation(x,y);

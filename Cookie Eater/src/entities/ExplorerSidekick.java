@@ -36,7 +36,7 @@ public class ExplorerSidekick extends Explorer{
 		min_cat = 3;
 		max_cat = 8;
 		mass = 200;
-		tester = new SegmentCircle(board,this,x,y,radius*2,0);
+		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 		input_speed = 30;
 		start_shields = 50;
 		setShields(start_shields);
@@ -224,7 +224,7 @@ public class ExplorerSidekick extends Explorer{
 		giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,"Ghost"),0));
 	}
 	public void buildBody() {
-		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));
 	}
 	public void orientParts() {
 		part.setLocation(x,y);

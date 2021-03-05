@@ -38,9 +38,9 @@ public class EnemyGlob extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
-		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0));
-		parts.add(blob3 = new SegmentCircle(board,this,x,y,30,0));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,"right"));
+		parts.add(blob2 = new SegmentCircle(board,this,x,y,30,0,"left"));
+		parts.add(blob3 = new SegmentCircle(board,this,x,y,30,0,"top"));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 			sprite2 = new SpriteEnemy(board,blob2,imgs);

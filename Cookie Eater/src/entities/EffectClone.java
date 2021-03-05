@@ -43,10 +43,10 @@ public class EffectClone extends Effect{
 			
 			if(s instanceof SegmentCircle) {
 				SegmentCircle s2 = (SegmentCircle)s;
-				parts.add(new SegmentCircle(board,initiator, posState[0], posState[1], s2.getRadius()/board.currFloor.getScale(), posState[2]));
+				parts.add(new SegmentCircle(board,initiator, posState[0], posState[1], s2.getRadius()/board.currFloor.getScale(), posState[2], s.name));
 			}else if(s instanceof SegmentRectangle) {
 				SegmentRectangle s2 = (SegmentRectangle)s;
-				parts.add(new SegmentRectangle(board,initiator, posState[0], posState[1], s2.getWidth(), s2.getLength(), posState[2]));
+				parts.add(new SegmentRectangle(board,initiator, posState[0], posState[1], s2.getWidth(), s2.getLength(), posState[2], s.name));
 			}
 		}
 	}

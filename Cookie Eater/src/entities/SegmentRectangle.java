@@ -9,8 +9,8 @@ public class SegmentRectangle extends Segment{
 
 	private double ratio; //length/width
 	
-	public SegmentRectangle(Board frame, Entity host, double x, double y, double wid, double len, double a) {
-		super(frame,host,x,y,a);
+	public SegmentRectangle(Board frame, Entity host, double x, double y, double wid, double len, double a, String id) {
+		super(frame,host,x,y,a,id);
 		ratio = len/wid;
 		size = wid;
 	}

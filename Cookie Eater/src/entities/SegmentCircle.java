@@ -9,8 +9,8 @@ public class SegmentCircle extends Segment{
 
 	private double radius;
 	
-	public SegmentCircle(Board frame, Entity host, double x, double y, double rad, double a) {
-		super(frame,host,x,y,a);
+	public SegmentCircle(Board frame, Entity host, double x, double y, double rad, double a, String id) {
+		super(frame,host,x,y,a,id);
 		radius = rad;
 		size = rad;
 	}

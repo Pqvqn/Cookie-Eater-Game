@@ -16,17 +16,20 @@ public abstract class Segment {
 	protected double scale;
 	protected double extra_size; //extra area
 	protected double size;
+	protected String name;
 	
-	public Segment(Board frame, Entity host, double x, double y, double a) {
+	public Segment(Board frame, Entity host, double x, double y, double a, String id) {
 		board = frame;
 		xPos = x;
 		yPos = y;
 		angle = a;
 		owner = host;
+		name = id;
 	}
 	public Segment(Board frame, Entity host, SaveData sd) {
 		board = frame;
 		owner = host;
+		name = sd.getString("name",0);
 		xPos = sd.getDouble("position",0);
 		yPos = sd.getDouble("position",1);
 		angle = sd.getDouble("angle",0);
@@ -36,6 +39,7 @@ public abstract class Segment {
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
+		data.addData("name",name);
 		data.addData("position",xPos,0);
 		data.addData("position",yPos,1);
 		data.addData("angle",angle);

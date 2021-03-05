@@ -30,7 +30,7 @@ public class ExplorerMechanic extends Explorer{
 		min_cat = 3;
 		max_cat = 3;
 		mass = 400;
-		tester = new SegmentCircle(board,this,x,y,radius*2,0);
+		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 		input_speed = 30;
 		start_shields = 1;
 		setShields(start_shields);
@@ -153,7 +153,7 @@ public class ExplorerMechanic extends Explorer{
 	}
 	
 	public void buildBody() {
-		parts.add(part = new SegmentCircle(board,this,x,y,radius,0));
+		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));
 	}
 	public void orientParts() {
 		part.setLocation(x,y);

@@ -33,7 +33,7 @@ public class EnemyParasite extends Enemy{
 	}
 	public void buildBody() {
 		setImgs(new String[] {"blobMad","blobMad"});
-		parts.add(blob = new SegmentCircle(board,this,x,y,30,0));
+		parts.add(blob = new SegmentCircle(board,this,x,y,30,0,"body"));
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
