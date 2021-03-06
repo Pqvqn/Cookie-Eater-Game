@@ -83,11 +83,6 @@ public class Eater extends Entity{
 	}
 	/*
 	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
-	private UIItemsAll itemDisp; //ui parts
-	private UIScoreCount scoreboard;
-	private UIShields shieldDisp;
-	private SpriteEater sprite;
-	public Controls controls; //covers inputs
 	 */
 	public Eater(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
@@ -105,10 +100,23 @@ public class Eater extends Entity{
 			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
 		}
 	
+		MR = new double[3][2];
+		ArrayList<Object> stats = sd.getData("statranges");
+		for(int i=0; i<6; i++) {
+			MR[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
+		}
+		
 		for(Segment testPart : parts){
 			if(testPart.name.equals("body")) {
 				part = (SegmentCircle)testPart;
 			}
+		}
+		controls = new Controls(game, board, this, id);
+		try {
+			sprite = new SpriteEater(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	public SaveData getSaveData() {
@@ -119,6 +127,10 @@ public class Eater extends Entity{
 		data.addData("state",state);
 		data.addData("cash",cash);
 		data.addData("color",coloration.getRGB());
+		
+		for(int i=0; i<6; i++) {
+			data.addData("statranges",MR[i/2][i%2],i);
+		}
 		
 		for(int i=0; i<pickups.size(); i++) {
 			data.addData("pickupstash",pickups.get(i).getSaveData());
