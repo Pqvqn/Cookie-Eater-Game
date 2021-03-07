@@ -1,7 +1,10 @@
 >pup
-:... [Hello] [Shuffle Me]
+:... [Hello] [Shuffle Me] [Save Progress]
 :: %Pickups;none% ? | You have pickups, I suppose [%HasPUP;yes%Which ones?]
 :::#Pickups#, I suppose [Can I buy them then?]
 ::::$Display;Pups$ Sure, I suppose. [Ok, I'm done.]
 :::::$Display;Stats$ You're demanding, I suppose.
-:: Direct, I suppose. $Display;Stats$
+::Direct, I suppose. $Display;Stats$
+::You can safely leave, I suppose. [but I don't want to leave you] [Please] $Save$
+:::>pup
+:::Get lost, I suppose. $Exit$

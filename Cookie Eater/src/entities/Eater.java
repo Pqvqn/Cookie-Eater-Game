@@ -81,9 +81,6 @@ public class Eater extends Entity{
 			e.printStackTrace();
 		}
 	}
-	/*
-	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
-	 */
 	public Eater(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
 		id = sd.getInteger("id",0);

@@ -116,7 +116,6 @@ public class UISettings extends UIElement{
 		//shows title screen and saves board
 		MenuButton title = new MenuButton(game, this, null, new String[] {"title screen"}, false, 120,25,200,100);
 		oc = () -> {
-			game.board.createSave();
 			game.board = null;
 			this.show(false);
 			game.ui_tis.show();

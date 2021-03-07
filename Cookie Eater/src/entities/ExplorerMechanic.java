@@ -22,6 +22,7 @@ public class ExplorerMechanic extends Explorer{
 	 * Give: dollars
 	 * Take: dollars
 	 * Display: type = [Pups, Stats]
+	 * Save
 	 */
 	
 	public ExplorerMechanic(Game frame, Board gameboard, int cycletime) {
@@ -148,7 +149,12 @@ public class ExplorerMechanic extends Explorer{
 				to_sell.add(storage.remove(0));
 			}
 			break;
-		
+		case "Save": //save game file
+			game.board.createSave();
+			break;
+		case "Exit": //exit game window
+			System.exit(0);
+			break;
 		}
 	}
 	
