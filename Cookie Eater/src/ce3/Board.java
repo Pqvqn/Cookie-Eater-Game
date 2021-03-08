@@ -94,18 +94,13 @@ public class Board{
 		floorSequence = floseq;
 		
 		loadDungeon(dungeon);
-		testVar = "blehg";
 	}
-	public String testVar;
 	/*list of variables that need to be put in
-	private Eater player;
-	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public Area wallSpace;
 	public ArrayList<Effect> effects;
 	public ArrayList<Enemy> enemies;
-	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
@@ -120,7 +115,6 @@ public class Board{
 		cycletime = cycle;		
 		
 		savename = data.getString("savename",0);
-		testVar = data.getString("test",0);
 		mode = data.getInteger("mode",0);
 		x_resol = data.getInteger("resolution",0);
 		y_resol = data.getInteger("resolution",1);
@@ -133,9 +127,15 @@ public class Board{
 		for(int i=0; i<playerCount; i++) {
 			players.add(new Eater(game,this,playerData.get(i),cycletime));
 		}
+		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
+		cookies = new ArrayList<Cookie>();
+		for(int i=0; i<cookieData.size(); i++) {
+			Cookie loaded = Cookie.loadFromData(game, this, cookieData.get(i));
+			if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
+				cookies.add(loaded);
+			}
+		}
 		
-		SaveData sd = (SaveData)data.getData("testsd",0);
-		System.out.println(sd.getData("wow"));
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -143,7 +143,6 @@ public class Board{
 	//write data tp 
 	public void createSave() {
 		SaveData data = new SaveData();
-		data.addData("test",testVar);
 		data.addData("savename",savename);
 		data.addData("mode",mode);
 		data.addData("resolution",x_resol,0);
@@ -152,15 +151,15 @@ public class Board{
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
 		
-		ArrayList<SaveData> playerData = new ArrayList<SaveData>();
 		for(int i=0; i<playerCount; i++) {
-			playerData.add(players.get(i).getSaveData());
+			data.addData("players",players.get(i).getSaveData());
 		}
-		data.addData("players",playerData);
-		
-		SaveData sd = new SaveData();
-		sd.addData("wow","no");
-		data.addData("testsd",sd);
+		for(int i=0; i<cookies.size(); i++) {
+			Cookie toSave = cookies.get(i);
+			if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
+				data.addData("cookies",cookies.get(i).getSaveData());
+			}
+		}
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
