@@ -18,6 +18,17 @@ public class Effect extends Entity{
 		collides = true;
 	}
 	
+	public Effect(Game frame, Board gameboard, SaveData sd, int cycletime, Entity owner) {
+		super(frame, gameboard, sd, cycletime);
+		collides = sd.getBoolean("collides",0);
+		initiator = owner;
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("collides",collides);
+		return data;
+	}
+	
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();
