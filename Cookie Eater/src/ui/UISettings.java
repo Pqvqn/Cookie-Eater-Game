@@ -167,38 +167,6 @@ public class UISettings extends UIElement{
 		fps.setClick(oc);
 		menuHandler.addButton("DEBUG",fps);
 		
-		//load
-		MenuButton testl = new MenuButton(game, this, null, new String[] {"test L"}, false, 120,775,200,200);
-		oc = () -> {
-			game.loadDungeon("test");
-		};
-		testl.setClick(oc);
-		menuHandler.addButton("TEST",testl);
-		
-		//save
-		MenuButton tests = new MenuButton(game, this, null, new String[] {"test S"}, false, 520,775,200,200);
-		oc = () -> {
-			game.board.createSave();
-		};
-		tests.setClick(oc);
-		menuHandler.addButton("TEST",tests);
-		
-		//print
-		MenuButton testp = new MenuButton(game, this, null, new String[] {"test P"}, false, 920,775,200,200);
-		oc = () -> {
-			System.out.println(game.board.testVar);
-		};
-		testp.setClick(oc);
-		menuHandler.addButton("TEST",testp);
-		
-		//mutate
-		MenuButton testm = new MenuButton(game, this, null, new String[] {"test M"}, false, 1320,775,200,200);
-		oc = () -> {
-			game.board.testVar = "no longer";
-		};
-		testm.setClick(oc);
-		menuHandler.addButton("TEST",testm);
-		
 	}
 	//update controls for selected player
 	public void updateButtons() {

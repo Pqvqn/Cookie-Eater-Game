@@ -25,7 +25,27 @@ public class EffectClone extends Effect{
 		buildBody();
 		orientParts();
 	}
-	
+	public EffectClone(Game frame, Board gameboard, SaveData sd, int cycletime, Entity owner) {
+		super(frame, gameboard, sd, cycletime, owner);
+		posLock = sd.getBoolean("lock",0);
+		startx = sd.getInteger("startpos",0);
+		starty = sd.getInteger("startpos",1);
+		starta = sd.getInteger("startpos",2);
+		flipx = sd.getBoolean("flip",0);
+		flipy = sd.getBoolean("flip",1);
+		flipa = sd.getBoolean("flip",2);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("lock",posLock);
+		data.addData("start",startx,0);
+		data.addData("start",starty,1);
+		data.addData("start",starta,2);
+		data.addData("flip",flipx,0);
+		data.addData("flip",flipy,1);
+		data.addData("flip",flipa,2);
+		return data;
+	}
 	public void runUpdate() {
 		if(ded)return;
 		setShielded(initiator.getShielded());
