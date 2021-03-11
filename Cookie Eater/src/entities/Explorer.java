@@ -30,7 +30,7 @@ public class Explorer extends Entity{
 	protected double input_speed; //how many frames must pass between inputs
 	protected int input_counter; //counts the above
 	protected ArrayList<CookieItem> pickups; //items picked up but not activated
-	protected int start_shields;
+	protected int startShields;
 	protected int speaking; //how long been speaking for
 	protected Conversation convo;
 	protected Cookie target;
@@ -50,7 +50,7 @@ public class Explorer extends Entity{
 
 		input_counter = 0;
 		speaking = 0;
-		setShields(start_shields);
+		setShields(startShields);
 		buildBody();
 		try {
 			sprite = new SpriteExplorer(board,this);
@@ -58,6 +58,66 @@ public class Explorer extends Entity{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	/*
+	 protected Level residence; //which room this explorer is on
+	protected int[][] shop_spots;
+	protected ArrayList<CookieStore> to_sell;
+	protected ArrayList<CookieStore> on_display;
+	protected Segment tester; //segment used to test possible movement paths to choose optimal one
+	protected Conversation convo;
+	protected Cookie target;
+	 */
+	public Explorer(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		direction = sd.getInteger("direction",0);
+		startShields = sd.getInteger("startshields",0);
+		addShields(startShields);
+		state = sd.getInteger("state",0);
+		coloration = new Color(sd.getInteger("color",0));
+		
+		min_cat = sd.getInteger("catalogsize",0);
+		max_cat = sd.getInteger("catalogsize",1);
+		input_speed = sd.getDouble("inputspeed",0);
+		
+		pickups = new ArrayList<CookieItem>();
+		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
+		for(int i=0; i<pickup_data.size(); i++) {
+			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+		}
+	
+		MR = new double[3][2];
+		ArrayList<Object> stats = sd.getData("statranges");
+		for(int i=0; i<6; i++) {
+			MR[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
+		}
+		
+		try {
+			sprite = new SpriteExplorer(board,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("direction",direction);
+		data.addData("startshields",startShields);
+		data.addData("state",state);
+		data.addData("color",coloration.getRGB());
+		
+		data.addData("catalogsize",min_cat,0);
+		data.addData("catalogsize",max_cat,1);
+		data.addData("inputspeed",input_speed);
+		
+		for(int i=0; i<6; i++) {
+			data.addData("statranges",MR[i/2][i%2],i);
+		}
+		
+		for(int i=0; i<pickups.size(); i++) {
+			data.addData("pickupstash",pickups.get(i).getSaveData());
+		}	
+		return data;
 	}
 	
 	public Level getResidence() {return residence;}
@@ -157,7 +217,7 @@ public class Explorer extends Entity{
 		y_velocity = 0;
 		wipeStash();
 		to_sell = new ArrayList<CookieStore>();
-		setShields(start_shields);
+		setShields(startShields);
 		//randomizeStats();
 			
 		decayed_value = 0;
