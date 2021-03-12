@@ -14,6 +14,7 @@ import menus.*;
 public class Explorer extends Entity{
 
 	protected Level residence; //which room this explorer is on
+	protected int residenceDungeon; //which dungeon this explorer is on
 	protected int state;
 	public static final int VENDOR = 0, VENTURE = 1, STAND = 2, STOP = 3;
 	protected int[][] shop_spots;
@@ -50,6 +51,9 @@ public class Explorer extends Entity{
 
 		input_counter = 0;
 		speaking = 0;
+		
+		residenceDungeon = board.currDungeon;
+		
 		setShields(startShields);
 		buildBody();
 		try {
@@ -60,7 +64,6 @@ public class Explorer extends Entity{
 		}
 	}
 	/*
-	 protected Level residence; //which room this explorer is on
 	protected int[][] shop_spots;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
@@ -92,6 +95,14 @@ public class Explorer extends Entity{
 			MR[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
+		residence = board.floorSequence[sd.getInteger("residence",0)][sd.getInteger("residence",1)];
+		
+		ArrayList<Object> spots = sd.getData("shopspots");
+		shop_spots = new int[spots.size()/2][2];
+		for(int i=0; i<spots.size(); i++) {
+			shop_spots[i/2][i%2] = Integer.parseInt(spots.get(i).toString());
+		}
+		
 		try {
 			sprite = new SpriteExplorer(board,this);
 		} catch (IOException e) {
@@ -110,8 +121,21 @@ public class Explorer extends Entity{
 		data.addData("catalogsize",max_cat,1);
 		data.addData("inputspeed",input_speed);
 		
+		data.addData("residence",residenceDungeon,0);
+		int residenceFloor = -1;
+		for(int i=0; i<board.floorSequence[residenceDungeon].length && residenceFloor<0; i++) {
+			if(board.floorSequence[residenceDungeon][i] == residence) {
+				residenceFloor=i;
+			}
+		}
+		data.addData("residence",residenceFloor,1);
+		
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",MR[i/2][i%2],i);
+		}
+		
+		for(int i=0; i<shop_spots.length*2; i++) {
+			data.addData("shopspots",shop_spots[i/2][i%2],i);
 		}
 		
 		for(int i=0; i<pickups.size(); i++) {

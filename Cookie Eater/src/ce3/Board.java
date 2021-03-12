@@ -32,7 +32,7 @@ public class Board{
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	private Level[][] floorSequence; //order of floors for each dungeon 
+	public Level[][] floorSequence; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
 	public int currDungeon;
 	public Level currFloor;
