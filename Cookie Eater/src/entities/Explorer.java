@@ -63,14 +63,6 @@ public class Explorer extends Entity{
 			e.printStackTrace();
 		}
 	}
-	/*
-	protected int[][] shop_spots;
-	protected ArrayList<CookieStore> to_sell;
-	protected ArrayList<CookieStore> on_display;
-	protected Segment tester; //segment used to test possible movement paths to choose optimal one
-	protected Conversation convo;
-	protected Cookie target;
-	 */
 	public Explorer(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
 		direction = sd.getInteger("direction",0);
@@ -102,6 +94,23 @@ public class Explorer extends Entity{
 		for(int i=0; i<spots.size(); i++) {
 			shop_spots[i/2][i%2] = Integer.parseInt(spots.get(i).toString());
 		}
+		
+		to_sell = new ArrayList<CookieStore>();
+		ArrayList<SaveData> sell_data = sd.getSaveDataList("sellstash");
+		for(int i=0; i<sell_data.size(); i++) {
+			CookieStore disp;
+			to_sell.add(disp = CookieStore.loadFromData(game, board, sell_data.get(i)));
+			disp.setVendor(this);
+		}
+		on_display = new ArrayList<CookieStore>();
+		ArrayList<SaveData> display_data = sd.getSaveDataList("displaystash");
+		for(int i=0; i<display_data.size(); i++) {
+			CookieStore disp;
+			on_display.add(disp = CookieStore.loadFromData(game, board, display_data.get(i)));
+			board.cookies.add(disp);
+			disp.setVendor(this);
+		}
+		
 		
 		try {
 			sprite = new SpriteExplorer(board,this);
@@ -140,6 +149,12 @@ public class Explorer extends Entity{
 		
 		for(int i=0; i<pickups.size(); i++) {
 			data.addData("pickupstash",pickups.get(i).getSaveData());
+		}	
+		for(int i=0; i<to_sell.size(); i++) {
+			data.addData("sellstash",to_sell.get(i).getSaveData());
+		}	
+		for(int i=0; i<on_display.size(); i++) {
+			data.addData("displaystash",on_display.get(i).getSaveData());
 		}	
 		return data;
 	}

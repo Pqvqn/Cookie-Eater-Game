@@ -45,6 +45,19 @@ public abstract class CookieStore extends Cookie{
 		data.addData("region",region);
 		return data;
 	}
+	//return CookieStore created by SaveData, testing for correct type of CookieStore
+	public static CookieStore loadFromData(Game frame, Board gameboard, SaveData sd) {
+		switch(sd.getString("type",0)) {
+		case "item":
+			return new CookieItem(frame, gameboard, sd);
+		case "shield":
+			return new CookieShield(frame, gameboard, sd);
+		case "stat":
+			return new CookieStat(frame, gameboard, sd);
+		default:
+			return new CookieShield(frame, gameboard, sd);
+		}
+	}
 	
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
