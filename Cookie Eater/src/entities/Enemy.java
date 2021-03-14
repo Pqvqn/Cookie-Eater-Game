@@ -32,6 +32,19 @@ public abstract class Enemy extends Entity{
 		createStash();
 		explorerTarget = targetExplorer();
 	}
+	public Enemy(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		steals = sd.getBoolean("steals",0);
+		targetx = sd.getDouble("target",0);
+		targety = sd.getDouble("target",1);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("steals",steals);
+		data.addData("target",targetx,0);
+		data.addData("target",targety,1);
+		return data;
+	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
 		for(int i=0; i<imgList.length; i++)imgs.add(imgList[i]);

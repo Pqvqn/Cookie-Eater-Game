@@ -33,9 +33,17 @@ public class ExplorerMystery extends Explorer{
 		mass = 400;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 		input_speed = 30;
-		start_shields = 1;
-		setShields(start_shields);
+		startShields = 1;
+		setShields(startShields);
 		state = VENDOR;
+	}
+	public ExplorerMystery(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				part = (SegmentCircle)testPart;
+			}
+		}
 	}
 	public String getName() {return "Mystery";}
 	public void runEnds() {

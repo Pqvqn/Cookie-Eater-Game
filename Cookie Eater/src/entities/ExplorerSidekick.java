@@ -38,9 +38,17 @@ public class ExplorerSidekick extends Explorer{
 		mass = 200;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 		input_speed = 30;
-		start_shields = 50;
-		setShields(start_shields);
+		startShields = 50;
+		setShields(startShields);
 		state = VENTURE;
+	}
+	public ExplorerSidekick(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				part = (SegmentCircle)testPart;
+			}
+		}
 	}
 	public String getName() {return "Sidekick";}
 	public void runEnds() {
