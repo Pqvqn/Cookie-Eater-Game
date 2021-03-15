@@ -25,6 +25,28 @@ public class EnemySpawner extends Enemy{
 		spawns = new ArrayList<Enemy>();
 		name = "Spawner";
 	}
+	public EnemySpawner(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"blobEmpty","blobMadEmpty"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				blob = (SegmentCircle)testPart;
+			}
+		}
+		prevCookies = sd.getInteger("prevcookies",0);
+		try {
+			sprite = new SpriteEnemy(board,blob,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("prevcookies",prevCookies);
+		// TODO load enemy list into spawner
+		return data;
+	}
 	public void averageStats() {
 		acceleration=1;
 		max_velocity=5;

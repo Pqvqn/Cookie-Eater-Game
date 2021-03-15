@@ -24,6 +24,21 @@ public class EnemyCrawler extends Enemy{
 		steals = true;
 		name = "Crawler";
 	}
+	public EnemyCrawler(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"blob","blobMad"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				blob = (SegmentCircle)testPart;
+			}
+		}
+		try {
+			sprite = new SpriteEnemy(board,blob,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void averageStats() {
 		acceleration=.5;
 		max_velocity=5;

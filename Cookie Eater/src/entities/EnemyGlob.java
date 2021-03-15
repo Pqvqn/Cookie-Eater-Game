@@ -29,6 +29,27 @@ public class EnemyGlob extends Enemy{
 		steals = true;
 		name = "Tres Blob";
 	}
+	public EnemyGlob(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("top")) {
+				blob3 = (SegmentCircle)testPart;
+			}else if(testPart.name.equals("right")) {
+				blob = (SegmentCircle)testPart;
+			}else if(testPart.name.equals("left")) {
+				blob2 = (SegmentCircle)testPart;
+			}
+		}
+		try {
+			sprite = new SpriteEnemy(board,blob,imgs);
+			sprite2 = new SpriteEnemy(board,blob2,imgs);
+			sprite3 = new SpriteEnemy(board,blob3,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void averageStats() {
 		acceleration=.25;
 		max_velocity=5;

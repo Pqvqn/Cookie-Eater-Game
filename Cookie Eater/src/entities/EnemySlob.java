@@ -33,6 +33,36 @@ public class EnemySlob extends Enemy{
 		prevCookies = 0;
 		name = "Charger";
 	}
+	public EnemySlob(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"blob","blobMad"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("front")) {
+				blob = (SegmentCircle)testPart;
+			}else if(testPart.name.equals("back")) {
+				blob2 = (SegmentCircle)testPart;
+			}
+		}
+		chargeCoords[0] = sd.getDouble("chargepoint",0);
+		chargeCoords[1] = sd.getDouble("chargepoint",1);
+		prevCookies = sd.getInteger("prevcookies",0);
+		angle = sd.getDouble("angle",0);
+		try {
+			sprite = new SpriteEnemy(board,blob,imgs);
+			sprite2 = new SpriteEnemy(board,blob2,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("chargepoint",chargeCoords[0],0);
+		data.addData("chargepoint",chargeCoords[1],1);
+		data.addData("prevcookies",prevCookies);
+		data.addData("angle",angle);
+		return data;
+	}
 	public void averageStats() {
 		acceleration=1;
 		max_velocity=5;

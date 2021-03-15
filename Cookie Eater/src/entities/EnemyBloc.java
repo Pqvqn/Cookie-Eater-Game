@@ -25,6 +25,21 @@ public class EnemyBloc extends Enemy{
 		steals = true;
 		name = "Bloc";
 	}
+	public EnemyBloc(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"bloc","blocMad"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				bloc = (SegmentRectangle)testPart;
+			}
+		}
+		try {
+			sprite = new SpriteEnemy(board,bloc,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void averageStats() {
 		acceleration=.5;
 		max_velocity=5;

@@ -24,6 +24,29 @@ public class EnemyParasite extends Enemy{
 		stickPoint = new double[2];
 		name = "Parasite";
 	}
+	public EnemyParasite(Game frame, Board gameboard, SaveData sd, int cycle) {
+		super(frame,gameboard,sd,cycle);
+		setImgs(new String[] {"blob","blobMad"});
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				blob = (SegmentCircle)testPart;
+			}
+		}
+		stickPoint[0] = sd.getDouble("stickpoint",0);
+		stickPoint[1] = sd.getDouble("stickpoint",1);
+		try {
+			sprite = new SpriteEnemy(board,blob,imgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("stickpoint",stickPoint[0],0);
+		data.addData("stickpoint",stickPoint[1],1);
+		return data;
+	}
 	public void averageStats() {
 		acceleration=10;
 		max_velocity=1000;
