@@ -42,6 +42,27 @@ public class Summon extends Entity{
 		orientParts();
 
 	}
+	public Summon(Game frame, Board gameboard, Entity summoner, SaveData sd, int cycle) {
+		super(frame, gameboard, cycle);
+		user = summoner;
+		anchor = sd.getBoolean("anchored",0);
+		homex = sd.getDouble("edge",0);
+		homey = sd.getDouble("edge",1);
+		for(Segment testPart : parts){
+			if(testPart.name.equals("body")) {
+				body = testPart;
+			}
+		}
+		spawn = sd.getDouble("spawndist",0);
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("anchored",anchor);
+		data.addData("edge",homex,0);
+		data.addData("edge",homey,1);
+		data.addData("spawndist",spawn);
+		return data;
+	}
 	public void runUpdate() {
 		if(ded)return;
 		super.runUpdate();

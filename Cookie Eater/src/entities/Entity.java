@@ -134,7 +134,6 @@ public abstract class Entity {
 		shield_frames = 0;
 		
 		scale = sd.getDouble("scale",0);
-		//summons = new ArrayList<Summon>();
 		
 		name = sd.getString("name",0);
 		x = sd.getDouble("position",0);
@@ -150,6 +149,12 @@ public abstract class Entity {
 		shielded = sd.getBoolean("shielded",0);
 		ghost = sd.getBoolean("ghosted",0);
 		lock = sd.getBoolean("locked",0);
+		
+		summons = new ArrayList<Summon>();
+		ArrayList<SaveData> summon_data = sd.getSaveDataList("summons");
+		for(int i=0; i<summon_data.size(); i++) {
+			summons.add(new Summon(game, board, this, summon_data.get(i), cycle));
+		}
 		
 		cash_stash = new ArrayList<Cookie>();
 		ArrayList<SaveData> cash_data = sd.getSaveDataList("cashstash");
@@ -259,6 +264,10 @@ public abstract class Entity {
 		data.addData("movement",friction,3);
 		data.addData("movement",min_recoil,4);
 		data.addData("movement",max_recoil,5);
+		
+		for(int i=0; i<summons.size(); i++) {
+			data.addData("summons",summons.get(i).getSaveData());
+		}
 		
 		for(int i=0; i<cash_stash.size(); i++) {
 			data.addData("cashstash",cash_stash.get(i).getSaveData());
