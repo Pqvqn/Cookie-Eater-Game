@@ -4,11 +4,11 @@ import ce3.*;
 public class ItemReturn extends Item{
 	
 	private double x,y;
-	private int amps;
+	private int amp;
 	
 	public ItemReturn(Game frame) {
 		super(frame);
-		amps = 1;
+		amp = 1;
 		name = "Return";
 		desc="Sends user back to starting point of special.`Amplify: Longer game freeze on return";
 	}
@@ -25,11 +25,11 @@ public class ItemReturn extends Item{
 	public void end(boolean interrupted) {
 		user.setX(x,true);
 		user.setY(y,true);
-		game.freeze(amps*100-100);
+		game.freeze(amp*100-100);
 	}
 	public void amplify() {
 		super.amplify();
-		amps++;
+		amp++;
 	}
 	public void deamplify() {
 		super.deamplify();

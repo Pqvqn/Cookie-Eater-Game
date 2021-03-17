@@ -99,10 +99,7 @@ public class Board{
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public Area wallSpace;
-	public ArrayList<Effect> effects;
-	public ArrayList<Enemy> enemies;
-	public ArrayList<Explorer> npcs;
-	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
+	
 	public ArrayList<Menu> menus;
 
 	private Level[][] floorSequence; //order of floors for each dungeon 
@@ -122,11 +119,6 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
-		ArrayList<SaveData> playerData = data.getSaveDataList("players");
-		players = new ArrayList<Eater>();
-		for(int i=0; i<playerCount; i++) {
-			players.add(new Eater(game,this,playerData.get(i),cycletime));
-		}
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
 		cookies = new ArrayList<Cookie>();
 		for(int i=0; i<cookieData.size(); i++) {
@@ -134,6 +126,34 @@ public class Board{
 			if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
 				cookies.add(loaded);
 			}
+		}
+		ArrayList<SaveData> playerData = data.getSaveDataList("players");
+		players = new ArrayList<Eater>();
+		for(int i=0; i<playerCount; i++) {
+			players.add(new Eater(game,this,playerData.get(i),cycletime));
+		}
+		ArrayList<SaveData> npcData = data.getSaveDataList("explorers");
+		npcs = new ArrayList<Explorer>();
+		for(int i=0; i<npcData.size(); i++) {
+			npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime,null));
+		}
+		ArrayList<SaveData> presnpcData = data.getSaveDataList("presentexplorers");
+		present_npcs = new ArrayList<Explorer>();
+		for(int i=0; i<presnpcData.size(); i++) {
+			Explorer ex = Explorer.loadFromData(game,this,npcData.get(i),cycletime,null);
+			npcs.add(ex);
+			present_npcs.add(ex);
+		}
+		ArrayList<SaveData> enemyData = data.getSaveDataList("enemies");
+		enemies = new ArrayList<Enemy>();
+		for(int i=0; i<enemyData.size(); i++) {
+			enemies.add(Enemy.loadFromData(game,this,enemyData.get(i),cycletime,null));
+		}
+		ArrayList<SaveData> effectData = data.getSaveDataList("effects");
+		effects = new ArrayList<Effect>();
+		for(int i=0; i<effectData.size(); i++) {
+			// TODO figure out owner
+			effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime,null));
 		}
 		
 		
@@ -151,15 +171,30 @@ public class Board{
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
 		
-		for(int i=0; i<playerCount; i++) {
-			data.addData("players",players.get(i).getSaveData());
-		}
 		for(int i=0; i<cookies.size(); i++) {
 			Cookie toSave = cookies.get(i);
 			if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
 				data.addData("cookies",cookies.get(i).getSaveData());
 			}
 		}
+		
+		for(int i=0; i<playerCount; i++) {
+			data.addData("players",players.get(i).getSaveData());
+		}
+		for(int i=0; i<present_npcs.size(); i++) {
+			data.addData("presentexplorers",present_npcs.get(i).getSaveData());
+		}
+		for(int i=0; i<npcs.size(); i++) {
+			if(!present_npcs.contains(npcs.get(i)))
+					data.addData("explorers",npcs.get(i).getSaveData());
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			data.addData("enemies",enemies.get(i).getSaveData());
+		}
+		for(int i=0; i<effects.size(); i++) {
+			data.addData("effects",effects.get(i).getSaveData());
+		}
+		
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {

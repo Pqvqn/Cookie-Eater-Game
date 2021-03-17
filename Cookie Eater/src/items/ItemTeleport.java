@@ -5,11 +5,11 @@ import cookies.*;
 public class ItemTeleport extends Item{
 	
 	private Cookie target;
-	private int amps;
+	private int amp;
 	
 	public ItemTeleport(Game frame) {
 		super(frame);
-		amps = 1;
+		amp = 1;
 		name = "Teleport";
 		desc="Teleports user to farthest cookie.`Amplify: Longer game freeze on teleport";
 	}
@@ -37,10 +37,10 @@ public class ItemTeleport extends Item{
 	}
 	public void amplify() {
 		super.amplify();
-		amps++;
+		amp++;
 	}
 	public void deamplify() {
 		super.deamplify();
-		amps--;
+		amp--;
 	}
 }

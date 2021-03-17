@@ -5,7 +5,7 @@ import java.awt.*;
 import ce3.*;
 import cookies.*;
 
-public class Effect extends Entity{
+public abstract class Effect extends Entity{
 
 	protected Entity initiator; //entity that created and profits from this effect
 	protected boolean collides; //whether this effect collides with entities
