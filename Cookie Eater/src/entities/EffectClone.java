@@ -44,6 +44,7 @@ public class EffectClone extends Effect{
 		data.addData("flip",flipx,0);
 		data.addData("flip",flipy,1);
 		data.addData("flip",flipa,2);
+		data.addData("type","clone");
 		return data;
 	}
 	public void runUpdate() {

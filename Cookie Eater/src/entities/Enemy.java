@@ -43,7 +43,34 @@ public abstract class Enemy extends Entity{
 		data.addData("steals",steals);
 		data.addData("target",targetx,0);
 		data.addData("target",targety,1);
+		data.addData("type",type());
 		return data;
+	}
+	public static String type() {
+		return "Enemy";
+	}
+	//return Enemy created by SaveData, testing for correct type of Enemy
+	public static Enemy loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
+		switch(sd.getString("type",0)) {
+		case EnemyBlob.type:
+			return new EnemyBlob(frame, gameboard, sd, cycle);
+		case "bloc":
+			return new EnemyBloc(frame, gameboard, sd, cycle);
+		case "crawler":
+			return new EnemyCrawler(frame, gameboard, sd, cycle);
+		case "glob":
+			return new EnemyGlob(frame, gameboard, sd, cycle);
+		case "parasite":
+			return new EnemyParasite(frame, gameboard, sd, cycle);
+		case "blob":
+			return new EnemySlob(frame, gameboard, sd, cycle);
+		case "a":
+			return new EnemySpawner(frame, gameboard, sd, cycle);
+		case "e":
+			return new EnemySpawnerArena(frame, gameboard, sd, cycle);
+		default:
+			return new EnemyBlob(frame, gameboard, sd, cycle);
+		}
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {

@@ -33,6 +33,7 @@ public class EffectExplosion extends Effect{
 		SaveData data = super.getSaveData();
 		data.addData("increment",inc);
 		data.addData("maxradius",maxRad);
+		data.addData("type","explosion");
 		return data;
 	}
 	public void runUpdate() {

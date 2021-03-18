@@ -26,7 +26,7 @@ public class EnemySpawnerArena extends Enemy{
 		setShields(0);
 		steals = true;
 		spawns = new ArrayList<Enemy>();
-		name = "Spawner";
+		name = "Arena Spawner";
 		spawnCap = 4;
 		spawn_rate = 200;
 		setGhost(true);

@@ -28,6 +28,17 @@ public abstract class Effect extends Entity{
 		data.addData("collides",collides);
 		return data;
 	}
+	//return Effect created by SaveData, testing for correct type of Effect
+	public static Effect loadFromData(Game frame, Board gameboard, Entity owner, SaveData sd, int cycle) {
+		switch(sd.getString("type",0)) {
+		case "clone":
+			return new EffectClone(frame, gameboard, sd, cycle, owner);
+		case "explosion":
+			return new EffectExplosion(frame, gameboard, sd, cycle, owner);
+		default:
+			return new EffectExplosion(frame, gameboard, sd, cycle, owner);
+		}
+	}
 	
 	public void runUpdate() {
 		if(ded)return;
