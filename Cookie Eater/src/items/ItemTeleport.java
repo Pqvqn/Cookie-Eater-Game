@@ -27,7 +27,7 @@ public class ItemTeleport extends Item{
 		if(target!=null) { //only if target found, teleport to it
 			user.setX(target.getX());
 			user.setY(target.getY());
-			game.freeze(amps*100-100);
+			game.freeze(amp*100-100);
 		}
 	}
 	public void execute() {

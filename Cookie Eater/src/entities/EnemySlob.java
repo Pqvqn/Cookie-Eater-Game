@@ -20,7 +20,6 @@ public class EnemySlob extends Enemy{
 	private int prevCookies; //number of cookies after last charge
 	private double angle;
 	private final int NEUTRAL=0,HIT=1;
-
 	
 	public EnemySlob(Game frame, Board gameboard, int cycletime, double xp, double yp) {
 		super(frame,gameboard,cycletime,xp,yp);

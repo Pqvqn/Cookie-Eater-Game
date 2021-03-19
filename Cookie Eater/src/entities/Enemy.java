@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
@@ -43,34 +44,29 @@ public abstract class Enemy extends Entity{
 		data.addData("steals",steals);
 		data.addData("target",targetx,0);
 		data.addData("target",targety,1);
-		data.addData("type",type());
+		data.addData("type",this.getClass().getName());
 		return data;
-	}
-	public static String type() {
-		return "Enemy";
 	}
 	//return Enemy created by SaveData, testing for correct type of Enemy
 	public static Enemy loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
-		switch(sd.getString("type",0)) {
-		case EnemyBlob.type:
-			return new EnemyBlob(frame, gameboard, sd, cycle);
-		case "bloc":
-			return new EnemyBloc(frame, gameboard, sd, cycle);
-		case "crawler":
-			return new EnemyCrawler(frame, gameboard, sd, cycle);
-		case "glob":
-			return new EnemyGlob(frame, gameboard, sd, cycle);
-		case "parasite":
-			return new EnemyParasite(frame, gameboard, sd, cycle);
-		case "blob":
-			return new EnemySlob(frame, gameboard, sd, cycle);
-		case "a":
-			return new EnemySpawner(frame, gameboard, sd, cycle);
-		case "e":
-			return new EnemySpawnerArena(frame, gameboard, sd, cycle);
-		default:
-			return new EnemyBlob(frame, gameboard, sd, cycle);
+		//enemy subclasses
+		Class[] enemytypes = {EnemyBlob.class, EnemyBloc.class, EnemyCrawler.class, EnemyGlob.class, EnemyParasite.class, EnemySlob.class, EnemySpawner.class, EnemySpawnerArena.class};
+		String thistype = sd.getString("type",0);
+		for(int i=0; i<enemytypes.length; i++) {
+			//if class type matches type from file, instantiate and return it
+			if(thistype.equals(enemytypes[i].getName())){
+				try {
+					return (Enemy) (enemytypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 		}
+		//default to blob
+		return new EnemyBlob(frame, gameboard, sd, cycle);
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {

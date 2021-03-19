@@ -19,7 +19,6 @@ public class EnemyGlob extends Enemy{
 	private SpriteEnemy sprite3;
 	private Cookie target;
 	private final int NEUTRAL=0,HIT=1;
-
 	
 	public EnemyGlob(Game frame, Board gameboard, int cycletime, double xp, double yp) {
 		super(frame,gameboard,cycletime,xp,yp);
