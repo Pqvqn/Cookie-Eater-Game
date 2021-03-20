@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 import ce3.*;
 import cookies.*;
@@ -26,18 +27,31 @@ public abstract class Effect extends Entity{
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
 		data.addData("collides",collides);
+		data.addData("type",this.getClass().getName());
 		return data;
 	}
 	//return Effect created by SaveData, testing for correct type of Effect
-	public static Effect loadFromData(Game frame, Board gameboard, Entity owner, SaveData sd, int cycle) {
-		switch(sd.getString("type",0)) {
-		case "clone":
-			return new EffectClone(frame, gameboard, sd, cycle, owner);
-		case "explosion":
-			return new EffectExplosion(frame, gameboard, sd, cycle, owner);
-		default:
-			return new EffectExplosion(frame, gameboard, sd, cycle, owner);
+	public static Effect loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
+		//enemy subclasses
+		//TODO get owner
+		Entity owner = null;
+		Class[] effecttypes = {EffectClone.class, EffectExplosion.class};
+		String thistype = sd.getString("type",0);
+		for(int i=0; i<effecttypes.length; i++) {
+			//if class type matches type from file, instantiate and return it
+			if(thistype.equals(effecttypes[i].getName())){
+				try {
+					return (Effect) (effecttypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class, Entity.class).newInstance(frame, gameboard, sd, cycle));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 		}
+		//default to blob
+		return new EffectExplosion(frame, gameboard, sd, cycle, owner);
 	}
 	
 	public void runUpdate() {

@@ -3,6 +3,7 @@ package entities;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
@@ -155,10 +156,31 @@ public class Explorer extends Entity{
 		}	
 		for(int i=0; i<on_display.size(); i++) {
 			data.addData("displaystash",on_display.get(i).getSaveData());
-		}	
+		}
+		data.addData("type",this.getClass().getName());
 		return data;
 	}
-	
+	//return Explorer created by SaveData, testing for correct type of Explorer
+	public static Explorer loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
+		//enemy subclasses
+		Class[] explorertypes = {ExplorerMechanic.class, ExplorerMystery.class, ExplorerShopkeep.class, ExplorerSidekick.class,ExplorerVendor.class};
+		String thistype = sd.getString("type",0);
+		for(int i=0; i<explorertypes.length; i++) {
+			//if class type matches type from file, instantiate and return it
+			if(thistype.equals(explorertypes[i].getName())){
+				try {
+					return (Explorer) (explorertypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		//default to blob
+		return new ExplorerMechanic(frame, gameboard, sd, cycle);
+	}
 	public Level getResidence() {return residence;}
 	public String getName() {return "Unknown";}
 	//make changes after player ends a run
