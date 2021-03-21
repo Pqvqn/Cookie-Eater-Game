@@ -28,6 +28,8 @@ public abstract class Entity {
 	protected ArrayList<Summon> summons; //constructed objects owned by entity
 	protected ArrayList<Object> bumped; //all things bumped into during this cycle
 	protected double calibration_ratio; //framerate ratio
+	protected String connectedEntity; //toString of entity that this is connected to
+	protected String connectionCode; //toString of this entity before being saved to file
 	
 	//shields
 	protected boolean shielded; //in stun after shield use
@@ -222,6 +224,11 @@ public abstract class Entity {
 			String key = stateit.next();
 			variableStates.put(key, stateData.get(key).get(0).toString());
 		}
+		
+		if(sd.getData("connected")!=null) {
+			board.findEntities(sd.getString("connected"));
+		}
+		
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
@@ -293,6 +300,10 @@ public abstract class Entity {
 			stateData.addData(key, variableStates.get(key));
 		}
 		data.addData("customstates",stateData);
+		
+		if(connectedEntity!=null) 
+			data.addData("connected",connectedEntity);
+		data.addData("connectcode",connectionCode);
 		
 		return data;
 	}
@@ -1016,5 +1027,8 @@ public abstract class Entity {
 	public void setMinRecoil(double r) {min_recoil = r;}
 	public double getMaxRecoil() {return maxrec;}
 	public void setMaxRecoil(double r) {max_recoil = r;}
+	
+	public void connect(Entity e) {connectedEntity = e.toString();}
+	public String connectedTo() {return connectedEntity;}
 	
 }

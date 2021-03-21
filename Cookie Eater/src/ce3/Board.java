@@ -135,25 +135,25 @@ public class Board{
 		ArrayList<SaveData> npcData = data.getSaveDataList("explorers");
 		npcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcData.size(); i++) {
-			npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime,null));
+			npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime));
 		}
 		ArrayList<SaveData> presnpcData = data.getSaveDataList("presentexplorers");
 		present_npcs = new ArrayList<Explorer>();
 		for(int i=0; i<presnpcData.size(); i++) {
-			Explorer ex = Explorer.loadFromData(game,this,npcData.get(i),cycletime,null);
+			Explorer ex = Explorer.loadFromData(game,this,npcData.get(i),cycletime);
 			npcs.add(ex);
 			present_npcs.add(ex);
 		}
 		ArrayList<SaveData> enemyData = data.getSaveDataList("enemies");
 		enemies = new ArrayList<Enemy>();
 		for(int i=0; i<enemyData.size(); i++) {
-			enemies.add(Enemy.loadFromData(game,this,enemyData.get(i),cycletime,null));
+			enemies.add(Enemy.loadFromData(game,this,enemyData.get(i),cycletime));
 		}
 		ArrayList<SaveData> effectData = data.getSaveDataList("effects");
 		effects = new ArrayList<Effect>();
 		for(int i=0; i<effectData.size(); i++) {
 			// TODO figure out owner
-			effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime,null));
+			effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime));
 		}
 		
 		
