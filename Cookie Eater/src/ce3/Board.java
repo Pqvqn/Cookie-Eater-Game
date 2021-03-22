@@ -501,6 +501,22 @@ public class Board{
 			players.get(i).kill();
 		}
 	}
+	//return a list of all entities that are connected to the entity with the given code
+	public ArrayList<Entity> findEntities(String code){
+		ArrayList<Entity> results = new ArrayList<Entity>();
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+		for(Entity e : players)entities.add(e);
+		for(Entity e : enemies)entities.add(e);
+		for(Entity e : present_npcs)entities.add(e);
+		for(Entity e : effects)entities.add(e);
+		for(int i=0; i<entities.size(); i++) {
+			Entity e = entities.get(i);
+			if(e.connectionCode().equals(code)) {
+				results.add(e);
+			}
+		}
+		return results;
+	}
 	//returns nearest cookie to a given point on the board
 	public Cookie nearestCookie(double x, double y) {
 		double bestDist = Integer.MAX_VALUE;

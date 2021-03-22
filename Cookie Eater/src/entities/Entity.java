@@ -224,11 +224,6 @@ public abstract class Entity {
 			String key = stateit.next();
 			variableStates.put(key, stateData.get(key).get(0).toString());
 		}
-		
-		if(sd.getData("connected")!=null) {
-			board.findEntities(sd.getString("connected"));
-		}
-		
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
@@ -1030,5 +1025,6 @@ public abstract class Entity {
 	
 	public void connect(Entity e) {connectedEntity = e.toString();}
 	public String connectedTo() {return connectedEntity;}
+	public String connectionCode() {return connectionCode;}
 	
 }
