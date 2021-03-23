@@ -25,8 +25,8 @@ public class EffectClone extends Effect{
 		buildBody();
 		orientParts();
 	}
-	public EffectClone(Game frame, Board gameboard, SaveData sd, int cycletime, Entity owner) {
-		super(frame, gameboard, sd, cycletime, owner);
+	public EffectClone(Game frame, Board gameboard, SaveData sd, int cycletime) {
+		super(frame, gameboard, sd, cycletime);
 		posLock = sd.getBoolean("lock",0);
 		startx = sd.getInteger("startpos",0);
 		starty = sd.getInteger("startpos",1);

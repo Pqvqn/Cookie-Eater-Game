@@ -19,8 +19,8 @@ public class EffectExplosion extends Effect{
 		buildBody();
 		orientParts();
 	}
-	public EffectExplosion(Game frame, Board gameboard, SaveData sd, int cycletime, Entity owner) {
-		super(frame, gameboard, sd, cycletime, owner);
+	public EffectExplosion(Game frame, Board gameboard, SaveData sd, int cycletime) {
+		super(frame, gameboard, sd, cycletime);
 		inc = sd.getDouble("increment",0);
 		maxRad = sd.getDouble("maxradius",0);
 		for(Segment testPart : parts){

@@ -19,10 +19,10 @@ public abstract class Effect extends Entity{
 		collides = true;
 	}
 	
-	public Effect(Game frame, Board gameboard, SaveData sd, int cycletime, Entity owner) {
+	public Effect(Game frame, Board gameboard, SaveData sd, int cycletime) {
 		super(frame, gameboard, sd, cycletime);
 		collides = sd.getBoolean("collides",0);
-		initiator = owner;
+		initiator = board.connections.get(sd.getString("connectcode",0)).get(0);
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
@@ -33,15 +33,13 @@ public abstract class Effect extends Entity{
 	//return Effect created by SaveData, testing for correct type of Effect
 	public static Effect loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
 		//enemy subclasses
-		//TODO get owner
-		Entity owner = null;
 		Class[] effecttypes = {EffectClone.class, EffectExplosion.class};
 		String thistype = sd.getString("type",0);
 		for(int i=0; i<effecttypes.length; i++) {
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(effecttypes[i].getName())){
 				try {
-					return (Effect) (effecttypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class, Entity.class).newInstance(frame, gameboard, sd, cycle));
+					return (Effect) (effecttypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -51,7 +49,7 @@ public abstract class Effect extends Entity{
 
 		}
 		//default to blob
-		return new EffectExplosion(frame, gameboard, sd, cycle, owner);
+		return new EffectExplosion(frame, gameboard, sd, cycle);
 	}
 	
 	public void runUpdate() {

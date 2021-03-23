@@ -41,6 +41,12 @@ public class EnemySpawnerArena extends Enemy{
 		}
 		spawnCap = sd.getInteger("spawn",1);
 		spawn_rate = sd.getInteger("spawn",0);
+		spawns = new ArrayList<Enemy>();
+		for(Entity e : board.connections.get(sd.getString("connectcode",0))) {
+			if(e instanceof Enemy) {
+				spawns.add((Enemy)e);
+			}
+		}
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -52,7 +58,6 @@ public class EnemySpawnerArena extends Enemy{
 		SaveData data = super.getSaveData();
 		data.addData("spawn",spawn_rate,0);
 		data.addData("spawn",spawnCap,1);
-		// TODO load enemy list into spawner
 		return data;
 	}
 	public void averageStats() {

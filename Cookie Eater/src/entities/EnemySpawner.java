@@ -34,6 +34,12 @@ public class EnemySpawner extends Enemy{
 			}
 		}
 		prevCookies = sd.getInteger("prevcookies",0);
+		spawns = new ArrayList<Enemy>();
+		for(Entity e : board.connections.get(sd.getString("connectcode",0))) {
+			if(e instanceof Enemy) {
+				spawns.add((Enemy)e);
+			}
+		}
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {
@@ -44,7 +50,6 @@ public class EnemySpawner extends Enemy{
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
 		data.addData("prevcookies",prevCookies);
-		// TODO load enemy list into spawner
 		return data;
 	}
 	public void averageStats() {

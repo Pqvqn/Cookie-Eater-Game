@@ -37,8 +37,9 @@ public class Board{
 	public int currDungeon;
 	public Level currFloor;
 	public int playerCount;
-	public boolean awaiting_start;
+	public boolean awaiting_start; //whether the game is paused awaiting a player input to begin
 	public int cycletime;
+	public HashMap<String,ArrayList<Entity>> connections; //list of entities to be connected, key is tag of entity to be given connections
 	
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
@@ -152,7 +153,6 @@ public class Board{
 		ArrayList<SaveData> effectData = data.getSaveDataList("effects");
 		effects = new ArrayList<Effect>();
 		for(int i=0; i<effectData.size(); i++) {
-			// TODO figure out owner
 			effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime));
 		}
 		

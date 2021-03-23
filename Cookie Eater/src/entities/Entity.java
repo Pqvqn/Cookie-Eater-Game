@@ -224,6 +224,10 @@ public abstract class Entity {
 			String key = stateit.next();
 			variableStates.put(key, stateData.get(key).get(0).toString());
 		}
+		
+		if(sd.getData("connected")!=null) {
+			board.connections.get(sd.getString("connected",0)).add(this);
+		}
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
