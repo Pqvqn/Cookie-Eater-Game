@@ -46,6 +46,39 @@ public abstract class Level{
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
 	}
+	/*TODO
+	protected double[][] startposs;
+	*/
+	public Level(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		next = nextFloor;
+		game = frame;
+		board = gameboard;
+		scale = sd.getDouble("scale",0);
+		minDecay = sd.getInteger("decay",0);
+		maxDecay = sd.getInteger("decay",1);
+		startx = sd.getInteger("playerstart",0);
+		starty = sd.getInteger("playerstart",1);
+		name = sd.getString("name",0);
+		nameAbbrev = sd.getString("name",1);
+		bgColor = Color.GRAY;
+		wallColor = Color.red.darker();
+		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
+		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
+		startposs = sp;
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		data.addData("scale",scale);
+		data.addData("decay",minDecay,0);
+		data.addData("decay",maxDecay,1);
+		data.addData("playerstart",startx,0);
+		data.addData("playerstart",starty,1);
+		data.addData("name",name,0);
+		data.addData("name",nameAbbrev,1);
+		return data;
+	}
+	
 	//returns string that names the floor
 	public String getName() {return name;}
 	//returns shortened string that names the floor for file purposes
