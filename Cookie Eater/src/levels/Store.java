@@ -10,27 +10,26 @@ import mechanisms.*;
 
 public abstract class Store extends Level{
 
-	protected ArrayList<String> catalogue;
-	protected ArrayList<Double> prices;
-	protected double defaultItemCost;
-	protected double shieldCost;
-	protected double installCost;
-	protected int shieldNum;
 	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	protected int[][] passerbySpaces; //spaces for passerbys
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
 	public Store(Game frame, Board gameboard) {
 		super(frame,gameboard);
-		catalogue = new ArrayList<String>();
-		prices = new ArrayList<Double>();
 		startx = board.x_resol/2;
 		starty = board.y_resol/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
-		shieldNum = 6;
 	}
-	
+	public Store(Game frame, Board gameboard, SaveData sd) {
+		super(frame, gameboard, null, sd);
+		
+		
+	}
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		return data;
+	}
 	public boolean haltEnabled() {return true;}
 	public boolean specialsEnabled() {return false;}
 	public boolean installPickups() {return true;}
@@ -80,42 +79,10 @@ public abstract class Store extends Level{
 	
 	public void spawnEnemies() {}
 	
-	public double getShieldCost() {return shieldCost;}
-	
-	
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
 		Item b = Item.generateItem(game,i);
 		board.cookies.add(new CookieItem(game, board, x, y, b, p));
-	}
-	protected void configureCatalogue(double def, ArrayList<String> I,ArrayList<Double> P) {	
-		addToCatalogue(I,"Boost",P,def*1);
-		//addToCatalogue(I,"Bounce",P,def*.9,C,new Color(0,150,200));
-		addToCatalogue(I,"Circle",P,def*1);
-		addToCatalogue(I,"Chain",P,def*1.3);
-		addToCatalogue(I,"Field",P,def*1.1);
-		addToCatalogue(I,"Hold",P,def*1.1);
-		addToCatalogue(I,"Recycle",P,def*1.4);
-		addToCatalogue(I,"Shield",P,def*1.3);
-		addToCatalogue(I,"Slowmo",P,def*1.4);
-		addToCatalogue(I,"Ghost",P,def*1.4);
-		addToCatalogue(I,"Return",P,def*1.1);
-		addToCatalogue(I,"Teleport",P,def*1.2);
-		//addToCatalogue(I,"Jab",P,def*1.1);
-		addToCatalogue(I,"Repeat",P,def*1.2);
-		//addToCatalogue(I,"Projectile",P,def*1.3);
-		addToCatalogue(I,"Rebound",P,def*1.2);
-		addToCatalogue(I,"Clone",P,def*1.3);
-		addToCatalogue(I,"Ricochet",P,def*1.1);
-		//addToCatalogue(I,"Slash",P,def*1.1);
-		//addToCatalogue(I,"Wall",P,def*1.2);
-		addToCatalogue(I,"Shrink",P,def*1.1);
-		//addToCatalogue(I,"Hook",P,def*1.3);
-		addToCatalogue(I,"Autopilot",P,def*1.3);
-		addToCatalogue(I,"Flow",P,def*1.3);
-		addToCatalogue(I,"Recharge",P,def*1.4);
-		addToCatalogue(I,"Melee",P,def*1.1);
-		addToCatalogue(I,"Projectile",P,def*1.1);
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);

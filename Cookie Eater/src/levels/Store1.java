@@ -11,11 +11,6 @@ public class Store1 extends Store{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		scale = 1;
-		shieldCost = 0;
-		defaultItemCost = 0;
-		installCost = 0;
-		shieldNum = 0;
-		configureCatalogue(defaultItemCost,catalogue,prices);
 	}
 	
 	public void placeCookies(){

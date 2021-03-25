@@ -46,9 +46,6 @@ public abstract class Level{
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
 	}
-	/*TODO
-	protected double[][] startposs;
-	*/
 	public Level(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
 		next = nextFloor;
 		game = frame;
