@@ -5,6 +5,7 @@ import java.awt.geom.*;
 
 import ce3.Board;
 import ce3.Game;
+import ce3.SaveData;
 import levels.Level;
 
 public class Wall extends Mechanism{
@@ -53,6 +54,34 @@ public class Wall extends Mechanism{
 		a = 0;
 		ox=x;
 		oy=y;
+	}
+	/*
+	 * double w,h;
+	double a;
+	double ox,oy; //origin to rotate around
+	double r;
+	int shape;
+	 */
+	public Wall(Game frame, Board gameboard, SaveData sd) {
+		super(frame, gameboard, sd);
+		w = sd.getDouble("dimensions",0);
+		h = sd.getDouble("dimensions",1);
+		r = sd.getDouble("radius",0);
+		a = sd.getDouble("angle",0);
+		shape = sd.getInteger("shape",0);
+		ox = sd.getDouble("origin",0);
+		oy = sd.getDouble("origin",1);
+	}
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		data.addData("dimensions",w,0);
+		data.addData("dimensions",h,1);
+		data.addData("radius",r);
+		data.addData("angle",a);
+		data.addData("shape",shape);
+		data.addData("origin",ox,0);
+		data.addData("origin",oy,1);
+		return data;
 	}
 	
 	public double getW() {return w;}

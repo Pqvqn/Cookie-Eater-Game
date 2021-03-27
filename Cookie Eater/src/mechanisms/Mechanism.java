@@ -20,6 +20,21 @@ public class Mechanism {
 		mass = 100;
 	}
 	
+	public Mechanism(Game frame, Board gameboard, SaveData sd) {
+		game = frame;
+		board = gameboard;
+		x = sd.getDouble("position",0);
+		y = sd.getDouble("position",1);
+		mass = sd.getDouble("mass",0);
+	}
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		data.addData("position",x,0);
+		data.addData("position",y,1);
+		data.addData("mass",mass);
+		return data;
+	}
+	
 	public void runUpdate() {
 		
 	}
