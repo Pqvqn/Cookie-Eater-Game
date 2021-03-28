@@ -23,10 +23,21 @@ public class WallCase extends Wall{
 		super(frame, gameboard, xPos, yPos, radius); 
 		setUpConfirm();
 	}
+	
+	public WallCase(Game frame, Board gameboard, SaveData sd) {
+		super(frame, gameboard, sd);
+		dist = sd.getInteger("promptdistance",0);
+		setUpConfirm();
+	}
 
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("promptdistance",dist);
+		return data;
+	}
+	
 	//creates purchase confirmation selector
 	public void setUpConfirm() {
-		
 		dist = 80;
 		ArrayList<String> opts = new ArrayList<String>();
 		opts.add("Deny");

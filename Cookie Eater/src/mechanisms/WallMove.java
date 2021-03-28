@@ -2,6 +2,7 @@ package mechanisms;
 
 import ce3.Board;
 import ce3.Game;
+import ce3.SaveData;
 
 public class WallMove extends Wall{
 	
@@ -27,6 +28,23 @@ public class WallMove extends Wall{
 	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, Path path) {
 		super(frame,gameboard,xPos,yPos,radius);
 		initPaths(path);
+	}
+	
+	public WallMove(Game frame, Board gameboard, SaveData sd) {
+		super(frame, gameboard, sd);
+		moving = sd.getBoolean("moving",0);
+		xV = sd.getDouble("velocity",0);
+		yV = sd.getDouble("velocity",1);
+		initPaths(new Path(sd.getSaveDataList("path").get(0)));
+	}
+
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("moving",moving);
+		data.addData("velocity",xV,0);
+		data.addData("velocity",yV,1);
+		data.addData("path",path.getSaveData());
+		return data;
 	}
 	
 	private void initPaths(Path paths) {

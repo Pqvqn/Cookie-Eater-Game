@@ -1,5 +1,9 @@
 package mechanisms;
 
+import java.util.*;
+
+import ce3.*;
+
 public class Path {
 	
 
@@ -23,6 +27,53 @@ public class Path {
 		sizes = new double[numStops][2];
 		angles = new double[numStops];
 		updates = 0;
+	}
+	
+	public Path(SaveData sd) {
+		checkpoint = sd.getInteger("checkpoint",0);
+		updates = 0;
+		
+		ArrayList<Object> pos = sd.getData("positions");
+		positions = new double[pos.size()][2];
+		for(int i=0; i<pos.size(); i++) {
+			positions[i/2][i%2] = Double.parseDouble(pos.get(i).toString());
+		}
+		ArrayList<Object> rat = sd.getData("rates");
+		rates = new double[rat.size()];
+		for(int i=0; i<rat.size(); i++) {
+			rates[i] = Double.parseDouble(rat.get(i).toString());
+		}
+		ArrayList<Object> mod = sd.getData("modes");
+		modes = new int[mod.size()];
+		for(int i=0; i<mod.size(); i++) {
+			modes[i] = Integer.parseInt(mod.get(i).toString());
+		}
+		ArrayList<Object> siz = sd.getData("sizes");
+		sizes = new double[siz.size()][2];
+		for(int i=0; i<siz.size(); i++) {
+			sizes[i/2][i%2] = Double.parseDouble(siz.get(i).toString());
+		}
+		ArrayList<Object> ang = sd.getData("angles");
+		angles = new double[ang.size()];
+		for(int i=0; i<ang.size(); i++) {
+			angles[i] = Double.parseDouble(ang.get(i).toString());
+		}
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		for(double[] pos : positions) {
+			data.addData("positions",pos[0]);
+			data.addData("positions",pos[1]);
+		}
+		for(double rat : rates)data.addData("rates",rat);
+		for(double mod : modes)data.addData("modes",mod);
+		for(double[] siz : sizes) {
+			data.addData("sizes",siz[0]);
+			data.addData("sizes",siz[1]);
+		}
+		for(double ang : angles)data.addData("angles",ang);
+		return data;
 	}
 	
 	//get line representing current movement from last checkpoint to next checkpoint

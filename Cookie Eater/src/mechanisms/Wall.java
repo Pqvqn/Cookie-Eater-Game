@@ -55,13 +55,6 @@ public class Wall extends Mechanism{
 		ox=x;
 		oy=y;
 	}
-	/*
-	 * double w,h;
-	double a;
-	double ox,oy; //origin to rotate around
-	double r;
-	int shape;
-	 */
 	public Wall(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, sd);
 		w = sd.getDouble("dimensions",0);
