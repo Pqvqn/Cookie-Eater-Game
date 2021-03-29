@@ -96,11 +96,7 @@ public class Board{
 		
 		loadDungeon(dungeon);
 	}
-	/*list of variables that need to be put in
-	public ArrayList<Wall> walls;
-	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
-	public Area wallSpace;
-	
+	/*list of variables that need to be put in	
 	public ArrayList<Menu> menus;
 
 	private Level[][] floorSequence; //order of floors for each dungeon 
@@ -156,6 +152,20 @@ public class Board{
 			effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime));
 		}
 		
+		ArrayList<SaveData> wallData = data.getSaveDataList("walls");
+		walls = new ArrayList<Wall>();
+		for(int i=0; i<wallData.size(); i++) {
+			walls.add(new Wall(game, this, wallData.get(i)));
+		}
+		wallSpace = new Area();
+		for(Wall w : walls) {
+			wallSpace.add(w.getArea());
+		}
+		ArrayList<SaveData> mechData = data.getSaveDataList("mechanisms");
+		mechanisms = new ArrayList<Mechanism>();
+		for(int i=0; i<mechData.size(); i++) {
+			mechanisms.add(new Mechanism(game, this, mechData.get(i)));
+		}
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -195,6 +205,12 @@ public class Board{
 			data.addData("effects",effects.get(i).getSaveData());
 		}
 		
+		for(int i=0; i<walls.size(); i++) {
+			data.addData("walls",walls.get(i).getSaveData());
+		}
+		for(int i=0; i<mechanisms.size(); i++) {
+			data.addData("mechanisms",mechanisms.get(i).getSaveData());
+		}
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
