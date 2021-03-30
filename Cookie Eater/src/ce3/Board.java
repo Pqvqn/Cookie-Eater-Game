@@ -99,7 +99,6 @@ public class Board{
 	/*list of variables that need to be put in	
 	public ArrayList<Menu> menus;
 
-	private Level[][] floorSequence; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
 	public Level currFloor;
 	*/
@@ -167,6 +166,17 @@ public class Board{
 			mechanisms.add(new Mechanism(game, this, mechData.get(i)));
 		}
 		
+		floors = new LinkedList<Level>();
+		Level lvl = null;
+		ArrayList<SaveData> lvlData = data.getSaveDataList("floors");
+		for(int i=0; i<lvlData.size(); i++) {
+			Level lvl2 = new Level(game, this, lvlData.get(i)); //TODO: loadFromData for Level
+			if(lvl!=null)lvl.setNext(lvl2);
+			lvl = lvl2;
+			floors.add(lvl);
+		}
+		currFloor = floors.get(data.getInteger("currentFloor",0));
+		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
 	}
@@ -211,6 +221,13 @@ public class Board{
 		for(int i=0; i<mechanisms.size(); i++) {
 			data.addData("mechanisms",mechanisms.get(i).getSaveData());
 		}
+		
+		Level lvl = floors.getFirst();
+		while(lvl.getNext()!=null) {
+			data.addData("floors",lvl);
+			lvl = lvl.getNext();
+		}
+		data.addData("currentfloor",floors.indexOf(currFloor));
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
