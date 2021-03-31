@@ -9,4 +9,7 @@ public class ArenaRound extends Arena{
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 	}
+	public ArenaRound(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 }

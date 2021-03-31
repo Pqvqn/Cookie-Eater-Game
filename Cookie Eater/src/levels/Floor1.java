@@ -26,6 +26,9 @@ public class Floor1 extends Level{
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}
+	public Floor1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 	
 	public void build() {
 		super.build();

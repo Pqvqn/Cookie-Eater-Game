@@ -59,6 +59,9 @@ public abstract class Store extends Level{
 		}
 		mechanicSpaces = ms;
 	}
+	public Store(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		this(frame, gameboard, sd);
+	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
 		data.addData("vendorspacenum",vendorSpaces.length);

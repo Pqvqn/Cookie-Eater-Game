@@ -3,6 +3,7 @@ package levels;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
@@ -24,8 +25,8 @@ public abstract class Level{
 	protected int maxDecay; //frames for cookie at center to decay fully
 	protected Color bgColor;
 	protected Color wallColor;
-	protected String name;
-	protected String nameAbbrev;
+	protected String name; //name for files
+	protected String nameAbbrev; //name for display
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -64,6 +65,30 @@ public abstract class Level{
 		startposs = sp;
 	}
 	
+	public static Level loadFromData(SaveData sd) {
+		//level subclasses
+		Class[] leveltypes = {Floor1.class, Floor2.class, Floor3.class, Floor4.class, Floor5.class, FloorBiggy.class, FloorRound.class,
+				Store1.class, Store2.class, Store3.class, Store4.class,
+				Arena1.class, Arena2.class, ArenaRound.class,
+				Training1.class};
+		String thistype = sd.getString("type",0);
+		for(int i=0; i<leveltypes.length; i++) {
+			//if class type matches type from file, instantiate and return it
+			if(thistype.equals(leveltypes[i].getName())){
+				try {
+					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, Level.class, SaveData.class).newInstance(game, board, null, sd));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		//default to blob
+		return new Floor1(game, board, null, sd);
+	}
+	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("scale",scale);
@@ -73,6 +98,7 @@ public abstract class Level{
 		data.addData("playerstart",starty,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
+		data.addData("type",this.getClass().getName());
 		return data;
 	}
 	

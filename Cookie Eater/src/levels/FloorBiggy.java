@@ -29,6 +29,9 @@ public class FloorBiggy extends Level{
 		bgColor = new Color(30,0,30);
 		wallColor = new Color(200,50,0);
 	}
+	public FloorBiggy(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 	
 	public void build() {
 		super.build();

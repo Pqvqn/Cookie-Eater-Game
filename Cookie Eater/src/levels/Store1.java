@@ -12,6 +12,9 @@ public class Store1 extends Store{
 		nameAbbrev = "for";
 		scale = 1;
 	}
+	public Store1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 	
 	public void placeCookies(){
 	

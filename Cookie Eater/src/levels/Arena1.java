@@ -9,4 +9,7 @@ public class Arena1 extends Arena{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
+	public Arena1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 }

@@ -170,7 +170,7 @@ public class Board{
 		Level lvl = null;
 		ArrayList<SaveData> lvlData = data.getSaveDataList("floors");
 		for(int i=0; i<lvlData.size(); i++) {
-			Level lvl2 = new Level(game, this, lvlData.get(i)); //TODO: loadFromData for Level
+			Level lvl2 = Level.loadFromData(lvlData.get(i));
 			if(lvl!=null)lvl.setNext(lvl2);
 			lvl = lvl2;
 			floors.add(lvl);

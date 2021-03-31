@@ -12,6 +12,9 @@ public abstract class Training extends Level{
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}
+	public Training(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 	
 	public boolean haltEnabled() {return true;}
 	public boolean specialsEnabled() {return true;}

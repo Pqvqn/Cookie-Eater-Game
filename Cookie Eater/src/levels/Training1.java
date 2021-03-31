@@ -10,6 +10,9 @@ public class Training1 extends Training{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
+	public Training1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
+	}
 	
 	public void placeCookies(){
 		super.placeCookies();
