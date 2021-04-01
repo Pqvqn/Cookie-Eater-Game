@@ -65,7 +65,7 @@ public abstract class Level{
 		startposs = sp;
 	}
 	
-	public static Level loadFromData(SaveData sd) {
+	public static Level loadFromData(Game frame, Board gameboard, SaveData sd) {
 		//level subclasses
 		Class[] leveltypes = {Floor1.class, Floor2.class, Floor3.class, Floor4.class, Floor5.class, FloorBiggy.class, FloorRound.class,
 				Store1.class, Store2.class, Store3.class, Store4.class,
@@ -76,7 +76,7 @@ public abstract class Level{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(leveltypes[i].getName())){
 				try {
-					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, Level.class, SaveData.class).newInstance(game, board, null, sd));
+					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, Level.class, SaveData.class).newInstance(frame, gameboard, null, sd));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -86,7 +86,7 @@ public abstract class Level{
 
 		}
 		//default to blob
-		return new Floor1(game, board, null, sd);
+		return new Floor1(frame, gameboard, null, sd);
 	}
 	
 	public SaveData getSaveData() {
