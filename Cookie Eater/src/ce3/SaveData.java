@@ -114,6 +114,7 @@ public class SaveData {
 	public ArrayList<SaveData> getSaveDataList(String tag) {
 		ArrayList<SaveData> ret = new ArrayList<SaveData>();
 		ArrayList<Object> get = getData(tag);
+		if(get==null)return null;
 		for(int i=0; i<get.size(); i++) {
 			Object o = get.get(i);
 			if(o instanceof SaveData) {

@@ -144,8 +144,10 @@ public class Explorer extends Entity{
 			data.addData("statranges",MR[i/2][i%2],i);
 		}
 		
-		for(int i=0; i<shop_spots.length*2; i++) {
-			data.addData("shopspots",shop_spots[i/2][i%2],i);
+		if(shop_spots != null) {
+			for(int i=0; i<shop_spots.length*2; i++) {
+				data.addData("shopspots",shop_spots[i/2][i%2],i);
+			}
 		}
 		
 		for(int i=0; i<pickups.size(); i++) {
