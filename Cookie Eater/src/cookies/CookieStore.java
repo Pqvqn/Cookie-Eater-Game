@@ -31,7 +31,7 @@ public abstract class CookieStore extends Cookie{
 		decayTime = Integer.MAX_VALUE;
 		name = sd.getString("name",0);
 		desc = sd.getString("description",0);
-		price = sd.getInteger("price",0);
+		price = sd.getDouble("price",0);
 		region = sd.getInteger("region",0);
 		info = new UIPurchaseInfo(game,this);
 		if(board==null || board.cookies!=null && board.cookies.contains(this))

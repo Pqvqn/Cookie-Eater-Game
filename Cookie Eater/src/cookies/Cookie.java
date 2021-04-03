@@ -53,7 +53,10 @@ public class Cookie {
 		radius = sd.getInteger("radius",0);
 		value = sd.getDouble("value",0);
 		if(basic) {
-			setDecayTime();
+			decayTime = sd.getInteger("decaytime",0);
+			decayCounter = 0;
+			adjustedDecayTime = decayTime;
+			decayed=false;
 			try {
 				sprite = new SpriteCookie(board,this);
 			} catch (IOException e) {
@@ -68,6 +71,7 @@ public class Cookie {
 		data.addData("position",y,1);
 		data.addData("radius",radius);
 		data.addData("value",value);
+		data.addData("decaytime",decayTime);
 		return data;
 	}
 	//return Cookie created by SaveData, testing for correct type of Cookie

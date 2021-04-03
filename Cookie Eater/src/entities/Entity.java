@@ -152,48 +152,58 @@ public abstract class Entity {
 		ghost = sd.getBoolean("ghosted",0);
 		lock = sd.getBoolean("locked",0);
 		
-		summons = new ArrayList<Summon>();
 		ArrayList<SaveData> summon_data = sd.getSaveDataList("summons");
-		for(int i=0; i<summon_data.size(); i++) {
-			summons.add(new Summon(game, board, this, summon_data.get(i), cycle));
+		if(summon_data!=null) {
+			summons = new ArrayList<Summon>();
+			for(int i=0; i<summon_data.size(); i++) {
+				summons.add(new Summon(game, board, this, summon_data.get(i), cycle));
+			}
 		}
-		
-		cash_stash = new ArrayList<Cookie>();
+
 		ArrayList<SaveData> cash_data = sd.getSaveDataList("cashstash");
-		for(int i=0; i<cash_data.size(); i++) {
-			cash_stash.add(new Cookie(game, board, cash_data.get(i), true));
+		if(cash_data!=null) {
+			cash_stash = new ArrayList<Cookie>();
+			for(int i=0; i<cash_data.size(); i++) {
+				cash_stash.add(new Cookie(game, board, cash_data.get(i), true));
+			}
 		}
-		shield_stash = new ArrayList<CookieShield>();
 		ArrayList<SaveData> shield_data = sd.getSaveDataList("shieldstash");
-		for(int i=0; i<shield_data.size(); i++) {
-			shield_stash.add(new CookieShield(game, board, shield_data.get(i)));
+		if(shield_data!=null) {
+			shield_stash = new ArrayList<CookieShield>();
+			for(int i=0; i<shield_data.size(); i++) {
+				shield_stash.add(new CookieShield(game, board, shield_data.get(i)));
+			}
 		}
-		stat_stash = new ArrayList<CookieStat>();
 		ArrayList<SaveData> stat_data = sd.getSaveDataList("statstash");
-		for(int i=0; i<stat_data.size(); i++) {
-			stat_stash.add(new CookieStat(game, board, stat_data.get(i)));
+		if(stat_data!=null) {
+			stat_stash = new ArrayList<CookieStat>();
+			for(int i=0; i<stat_data.size(); i++) {
+				stat_stash.add(new CookieStat(game, board, stat_data.get(i)));
+			}
 		}
-		
-		item_stash = new ArrayList<ArrayList<CookieItem>>();
 		SaveData allItemData = sd.getSaveDataList("itemstash").get(0);
-		for(int i=0; i<allItemData.numTags(); i++) {
-			ArrayList<SaveData> itemData = allItemData.getSaveDataList("slot"+i);
-			if(itemData!=null) {
-				item_stash.add(0, new ArrayList<CookieItem>());
-				for(int j=0; j<stat_data.size(); j++) {
-					CookieItem ci = new CookieItem(game, board, itemData.get(j));
-					item_stash.get(i).add(ci);
-					ci.getItem().setUser(this);
+		if(allItemData!=null) {
+			item_stash = new ArrayList<ArrayList<CookieItem>>();
+			for(int i=0; i<allItemData.numTags(); i++) {
+				ArrayList<SaveData> itemData = allItemData.getSaveDataList("slot"+i);
+				if(itemData!=null) {
+					item_stash.add(0, new ArrayList<CookieItem>());
+					for(int j=0; j<stat_data.size(); j++) {
+						CookieItem ci = new CookieItem(game, board, itemData.get(j));
+						item_stash.get(i).add(ci);
+						ci.getItem().setUser(this);
+					}
 				}
 			}
 		}
-		
-		parts = new ArrayList<Segment>();
 		ArrayList<SaveData> part_data = sd.getSaveDataList("segments");
-		for(int i=0; i<part_data.size(); i++) {
-			parts.add(Segment.loadFromData(board, this, part_data.get(i)));
+		if(parts!=null) {
+			parts = new ArrayList<Segment>();
+			for(int i=0; i<part_data.size(); i++) {
+				parts.add(Segment.loadFromData(board, this, part_data.get(i)));
+			}
 		}
-		
+
 		special_length = sd.getInteger("specialframes",0);
 		special_cooldown = sd.getInteger("specialframes",1);
 		special_use_speed = sd.getDouble("specialframes",2);
