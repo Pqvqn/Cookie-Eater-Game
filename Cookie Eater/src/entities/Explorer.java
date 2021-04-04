@@ -24,7 +24,7 @@ public class Explorer extends Entity{
 	protected int min_cat, max_cat;
 	protected SpriteExplorer sprite;
 	
-	protected double[][] MR = {{.2,1},{5,15},{.05,.25}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
+	protected double[][] mr; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	public static final int CORPSE=-2, NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	protected int direction;
 	protected Color coloration;
@@ -46,6 +46,9 @@ public class Explorer extends Entity{
 		//chooseResidence();
 		state = VENDOR;
 		coloration = Color.gray;
+		
+		mr = CookieStat.MR;
+		
 		averageStats();
 		
 		direction = NONE;
@@ -82,10 +85,10 @@ public class Explorer extends Entity{
 			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
 		}
 	
-		MR = new double[3][2];
+		mr = new double[3][2];
 		ArrayList<Object> stats = sd.getData("statranges");
 		for(int i=0; i<6; i++) {
-			MR[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
+			mr[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
 		residence = board.floorSequence[sd.getInteger("residence",0)][sd.getInteger("residence",1)];
@@ -141,7 +144,7 @@ public class Explorer extends Entity{
 		data.addData("residence",residenceFloor,1);
 		
 		for(int i=0; i<6; i++) {
-			data.addData("statranges",MR[i/2][i%2],i);
+			data.addData("statranges",mr[i/2][i%2],i);
 		}
 		
 		if(shop_spots != null) {
@@ -468,23 +471,23 @@ public class Explorer extends Entity{
 	}
 	//gives a random set of movement stats and colors accordingly
 	public void randomizeStats() {
-		acceleration = Math.random()*MR[0][1]+MR[0][0];
-		max_velocity = Math.random()*MR[1][1]+MR[1][0];
-		friction = Math.random()*MR[2][1]+MR[2][0];
+		acceleration = Math.random()*mr[0][1]+mr[0][0];
+		max_velocity = Math.random()*mr[1][1]+mr[1][0];
+		friction = Math.random()*mr[2][1]+mr[2][0];
 		colorize();
 		calibrateStats();
 	}
 	//gives average of each stat
 	public void averageStats() {
-		acceleration=MR[0][1]/2+MR[0][0];
-		max_velocity=MR[1][1]/2+MR[1][0];
-		friction=MR[2][1]/2+MR[2][0];
+		acceleration=mr[0][1]/2+mr[0][0];
+		max_velocity=mr[1][1]/2+mr[1][0];
+		friction=mr[2][1]/2+mr[2][0];
 		colorize();
 		calibrateStats();
 	}
 	//creates color based on stats
 	public void colorize() {
-		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
+		coloration = new Color((int)((friction-mr[2][0])/mr[2][1]*255),(int)((max_velocity-mr[1][0])/mr[1][1]*255),(int)((acceleration-mr[0][0])/mr[0][1]*255));
 	}
 	//prepares explorer at start of new level
 	public void spawn() {

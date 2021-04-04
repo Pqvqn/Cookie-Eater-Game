@@ -23,7 +23,7 @@ public class Eater extends Entity{
 	private int direction;
 
 
-	private double[][] MR = {{.2,1},{5,15},{.05,.3}}; //accel min,max-min; maxvel min,max-min; fric min,max-min
+	private double[][] mr; //accel min,max-min; maxvel min,max-min; fric min,max-min
 	private Color coloration;
 	private boolean dO; //continue movement
 	public int score, scoreToWin; //cookies eaten and amount of cookies on board
@@ -53,6 +53,8 @@ public class Eater extends Entity{
 		radius=DEFAULT_RADIUS;
 		coloration = Color.blue.brighter();
 		controls = new Controls(game, board, this, id);
+		
+		mr = CookieStat.MR;
 		
 		averageStats();
 		
@@ -91,16 +93,18 @@ public class Eater extends Entity{
 		cash = sd.getDouble("cash",0);
 		coloration = new Color(sd.getInteger("color",0));
 		
-		pickups = new ArrayList<CookieItem>();
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
-		for(int i=0; i<pickup_data.size(); i++) {
-			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+		if(pickup_data!=null) {
+			pickups = new ArrayList<CookieItem>();
+			for(int i=0; i<pickup_data.size(); i++) {
+				pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+			}
 		}
 	
-		MR = new double[3][2];
+		mr = new double[3][2];
 		ArrayList<Object> stats = sd.getData("statranges");
 		for(int i=0; i<6; i++) {
-			MR[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
+			mr[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
 		for(Segment testPart : parts){
@@ -126,7 +130,7 @@ public class Eater extends Entity{
 		data.addData("color",coloration.getRGB());
 		
 		for(int i=0; i<6; i++) {
-			data.addData("statranges",MR[i/2][i%2],i);
+			data.addData("statranges",mr[i/2][i%2],i);
 		}
 		
 		for(int i=0; i<pickups.size(); i++) {
@@ -165,17 +169,17 @@ public class Eater extends Entity{
 		itemDisp.update(true, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 	}
 	
-	public double[][] getMovementRand() {return MR;}
+	public double[][] getMovementRand() {return mr;}
 	public void addToMovement(double a, double v, double f) {
 		acceleration += a;
-		if(acceleration>(MR[0][0]+MR[0][1]))acceleration=(MR[0][0]+MR[0][1]);
-		if(acceleration<(MR[0][0]))acceleration=(MR[0][0]);
+		if(acceleration>(mr[0][0]+mr[0][1]))acceleration=(mr[0][0]+mr[0][1]);
+		if(acceleration<(mr[0][0]))acceleration=(mr[0][0]);
 		max_velocity += v;
-		if(max_velocity>(MR[1][0]+MR[1][1]))max_velocity=(MR[1][0]+MR[1][1]);
-		if(max_velocity<(MR[1][0]))max_velocity=(MR[1][0]);
+		if(max_velocity>(mr[1][0]+mr[1][1]))max_velocity=(mr[1][0]+mr[1][1]);
+		if(max_velocity<(mr[1][0]))max_velocity=(mr[1][0]);
 		friction += f;
-		if(friction>(MR[2][0]+MR[2][1]))friction=(MR[2][0]+MR[2][1]);
-		if(friction<(MR[2][0]))friction=(MR[2][0]);
+		if(friction>(mr[2][0]+mr[2][1]))friction=(mr[2][0]+mr[2][1]);
+		if(friction<(mr[2][0]))friction=(mr[2][0]);
 		colorize();
 		calibrateStats();
 	}
@@ -315,24 +319,24 @@ public class Eater extends Entity{
 	
 	//gives the player a random set of movement stats and colors accordingly
 	public void randomizeStats() {
-		acceleration = Math.random()*MR[0][1]+MR[0][0];
-		max_velocity = Math.random()*MR[1][1]+MR[1][0];
-		friction = Math.random()*MR[2][1]+MR[2][0];
+		acceleration = Math.random()*mr[0][1]+mr[0][0];
+		max_velocity = Math.random()*mr[1][1]+mr[1][0];
+		friction = Math.random()*mr[2][1]+mr[2][0];
 		colorize();
 		calibrateStats();
 	}
 	//gives player average of each stat
 	public void averageStats() {
-		acceleration=MR[0][1]/2+MR[0][0];
-		max_velocity=MR[1][1]/2+MR[1][0];
-		friction=MR[2][1]/2+MR[2][0];
+		acceleration=mr[0][1]/2+mr[0][0];
+		max_velocity=mr[1][1]/2+mr[1][0];
+		friction=mr[2][1]/2+mr[2][0];
 		colorize();
 		calibrateStats();
 	}
 
 	//creates player color based on stats
 	public void colorize() {
-		coloration = new Color((int)((friction-MR[2][0])/MR[2][1]*255),(int)((max_velocity-MR[1][0])/MR[1][1]*255),(int)((acceleration-MR[0][0])/MR[0][1]*255));
+		coloration = new Color((int)((friction-mr[2][0])/mr[2][1]*255),(int)((max_velocity-mr[1][0])/mr[1][1]*255),(int)((acceleration-mr[0][0])/mr[0][1]*255));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));

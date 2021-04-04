@@ -264,8 +264,8 @@ public abstract class Entity {
 		
 		
 		data.addData("specialframes",special_length,0);
-		data.addData("specialframes",special_cooldown,0);
-		data.addData("specialframes",special_use_speed,0);
+		data.addData("specialframes",special_cooldown,1);
+		data.addData("specialframes",special_use_speed,2);
 		for(int i=0; i<special_colors.size(); i++) {
 			data.addData("specialcolor",special_colors.get(i).getRGB(),i);
 		}

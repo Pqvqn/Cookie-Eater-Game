@@ -10,7 +10,7 @@ import sprites.*;
 
 public class CookieStat extends CookieStore{
 
-	private double[][] mr;
+	public static final double[][] MR = {{.2,1},{5,15},{.05,.3}};
 	private double accelChange;
 	private double maxvelChange;
 	private double fricChange;
@@ -19,7 +19,6 @@ public class CookieStat extends CookieStore{
 	
 	public CookieStat(Game frame, Board gameboard, int startx, int starty) {
 		super(frame,gameboard,startx,starty);
-		mr = board.player().getMovementRand();
 		int bonus = (int)(Math.random()+1.2);
 		int direction = (int)(Math.signum(Math.random()-.5));
 		int type = (int)(Math.random()*4);
@@ -27,15 +26,13 @@ public class CookieStat extends CookieStore{
 	}
 	public CookieStat(Game frame, Board gameboard, int startx, int starty, int type, int direction, int bonus) {
 		super(frame,gameboard,startx,starty);
-		mr = board.player().getMovementRand();
 		setStatChanges(type, direction, bonus);
 	}
 	public CookieStat(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
-		mr = board.player().getMovementRand();
-		accelChange = sd.getInteger("stats",0);
-		maxvelChange = sd.getInteger("stats",1);
-		fricChange = sd.getInteger("stats",2);
+		accelChange = sd.getDouble("stats",0);
+		maxvelChange = sd.getDouble("stats",1);
+		fricChange = sd.getDouble("stats",2);
 		setImage();
 	}
 	public SaveData getSaveData() {
@@ -56,17 +53,17 @@ public class CookieStat extends CookieStore{
 			desc = "";
 			break;
 		case 1:
-			accelChange = increment*direction*(mr[0][1]-mr[0][0])*bonus;
+			accelChange = increment*direction*(MR[0][1]-MR[0][0])*bonus;
 			name = "Accel";
 			desc = "Makes acceleration";
 			break;
 		case 2:
-			maxvelChange = increment*direction*(mr[1][1]-mr[1][0])*bonus;
+			maxvelChange = increment*direction*(MR[1][1]-MR[1][0])*bonus;
 			name = "MaxVel";
 			desc = "Makes maximum velocity";
 			break;
 		case 3:
-			fricChange = increment*direction*(mr[2][1]-mr[2][0])*bonus;
+			fricChange = increment*direction*(MR[2][1]-MR[2][0])*bonus;
 			name = "Friction";
 			desc = "Makes friction";
 			break;
@@ -111,27 +108,27 @@ public class CookieStat extends CookieStore{
 	}
 	public void setImage() {
 		try {
-		if(accelChange>increment*(mr[0][1]-mr[0][0])) {
+		if(accelChange>increment*(MR[0][1]-MR[0][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieA++");
 		}else if(accelChange>0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieA+");
-		}else if(accelChange<-increment*(mr[0][1]-mr[0][0])) {
+		}else if(accelChange<-increment*(MR[0][1]-MR[0][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieA--");
 		}else if(accelChange<0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieA-");
-		}else if(maxvelChange>increment*(mr[1][1]-mr[1][0])) {
+		}else if(maxvelChange>increment*(MR[1][1]-MR[1][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieV++");
 		}else if(maxvelChange>0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieV+");
-		}else if(maxvelChange<-increment*(mr[1][1]-mr[1][0])) {
+		}else if(maxvelChange<-increment*(MR[1][1]-MR[1][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieV--");
 		}else if(maxvelChange<0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieV-");
-		}else if(fricChange>increment*(mr[2][1]-mr[2][0])) {
+		}else if(fricChange>increment*(MR[2][1]-MR[2][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF++");
 		}else if(fricChange>0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF+");
-		}else if(fricChange<-increment*(mr[2][1]-mr[2][0])) {
+		}else if(fricChange<-increment*(MR[2][1]-MR[2][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF--");
 		}else if(fricChange<0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF-");
