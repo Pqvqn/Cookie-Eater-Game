@@ -197,7 +197,7 @@ public abstract class Entity {
 			}
 		}
 		ArrayList<SaveData> part_data = sd.getSaveDataList("segments");
-		if(parts!=null) {
+		if(part_data!=null) {
 			parts = new ArrayList<Segment>();
 			for(int i=0; i<part_data.size(); i++) {
 				parts.add(Segment.loadFromData(board, this, part_data.get(i)));

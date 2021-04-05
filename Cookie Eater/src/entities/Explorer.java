@@ -79,10 +79,13 @@ public class Explorer extends Entity{
 		max_cat = sd.getInteger("catalogsize",1);
 		input_speed = sd.getDouble("inputspeed",0);
 		
-		pickups = new ArrayList<CookieItem>();
+
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
-		for(int i=0; i<pickup_data.size(); i++) {
-			pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+		if(pickup_data!=null) {
+			pickups = new ArrayList<CookieItem>();
+			for(int i=0; i<pickup_data.size(); i++) {
+				pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+			}
 		}
 	
 		mr = new double[3][2];
@@ -94,25 +97,32 @@ public class Explorer extends Entity{
 		residence = board.floorSequence[sd.getInteger("residence",0)][sd.getInteger("residence",1)];
 		
 		ArrayList<Object> spots = sd.getData("shopspots");
-		shop_spots = new int[spots.size()/2][2];
-		for(int i=0; i<spots.size(); i++) {
-			shop_spots[i/2][i%2] = Integer.parseInt(spots.get(i).toString());
+		if(spots!=null) {
+			shop_spots = new int[spots.size()/2][2];
+			for(int i=0; i<spots.size(); i++) {
+				shop_spots[i/2][i%2] = Integer.parseInt(spots.get(i).toString());
+			}
+		}
+
+		ArrayList<SaveData> sell_data = sd.getSaveDataList("sellstash");
+		if(sell_data!=null) {
+			to_sell = new ArrayList<CookieStore>();
+			for(int i=0; i<sell_data.size(); i++) {
+				CookieStore disp;
+				to_sell.add(disp = CookieStore.loadFromData(game, board, sell_data.get(i)));
+				disp.setVendor(this);
+			}
 		}
 		
-		to_sell = new ArrayList<CookieStore>();
-		ArrayList<SaveData> sell_data = sd.getSaveDataList("sellstash");
-		for(int i=0; i<sell_data.size(); i++) {
-			CookieStore disp;
-			to_sell.add(disp = CookieStore.loadFromData(game, board, sell_data.get(i)));
-			disp.setVendor(this);
-		}
-		on_display = new ArrayList<CookieStore>();
 		ArrayList<SaveData> display_data = sd.getSaveDataList("displaystash");
-		for(int i=0; i<display_data.size(); i++) {
-			CookieStore disp;
-			on_display.add(disp = CookieStore.loadFromData(game, board, display_data.get(i)));
-			board.cookies.add(disp);
-			disp.setVendor(this);
+		if(display_data!=null) {
+			on_display = new ArrayList<CookieStore>();
+			for(int i=0; i<display_data.size(); i++) {
+				CookieStore disp;
+				on_display.add(disp = CookieStore.loadFromData(game, board, display_data.get(i)));
+				board.cookies.add(disp);
+				disp.setVendor(this);
+			}
 		}
 		
 		
@@ -174,7 +184,7 @@ public class Explorer extends Entity{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(explorertypes[i].getName())){
 				try {
-					return (Explorer) (explorertypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
+					return (Explorer) (explorertypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, int.class).newInstance(frame, gameboard, sd, cycle));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block

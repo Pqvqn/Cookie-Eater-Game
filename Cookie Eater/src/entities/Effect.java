@@ -39,7 +39,7 @@ public abstract class Effect extends Entity{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(effecttypes[i].getName())){
 				try {
-					return (Effect) (effecttypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
+					return (Effect) (effecttypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, int.class).newInstance(frame, gameboard, sd, cycle));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block

@@ -56,7 +56,7 @@ public abstract class Enemy extends Entity{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(enemytypes[i].getName())){
 				try {
-					return (Enemy) (enemytypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, Integer.class).newInstance(frame, gameboard, sd, cycle));
+					return (Enemy) (enemytypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, int.class).newInstance(frame, gameboard, sd, cycle));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
