@@ -174,16 +174,35 @@ public class Board{
 			}
 		}
 		
-		floors = new LinkedList<Level>();
-		Level lvl = null;
-		ArrayList<SaveData> lvlData = data.getSaveDataList("floors");
-		for(int i=0; i<lvlData.size(); i++) {
-			Level lvl2 = Level.loadFromData(game, this, lvlData.get(i));
-			if(lvl!=null)lvl.setNext(lvl2);
-			lvl = lvl2;
-			floors.add(lvl);
+		ArrayList<SaveData> flrData = data.getSaveDataList("floors");
+		floorSequence = new Level[flrData.size()][1];
+		for(int i=0; i<flrData.size(); i++) {
+			ArrayList<SaveData> lvlData = flrData.get(i).getSaveDataList("levels");
+			Level[] flr = new Level[lvlData.size()];
+			for(int j=0; j<lvlData.size(); j++) {
+				flr[j] = Level.loadFromData(game, this, lvlData.get(j));
+			}
+			floorSequence[i] = flr;
 		}
-		currFloor = floors.get(data.getInteger("currentFloor",0));
+		
+		currFloor = floorSequence[currDungeon][data.getInteger("currentfloor",0)];
+		floors = new LinkedList<Level>();
+		if(mode==LEVELS) {
+			for(int i=floorSequence[currDungeon].length-1; i>=0; i--) {
+				floors.add(floorSequence[currDungeon][i]);
+				if(i<floorSequence[currDungeon].length-1) 
+					floorSequence[currDungeon][i].setNext(floorSequence[currDungeon][i+1]);
+			}
+		}else if(mode==PVP) {
+			if(currDungeon==0) {
+				floors.add(new Arena2(game,this));
+			}else if(currDungeon==1) {
+				floors.add(new ArenaRound(game,this));
+			}else {
+				floors.add(new Arena1(game,this));
+			}
+
+		}
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -230,12 +249,18 @@ public class Board{
 			data.addData("mechanisms",mechanisms.get(i).getSaveData());
 		}
 		
-		Level lvl = floors.getFirst();
-		while(lvl.getNext()!=null) {
-			data.addData("floors",lvl);
-			lvl = lvl.getNext();
+		for(int i=0; i<floorSequence.length; i++) {
+			SaveData dungeonData = new SaveData();
+			for(int j=0; j<floorSequence.length; j++) {
+				dungeonData.addData("levels",floorSequence[i][j].getSaveData(),j);
+			}
+			data.addData("floors",dungeonData,i);
 		}
-		data.addData("currentfloor",floors.indexOf(currFloor));
+		for(int i=0; i<floorSequence[currDungeon].length; i++) {
+			if(floorSequence[currDungeon][i] == currFloor) {
+				data.addData("currentfloor",i);
+			}
+		}
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
