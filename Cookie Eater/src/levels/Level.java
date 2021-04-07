@@ -54,8 +54,8 @@ public abstract class Level{
 		scale = sd.getDouble("scale",0);
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
-		startx = sd.getInteger("playerstart",0);
-		starty = sd.getInteger("playerstart",1);
+		startx = sd.getDouble("playerstart",0);
+		starty = sd.getDouble("playerstart",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
 		bgColor = Color.GRAY;

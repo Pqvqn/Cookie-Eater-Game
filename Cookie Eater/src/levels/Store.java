@@ -24,66 +24,77 @@ public abstract class Store extends Level{
 	public Store(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, null, sd);
 		ArrayList<Object> vendor_space_data = sd.getData("vendorspaces");
-		int vn = sd.getInteger("vendorspacenum",0);
-		int[][][] vs = new int[vn][vendor_space_data.size()/vn/2][2];
-		int count = 0;
-		for(int i=0; i<vs.length; i++) {
-			for(int j=0; j<vs[i].length; j++) {
-				for(int h=0; h<vs[i][j].length; h++) {
-					vs[i][j][h] = Integer.parseInt(vendor_space_data.get(count).toString());
+		if(vendor_space_data!=null) {
+			int vn = sd.getInteger("vendorspacenum",0);
+			int[][][] vs = new int[vn][vendor_space_data.size()/vn/2][2];
+			int count = 0;
+			for(int i=0; i<vs.length; i++) {
+				for(int j=0; j<vs[i].length; j++) {
+					for(int h=0; h<vs[i][j].length; h++) {
+						vs[i][j][h] = Integer.parseInt(vendor_space_data.get(count).toString());
+						count++;
+					}
+				}
+			}
+			vendorSpaces = vs;
+		}
+		ArrayList<Object> passerby_space_data = sd.getData("passerbyspaces");
+		if(passerby_space_data!=null) {
+			int[][] ps = new int[passerby_space_data.size()/2][2];
+			int count = 0;
+			for(int i=0; i<ps.length; i++) {
+				for(int j=0; j<ps[i].length; j++) {
+					ps[i][j] = Integer.parseInt(passerby_space_data.get(count).toString());
 					count++;
 				}
 			}
+			passerbySpaces = ps;
 		}
-		vendorSpaces = vs;
-		
-		ArrayList<Object> passerby_space_data = sd.getData("passerbyspaces");
-		int[][] ps = new int[passerby_space_data.size()/2][2];
-		count = 0;
-		for(int i=0; i<ps.length; i++) {
-			for(int j=0; j<ps[i].length; j++) {
-				ps[i][j] = Integer.parseInt(passerby_space_data.get(count).toString());
-				count++;
-			}
-		}
-		passerbySpaces = ps;
-		
 		ArrayList<Object> mechanic_space_data = sd.getData("mechanicspaces");
-		int[][] ms = new int[mechanic_space_data.size()/2][2];
-		count = 0;
-		for(int i=0; i<ms.length; i++) {
-			for(int j=0; j<ms[i].length; j++) {
-				ms[i][j] = Integer.parseInt(mechanic_space_data.get(count).toString());
-				count++;
+		if(mechanic_space_data!=null) {
+			int[][] ms = new int[mechanic_space_data.size()/2][2];
+			int count = 0;
+			for(int i=0; i<ms.length; i++) {
+				for(int j=0; j<ms[i].length; j++) {
+					ms[i][j] = Integer.parseInt(mechanic_space_data.get(count).toString());
+					count++;
+				}
 			}
+			mechanicSpaces = ms;
 		}
-		mechanicSpaces = ms;
 	}
 	public Store(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
 		this(frame, gameboard, sd);
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
-		data.addData("vendorspacenum",vendorSpaces.length);
-		for(int i=0; i<vendorSpaces.length; i++) {
-			for(int j=0; j<vendorSpaces[i].length; j++) {
-				for(int h=0; h<vendorSpaces[i][j].length; h++) {
-					data.addData("vendorspaces",vendorSpaces[i][j][h]);
+		if(vendorSpaces!=null) {
+			data.addData("vendorspacenum",vendorSpaces.length);
+			for(int i=0; i<vendorSpaces.length; i++) {
+				for(int j=0; j<vendorSpaces[i].length; j++) {
+					for(int h=0; h<vendorSpaces[i][j].length; h++) {
+						data.addData("vendorspaces",vendorSpaces[i][j][h]);
+					}
 				}
 			}
 		}
 		
-		for(int i=0; i<passerbySpaces.length; i++) {
-			for(int j=0; j<passerbySpaces[i].length; j++) {
-				data.addData("passerbyspaces",passerbySpaces[i][j]);
+		if(passerbySpaces!=null) {
+			for(int i=0; i<passerbySpaces.length; i++) {
+				for(int j=0; j<passerbySpaces[i].length; j++) {
+					data.addData("passerbyspaces",passerbySpaces[i][j]);
+				}
 			}
 		}
 		
-		for(int i=0; i<mechanicSpaces.length; i++) {
-			for(int j=0; j<mechanicSpaces[i].length; j++) {
-				data.addData("mechanicspaces",mechanicSpaces[i][j]);
+		if(mechanicSpaces!=null) {
+			for(int i=0; i<mechanicSpaces.length; i++) {
+				for(int j=0; j<mechanicSpaces[i].length; j++) {
+					data.addData("mechanicspaces",mechanicSpaces[i][j]);
+				}
 			}
 		}
+
 		return data;
 	}
 	public boolean haltEnabled() {return true;}

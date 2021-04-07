@@ -108,6 +108,35 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
+		ArrayList<SaveData> flrData = data.getSaveDataList("floors");
+		floorSequence = new Level[flrData.size()][1];
+		for(int i=0; i<flrData.size(); i++) {
+			ArrayList<SaveData> lvlData = flrData.get(i).getSaveDataList("levels");
+			Level[] flr = new Level[lvlData.size()];
+			for(int j=0; j<lvlData.size(); j++) {
+				flr[j] = Level.loadFromData(game, this, lvlData.get(j));
+			}
+			floorSequence[i] = flr;
+		}
+		currFloor = floorSequence[currDungeon][data.getInteger("currentfloor",0)];
+		floors = new LinkedList<Level>();
+		if(mode==LEVELS) {
+			for(int i=floorSequence[currDungeon].length-1; i>=0; i--) {
+				floors.add(floorSequence[currDungeon][i]);
+				if(i<floorSequence[currDungeon].length-1) 
+					floorSequence[currDungeon][i].setNext(floorSequence[currDungeon][i+1]);
+			}
+		}else if(mode==PVP) {
+			if(currDungeon==0) {
+				floors.add(new Arena2(game,this));
+			}else if(currDungeon==1) {
+				floors.add(new ArenaRound(game,this));
+			}else {
+				floors.add(new Arena1(game,this));
+			}
+
+		}
+		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
 		if(cookieData!=null) {
 			cookies = new ArrayList<Cookie>();
@@ -174,35 +203,6 @@ public class Board{
 			}
 		}
 		
-		ArrayList<SaveData> flrData = data.getSaveDataList("floors");
-		floorSequence = new Level[flrData.size()][1];
-		for(int i=0; i<flrData.size(); i++) {
-			ArrayList<SaveData> lvlData = flrData.get(i).getSaveDataList("levels");
-			Level[] flr = new Level[lvlData.size()];
-			for(int j=0; j<lvlData.size(); j++) {
-				flr[j] = Level.loadFromData(game, this, lvlData.get(j));
-			}
-			floorSequence[i] = flr;
-		}
-		
-		currFloor = floorSequence[currDungeon][data.getInteger("currentfloor",0)];
-		floors = new LinkedList<Level>();
-		if(mode==LEVELS) {
-			for(int i=floorSequence[currDungeon].length-1; i>=0; i--) {
-				floors.add(floorSequence[currDungeon][i]);
-				if(i<floorSequence[currDungeon].length-1) 
-					floorSequence[currDungeon][i].setNext(floorSequence[currDungeon][i+1]);
-			}
-		}else if(mode==PVP) {
-			if(currDungeon==0) {
-				floors.add(new Arena2(game,this));
-			}else if(currDungeon==1) {
-				floors.add(new ArenaRound(game,this));
-			}else {
-				floors.add(new Arena1(game,this));
-			}
-
-		}
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -217,6 +217,19 @@ public class Board{
 		data.addData("currentdungeon",currDungeon);
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
+		
+		for(int i=0; i<floorSequence.length; i++) {
+			SaveData dungeonData = new SaveData();
+			for(int j=0; j<floorSequence[i].length; j++) {
+				dungeonData.addData("levels",floorSequence[i][j].getSaveData(),j);
+			}
+			data.addData("floors",dungeonData,i);
+		}
+		for(int i=0; i<floorSequence[currDungeon].length; i++) {
+			if(floorSequence[currDungeon][i] == currFloor) {
+				data.addData("currentfloor",i);
+			}
+		}
 		
 		for(int i=0; i<cookies.size(); i++) {
 			Cookie toSave = cookies.get(i);
@@ -249,18 +262,7 @@ public class Board{
 			data.addData("mechanisms",mechanisms.get(i).getSaveData());
 		}
 		
-		for(int i=0; i<floorSequence.length; i++) {
-			SaveData dungeonData = new SaveData();
-			for(int j=0; j<floorSequence.length; j++) {
-				dungeonData.addData("levels",floorSequence[i][j].getSaveData(),j);
-			}
-			data.addData("floors",dungeonData,i);
-		}
-		for(int i=0; i<floorSequence[currDungeon].length; i++) {
-			if(floorSequence[currDungeon][i] == currFloor) {
-				data.addData("currentfloor",i);
-			}
-		}
+		
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
 		try {
