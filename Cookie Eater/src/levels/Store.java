@@ -68,29 +68,30 @@ public abstract class Store extends Level{
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
+		int ci = 0;
 		if(vendorSpaces!=null) {
 			data.addData("vendorspacenum",vendorSpaces.length);
 			for(int i=0; i<vendorSpaces.length; i++) {
 				for(int j=0; j<vendorSpaces[i].length; j++) {
 					for(int h=0; h<vendorSpaces[i][j].length; h++) {
-						data.addData("vendorspaces",vendorSpaces[i][j][h]);
+						data.addData("vendorspaces",vendorSpaces[i][j][h],ci++);
 					}
 				}
 			}
 		}
-		
+		ci=0;
 		if(passerbySpaces!=null) {
 			for(int i=0; i<passerbySpaces.length; i++) {
 				for(int j=0; j<passerbySpaces[i].length; j++) {
-					data.addData("passerbyspaces",passerbySpaces[i][j]);
+					data.addData("passerbyspaces",passerbySpaces[i][j],ci++);
 				}
 			}
 		}
-		
+		ci=0;
 		if(mechanicSpaces!=null) {
 			for(int i=0; i<mechanicSpaces.length; i++) {
 				for(int j=0; j<mechanicSpaces[i].length; j++) {
-					data.addData("mechanicspaces",mechanicSpaces[i][j]);
+					data.addData("mechanicspaces",mechanicSpaces[i][j],ci++);
 				}
 			}
 		}

@@ -259,7 +259,7 @@ public abstract class Entity {
 		data.addData("locked",lock);
 		
 		for(int i=0; i<parts.size(); i++) {
-			data.addData("segments",parts.get(i).getSaveData());
+			data.addData("segments",parts.get(i).getSaveData(),i);
 		}
 		
 		
@@ -282,22 +282,21 @@ public abstract class Entity {
 		data.addData("movement",max_recoil,5);
 		
 		for(int i=0; i<summons.size(); i++) {
-			data.addData("summons",summons.get(i).getSaveData());
+			data.addData("summons",summons.get(i).getSaveData(),i);
 		}
-		
 		for(int i=0; i<cash_stash.size(); i++) {
-			data.addData("cashstash",cash_stash.get(i).getSaveData());
+			data.addData("cashstash",cash_stash.get(i).getSaveData(),i);
 		}
 		for(int i=0; i<shield_stash.size(); i++) {
-			data.addData("shieldstash",shield_stash.get(i).getSaveData());
+			data.addData("shieldstash",shield_stash.get(i).getSaveData(),i);
 		}		
 		for(int i=0; i<stat_stash.size(); i++) {
-			data.addData("statstash",stat_stash.get(i).getSaveData());
+			data.addData("statstash",stat_stash.get(i).getSaveData(),i);
 		}
 		SaveData itemData = new SaveData();
 		for(int i=0; i<item_stash.size(); i++) {
 			for(int j=0; j<item_stash.get(i).size(); j++) {
-				itemData.addData("slot"+i,item_stash.get(i).get(j).getSaveData());
+				itemData.addData("slot"+i,item_stash.get(i).get(j).getSaveData(),i);
 			}
 		}
 		data.addData("itemstash",itemData);
@@ -306,7 +305,7 @@ public abstract class Entity {
 		Iterator<String> stateit = variableStates.keySet().iterator();
 		while(stateit.hasNext()) {
 			String key = stateit.next();
-			stateData.addData(key, variableStates.get(key));
+			stateData.addData(key, variableStates.get(key),0);
 		}
 		data.addData("customstates",stateData);
 		

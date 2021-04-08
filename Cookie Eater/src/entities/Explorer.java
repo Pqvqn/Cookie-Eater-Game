@@ -164,13 +164,13 @@ public class Explorer extends Entity{
 		}
 		
 		for(int i=0; i<pickups.size(); i++) {
-			data.addData("pickupstash",pickups.get(i).getSaveData());
+			data.addData("pickupstash",pickups.get(i).getSaveData(),i);
 		}	
 		for(int i=0; i<to_sell.size(); i++) {
-			data.addData("sellstash",to_sell.get(i).getSaveData());
+			data.addData("sellstash",to_sell.get(i).getSaveData(),i);
 		}	
 		for(int i=0; i<on_display.size(); i++) {
-			data.addData("displaystash",on_display.get(i).getSaveData());
+			data.addData("displaystash",on_display.get(i).getSaveData(),i);
 		}
 		data.addData("type",this.getClass().getName());
 		return data;

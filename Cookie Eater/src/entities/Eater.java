@@ -134,7 +134,7 @@ public class Eater extends Entity{
 		}
 		
 		for(int i=0; i<pickups.size(); i++) {
-			data.addData("pickupstash",pickups.get(i).getSaveData());
+			data.addData("pickupstash",pickups.get(i).getSaveData(),i);
 		}	
 		return data;
 	}

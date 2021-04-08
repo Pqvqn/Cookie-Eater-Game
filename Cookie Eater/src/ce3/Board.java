@@ -231,35 +231,37 @@ public class Board{
 			}
 		}
 		
+		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
 			Cookie toSave = cookies.get(i);
 			if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
-				data.addData("cookies",cookies.get(i).getSaveData());
+				data.addData("cookies",cookies.get(i).getSaveData(),ci++);
 			}
 		}
 		
 		for(int i=0; i<playerCount; i++) {
-			data.addData("players",players.get(i).getSaveData());
+			data.addData("players",players.get(i).getSaveData(),i);
 		}
 		for(int i=0; i<present_npcs.size(); i++) {
-			data.addData("presentexplorers",present_npcs.get(i).getSaveData());
+			data.addData("presentexplorers",present_npcs.get(i).getSaveData(),i);
 		}
+		ci = 0;
 		for(int i=0; i<npcs.size(); i++) {
 			if(!present_npcs.contains(npcs.get(i)))
-					data.addData("explorers",npcs.get(i).getSaveData());
+					data.addData("explorers",npcs.get(i).getSaveData(),ci++);
 		}
 		for(int i=0; i<enemies.size(); i++) {
-			data.addData("enemies",enemies.get(i).getSaveData());
+			data.addData("enemies",enemies.get(i).getSaveData(),i);
 		}
 		for(int i=0; i<effects.size(); i++) {
-			data.addData("effects",effects.get(i).getSaveData());
+			data.addData("effects",effects.get(i).getSaveData(),i);
 		}
 		
 		for(int i=0; i<walls.size(); i++) {
-			data.addData("walls",walls.get(i).getSaveData());
+			data.addData("walls",walls.get(i).getSaveData(),i);
 		}
 		for(int i=0; i<mechanisms.size(); i++) {
-			data.addData("mechanisms",mechanisms.get(i).getSaveData());
+			data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
 		}
 		
 		

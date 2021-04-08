@@ -62,17 +62,17 @@ public class Path {
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
-		for(double[] pos : positions) {
-			data.addData("positions",pos[0]);
-			data.addData("positions",pos[1]);
+		for(int i=0; i<positions.length; i++) {
+			data.addData("positions",positions[i][0],2*i);
+			data.addData("positions",positions[i][1],2*i+1);
 		}
-		for(double rat : rates)data.addData("rates",rat);
-		for(double mod : modes)data.addData("modes",mod);
-		for(double[] siz : sizes) {
-			data.addData("sizes",siz[0]);
-			data.addData("sizes",siz[1]);
+		for(int i=0; i<rates.length; i++)data.addData("rates",rates[i],i);
+		for(int i=0; i<modes.length; i++)data.addData("modes",modes[i],i);
+		for(int i=0; i<sizes.length; i++) {
+			data.addData("sizes",sizes[i][0],2*i);
+			data.addData("sizes",sizes[i][1],2*i+1);
 		}
-		for(double ang : angles)data.addData("angles",ang);
+		for(int i=0; i<angles.length; i++)data.addData("angles",angles[i],i);
 		return data;
 	}
 	

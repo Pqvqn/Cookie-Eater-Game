@@ -74,7 +74,9 @@ public class SaveData {
 								markCount--;
 							}
 						}
+						//if(i<sections.length)System.out.println(sections[i]);
 						i--;
+						System.out.println(parts[0]+"  "+s3);
 						info2.add(new SaveData(s3));
 					}else { //string
 						info2.add(s2);
