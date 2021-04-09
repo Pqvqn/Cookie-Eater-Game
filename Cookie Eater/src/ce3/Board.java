@@ -109,12 +109,14 @@ public class Board{
 		awaiting_start = data.getBoolean("awaiting",0);
 		
 		ArrayList<SaveData> flrData = data.getSaveDataList("floors");
-		floorSequence = new Level[flrData.size()][1];
+		System.out.println(data.getData("floors"));
+		floorSequence = new Level[flrData.size()][3];
 		for(int i=0; i<flrData.size(); i++) {
 			ArrayList<SaveData> lvlData = flrData.get(i).getSaveDataList("levels");
 			Level[] flr = new Level[lvlData.size()];
 			for(int j=0; j<lvlData.size(); j++) {
 				flr[j] = Level.loadFromData(game, this, lvlData.get(j));
+				System.out.println(flr[j].getName());
 			}
 			floorSequence[i] = flr;
 		}
