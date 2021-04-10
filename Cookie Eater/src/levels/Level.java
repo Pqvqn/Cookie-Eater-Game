@@ -71,6 +71,7 @@ public abstract class Level{
 				Store1.class, Store2.class, Store3.class, Store4.class,
 				Arena1.class, Arena2.class, ArenaRound.class,
 				Training1.class};
+		System.out.println(sd);
 		String thistype = sd.getString("type",0);
 		for(int i=0; i<leveltypes.length; i++) {
 			//if class type matches type from file, instantiate and return it

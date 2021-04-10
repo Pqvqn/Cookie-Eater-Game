@@ -67,8 +67,7 @@ public class SaveData {
 							markCount--;
 						}
 						for(i+=1; markCount!=0 && i<sections.length; i++) { //continue until all sub-datas are closed
-							s3+=sectionSep+sections[i];
-							//if(parts[0].equals("levels"))System.out.println(sections[i]);
+							if(parts[0].equals("levels"))System.out.println(sections[i]);
 							if(sections[i].contains(savedataOpen)) {
 								markCount++;
 							}
@@ -76,13 +75,18 @@ public class SaveData {
 								markCount--;
 							}
 							if(sections[i].equals(savedataClose+infoSep+savedataOpen)) {
-								markCount=0;
-								if(i+1<sections.length)sections[i+1] = savedataOpen+sections[i+1];
+								if(parts[0].equals("levels"))System.out.println(s3);
+								info2.add(new SaveData(s3));
+								s3 = "";
+								//if(i+1<sections.length)sections[i+1] = savedataOpen+sections[i+1];
+							}else {
+								s3+=sectionSep+sections[i];
 							}
 						}
 						i--;
 						info2.add(new SaveData(s3));
-						if(parts[0].equals("levels"))System.out.println(parts[0]+"  "+info2);
+						//System.out.println(parts[0]+"  "+s3);
+						//if(parts[0].equals("levels"))System.out.println(parts[0]+"  "+info2);
 					}else { //string
 						info2.add(s2);
 					}
