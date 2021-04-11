@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+
 public class SaveData {
 	
 	private HashMap<String,ArrayList<Object>> dataStorage; //keeps tags and data
@@ -42,58 +43,68 @@ public class SaveData {
 		dataStorage.put(tag,data);
 	}
 	
+	//counts number of instances of a substring
+	public int countSubstring(String open, String sub) {
+		int f = (" "+open+" ").split("\\"+sub).length;
+		System.out.println(f);
+		return f;
+	}
+	
+	//splits list around separator but recombines subsections
+	private ArrayList<String> splitList(String original, String separator, String subOpen, String subClose){
+		String[] sect = original.split(separator);
+		ArrayList<String> sections = new ArrayList<String>();
+		for(int i=0; i<sect.length; i++) {
+			if(sect[i].contains(subOpen)) {
+				int marks = 0;
+				if(sect[i].contains(subOpen)) {
+					marks+=countSubstring(sect[i],subOpen);
+				}if(sect[i].contains(subClose)) {
+					marks-=countSubstring(sect[i],subClose);
+				}
+				for(i+=1; i<sect.length && marks!=0; i++) {
+					if(sect[i].contains(subOpen)) {
+						marks+=countSubstring(sect[i],subOpen);
+					}if(sect[i].contains(subClose)) {
+						marks-=countSubstring(sect[i],subClose);
+					}
+					sect[i]=sect[i-1]+separator+sect[i];
+					System.out.println(sect[i]);
+				}
+				i--;
+			}
+			sections.add(sect[i]);
+			System.out.println("||| "+sect[i]);
+		}
+		System.out.println(sections);
+		return sections;
+	}
+	
 	//add data points in string form to storage
 	private void interpretString(String s) {
 		//split sections of data
-		String[] sections = s.split(sectionSep);
-		for(int i=0; i<sections.length; i++) {
+		ArrayList<String> sections = splitList(s.substring(1),sectionSep,savedataOpen,savedataClose);
+		for(int i=0; i<sections.size(); i++) {
 			
 			//split tag from information
-			String[] parts = sections[i].split(tagSep);
-			if(parts.length==2) { //valid data must have tag and info
+			ArrayList<String> parts = splitList(sections.get(i),tagSep,savedataOpen,savedataClose);
+			if(parts.size()==2) { //valid data must have tag and info
 
 				//split parts of information
-				String[] info = parts[1].split(infoSep);
+				ArrayList<String> info = splitList(parts.get(1),infoSep,savedataOpen,savedataClose);
 				ArrayList<Object> info2 = new ArrayList<Object>();
 				//test for type of info before adding
-				for(int j=0; j<info.length; j++) {
-					String s2 = info[j];
+				for(int j=0; j<info.size(); j++) {
+					String s2 = info.get(j);
 					if(s2.contains(savedataOpen)) { //savedata
-						String s3 = "";
-						int markCount = 0;
-						if(sections[i].contains(savedataOpen)) {
-							markCount++;
-						}if(sections[i].contains(savedataClose)) {
-							markCount--;
-						}
-						for(i+=1; markCount!=0 && i<sections.length; i++) { //continue until all sub-datas are closed
-							if(parts[0].equals("levels"))System.out.println(sections[i]);
-							if(sections[i].contains(savedataOpen)) {
-								markCount++;
-							}
-							if(sections[i].contains(savedataClose)) {
-								markCount--;
-							}
-							if(sections[i].equals(savedataClose+infoSep+savedataOpen)) {
-								if(parts[0].equals("levels"))System.out.println(s3);
-								info2.add(new SaveData(s3));
-								s3 = "";
-								//if(i+1<sections.length)sections[i+1] = savedataOpen+sections[i+1];
-							}else {
-								s3+=sectionSep+sections[i];
-							}
-						}
-						i--;
-						info2.add(new SaveData(s3));
-						//System.out.println(parts[0]+"  "+s3);
-						//if(parts[0].equals("levels"))System.out.println(parts[0]+"  "+info2);
+						info2.add(new SaveData(s2));
 					}else { //string
 						info2.add(s2);
 					}
 				}
 				//add to data storage
-				//if(parts[0].equals("levels"))System.out.println(parts[0]+"  "+info2);
-				dataStorage.put(parts[0],info2);
+				dataStorage.put(parts.get(0),info2);
+				System.out.println(parts.get(0)+" "+info2);
 			}
 		}
 	}
@@ -104,7 +115,12 @@ public class SaveData {
 	}
 	//get info by its tag
 	public Object getData(String tag, int index) {
-		return dataStorage.get(tag).get(index);
+		if(dataStorage.get(tag) == null) {
+			System.out.println("::::"+tag);
+		}else {
+			System.out.println(tag);
+		}
+		return "1";
 	}
 	//get info in string form
 	public String getString(String tag, int index) {
