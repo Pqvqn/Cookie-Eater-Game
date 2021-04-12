@@ -138,6 +138,7 @@ public abstract class Entity {
 		scale = sd.getDouble("scale",0);
 		
 		name = sd.getString("name",0);
+		System.out.println(sd.getData("movement"));
 		x = sd.getDouble("position",0);
 		y = sd.getDouble("position",1);
 		relativeFrame[0] = sd.getDouble("position",2);

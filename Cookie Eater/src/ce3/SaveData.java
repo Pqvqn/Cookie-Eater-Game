@@ -46,7 +46,6 @@ public class SaveData {
 	//counts number of instances of a substring
 	public int countSubstring(String open, String sub) {
 		int f = (" "+open+" ").split("\\"+sub).length;
-		System.out.println(f);
 		return f;
 	}
 	
@@ -69,19 +68,17 @@ public class SaveData {
 						marks-=countSubstring(sect[i],subClose);
 					}
 					sect[i]=sect[i-1]+separator+sect[i];
-					System.out.println(sect[i]);
 				}
 				i--;
 			}
 			sections.add(sect[i]);
-			System.out.println("||| "+sect[i]);
 		}
-		System.out.println(sections);
 		return sections;
 	}
 	
 	//add data points in string form to storage
 	private void interpretString(String s) {
+		s = s.replaceAll("\n","");
 		//split sections of data
 		ArrayList<String> sections = splitList(s.substring(1),sectionSep,savedataOpen,savedataClose);
 		for(int i=0; i<sections.size(); i++) {
@@ -104,7 +101,6 @@ public class SaveData {
 				}
 				//add to data storage
 				dataStorage.put(parts.get(0),info2);
-				System.out.println(parts.get(0)+" "+info2);
 			}
 		}
 	}
@@ -115,12 +111,7 @@ public class SaveData {
 	}
 	//get info by its tag
 	public Object getData(String tag, int index) {
-		if(dataStorage.get(tag) == null) {
-			System.out.println("::::"+tag);
-		}else {
-			System.out.println(tag);
-		}
-		return "1";
+		return dataStorage.get(tag).get(index);
 	}
 	//get info in string form
 	public String getString(String tag, int index) {
@@ -169,7 +160,7 @@ public class SaveData {
 		Iterator<String> it = dataStorage.keySet().iterator();
 		while(it.hasNext()) {
 			String tag = it.next();
-			ret+=sectionSep+tag+tagSep;
+			ret+="\n"+sectionSep+tag+tagSep;
 			boolean firstEntry = true;
 			for(Object o : dataStorage.get(tag)) {
 				if(firstEntry) {
@@ -179,6 +170,9 @@ public class SaveData {
 				}
 				if(o!=null) {
 					ret+=o.toString();
+				}
+				if(o instanceof SaveData) {
+					ret+="\n";
 				}
 			}
 		}
