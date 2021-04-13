@@ -16,7 +16,7 @@ public class ItemAutopilot extends Item{
 		speedy = 5;
 		searchRadius = 100;
 		name = "Autopilot";
-		desc="Automatically aims towards near cookies.`Amplify: Allowed radius and base speed increase";
+		desc="Automatically aims towards near cookies.`Amplify- Allowed radius and base speed increase";
 	}
 	public void prepare() {
 		velCheck = true;

@@ -9,7 +9,7 @@ public class ItemFlow extends Item{
 	public ItemFlow(Game frame) {
 		super(frame);
 		name = "Flow";
-		desc="High speed decreases special bar usage.`Amplify: Speed to time conversion becomes more severe";
+		desc="High speed decreases special bar usage.`Amplify- Speed to time conversion becomes more severe";
 		rate = 1.2;
 	}
 	public void prepare() {

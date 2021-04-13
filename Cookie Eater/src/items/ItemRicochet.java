@@ -17,7 +17,7 @@ public class ItemRicochet extends Item{
 		duration = 250;
 		booms = new ArrayList<EffectExplosion>();
 		name = "Ricochet";
-		desc="Creates explosion on impact.`Amplify: Larger explosions";
+		desc="Creates explosion on impact.`Amplify- Larger explosions";
 	}
 	public void prepare() {
 

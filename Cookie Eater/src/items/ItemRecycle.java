@@ -9,7 +9,7 @@ public class ItemRecycle extends Item{
 	public ItemRecycle(Game frame) {
 		super(frame);
 		name = "Recycle";
-		desc="Spoiled cookies give some cash.`Amplify: Cash per spoiled cookie increases";
+		desc="Spoiled cookies give some cash.`Amplify- Cash per spoiled cookie increases";
 		value = 0.4;
 	}
 	public void prepare() {

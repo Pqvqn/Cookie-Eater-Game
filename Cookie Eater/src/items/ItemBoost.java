@@ -11,7 +11,7 @@ public class ItemBoost extends Item{
 		super(frame);
 		speedy = 30;
 		name = "Boost";
-		desc="Zooms forward`Amplify: Speed increases";
+		desc="Zooms forward`Amplify- Speed increases";
 	}
 	public void prepare() {
 		dir=user.getAim(); //store direction for later

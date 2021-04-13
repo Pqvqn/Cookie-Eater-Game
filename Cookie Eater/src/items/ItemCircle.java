@@ -14,7 +14,7 @@ public class ItemCircle extends Item{
 		count = 0;
 		radians = 0;
 		name = "Circle";
-		desc="Completes a circular path.`Amplify: Larger radius";
+		desc="Completes a circular path.`Amplify- Larger radius";
 		radiusunadjust = 100;
 	}
 	public void prepare() {

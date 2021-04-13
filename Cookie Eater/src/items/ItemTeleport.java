@@ -11,7 +11,7 @@ public class ItemTeleport extends Item{
 		super(frame);
 		amp = 1;
 		name = "Teleport";
-		desc="Teleports user to farthest cookie.`Amplify: Longer game freeze on teleport";
+		desc="Teleports user to farthest cookie.`Amplify- Longer game freeze on teleport";
 	}
 	public void prepare() {
 		double maxDist=0;

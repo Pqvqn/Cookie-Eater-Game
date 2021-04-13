@@ -38,7 +38,7 @@ public class ExplorerSidekick extends Explorer{
 		mass = 200;
 		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 		input_speed = 30;
-		startShields = 50;
+		startShields = 3;
 		setShields(startShields);
 		state = VENTURE;
 	}

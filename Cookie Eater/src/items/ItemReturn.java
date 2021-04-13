@@ -10,7 +10,7 @@ public class ItemReturn extends Item{
 		super(frame);
 		amp = 1;
 		name = "Return";
-		desc="Sends user back to starting point of special.`Amplify: Longer game freeze on return";
+		desc="Sends user back to starting point of special.`Amplify- Longer game freeze on return";
 	}
 	public void prepare() {
 		x=user.getX(true);

@@ -15,7 +15,7 @@ public class ItemClone extends Item{
 		clones = new ArrayList<EffectClone>();
 		num = 1;
 		name = "Clone";
-		desc="Creates mirrored clone of user movement.`Amplify: More clones";
+		desc="Creates mirrored clone of user movement.`Amplify- More clones";
 	}
 	public void prepare() {
 	}

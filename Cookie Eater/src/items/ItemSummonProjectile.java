@@ -14,7 +14,7 @@ public class ItemSummonProjectile extends Item{
 		super(frame);
 		hitpoints = 0;
 		name = "Projectile";
-		desc="Items affect a separate summoned entity that is free from the player. `Amplify: Summon gains health";
+		desc="Items affect a separate summoned entity that is free from the player. `Amplify- Summon gains health";
 	}
 	public void prepare() {
 		//user's items given to summon

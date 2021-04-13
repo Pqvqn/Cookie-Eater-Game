@@ -16,7 +16,7 @@ public class ItemRepeat extends Item{
 		super(frame);
 		ratio = 2;
 		name = "Repeat";
-		desc="Pauses and restarts all items.`Amplify: Number of restarts increases";
+		desc="Pauses and restarts all items.`Amplify- Number of restarts increases";
 	}
 	public void prepare() {
 		time = user.getSpecialLength()/ratio+1;

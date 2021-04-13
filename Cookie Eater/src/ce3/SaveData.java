@@ -46,7 +46,7 @@ public class SaveData {
 	//counts number of instances of a substring
 	public int countSubstring(String open, String sub) {
 		int f = (" "+open+" ").split("\\"+sub).length;
-		return f;
+		return f-1;
 	}
 	
 	//splits list around separator but recombines subsections
@@ -82,11 +82,9 @@ public class SaveData {
 		//split sections of data
 		ArrayList<String> sections = splitList(s.substring(1),sectionSep,savedataOpen,savedataClose);
 		for(int i=0; i<sections.size(); i++) {
-			
 			//split tag from information
 			ArrayList<String> parts = splitList(sections.get(i),tagSep,savedataOpen,savedataClose);
 			if(parts.size()==2) { //valid data must have tag and info
-
 				//split parts of information
 				ArrayList<String> info = splitList(parts.get(1),infoSep,savedataOpen,savedataClose);
 				ArrayList<Object> info2 = new ArrayList<Object>();

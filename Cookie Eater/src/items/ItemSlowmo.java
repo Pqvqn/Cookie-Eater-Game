@@ -12,7 +12,7 @@ public class ItemSlowmo extends Item{
 		super(frame);
 		prop = .5;
 		name = "Slowmo";
-		desc="Slows down time.`Amplify: Slowing factor increases";
+		desc="Slows down time.`Amplify- Slowing factor increases";
 	}
 	public void prepare() {
 		initTime=game.getCycle();

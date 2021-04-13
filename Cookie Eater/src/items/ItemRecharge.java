@@ -10,7 +10,7 @@ public class ItemRecharge extends Item{
 		super(frame);
 		chargeamount = 5;
 		name = "Recharge";
-		desc="If enough cookies taken, special can be instantly reinitiated.`Amplify: Less cookies to charge";
+		desc="If enough cookies taken, special can be instantly reinitiated.`Amplify- Less cookies to charge";
 	}
 	public void prepare() {
 	}

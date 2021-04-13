@@ -9,7 +9,7 @@ public class ItemShrink extends Item{
 	public ItemShrink(Game frame) {
 		super(frame);
 		name = "Shrink";
-		desc="Decreases user's size.`Amplify: More shrinkage";
+		desc="Decreases user's size.`Amplify- More shrinkage";
 		radius_fraction = .5;
 	}
 	public void prepare() {

@@ -14,7 +14,7 @@ public class ItemSummonMelee extends Item{
 		super(frame);
 		hitpoints = 0;
 		name = "Melee";
-		desc="Items affect a separate summoned entity that is anchored to the player. `Amplify: Summon gains health";
+		desc="Items affect a separate summoned entity that is anchored to the player. `Amplify- Summon gains health";
 	}
 	public void prepare() {
 		//user's items given to summon
