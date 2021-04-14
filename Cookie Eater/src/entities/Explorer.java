@@ -184,7 +184,6 @@ public class Explorer extends Entity{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(explorertypes[i].getName())){
 				try {
-					System.out.println(thistype);
 					return (Explorer) (explorertypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class, int.class).newInstance(frame, gameboard, sd, cycle));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {

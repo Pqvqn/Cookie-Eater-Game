@@ -141,8 +141,8 @@ public class Board{
 		}
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
+		cookies = new ArrayList<Cookie>();
 		if(cookieData!=null) {
-			cookies = new ArrayList<Cookie>();
 			for(int i=0; i<cookieData.size(); i++) {
 				Cookie loaded = Cookie.loadFromData(game, this, cookieData.get(i));
 				if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
@@ -151,45 +151,45 @@ public class Board{
 			}
 		}
 		ArrayList<SaveData> playerData = data.getSaveDataList("players");
+		players = new ArrayList<Eater>();
 		if(playerData!=null) {
-			players = new ArrayList<Eater>();
 			for(int i=0; i<playerCount; i++) {
 				players.add(new Eater(game,this,playerData.get(i),cycletime));
 			}
 		}
 		ArrayList<SaveData> npcData = data.getSaveDataList("explorers");
+		npcs = new ArrayList<Explorer>();
 		if(npcData!=null) {
-			npcs = new ArrayList<Explorer>();
 			for(int i=0; i<npcData.size(); i++) {
 				npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime));
 			}
 		}
 		ArrayList<SaveData> presnpcData = data.getSaveDataList("presentexplorers");
+		present_npcs = new ArrayList<Explorer>();
 		if(presnpcData!=null) {
-			present_npcs = new ArrayList<Explorer>();
 			for(int i=0; i<presnpcData.size(); i++) {
-				Explorer ex = Explorer.loadFromData(game,this,npcData.get(i),cycletime);
+				Explorer ex = Explorer.loadFromData(game,this,presnpcData.get(i),cycletime);
 				npcs.add(ex);
 				present_npcs.add(ex);
 			}
 		}
 		ArrayList<SaveData> enemyData = data.getSaveDataList("enemies");
+		enemies = new ArrayList<Enemy>();
 		if(enemyData!=null) {
-			enemies = new ArrayList<Enemy>();
 			for(int i=0; i<enemyData.size(); i++) {
 				enemies.add(Enemy.loadFromData(game,this,enemyData.get(i),cycletime));
 			}
 		}
 		ArrayList<SaveData> effectData = data.getSaveDataList("effects");
+		effects = new ArrayList<Effect>();
 		if(effectData!=null) {
-			effects = new ArrayList<Effect>();
 			for(int i=0; i<effectData.size(); i++) {
 				effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime));
 			}
 		}
 		ArrayList<SaveData> wallData = data.getSaveDataList("walls");
+		walls = new ArrayList<Wall>();
 		if(wallData!=null) {
-			walls = new ArrayList<Wall>();
 			for(int i=0; i<wallData.size(); i++) {
 				walls.add(new Wall(game, this, wallData.get(i)));
 			}
@@ -199,14 +199,14 @@ public class Board{
 			wallSpace.add(w.getArea());
 		}
 		ArrayList<SaveData> mechData = data.getSaveDataList("mechanisms");
+		mechanisms = new ArrayList<Mechanism>();
 		if(mechData!=null) {
-			mechanisms = new ArrayList<Mechanism>();
 			for(int i=0; i<mechData.size(); i++) {
 				mechanisms.add(new Mechanism(game, this, mechData.get(i)));
 			}
 		}
 		
-		
+		menus = new ArrayList<Menu>();
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
 	}
@@ -250,8 +250,9 @@ public class Board{
 		}
 		ci = 0;
 		for(int i=0; i<npcs.size(); i++) {
-			if(!present_npcs.contains(npcs.get(i)))
-					data.addData("explorers",npcs.get(i).getSaveData(),ci++);
+			if(!present_npcs.contains(npcs.get(i))) {
+				data.addData("explorers",npcs.get(i).getSaveData(),ci++);
+			}
 		}
 		for(int i=0; i<enemies.size(); i++) {
 			data.addData("enemies",enemies.get(i).getSaveData(),i);

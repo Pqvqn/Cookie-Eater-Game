@@ -152,37 +152,37 @@ public abstract class Entity {
 		lock = sd.getBoolean("locked",0);
 		
 		ArrayList<SaveData> summon_data = sd.getSaveDataList("summons");
+		summons = new ArrayList<Summon>();
 		if(summon_data!=null) {
-			summons = new ArrayList<Summon>();
 			for(int i=0; i<summon_data.size(); i++) {
 				summons.add(new Summon(game, board, this, summon_data.get(i), cycle));
 			}
 		}
 
 		ArrayList<SaveData> cash_data = sd.getSaveDataList("cashstash");
+		cash_stash = new ArrayList<Cookie>();
 		if(cash_data!=null) {
-			cash_stash = new ArrayList<Cookie>();
 			for(int i=0; i<cash_data.size(); i++) {
 				cash_stash.add(new Cookie(game, board, cash_data.get(i), true));
 			}
 		}
 		ArrayList<SaveData> shield_data = sd.getSaveDataList("shieldstash");
+		shield_stash = new ArrayList<CookieShield>();
 		if(shield_data!=null) {
-			shield_stash = new ArrayList<CookieShield>();
 			for(int i=0; i<shield_data.size(); i++) {
 				shield_stash.add(new CookieShield(game, board, shield_data.get(i)));
 			}
 		}
 		ArrayList<SaveData> stat_data = sd.getSaveDataList("statstash");
+		stat_stash = new ArrayList<CookieStat>();
 		if(stat_data!=null) {
-			stat_stash = new ArrayList<CookieStat>();
 			for(int i=0; i<stat_data.size(); i++) {
 				stat_stash.add(new CookieStat(game, board, stat_data.get(i)));
 			}
 		}
 		SaveData allItemData = sd.getSaveDataList("itemstash").get(0);
+		item_stash = new ArrayList<ArrayList<CookieItem>>();
 		if(allItemData!=null) {
-			item_stash = new ArrayList<ArrayList<CookieItem>>();
 			for(int i=0; i<allItemData.numTags(); i++) {
 				ArrayList<SaveData> itemData = allItemData.getSaveDataList("slot"+i);
 				if(itemData!=null) {
@@ -196,8 +196,8 @@ public abstract class Entity {
 			}
 		}
 		ArrayList<SaveData> part_data = sd.getSaveDataList("segments");
+		parts = new ArrayList<Segment>();
 		if(part_data!=null) {
-			parts = new ArrayList<Segment>();
 			for(int i=0; i<part_data.size(); i++) {
 				parts.add(Segment.loadFromData(board, this, part_data.get(i)));
 			}

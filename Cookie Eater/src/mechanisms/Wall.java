@@ -66,7 +66,7 @@ public class Wall extends Mechanism{
 		oy = sd.getDouble("origin",1);
 	}
 	public SaveData getSaveData() {
-		SaveData data = new SaveData();
+		SaveData data = super.getSaveData();
 		data.addData("dimensions",w,0);
 		data.addData("dimensions",h,1);
 		data.addData("radius",r);
