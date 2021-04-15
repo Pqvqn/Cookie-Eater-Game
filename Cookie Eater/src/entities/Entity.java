@@ -294,9 +294,11 @@ public abstract class Entity {
 		}
 		SaveData itemData = new SaveData();
 		for(int i=0; i<item_stash.size(); i++) {
-			for(int j=0; j<item_stash.get(i).size(); j++) {
+			int j;
+			for(j=0; j<item_stash.get(i).size(); j++) {
 				itemData.addData("slot"+i,item_stash.get(i).get(j).getSaveData(),i);
 			}
+			itemData.addData("slot"+i,"null",j);
 		}
 		data.addData("itemstash",itemData);
 		

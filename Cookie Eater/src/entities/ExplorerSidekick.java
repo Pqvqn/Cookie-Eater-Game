@@ -44,6 +44,7 @@ public class ExplorerSidekick extends Explorer{
 	}
 	public ExplorerSidekick(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
+		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 	}
 	public String getName() {return "Sidekick";}
 	public void runEnds() {

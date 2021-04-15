@@ -136,7 +136,7 @@ public class SaveData {
 			Object o = get.get(i);
 			if(o instanceof SaveData) {
 				ret.add((SaveData)o);
-			}else {
+			}else if(o.toString().contains(savedataOpen) && o.toString().contains(savedataClose)){
 				ret.add(new SaveData(o.toString()));
 			}
 		}

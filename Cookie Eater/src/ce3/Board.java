@@ -157,6 +157,7 @@ public class Board{
 				players.add(new Eater(game,this,playerData.get(i),cycletime));
 			}
 		}
+		if(mode==LEVELS)player=players.get(0);
 		ArrayList<SaveData> npcData = data.getSaveDataList("explorers");
 		npcs = new ArrayList<Explorer>();
 		if(npcData!=null) {

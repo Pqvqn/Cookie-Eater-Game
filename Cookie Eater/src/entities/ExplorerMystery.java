@@ -44,6 +44,7 @@ public class ExplorerMystery extends Explorer{
 				part = (SegmentCircle)testPart;
 			}
 		}
+		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 	}
 	public String getName() {return "Mystery";}
 	public void runEnds() {

@@ -132,10 +132,11 @@ public class Eater extends Entity{
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",mr[i/2][i%2],i);
 		}
-		
-		for(int i=0; i<pickups.size(); i++) {
-			data.addData("pickupstash",pickups.get(i).getSaveData(),i);
-		}	
+		int j;
+		for(j=0; j<pickups.size(); j++) {
+			data.addData("pickupstash",pickups.get(j).getSaveData(),j);
+		}
+		data.addData("pickupstash","null",j);
 		return data;
 	}
 	public int getDir() {return direction;}
