@@ -150,6 +150,7 @@ public abstract class Entity {
 		shielded = sd.getBoolean("shielded",0);
 		ghost = sd.getBoolean("ghosted",0);
 		lock = sd.getBoolean("locked",0);
+		ded = sd.getBoolean("dead",0);
 		
 		ArrayList<SaveData> summon_data = sd.getSaveDataList("summons");
 		summons = new ArrayList<Summon>();
@@ -256,6 +257,7 @@ public abstract class Entity {
 		data.addData("shielded",shielded);
 		data.addData("ghosted",ghost);
 		data.addData("locked",lock);
+		data.addData("dead",ded);
 		
 		for(int i=0; i<parts.size(); i++) {
 			data.addData("segments",parts.get(i).getSaveData(),i);

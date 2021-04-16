@@ -43,6 +43,7 @@ public class Draw extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(board.currFloor!=null)updateBG();
 	}
 	
 	public void update(Graphics g) {

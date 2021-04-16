@@ -81,8 +81,8 @@ public class Explorer extends Entity{
 		
 
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
+		pickups = new ArrayList<CookieItem>();
 		if(pickup_data!=null) {
-			pickups = new ArrayList<CookieItem>();
 			for(int i=0; i<pickup_data.size(); i++) {
 				pickups.add(new CookieItem(game, board, pickup_data.get(i)));
 			}
@@ -105,8 +105,8 @@ public class Explorer extends Entity{
 		}
 
 		ArrayList<SaveData> sell_data = sd.getSaveDataList("sellstash");
+		to_sell = new ArrayList<CookieStore>();
 		if(sell_data!=null) {
-			to_sell = new ArrayList<CookieStore>();
 			for(int i=0; i<sell_data.size(); i++) {
 				CookieStore disp;
 				to_sell.add(disp = CookieStore.loadFromData(game, board, sell_data.get(i)));
@@ -115,8 +115,8 @@ public class Explorer extends Entity{
 		}
 		
 		ArrayList<SaveData> display_data = sd.getSaveDataList("displaystash");
+		on_display = new ArrayList<CookieStore>();
 		if(display_data!=null) {
-			on_display = new ArrayList<CookieStore>();
 			for(int i=0; i<display_data.size(); i++) {
 				CookieStore disp;
 				on_display.add(disp = CookieStore.loadFromData(game, board, display_data.get(i)));

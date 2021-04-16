@@ -76,7 +76,7 @@ public abstract class Enemy extends Entity{
 	public void runUpdate() {
 		super.runUpdate();
 		if(ded)return;
-		if(Math.random()>.999 && !getPowerups().isEmpty()) {
+		if(Math.random()>.999 && currSpecial>=0 && !getPowerups().isEmpty()) {
 			special(0); 
 		}
 		orientParts();

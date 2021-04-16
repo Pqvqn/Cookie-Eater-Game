@@ -92,6 +92,7 @@ public class Eater extends Entity{
 		state = sd.getInteger("state",0);
 		cash = sd.getDouble("cash",0);
 		coloration = new Color(sd.getInteger("color",0));
+		dO = sd.getBoolean("do",0);
 		
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
 		if(pickup_data!=null) {
@@ -128,6 +129,7 @@ public class Eater extends Entity{
 		data.addData("state",state);
 		data.addData("cash",cash);
 		data.addData("color",coloration.getRGB());
+		data.addData("do",dO);
 		
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",mr[i/2][i%2],i);
