@@ -25,8 +25,6 @@ public class Floor5 extends Level{
 		scale = .6;
 		minDecay = 90;
 		maxDecay = 3000;
-		nodes = new ArrayList<int[]>();
-		lines = new ArrayList<int[]>();
 		bgColor = new Color(150,90,40);
 		wallColor = new Color(50,20,10);
 	}

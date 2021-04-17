@@ -46,6 +46,8 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
+		nodes = new ArrayList<int[]>();
+		lines = new ArrayList<int[]>();
 	}
 	public Level(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
 		next = nextFloor;
@@ -63,6 +65,8 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
+		nodes = new ArrayList<int[]>();
+		lines = new ArrayList<int[]>();
 	}
 	
 	public static Level loadFromData(Game frame, Board gameboard, SaveData sd) {

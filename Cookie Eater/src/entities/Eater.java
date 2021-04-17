@@ -93,6 +93,8 @@ public class Eater extends Entity{
 		cash = sd.getDouble("cash",0);
 		coloration = new Color(sd.getInteger("color",0));
 		dO = sd.getBoolean("do",0);
+		score = sd.getInteger("score",0);
+		scoreToWin = sd.getInteger("score",1);
 		
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
 		if(pickup_data!=null) {
@@ -130,6 +132,8 @@ public class Eater extends Entity{
 		data.addData("cash",cash);
 		data.addData("color",coloration.getRGB());
 		data.addData("do",dO);
+		data.addData("score",score,0);
+		data.addData("score",scoreToWin,1);
 		
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",mr[i/2][i%2],i);
@@ -417,7 +421,6 @@ public class Eater extends Entity{
 		}
 	}
 	public void updateUI() {
-		
 		//items
 		if(itemDisp==null)initUI();
 		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
