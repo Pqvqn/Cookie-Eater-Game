@@ -451,7 +451,8 @@ public abstract class Entity {
 			}
 			//test collision with level mechamisms
 			if(!ghost) {
-				for(Mechanism m : board.mechanisms) {
+				for(int i=0; i<board.mechanisms.size(); i++) {
+					Mechanism m = board.mechanisms.get(i);
 					Area ma = m.getArea();
 					if(collidesWithArea(false,ma)) {
 						double[] point = Level.areasHitPoint(ma,getArea(false));
@@ -813,6 +814,9 @@ public abstract class Entity {
 		cash_stash = new ArrayList<Cookie>();
 		shield_stash = new ArrayList<CookieShield>();
 		item_stash = new ArrayList<ArrayList<CookieItem>>();
+		for(int i=0; i<(board.mode==Board.PVP?1:3); i++) {
+			item_stash.add(new ArrayList<CookieItem>());
+		}
 		stat_stash = new ArrayList<CookieStat>();
 	}
 	public double getDecayedValue() {return decayed_value;}
