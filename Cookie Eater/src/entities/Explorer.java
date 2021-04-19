@@ -177,7 +177,7 @@ public class Explorer extends Entity{
 	}
 	//return Explorer created by SaveData, testing for correct type of Explorer
 	public static Explorer loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
-		//enemy subclasses
+		//explorer subclasses
 		Class[] explorertypes = {ExplorerMechanic.class, ExplorerMystery.class, ExplorerShopkeep.class, ExplorerSidekick.class,ExplorerVendor.class};
 		String thistype = sd.getString("type",0);
 		for(int i=0; i<explorertypes.length; i++) {
@@ -193,7 +193,7 @@ public class Explorer extends Entity{
 			}
 
 		}
-		//default to blob
+		//default to mechanic
 		return new ExplorerMechanic(frame, gameboard, sd, cycle);
 	}
 	public Level getResidence() {return residence;}

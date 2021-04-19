@@ -99,6 +99,7 @@ public class Board{
 	public Board(Game g, SaveData data, int cycle) {
 		game = g;
 		cycletime = cycle;		
+		menus = new ArrayList<Menu>();
 		
 		savename = data.getString("savename",0);
 		mode = data.getInteger("mode",0);
@@ -170,6 +171,7 @@ public class Board{
 		if(presnpcData!=null) {
 			for(int i=0; i<presnpcData.size(); i++) {
 				Explorer ex = Explorer.loadFromData(game,this,presnpcData.get(i),cycletime);
+				ex.spawn();
 				npcs.add(ex);
 				present_npcs.add(ex);
 			}
@@ -203,11 +205,10 @@ public class Board{
 		mechanisms = new ArrayList<Mechanism>();
 		if(mechData!=null) {
 			for(int i=0; i<mechData.size(); i++) {
-				mechanisms.add(new Mechanism(game, this, mechData.get(i)));
+				mechanisms.add(Mechanism.loadFromData(game, this, mechData.get(i)));
 			}
 		}
 		
-		menus = new ArrayList<Menu>();
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
 	}

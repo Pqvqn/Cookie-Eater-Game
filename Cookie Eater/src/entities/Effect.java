@@ -32,7 +32,7 @@ public abstract class Effect extends Entity{
 	}
 	//return Effect created by SaveData, testing for correct type of Effect
 	public static Effect loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
-		//enemy subclasses
+		//effect subclasses
 		Class[] effecttypes = {EffectClone.class, EffectExplosion.class};
 		String thistype = sd.getString("type",0);
 		for(int i=0; i<effecttypes.length; i++) {
@@ -48,7 +48,7 @@ public abstract class Effect extends Entity{
 			}
 
 		}
-		//default to blob
+		//default to explosion
 		return new EffectExplosion(frame, gameboard, sd, cycle);
 	}
 	
