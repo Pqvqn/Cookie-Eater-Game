@@ -480,6 +480,7 @@ public class Board{
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
+		createSave();
 	}
 	
 	public void loadDungeon(int num) {

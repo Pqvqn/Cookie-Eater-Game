@@ -188,7 +188,7 @@ public abstract class Entity {
 			for(int i=0; i<allItemData.numTags(); i++) {
 				ArrayList<SaveData> itemData = allItemData.getSaveDataList("slot"+i);
 				if(itemData!=null) {
-					item_stash.add(0, new ArrayList<CookieItem>());
+					item_stash.add(i, new ArrayList<CookieItem>());
 					for(int j=0; j<itemData.size(); j++) {
 						CookieItem ci = new CookieItem(game, board, itemData.get(j));
 						item_stash.get(i).add(ci);

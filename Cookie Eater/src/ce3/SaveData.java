@@ -109,10 +109,13 @@ public class SaveData {
 	}
 	//get info by its tag
 	public Object getData(String tag, int index) {
+		if(!dataStorage.containsKey(tag))return null;
 		return dataStorage.get(tag).get(index);
 	}
 	//get info in string form
 	public String getString(String tag, int index) {
+		Object o = getData(tag,index);
+		if(o==null)return null;
 		return getData(tag,index).toString();
 	}
 	//get info in double form

@@ -76,7 +76,9 @@ public class Cookie {
 	}
 	//return Cookie created by SaveData, testing for correct type of Cookie
 	public static Cookie loadFromData(Game frame, Board gameboard, SaveData sd) {
-		switch(sd.getString("type",0)) {
+		String s = sd.getString("type",0);
+		if(s==null)return new Cookie(frame, gameboard, sd, true);
+		switch(s) {
 		case "item":
 			return new CookieItem(frame, gameboard, sd);
 		case "shield":
