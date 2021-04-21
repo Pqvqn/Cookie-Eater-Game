@@ -32,8 +32,12 @@ public class EnemyParasite extends Enemy{
 				blob = (SegmentCircle)testPart;
 			}
 		}
-		stickPoint[0] = sd.getDouble("stickpoint",0);
-		stickPoint[1] = sd.getDouble("stickpoint",1);
+		if(sd.getData("stickpoint")!=null){
+			stickPoint[0] = sd.getDouble("stickpoint",0);
+			stickPoint[1] = sd.getDouble("stickpoint",1);
+		}else {
+			stickPoint = new double[2];
+		}
 		try {
 			sprite = new SpriteEnemy(board,blob,imgs);
 		} catch (IOException e) {

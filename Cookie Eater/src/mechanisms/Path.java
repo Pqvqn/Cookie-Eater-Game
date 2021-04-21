@@ -34,7 +34,7 @@ public class Path {
 		updates = 0;
 		
 		ArrayList<Object> pos = sd.getData("positions");
-		positions = new double[pos.size()][2];
+		positions = new double[pos.size()/2][2];
 		for(int i=0; i<pos.size(); i++) {
 			positions[i/2][i%2] = Double.parseDouble(pos.get(i).toString());
 		}
@@ -49,7 +49,7 @@ public class Path {
 			modes[i] = Integer.parseInt(mod.get(i).toString());
 		}
 		ArrayList<Object> siz = sd.getData("sizes");
-		sizes = new double[siz.size()][2];
+		sizes = new double[siz.size()/2][2];
 		for(int i=0; i<siz.size(); i++) {
 			sizes[i/2][i%2] = Double.parseDouble(siz.get(i).toString());
 		}
@@ -62,6 +62,7 @@ public class Path {
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
+		data.addData("checkpoint",checkpoint);
 		for(int i=0; i<positions.length; i++) {
 			data.addData("positions",positions[i][0],2*i);
 			data.addData("positions",positions[i][1],2*i+1);
