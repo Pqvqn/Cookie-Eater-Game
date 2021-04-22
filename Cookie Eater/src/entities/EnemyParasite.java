@@ -33,6 +33,7 @@ public class EnemyParasite extends Enemy{
 			}
 		}
 		if(sd.getData("stickpoint")!=null){
+			stickPoint = new double[2];
 			stickPoint[0] = sd.getDouble("stickpoint",0);
 			stickPoint[1] = sd.getDouble("stickpoint",1);
 		}else {

@@ -113,11 +113,16 @@ public class ExplorerSidekick extends Explorer{
 			}
 			
 			if(!item_stash.isEmpty() && (stateIs("Relationship","Partners") || stateIs("Relationship","Friends"))) {
-				int randomSlot = (int)(Math.random()*item_stash.size());
-				CookieItem c = item_stash.get(randomSlot).get((int)(Math.random()*item_stash.get(randomSlot).size()));
-				setState("ToSell",c.getItem().getName());
-				setState("AskPrice",""+((int)(Math.random()*20)*.5+30));
-				setState("Selling","Not");
+				for(int i=0; i<item_stash.size(); i++) {
+					if(item_stash.get(i).isEmpty()) {
+						int randomIndex = (int)(Math.random()*item_stash.get(i).size());
+						CookieItem c = item_stash.get(i).get(randomIndex);
+						setState("ToSell",c.getItem().getName());
+						setState("AskPrice",""+((int)(Math.random()*20)*.5+30));
+						setState("Selling","Not");
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -198,6 +203,7 @@ public class ExplorerSidekick extends Explorer{
 						board.player().giveCookie(c);
 						removeItem(i,c); //this could be problematic
 						i=item_stash.size();
+						break;
 					}
 				}
 			}

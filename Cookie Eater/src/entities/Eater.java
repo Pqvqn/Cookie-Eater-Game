@@ -269,9 +269,8 @@ public class Eater extends Entity{
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		if(board.mode == Board.LEVELS) {
-			board.nextLevel();
-			score = 0;
 			reset();
+			board.nextLevel();
 		}else if(board.mode == Board.PVP) {
 			try { //movement freeze
 				Thread.sleep(200);

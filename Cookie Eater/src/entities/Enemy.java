@@ -39,6 +39,7 @@ public abstract class Enemy extends Entity{
 		targetx = sd.getDouble("target",0);
 		targety = sd.getDouble("target",1);
 		imgs = new ArrayList<String>();
+		explorerTarget = targetExplorer();
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
