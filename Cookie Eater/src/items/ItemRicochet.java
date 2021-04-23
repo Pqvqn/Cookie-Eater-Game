@@ -11,8 +11,8 @@ public class ItemRicochet extends Item{
 	private int duration;
 	private ArrayList<EffectExplosion> booms;
 	
-	public ItemRicochet(Game frame) {
-		super(frame);
+	public ItemRicochet(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		maxRad = 150;
 		duration = 250;
 		booms = new ArrayList<EffectExplosion>();

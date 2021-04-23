@@ -10,8 +10,8 @@ public class ItemClone extends Item{
 	private ArrayList<EffectClone> clones;
 	private final boolean[][] states = {{false,false},{true,true},{true,false},{false,true}};
 	
-	public ItemClone(Game frame) {
-		super(frame);
+	public ItemClone(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		clones = new ArrayList<EffectClone>();
 		num = 1;
 		name = "Clone";

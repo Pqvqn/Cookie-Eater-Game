@@ -10,8 +10,8 @@ public class ItemSummonMelee extends Item{
 	private Summon summon;
 	private int hitpoints;
 	
-	public ItemSummonMelee(Game frame) {
-		super(frame);
+	public ItemSummonMelee(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		hitpoints = 0;
 		name = "Melee";
 		desc="Items affect a separate summoned entity that is anchored to the player. `Amplify- Summon gains health";

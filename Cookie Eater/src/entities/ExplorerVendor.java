@@ -56,7 +56,7 @@ public class ExplorerVendor extends Explorer{
 			if(choose<=1) {
 				addRandomly(new CookieShield(game,board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -96,7 +96,7 @@ public class ExplorerVendor extends Explorer{
 			if(choose<=1) {
 				addRandomly(new CookieShield(game,board,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}

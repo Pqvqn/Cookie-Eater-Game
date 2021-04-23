@@ -12,8 +12,8 @@ public class ItemRepeat extends Item{
 	private int wait;
 	private ArrayList<CookieItem> items;
 	
-	public ItemRepeat(Game frame) {
-		super(frame);
+	public ItemRepeat(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		ratio = 2;
 		name = "Repeat";
 		desc="Pauses and restarts all items.`Amplify- Number of restarts increases";

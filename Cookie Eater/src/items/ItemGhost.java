@@ -7,8 +7,8 @@ public class ItemGhost extends Item{
 	private int initod;
 	private double lastx, lasty; //last position of user where they weren't inside something
 	
-	public ItemGhost(Game frame) {
-		super(frame);
+	public ItemGhost(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		name = "Ghost";
 		desc="Player goes through walls.`Amplify- Accessible area offscreen increases";
 		offstage_dist = 0;

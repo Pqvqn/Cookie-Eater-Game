@@ -6,8 +6,8 @@ public class ItemFlow extends Item{
 	private double inituse;
 	private double rate;
 	
-	public ItemFlow(Game frame) {
-		super(frame);
+	public ItemFlow(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		name = "Flow";
 		desc="High speed decreases special bar usage.`Amplify- Speed to time conversion becomes more severe";
 		rate = 1.2;

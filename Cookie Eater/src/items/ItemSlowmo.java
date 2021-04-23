@@ -8,8 +8,8 @@ public class ItemSlowmo extends Item{
 	private boolean initcc; //starting boolean for checking calibration
 	private double initact; //starting adjusted cycle time
 	
-	public ItemSlowmo(Game frame) {
-		super(frame);
+	public ItemSlowmo(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		prop = .5;
 		name = "Slowmo";
 		desc="Slows down time.`Amplify- Slowing factor increases";

@@ -16,9 +16,9 @@ public abstract class Item {
 	protected String desc;
 	protected boolean isplayer;
 	
-	public Item(Game frame) {
+	public Item(Game frame, Board gameboard) {
 		game = frame;
-		board = game.board;
+		board = gameboard;
 		user = null;
 		amps=0;
 		cancel = false;
@@ -27,6 +27,7 @@ public abstract class Item {
 	}
 	//resets variables from constructor based on SaveData values
 	public void loadFromData(SaveData sd) {
+		System.out.println(board);
 		name = sd.getString("name",0);
 		desc = sd.getString("description",0);
 		int neededAmps = sd.getInteger("amplifies",0);
@@ -102,62 +103,62 @@ public abstract class Item {
 	public String getDesc() {return desc;}
 	
 	//creates an item from its name
-	public static Item generateItem(Game game, String i) {
+	public static Item generateItem(Game game, Board board, String i) {
 			Item b;
 			switch(i) {
 			case "Boost":
-				b = new ItemBoost(game);
+				b = new ItemBoost(game,board);
 				break;
 			/*case "Bounce":
 				b = new ItemBounce(game);
 				break;*/
 			case "Circle":
-				b = new ItemCircle(game);
+				b = new ItemCircle(game,board);
 				break;
 			case "Chain":
-				b = new ItemCookieChain(game);
+				b = new ItemCookieChain(game,board);
 				break;
 			case "Field":
-				b = new ItemField(game);
+				b = new ItemField(game,board);
 				break;
 			case "Hold":
-				b = new ItemHold(game);
+				b = new ItemHold(game,board);
 				break;
 			case "Recycle":
-				b = new ItemRecycle(game);
+				b = new ItemRecycle(game,board);
 				break;
 			case "Shield":
-				b = new ItemShield(game);
+				b = new ItemShield(game,board);
 				break;
 			case "Slowmo":
-				b = new ItemSlowmo(game);
+				b = new ItemSlowmo(game,board);
 				break;
 			case "Ghost":
-				b = new ItemGhost(game);
+				b = new ItemGhost(game,board);
 				break;
 			case "Return":
-				b = new ItemReturn(game);
+				b = new ItemReturn(game,board);
 				break;
 			case "Teleport":
-				b = new ItemTeleport(game);
+				b = new ItemTeleport(game,board);
 				break;
 			/*case "Jab":
 				b = new ItemJab(game);
 				break;*/
 			case "Repeat":
-				b = new ItemRepeat(game);
+				b = new ItemRepeat(game,board);
 				break;
 			/*case "Projectile":
 				b = new ItemProjectile(game);
 				break;*/
 			case "Rebound":
-				b = new ItemRebound(game);
+				b = new ItemRebound(game,board);
 				break;
 			case "Clone":
-				b = new ItemClone(game);
+				b = new ItemClone(game,board);
 				break;
 			case "Ricochet":
-				b = new ItemRicochet(game);
+				b = new ItemRicochet(game,board);
 				break;
 			/*case "Slash":
 				b = new ItemSlash(game);
@@ -166,25 +167,25 @@ public abstract class Item {
 				b = new ItemWall(game);
 				break;*/
 			case "Shrink":
-				b = new ItemShrink(game);
+				b = new ItemShrink(game,board);
 				break;
 			/*case "Hook":
 				b = new ItemHook(game);
 				break;*/
 			case "Autopilot":
-				b = new ItemAutopilot(game);
+				b = new ItemAutopilot(game,board);
 				break;
 			case "Flow":
-				b = new ItemFlow(game);
+				b = new ItemFlow(game,board);
 				break;
 			case "Recharge":
-				b = new ItemRecharge(game);
+				b = new ItemRecharge(game,board);
 				break;
 			case "Melee":
-				b = new ItemSummonMelee(game);
+				b = new ItemSummonMelee(game,board);
 				break;
 			case "Projectile":
-				b = new ItemSummonProjectile(game);
+				b = new ItemSummonProjectile(game,board);
 				break;
 			default:
 				b = null;

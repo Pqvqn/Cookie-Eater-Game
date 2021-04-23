@@ -11,8 +11,8 @@ public class ItemAutopilot extends Item{
 	private double searchRadius;
 	private boolean velCheck; //whether this cycle should be skipped to account for directional changes
 	
-	public ItemAutopilot(Game frame) {
-		super(frame);
+	public ItemAutopilot(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		speedy = 5;
 		searchRadius = 100;
 		name = "Autopilot";

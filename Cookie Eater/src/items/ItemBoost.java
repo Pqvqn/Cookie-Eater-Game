@@ -7,8 +7,8 @@ public class ItemBoost extends Item{
 	private double dir;
 	private double initx, inity;
 	
-	public ItemBoost(Game frame) {
-		super(frame);
+	public ItemBoost(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		speedy = 30;
 		name = "Boost";
 		desc="Zooms forward`Amplify- Speed increases";

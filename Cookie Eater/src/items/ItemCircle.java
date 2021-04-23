@@ -9,8 +9,8 @@ public class ItemCircle extends Item{
 	private double radians;
 	private double initx,inity;
 	
-	public ItemCircle(Game frame) {
-		super(frame);
+	public ItemCircle(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		count = 0;
 		radians = 0;
 		name = "Circle";

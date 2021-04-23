@@ -6,8 +6,8 @@ public class ItemReturn extends Item{
 	private double x,y;
 	private int amp;
 	
-	public ItemReturn(Game frame) {
-		super(frame);
+	public ItemReturn(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		amp = 1;
 		name = "Return";
 		desc="Sends user back to starting point of special.`Amplify- Longer game freeze on return";

@@ -114,7 +114,7 @@ public class ExplorerSidekick extends Explorer{
 			
 			if(!item_stash.isEmpty() && (stateIs("Relationship","Partners") || stateIs("Relationship","Friends"))) {
 				for(int i=0; i<item_stash.size(); i++) {
-					if(item_stash.get(i).isEmpty()) {
+					if(!item_stash.get(i).isEmpty()) {
 						int randomIndex = (int)(Math.random()*item_stash.get(i).size());
 						CookieItem c = item_stash.get(i).get(randomIndex);
 						setState("ToSell",c.getItem().getName());
@@ -236,7 +236,7 @@ public class ExplorerSidekick extends Explorer{
 	
 	public void createStash() {
 		super.createStash();
-		giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,"Ghost"),0));
+		giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,board,"Ghost"),0));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));

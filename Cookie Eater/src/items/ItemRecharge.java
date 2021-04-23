@@ -6,8 +6,8 @@ public class ItemRecharge extends Item{
 	private double cash;
 	private double chargeamount; //cookie value needed to recharge first time
 	
-	public ItemRecharge(Game frame) {
-		super(frame);
+	public ItemRecharge(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		chargeamount = 5;
 		name = "Recharge";
 		desc="If enough cookies taken, special can be instantly reinitiated.`Amplify- Less cookies to charge";

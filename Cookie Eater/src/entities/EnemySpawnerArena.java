@@ -156,7 +156,7 @@ public class EnemySpawnerArena extends Enemy{
 				possible.add("Projectile");
 				possible.add("Teleport");
 				newE.giveCookie(new CookieItem(game,board,0,0,
-						Item.generateItem(game,possible.get((int)(Math.random()*possible.size()))),(int)(Math.random()*50)+10));
+						Item.generateItem(game,board,possible.get((int)(Math.random()*possible.size()))),(int)(Math.random()*50)+10));
 			}
 				
 		}

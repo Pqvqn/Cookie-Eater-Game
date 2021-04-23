@@ -10,8 +10,8 @@ public class ItemSummonProjectile extends Item{
 	private Summon summon;
 	private int hitpoints;
 	
-	public ItemSummonProjectile(Game frame) {
-		super(frame);
+	public ItemSummonProjectile(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		hitpoints = 0;
 		name = "Projectile";
 		desc="Items affect a separate summoned entity that is free from the player. `Amplify- Summon gains health";

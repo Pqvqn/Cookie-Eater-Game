@@ -7,8 +7,8 @@ public class ItemCookieChain extends Item{
 	private int time;
 	private int count;
 	
-	public ItemCookieChain(Game frame) {
-		super(frame);
+	public ItemCookieChain(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		name = "Chain";
 		desc="Grabbing cookies increases special time length.`Amplify- More time per cookie";
 	}

@@ -13,8 +13,8 @@ public class ItemRebound extends Item{
 	private int total;
 	private ArrayList<CookieItem> items;
 	
-	public ItemRebound(Game frame) {
-		super(frame);
+	public ItemRebound(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		consta = 2;
 		name = "Rebound";
 		desc="Amplifies items after bouncing`Amplify- Amplifies after less bounces";

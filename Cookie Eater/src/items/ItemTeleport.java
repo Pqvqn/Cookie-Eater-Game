@@ -7,8 +7,8 @@ public class ItemTeleport extends Item{
 	private Cookie target;
 	private int amp;
 	
-	public ItemTeleport(Game frame) {
-		super(frame);
+	public ItemTeleport(Game frame, Board gameboard) {
+		super(frame,gameboard);
 		amp = 1;
 		name = "Teleport";
 		desc="Teleports user to farthest cookie.`Amplify- Longer game freeze on teleport";
