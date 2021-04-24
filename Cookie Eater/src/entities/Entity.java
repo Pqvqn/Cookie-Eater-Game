@@ -942,7 +942,7 @@ public abstract class Entity {
 	public int getCurrentSpecial() {return currSpecial;}
 	public double getSpecialUseSpeed() {return special_use_speed;}
 	public void setSpecialUseSpeed(double sus) {special_use_speed = sus;}
-	public ArrayList<CookieItem> getPowerups() {System.out.println(currSpecial);return item_stash.get(currSpecial);}
+	public ArrayList<CookieItem> getPowerups() {return item_stash.get(currSpecial);}
 	public ArrayList<ArrayList<CookieItem>> getItems() {return item_stash;}
 	
 	public int getOffstage() {return offstage;}

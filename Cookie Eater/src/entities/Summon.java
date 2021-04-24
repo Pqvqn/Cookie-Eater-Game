@@ -113,7 +113,7 @@ public class Summon extends Entity{
 	//give items back to user
 	public void regurgitateItems() {
 		ArrayList<CookieItem> items = new ArrayList<CookieItem>();
-		for(CookieItem i : getPowerups())items.add(i);
+		for(ArrayList<CookieItem> slot: item_stash)for(CookieItem i : slot)items.add(i);
 		for(int i=0; i<items.size(); i++) {
 			Item it = items.get(i).getItem();
 			it.end(true);

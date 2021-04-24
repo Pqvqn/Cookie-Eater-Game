@@ -27,7 +27,6 @@ public abstract class Item {
 	}
 	//resets variables from constructor based on SaveData values
 	public void loadFromData(SaveData sd) {
-		System.out.println(board);
 		name = sd.getString("name",0);
 		desc = sd.getString("description",0);
 		int neededAmps = sd.getInteger("amplifies",0);
