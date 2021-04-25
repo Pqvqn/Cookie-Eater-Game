@@ -10,7 +10,7 @@ import sprites.*;
 
 public class CookieStat extends CookieStore{
 
-	public static final double[][] MR = {{.2,1},{5,15},{.05,.3}};
+	public static final double[][] MR = {{.2,1},{5,15},{.8,.9}};
 	private double accelChange;
 	private double maxvelChange;
 	private double fricChange;

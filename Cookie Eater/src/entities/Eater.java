@@ -333,9 +333,9 @@ public class Eater extends Entity{
 	}
 	//gives player average of each stat
 	public void averageStats() {
-		acceleration=mr[0][1]/2+mr[0][0];
-		max_velocity=mr[1][1]/2+mr[1][0];
-		friction=mr[2][1]/2+mr[2][0];
+		acceleration=(mr[0][1]+mr[0][0])/2;
+		max_velocity=(mr[1][1]+mr[1][0])/2;
+		friction=(mr[2][1]+mr[2][0])/2;
 		colorize();
 		calibrateStats();
 	}

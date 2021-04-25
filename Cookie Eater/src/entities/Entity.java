@@ -620,7 +620,8 @@ public abstract class Entity {
 		accel = acceleration*scale*calibration_ratio*calibration_ratio;
 		maxvel = max_velocity*scale*calibration_ratio;
 		termvel = terminal_velocity*scale*calibration_ratio;
-		fric = 1-Math.pow(friction, calibration_ratio*6);
+		fric = Math.pow(friction, calibration_ratio);
+		System.out.println(friction);
 		minrec = min_recoil*scale*calibration_ratio;
 		maxrec = max_recoil*scale*calibration_ratio;
 		
