@@ -136,7 +136,7 @@ public abstract class Store extends Level{
 		board.walls.add(new Wall(game,board,board.x_resol-130,board.y_resol-350,130,350));
 		
 		//add cases to every item
-		int caseWidth = 70;
+		int caseWidth = 80;
 		for(int i=0; i<vendorSpaces.length; i++) {
 			for(int j=1; j<vendorSpaces[i].length; j++) {
 				//board.walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));

@@ -43,7 +43,7 @@ public class EnemyBloc extends Enemy{
 	public void averageStats() {
 		acceleration=.5;
 		max_velocity=5;
-		friction=.15;
+		friction=.85;
 		terminal_velocity=50;
 		calibrateStats();
 	}

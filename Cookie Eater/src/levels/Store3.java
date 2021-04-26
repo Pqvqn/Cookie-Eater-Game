@@ -9,8 +9,8 @@ public class Store3 extends Store{
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";
 		scale = .9;
-		int[][][] vs = {{{board.x_resol/2-200,board.y_resol-110} , {board.x_resol/2+200,board.y_resol-110} , {board.x_resol/2,board.y_resol-110} , {board.x_resol/2-200,board.y_resol-260} , {board.x_resol/2+200,board.y_resol-260} , {board.x_resol/2,board.y_resol-260}} ,
-				{{board.x_resol/2-200,110} , {board.x_resol/2+200,110} , {board.x_resol/2,110} , {board.x_resol/2-200,260} , {board.x_resol/2+200,260} , {board.x_resol/2,260}} };
+		int[][][] vs = {{{board.x_resol/2-200,board.y_resol-110} , {board.x_resol/2+200,board.y_resol-110} , {board.x_resol/2,board.y_resol-110} , {board.x_resol/2-200,board.y_resol-280} , {board.x_resol/2+200,board.y_resol-280} , {board.x_resol/2,board.y_resol-280}} ,
+				{{board.x_resol/2-200,110} , {board.x_resol/2+200,110} , {board.x_resol/2,110} , {board.x_resol/2-200,280} , {board.x_resol/2+200,280} , {board.x_resol/2,280}} };
 		vendorSpaces = vs;
 		int[][] ps = {{board.x_resol/2-300,400}};
 		passerbySpaces = ps;
