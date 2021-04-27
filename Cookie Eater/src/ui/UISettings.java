@@ -155,6 +155,21 @@ public class UISettings extends UIElement{
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
 		}
+		
+		//adds to player stats
+		for(int t=0; t<3; t++) {
+			for(int d=-1; d<=1; d+=2) {
+				int xs=1500, ys=100, gap=50, wid=200, hei=100; //values for placement of buttons
+				MenuButton givst = new MenuButton(game, this, null, new String[] {"give "+t+":"+d}, false, (int)(xs+(d/2.0)*(gap+wid)), ys+t*(gap+hei),wid,hei);
+				int t2 = t, d2 = d;
+				oc = () -> {
+					getSelectedPlayer().hitCookie(new CookieStat(game,board,0,0,t2,d2,1));
+				};
+				givst.setClick(oc);
+				menuHandler.addButton("DEBUG",givst);
+			}
+		}
+		
 		//shows fps
 		MenuButton fps = new MenuButton(game, this, null, new String[] {"show fps","hide fps"}, false, 1420,555,100,100);
 		oc = () -> {

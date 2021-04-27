@@ -24,7 +24,7 @@ public class Explorer extends Entity{
 	protected int min_cat, max_cat;
 	protected SpriteExplorer sprite;
 	
-	protected double[][] mr; //accel min,max-min; maxvel min,max-min; fric min,max-min
+	protected double[][] mr; //accel min,max; maxvel min,max; fric min,max
 	public static final int CORPSE=-2, NONE=-1, UP=0, RIGHT=1, DOWN=2, LEFT=3;
 	protected int direction;
 	protected Color coloration;
@@ -481,9 +481,9 @@ public class Explorer extends Entity{
 	}
 	//gives a random set of movement stats and colors accordingly
 	public void randomizeStats() {
-		acceleration = Math.random()*mr[0][1]+mr[0][0];
-		max_velocity = Math.random()*mr[1][1]+mr[1][0];
-		friction = Math.random()*mr[2][1]+mr[2][0];
+		acceleration = Math.random()*(mr[0][1]-mr[0][0])+mr[0][0];
+		max_velocity = Math.random()*(mr[1][1]-mr[1][0])+mr[1][0];
+		friction = Math.random()*(mr[2][1]-mr[2][0])+mr[2][0];
 		colorize();
 		calibrateStats();
 	}
@@ -497,7 +497,7 @@ public class Explorer extends Entity{
 	}
 	//creates color based on stats
 	public void colorize() {
-		coloration = new Color((int)((friction-mr[2][0])/mr[2][1]*255),(int)((max_velocity-mr[1][0])/mr[1][1]*255),(int)((acceleration-mr[0][0])/mr[0][1]*255));
+		coloration = new Color((int)((friction-mr[2][0])/(mr[2][1]-mr[2][0])*255),(int)((max_velocity-mr[1][0])/(mr[1][1]-mr[1][0])*255),(int)((acceleration-mr[0][0])/(mr[0][1]-mr[0][0])*255));
 	}
 	//prepares explorer at start of new level
 	public void spawn() {
@@ -510,7 +510,7 @@ public class Explorer extends Entity{
 		 convo = null;
 	}
 	public void levelComplete() {
-		if(direction == CORPSE) {
+		if(direction == CORPSE) { 
 			chooseResidence();
 			return;
 		}

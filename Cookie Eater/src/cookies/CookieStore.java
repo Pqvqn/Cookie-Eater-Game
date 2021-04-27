@@ -62,7 +62,8 @@ public abstract class CookieStore extends Cookie{
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
 		game.draw.removeUI(info);
-		board.cookies.remove(board.cookies.indexOf(this));
+		if(board.cookies.contains(this))
+			board.cookies.remove(board.cookies.indexOf(this));
 	}
 	//purchase cookie, return if purchase is successful or not
 	public boolean purchase(Entity buyer) {
