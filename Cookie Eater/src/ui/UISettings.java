@@ -163,7 +163,7 @@ public class UISettings extends UIElement{
 				MenuButton givst = new MenuButton(game, this, null, new String[] {"give "+t+":"+d}, false, (int)(xs+(d/2.0)*(gap+wid)), ys+t*(gap+hei),wid,hei);
 				int t2 = t, d2 = d;
 				oc = () -> {
-					getSelectedPlayer().hitCookie(new CookieStat(game,board,0,0,t2,d2,1));
+					getSelectedPlayer().hitCookie(new CookieStat(game,board,0,0,t2+1,d2,1));
 				};
 				givst.setClick(oc);
 				menuHandler.addButton("DEBUG",givst);

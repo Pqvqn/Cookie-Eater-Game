@@ -37,7 +37,7 @@ public class Game extends JFrame {
 	
 	public Game() {
 		super("Cookie Eater");
-		cycletime=15;
+		cycletime=5;
 		fpscheck=100;
 		skipframes = 0;
 		check_calibration = true;

@@ -10,7 +10,7 @@ import sprites.*;
 
 public class CookieStat extends CookieStore{
 
-	public static final double[][] MR = {{.2,1.2},{5,20},{.8,.9}};
+	public static final double[][] MR = {{.2,1.2},{5,20},{.99,.85}};
 	private double accelChange;
 	private double maxvelChange;
 	private double fricChange;
@@ -124,13 +124,13 @@ public class CookieStat extends CookieStore{
 			sprite = new SpriteStoreCookie(board,this,"cookieV--");
 		}else if(maxvelChange<0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieV-");
-		}else if(fricChange>increment*(MR[2][1]-MR[2][0])) {
+		}else if(fricChange>-increment*(MR[2][1]-MR[2][0])) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF++");
-		}else if(fricChange>0) {
-			sprite = new SpriteStoreCookie(board,this,"cookieF+");
-		}else if(fricChange<-increment*(MR[2][1]-MR[2][0])) {
-			sprite = new SpriteStoreCookie(board,this,"cookieF--");
 		}else if(fricChange<0) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF+");
+		}else if(fricChange<increment*(MR[2][1]-MR[2][0])) {
+			sprite = new SpriteStoreCookie(board,this,"cookieF--");
+		}else if(fricChange>0) {
 			sprite = new SpriteStoreCookie(board,this,"cookieF-");
 		}else {
 			sprite = new SpriteStoreCookie(board,this,"cookieK");

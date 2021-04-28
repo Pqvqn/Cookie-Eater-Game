@@ -179,14 +179,14 @@ public class Eater extends Entity{
 	public double[][] getMovementRand() {return mr;}
 	public void addToMovement(double a, double v, double f) {
 		acceleration += a;
-		if(acceleration>(mr[0][1]))acceleration=(mr[0][1]);
-		if(acceleration<(mr[0][0]))acceleration=(mr[0][0]);
+		if(acceleration>Math.max(mr[0][0],mr[0][1]))acceleration=Math.max(mr[0][0],mr[0][1]);
+		if(acceleration<Math.min(mr[0][0],mr[0][1]))acceleration=Math.min(mr[0][0],mr[0][1]);
 		max_velocity += v;
-		if(max_velocity>(mr[1][1]))max_velocity=(mr[1][1]);
-		if(max_velocity<(mr[1][0]))max_velocity=(mr[1][0]);
+		if(max_velocity>Math.max(mr[1][0],mr[1][1]))max_velocity=Math.max(mr[1][0],mr[1][1]);
+		if(max_velocity<Math.min(mr[1][0],mr[1][1]))max_velocity=Math.min(mr[1][0],mr[1][1]);
 		friction += f;
-		if(friction>(mr[2][1]))friction=(mr[2][1]);
-		if(friction<(mr[2][0]))friction=(mr[2][0]);
+		if(friction>Math.max(mr[2][0],mr[2][1]))friction=Math.max(mr[2][0],mr[2][1]);
+		if(friction<Math.min(mr[2][0],mr[2][1]))friction=Math.min(mr[2][0],mr[2][1]);
 		colorize();
 		calibrateStats();
 	}

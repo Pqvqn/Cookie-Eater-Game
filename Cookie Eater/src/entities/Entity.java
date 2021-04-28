@@ -110,7 +110,7 @@ public abstract class Entity {
 		acceleration = .5;
 		max_velocity = 10;
 		terminal_velocity = 50;
-		friction = .95;
+		friction = -.95;
 		min_recoil = 7;
 		max_recoil = 30;
 		
@@ -621,7 +621,7 @@ public abstract class Entity {
 		maxvel = max_velocity*scale*calibration_ratio;
 		termvel = terminal_velocity*scale*calibration_ratio;
 		fric = Math.pow(friction, calibration_ratio);
-		System.out.println(friction);
+		
 		minrec = min_recoil*scale*calibration_ratio;
 		maxrec = max_recoil*scale*calibration_ratio;
 		
