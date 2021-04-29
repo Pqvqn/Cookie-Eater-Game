@@ -23,10 +23,11 @@ public class Game extends JFrame {
 	//fps/calibration
 	private long lastFrame; //time of last frame
 	private int cycletime;
-	private int fpscheck;
+	public int fpscheck;
 	private int true_cycle;
 	private int skipframes;
 	public boolean check_calibration;
+	private boolean pause_calibration;
 	
 	//ui
 	public UIFpsCount ui_fps;
@@ -41,6 +42,7 @@ public class Game extends JFrame {
 		fpscheck=100;
 		skipframes = 0;
 		check_calibration = true;
+		pause_calibration = false;
 		
 		saveFilePath = System.getProperty("user.home")+"/Documents/CookieEater/";
 		
@@ -149,14 +151,18 @@ public class Game extends JFrame {
 	
 	public void updateUI() {
 		//fps counter
+		if(board!=null && board.isPaused()) {
+			pause_calibration = true;
+		}
 		if(fpscheck--<=0) {
 			//fps.update(lastFrame,System.currentTimeMillis());
 			true_cycle=(int)(System.currentTimeMillis()-lastFrame); 
-			if(check_calibration && board!=null){
+			if(!pause_calibration && check_calibration && board!=null){
 				board.setCalibrations(getAdjustedCycle());
 			}
 			lastFrame = System.currentTimeMillis();
 			fpscheck=100;
+			pause_calibration = false;
 		}
 		if(board!=null)board.updateUI();
 

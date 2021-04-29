@@ -387,7 +387,7 @@ public class Board{
 				}
 			}
 			//unpause if players are aimed
-			if(ready) {
+			if(ready && game.fpscheck==0) {
 				awaiting_start = false;
 			}else {
 				return true;
