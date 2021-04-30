@@ -214,6 +214,7 @@ public class Board{
 	}
 	//write data tp 
 	public void createSave() {
+		if(savename.isBlank())return;
 		SaveData data = new SaveData();
 		data.addData("savename",savename);
 		data.addData("mode",mode);
