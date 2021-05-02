@@ -11,9 +11,11 @@ public class UIInputType extends UIElement implements KeyListener{
 	private String writtenText;
 	private UIText textDisp;
 	private UIText promptDisp;
+	private OnSubmit onSubmit;
 	
-	public UIInputType(Game frame, int x, int y) {
+	public UIInputType(Game frame, int x, int y, OnSubmit os) {
 		super(frame,x,y);
+		onSubmit = os;
 		submittedText = null;
 		writtenText = "";
 		parts.add(new UIRectangle(game,xPos-300,yPos-50,600,100,new Color(0,0,0,100),true)); //backing
@@ -43,6 +45,7 @@ public class UIInputType extends UIElement implements KeyListener{
 		switch(code) {
 		case KeyEvent.VK_ENTER: //submit with enter
 			submittedText = writtenText;
+			onSubmit.submit();
 			break;
 		case KeyEvent.VK_BACK_SPACE: //undo last char
 			if(writtenText.length()>0)
@@ -52,6 +55,7 @@ public class UIInputType extends UIElement implements KeyListener{
 			if(e.getKeyChar()!=KeyEvent.CHAR_UNDEFINED)writtenText += e.getKeyChar(); //add typed letter to text
 			break;
 		}
+		update();
 	}
 
 	@Override
@@ -62,6 +66,10 @@ public class UIInputType extends UIElement implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
+	}
+	
+	public interface OnSubmit{
+		public void submit();
 	}
 	
 }

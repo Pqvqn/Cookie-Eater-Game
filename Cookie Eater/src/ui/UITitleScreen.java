@@ -6,6 +6,7 @@ import java.util.*;
 import ce3.*;
 import menus.*;
 import menus.MenuButton.*;
+import ui.UIInputType.*;
 
 public class UITitleScreen extends UIElement{
 
@@ -13,6 +14,7 @@ public class UITitleScreen extends UIElement{
 	//private UIText title;
 	private boolean visible;
 	private SubmenuHandler menuHandler;
+	private UIInputType textInput;
 	
 	public UITitleScreen(Game frame, int x, int y) {
 		super(frame, x, y);
@@ -79,28 +81,26 @@ public class UITitleScreen extends UIElement{
 		pcount.setClick(oc);
 		menuHandler.addButton("NEWGAME",pcount);
 		
-		//Scanner sc = new Scanner(System.in);
+		MenuButton setname = new MenuButton(game, this, null, new String[] {"NAME = "}, false, 1300,600,400,70);
+		oc = () -> {
+			OnSubmit os = () -> {
+				setname.setCurrStateValue(textInput.getSubmission());
+				game.removeKeyListener(textInput);
+				parts.remove(textInput);
+			};
+			textInput = new UIInputType(game, Board.DEF_X_RESOL/2,Board.DEF_Y_RESOL/2, os);
+			parts.add(textInput);
+			textInput.startText("Savename: ");
+			game.addKeyListener(textInput);
+
+		};
+		setname.setClick(oc);
+		menuHandler.addButton("NEWGAME",setname);
+		
 		MenuButton start = new MenuButton(game, this, null, new String[] {"START"}, false, 1300,700,400,200);
 		oc = () -> {
 			int[] modes = {Board.LEVELS,Board.PVP};
-			
-
-			//System.out.println("savename: "); //temp
-			String sn = null;
-			UIInputType textInput = new UIInputType(game, 500, 500);
-			textInput.startText("Savename: ");
-			parts.add(textInput);
-			game.addKeyListener(textInput);
-			while(textInput.getSubmission()==null) {
-				game.freeze(1);
-				textInput.update();
-				game.draw.repaint();
-			}
-			game.removeKeyListener(textInput);
-			parts.remove(textInput);
-			sn = textInput.getSubmission();
-			//if(sc.hasNextLine())sn = sc.nextLine();
-			game.createDungeon(sn,modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
+			game.createDungeon(setname.getState(),modes[mode.currentState()],dungeon.currentState(),pcount.currentState()+1);
 			game.ui_set.show(false);
 			//start game, load board from other buttons
 			this.hide();
