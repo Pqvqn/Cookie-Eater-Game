@@ -81,7 +81,7 @@ public class UITitleScreen extends UIElement{
 		pcount.setClick(oc);
 		menuHandler.addButton("NEWGAME",pcount);
 		
-		MenuButton setname = new MenuButton(game, this, null, new String[] {"NAME = "}, false, 1300,600,400,70);
+		MenuButton setname = new MenuButton(game, this, null, new String[] {""}, false, 1300,600,400,70);
 		oc = () -> {
 			OnSubmit os = () -> {
 				setname.setCurrStateValue(textInput.getSubmission());

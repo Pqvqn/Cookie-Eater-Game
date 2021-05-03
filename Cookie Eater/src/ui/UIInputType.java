@@ -30,6 +30,7 @@ public class UIInputType extends UIElement implements KeyListener{
 		submittedText = null;
 		writtenText = "";
 		promptDisp.setText(prompt);
+		promptDisp.center(xPos);
 	}
 	
 	
