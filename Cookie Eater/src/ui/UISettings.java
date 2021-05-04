@@ -17,9 +17,20 @@ public class UISettings extends UIElement{
 	private SubmenuHandler menuHandler;
 	private Eater player;
 	private ArrayList<MenuButton> updateList; //buttons which need to have state updated depending on which player hit settings
+	private Map<String,Object> setOptions; //options that have been set by the player and must be set
 	
 	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		Iterator<String> it = setOptions.keySet().iterator();
+		while(it.hasNext()) {
+			String key = it.next();
+			data.addData(key,setOptions.get(key),0);
+		}
+		return data;
 	}
 	
 	public void makeButtons() {
