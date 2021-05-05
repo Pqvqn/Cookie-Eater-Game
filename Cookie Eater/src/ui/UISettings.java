@@ -21,6 +21,7 @@ public class UISettings extends UIElement{
 	
 	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
+		setOptions = new HashMap<String,Object>();
 	}
 	
 	public SaveData getSaveData() {
@@ -33,7 +34,7 @@ public class UISettings extends UIElement{
 		return data;
 	}
 	
-	public void makeButtons() {
+	public void makeButtons(SaveData sd) {
 		if(menuHandler!=null)menuHandler.delete();
 		menuHandler = new SubmenuHandler("MAIN");
 		updateList = new ArrayList<MenuButton>();
@@ -77,7 +78,9 @@ public class UISettings extends UIElement{
 			}else {
 				game.audio.setMute(true);
 			}
+			setOptions.put("Volume",vol.currentState());
 		};
+		setOptions.put("Volume",vol.currentState());
 		vol.setClick(oc);
 		menuHandler.addButton("MAIN",vol);
 		
@@ -95,7 +98,9 @@ public class UISettings extends UIElement{
 				//ask board to await key press to reassign
 				keyset.setCurrStateValue(keyname+" =");
 				this.getSelectedPlayer().controls.awaitKeyBind(keyset,keybind);
+				setOptions.put(keyname,keyset.currentState());
 			};
+			setOptions.put(keyname,keyset.currentState());
 			keyset.setClick(oc);
 			menuHandler.addButton("MAIN",keyset);
 			updateList.add(keyset);
@@ -189,7 +194,9 @@ public class UISettings extends UIElement{
 			}else if(fps.currentState()==0 && game.draw.getUIList().contains(game.ui_fps)) {
 				game.draw.removeUI((game.ui_fps));
 			}
+			setOptions.put("FPS",fps.currentState());
 		};
+		setOptions.put("FPS",fps.currentState());
 		fps.setClick(oc);
 		menuHandler.addButton("DEBUG",fps);
 		
