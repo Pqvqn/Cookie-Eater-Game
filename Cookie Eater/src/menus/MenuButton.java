@@ -33,6 +33,16 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	
 	public void setClick(OnClick oc) {onClick = oc;}
 	
+	//clicks button until has the desired state
+	public void clickTo(String s) {
+		for(int i=0; i<states.length && !getState().equals(s); i++) {
+			currState++;
+			if(currState >= states.length)currState = 0;
+			ui.trigger(currState);
+			onClick.click();
+		}
+	}
+	
 	public void show(boolean s) {
 		if(s!=visible) {
 			if(s) {

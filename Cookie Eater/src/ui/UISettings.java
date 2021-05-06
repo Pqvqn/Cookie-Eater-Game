@@ -17,7 +17,7 @@ public class UISettings extends UIElement{
 	private SubmenuHandler menuHandler;
 	private Eater player;
 	private ArrayList<MenuButton> updateList; //buttons which need to have state updated depending on which player hit settings
-	private Map<String,Object> setOptions; //options that have been set by the player and must be set
+	public Map<String,Object> setOptions; //options that have been set by the player and must be set
 	
 	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
@@ -82,6 +82,7 @@ public class UISettings extends UIElement{
 		};
 		setOptions.put("Volume",vol.currentState());
 		vol.setClick(oc);
+		if(sd!=null)vol.clickTo(sd.getString("Volume",0));
 		menuHandler.addButton("MAIN",vol);
 		
 		//set controls
@@ -98,10 +99,11 @@ public class UISettings extends UIElement{
 				//ask board to await key press to reassign
 				keyset.setCurrStateValue(keyname+" =");
 				this.getSelectedPlayer().controls.awaitKeyBind(keyset,keybind);
-				setOptions.put(keyname,keyset.currentState());
+				setOptions.put(keyname,this.getSelectedPlayer().controls.getKeyBind(keybind));
 			};
 			setOptions.put(keyname,keyset.currentState());
 			keyset.setClick(oc);
+			if(sd!=null)this.getSelectedPlayer().controls.setKeyBind(keybind,sd.getInteger(keyname,0));
 			menuHandler.addButton("MAIN",keyset);
 			updateList.add(keyset);
 		}
@@ -197,6 +199,7 @@ public class UISettings extends UIElement{
 			setOptions.put("FPS",fps.currentState());
 		};
 		setOptions.put("FPS",fps.currentState());
+		if(sd!=null)fps.clickTo(sd.getString("FPS",0));
 		fps.setClick(oc);
 		menuHandler.addButton("DEBUG",fps);
 		

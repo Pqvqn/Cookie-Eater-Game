@@ -42,7 +42,9 @@ public class Controls implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		if(awaitKey!=-1) {
 			setKeyBind(awaitKey,e.getKeyCode());
-			if(awaitingButton!=null)awaitingButton.setCurrStateValue(""+KeyEvent.getKeyText(e.getKeyCode()));
+			if(awaitingButton!=null) {
+				awaitingButton.setCurrStateValue(""+KeyEvent.getKeyText(e.getKeyCode()));
+			}
 			awaitKey = -1;
 			awaitingButton = null;
 			return;
