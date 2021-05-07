@@ -39,7 +39,7 @@ public class UIText extends UIElement{
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.setFont(font);
-		width = g.getFontMetrics().stringWidth(text);
+		if(text!=null)width = g.getFontMetrics().stringWidth(text);
 		if(text!=null)g.drawString(text,xPos,yPos);
 	}
 	

@@ -119,7 +119,7 @@ public class Game extends JFrame {
 		}
 		controls = new ArrayList<Controls>();
 		board = new Board(this,name,mode,dungeon,playercount,cycletime);
-		ui_set.makeButtons();
+		ui_set.makeButtons(null);
 		boards.put(name,board);
 	}	
 	//load saved Board or create from file if not saved
@@ -145,8 +145,9 @@ public class Game extends JFrame {
 			}
 
 		}
+		ui_set.makeButtons(board.data.getSaveDataList("settings").get(0));
 
-		ui_set.makeButtons();
+
 	}
 	
 	public void updateUI() {

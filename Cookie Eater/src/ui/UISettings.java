@@ -199,8 +199,8 @@ public class UISettings extends UIElement{
 			setOptions.put("FPS",fps.currentState());
 		};
 		setOptions.put("FPS",fps.currentState());
-		if(sd!=null)fps.clickTo(sd.getString("FPS",0));
 		fps.setClick(oc);
+		if(sd!=null)fps.clickTo(sd.getString("FPS",0));
 		menuHandler.addButton("DEBUG",fps);
 		
 	}

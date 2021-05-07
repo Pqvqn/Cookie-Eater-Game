@@ -41,6 +41,8 @@ public class Board{
 	public int cycletime;
 	public HashMap<String,ArrayList<Entity>> connections; //list of entities to be connected, key is tag of entity to be given connections
 	
+	public SaveData data; //saved data for savefiles
+	
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
 	public UIConfirmation ui_cnf;
@@ -97,6 +99,7 @@ public class Board{
 		loadDungeon(dungeon);
 	}
 	public Board(Game g, SaveData data, int cycle) {
+		this.data = data;
 		game = g;
 		cycletime = cycle;		
 		menus = new ArrayList<Menu>();
@@ -215,7 +218,7 @@ public class Board{
 	//write data tp 
 	public void createSave() {
 		if(savename.isBlank())return;
-		SaveData data = new SaveData();
+		data = new SaveData();
 		data.addData("savename",savename);
 		data.addData("mode",mode);
 		data.addData("resolution",x_resol,0);
@@ -271,6 +274,7 @@ public class Board{
 			data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
 		}
 		
+		data.addData("settings",game.ui_set.getSaveData());
 		
 		
 		File f = new File(System.getProperty("user.home")+"/Documents/CookieEater/"+savename+".txt");
