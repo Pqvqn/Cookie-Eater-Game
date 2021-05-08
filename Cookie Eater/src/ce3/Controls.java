@@ -2,6 +2,7 @@ package ce3;
 
 //import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 import entities.*;
 import menus.*;
@@ -15,7 +16,7 @@ public class Controls implements KeyListener{
 	private Board board;
 	private Eater player;
 	//controls for each player added
-	private int[][] controlSchemes = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,
+	private int[][] SCHEMES = {{KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,
 			KeyEvent.VK_SHIFT,KeyEvent.VK_END},
 		{KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,
 			KeyEvent.VK_Q,KeyEvent.VK_2},
@@ -25,6 +26,7 @@ public class Controls implements KeyListener{
 			KeyEvent.VK_T,KeyEvent.VK_6},
 		{KeyEvent.VK_NUMPAD8,KeyEvent.VK_NUMPAD5,KeyEvent.VK_NUMPAD4,KeyEvent.VK_NUMPAD6,
 			KeyEvent.VK_NUMPAD7,KeyEvent.VK_SLASH}};
+	private int[] controlScheme;
 	public static final int UPKEY = 0, RIGHTKEY = 3, DOWNKEY = 1, LEFTKEY = 2, SPECIALKEY = 4, PAUSEKEY = 5;
 	private int scheme;
 	private int awaitKey; //keybind for key awaiting reassignment
@@ -36,7 +38,29 @@ public class Controls implements KeyListener{
 		board = gameboard;
 		player = body;
 		scheme = c;
+		controlScheme = SCHEMES[scheme];
 		awaitKey = -1;
+	}
+	
+	public Controls(Game frame, Board gameboard, Eater body, SaveData sd) {
+		game = frame;
+		game.addControls(this);
+		board = gameboard;
+		player = body;
+		ArrayList<Object> control_data = sd.getData("scheme");
+		controlScheme = new int[control_data.size()];
+		for(int i=0; i<control_data.size(); i++) {
+			controlScheme[i] = Integer.parseInt(control_data.get(i).toString());
+		}
+		awaitKey = -1;
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		for(int i=0; i<controlScheme.length; i++) {
+			data.addData("scheme",controlScheme[i],i);
+		}
+		return data;
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -57,7 +81,7 @@ public class Controls implements KeyListener{
 		//settings menus and keys that must register even when game is paused
 		if(key == KeyEvent.VK_ESCAPE && isP1) {
 			game.ui_set.show(!game.ui_set.isVisible());
-		}else if(key==controlSchemes[scheme][PAUSEKEY]) { 
+		}else if(key==controlScheme[PAUSEKEY]) { 
 			game.ui_set.show(!game.ui_set.isVisible(),player);
 		}
 
@@ -65,15 +89,15 @@ public class Controls implements KeyListener{
 		if((board.isPaused() && !board.awaitingStart()) || game.getAdjustedCycle()<=0 || game.getAdjustedCycle()>=10000)return; 
 		
 		//test key against this player's controls
-		if(key==controlSchemes[scheme][UPKEY]) { 
+		if(key==controlScheme[UPKEY]) { 
 			player.setDir(Eater.UP);
-		}else if(key==controlSchemes[scheme][RIGHTKEY]) {
+		}else if(key==controlScheme[RIGHTKEY]) {
 			player.setDir(Eater.RIGHT);
-		}else if(key==controlSchemes[scheme][DOWNKEY]) {
+		}else if(key==controlScheme[DOWNKEY]) {
 			player.setDir(Eater.DOWN);
-		}else if(key==controlSchemes[scheme][LEFTKEY]) {
+		}else if(key==controlScheme[LEFTKEY]) {
 			player.setDir(Eater.LEFT);
-		}else if(key==controlSchemes[scheme][SPECIALKEY]) {
+		}else if(key==controlScheme[SPECIALKEY]) {
 			if(board.mode == Board.PVP)
 				player.special(0);
 		}
@@ -121,10 +145,10 @@ public class Controls implements KeyListener{
 	}
 
 	public void setKeyBind(int keyBind, int keyCode) {
-		controlSchemes[scheme][keyBind] = keyCode;
+		controlScheme[keyBind] = keyCode;
 	}
 	public int getKeyBind(int keyBind) {
-		return controlSchemes[scheme][keyBind];
+		return controlScheme[keyBind];
 	}
 	public void awaitKeyBind(MenuButton button, int keyBind) {
 		awaitingButton = button;

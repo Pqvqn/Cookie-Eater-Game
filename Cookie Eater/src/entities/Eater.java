@@ -115,7 +115,7 @@ public class Eater extends Entity{
 				part = (SegmentCircle)testPart;
 			}
 		}
-		controls = new Controls(game, board, this, id);
+		controls = new Controls(game, board, this, sd.getSaveDataList("controls").get(0));
 		try {
 			sprite = new SpriteEater(board,this);
 		} catch (IOException e) {
@@ -143,6 +143,7 @@ public class Eater extends Entity{
 			data.addData("pickupstash",pickups.get(j).getSaveData(),j);
 		}
 		data.addData("pickupstash","null",j);
+		data.addData("controls",controls.getSaveData());
 		return data;
 	}
 	public int getDir() {return direction;}

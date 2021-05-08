@@ -97,13 +97,11 @@ public class UISettings extends UIElement{
 			final int keybind = keyBinds[i];
 			oc = () -> {
 				//ask board to await key press to reassign
+				Eater p = this.getSelectedPlayer();
 				keyset.setCurrStateValue(keyname+" =");
-				this.getSelectedPlayer().controls.awaitKeyBind(keyset,keybind);
-				setOptions.put(keyname,this.getSelectedPlayer().controls.getKeyBind(keybind));
+				p.controls.awaitKeyBind(keyset,keybind);
 			};
-			setOptions.put(keyname,keyset.currentState());
 			keyset.setClick(oc);
-			if(sd!=null)this.getSelectedPlayer().controls.setKeyBind(keybind,sd.getInteger(keyname,0));
 			menuHandler.addButton("MAIN",keyset);
 			updateList.add(keyset);
 		}
