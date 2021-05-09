@@ -78,9 +78,9 @@ public class UISettings extends UIElement{
 			}else {
 				game.audio.setMute(true);
 			}
-			setOptions.put("Volume",vol.currentState());
+			setOptions.put("Volume",vol.getState());
 		};
-		setOptions.put("Volume",vol.currentState());
+		setOptions.put("Volume",vol.getState());
 		vol.setClick(oc);
 		if(sd!=null)vol.clickTo(sd.getString("Volume",0));
 		menuHandler.addButton("MAIN",vol);
@@ -194,9 +194,9 @@ public class UISettings extends UIElement{
 			}else if(fps.currentState()==0 && game.draw.getUIList().contains(game.ui_fps)) {
 				game.draw.removeUI((game.ui_fps));
 			}
-			setOptions.put("FPS",fps.currentState());
+			setOptions.put("FPS",fps.getState());
 		};
-		setOptions.put("FPS",fps.currentState());
+		setOptions.put("FPS",fps.getState());
 		fps.setClick(oc);
 		if(sd!=null)fps.clickTo(sd.getString("FPS",0));
 		menuHandler.addButton("DEBUG",fps);

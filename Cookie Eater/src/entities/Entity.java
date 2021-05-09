@@ -727,7 +727,6 @@ public abstract class Entity {
 		if(!game.check_calibration || calrat==calibration_ratio || game.getAdjustedCycle()/(double)game.getCycle()>2 || game.getAdjustedCycle()/(double)game.getCycle()<.5)return;
 		
 		calibration_ratio = calrat/15.0;
-		
 		calibrateStats();
 		
 		//calibrate summons
