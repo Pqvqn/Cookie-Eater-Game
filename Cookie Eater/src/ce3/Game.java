@@ -147,7 +147,6 @@ public class Game extends JFrame {
 		}
 		ui_set.makeButtons(board.data.getSaveDataList("settings").get(0));
 
-
 	}
 	
 	public void updateUI() {

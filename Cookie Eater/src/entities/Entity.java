@@ -118,6 +118,7 @@ public abstract class Entity {
 		bounds = null;
 		averageVelOverride = false;
 		setUpStates();
+		calibrateStats();
 	}
 	
 	public Entity(Game frame, Board gameboard, SaveData sd, int cycle) {
@@ -239,6 +240,8 @@ public abstract class Entity {
 		if(sd.getData("connected")!=null) {
 			board.connections.get(sd.getString("connected",0)).add(this);
 		}
+		
+		calibrateStats();
 	}
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();

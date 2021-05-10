@@ -307,6 +307,8 @@ public class Eater extends Entity{
 		dO = true;
 		direction = NONE;
 		score = 0;
+		if(parts.isEmpty())buildBody();
+		orientParts();
 	}
 	//resets killed players
 	public void revive() {
