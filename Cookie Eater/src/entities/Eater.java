@@ -231,6 +231,7 @@ public class Eater extends Entity{
 		x_velocity = 0;
 		y_velocity = 0;
 		dO = false;
+		lock = true;
 		//if levels, reset
 		if(board.mode==Board.LEVELS) {
 			try {
@@ -305,6 +306,7 @@ public class Eater extends Entity{
 		calibrateStats();
 		radius = DEFAULT_RADIUS;
 		dO = true;
+		lock = false;
 		direction = NONE;
 		score = 0;
 		if(parts.isEmpty())buildBody();

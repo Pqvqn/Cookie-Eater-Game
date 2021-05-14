@@ -56,6 +56,8 @@ public class SpriteEater extends Sprite{
 		imgs.add(face);
 		imgs.add(helmet);
 		
+		readColors(ImageIO.read(new File("Cookie Eater/src/resources/explorers/eaterpalette.png")));
+		
 		imgset = new BufferedImage[expressions.length][5];
 		
 		//render all possible images and store them
@@ -90,6 +92,11 @@ public class SpriteEater extends Sprite{
 				}
 				base = ImageIO.read(bases);
 				face = ImageIO.read(expressions[ie]);
+				
+				helmet = convertPalette((BufferedImage)helmet,0,1);
+				base = convertPalette((BufferedImage)base,0,1);
+				face = convertPalette((BufferedImage)face,0,1);
+				
 				Graphics compiled =  imgcombo.getGraphics();
 				compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);
 				compiled.drawImage(base,(fullw-base.getWidth(null))/2,(fullh-base.getHeight(null))/2,null);

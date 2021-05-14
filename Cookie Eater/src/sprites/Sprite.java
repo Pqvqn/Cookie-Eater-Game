@@ -25,7 +25,7 @@ public abstract class Sprite {
 		palettes = new Color[i.getHeight(null)][i.getWidth(null)];
 		for(int r=0; r<palettes.length; r++) {
 			for(int c=0; c<palettes[0].length; c++) {
-				palettes[r][c] = new Color(i.getRGB(r,c));
+				palettes[r][c] = new Color(i.getRGB(c,r));
 			}
 		}
 	}
