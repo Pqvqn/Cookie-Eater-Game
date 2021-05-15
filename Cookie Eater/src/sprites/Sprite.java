@@ -25,7 +25,7 @@ public abstract class Sprite {
 		palettes = new Color[i.getHeight(null)][i.getWidth(null)];
 		for(int r=0; r<palettes.length; r++) {
 			for(int c=0; c<palettes[0].length; c++) {
-				palettes[r][c] = new Color(i.getRGB(c,r));
+				palettes[r][c] = new Color(i.getRGB(c,r),true);
 			}
 		}
 	}
@@ -37,7 +37,7 @@ public abstract class Sprite {
 				for(int p=0; p<palettes[oldIndex].length; p++) {
 					int c = img.getRGB(x,y);
 					if(palettes[oldIndex][p].getRGB() == c) {
-						img.setRGB(x,y,palettes[newIndex][0].getRGB());
+						img.setRGB(x,y,palettes[newIndex][p].getRGB());
 					}
 				}
 			}
