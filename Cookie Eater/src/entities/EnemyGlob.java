@@ -52,7 +52,7 @@ public class EnemyGlob extends Enemy{
 	public void averageStats() {
 		acceleration=.25;
 		max_velocity=5;
-		friction=.85;
+		friction=.95;
 		terminal_velocity=50;
 		calibrateStats();
 	}

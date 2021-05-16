@@ -55,7 +55,7 @@ public class EnemySpawner extends Enemy{
 	public void averageStats() {
 		acceleration=1;
 		max_velocity=5;
-		friction=.85;
+		friction=.95;
 		terminal_velocity=80;
 		calibrateStats();
 	}
