@@ -12,7 +12,7 @@ import entities.*;
 public class CookieItem extends CookieStore{
 	
 	private Item myItem;
-	private SpriteStoreCookie sprite;
+	private SpriteCookie sprite;
 	
 	public CookieItem(Game frame, Board gameboard, int startx, int starty, Item i, double cost) {
 		super(frame,gameboard,startx,starty);
@@ -21,7 +21,7 @@ public class CookieItem extends CookieStore{
 		if(myItem!=null) {
 			name = myItem.getName();
 			try {
-				sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
+				sprite = new SpriteCookie(board,this,Item.itemIndex(myItem.getName()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -36,7 +36,7 @@ public class CookieItem extends CookieStore{
 		if(myItem!=null) {
 			myItem.loadFromData(itemsd);
 			try {
-				sprite = new SpriteStoreCookie(board,this,"cookie"+myItem.getName());
+				sprite = new SpriteCookie(board,this,Item.itemIndex(myItem.getName()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

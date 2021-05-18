@@ -1,6 +1,7 @@
 package sprites;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import javax.imageio.*;
@@ -20,6 +21,10 @@ public class SpriteCookie extends Sprite{
 	private final int TOTALIMGS = 4;
 	
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
+		this(frame,c,-1);
+	}
+	
+	public SpriteCookie(Board frame, Cookie c, int palette) throws IOException {
 		super(frame);
 		user = c;
 		baseNum = (int)((Math.random()*TOTALIMGS)+1);
@@ -30,6 +35,11 @@ public class SpriteCookie extends Sprite{
 		splChip = new File("Cookie Eater/src/resources/cookies/cookieCS"+chipNum+".png");
 		base = ImageIO.read(defBase);
 		chip = ImageIO.read(defChip);
+		if(palette>=0) {
+			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
+			base = convertPalette((BufferedImage)base,0,palette);
+			chip = convertPalette((BufferedImage)chip,0,palette);
+		}
 		state = REG;
 		imgs.add(base);
 		imgs.add(chip);
