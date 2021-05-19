@@ -21,7 +21,7 @@ public class CookieItem extends CookieStore{
 		if(myItem!=null) {
 			name = myItem.getName();
 			try {
-				sprite = new SpriteCookie(board,this,Item.itemIndex(myItem.getName()));
+				sprite = new SpriteCookie(board,this,1+Item.itemIndex(myItem.getName()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -36,7 +36,7 @@ public class CookieItem extends CookieStore{
 		if(myItem!=null) {
 			myItem.loadFromData(itemsd);
 			try {
-				sprite = new SpriteCookie(board,this,Item.itemIndex(myItem.getName()));
+				sprite = new SpriteCookie(board,this,1+Item.itemIndex(myItem.getName()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

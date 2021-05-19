@@ -16,7 +16,7 @@ public class SpriteCookie extends Sprite{
 	private double scale;
 	private File defBase, splBase, defChip, splChip;
 	private int state;
-	private final int REG=0, SPOILED=-1;
+	private final int REG=0, SPOILED=-1, ITEM=1;
 	private int baseNum, chipNum;
 	private final int TOTALIMGS = 4;
 	
@@ -35,12 +35,13 @@ public class SpriteCookie extends Sprite{
 		splChip = new File("Cookie Eater/src/resources/cookies/cookieCS"+chipNum+".png");
 		base = ImageIO.read(defBase);
 		chip = ImageIO.read(defChip);
+		state = REG;
 		if(palette>=0) {
 			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
 			base = convertPalette((BufferedImage)base,0,palette);
 			chip = convertPalette((BufferedImage)chip,0,palette);
+			state = ITEM;
 		}
-		state = REG;
 		imgs.add(base);
 		imgs.add(chip);
 	}
