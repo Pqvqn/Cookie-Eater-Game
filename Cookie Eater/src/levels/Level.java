@@ -13,7 +13,7 @@ import mechanisms.*;
 
 public abstract class Level{
 	
-	public final int BORDER_THICKNESS = 20;
+	public final int BORDER_THICKNESS = 40;
 	protected double scale; //zoom in/out of level
 	protected Level next; //level to move to once completed
 	protected Game game;
@@ -115,10 +115,10 @@ public abstract class Level{
 	public void build() {
 		startx = board.players.get(0).getX(); //start floor where last floor ended
 		starty = board.players.get(0).getY();
-		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
-		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
+		board.walls.add(new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
+		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
 		
 	}
 	//adds a level mechanism to the board
