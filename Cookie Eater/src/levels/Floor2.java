@@ -52,7 +52,7 @@ public class Floor2 extends Level{
 		}
 		//board.walls.add(new Wall(board,(int)(Math.random()*(board.x_resol-100))+50,(int)(Math.random()*(board.y_resol-100))+50,(int)(Math.random()*200)+100,(int)(Math.random()*200)+100,Math.random()*Math.PI*2));
 		//board.walls.add(new Wall(board,(int)(Math.random()*(board.x_resol-100))+50,(int)(Math.random()*(board.y_resol-100))+50,(int)(Math.random()*400)+100));
-		int len = (int)(Math.random()*3+2);
+		/*int len = (int)(Math.random()*3+2);
 		Path path = new Path(len);
 		for(int i=0; i<len; i++) {
 			int x = (int)(Math.random()*(board.x_resol-100))+50;
@@ -65,11 +65,13 @@ public class Floor2 extends Level{
 			path.setCheckpoint(i,x,y,mode,rate,sizea,sizeb,a);
 		}
 		board.mechanisms.add(new WallMove(game,board,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),(int)(.5+path.size()[1]),path.angle(),path));
+		*/
 		/*WallPath path2 = new WallPath(2);
 		path2.setCheckpoint(0,400,400,WallPath.TIME,2000,400,50,Math.PI*10);
 		path2.setCheckpoint(1,400,400,WallPath.TIME,2000,400,50,Math.PI*-10);
 		board.mechanisms.add(new MovingWall(game,board,(int)(.5+path2.position()[0]),(int)(.5+path2.position()[1]),(int)(.5+path2.size()[0]),(int)(.5+path2.size()[1]),path2.angle(),path2));
 		*/
+		board.mechanisms.add(new WallDoor(game,board,400,600,200,100,23));
 	}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
