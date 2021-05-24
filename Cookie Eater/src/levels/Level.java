@@ -15,7 +15,6 @@ public abstract class Level{
 	
 	public final int BORDER_THICKNESS = 40;
 	protected double scale; //zoom in/out of level
-	protected Level next; //level to move to once completed
 	protected Game game;
 	protected Board board;
 	protected double startx; //player start pos.
@@ -27,17 +26,17 @@ public abstract class Level{
 	protected Color wallColor;
 	protected String name; //name for files
 	protected String nameAbbrev; //name for display
+	protected ArrayList<Passage> passageways; //entrances and exits
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
 	public Level(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+		this(frame,gameboard,new ArrayList<Passage>());
 	}
 	
-	public Level(Game frame, Board gameboard, Level nextFloor) {
-		next = nextFloor;
+	public Level(Game frame, Board gameboard, ArrayList<Passage> passages) {
 		scale = 1;
 		game = frame;
 		board = gameboard;
@@ -46,11 +45,11 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
+		passageways = passages;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
-	public Level(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
-		next = nextFloor;
+	public Level(Game frame, Board gameboard, SaveData sd) {
 		game = frame;
 		board = gameboard;
 		scale = sd.getDouble("scale",0);
@@ -225,12 +224,6 @@ public abstract class Level{
 		e.giveCookie(c);
 	}
 	
-	public Level getNext() {
-		return next;
-	}
-	public void setNext(Level newNext) {
-		next = newNext;
-	}
 	public int getStartX() {return (int)(.5+startx);}
 	public int getStartY() {return (int)(.5+starty);}
 	public double getScale() {return scale;}
