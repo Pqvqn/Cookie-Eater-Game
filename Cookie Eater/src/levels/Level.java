@@ -61,6 +61,13 @@ public abstract class Level{
 		nameAbbrev = sd.getString("name",1);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
+		
+		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
+		passageways = new ArrayList<Passage>();
+		for(int i=0; i<passdata.size(); i++) {
+			passageways.add(new Passage(game,board,passdata.get(i)));
+		}
+		
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
@@ -102,6 +109,11 @@ public abstract class Level{
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
 		data.addData("type",this.getClass().getName());
+
+		passageways = new ArrayList<Passage>();
+		for(int i=0; i<passageways.size(); i++) {
+			data.addData("passages",passageways.get(i).getSaveData(),i);
+		}
 		return data;
 	}
 	
