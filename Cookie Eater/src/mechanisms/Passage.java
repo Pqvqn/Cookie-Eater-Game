@@ -12,6 +12,7 @@ public class Passage {
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3; //the location of the wall that has the entrance
 	private int width; //how wide the opening is
 	private int inx,iny,outx,outy; //positions
+	private boolean horiz; //whether orientation is horizontal
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset) {
 		game = frame;
@@ -43,6 +44,35 @@ public class Passage {
 			inx = board.x_resol;
 			iny = offset;
 			outy = offset;
+		}
+	}
+	
+	public int getLeft(boolean in) {
+		if(horiz) {
+			return (in)?inx-width/2:outx-width/2;
+		}else {
+			return (in)?inx:outx;
+		}
+	}
+	public int getRight(boolean in) {
+		if(horiz) {
+			return (in)?inx+width/2:outx+width/2;
+		}else {
+			return (in)?inx:outx;
+		}
+	}
+	public int getUp(boolean in) {
+		if(horiz) {
+			return (in)?iny:outy;
+		}else {
+			return (in)?iny-width/2:outy-width/2;
+		}
+	}
+	public int getDown(boolean in) {
+		if(horiz) {
+			return (in)?iny:outy;
+		}else {
+			return (in)?iny+width/2:outy+width/2;
 		}
 	}
 	
