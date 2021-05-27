@@ -90,6 +90,8 @@ public class Wall extends Mechanism{
 	}
 	public double getOX() {return ox;}
 	public double getOY() {return oy;}
+	public void setW(int width) {w=width;}
+	public void setH(int height) {h=height;}
 	
 	public void move(double dx, double dy) {
 		x+=dx;

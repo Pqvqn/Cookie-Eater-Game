@@ -132,6 +132,24 @@ public abstract class Level{
 		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
 		
 	}
+	//puts a gap in a wall and returns a second wall for the other side
+	//only functions correctly for rectangular, un-angled walls
+	public Wall breakWall(Wall w, boolean horiz, int start, int end) {
+		Wall w2;
+		if(horiz) {
+			int wid = (int)w.getW();
+			int xp = (int)w.getX();
+			w.setW(start-xp);
+			w2 = new Wall(game,board,xp+end,(int)w.getY(),xp+wid-end,(int)w.getH());
+		}else {
+			int hei = (int)w.getH();
+			int yp = (int)w.getY();
+			w.setH(start-yp);
+			w2 = new Wall(game,board,(int)w.getX(),yp+end,(int)w.getW(),yp+hei-end);
+		}
+		return w2;
+	}
+	
 	//adds a level mechanism to the board
 	public void addMechanism(Mechanism m) {
 		board.mechanisms.add(m);
@@ -139,6 +157,7 @@ public abstract class Level{
 	public void placeCookies() {
 		placeCookies(100,100);
 	}
+
 	
 	//put cookies in floor
 	public void placeCookies(int clearance, int separation) { //clearance between cookies and walls, separation between cookies
