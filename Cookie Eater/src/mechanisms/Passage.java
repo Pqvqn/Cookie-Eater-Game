@@ -13,6 +13,7 @@ public class Passage {
 	private int width; //how wide the opening is
 	private int inx,iny,outx,outy; //positions
 	private boolean horiz; //whether orientation is horizontal
+	private boolean mode; //whether the passage is an entrance
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset) {
 		game = frame;
@@ -75,5 +76,8 @@ public class Passage {
 			return (in)?iny+width/2:outy+width/2;
 		}
 	}
+	public boolean isEntrance() {return mode;}
+	public void setMode(boolean isEntrance) {mode = isEntrance;}
+	public boolean isHorizontal() {return horiz;}
 	
 }

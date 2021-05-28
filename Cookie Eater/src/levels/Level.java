@@ -126,11 +126,28 @@ public abstract class Level{
 	public void build() {
 		startx = board.players.get(0).getX(); //start floor where last floor ended
 		starty = board.players.get(0).getY();
-		board.walls.add(new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
-		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
-		
+		Wall top,bot,lef,rig;
+		board.walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
+		board.walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(bot = new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
+		board.walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		//put breaks in walls for passages (works for 1 passage per wall)
+		for(Passage p : passageways) {
+			boolean enter = p.isEntrance();
+			if(p.isHorizontal()) {
+				if(p.getUp(enter) < board.y_resol/2) {
+					board.walls.add(breakWall(top,true,p.getLeft(enter),p.getRight(enter)));
+				}else {
+					board.walls.add(breakWall(bot,true,p.getLeft(enter),p.getRight(enter)));
+				}
+			}else {
+				if(p.getLeft(enter) < board.x_resol/2) {
+					board.walls.add(breakWall(lef,false,p.getUp(enter),p.getDown(enter)));
+				}else {
+					board.walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
+				}
+			}
+		}
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls
