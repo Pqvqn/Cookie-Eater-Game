@@ -34,6 +34,7 @@ public class Board{
 
 	public Level[][] floorSequence; //order of floors for each dungeon 
 	public LinkedList<Level> floors;
+	public Level nextLevel;
 	public int currDungeon;
 	public Level currFloor;
 	public int playerCount;
@@ -478,7 +479,8 @@ public class Board{
 		effects = new ArrayList<Effect>();
 		//shields+=cash/currFloor.getShieldCost();
 		//cash=cash%currFloor.getShieldCost();
-		currFloor=currFloor.getNext();
+		//currFloor=currFloor.getNext();
+		currFloor = nextLevel;
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
@@ -494,6 +496,10 @@ public class Board{
 		spawnNpcs();
 		awaiting_start = true;
 		createSave();
+	}
+	
+	public void setNext(Level l) {
+		nextLevel = l;
 	}
 	
 	public void loadDungeon(int num) {

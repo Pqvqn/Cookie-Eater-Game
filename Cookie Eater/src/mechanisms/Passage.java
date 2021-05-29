@@ -2,8 +2,9 @@ package mechanisms;
 
 import ce3.*;
 import levels.*;
+import entities.*;
 
-public class Passage {
+public class Passage extends Mechanism{
 
 	private Game game;
 	private Board board;
@@ -16,6 +17,8 @@ public class Passage {
 	private boolean mode; //whether the passage is an entrance
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset) {
+		super(frame,gameboard,0,0);
+		mass = 0;
 		game = frame;
 		board = gameboard;
 		entranceFloor = entrance;
@@ -77,7 +80,20 @@ public class Passage {
 		}
 	}
 	public boolean isEntrance() {return mode;}
-	public void setMode(boolean isEntrance) {mode = isEntrance;}
+	public void setMode(boolean isEntrance) {
+		mode = isEntrance;
+		x = (mode)?inx:outx;
+		y = (mode)?iny:outy;
+		}
 	public boolean isHorizontal() {return horiz;}
 	
+	public void runUpdate() {
+		for(int i=0; i<board.players.size(); i++) {
+			Eater p = board.players.get(i);
+			if(mode && Level.lineLength(p.getX(),p.getY(),x,y)<p.getRadius()) {
+				board.setNext(exitFloor);
+				p.win();
+			}
+		}
+	}
 }
