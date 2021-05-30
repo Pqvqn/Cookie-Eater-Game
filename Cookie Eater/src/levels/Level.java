@@ -33,10 +33,10 @@ public abstract class Level{
 	protected ArrayList<int[]> lines;
 	
 	public Level(Game frame, Board gameboard) {
-		this(frame,gameboard,new ArrayList<Passage>());
+		this(frame,gameboard,new ArrayList<Level>());
 	}
 	
-	public Level(Game frame, Board gameboard, ArrayList<Passage> passages) {
+	public Level(Game frame, Board gameboard, ArrayList<Level> next) {
 		scale = 1;
 		game = frame;
 		board = gameboard;
@@ -45,7 +45,7 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
-		passageways = passages;
+		passageways = buildPassages(next);
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -165,6 +165,11 @@ public abstract class Level{
 			w2 = new Wall(game,board,(int)w.getX(),yp+end,(int)w.getW(),yp+hei-end);
 		}
 		return w2;
+	}
+	
+	//creates passages to next levels
+	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels){
+		
 	}
 	
 	//adds a level mechanism to the board

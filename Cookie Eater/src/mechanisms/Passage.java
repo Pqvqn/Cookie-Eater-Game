@@ -15,6 +15,7 @@ public class Passage extends Mechanism{
 	private int inx,iny,outx,outy; //positions
 	private boolean horiz; //whether orientation is horizontal
 	private boolean mode; //whether the passage is an entrance
+	private final int gap = 30; //gap between screen edge and passage point
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset) {
 		super(frame,gameboard,0,0);
@@ -29,23 +30,23 @@ public class Passage extends Mechanism{
 	//set positions based on orientation
 	private void build(int dir, int offset) {
 		if(dir==TOP) {
-			iny = 0;
-			outy = board.y_resol;
+			iny = -gap;
+			outy = board.y_resol+gap;
 			inx = offset;
 			outx = offset;
 		}else if(dir==BOTTOM) {
-			outy = 0;
-			iny = board.y_resol;
+			outy = -gap;
+			iny = board.y_resol+gap;
 			inx = offset;
 			outx = offset;
 		}else if(dir==LEFT) {
-			inx = 0;
-			outx = board.x_resol;
+			inx = -gap;
+			outx = board.x_resol+gap;
 			iny = offset;
 			outy = offset;
 		}else if(dir==RIGHT) {
-			outx = 0;
-			inx = board.x_resol;
+			outx = -gap;
+			inx = board.x_resol+gap;
 			iny = offset;
 			outy = offset;
 		}

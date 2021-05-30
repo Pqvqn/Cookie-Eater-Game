@@ -110,10 +110,11 @@ public abstract class Store extends Level{
 	
 	
 	public void build() {
+		Wall rig,lef;
 		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(lef =new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
 		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
 		
 		board.walls.add(new Wall(game,board,0,0,625,150));
 		board.walls.add(new Wall(game,board,0,board.y_resol-150,625,150));
@@ -143,6 +144,16 @@ public abstract class Store extends Level{
 				board.mechanisms.add(new WallCase(game,board,vendorSpaces[i][j][0],vendorSpaces[i][j][1],caseWidth/2));
 			}
 		}
+		
+		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol+100));
+		board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol+100));
+		
+	}
+	
+	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels){
+		ArrayList<Passage> p = new ArrayList<Passage>();
+		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2));
+		return p;
 	}
 	
 	public void spawnEnemies() {}
