@@ -169,7 +169,9 @@ public abstract class Level{
 	
 	//creates passages to next levels
 	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels){
-		
+		ArrayList<Passage> p = new ArrayList<Passage>();
+		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.BOTTOM,board.x_resol/2));
+		return p;
 	}
 	
 	//adds a level mechanism to the board

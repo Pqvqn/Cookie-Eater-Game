@@ -378,8 +378,8 @@ public class Eater extends Entity{
 			}
 		}
 		
-		if(score>=scoreToWin&&board.mode==Board.LEVELS) //win if all cookies eaten
-			win();
+		//if(score>=scoreToWin&&board.mode==Board.LEVELS) //win if all cookies eaten
+		//	win();
 
 		orientParts();
 	}

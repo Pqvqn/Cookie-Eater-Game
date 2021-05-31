@@ -11,7 +11,7 @@ public class Passage extends Mechanism{
 	private Level entranceFloor; //where passage opens from
 	private Level exitFloor; //where player goes into
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3; //the location of the wall that has the entrance
-	private int width; //how wide the opening is
+	//private int width; //how wide the opening is
 	private int inx,iny,outx,outy; //positions
 	private boolean horiz; //whether orientation is horizontal
 	private boolean mode; //whether the passage is an entrance
@@ -25,6 +25,20 @@ public class Passage extends Mechanism{
 		entranceFloor = entrance;
 		exitFloor = exit;
 		build(dir,offset);
+	}
+	
+	public Passage(Game frame, Board gameboard, Level entrance, Level exit, SaveData sd) {
+		super(frame,gameboard,sd);
+		entranceFloor = entrance;
+		exitFloor = exit;
+		build(sd.getInteger("direction",0),sd.getInteger("offset",0));
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = super.getSaveData();
+		data.addData("direction",dir);
+		data.addData("offset",offset);
+		
 	}
 	
 	//set positions based on orientation
@@ -52,7 +66,7 @@ public class Passage extends Mechanism{
 		}
 	}
 	
-	public int getLeft(boolean in) {
+	/*public int getLeft(boolean in) {
 		if(horiz) {
 			return (in)?inx-width/2:outx-width/2;
 		}else {
@@ -79,13 +93,13 @@ public class Passage extends Mechanism{
 		}else {
 			return (in)?iny+width/2:outy+width/2;
 		}
-	}
+	}*/
 	public boolean isEntrance() {return mode;}
 	public void setMode(boolean isEntrance) {
 		mode = isEntrance;
 		x = (mode)?inx:outx;
 		y = (mode)?iny:outy;
-		}
+	}
 	public boolean isHorizontal() {return horiz;}
 	
 	public void runUpdate() {
