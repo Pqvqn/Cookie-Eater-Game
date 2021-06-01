@@ -45,7 +45,8 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
-		passageways = buildPassages(next);
+		if(next!=null)
+			passageways = buildPassages(next);
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}

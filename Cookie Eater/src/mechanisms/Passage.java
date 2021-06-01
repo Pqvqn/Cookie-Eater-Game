@@ -31,14 +31,23 @@ public class Passage extends Mechanism{
 		super(frame,gameboard,sd);
 		entranceFloor = entrance;
 		exitFloor = exit;
-		build(sd.getInteger("direction",0),sd.getInteger("offset",0));
+		horiz = sd.getBoolean("horiz",0);
+		mode = sd.getBoolean("mode",0);
+		inx = sd.getInteger("position",0);
+		iny = sd.getInteger("position",1);
+		outx = sd.getInteger("position",2);
+		outy = sd.getInteger("position",3);
 	}
 	
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
-		data.addData("direction",dir);
-		data.addData("offset",offset);
-		
+		data.addData("horiz",horiz);
+		data.addData("mode",mode);
+		data.addData("position",inx,0);
+		data.addData("position",iny,1);
+		data.addData("position",outx,2);
+		data.addData("position",outy,3);
+		return data;
 	}
 	
 	//set positions based on orientation
