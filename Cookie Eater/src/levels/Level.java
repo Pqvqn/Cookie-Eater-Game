@@ -50,7 +50,7 @@ public abstract class Level{
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
-	public Level(Game frame, Board gameboard, SaveData sd) {
+	public Level(Game frame, Board gameboard, ArrayList<Level> next, SaveData sd) {
 		game = frame;
 		board = gameboard;
 		scale = sd.getDouble("scale",0);
@@ -66,7 +66,7 @@ public abstract class Level{
 		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
 		passageways = new ArrayList<Passage>();
 		for(int i=0; i<passdata.size(); i++) {
-			passageways.add(new Passage(game,board,passdata.get(i)));
+			passageways.add(new Passage(game,board,this,next.get(i),passdata.get(i)));
 		}
 		
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
@@ -74,6 +74,10 @@ public abstract class Level{
 		startposs = sp;
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
+	}
+	
+	public void setNextLevels(ArrayList<Level> next) {
+		passageways = buildPassages(next);
 	}
 	
 	public static Level loadFromData(Game frame, Board gameboard, SaveData sd) {
@@ -169,9 +173,9 @@ public abstract class Level{
 	}
 	
 	//creates passages to next levels
-	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels){
+	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){
 		ArrayList<Passage> p = new ArrayList<Passage>();
-		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.BOTTOM,board.x_resol/2));
+		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.BOTTOM,board.x_resol/2,size));
 		return p;
 	}
 	

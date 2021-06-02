@@ -150,9 +150,9 @@ public abstract class Store extends Level{
 		
 	}
 	
-	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels){
+	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){
 		ArrayList<Passage> p = new ArrayList<Passage>();
-		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2));
+		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2,size));
 		return p;
 	}
 	
