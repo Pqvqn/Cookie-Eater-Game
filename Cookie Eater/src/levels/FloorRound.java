@@ -20,18 +20,17 @@ public class FloorRound extends Level{
 	public FloorRound(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public FloorRound(Game frame, Board gameboard, Level nextFloor) {
+	public FloorRound(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
-		next = nextFloor;
 		scale = .9;
 		minDecay = 90;
 		maxDecay = 3000;
 		bgColor = new Color(50,50,50);
 		wallColor = new Color(20,10,30);
 	}
-	public FloorRound(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public FloorRound(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

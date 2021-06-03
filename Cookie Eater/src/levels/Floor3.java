@@ -19,18 +19,17 @@ public class Floor3 extends Level{
 	public Floor3(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public Floor3(Game frame, Board gameboard, Level nextFloor) {
+	public Floor3(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";
-		next = nextFloor;
 		scale = .9;
 		minDecay = 90;
 		maxDecay = 3000;
 		bgColor = new Color(50,50,50);
 		wallColor = new Color(20,10,30);
 	}
-	public Floor3(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Floor3(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

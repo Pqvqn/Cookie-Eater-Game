@@ -1,7 +1,8 @@
 package levels;
 
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.*;
 
 import ce3.*;
 import entities.*;
@@ -18,18 +19,17 @@ public class Floor2 extends Level{
 	public Floor2(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public Floor2(Game frame, Board gameboard, Level nextFloor) {
+	public Floor2(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
-		next = nextFloor;
 		scale = .95;
 		minDecay = 90;
 		maxDecay = 3000;
 		bgColor = new Color(100,100,100);
 		wallColor = new Color(50,40,30);
 	}
-	public Floor2(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Floor2(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

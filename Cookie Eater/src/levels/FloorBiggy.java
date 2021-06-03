@@ -16,10 +16,9 @@ public class FloorBiggy extends Level{
 	public FloorBiggy(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public FloorBiggy(Game frame, Board gameboard, Level nextFloor) {
+	public FloorBiggy(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Big Boi";
-		next = nextFloor;
 		scale = .3;
 		minDecay = 3600;
 		maxDecay = 18000;
@@ -27,7 +26,7 @@ public class FloorBiggy extends Level{
 		bgColor = new Color(30,0,30);
 		wallColor = new Color(200,50,0);
 	}
-	public FloorBiggy(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public FloorBiggy(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

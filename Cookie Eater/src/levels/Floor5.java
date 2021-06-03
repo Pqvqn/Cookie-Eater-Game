@@ -17,18 +17,17 @@ public class Floor5 extends Level{
 	public Floor5(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public Floor5(Game frame, Board gameboard, Level nextFloor) {
+	public Floor5(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
-		next = nextFloor;
 		scale = .6;
 		minDecay = 90;
 		maxDecay = 3000;
 		bgColor = new Color(150,90,40);
 		wallColor = new Color(50,20,10);
 	}
-	public Floor5(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Floor5(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

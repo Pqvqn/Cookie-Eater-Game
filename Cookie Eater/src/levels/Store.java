@@ -21,8 +21,8 @@ public abstract class Store extends Level{
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}
-	public Store(Game frame, Board gameboard, SaveData sd) {
-		super(frame, gameboard, null, sd);
+	public Store(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
+		super(frame, gameboard, nextFloor, sd);
 		ArrayList<Object> vendor_space_data = sd.getData("vendorspaces");
 		if(vendor_space_data!=null) {
 			int vn = sd.getInteger("vendorspacenum",0);
@@ -63,9 +63,7 @@ public abstract class Store extends Level{
 			mechanicSpaces = ms;
 		}
 	}
-	public Store(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
-		this(frame, gameboard, sd);
-	}
+
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
 		int ci = 0;

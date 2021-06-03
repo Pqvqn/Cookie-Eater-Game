@@ -1,7 +1,8 @@
 package levels;
 
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.*;
 
 import ce3.*;
 
@@ -15,18 +16,17 @@ public class Floor1 extends Level{
 	public Floor1(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public Floor1(Game frame, Board gameboard, Level nextFloor) {
+	public Floor1(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
-		next = nextFloor;
 		scale = 1;
 		minDecay = 60;
 		maxDecay = 1800;
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}
-	public Floor1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Floor1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

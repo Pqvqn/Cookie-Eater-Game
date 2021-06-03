@@ -1,7 +1,9 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
-import cookies.CookieStat;
+import cookies.*;
 
 public class Training1 extends Training{
 
@@ -10,7 +12,7 @@ public class Training1 extends Training{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
-	public Training1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Training1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

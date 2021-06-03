@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
 
 public class Store3 extends Store{
@@ -17,7 +19,7 @@ public class Store3 extends Store{
 		int[][] ms = {{board.x_resol-200,board.y_resol/2+180},{board.x_resol-390,315},{board.x_resol-390,board.y_resol-315},{board.x_resol-185,board.y_resol/2}};
 		mechanicSpaces = ms;
 	}
-	public Store3(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Store3(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

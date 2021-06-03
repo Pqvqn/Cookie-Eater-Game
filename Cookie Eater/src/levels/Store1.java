@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
 import cookies.*;
 import mechanisms.*;
@@ -12,7 +14,7 @@ public class Store1 extends Store{
 		nameAbbrev = "for";
 		scale = 1;
 	}
-	public Store1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Store1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

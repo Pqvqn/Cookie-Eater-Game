@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
 import mechanisms.*;
 
@@ -12,7 +14,7 @@ public abstract class Training extends Level{
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}
-	public Training(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Training(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

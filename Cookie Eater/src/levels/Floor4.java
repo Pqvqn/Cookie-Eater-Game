@@ -21,18 +21,17 @@ public class Floor4 extends Level{
 	public Floor4(Game frame, Board gameboard) {
 		this(frame,gameboard,null);
 	}
-	public Floor4(Game frame, Board gameboard, Level nextFloor) {
+	public Floor4(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
 		super(frame,gameboard, nextFloor);
 		name = "Frozen Chambers";
 		nameAbbrev = "ice";
-		next = nextFloor;
 		scale = .85;
 		minDecay = 90;
 		maxDecay = 3000;
 		bgColor = new Color(50,60,60);
 		wallColor = new Color(200,210,210);
 	}
-	public Floor4(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Floor4(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	

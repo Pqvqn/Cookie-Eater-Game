@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
 import entities.*;
 
@@ -12,7 +14,7 @@ public class Arena2 extends Arena{
 		minDecay = 90;
 		maxDecay = 3000;
 	}
-	public Arena2(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Arena2(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 	public void spawnEnemies() { 

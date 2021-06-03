@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.*;
+
 import ce3.*;
 
 public class Arena1 extends Arena{
@@ -9,7 +11,7 @@ public class Arena1 extends Arena{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
-	public Arena1(Game frame, Board gameboard, Level nextFloor, SaveData sd) {
+	public Arena1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
 		super(frame, gameboard, nextFloor, sd);
 	}
 }
