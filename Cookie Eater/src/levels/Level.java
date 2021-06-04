@@ -45,8 +45,9 @@ public abstract class Level{
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
+		passageways = new ArrayList<Passage>();
 		if(next!=null)
-			passageways = buildPassages(next);
+			passageways = buildPassages(next, (int)(100 * scale));
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -77,7 +78,11 @@ public abstract class Level{
 	}
 	
 	public void setNextLevels(ArrayList<Level> next) {
-		passageways = buildPassages(next);
+		passageways = buildPassages(next, (int)(100 * scale));
+	}
+	
+	public ArrayList<Passage> getPassages(){
+		return passageways;
 	}
 	
 	public static Level loadFromData(Game frame, Board gameboard, SaveData sd) {

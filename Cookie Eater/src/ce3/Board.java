@@ -131,8 +131,11 @@ public class Board{
 		if(mode==LEVELS) {
 			for(int i=floorSequence[currDungeon].length-1; i>=0; i--) {
 				floors.add(floorSequence[currDungeon][i]);
-				if(i<floorSequence[currDungeon].length-1) 
-					floorSequence[currDungeon][i].setNext(floorSequence[currDungeon][i+1]);
+				if(i<floorSequence[currDungeon].length-1) {
+					ArrayList<Level> l = new ArrayList<Level>();
+					l.add(floorSequence[currDungeon][i+1]);
+					floorSequence[currDungeon][i].setNextLevels(l);
+				}
 			}
 		}else if(mode==PVP) {
 			if(currDungeon==0) {
@@ -509,8 +512,11 @@ public class Board{
 		if(mode==LEVELS) {
 			for(int i=floorSequence[num].length-1; i>=0; i--) {
 				floors.add(floorSequence[num][i]);
-				if(i<floorSequence[num].length-1) 
-					floorSequence[num][i].setNext(floorSequence[num][i+1]);
+				if(i<floorSequence[num].length-1) {
+					ArrayList<Level> l = new ArrayList<Level>();
+					l.add(floorSequence[num][i+1]);
+					floorSequence[num][i].setNextLevels(l);
+				}
 			}
 		}else if(mode==PVP) {
 			if(num==0) {

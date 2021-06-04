@@ -324,12 +324,12 @@ public class Explorer extends Entity{
 	public Level findFloor(String type, boolean store, int num, int backup) {
 		int count = 0;
 		Level point = board.floors.getLast();
-		while(point.getNext()!=null) {
+		while(point.getPassages().size()>0) {
 			if(point.getName().equals(type) && store==point instanceof Store) {
 				count++;
 				if(count>num)return point;
 			}
-			point = point.getNext();
+			point = point.getPassages().get(0).getExit();
 		}
 		if(board.floors.size()>backup) {
 			return board.floors.get(backup);
@@ -515,7 +515,7 @@ public class Explorer extends Entity{
 			return;
 		}
 		if(state == VENTURE || state == STAND) { //move on if in correct state
-			residence = board.currFloor.getNext();
+			residence = board.currFloor.getPassages().get(0).getExit();
 			state = VENTURE;
 		}
 		//reset special

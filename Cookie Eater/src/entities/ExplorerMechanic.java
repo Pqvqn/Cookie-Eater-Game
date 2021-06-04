@@ -100,8 +100,8 @@ public class ExplorerMechanic extends Explorer{
 		//if player completes store, move to next store
 		if(board.currFloor instanceof Store) {
 			do{
-				residence = residence.getNext();
-			}while(!(residence instanceof Store) && residence.getNext()!=null);
+				residence = residence.getPassages().get(0).getExit();
+			}while(!(residence instanceof Store) && residence.getPassages().size()>0);
 			createStash(); //reset stat cookies for each store
 			setState("Pickups","none");
 			setState("HasPUP","no");

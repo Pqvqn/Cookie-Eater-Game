@@ -113,6 +113,7 @@ public class Passage extends Mechanism{
 		y = (mode)?iny:outy;
 	}
 	public boolean isHorizontal() {return horiz;}
+	public Level getExit() {return exitFloor;}
 	
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
