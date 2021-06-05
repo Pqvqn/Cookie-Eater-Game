@@ -952,7 +952,8 @@ public abstract class Entity {
 	public void setOffstage(int d) {offstage=d;}
 	//tests if off screen
 	public boolean outOfBounds() {
-		return x<0-offstage || x>board.x_resol+offstage || y<0-offstage || y>board.y_resol+offstage;
+		return false;
+		//return x<0-offstage || x>board.x_resol+offstage || y<0-offstage || y>board.y_resol+offstage;
 	}
 	//kill, but only if no bounce (on edge)
 	public void killBounceEdge(boolean breakShield) {

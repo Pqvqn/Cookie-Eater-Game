@@ -46,7 +46,7 @@ public abstract class Level{
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
 		passageways = new ArrayList<Passage>();
-		if(next!=null)
+		if(next!=null && !next.isEmpty())
 			passageways = buildPassages(next, (int)(100 * scale));
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();

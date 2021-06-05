@@ -142,7 +142,10 @@ public class UISettings extends UIElement{
 		//moves to next floor
 		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
-			if(!board.inConvo())getSelectedPlayer().win();
+			if(!board.inConvo()) {
+				board.setNext(board.currFloor.getPassages().get(0).getExit());
+				getSelectedPlayer().win();
+			}
 		};
 		advance.setClick(oc);
 		menuHandler.addButton("DEBUG",advance);
