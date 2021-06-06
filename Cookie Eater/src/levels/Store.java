@@ -146,6 +146,10 @@ public abstract class Store extends Level{
 		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol+100));
 		board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol+100));
 		
+		for(int i=0; i<passageways.size(); i++) {
+			addMechanism(passageways.get(i));
+		}
+		
 	}
 	
 	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){

@@ -26,6 +26,7 @@ public class Passage extends Mechanism{
 		exitFloor = exit;
 		width = wid;
 		build(dir,offset);
+		setMode(true);
 	}
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, SaveData sd) {
@@ -39,6 +40,7 @@ public class Passage extends Mechanism{
 		outx = sd.getInteger("position",2);
 		outy = sd.getInteger("position",3);
 		width = sd.getInteger("width",0);
+		setMode(mode);
 	}
 	
 	public SaveData getSaveData() {
@@ -118,7 +120,7 @@ public class Passage extends Mechanism{
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
-			if(mode && Level.lineLength(p.getX(),p.getY(),x,y)<p.getRadius()) {
+			if(mode && Level.lineLength(p.getX(),p.getY(),x,y)<(p.getRadius())) {
 				board.setNext(exitFloor);
 				p.win();
 			}

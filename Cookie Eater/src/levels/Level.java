@@ -158,6 +158,9 @@ public abstract class Level{
 				}
 			}
 		}
+		for(int i=0; i<passageways.size(); i++) {
+			addMechanism(passageways.get(i));
+		}
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls
