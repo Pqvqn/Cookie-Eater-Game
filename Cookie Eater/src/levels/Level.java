@@ -177,6 +177,7 @@ public abstract class Level{
 			w.setH(start-yp);
 			w2 = new Wall(game,board,(int)w.getX(),yp+end,(int)w.getW(),yp+hei-end);
 		}
+		w.resetOrigin();
 		return w2;
 	}
 	

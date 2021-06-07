@@ -46,8 +46,8 @@ public class Store1 extends Store{
 		board.walls.add(rig2 = new Wall(game,board,board.x_resol-510,0,510,board.y_resol));
 		board.walls.add(new Wall(game,board,0,board.y_resol-60,board.x_resol,60));
 		
-		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol+100));
-		board.walls.add(breakWall(rig2,false,board.y_resol/2-100,board.y_resol+100));
+		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
+		board.walls.add(breakWall(rig2,false,board.y_resol/2-100,board.y_resol/2+100));
 		
 		for(int i=0; i<passageways.size(); i++) {
 			addMechanism(passageways.get(i));
