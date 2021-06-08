@@ -78,7 +78,7 @@ public abstract class Level{
 	}
 	
 	public void setNextLevels(ArrayList<Level> next) {
-		passageways = buildPassages(next, (int)(100 * scale));
+		passageways = buildPassages(next, (int)(200 * scale));
 	}
 	
 	public ArrayList<Passage> getPassages(){
@@ -144,18 +144,19 @@ public abstract class Level{
 		//put breaks in walls for passages (works for 1 passage per wall)
 		for(Passage p : passageways) {
 			boolean enter = p.isEntrance();
-			if(p.isHorizontal()) {
-				if(p.getUp(enter) < board.y_resol/2) {
-					board.walls.add(breakWall(top,true,p.getLeft(enter),p.getRight(enter)));
-				}else {
-					board.walls.add(breakWall(bot,true,p.getLeft(enter),p.getRight(enter)));
-				}
-			}else {
-				if(p.getLeft(enter) < board.x_resol/2) {
-					board.walls.add(breakWall(lef,false,p.getUp(enter),p.getDown(enter)));
-				}else {
-					board.walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
-				}
+			switch(p.getDirection()) {
+			case Passage.TOP:
+				board.walls.add(breakWall(top,true,p.getLeft(enter),p.getRight(enter)));
+				break;
+			case Passage.BOTTOM:
+				board.walls.add(breakWall(bot,true,p.getLeft(enter),p.getRight(enter)));
+				break;
+			case Passage.LEFT:
+				board.walls.add(breakWall(lef,false,p.getUp(enter),p.getDown(enter)));
+				break;
+			case Passage.RIGHT:
+				board.walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
+				break;
 			}
 		}
 		for(int i=0; i<passageways.size(); i++) {

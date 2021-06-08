@@ -13,7 +13,7 @@ public class Passage extends Mechanism{
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3; //the location of the wall that has the entrance
 	private int width; //how wide the opening is
 	private int inx,iny,outx,outy; //positions
-	private boolean horiz; //whether orientation is horizontal
+	private int direction; //direction of passage entrance
 	private boolean mode; //whether the passage is an entrance
 	private final int gap = 30; //gap between screen edge and passage point
 	
@@ -25,6 +25,7 @@ public class Passage extends Mechanism{
 		entranceFloor = entrance;
 		exitFloor = exit;
 		width = wid;
+		direction = dir;
 		build(dir,offset);
 		setMode(true);
 	}
@@ -33,7 +34,7 @@ public class Passage extends Mechanism{
 		super(frame,gameboard,sd);
 		entranceFloor = entrance;
 		exitFloor = exit;
-		horiz = sd.getBoolean("horiz",0);
+		direction = sd.getInteger("direction",0);
 		mode = sd.getBoolean("mode",0);
 		inx = sd.getInteger("position",0);
 		iny = sd.getInteger("position",1);
@@ -45,7 +46,7 @@ public class Passage extends Mechanism{
 	
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
-		data.addData("horiz",horiz);
+		data.addData("direction",direction);
 		data.addData("mode",mode);
 		data.addData("position",inx,0);
 		data.addData("position",iny,1);
@@ -81,28 +82,28 @@ public class Passage extends Mechanism{
 	}
 	
 	public int getLeft(boolean in) {
-		if(horiz) {
+		if(isHorizontal()) {
 			return (in)?inx-width/2:outx-width/2;
 		}else {
 			return (in)?inx:outx;
 		}
 	}
 	public int getRight(boolean in) {
-		if(horiz) {
+		if(isHorizontal()) {
 			return (in)?inx+width/2:outx+width/2;
 		}else {
 			return (in)?inx:outx;
 		}
 	}
 	public int getUp(boolean in) {
-		if(horiz) {
+		if(isHorizontal()) {
 			return (in)?iny:outy;
 		}else {
 			return (in)?iny-width/2:outy-width/2;
 		}
 	}
 	public int getDown(boolean in) {
-		if(horiz) {
+		if(isHorizontal()) {
 			return (in)?iny:outy;
 		}else {
 			return (in)?iny+width/2:outy+width/2;
@@ -114,13 +115,49 @@ public class Passage extends Mechanism{
 		x = (mode)?inx:outx;
 		y = (mode)?iny:outy;
 	}
-	public boolean isHorizontal() {return horiz;}
+	public boolean isHorizontal() {return direction==TOP || direction==BOTTOM;}
+	public int getDirection() {
+		if(mode) {
+			return direction;
+		}else {
+			return opposite(direction);
+		}
+	}
+	
+	//the opposite direction from the given one
+	public int opposite(int dir) {
+		switch(dir) {
+		case TOP:
+			return BOTTOM;
+		case BOTTOM:
+			return TOP;
+		case LEFT:
+			return RIGHT;
+		case RIGHT:
+			return LEFT;
+		}
+		return dir;
+	}
 	public Level getExit() {return exitFloor;}
+	
+	//whether a certain point has passed this passage
+	public boolean passed(double xp, double yp) {
+		boolean horiz = isHorizontal();
+		int dir = getDirection();
+		boolean less = dir == LEFT || dir == TOP;
+		double myf = (horiz)?y:x;
+		double theirf = (horiz)?yp:xp;
+		double myb = (horiz)?x:y;
+		double theirb = (horiz)?xp:yp;
+		boolean pass = (less)?theirf<=myf:theirf>=myf;
+		boolean within = Math.abs(myb - theirb) < width/2;
+		return pass && within;
+	}
 	
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
-			if(mode && Level.lineLength(p.getX(),p.getY(),x,y)<(p.getRadius())) {
+			if(mode && passed(p.getX(),p.getY())) {
 				board.setNext(exitFloor);
 				p.win();
 			}
