@@ -123,6 +123,7 @@ public class Passage extends Mechanism{
 			return opposite(direction);
 		}
 	}
+	public int getWidth() {return width;}
 	
 	//the opposite direction from the given one
 	public int opposite(int dir) {

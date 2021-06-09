@@ -110,7 +110,7 @@ public abstract class Store extends Level{
 	public void build() {
 		Wall rig,lef;
 		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(lef =new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
+		board.walls.add(lef = new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol));
 		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
 		board.walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol));
 		
@@ -143,12 +143,13 @@ public abstract class Store extends Level{
 			}
 		}
 		
-		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol+100));
-		board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol+100));
-		
+		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
+		board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol/2+100));
+
 		for(int i=0; i<passageways.size(); i++) {
 			addMechanism(passageways.get(i));
 		}
+		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2));
 		
 	}
 	

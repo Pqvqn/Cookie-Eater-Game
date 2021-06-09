@@ -52,6 +52,8 @@ public class Store1 extends Store{
 		for(int i=0; i<passageways.size(); i++) {
 			addMechanism(passageways.get(i));
 		}
+		
+		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2));
 	}
 	
 }

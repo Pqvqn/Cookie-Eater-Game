@@ -158,10 +158,11 @@ public abstract class Level{
 				board.walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
 				break;
 			}
+			addMechanism(p);
+			board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter),p.getUp(enter),
+					(p.isHorizontal())?BORDER_THICKNESS/2:p.getWidth(),(p.isHorizontal())?p.getWidth():BORDER_THICKNESS/2,20));
 		}
-		for(int i=0; i<passageways.size(); i++) {
-			addMechanism(passageways.get(i));
-		}
+		
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls
