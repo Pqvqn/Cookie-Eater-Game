@@ -159,8 +159,10 @@ public abstract class Level{
 				break;
 			}
 			addMechanism(p);
-			board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter),p.getUp(enter),
-					(p.isHorizontal())?BORDER_THICKNESS/2:p.getWidth(),(p.isHorizontal())?p.getWidth():BORDER_THICKNESS/2,20));
+			int wid = (!p.isHorizontal())?BORDER_THICKNESS/2:p.getWidth();
+			int hei = (!p.isHorizontal())?p.getWidth():BORDER_THICKNESS/2;
+			board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:wid),
+					p.getUp(enter)+(!p.isHorizontal()?0:hei),wid,hei,20));
 		}
 		
 	}
@@ -186,7 +188,7 @@ public abstract class Level{
 	//creates passages to next levels
 	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){
 		ArrayList<Passage> p = new ArrayList<Passage>();
-		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.BOTTOM,board.x_resol/2,size));
+		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.TOP,board.x_resol/2,size));
 		return p;
 	}
 	
