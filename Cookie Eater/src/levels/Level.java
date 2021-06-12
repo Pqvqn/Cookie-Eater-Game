@@ -47,7 +47,7 @@ public abstract class Level{
 		startposs = sp;
 		passageways = new ArrayList<Passage>();
 		if(next!=null && !next.isEmpty())
-			passageways = buildPassages(next, (int)(100 * scale));
+			buildPassages(next, (int)(100 * scale));
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -78,7 +78,7 @@ public abstract class Level{
 	}
 	
 	public void setNextLevels(ArrayList<Level> next) {
-		passageways = buildPassages(next, (int)(200 * scale));
+		buildPassages(next, (int)(200 * scale));
 	}
 	
 	public ArrayList<Passage> getPassages(){
@@ -186,10 +186,18 @@ public abstract class Level{
 	}
 	
 	//creates passages to next levels
-	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){
-		ArrayList<Passage> p = new ArrayList<Passage>();
-		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.TOP,board.x_resol/2,size));
-		return p;
+	public void buildPassages(ArrayList<Level> nextLevels, int size){
+		int[] dirs = {Passage.TOP,Passage.RIGHT};
+		int[] poss = {board.x_resol/2,board.y_resol/2};
+		for(int i=0; i<nextLevels.size() && i<dirs.length; i++) {
+			Passage p = new Passage(game,board,this,nextLevels.get(i),dirs[i],poss[i],size);
+			passageways.add(p);
+			nextLevels.get(i).addEntrance(p);
+		}
+	}
+	//add an entrance into this level
+	public void addEntrance(Passage p) {
+		passageways.add(p);
 	}
 	
 	//adds a level mechanism to the board

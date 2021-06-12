@@ -153,10 +153,11 @@ public abstract class Store extends Level{
 		
 	}
 	
-	public ArrayList<Passage> buildPassages(ArrayList<Level> nextLevels, int size){
-		ArrayList<Passage> p = new ArrayList<Passage>();
-		p.add(new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2,size));
-		return p;
+	//creates passages to next levels
+	public void buildPassages(ArrayList<Level> nextLevels, int size){
+		Passage p = new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2,size);
+		passageways.add(p);
+		nextLevels.get(0).addEntrance(p);
 	}
 	
 	public void spawnEnemies() {}
