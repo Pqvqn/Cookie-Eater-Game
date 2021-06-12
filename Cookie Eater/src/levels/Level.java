@@ -314,6 +314,10 @@ public abstract class Level{
 	//creates nodes and connections
 	public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
 		//nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes
+		if(areas == null) { //default areas to full screen
+			int[][] nareas = {{0,board.x_resol,0,board.y_resol}};
+			areas = nareas;
+		}
 		for(int i=0; i<passageways.size(); i++) { //add nodes for every entrance and exit
 			Passage p = passageways.get(i);
 			nodes.add(new int[] {(int)p.getX(),(int)p.getY(),(int)(p.getWidth()+Math.random()*(nradmax-nradmin))});
@@ -353,13 +357,13 @@ public abstract class Level{
 	}
 		
 	//places walls that don't touch paths or nodes
-	public void genWalls(int sep, int min, int max) {
+	public void genWalls(int sep, int min, int max, boolean angled) {
 		//for(int i=0; i<num; i++) { //make num of walls
 		for(int i=BORDER_THICKNESS; i<board.y_resol; i+=sep) {
 			for(int j=BORDER_THICKNESS; j<board.x_resol; j+=sep) {
 				//int cX = (int)(Math.random()*board.x_resol), cY = (int)(Math.random()*board.y_resol); //choose wall center
 				int x=j,y=i,w=1,h=1;
-				double a = Math.random()*Math.PI*2;
+				double a = (angled)?Math.random()*Math.PI*2:0;
 				if(rectOK(x,y,w,h,a,i,j,max)) { //if center is valid
 				
 					/*while(rectOK(x,y,w,h,a,max)) { //move corner until it cant be moved

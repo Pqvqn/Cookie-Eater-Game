@@ -35,11 +35,12 @@ public class Floor2 extends Level{
 	
 	public void build() {
 		super.build();
-		genWalls(3);
+		genPaths(1, 100, 200, 100, 10, null); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
+		genWalls(400, 300, 600, false); //wall separation, wall min size, wall max size, angled
 		
 	}
 	//creates random walls
-	public void genWalls(int num) {
+	/*public void genWalls(int num) {
 		for(int i=0; i<num; i++) {
 			int x=-1,y=-1,w=-1,h=-1; //regenerate wall until it doesn't overlap player start
 			while(x<0 || collidesCircleAndRect((int)(startx+.5),(int)(starty+.5),board.player().getRadius()*3,(int)(x-.5*w+.5),(int)(y-.5*h+.5),w,h)) {
@@ -72,7 +73,7 @@ public class Floor2 extends Level{
 		board.mechanisms.add(new MovingWall(game,board,(int)(.5+path2.position()[0]),(int)(.5+path2.position()[1]),(int)(.5+path2.size()[0]),(int)(.5+path2.size()[1]),path2.angle(),path2));
 		*/
 		//board.mechanisms.add(new WallDoor(game,board,400,600,200,100,23));
-	}
+	//}
 	public void placeCookies() {
 		super.placeCookies(50,(int)(100*scale));
 	}
