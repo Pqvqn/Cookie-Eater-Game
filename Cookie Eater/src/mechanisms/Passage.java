@@ -115,6 +115,15 @@ public class Passage extends Mechanism{
 		x = (mode)?inx:outx;
 		y = (mode)?iny:outy;
 	}
+	public void setMode(Level level) {
+		if(level.equals(entranceFloor)) {
+			setMode(true);
+		}
+		if(level.equals(exitFloor)) {
+			setMode(false);
+		}
+	}
+	
 	public boolean isHorizontal() {return direction==TOP || direction==BOTTOM;}
 	public int getDirection() {
 		if(mode) {

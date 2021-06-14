@@ -143,6 +143,7 @@ public abstract class Level{
 		board.walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
 		//put breaks in walls for passages (works for 1 passage per wall)
 		for(Passage p : passageways) {
+			p.setMode(this);
 			boolean enter = p.isEntrance();
 			switch(p.getDirection()) {
 			case Passage.TOP:
