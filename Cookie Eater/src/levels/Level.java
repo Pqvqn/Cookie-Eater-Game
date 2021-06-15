@@ -17,8 +17,6 @@ public abstract class Level{
 	protected double scale; //zoom in/out of level
 	protected Game game;
 	protected Board board;
-	protected double startx; //player start pos.
-	protected double starty;
 	protected double[][] startposs;
 	protected int minDecay; //frames for cookie at edge corner to decay fully
 	protected int maxDecay; //frames for cookie at center to decay fully
@@ -57,8 +55,6 @@ public abstract class Level{
 		scale = sd.getDouble("scale",0);
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
-		startx = sd.getDouble("playerstart",0);
-		starty = sd.getDouble("playerstart",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
 		bgColor = Color.GRAY;
@@ -114,8 +110,6 @@ public abstract class Level{
 		data.addData("scale",scale);
 		data.addData("decay",minDecay,0);
 		data.addData("decay",maxDecay,1);
-		data.addData("playerstart",startx,0);
-		data.addData("playerstart",starty,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
 		data.addData("type",this.getClass().getName());
@@ -134,8 +128,6 @@ public abstract class Level{
 	
 	//put walls in floor
 	public void build() {
-		startx = board.players.get(0).getX(); //start floor where last floor ended
-		starty = board.players.get(0).getY();
 		Wall top,bot,lef,rig;
 		board.walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
 		board.walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
@@ -232,7 +224,7 @@ public abstract class Level{
 				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),board.wallSpace)) {
 					place = false;
 				}
-				if(Math.sqrt(Math.pow(Math.abs(pX - startx), 2) + Math.pow(Math.abs(pY - starty), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
+				if(Math.sqrt(Math.pow(Math.abs(pX - board.player().getX()), 2) + Math.pow(Math.abs(pY - board.player().getY()), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
 					place = false;
 				}
 				if(place) { //place cookies, increment count
@@ -306,8 +298,6 @@ public abstract class Level{
 		e.giveCookie(c);
 	}
 	
-	public int getStartX() {return (int)(.5+startx);}
-	public int getStartY() {return (int)(.5+starty);}
 	public double getScale() {return scale;}
 	public int getMinDecay() {return minDecay;}
 	public int getMaxDecay() {return maxDecay;}

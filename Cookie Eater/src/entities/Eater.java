@@ -14,6 +14,7 @@ import java.io.*;
 import sprites.*;
 import ui.*;
 import cookies.*;
+import mechanisms.*;
 
 public class Eater extends Entity{
 	
@@ -249,12 +250,12 @@ public class Eater extends Entity{
 			ghost = false;
 			offstage = 0;
 			averageStats();
-			reset();
+			reset(null);
 		}
 	}
 	
 	//move to next level
-	public void win() {
+	public void win(Passage p) {
 		//coloration = Color.green;
 		if(special) {
 			ArrayList<CookieItem> powerups = getPowerups();
@@ -271,8 +272,8 @@ public class Eater extends Entity{
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		if(board.mode == Board.LEVELS) {
-			reset();
 			board.nextLevel();
+			reset(p);
 		}else if(board.mode == Board.PVP) {
 			try { //movement freeze
 				Thread.sleep(200);
@@ -284,7 +285,7 @@ public class Eater extends Entity{
 		}
 	}
 	//resets player to floor-beginning state
-	public void reset() {
+	public void reset(Passage p) {
 		state = LIVE;
 		special = false;
 		currSpecial = -1;
@@ -296,8 +297,13 @@ public class Eater extends Entity{
 		x_velocity=0;
 		y_velocity=0;
 		if(board.mode == Board.LEVELS) {
-			x = board.currFloor.getStartX();
-			y = board.currFloor.getStartY();
+			if(p!=null) {
+				x = p.getX();
+				y = p.getY();
+			}else {
+				x = board.x_resol/2;
+				y = board.y_resol/2;
+			}
 		}else if (board.mode==Board.PVP) {
 			x = board.currFloor.getStarts()[id][0];
 			y = board.currFloor.getStarts()[id][1];
@@ -325,7 +331,7 @@ public class Eater extends Entity{
 		ghost = false;
 		offstage = 0;
 		averageStats();
-		reset();
+		reset(null);
 	}
 	
 	//gives the player a random set of movement stats and colors accordingly
@@ -374,7 +380,7 @@ public class Eater extends Entity{
 			}
 			if(allDead) { //win if last man standing
 				//lock = true;
-				win();
+				win(null);
 			}
 		}
 		
