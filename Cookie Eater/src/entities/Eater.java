@@ -39,6 +39,7 @@ public class Eater extends Entity{
 	private SegmentCircle part;
 	public Controls controls; //covers inputs
 	private int startShields;
+	public int startx,starty; //where on the board the player entered from
 	
 	public Eater(Game frame, Board gameboard, int num, int cycletime) {
 		super(frame,gameboard,cycletime);
@@ -272,8 +273,8 @@ public class Eater extends Entity{
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		if(board.mode == Board.LEVELS) {
-			board.nextLevel();
 			reset(p);
+			board.nextLevel();
 		}else if(board.mode == Board.PVP) {
 			try { //movement freeze
 				Thread.sleep(200);
@@ -298,12 +299,15 @@ public class Eater extends Entity{
 		y_velocity=0;
 		if(board.mode == Board.LEVELS) {
 			if(p!=null) {
-				x = p.getX();
-				y = p.getY();
+				int[] coords = p.oppositeCoordinates();
+				x = coords[0];
+				y = coords[1];
 			}else {
 				x = board.x_resol/2;
 				y = board.y_resol/2;
 			}
+			startx = (int)x;
+			starty = (int)y;
 		}else if (board.mode==Board.PVP) {
 			x = board.currFloor.getStarts()[id][0];
 			y = board.currFloor.getStarts()[id][1];

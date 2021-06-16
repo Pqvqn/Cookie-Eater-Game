@@ -440,7 +440,7 @@ public class Board{
 		buildBoard();
 		
 		for(int i=0; i<players.size(); i++)
-			players.get(i).reset();
+			players.get(i).reset(null);
 		
 		for(int i=0; i<npcs.size(); i++)
 			npcs.get(i).runEnds();

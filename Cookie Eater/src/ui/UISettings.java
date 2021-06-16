@@ -144,7 +144,7 @@ public class UISettings extends UIElement{
 		oc = () -> {
 			if(!board.inConvo()) {
 				board.setNext(board.currFloor.getPassages().get(0).getExit());
-				getSelectedPlayer().win();
+				getSelectedPlayer().win(null);
 			}
 		};
 		advance.setClick(oc);

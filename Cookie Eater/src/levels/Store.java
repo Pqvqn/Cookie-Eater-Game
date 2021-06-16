@@ -16,8 +16,6 @@ public abstract class Store extends Level{
 	
 	public Store(Game frame, Board gameboard) {
 		super(frame,gameboard);
-		startx = board.x_resol/2;
-		starty = board.y_resol/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}

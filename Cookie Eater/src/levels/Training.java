@@ -9,8 +9,6 @@ public abstract class Training extends Level{
 	
 	public Training(Game frame, Board gameboard) {
 		super(frame,gameboard);
-		startx = board.x_resol/2;
-		starty = board.y_resol/2;
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}

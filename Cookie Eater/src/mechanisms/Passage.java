@@ -148,6 +148,10 @@ public class Passage extends Mechanism{
 		}
 		return dir;
 	}
+	//coordinates for the other side of the passage
+	public int[] oppositeCoordinates() {
+		return new int[] {(!mode)?inx:outx, (!mode)?iny:outy};
+	}
 	public Level getExit() {return exitFloor;}
 	
 	//whether a certain point has passed this passage
@@ -169,7 +173,7 @@ public class Passage extends Mechanism{
 			Eater p = board.players.get(i);
 			if(mode && passed(p.getX(),p.getY())) {
 				board.setNext(exitFloor);
-				p.win();
+				p.win(this);
 			}
 		}
 	}

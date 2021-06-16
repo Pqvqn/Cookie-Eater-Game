@@ -105,11 +105,13 @@ public class Cookie {
 	}*/
 	//how long until cookie decays
 	public void setDecayTime() {
-		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
-				Level.lineLength(0,board.y_resol,board.currFloor.getStartX(),board.currFloor.getStartY())),
-				Math.max(Level.lineLength(board.x_resol,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
-						Level.lineLength(board.x_resol,board.y_resol,board.currFloor.getStartX(),board.currFloor.getStartY())));
-		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
+		double sx = board.player().startx;
+		double sy = board.player().starty;
+		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,sx,sy), //length to farthest corner from player
+				Level.lineLength(0,board.y_resol,sx,sy)),
+				Math.max(Level.lineLength(board.x_resol,0,sx,sy), 
+						Level.lineLength(board.x_resol,board.y_resol,sx,sy)));
+		decayTime = (int)(.5+(1-(Level.lineLength(sx,sy,x,y)/farthestCorner))
 				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay()));
 		decayCounter = 0;
 		adjustedDecayTime = decayTime;
