@@ -152,10 +152,13 @@ public abstract class Level{
 				break;
 			}
 			addMechanism(p);
-			int wid = (!p.isHorizontal())?BORDER_THICKNESS/2:p.getWidth();
-			int hei = (!p.isHorizontal())?p.getWidth():BORDER_THICKNESS/2;
-			board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:wid),
-					p.getUp(enter)+(!p.isHorizontal()?0:hei),wid,hei,20));
+			if(enter) { //place door
+				int wid = (!p.isHorizontal())?BORDER_THICKNESS*2:p.getWidth();
+				int hei = (!p.isHorizontal())?p.getWidth():BORDER_THICKNESS*2;
+				board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:-wid/2),
+						p.getUp(enter)+(!p.isHorizontal()?0:-hei/2),wid,hei,20));
+			}
+
 		}
 		
 	}
@@ -180,8 +183,8 @@ public abstract class Level{
 	
 	//creates passages to next levels
 	public void buildPassages(ArrayList<Level> nextLevels, int size){
-		int[] dirs = {Passage.TOP,Passage.RIGHT};
-		int[] poss = {board.x_resol/2,board.y_resol/2};
+		int[] dirs = {Passage.RIGHT,Passage.TOP};
+		int[] poss = {board.y_resol/2,board.x_resol/2};
 		for(int i=0; i<nextLevels.size() && i<dirs.length; i++) {
 			Passage p = new Passage(game,board,this,nextLevels.get(i),dirs[i],poss[i],size);
 			passageways.add(p);
