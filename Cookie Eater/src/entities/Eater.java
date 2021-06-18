@@ -239,6 +239,7 @@ public class Eater extends Entity{
 			try {
 				Thread.sleep(200); //movement freeze
 			}catch(InterruptedException e){};
+			board.resetFloors();
 			board.resetGame();
 			score = 0;
 			cash = 0;

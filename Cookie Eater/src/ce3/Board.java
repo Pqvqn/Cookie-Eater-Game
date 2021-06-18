@@ -507,6 +507,14 @@ public class Board{
 	
 	public void loadDungeon(int num) {
 		currDungeon = num;
+		resetFloors();
+		resetNpcs();
+		//create floor 1
+		resetGame();	
+	}	
+	//recreates floor progression
+	public void resetFloors() {
+		int num = currDungeon;
 		//converting list of floors to linked list
 		floors = new LinkedList<Level>();
 		if(mode==LEVELS) {
@@ -528,12 +536,7 @@ public class Board{
 			}
 
 		}
-		resetNpcs();
-		//create floor 1
-		resetGame();
-
-				
-	}	
+	}
 	
 	public void setCalibrations(double cycle) {
 		for(int i=0; i<players.size(); i++) {

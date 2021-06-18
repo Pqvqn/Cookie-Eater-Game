@@ -140,6 +140,14 @@ public class Controls implements KeyListener{
 				e.consume();
 				player.special(2); 
 				break;
+			case KeyEvent.VK_O:
+				System.out.println(board.currFloor.getPassages());
+				System.out.println(board.currFloor.getPassages().size());
+				System.out.println(board.currFloor.getPassages().get(0));
+				System.out.println(board.currFloor.getPassages().get(0).getX());
+				System.out.println(board.currFloor.getPassages().get(0).getY());
+				System.out.println(board.currFloor.getPassages().get(0).isEntrance());
+				break;
 		}
 		
 	}
