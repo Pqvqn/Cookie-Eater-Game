@@ -10,6 +10,7 @@ import menus.Menu;
 
 import java.awt.geom.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Board{
@@ -32,7 +33,20 @@ public class Board{
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	public Level[][] floorSequence; //order of floors for each dungeon 
+	public Class[][] floorSequence = { //order of floors for each dungeon 
+			//vaults
+			{Store1.class,Floor1.class,
+			Store2.class,Floor2.class,Floor2.class,
+			Store3.class,Floor3.class,Floor3.class,Floor3.class, 
+			Store4.class,Floor4.class,Floor4.class,Floor4.class,Floor4.class,Floor5.class},
+			//inners
+			{Store2.class,FloorRound.class,
+			Store3.class,Floor4.class,FloorRound.class,
+			Store4.class,FloorRound.class,FloorRound.class,FloorRound.class, 
+			Store1.class,FloorRound.class,FloorRound.class,FloorRound.class,FloorRound.class,FloorRound.class},
+			//training
+			{Training1.class}
+	};
 	public LinkedList<Level> floors;
 	public Level nextLevel;
 	public int currDungeon;
@@ -80,22 +94,6 @@ public class Board{
 			//create all of this game's npcs
 			createNpcs(cycletime);
 		}
-		
-		Level[][] floseq = {
-				//vaults
-				{new Store1(game,this),new Floor1(game,this),
-				new Store2(game,this),new Floor2(game,this),new Floor2(game,this),
-				new Store3(game,this),new Floor3(game,this),new Floor3(game,this),new Floor3(game,this), 
-				new Store4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor4(game,this),new Floor5(game,this)},
-				//inners
-				{new Store2(game,this),new FloorRound(game,this),
-				new Store3(game,this),new Floor4(game,this),new FloorRound(game,this),
-				new Store4(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this), 
-				new Store1(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this),new FloorRound(game,this)},
-				//training
-				{new Training1(game,this)}
-		};
-		floorSequence = floseq;
 		
 		loadDungeon(dungeon);
 	}
@@ -663,6 +661,17 @@ public class Board{
 		s.close();
 		game.draw.removeUI(ui_cnf);
 		ui_cnf = null;
+	}
+	
+	public Level readFloor(Class<Level> s) {
+		try {
+			return (s.getDeclaredConstructor(Game.class, Board.class).newInstance(game,this));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
