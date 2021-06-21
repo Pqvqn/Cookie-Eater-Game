@@ -24,22 +24,24 @@ public abstract class Level{
 	protected Color wallColor;
 	protected String name; //name for files
 	protected String nameAbbrev; //name for display
+	protected String lvlid; //id code for this level's path
 	protected ArrayList<Passage> passageways; //entrances and exits
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
-	public Level(Game frame, Board gameboard) {
-		this(frame,gameboard,new ArrayList<Level>());
+	public Level(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,new ArrayList<Level>());
 	}
 	
-	public Level(Game frame, Board gameboard, ArrayList<Level> next) {
+	public Level(Game frame, Board gameboard, String id, ArrayList<Level> next) {
 		scale = 1;
 		game = frame;
 		board = gameboard;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
+		lvlid = id;
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
@@ -57,6 +59,7 @@ public abstract class Level{
 		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
+		lvlid = sd.getString("name",2);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		
@@ -112,6 +115,7 @@ public abstract class Level{
 		data.addData("decay",maxDecay,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
+		data.addData("name",lvlid,2);
 		data.addData("type",this.getClass().getName());
 
 		passageways = new ArrayList<Passage>();
