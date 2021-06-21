@@ -516,14 +516,16 @@ public class Board{
 		//converting list of floors to linked list
 		floors = new LinkedList<Level>();
 		if(mode==LEVELS) {
-			for(int i=floorSequence[num].length-1; i>=0; i--) {
-				floors.add(readFloor(floorSequence[num][i]));
-				if(i<floorSequence[num].length-1) {
+			Level last = null;
+			Level curr = null;
+			for(int i=0; i<floorSequence[num].length; i++) {
+				floors.add(curr = readFloor(floorSequence[num][i],(last==null)?"0":last.getID()+"0"));
+				if(last!=null) {
 					ArrayList<Level> l = new ArrayList<Level>();
-					Level lv;
-					l.add(lv = readFloor(floorSequence[num][i+1]));
-					lv.setNextLevels(l);
+					l.add(curr);
+					last.setNextLevels(l);
 				}
+				last = curr;
 			}
 		}else if(mode==PVP) {
 			if(num==0) {
@@ -664,9 +666,9 @@ public class Board{
 		ui_cnf = null;
 	}
 	
-	public Level readFloor(Class<Level> s) {
+	public Level readFloor(Class<Level> s, String id) {
 		try {
-			return (s.getDeclaredConstructor(Game.class, Board.class).newInstance(game,this));
+			return (s.getDeclaredConstructor(Game.class, Board.class, String.class).newInstance(game,this,id));
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block

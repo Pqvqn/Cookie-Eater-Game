@@ -75,7 +75,7 @@ public abstract class Level{
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
-	
+	public String getID() {return lvlid;}
 	public void setNextLevels(ArrayList<Level> next) {
 		buildPassages(next, (int)(200 * scale));
 	}
