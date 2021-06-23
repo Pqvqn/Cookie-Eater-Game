@@ -8,8 +8,8 @@ import mechanisms.*;
 
 public class Store1 extends Store{
 	
-	public Store1(Game frame, Board gameboard) {
-		super(frame,gameboard);
+	public Store1(Game frame, Board gameboard, String id) {
+		super(frame,gameboard,id);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		scale = 1;

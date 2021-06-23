@@ -13,11 +13,11 @@ public class Floor1 extends Level{
 	//private Board board;
 	//public double startx;
 	//public double starty;
-	public Floor1(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+	public Floor1(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,null);
 	}
-	public Floor1(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
-		super(frame,gameboard, nextFloor);
+	public Floor1(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+		super(frame,gameboard,id,nextFloor);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		scale = 1;

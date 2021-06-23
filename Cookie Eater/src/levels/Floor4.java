@@ -18,11 +18,11 @@ public class Floor4 extends Level{
 			{2*board.x_resol/3,board.x_resol,0,board.y_resol/2},
 			{2*board.x_resol/3,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Floor4(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+	public Floor4(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,null);
 	}
-	public Floor4(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
-		super(frame,gameboard, nextFloor);
+	public Floor4(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+		super(frame,gameboard,id,nextFloor);
 		name = "Frozen Chambers";
 		nameAbbrev = "ice";
 		scale = .85;

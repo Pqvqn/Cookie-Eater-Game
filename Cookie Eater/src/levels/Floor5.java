@@ -14,11 +14,11 @@ public class Floor5 extends Level{
 			{board.x_resol/2,board.x_resol,0,board.y_resol/2},
 			{board.x_resol/2,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Floor5(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+	public Floor5(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,null);
 	}
-	public Floor5(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
-		super(frame,gameboard, nextFloor);
+	public Floor5(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+		super(frame,gameboard,id,nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 		scale = .6;

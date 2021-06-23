@@ -16,11 +16,11 @@ public class Floor2 extends Level{
 	//public double startx;
 	//public double starty;
 	
-	public Floor2(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+	public Floor2(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,null);
 	}
-	public Floor2(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
-		super(frame,gameboard, nextFloor);
+	public Floor2(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+		super(frame,gameboard,id,nextFloor);
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
 		scale = .95;

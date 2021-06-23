@@ -7,8 +7,8 @@ import entities.*;
 
 public class Arena2 extends Arena{
 
-	public Arena2(Game frame, Board gameboard) {
-		super(frame,gameboard);
+	public Arena2(Game frame, Board gameboard, String id) {
+		super(frame,gameboard,id);
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
 		minDecay = 90;

@@ -529,11 +529,11 @@ public class Board{
 			}
 		}else if(mode==PVP) {
 			if(num==0) {
-				floors.add(new Arena2(game,this));
+				floors.add(new Arena2(game,this,""));
 			}else if(num==1) {
-				floors.add(new ArenaRound(game,this));
+				floors.add(new ArenaRound(game,this,""));
 			}else {
-				floors.add(new Arena1(game,this));
+				floors.add(new Arena1(game,this,""));
 			}
 
 		}

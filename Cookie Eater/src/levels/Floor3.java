@@ -16,11 +16,11 @@ public class Floor3 extends Level{
 			{board.x_resol/2,board.x_resol,0,board.y_resol/2},
 			{board.x_resol/2,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Floor3(Game frame, Board gameboard) {
-		this(frame,gameboard,null);
+	public Floor3(Game frame, Board gameboard, String id) {
+		this(frame,gameboard,id,null);
 	}
-	public Floor3(Game frame, Board gameboard, ArrayList<Level> nextFloor) {
-		super(frame,gameboard, nextFloor);
+	public Floor3(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+		super(frame,gameboard,id,nextFloor);
 		name = "Descending Labyrinths";
 		nameAbbrev = "lab";
 		scale = .9;
