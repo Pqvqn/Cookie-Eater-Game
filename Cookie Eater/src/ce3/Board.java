@@ -666,6 +666,7 @@ public class Board{
 		ui_cnf = null;
 	}
 	
+	//returns instance of given Level subclass
 	public Level readFloor(Class<Level> s, String id) {
 		try {
 			return (s.getDeclaredConstructor(Game.class, Board.class, String.class).newInstance(game,this,id));
@@ -675,6 +676,24 @@ public class Board{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	//finds the floor belonging to the given code
+	public Level findFloor(String code) {
+		Level curr = floors.getLast();
+		String cid = curr.getID();
+		//crawl through floors, looking for next one based on matching id
+		for(int i=2; i<code.length(); i++) {
+			for(int j=0; j<curr.getPassages().size(); j++) {
+				String oid = curr.getPassages().get(j).getExit().getID();
+				if(oid.substring(0,i).equals(cid)) {
+					curr = curr.getPassages().get(j).getExit();
+					cid = oid;
+				}
+			}
+			if(cid.length() < i)return null;
+		}
+		return curr;
 	}
 
 }
