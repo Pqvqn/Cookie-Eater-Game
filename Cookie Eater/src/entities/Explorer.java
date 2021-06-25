@@ -1,13 +1,14 @@
 package entities;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.awt.geom.*;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 import ce3.*;
 import levels.*;
+import mechanisms.*;
 import cookies.*;
 import sprites.*;
 import menus.*;
@@ -320,7 +321,7 @@ public class Explorer extends Entity{
 	public void chooseResidence() {
 		
 	}
-	//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
+	/*//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
 	public Level findFloor(String type, boolean store, int num, int backup) {
 		int count = 0;
 		Level point = board.floors.getLast();
@@ -336,6 +337,20 @@ public class Explorer extends Entity{
 		}else {
 			return null;
 		}
+	}*/
+	//
+	public Level chooseFloor(HashMap<String,Integer> priorities, int steps) {
+		Level point = board.floors.getLast();
+		for(int i=0; i<steps; i++) {
+			ArrayList<Level> nexts = new ArrayList<Level>();
+			for(Passage p : point.getPassages()) {
+				if(!p.isEntrance())nexts.add(p.getExit());
+			}
+			Level chosen;
+			//choose best option based on priorities
+			point = chosen;
+		}
+		return point;
 	}
 	//creates a completely new stash of items
 	public void createStash() {
