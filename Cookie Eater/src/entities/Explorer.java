@@ -339,16 +339,36 @@ public class Explorer extends Entity{
 		}
 	}*/
 	//
-	public Level chooseFloor(HashMap<String,Integer> priorities, int steps) {
+	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, int steps) {
 		Level point = board.floors.getLast();
 		for(int i=0; i<steps; i++) {
 			ArrayList<Level> nexts = new ArrayList<Level>();
+			ArrayList<Integer> chances = new ArrayList<Integer>();
+			int sum = 0;
 			for(Passage p : point.getPassages()) {
-				if(!p.isEntrance())nexts.add(p.getExit());
+				if(!p.isEntrance()) {
+					Level next = p.getExit();
+					nexts.add(next);
+					if(priorities.containsKey(next.getName())) {
+						chances.add(priorities.get(next.getName()));
+					}else {
+						chances.add(0);
+					}
+					if(next instanceof Store)chances.set(chances.size()-1, chances.get(chances.size()-1)+storebonus);
+					sum += chances.get(chances.size()-1);
+					chances.set(chances.size()-1, sum);
+				}
 			}
-			Level chosen;
+			int chosen = (int)(Math.random() * sum);
+			Level chosenLevel = null;
+			for(int j=0; j<nexts.size() && chosenLevel == null; j++) {
+				if(chances.get(j) >= chosen) {
+					chosenLevel = nexts.get(j);
+				}
+			}
+			if(chosenLevel==null)chosenLevel = nexts.get(0);
 			//choose best option based on priorities
-			point = chosen;
+			point = chosenLevel;
 		}
 		return point;
 	}
