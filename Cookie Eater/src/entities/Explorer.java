@@ -95,7 +95,7 @@ public class Explorer extends Entity{
 			mr[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
-		residence = board.floorSequence[sd.getInteger("residence",0)][sd.getInteger("residence",1)];
+		residence = board.findFloor(sd.getString("residence",0));
 		
 		ArrayList<Object> spots = sd.getData("shopspots");
 		if(spots!=null) {
@@ -145,14 +145,7 @@ public class Explorer extends Entity{
 		data.addData("catalogsize",max_cat,1);
 		data.addData("inputspeed",input_speed);
 		
-		data.addData("residence",residenceDungeon,0);
-		int residenceFloor = -1;
-		for(int i=0; i<board.floorSequence[residenceDungeon].length && residenceFloor<0; i++) {
-			if(board.floorSequence[residenceDungeon][i] == residence) {
-				residenceFloor=i;
-			}
-		}
-		data.addData("residence",residenceFloor,1);
+		data.addData("residence",residence.getID());
 		
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",mr[i/2][i%2],i);
