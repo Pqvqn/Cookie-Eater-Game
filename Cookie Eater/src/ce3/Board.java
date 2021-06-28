@@ -145,6 +145,13 @@ public class Board{
 			}
 
 		}*/
+		ArrayList<SaveData> floorsData = data.getSaveDataList("floors");
+		ArrayList<Level> tempFloors = new ArrayList<Level>();
+		for(int i=0; i<floorsData.size(); i++) {
+			tempFloors.add(Level.loadFromData(game, this, floorsData.get(i)));
+		}
+		
+		//sort into linked list based on ids
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
 		cookies = new ArrayList<Cookie>();
@@ -241,6 +248,12 @@ public class Board{
 				data.addData("currentfloor",i);
 			}
 		}*/
+		
+		Iterator<Level> it = floors.descendingIterator();
+		while(it.hasNext()) {
+			Level curr = it.next();
+			data.addData("floors",curr.getSaveData(),0);
+		}
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
