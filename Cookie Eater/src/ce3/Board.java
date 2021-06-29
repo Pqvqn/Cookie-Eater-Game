@@ -151,7 +151,20 @@ public class Board{
 			tempFloors.add(Level.loadFromData(game, this, floorsData.get(i)));
 		}
 		
-		//sort into linked list based on ids
+		floors = new LinkedList<Level>();
+		for(int i=tempFloors.size()-1; i>=0; i--) {
+			floors.add(tempFloors.get(i));
+			String id = tempFloors.get(i).getID();
+			ArrayList<Level> next = new ArrayList<Level>();
+			for(int j=0; j<tempFloors.size(); j++) {
+				String id2 = tempFloors.get(j).getID();
+				if(id2.length()>id.length() && id2.substring(0,id.length()).equals(id)) {
+					next.add(tempFloors.get(j));
+				}
+			}
+			tempFloors.get(i).setNextLevels(next);
+		}
+		
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
 		cookies = new ArrayList<Cookie>();
