@@ -1,5 +1,7 @@
 package mechanisms;
 
+import java.util.*;
+
 import ce3.*;
 import levels.*;
 import entities.*;
@@ -30,12 +32,26 @@ public class Passage extends Mechanism{
 		setMode(true);
 	}
 	
-	public Passage(Game frame, Board gameboard, Level entrance, Level exit, SaveData sd) {
+	public Passage(Game frame, Board gameboard, Level current, ArrayList<Level> prevOptions, ArrayList<Level> nextOptions, SaveData sd) {
 		super(frame,gameboard,sd);
-		entranceFloor = entrance;
-		exitFloor = exit;
-		direction = sd.getInteger("direction",0);
 		mode = sd.getBoolean("mode",0);
+		if(mode) {
+			entranceFloor = current;
+			for(int i=0; i<nextOptions.size(); i++) {
+				if(nextOptions.get(i).getID().equals(sd.getString("otherid",0))) {
+					exitFloor = nextOptions.get(i);
+				}
+			}
+		}else {
+			exitFloor = current;
+			for(int i=0; i<prevOptions.size(); i++) {
+				if(prevOptions.get(i).getID().equals(sd.getString("otherid",0))) {
+					entranceFloor = prevOptions.get(i);
+				}
+			}
+		}
+		
+		direction = sd.getInteger("direction",0);
 		inx = sd.getInteger("position",0);
 		iny = sd.getInteger("position",1);
 		outx = sd.getInteger("position",2);
