@@ -12,8 +12,8 @@ public class Training1 extends Training{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
-	public Training1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
-		super(frame, gameboard, nextFloor, sd);
+	public Training1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+		super(frame, gameboard, prev, next, sd);
 	}
 	
 	public void placeCookies(){

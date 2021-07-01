@@ -14,8 +14,8 @@ public class Arena2 extends Arena{
 		minDecay = 90;
 		maxDecay = 3000;
 	}
-	public Arena2(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
-		super(frame, gameboard, nextFloor, sd);
+	public Arena2(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+		super(frame, gameboard, prev, next, sd);
 	}
 	public void spawnEnemies() { 
 		int cycle = game.getCycle();

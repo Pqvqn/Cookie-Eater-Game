@@ -11,7 +11,7 @@ public class Arena1 extends Arena{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}
-	public Arena1(Game frame, Board gameboard, ArrayList<Level> nextFloor, SaveData sd) {
-		super(frame, gameboard, nextFloor, sd);
+	public Arena1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+		super(frame, gameboard, prev, next, sd);
 	}
 }
