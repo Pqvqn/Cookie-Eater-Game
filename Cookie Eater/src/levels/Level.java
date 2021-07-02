@@ -63,10 +63,12 @@ public abstract class Level{
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		
-		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
-		passageways = new ArrayList<Passage>();
-		for(int i=0; i<passdata.size(); i++) {
-			passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
+		if(prev!=null && next!=null) {
+			ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
+			passageways = new ArrayList<Passage>();
+			for(int i=0; i<passdata.size(); i++) {
+				passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
+			}
 		}
 		
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
@@ -78,6 +80,13 @@ public abstract class Level{
 	public String getID() {return lvlid;}
 	public void setNextLevels(ArrayList<Level> next) {
 		buildPassages(next, (int)(200 * scale));
+	}
+	public void loadPassages(ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
+		passageways = new ArrayList<Passage>();
+		for(int i=0; i<passdata.size(); i++) {
+			passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
+		}
 	}
 	
 	public ArrayList<Passage> getPassages(){

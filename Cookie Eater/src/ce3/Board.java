@@ -148,7 +148,7 @@ public class Board{
 		ArrayList<SaveData> floorsData = data.getSaveDataList("floors");
 		ArrayList<Level> tempFloors = new ArrayList<Level>();
 		for(int i=0; i<floorsData.size(); i++) {
-			tempFloors.add(Level.loadFromData(game, this, floorsData.get(i)));
+			tempFloors.add(Level.loadFromData(game, this, null, null, floorsData.get(i)));
 		}
 		
 		floors = new LinkedList<Level>();
@@ -156,13 +156,17 @@ public class Board{
 			floors.add(tempFloors.get(i));
 			String id = tempFloors.get(i).getID();
 			ArrayList<Level> next = new ArrayList<Level>();
+			ArrayList<Level> prev = new ArrayList<Level>();
 			for(int j=0; j<tempFloors.size(); j++) {
 				String id2 = tempFloors.get(j).getID();
 				if(id2.length()>id.length() && id2.substring(0,id.length()).equals(id)) {
 					next.add(tempFloors.get(j));
 				}
+				if(id2.length()<id.length() && id.substring(0,id2.length()).equals(id2)) {
+					prev.add(tempFloors.get(j));
+				}
 			}
-			tempFloors.get(i).setNextLevels(next);
+			tempFloors.get(i).loadPassages(prev,next,floorsData.get(i));
 		}
 		
 		
