@@ -170,6 +170,17 @@ public abstract class Store extends Level{
 		P.add(p);
 	}
 	public void spawnNpcs() {
+		//retrieve the mechanic
+		Explorer mechanic = null;
+		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
+			Explorer testnpc = board.npcs.get(i);
+			if(testnpc.getName().equals("Mechanic") && !board.present_npcs.contains(testnpc)) {
+				mechanic = testnpc;
+				board.present_npcs.add(mechanic);
+				mechanic.spawn();
+			}
+		}
+		
 		int vendors=0,passerbys=0;
 		for(int i=0; i<board.present_npcs.size(); i++) {
 			Explorer e = board.present_npcs.get(i);
