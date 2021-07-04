@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import ce3.*;
 import cookies.*;
@@ -87,7 +88,9 @@ public class ExplorerMystery extends Explorer{
 		return -1;
 	}
 	public void chooseResidence() {
-		residence = findFloor("Descending Labyrinths",true,0,2);
+		String[] levels = {};
+		int[] weights = {};
+		residence = chooseFloor(convertToMap(levels,weights), 100, 8);
 	}
 
 	public void createStash() {

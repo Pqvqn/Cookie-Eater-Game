@@ -345,7 +345,7 @@ public class Explorer extends Entity{
 					if(priorities.containsKey(next.getName())) {
 						chances.add(priorities.get(next.getName()));
 					}else {
-						chances.add(0);
+						chances.add(1);
 					}
 					if(next instanceof Store)chances.set(chances.size()-1, chances.get(chances.size()-1)+storebonus);
 					sum += chances.get(chances.size()-1);
@@ -364,6 +364,18 @@ public class Explorer extends Entity{
 			point = chosenLevel;
 		}
 		return point;
+	}
+	//converts name and weight arrays into a HashMap
+	public HashMap<String,Integer> convertToMap(String[] labels, int[] weights) {
+		HashMap<String,Integer> ret = new HashMap<String,Integer>();
+		for(int i=0; i<labels.length; i++) {
+			if(i<weights.length) {
+				ret.put(labels[i],weights[i]);
+			}else {
+				ret.put(labels[i],1);
+			}
+		}
+		return ret;
 	}
 	//creates a completely new stash of items
 	public void createStash() {
