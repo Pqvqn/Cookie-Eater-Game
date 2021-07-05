@@ -92,7 +92,9 @@ public class ExplorerMechanic extends Explorer{
 		return -1;
 	}
 	public void chooseResidence() {
-		residence = findFloor("Dungeon Foyer",true,0,2);
+		String[] levels = {};
+		int[] weights = {};
+		residence = chooseFloor(convertToMap(levels,weights), 100, 1);
 	}
 
 	public void levelComplete() {
