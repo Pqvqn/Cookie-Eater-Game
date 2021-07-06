@@ -339,7 +339,7 @@ public class Explorer extends Entity{
 			ArrayList<Integer> chances = new ArrayList<Integer>();
 			int sum = 0;
 			for(Passage p : point.getPassages()) {
-				if(!p.isEntrance()) {
+				if(p.isEntrance()) {
 					Level next = p.getExit();
 					nexts.add(next);
 					if(priorities.containsKey(next.getName())) {
@@ -359,7 +359,13 @@ public class Explorer extends Entity{
 					chosenLevel = nexts.get(j);
 				}
 			}
-			if(chosenLevel==null)chosenLevel = nexts.get(0);
+			if(chosenLevel==null) {
+				if(nexts.size()>0) {
+					chosenLevel = nexts.get(0);
+				}else {
+					chosenLevel = point;
+				}
+			}
 			//choose best option based on priorities
 			point = chosenLevel;
 		}

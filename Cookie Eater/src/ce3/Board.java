@@ -450,7 +450,7 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		currFloor = floors.getLast();
+		currFloor = floors.getFirst();
 		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
@@ -710,7 +710,7 @@ public class Board{
 	
 	//finds the floor belonging to the given code
 	public Level findFloor(String code) {
-		Level curr = floors.getLast();
+		Level curr = floors.getFirst();
 		String cid = curr.getID();
 		//crawl through floors, looking for next one based on matching id
 		for(int i=2; i<code.length(); i++) {

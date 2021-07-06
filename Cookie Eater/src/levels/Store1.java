@@ -13,6 +13,9 @@ public class Store1 extends Store{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		scale = 1;
+		int[][] ms = {{board.x_resol-200,board.y_resol/2+180},{board.x_resol/2+200,board.y_resol/2},{board.x_resol/2-200,board.y_resol/2},
+				{board.x_resol/2,board.y_resol/2+200},{board.x_resol/2,board.y_resol/2-200}};
+		mechanicSpaces = ms;
 	}
 	public Store1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);
@@ -20,11 +23,11 @@ public class Store1 extends Store{
 	
 	public void placeCookies(){
 	
-		//stats
+		/*//stats
 		board.cookies.add(new CookieStat(game,board,board.x_resol/2+200,board.y_resol/2));
 		board.cookies.add(new CookieStat(game,board,board.x_resol/2-200,board.y_resol/2));
 		board.cookies.add(new CookieStat(game,board,board.x_resol/2,board.y_resol/2+200));
-		board.cookies.add(new CookieStat(game,board,board.x_resol/2,board.y_resol/2-200));
+		board.cookies.add(new CookieStat(game,board,board.x_resol/2,board.y_resol/2-200));*/
 		
 		
 		board.player().setScoreToWin(2);
