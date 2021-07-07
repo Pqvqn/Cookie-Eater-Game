@@ -101,9 +101,9 @@ public class ExplorerMechanic extends Explorer{
 		super.levelComplete();
 		//if player completes store, move to next store
 		if(board.currFloor instanceof Store) {
-			do{
+			/*do{
 				residence = residence.getPassages().get(0).getExit();
-			}while(!(residence instanceof Store) && residence.getPassages().size()>0);
+			}while(!(residence instanceof Store) && residence.getPassages().size()>0);*/
 			createStash(); //reset stat cookies for each store
 			setState("Pickups","none");
 			setState("HasPUP","no");
@@ -114,7 +114,7 @@ public class ExplorerMechanic extends Explorer{
 		super.createStash();
 		//stash contains 3 random stat changing cookies each time
 		on_display = new ArrayList<CookieStore>();
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<4; i++) {
 			to_sell.add(0,new CookieStat(game,board,0,0));
 		}
 	}

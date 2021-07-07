@@ -13,7 +13,7 @@ public class Store1 extends Store{
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 		scale = 1;
-		int[][] ms = {{board.x_resol-200,board.y_resol/2+180},{board.x_resol/2+200,board.y_resol/2},{board.x_resol/2-200,board.y_resol/2},
+		int[][] ms = {{600,board.y_resol/2+180},{board.x_resol/2+200,board.y_resol/2},{board.x_resol/2-200,board.y_resol/2},
 				{board.x_resol/2,board.y_resol/2+200},{board.x_resol/2,board.y_resol/2-200}};
 		mechanicSpaces = ms;
 	}
