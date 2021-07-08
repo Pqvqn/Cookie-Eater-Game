@@ -141,18 +141,9 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println(board.currFloor.getPassages());
-				System.out.println(board.currFloor.getPassages().size());
-				System.out.println(board.currFloor.getPassages().get(0));
-				System.out.println(board.currFloor.getPassages().get(0).getX());
-				System.out.println(board.currFloor.getPassages().get(0).getY());
-				System.out.println(board.currFloor.getPassages().get(0).isEntrance());
-				System.out.println(board.currFloor.getPassages().get(0).getExit());
-				System.out.println(board.currFloor.getPassages().get(1));
-				System.out.println(board.currFloor.getPassages().get(1).getX());
-				System.out.println(board.currFloor.getPassages().get(1).getY());
-				System.out.println(board.currFloor.getPassages().get(1).isEntrance());
-				System.out.println(board.currFloor.getPassages().get(1).getExit());
+				for(Explorer npc : board.npcs) {
+					System.out.println(npc+"  " +npc.getResidence());
+				}
 				break;
 		}
 		

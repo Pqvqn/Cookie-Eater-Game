@@ -333,7 +333,7 @@ public class Explorer extends Entity{
 	}*/
 	//
 	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, int steps) {
-		Level point = board.floors.getLast();
+		Level point = board.floors.getFirst();
 		for(int i=0; i<steps; i++) {
 			ArrayList<Level> nexts = new ArrayList<Level>();
 			ArrayList<Integer> chances = new ArrayList<Integer>();
