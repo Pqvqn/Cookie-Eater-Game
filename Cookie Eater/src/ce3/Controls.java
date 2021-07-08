@@ -147,6 +147,12 @@ public class Controls implements KeyListener{
 				System.out.println(board.currFloor.getPassages().get(0).getX());
 				System.out.println(board.currFloor.getPassages().get(0).getY());
 				System.out.println(board.currFloor.getPassages().get(0).isEntrance());
+				System.out.println(board.currFloor.getPassages().get(0).getExit());
+				System.out.println(board.currFloor.getPassages().get(1));
+				System.out.println(board.currFloor.getPassages().get(1).getX());
+				System.out.println(board.currFloor.getPassages().get(1).getY());
+				System.out.println(board.currFloor.getPassages().get(1).isEntrance());
+				System.out.println(board.currFloor.getPassages().get(1).getExit());
 				break;
 		}
 		
