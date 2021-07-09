@@ -332,9 +332,12 @@ public class Explorer extends Entity{
 		}
 	}*/
 	//
-	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, int steps) {
+	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps) {
 		Level point = board.floors.getFirst();
-		for(int i=0; i<steps; i++) {
+		boolean tryagain = false;
+		for(int i=0; i<steps && (!storemode || point instanceof Store) && !tryagain; i++) {
+			tryagain = false;
+			//gather weights for options
 			ArrayList<Level> nexts = new ArrayList<Level>();
 			ArrayList<Integer> chances = new ArrayList<Integer>();
 			int sum = 0;
@@ -347,11 +350,18 @@ public class Explorer extends Entity{
 					}else {
 						chances.add(1);
 					}
-					if(next instanceof Store)chances.set(chances.size()-1, chances.get(chances.size()-1)+storebonus);
+					if(next instanceof Store) {
+						if(!storemode) {
+							chances.set(chances.size()-1, chances.get(chances.size()-1)+storebonus);
+						}else {
+							chances.set(chances.size()-1, 999999);
+						}
+					}
 					sum += chances.get(chances.size()-1);
 					chances.set(chances.size()-1, sum);
 				}
 			}
+			//randomly choose a path
 			int chosen = (int)(Math.random() * sum);
 			Level chosenLevel = null;
 			for(int j=0; j<nexts.size() && chosenLevel == null; j++) {
@@ -365,6 +375,10 @@ public class Explorer extends Entity{
 				}else {
 					chosenLevel = point;
 				}
+			}
+			//if store is full, force continue
+			if((chosenLevel instanceof Store) && ((Store)chosenLevel).isFull()) {
+				tryagain = true;
 			}
 			//choose best option based on priorities
 			point = chosenLevel;

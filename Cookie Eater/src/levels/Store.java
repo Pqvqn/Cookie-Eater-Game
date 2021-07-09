@@ -197,6 +197,10 @@ public abstract class Store extends Level{
 			}
 		}
 	}
+	//if all npc slots are taken
+	public boolean isFull() {
+		return passerbySpaces.length + vendorSpaces.length + 1 <= board.present_npcs.size();
+	}
 	public void removeNpcs() {
 		for(int i=0; i<board.present_npcs.size(); i++) {
 			board.present_npcs.get(i).packUp(); //all npcs pick up cookies for sale
