@@ -94,7 +94,7 @@ public class ExplorerMechanic extends Explorer{
 	public void chooseResidence() {
 		String[] levels = {};
 		int[] weights = {};
-		residence = chooseFloor(convertToMap(levels,weights), 100, true, 1);
+		residence = chooseFloor(convertToMap(levels,weights), 100, 1);
 	}
 
 	public void levelComplete() {

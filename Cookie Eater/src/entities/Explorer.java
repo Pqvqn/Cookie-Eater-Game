@@ -334,9 +334,8 @@ public class Explorer extends Entity{
 	//
 	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps) {
 		Level point = board.floors.getFirst();
-		System.out.println(this+"  "+board+"  "+point);
 		boolean tryagain = false;
-		for(int i=0; i<steps || (storemode && !(point instanceof Store)) || tryagain; i++) {
+		for(int i=0; i<steps && (!storemode || point instanceof Store) && !tryagain; i++) {
 			tryagain = false;
 			//gather weights for options
 			ArrayList<Level> nexts = new ArrayList<Level>();
