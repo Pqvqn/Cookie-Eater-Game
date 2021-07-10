@@ -88,7 +88,7 @@ public class ExplorerShopkeep extends Explorer{
 	public void chooseResidence() {
 		String[] levels = {};
 		int[] weights = {};
-		residence = chooseFloor(convertToMap(levels,weights), 100, 2);
+		residence = chooseFloor(convertToMap(levels,weights), 100, true, 2);
 	}
 
 	public void createStash() {
