@@ -16,6 +16,9 @@ public class Store1 extends Store{
 		int[][] ms = {{600,board.y_resol/2+180},{board.x_resol/2+200,board.y_resol/2},{board.x_resol/2-200,board.y_resol/2},
 				{board.x_resol/2,board.y_resol/2+200},{board.x_resol/2,board.y_resol/2-200}};
 		mechanicSpaces = ms;
+		passerbySpaces = new int[0][2];
+		vendorSpaces = new int[0][1][2];
+		
 	}
 	public Store1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);

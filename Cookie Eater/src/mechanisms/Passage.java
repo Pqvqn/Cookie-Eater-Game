@@ -139,6 +139,11 @@ public class Passage extends Mechanism{
 			setMode(false);
 		}
 	}
+	public boolean entranceAt(Level l) {
+		if(l==entranceFloor)return true;
+		if(l==exitFloor)return false;
+		return false;
+	}
 	
 	public boolean isHorizontal() {return direction==TOP || direction==BOTTOM;}
 	public int getDirection() {

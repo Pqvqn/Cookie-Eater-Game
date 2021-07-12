@@ -13,6 +13,7 @@ public abstract class Store extends Level{
 	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	protected int[][] passerbySpaces; //spaces for passerbys
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
+	public int vendors, passerbys, mechanics;
 	
 	public Store(Game frame, Board gameboard, String id) {
 		super(frame,gameboard,id);
@@ -172,6 +173,7 @@ public abstract class Store extends Level{
 		P.add(p);
 	}
 	public void spawnNpcs() {
+		passerbys=0;mechanics=0;vendors=0;
 		//retrieve the mechanic
 		Explorer mechanic = null;
 		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
@@ -183,23 +185,35 @@ public abstract class Store extends Level{
 			}
 		}
 		
-		int vendors=0,passerbys=0;
 		for(int i=0; i<board.present_npcs.size(); i++) {
 			Explorer e = board.present_npcs.get(i);
 			if(e==null) {
 				
-			}else if(e instanceof ExplorerMechanic) { //put mechanic in right place
+			}else if(e instanceof ExplorerMechanic && mechanics<mechanicSpaces.length) { //put mechanic in right place
 				e.sellWares(mechanicSpaces);
-			}else if(e.getState()==Explorer.VENDOR) { //put vendors in shop locations
-				if(vendors<vendorSpaces.length)e.sellWares(vendorSpaces[vendors++]);
-			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND) { //put npcs that are passing through in standby areas
-				if(passerbys<passerbySpaces.length)e.standBy(passerbySpaces[passerbys++]);
+				mechanics++;
+			}else if(e.getState()==Explorer.VENDOR && vendors<vendorSpaces.length) { //put vendors in shop locations
+				e.sellWares(vendorSpaces[vendors++]);
+			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND && passerbys<passerbySpaces.length) { //put npcs that are passing through in standby areas
+				e.standBy(passerbySpaces[passerbys++]);
+			}else {
+
 			}
 		}
 	}
 	//if all npc slots are taken
-	public boolean isFull() {
-		return passerbySpaces.length + vendorSpaces.length + 1 <= board.present_npcs.size();
+	public boolean isFull(boolean vendor, boolean passerby, boolean mechanic) {
+		boolean any = false;
+		System.out.println(""+passerbys+passerby+passerbySpaces.length);
+		if(vendor && vendors<vendorSpaces.length) {
+			any = true;
+		}else if(passerby && passerbys<passerbySpaces.length) {
+			any = true;
+		}else if(mechanic && mechanics<mechanicSpaces.length) {
+			any = true;
+		}
+		if(!any) System.out.println("yoy");
+		return !any;
 	}
 	public void removeNpcs() {
 		for(int i=0; i<board.present_npcs.size(); i++) {

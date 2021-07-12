@@ -334,7 +334,6 @@ public class Explorer extends Entity{
 	//
 	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps) {
 		Level point = board.floors.getFirst();
-		System.out.println(this+" "+point);
 		boolean tryagain = false;
 		for(int i=0; i<steps || (storemode && !(point instanceof Store)) || tryagain; i++) {
 			tryagain = false;
@@ -343,8 +342,9 @@ public class Explorer extends Entity{
 			ArrayList<Integer> chances = new ArrayList<Integer>();
 			int sum = 0;
 			for(Passage p : point.getPassages()) {
-				if(p.isEntrance()) {
+				if(p.entranceAt(point)) {
 					Level next = p.getExit();
+					System.out.println("{{"+next);
 					nexts.add(next);
 					if(priorities.containsKey(next.getName())) {
 						chances.add(priorities.get(next.getName()));
@@ -378,12 +378,21 @@ public class Explorer extends Entity{
 				}
 			}
 			//if store is full, force continue
-			if((chosenLevel instanceof Store) && ((Store)chosenLevel).isFull()) {
-				tryagain = true;
+			if(chosenLevel instanceof Store){
+				boolean vendor = state==VENDOR, passerby = state==STAND||state==STOP||state==VENTURE, mechanic =name=="Mechanic";
+				if(((Store)chosenLevel).isFull(vendor,passerby,mechanic)) {
+					tryagain = true;
+					System.out.println(this +" " +chosenLevel);
+				}else {
+					if(mechanic)((Store)chosenLevel).mechanics++;
+					if(vendor)((Store)chosenLevel).vendors++;
+					if(passerby)((Store)chosenLevel).passerbys++;
+				}
 			}
 			//choose best option based on priorities
 			point = chosenLevel;
 		}
+		System.out.println(this+" "+point);
 		return point;
 	}
 	//converts name and weight arrays into a HashMap

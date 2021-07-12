@@ -520,6 +520,7 @@ public class Board{
 					floors.add(store);
 					store.setID(lvlid);
 					stores.put(store.getName(),store);
+					curr = store;
 				}else {
 					floors.add(curr = readFloor(lvlclass,lvlid));
 				}
