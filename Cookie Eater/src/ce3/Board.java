@@ -47,7 +47,8 @@ public class Board{
 			//training
 			{Training1.class}
 	};
-	public LinkedList<Level> floors;
+	public LinkedList<Level> floors; //floor progression
+	public HashMap<String,Level> stores; //stores (stay the same between resets)
 	public Level nextLevel;
 	public int currDungeon;
 	public Level currFloor;
@@ -111,40 +112,7 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
-		/*ArrayList<SaveData> flrData = data.getSaveDataList("floors");
-		//System.out.println(flrData);
-		floorSequence = new Level[flrData.size()][3];
-		for(int i=0; i<flrData.size(); i++) {
-			ArrayList<SaveData> lvlData = flrData.get(i).getSaveDataList("levels");
-			//System.out.println(lvlData);
-			Level[] flr = new Level[lvlData.size()];
-			for(int j=0; j<lvlData.size(); j++) {
-				flr[j] = Level.loadFromData(game, this, lvlData.get(j));
-				//System.out.println(flr[j].getName());
-			}
-			floorSequence[i] = flr;
-		}
-		currFloor = floorSequence[currDungeon][data.getInteger("currentfloor",0)];
-		floors = new LinkedList<Level>();
-		if(mode==LEVELS) {
-			for(int i=floorSequence[currDungeon].length-1; i>=0; i--) {
-				floors.add(floorSequence[currDungeon][i]);
-				if(i<floorSequence[currDungeon].length-1) {
-					ArrayList<Level> l = new ArrayList<Level>();
-					l.add(floorSequence[currDungeon][i+1]);
-					floorSequence[currDungeon][i].setNextLevels(l);
-				}
-			}
-		}else if(mode==PVP) {
-			if(currDungeon==0) {
-				floors.add(new Arena2(game,this));
-			}else if(currDungeon==1) {
-				floors.add(new ArenaRound(game,this));
-			}else {
-				floors.add(new Arena1(game,this));
-			}
 
-		}*/
 		ArrayList<SaveData> floorsData = data.getSaveDataList("floors");
 		ArrayList<Level> tempFloors = new ArrayList<Level>();
 		for(int i=0; i<floorsData.size(); i++) {
@@ -152,8 +120,10 @@ public class Board{
 		}
 		
 		floors = new LinkedList<Level>();
+		stores = new HashMap<String,Level>();
 		for(int i=tempFloors.size()-1; i>=0; i--) {
-			floors.add(tempFloors.get(i));
+			Level addfloor = tempFloors.get(i);
+			floors.add(addfloor);
 			String id = tempFloors.get(i).getID();
 			ArrayList<Level> next = new ArrayList<Level>();
 			ArrayList<Level> prev = new ArrayList<Level>();
@@ -166,7 +136,8 @@ public class Board{
 					prev.add(tempFloors.get(j));
 				}
 			}
-			tempFloors.get(i).loadPassages(prev,next,floorsData.get(i));
+			addfloor.loadPassages(prev,next,floorsData.get(i));
+			if(addfloor instanceof Store)stores.put(addfloor.getName(),addfloor);
 		}
 		
 		
@@ -253,18 +224,6 @@ public class Board{
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);
 		
-		/*for(int i=0; i<floorSequence.length; i++) {
-			SaveData dungeonData = new SaveData();
-			for(int j=0; j<floorSequence[i].length; j++) {
-				dungeonData.addData("levels",floorSequence[i][j].getSaveData(),j);
-			}
-			data.addData("floors",dungeonData,i);
-		}
-		for(int i=0; i<floorSequence[currDungeon].length; i++) {
-			if(floorSequence[currDungeon][i] == currFloor) {
-				data.addData("currentfloor",i);
-			}
-		}*/
 		
 		Iterator<Level> it = floors.descendingIterator();
 		while(it.hasNext()) {
@@ -450,7 +409,6 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		currFloor = floors.getFirst();
 		currFloor.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
@@ -535,6 +493,7 @@ public class Board{
 	
 	public void loadDungeon(int num) {
 		currDungeon = num;
+		stores = new HashMap<String,Level>();
 		resetFloors();
 		resetNpcs();
 		//create floor 1
@@ -549,7 +508,21 @@ public class Board{
 			Level last = null;
 			Level curr = null;
 			for(int i=0; i<floorSequence[num].length; i++) {
-				floors.add(curr = readFloor(floorSequence[num][i],(last==null)?"0":last.getID()+"0"));
+				Class<Level> lvlclass = floorSequence[num][i];
+				String lvlid = (last==null)?"0":last.getID()+"0";
+				//if store, keep old one
+				if(Store.class.isAssignableFrom(lvlclass)) {
+					Level newstore = readFloor(lvlclass,lvlid);
+					Level store = stores.get(newstore.getName());
+					if(store == null) {
+						store = newstore;
+					}
+					floors.add(store);
+					store.setID(lvlid);
+					stores.put(store.getName(),store);
+				}else {
+					floors.add(curr = readFloor(lvlclass,lvlid));
+				}
 				if(last!=null) {
 					ArrayList<Level> l = new ArrayList<Level>();
 					l.add(curr);
@@ -567,6 +540,7 @@ public class Board{
 			}
 
 		}
+		currFloor = floors.getFirst();
 	}
 	
 	public void setCalibrations(double cycle) {
