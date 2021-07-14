@@ -344,7 +344,6 @@ public class Explorer extends Entity{
 			for(Passage p : point.getPassages()) {
 				if(p.entranceAt(point)) {
 					Level next = p.getExit();
-					System.out.println("{{"+next);
 					nexts.add(next);
 					if(priorities.containsKey(next.getName())) {
 						chances.add(priorities.get(next.getName()));
@@ -379,14 +378,10 @@ public class Explorer extends Entity{
 			}
 			//if store is full, force continue
 			if(chosenLevel instanceof Store){
-				boolean vendor = state==VENDOR, passerby = state==STAND||state==STOP||state==VENTURE, mechanic =name=="Mechanic";
-				if(((Store)chosenLevel).isFull(vendor,passerby,mechanic)) {
+				boolean vendor = state==VENDOR, passerby = state==STAND||state==STOP||state==VENTURE, mechanic = name.equals("Mechanic");
+				if(((Store)chosenLevel).isFull(this,vendor,passerby,mechanic)) {
 					tryagain = true;
 					System.out.println(this +" " +chosenLevel);
-				}else {
-					if(mechanic)((Store)chosenLevel).mechanics++;
-					if(vendor)((Store)chosenLevel).vendors++;
-					if(passerby)((Store)chosenLevel).passerbys++;
 				}
 			}
 			//choose best option based on priorities

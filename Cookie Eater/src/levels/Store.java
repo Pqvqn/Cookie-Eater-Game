@@ -13,7 +13,6 @@ public abstract class Store extends Level{
 	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	protected int[][] passerbySpaces; //spaces for passerbys
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
-	public int vendors, passerbys, mechanics;
 	
 	public Store(Game frame, Board gameboard, String id) {
 		super(frame,gameboard,id);
@@ -173,7 +172,7 @@ public abstract class Store extends Level{
 		P.add(p);
 	}
 	public void spawnNpcs() {
-		passerbys=0;mechanics=0;vendors=0;
+		int passerbys=0,mechanics=0,vendors=0;
 		//retrieve the mechanic
 		Explorer mechanic = null;
 		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
@@ -202,18 +201,22 @@ public abstract class Store extends Level{
 		}
 	}
 	//if all npc slots are taken
-	public boolean isFull(boolean vendor, boolean passerby, boolean mechanic) {
-		boolean any = false;
-		System.out.println(""+passerbys+passerby+passerbySpaces.length);
-		if(vendor && vendors<vendorSpaces.length) {
-			any = true;
-		}else if(passerby && passerbys<passerbySpaces.length) {
-			any = true;
-		}else if(mechanic && mechanics<mechanicSpaces.length) {
-			any = true;
+	public boolean isFull(Explorer place, boolean vendor, boolean passerby, boolean mechanic) {
+		int count = 0;
+		for(int i=0; i<board.npcs.size(); i++) {
+			Explorer e = board.npcs.get(i);
+			if(e!=place && e.getResidence()==this){
+				if(mechanic) {
+					if(e.getName().equals("Mechanic"))count++;
+				}else if(vendor) {
+					if(e.getState()==Explorer.VENDOR)count++;
+				}else if(passerby) {
+					if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND)count++;
+				}
+			}
 		}
-		if(!any) System.out.println("yoy");
-		return !any;
+		int max = mechanic?1:(vendor?vendorSpaces.length:(passerby?passerbySpaces.length:0));
+		return count >= max;
 	}
 	public void removeNpcs() {
 		for(int i=0; i<board.present_npcs.size(); i++) {
