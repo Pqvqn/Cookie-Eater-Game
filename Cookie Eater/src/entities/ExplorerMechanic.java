@@ -35,7 +35,7 @@ public class ExplorerMechanic extends Explorer{
 		input_speed = 30;
 		startShields = 1;
 		setShields(startShields);
-		state = VENDOR;
+		state = MECHANIC;
 	}
 	public ExplorerMechanic(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);

@@ -18,7 +18,7 @@ public class Explorer extends Entity{
 	protected Level residence; //which room this explorer is on
 	protected int residenceDungeon; //which dungeon this explorer is on
 	protected int state;
-	public static final int VENDOR = 0, VENTURE = 1, STAND = 2, STOP = 3;
+	public static final int VENDOR = 0, VENTURE = 1, STAND = 2, STOP = 3, MECHANIC = 4;
 	protected int[][] shop_spots;
 	protected ArrayList<CookieStore> to_sell;
 	protected ArrayList<CookieStore> on_display;
@@ -204,7 +204,7 @@ public class Explorer extends Entity{
 			return;
 		}
 		if(parts.isEmpty())buildBody();
-		if(state == VENDOR) { //if selling
+		if(state == VENDOR || state == MECHANIC) { //if selling
 			x_velocity = 0; //reset speeds
 			y_velocity = 0;
 			if(shop_spots!=null) {
@@ -378,16 +378,14 @@ public class Explorer extends Entity{
 			}
 			//if store is full, force continue
 			if(chosenLevel instanceof Store){
-				boolean vendor = state==VENDOR, passerby = state==STAND||state==STOP||state==VENTURE, mechanic = name.equals("Mechanic");
+				boolean vendor = state==VENDOR, passerby = state==STAND||state==STOP||state==VENTURE, mechanic = state==MECHANIC;
 				if(((Store)chosenLevel).isFull(this,vendor,passerby,mechanic)) {
 					tryagain = true;
-					System.out.println(this +" " +chosenLevel);
 				}
 			}
 			//choose best option based on priorities
 			point = chosenLevel;
 		}
-		System.out.println(this+" "+point);
 		return point;
 	}
 	//converts name and weight arrays into a HashMap

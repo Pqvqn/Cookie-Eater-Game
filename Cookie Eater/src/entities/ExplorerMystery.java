@@ -90,7 +90,7 @@ public class ExplorerMystery extends Explorer{
 	public void chooseResidence() {
 		String[] levels = {};
 		int[] weights = {};
-		residence = chooseFloor(convertToMap(levels,weights), 100, true, 8);
+		residence = chooseFloor(convertToMap(levels,weights), 100, true, 3);
 	}
 
 	public void createStash() {

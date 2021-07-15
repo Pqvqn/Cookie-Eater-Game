@@ -177,7 +177,7 @@ public abstract class Store extends Level{
 		Explorer mechanic = null;
 		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
 			Explorer testnpc = board.npcs.get(i);
-			if(testnpc.getName().equals("Mechanic") && !board.present_npcs.contains(testnpc)) {
+			if(testnpc.getState() == Explorer.MECHANIC && !board.present_npcs.contains(testnpc)) {
 				mechanic = testnpc;
 				board.present_npcs.add(mechanic);
 				mechanic.spawn();
@@ -188,7 +188,7 @@ public abstract class Store extends Level{
 			Explorer e = board.present_npcs.get(i);
 			if(e==null) {
 				
-			}else if(e instanceof ExplorerMechanic && mechanics<mechanicSpaces.length) { //put mechanic in right place
+			}else if(e.getState()==Explorer.MECHANIC && mechanics<mechanicSpaces.length) { //put mechanic in right place
 				e.sellWares(mechanicSpaces);
 				mechanics++;
 			}else if(e.getState()==Explorer.VENDOR && vendors<vendorSpaces.length) { //put vendors in shop locations
@@ -207,7 +207,7 @@ public abstract class Store extends Level{
 			Explorer e = board.npcs.get(i);
 			if(e!=place && e.getResidence()==this){
 				if(mechanic) {
-					if(e.getName().equals("Mechanic"))count++;
+					if(e.getState()==Explorer.MECHANIC)count++;
 				}else if(vendor) {
 					if(e.getState()==Explorer.VENDOR)count++;
 				}else if(passerby) {
