@@ -26,6 +26,7 @@ public abstract class Level{
 	protected String nameAbbrev; //name for display
 	protected String lvlid; //id code for this level's path
 	protected ArrayList<Passage> passageways; //entrances and exits
+	protected double exitProportion; //proportion of cookies that must be collected to open doors
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -324,6 +325,7 @@ public abstract class Level{
 	public boolean specialsEnabled() {return true;} //if specials are allowed
 	public boolean installPickups() {return false;} //if picked up items are automatically installed
 	public boolean takeDamage() {return true;} //if shields are used/player is killed when hits wall
+	public double getExitProportion() {return exitProportion;}
 	
 	public double[][] getStarts(){return startposs;}
 	

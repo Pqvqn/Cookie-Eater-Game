@@ -189,6 +189,11 @@ public class Passage extends Mechanism{
 		return pass && within;
 	}
 	
+	//proportion of cookies needed to open gate
+	public double cookieProportion() {
+		return (entranceFloor.getExitProportion() + exitFloor.getExitProportion())/2;
+	}
+	
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
