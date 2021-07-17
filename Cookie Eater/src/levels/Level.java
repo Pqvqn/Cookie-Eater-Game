@@ -171,7 +171,7 @@ public abstract class Level{
 				int wid = (!p.isHorizontal())?BORDER_THICKNESS*2:p.getWidth();
 				int hei = (!p.isHorizontal())?p.getWidth():BORDER_THICKNESS*2;
 				board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:-wid/2),
-						p.getUp(enter)+(!p.isHorizontal()?0:-hei/2),wid,hei,20));
+						p.getUp(enter)+(!p.isHorizontal()?0:-hei/2),wid,hei,p.cookieProportion(),true));
 			}
 
 		}
@@ -287,6 +287,10 @@ public abstract class Level{
 		}
 		
 		board.player().setScoreToWin(cooks);
+		//update number of cookies that mechanisms use
+		for(int i=0; i<board.mechanisms.size(); i++) {
+			board.mechanisms.get(i).updateCookieTotal(cooks);
+		}
 	}
 	//put enemies on floor
 	public void spawnEnemies() {

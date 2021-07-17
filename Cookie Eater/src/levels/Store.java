@@ -149,7 +149,7 @@ public abstract class Store extends Level{
 			addMechanism(passageways.get(i));
 		}
 		
-		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2));
+		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
 		
 	}
 	

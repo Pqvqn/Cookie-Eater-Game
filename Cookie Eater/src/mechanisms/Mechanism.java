@@ -80,6 +80,10 @@ public abstract class Mechanism {
 		return new Area();
 	}
 	
+	//updates mechanism for number of cookies on the board, as mechanisms generate before cookies
+	public void updateCookieTotal(int total) {
+		
+	}
 	public void paint(Graphics g) {
 		
 	}
