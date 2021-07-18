@@ -26,7 +26,7 @@ public class WallDoor extends Wall{
 	}
 	
 	public void setReq(double requirement, boolean isReqProp) {
-		if(isReqProp) {
+		if(!isReqProp) {
 			thresh = (int)requirement;
 		}else {
 			prop = requirement;
@@ -49,7 +49,7 @@ public class WallDoor extends Wall{
 	
 	public void runUpdate() {
 		//check if players have collected enough cookies to remove door
-		if(board.totalScore()>=thresh)
+		if(thresh>=0 && board.totalScore()>=thresh)
 			remove();
 	}
 	
