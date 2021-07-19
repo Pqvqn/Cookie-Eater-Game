@@ -23,6 +23,7 @@ public class FloorBiggy extends Level{
 		minDecay = 3600;
 		maxDecay = 18000;
 		//shieldCost = 250;
+		exitProportion = .5;
 		bgColor = new Color(30,0,30);
 		wallColor = new Color(200,50,0);
 	}

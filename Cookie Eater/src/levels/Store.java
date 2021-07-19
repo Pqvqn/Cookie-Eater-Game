@@ -18,6 +18,7 @@ public abstract class Store extends Level{
 		super(frame,gameboard,id);
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
+		exitProportion = 1;
 	}
 	public Store(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);

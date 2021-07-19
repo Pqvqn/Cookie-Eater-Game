@@ -43,6 +43,7 @@ public abstract class Level{
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		lvlid = id;
+		exitProportion = .5;
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
@@ -61,6 +62,7 @@ public abstract class Level{
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
 		lvlid = sd.getString("name",2);
+		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		
@@ -127,6 +129,7 @@ public abstract class Level{
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
 		data.addData("name",lvlid,2);
+		data.addData("requirement",exitProportion);
 		data.addData("type",this.getClass().getName());
 
 		passageways = new ArrayList<Passage>();
