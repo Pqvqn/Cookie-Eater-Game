@@ -23,7 +23,7 @@ public class Floor1 extends Level{
 		scale = 1;
 		minDecay = 60;
 		maxDecay = 1800;
-		exitProportion = .75;
+		exitProportion = .5;
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}

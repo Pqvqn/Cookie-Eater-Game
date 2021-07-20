@@ -343,14 +343,11 @@ public abstract class Level{
 			int[][] nareas = {{0,board.x_resol,0,board.y_resol}};
 			areas = nareas;
 		}
-		for(int i=0; i<passageways.size(); i++) { //add nodes for every entrance and exit
-			Passage p = passageways.get(i);
-			nodes.add(new int[] {(int)p.getX(),(int)p.getY(),(int)(p.getWidth()+Math.random()*(nradmax-nradmin))});
-		}
 		ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
 		for(int i=0; i<areas.length; i++) {
 			ranges.add(areas[i]);
 		}
+		
 		for(int i=1; i<=num; i++) { //make num of extra nodes
 			if(i<=areas.length) { //if some region empty
 				int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
@@ -358,10 +355,25 @@ public abstract class Level{
 			}else{
 				nodes.add(new int[] {(int)(Math.random()*board.x_resol),(int)(Math.random()*board.y_resol),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 			}
-			int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
-			lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
+			if(nodes.size()>1) {
+				int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
+				lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
+			}
 			//splitLine(lineRad,nodes.get(c)[0],nodes.get(c)[1],nodes.get(i)[0],nodes.get(i)[1]);//make two lines for path
 		}
+		
+		
+		for(int i=0; i<passageways.size(); i++) { //add nodes for every entrance and exit
+			Passage p = passageways.get(i);
+			int[] na = {(int)p.getX(),(int)p.getY(),(int)(p.getWidth()+Math.random()*(nradmax-nradmin))};
+			nodes.add(na);
+			
+			int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
+			lines.add(new int[] {na[0],na[1],nodes.get(c)[0],nodes.get(c)[1]});
+		}
+
+		
+		
 		for(int[] b : lines) { //add lineDiv number of nodes along lines
 			double diffX = b[0]-b[2], diffY = b[1]-b[3];
 			double currX = b[2], currY=b[3];
