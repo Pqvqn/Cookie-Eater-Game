@@ -335,6 +335,15 @@ public abstract class Level{
 	public double getExitProportion() {return exitProportion;}
 	
 	public double[][] getStarts(){return startposs;}
+	//returns the level of the first found exit passageway
+	public Level firstExit() {
+		for(int i=0; i<passageways.size(); i++) {
+			if(passageways.get(i).entranceAt(this)) {
+				return passageways.get(i).getExit();
+			}
+		}
+		return null;
+	}
 	
 	//creates nodes and connections
 	public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {

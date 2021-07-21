@@ -143,7 +143,7 @@ public class UISettings extends UIElement{
 		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
 			if(!board.inConvo()) {
-				board.setNext(board.currFloor.getPassages().get(0).getExit());
+				board.setNext(board.currFloor.firstExit());
 				getSelectedPlayer().win(null);
 			}
 		};
