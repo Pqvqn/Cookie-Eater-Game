@@ -357,15 +357,15 @@ public abstract class Level{
 			ranges.add(areas[i]);
 		}
 		
-		for(int i=1; i<=num; i++) { //make num of extra nodes
-			if(i<=areas.length) { //if some region empty
+		for(int i=0; i<=num; i++) { //make num of extra nodes
+			if(i<areas.length) { //if some region empty
 				int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
 				nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
 			}else{
 				nodes.add(new int[] {(int)(Math.random()*board.x_resol),(int)(Math.random()*board.y_resol),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 			}
 			if(nodes.size()>1) {
-				int c = (int)(Math.random()*(nodes.size()-1)); //choose random existing node
+				int c = (int)(Math.random()*(nodes.size()-2)); //choose random existing node but not last node
 				lines.add(new int[] {nodes.get(i)[0],nodes.get(i)[1],nodes.get(c)[0],nodes.get(c)[1]});
 			}
 			//splitLine(lineRad,nodes.get(c)[0],nodes.get(c)[1],nodes.get(i)[0],nodes.get(i)[1]);//make two lines for path
