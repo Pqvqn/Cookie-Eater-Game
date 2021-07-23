@@ -1,12 +1,16 @@
 package mechanisms;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import ce3.*;
+import ui.*;
 
 public class WallDoor extends Wall{
 
 	private int thresh; //amount of cookies needed to unlock
 	private double prop; //proportion of cookies on board to use
-	
+	private UIText pointDisplay; //displays number of cookies left to be collected
 	
 	public WallDoor(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double requirement, boolean isReqProp) {
 		super(frame, gameboard, xPos, yPos, width, height);
@@ -26,6 +30,8 @@ public class WallDoor extends Wall{
 	}
 	
 	public void setReq(double requirement, boolean isReqProp) {
+		pointDisplay = new UIText(game, (int)(x+w/2+(board.x_resol/2-x)/15), (int)(y+h/2+(board.y_resol/2-y)/15), "", Color.WHITE, new Font("Arial",Font.BOLD,25));
+		game.draw.addUI(pointDisplay);
 		if(!isReqProp) {
 			thresh = (int)requirement;
 		}else {
@@ -48,9 +54,12 @@ public class WallDoor extends Wall{
 	}
 	
 	public void runUpdate() {
+		pointDisplay.setText(thresh-board.totalScore()+""); //update display
 		//check if players have collected enough cookies to remove door
-		if(thresh>=0 && board.totalScore()>=thresh)
+		if(thresh>=0 && board.totalScore()>=thresh) {
+			game.draw.removeUI(pointDisplay);
 			remove();
+		}
 	}
 	
 }

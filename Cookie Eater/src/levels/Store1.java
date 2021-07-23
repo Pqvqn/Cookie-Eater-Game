@@ -33,7 +33,7 @@ public class Store1 extends Store{
 		board.cookies.add(new CookieStat(game,board,board.x_resol/2,board.y_resol/2-200));*/
 		
 		
-		board.player().setScoreToWin(2);
+		board.player().setScoreToWin(0);
 	}
 	public void build() {
 		Wall rig,rig2;

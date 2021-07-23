@@ -102,7 +102,7 @@ public abstract class Store extends Level{
 	
 	//places not-npc owned purchasable cookies on the board
 	public void placeCookies(){
-		board.player().setScoreToWin(2);
+		board.player().setScoreToWin(0);
 	}
 	
 	
