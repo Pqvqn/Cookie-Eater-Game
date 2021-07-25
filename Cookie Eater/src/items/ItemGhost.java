@@ -11,7 +11,7 @@ public class ItemGhost extends Item{
 		super(frame,gameboard);
 		name = "Ghost";
 		desc="Player goes through walls.`Amplify- Accessible area offscreen increases";
-		offstage_dist = 0;
+		offstage_dist = 30;
 	}
 	public void initialize() {
 		user.setGhost(true);

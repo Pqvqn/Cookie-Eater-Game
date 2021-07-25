@@ -250,7 +250,7 @@ public class Eater extends Entity{
 			decayed_value = 0;
 			extra_radius = 0;
 			ghost = false;
-			offstage = 0;
+			offstage = 30;
 			averageStats();
 			reset(null);
 		}
@@ -334,7 +334,7 @@ public class Eater extends Entity{
 		decayed_value = 0;
 		extra_radius = 0;
 		ghost = false;
-		offstage = 0;
+		offstage = 30;
 		averageStats();
 		reset(null);
 	}
