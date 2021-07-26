@@ -23,6 +23,7 @@ public class Wall extends Mechanism{
 		w = width;
 		h = height;
 		a = angle;
+		r=-1;
 		ox=originX;
 		oy=originY;
 	}
@@ -33,6 +34,7 @@ public class Wall extends Mechanism{
 		w = width;
 		h = height;
 		a = angle;
+		r=-1;
 		ox=x+w/2;
 		oy=y+h/2;
 	}
@@ -43,6 +45,7 @@ public class Wall extends Mechanism{
 		w = width;
 		h = height;
 		a = 0;
+		r=-1;
 		ox=x+w/2;
 		oy=y+h/2;
 	}
@@ -51,6 +54,7 @@ public class Wall extends Mechanism{
 		super(frame, gameboard, xPos, yPos);
 		shape = CIRCLE;
 		r = radius;
+		w=-1;h=-1;
 		a = 0;
 		ox=x;
 		oy=y;

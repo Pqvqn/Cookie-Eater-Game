@@ -132,7 +132,6 @@ public abstract class Level{
 		data.addData("requirement",exitProportion);
 		data.addData("type",this.getClass().getName());
 
-		passageways = new ArrayList<Passage>();
 		for(int i=0; i<passageways.size(); i++) {
 			data.addData("passages",passageways.get(i).getSaveData(),i);
 		}
