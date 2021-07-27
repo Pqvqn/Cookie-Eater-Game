@@ -139,6 +139,7 @@ public class Board{
 			addfloor.loadPassages(prev,next,floorsData.get(i));
 			if(addfloor instanceof Store)stores.put(addfloor.getName(),addfloor);
 		}
+		currFloor = findFloor(data.getString("currentfloor",0));
 		
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
@@ -205,7 +206,8 @@ public class Board{
 		mechanisms = new ArrayList<Mechanism>();
 		if(mechData!=null) {
 			for(int i=0; i<mechData.size(); i++) {
-				mechanisms.add(Mechanism.loadFromData(game, this, mechData.get(i)));
+				Mechanism mech = Mechanism.loadFromData(game, this, mechData.get(i));
+				if(mech!=null)mechanisms.add(mech);
 			}
 		}
 		
@@ -230,6 +232,7 @@ public class Board{
 			Level curr = it.next();
 			data.addData("floors",curr.getSaveData(),0);
 		}
+		data.addData("currentfloor",currFloor.getID());
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {

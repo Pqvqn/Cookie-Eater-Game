@@ -49,8 +49,9 @@ public abstract class Mechanism {
 	//return Mechanism created by SaveData, testing for correct type of Mechanism
 	public static Mechanism loadFromData(Game frame, Board gameboard, SaveData sd) {
 		//mechanism subclasses
-		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class};
+		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class,WallDoor.class};
 		String thistype = sd.getString("type",0);
+		if(thistype.equals(Passage.class.getName()))return null; //exclude passages
 		for(int i=0; i<mechtypes.length; i++) {
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(mechtypes[i].getName())){

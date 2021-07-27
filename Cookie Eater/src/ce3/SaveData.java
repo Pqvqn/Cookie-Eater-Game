@@ -120,7 +120,6 @@ public class SaveData {
 	}
 	//get info in double form
 	public Double getDouble(String tag, int index) {
-		System.out.println(tag+"  "+getString(tag,index));
 		return Double.parseDouble(getString(tag,index));
 	}
 	//get info in integer form

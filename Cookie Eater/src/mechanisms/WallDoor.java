@@ -24,7 +24,7 @@ public class WallDoor extends Wall{
 	
 	public WallDoor(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, sd);
-		int requirement = sd.getInteger("requirement",0);
+		double requirement = sd.getDouble("requirement",0);
 		boolean isReqProp = sd.getBoolean("requirement",1);
 		setReq(requirement,isReqProp);
 	}
