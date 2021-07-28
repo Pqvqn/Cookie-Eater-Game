@@ -688,16 +688,18 @@ public class Board{
 	
 	//finds the floor belonging to the given code
 	public Level findFloor(String code) {
-		Level curr = floors.getFirst();
+		Level curr = floors.getLast();
 		String cid = curr.getID();
 		//crawl through floors, looking for next one based on matching id
-		for(int i=2; i<code.length(); i++) {
+		for(int i=1; i<code.length(); i++) {
 			for(int j=0; j<curr.getPassages().size(); j++) {
-				Level exit = curr.getPassages().get(j).getExit();
-				String oid = exit==null?cid:exit.getID();
-				if(oid.substring(0,i).equals(cid)) {
-					curr = curr.getPassages().get(j).getExit();
-					cid = oid;
+				if(curr.getPassages().get(j).entranceAt(curr)) {
+					Level exit = curr.getPassages().get(j).getExit();
+					String oid = exit==null?cid:exit.getID();
+					if(oid.substring(0,i).equals(cid)) {
+						curr = curr.getPassages().get(j).getExit();
+						cid = oid;
+					}
 				}
 			}
 			if(cid.length() < i)return null;
