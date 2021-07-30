@@ -88,6 +88,7 @@ public abstract class Level{
 	public void loadPassages(ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
 		passageways = new ArrayList<Passage>();
+		System.out.println(this+"   "+prev+"   "+next);
 		for(int i=0; i<passdata.size(); i++) {
 			passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
 		}

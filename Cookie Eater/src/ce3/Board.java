@@ -129,10 +129,10 @@ public class Board{
 			ArrayList<Level> prev = new ArrayList<Level>();
 			for(int j=0; j<tempFloors.size(); j++) {
 				String id2 = tempFloors.get(j).getID();
-				if(id2.length()>id.length() && id2.substring(0,id.length()).equals(id)) {
+				if(id2.length()==id.length()+1 && id2.substring(0,id.length()).equals(id)) {
 					next.add(tempFloors.get(j));
 				}
-				if(id2.length()<id.length() && id.substring(0,id2.length()).equals(id2)) {
+				if(id2.length()==id.length()-1 && id.substring(0,id2.length()).equals(id2)) {
 					prev.add(tempFloors.get(j));
 				}
 			}
