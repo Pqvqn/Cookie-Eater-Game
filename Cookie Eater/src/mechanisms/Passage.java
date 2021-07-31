@@ -35,17 +35,17 @@ public class Passage extends Mechanism{
 	public Passage(Game frame, Board gameboard, Level current, ArrayList<Level> prevOptions, ArrayList<Level> nextOptions, SaveData sd) {
 		super(frame,gameboard,sd);
 		mode = sd.getBoolean("mode",0);
-		if(mode) {
+		if(current.getID().equals(sd.getString("floors",0))) {
 			entranceFloor = current;
 			for(int i=0; i<nextOptions.size(); i++) {
-				if(nextOptions.get(i).getID().equals(sd.getString("otherid",0))) {
+				if(nextOptions.get(i).getID().equals(sd.getString("floors",1))) {
 					exitFloor = nextOptions.get(i);
 				}
 			}
-		}else {
+		}else if(current.getID().equals(sd.getString("floors",1))) {
 			exitFloor = current;
 			for(int i=0; i<prevOptions.size(); i++) {
-				if(prevOptions.get(i).getID().equals(sd.getString("otherid",0))) {
+				if(prevOptions.get(i).getID().equals(sd.getString("floors",0))) {
 					entranceFloor = prevOptions.get(i);
 				}
 			}
@@ -69,6 +69,8 @@ public class Passage extends Mechanism{
 		data.addData("position",outx,2);
 		data.addData("position",outy,3);
 		data.addData("width",width);
+		data.addData("floors",entranceFloor.getID(),0);
+		data.addData("floors",exitFloor.getID(),1);
 		return data;
 	}
 	
@@ -174,6 +176,7 @@ public class Passage extends Mechanism{
 		return new int[] {(!mode)?inx:outx, (!mode)?iny:outy};
 	}
 	public Level getExit() {return exitFloor;}
+	public Level getEntrance() {return entranceFloor;}
 	
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {
