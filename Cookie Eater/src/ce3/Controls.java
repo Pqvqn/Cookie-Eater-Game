@@ -141,9 +141,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				for(Explorer npc : board.npcs) {
-					System.out.println(npc+"  " +npc.getResidence());
-				}
+				System.out.println(board.mechanisms);
 				break;
 		}
 		

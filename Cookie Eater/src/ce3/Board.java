@@ -140,6 +140,7 @@ public class Board{
 			if(addfloor instanceof Store)stores.put(addfloor.getName(),addfloor);
 		}
 		currFloor = findFloor(data.getString("currentfloor",0));
+
 		
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
@@ -210,7 +211,9 @@ public class Board{
 				if(mech!=null)mechanisms.add(mech);
 			}
 		}
-		
+		for(int i=0; i<currFloor.getPassages().size(); i++) {
+			mechanisms.add(currFloor.getPassages().get(i));
+		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
 	}
