@@ -8,8 +8,6 @@ import entities.*;
 
 public class Passage extends Mechanism{
 
-	private Game game;
-	private Board board;
 	private Level entranceFloor; //where passage opens from
 	private Level exitFloor; //where player goes into
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3; //the location of the wall that has the entrance
