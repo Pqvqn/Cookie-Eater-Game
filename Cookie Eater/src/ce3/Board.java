@@ -50,8 +50,9 @@ public class Board{
 	public LinkedList<Level> floors; //floor progression
 	public HashMap<String,Level> stores; //stores (stay the same between resets)
 	public Level nextLevel;
-	public int currDungeon;
+	public Level firstLevel;
 	public Level currFloor;
+	public int currDungeon;
 	public int playerCount;
 	public boolean awaiting_start; //whether the game is paused awaiting a player input to begin
 	public int cycletime;
@@ -137,6 +138,9 @@ public class Board{
 				}
 			}
 			addfloor.loadPassages(prev,next,floorsData.get(i));
+			if(addfloor.getID().contentEquals(data.getString("firstfloor",0))) {
+				firstLevel = addfloor;
+			}
 			if(addfloor instanceof Store)stores.put(addfloor.getName(),addfloor);
 		}
 		currFloor = findFloor(data.getString("currentfloor",0));
@@ -236,6 +240,7 @@ public class Board{
 			data.addData("floors",curr.getSaveData(),0);
 		}
 		data.addData("currentfloor",currFloor.getID());
+		data.addData("firstfloor",firstLevel.getID());
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
@@ -536,6 +541,7 @@ public class Board{
 					last.setNextLevels(l);
 				}
 				last = curr;
+				if(i==0)firstLevel = curr;
 			}
 		}else if(mode==PVP) {
 			if(num==0) {
@@ -545,9 +551,10 @@ public class Board{
 			}else {
 				floors.add(new Arena1(game,this,""));
 			}
+			firstLevel = floors.getFirst();
 
 		}
-		currFloor = floors.getFirst();
+		currFloor = firstLevel;
 	}
 	
 	public void setCalibrations(double cycle) {
@@ -691,10 +698,11 @@ public class Board{
 	
 	//finds the floor belonging to the given code
 	public Level findFloor(String code) {
-		Level curr = floors.getLast();
+		Level curr = firstLevel;
 		String cid = curr.getID();
 		//crawl through floors, looking for next one based on matching id
 		for(int i=1; i<code.length(); i++) {
+			System.out.println(code+"  "+cid);
 			for(int j=0; j<curr.getPassages().size(); j++) {
 				if(curr.getPassages().get(j).entranceAt(curr)) {
 					Level exit = curr.getPassages().get(j).getExit();
