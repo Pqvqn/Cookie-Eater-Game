@@ -42,8 +42,13 @@ public class EnemySlob extends Enemy{
 				blob2 = (SegmentCircle)testPart;
 			}
 		}
-		chargeCoords[0] = sd.getDouble("chargepoint",0);
-		chargeCoords[1] = sd.getDouble("chargepoint",1);
+		if(sd.getString("chargepoint",0)!=null) {
+			chargeCoords[0] = sd.getDouble("chargepoint",0);
+			chargeCoords[1] = sd.getDouble("chargepoint",1);
+		}else {
+			chargeCoords = null;
+		}
+
 		prevCookies = sd.getInteger("prevcookies",0);
 		angle = sd.getDouble("angle",0);
 		try {
@@ -56,8 +61,10 @@ public class EnemySlob extends Enemy{
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
-		data.addData("chargepoint",chargeCoords[0],0);
-		data.addData("chargepoint",chargeCoords[1],1);
+		if(chargeCoords!=null) {
+			data.addData("chargepoint",chargeCoords[0],0);
+			data.addData("chargepoint",chargeCoords[1],1);
+		}
 		data.addData("prevcookies",prevCookies);
 		data.addData("angle",angle);
 		return data;

@@ -101,7 +101,7 @@ public abstract class Entity {
 		}
 		currSpecial = -1;
 		decayed_value = 0;
-		offstage = 30;
+		offstage = 60;
 		shield_length = 60;
 		shield_frames = 0;
 		shield_tick = true;

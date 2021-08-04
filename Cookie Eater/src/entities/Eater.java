@@ -250,7 +250,7 @@ public class Eater extends Entity{
 			decayed_value = 0;
 			extra_radius = 0;
 			ghost = false;
-			offstage = 30;
+			offstage = 60;
 			averageStats();
 			reset(null);
 		}
@@ -301,8 +301,8 @@ public class Eater extends Entity{
 		if(board.mode == Board.LEVELS) {
 			if(p!=null) {
 				int[] coords = p.oppositeCoordinates();
-				x = coords[0];
-				y = coords[1];
+				x = coords[0] + (board.x_resol/2-coords[0])/15;
+				y = coords[1] + (board.y_resol/2-coords[1])/15;
 			}else {
 				x = board.x_resol/2;
 				y = board.y_resol/2;
@@ -334,7 +334,7 @@ public class Eater extends Entity{
 		decayed_value = 0;
 		extra_radius = 0;
 		ghost = false;
-		offstage = 30;
+		offstage = 60;
 		averageStats();
 		reset(null);
 	}

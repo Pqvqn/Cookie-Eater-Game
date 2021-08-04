@@ -6,6 +6,7 @@ import ce3.*;
 import cookies.*;
 import entities.*;
 import items.*;
+import mechanisms.*;
 import menus.*;
 import menus.MenuButton.*;
 
@@ -143,8 +144,9 @@ public class UISettings extends UIElement{
 		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
 		oc = () -> {
 			if(!board.inConvo()) {
-				board.setNext(board.currFloor.firstExit());
-				getSelectedPlayer().win(null);
+				Passage exit = board.currFloor.firstExit();
+				board.setNext(exit.getExit());
+				getSelectedPlayer().win(exit);
 			}
 		};
 		advance.setClick(oc);

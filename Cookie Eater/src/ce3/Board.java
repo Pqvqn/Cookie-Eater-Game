@@ -702,7 +702,6 @@ public class Board{
 		String cid = curr.getID();
 		//crawl through floors, looking for next one based on matching id
 		for(int i=1; i<code.length(); i++) {
-			System.out.println(code+"  "+cid);
 			for(int j=0; j<curr.getPassages().size(); j++) {
 				if(curr.getPassages().get(j).entranceAt(curr)) {
 					Level exit = curr.getPassages().get(j).getExit();

@@ -293,7 +293,7 @@ public class Explorer extends Entity{
 		decayed_value = 0;
 		extra_radius = 0;
 		ghost = false;
-		offstage = 30;
+		offstage = 60;
 		averageStats();
 		reset();
 	}

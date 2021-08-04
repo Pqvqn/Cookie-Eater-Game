@@ -36,7 +36,7 @@ public class Floor3 extends Level{
 	
 	public void build() {
 		super.build();
-		genPaths(4, 200, 300, 100, 10, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
+		genPaths(4, 100, 200, 80, 10, areas); //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line, board regions to fill
 		genWalls(100, 50, 600, true); //wall separation, wall min size, wall max size, angled
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -46,7 +46,7 @@ public class Floor3 extends Level{
 	public void placeCookies() {
 		super.placeCookies(15,(int)(100*scale));
 	}
-
+	
 	public void spawnEnemies() { 
 		int cycle = game.getCycle();
 		ArrayList<String> possible = new ArrayList<String>();
