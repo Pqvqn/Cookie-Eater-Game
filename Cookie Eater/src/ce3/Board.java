@@ -538,10 +538,17 @@ public class Board{
 				if(last!=null) {
 					ArrayList<Level> l = new ArrayList<Level>();
 					l.add(curr);
+					if(lvlid.equals("000")) {
+						Level branch;
+						floors.add(branch = readFloor(lvlclass,"001"));
+						l.add(branch);
+					}
 					last.setNextLevels(l);
 				}
 				last = curr;
 				if(i==0)firstLevel = curr;
+				//temporary test of branching levels
+
 			}
 		}else if(mode==PVP) {
 			if(num==0) {
