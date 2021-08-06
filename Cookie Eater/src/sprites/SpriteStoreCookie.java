@@ -26,7 +26,7 @@ public class SpriteStoreCookie extends Sprite{
 	public void paint(Graphics g){
 		super.paint(g);
 	
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		x = user.getX();
 		y = user.getY();
 		g.drawImage(img,(int)(.5+x-(img.getWidth(null)/10*scale)), (int)(.5+y-(img.getHeight(null)/10*scale)), (int)(2*(.5+img.getWidth(null)/10*scale)), (int)(2*(.5+img.getHeight(null)/10*scale)), null);

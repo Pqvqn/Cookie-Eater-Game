@@ -100,7 +100,7 @@ public class ExplorerMechanic extends Explorer{
 	public void levelComplete() {
 		super.levelComplete();
 		//if player completes store, move to next store
-		if(board.currFloor instanceof Store) {
+		if(board.currLevel instanceof Store) {
 			/*do{
 				residence = residence.getPassages().get(0).getExit();
 			}while(!(residence instanceof Store) && residence.getPassages().size()>0);*/

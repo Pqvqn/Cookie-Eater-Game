@@ -92,7 +92,7 @@ public abstract class Segment {
 		return getBounding(extra).intersects(r);
 	}
 	public void update() {
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 	}
 	public void paint(Graphics g) {
 		

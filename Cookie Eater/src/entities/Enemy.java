@@ -103,7 +103,7 @@ public abstract class Enemy extends Entity{
 		ArrayList<Cookie> stash = getStash();
 		while(!stash.isEmpty()) {
 			double ang = Math.random()*Math.PI*2;
-			double r=80*board.currFloor.getScale();
+			double r=80*board.currLevel.getScale();
 			if(stash.get(0) instanceof CookieStore)r*=2;
 			double addx = r*Math.cos(ang), addy = r*Math.sin(ang);
 			boolean hit = false;

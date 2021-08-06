@@ -32,14 +32,14 @@ public class SpriteLevel extends Sprite{
 	}
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
-		lvl = removeSpace(board.currFloor.getName());
+		lvl = removeSpace(board.currLevel.getName());
 		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D newg = wallMask.createGraphics();
 		
 		//tile default image, dimensions, and offset from 0x0
 		prefix = "dep";
 		Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"12AB"+".png"));
-		int wid = (int)(.5+tile.getWidth(null)*board.currFloor.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currFloor.getScale());
+		int wid = (int)(.5+tile.getWidth(null)*board.currLevel.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currLevel.getScale());
 		int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
 		//list of names of all tiles on board
 		String[][] tiles = new String[(int)(2+board.y_resol/hei)][(int)(2+board.x_resol/wid)];
@@ -71,7 +71,7 @@ public class SpriteLevel extends Sprite{
 		newg.dispose();
 		//finish up wall graphics
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
-		prefix = board.currFloor.getAbbrev();
+		prefix = board.currLevel.getAbbrev();
 		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallB.png"));
 		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();

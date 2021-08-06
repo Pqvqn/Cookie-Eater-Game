@@ -8,7 +8,7 @@ import ce3.*;
 import entities.*;
 import mechanisms.*;
 
-public class Floor2 extends Level{
+public class Room2 extends Level{
 
 	//public double scale;
 	//private Level next;
@@ -16,10 +16,10 @@ public class Floor2 extends Level{
 	//public double startx;
 	//public double starty;
 	
-	public Floor2(Game frame, Board gameboard, String id) {
+	public Room2(Game frame, Board gameboard, String id) {
 		this(frame,gameboard,id,null);
 	}
-	public Floor2(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+	public Room2(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
 		super(frame,gameboard,id,nextFloor);
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
@@ -30,7 +30,7 @@ public class Floor2 extends Level{
 		bgColor = new Color(100,100,100);
 		wallColor = new Color(50,40,30);
 	}
-	public Floor2(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public Room2(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);
 	}
 	

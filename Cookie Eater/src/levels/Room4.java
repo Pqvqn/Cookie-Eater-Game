@@ -9,7 +9,7 @@ import items.*;
 import java.awt.*;
 import java.util.*;
 
-public class Floor4 extends Level{
+public class Room4 extends Level{
 	
 	private int[][] areas = {{0,board.x_resol/3,0,board.y_resol/2}, //regions of board - one node per until all filled
 			{0,board.x_resol/3,board.y_resol/2,board.y_resol},
@@ -18,10 +18,10 @@ public class Floor4 extends Level{
 			{2*board.x_resol/3,board.x_resol,0,board.y_resol/2},
 			{2*board.x_resol/3,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Floor4(Game frame, Board gameboard, String id) {
+	public Room4(Game frame, Board gameboard, String id) {
 		this(frame,gameboard,id,null);
 	}
-	public Floor4(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+	public Room4(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
 		super(frame,gameboard,id,nextFloor);
 		name = "Frozen Chambers";
 		nameAbbrev = "ice";
@@ -32,7 +32,7 @@ public class Floor4 extends Level{
 		bgColor = new Color(50,60,60);
 		wallColor = new Color(200,210,210);
 	}
-	public Floor4(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public Room4(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);
 	}
 	

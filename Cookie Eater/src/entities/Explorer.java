@@ -95,7 +95,7 @@ public class Explorer extends Entity{
 			mr[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
-		residence = board.findFloor(sd.getString("residence",0));
+		residence = board.findRoom(sd.getString("residence",0));
 		
 		ArrayList<Object> spots = sd.getData("shopspots");
 		if(spots!=null) {
@@ -234,7 +234,7 @@ public class Explorer extends Entity{
 			}
 			lock = false;
 		}
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		
 		int spec = (special)?-1:doSpecial();
 		if(spec!=-1 && special_activated.get(spec)) {
@@ -308,7 +308,7 @@ public class Explorer extends Entity{
 		x_velocity=0;
 		y_velocity=0;
 		direction = NONE;
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
@@ -578,7 +578,7 @@ public class Explorer extends Entity{
 			return;
 		}
 		if(state == VENTURE || state == STAND) { //move on if in correct state
-			residence = board.currFloor.getPassages().get(0).getExit();
+			residence = board.currLevel.getPassages().get(0).getExit();
 			state = VENTURE;
 		}
 		//reset special

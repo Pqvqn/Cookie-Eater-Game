@@ -139,7 +139,7 @@ public class Summon extends Entity{
 		if(ded)return;
 		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase(this)) {
 			c.kill(this);
-			if(c instanceof CookieItem && !board.currFloor.installPickups()) {
+			if(c instanceof CookieItem && !board.currLevel.installPickups()) {
 				user.pickupItem((CookieItem)c);
 			}else {
 				giveCookie(c);

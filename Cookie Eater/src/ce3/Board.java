@@ -33,25 +33,25 @@ public class Board{
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	public Class[][] floorSequence = { //order of floors for each dungeon 
+	public Class[][] levelSequence = { //order of rooms for each dungeon 
 			//vaults
-			{Store1.class,Floor1.class,
-			Store2.class,Floor2.class,Floor2.class,
-			Store3.class,Floor3.class,Floor3.class,Floor3.class, 
-			Store4.class,Floor4.class,Floor4.class,Floor4.class,Floor4.class,Floor5.class},
+			{Store1.class,Room1.class,
+			Store2.class,Room2.class,Room2.class,
+			Store3.class,Room3.class,Room3.class,Room3.class, 
+			Store4.class,Room4.class,Room4.class,Room4.class,Room4.class,Room5.class},
 			//inners
-			{Store2.class,FloorRound.class,
-			Store3.class,Floor4.class,FloorRound.class,
-			Store4.class,FloorRound.class,FloorRound.class,FloorRound.class, 
-			Store1.class,FloorRound.class,FloorRound.class,FloorRound.class,FloorRound.class,FloorRound.class},
+			{Store2.class,RoomRound.class,
+			Store3.class,Room4.class,RoomRound.class,
+			Store4.class,RoomRound.class,RoomRound.class,RoomRound.class, 
+			Store1.class,RoomRound.class,RoomRound.class,RoomRound.class,RoomRound.class,RoomRound.class},
 			//training
 			{Training1.class}
 	};
-	public LinkedList<Level> floors; //floor progression
+	public LinkedList<Level> levels; //level progression
 	public HashMap<String,Level> stores; //stores (stay the same between resets)
 	public Level nextLevel;
 	public Level firstLevel;
-	public Level currFloor;
+	public Level currLevel;
 	public int currDungeon;
 	public int playerCount;
 	public boolean awaiting_start; //whether the game is paused awaiting a player input to begin
@@ -114,36 +114,36 @@ public class Board{
 		awaiting_start = data.getBoolean("awaiting",0);
 		
 
-		ArrayList<SaveData> floorsData = data.getSaveDataList("floors");
-		ArrayList<Level> tempFloors = new ArrayList<Level>();
-		for(int i=0; i<floorsData.size(); i++) {
-			tempFloors.add(Level.loadFromData(game, this, null, null, floorsData.get(i)));
+		ArrayList<SaveData> levelsData = data.getSaveDataList("levels");
+		ArrayList<Level> tempLevels = new ArrayList<Level>();
+		for(int i=0; i<levelsData.size(); i++) {
+			tempLevels.add(Level.loadFromData(game, this, null, null, levelsData.get(i)));
 		}
 		
-		floors = new LinkedList<Level>();
+		levels = new LinkedList<Level>();
 		stores = new HashMap<String,Level>();
-		for(int i=tempFloors.size()-1; i>=0; i--) {
-			Level addfloor = tempFloors.get(i);
-			floors.add(addfloor);
-			String id = tempFloors.get(i).getID();
+		for(int i=tempLevels.size()-1; i>=0; i--) {
+			Level addlevel = tempLevels.get(i);
+			levels.add(addlevel);
+			String id = tempLevels.get(i).getID();
 			ArrayList<Level> next = new ArrayList<Level>();
 			ArrayList<Level> prev = new ArrayList<Level>();
-			for(int j=0; j<tempFloors.size(); j++) {
-				String id2 = tempFloors.get(j).getID();
+			for(int j=0; j<tempLevels.size(); j++) {
+				String id2 = tempLevels.get(j).getID();
 				if(id2.length()==id.length()+1 && id2.substring(0,id.length()).equals(id)) {
-					next.add(tempFloors.get(j));
+					next.add(tempLevels.get(j));
 				}
 				if(id2.length()==id.length()-1 && id.substring(0,id2.length()).equals(id2)) {
-					prev.add(tempFloors.get(j));
+					prev.add(tempLevels.get(j));
 				}
 			}
-			addfloor.loadPassages(prev,next,floorsData.get(i));
-			if(addfloor.getID().contentEquals(data.getString("firstfloor",0))) {
-				firstLevel = addfloor;
+			addlevel.loadPassages(prev,next,levelsData.get(i));
+			if(addlevel.getID().contentEquals(data.getString("firstlevel",0))) {
+				firstLevel = addlevel;
 			}
-			if(addfloor instanceof Store)stores.put(addfloor.getName(),addfloor);
+			if(addlevel instanceof Store)stores.put(addlevel.getName(),addlevel);
 		}
-		currFloor = findFloor(data.getString("currentfloor",0));
+		currLevel = findRoom(data.getString("currentlevel",0));
 
 		
 		
@@ -215,8 +215,8 @@ public class Board{
 				if(mech!=null)mechanisms.add(mech);
 			}
 		}
-		for(int i=0; i<currFloor.getPassages().size(); i++) {
-			mechanisms.add(currFloor.getPassages().get(i));
+		for(int i=0; i<currLevel.getPassages().size(); i++) {
+			mechanisms.add(currLevel.getPassages().get(i));
 		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -234,13 +234,13 @@ public class Board{
 		data.addData("awaiting",awaiting_start);
 		
 		
-		Iterator<Level> it = floors.descendingIterator();
+		Iterator<Level> it = levels.descendingIterator();
 		while(it.hasNext()) {
 			Level curr = it.next();
-			data.addData("floors",curr.getSaveData(),0);
+			data.addData("levels",curr.getSaveData(),0);
 		}
-		data.addData("currentfloor",currFloor.getID());
-		data.addData("firstfloor",firstLevel.getID());
+		data.addData("currentlevel",currLevel.getID());
+		data.addData("firstlevel",firstLevel.getID());
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
@@ -307,7 +307,7 @@ public class Board{
 	
 	public void updateUI() {
 		//level display
-		ui_lvl.update(currFloor.getName());
+		ui_lvl.update(currLevel.getName());
 		
 		//dialogue
 		if(ui_dia!=null)ui_dia.update();
@@ -397,7 +397,7 @@ public class Board{
 			//test if players have moved directions; begin if so
 			boolean ready = true;
 			for(int i=0; i<players.size(); i++) {
-				if(players.get(i).getDir() == Eater.NONE && !currFloor.haltEnabled()) {
+				if(players.get(i).getDir() == Eater.NONE && !currLevel.haltEnabled()) {
 					ready = false;
 				}
 			}
@@ -420,7 +420,7 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		currFloor.removeNpcs();
+		currLevel.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
@@ -447,7 +447,7 @@ public class Board{
 		makeCookies();}
 		spawnEnemies();
 		for(int i=0; i<npcs.size(); i++) {
-			if(npcs.get(i).getResidence().equals(currFloor)) {
+			if(npcs.get(i).getResidence().equals(currLevel)) {
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}else if(present_npcs.contains(npcs.get(i))) {
@@ -464,7 +464,7 @@ public class Board{
 		for(int i=0; i<present_npcs.size(); i++) {
 			present_npcs.get(i).levelComplete();
 		}
-		currFloor.removeNpcs();
+		currLevel.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
@@ -477,17 +477,17 @@ public class Board{
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
 		effects = new ArrayList<Effect>();
-		//shields+=cash/currFloor.getShieldCost();
-		//cash=cash%currFloor.getShieldCost();
-		//currFloor=currFloor.getNext();
-		currFloor = nextLevel;
+		//shields+=cash/currLevel.getShieldCost();
+		//cash=cash%currLevel.getShieldCost();
+		//currLevel=currLevel.getNext();
+		currLevel = nextLevel;
 		buildBoard();
 		cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
 		present_npcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
-			if(npcs.get(i).getResidence().equals(currFloor)) {
+			if(npcs.get(i).getResidence().equals(currLevel)) {
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
@@ -505,42 +505,42 @@ public class Board{
 	public void loadDungeon(int num) {
 		currDungeon = num;
 		stores = new HashMap<String,Level>();
-		resetFloors();
+		resetLevels();
 		resetNpcs();
 		//create floor 1
 		resetGame();	
 	}	
-	//recreates floor progression
-	public void resetFloors() {
+	//recreates level progression
+	public void resetLevels() {
 		int num = currDungeon;
-		//converting list of floors to linked list
-		floors = new LinkedList<Level>();
+		//converting list of levels to linked list
+		levels = new LinkedList<Level>();
 		if(mode==LEVELS) {
 			Level last = null;
 			Level curr = null;
-			for(int i=0; i<floorSequence[num].length; i++) {
-				Class<Level> lvlclass = floorSequence[num][i];
+			for(int i=0; i<levelSequence[num].length; i++) {
+				Class<Level> lvlclass = levelSequence[num][i];
 				String lvlid = (last==null)?"0":last.getID()+"0";
 				//if store, keep old one
 				if(Store.class.isAssignableFrom(lvlclass)) {
-					Level newstore = readFloor(lvlclass,lvlid);
+					Level newstore = readRoom(lvlclass,lvlid);
 					Level store = stores.get(newstore.getName());
 					if(store == null) {
 						store = newstore;
 					}
-					floors.add(store);
+					levels.add(store);
 					store.setID(lvlid);
 					stores.put(store.getName(),store);
 					curr = store;
 				}else {
-					floors.add(curr = readFloor(lvlclass,lvlid));
+					levels.add(curr = readRoom(lvlclass,lvlid));
 				}
 				if(last!=null) {
 					ArrayList<Level> l = new ArrayList<Level>();
 					l.add(curr);
 					if(lvlid.equals("000")) {
 						Level branch;
-						floors.add(branch = readFloor(lvlclass,"001"));
+						levels.add(branch = readRoom(lvlclass,"001"));
 						l.add(branch);
 					}
 					last.setNextLevels(l);
@@ -552,16 +552,16 @@ public class Board{
 			}
 		}else if(mode==PVP) {
 			if(num==0) {
-				floors.add(new Arena2(game,this,""));
+				levels.add(new Arena2(game,this,""));
 			}else if(num==1) {
-				floors.add(new ArenaRound(game,this,""));
+				levels.add(new ArenaRound(game,this,""));
 			}else {
-				floors.add(new Arena1(game,this,""));
+				levels.add(new Arena1(game,this,""));
 			}
-			firstLevel = floors.getFirst();
+			firstLevel = levels.getFirst();
 
 		}
-		currFloor = firstLevel;
+		currLevel = firstLevel;
 	}
 	
 	public void setCalibrations(double cycle) {
@@ -584,7 +584,7 @@ public class Board{
 	
 	//create walls
 	public void buildBoard() {
-		currFloor.build();
+		currLevel.build();
 		game.draw.updateBG();
 		wallSpace = new Area();
 		for(Wall w : walls) {
@@ -594,17 +594,17 @@ public class Board{
 	
 	//add cookies to board
 	public void makeCookies() {
-		currFloor.placeCookies();
+		currLevel.placeCookies();
 	}
 	
 	//add enemies to board
 	public void spawnEnemies() {
-		currFloor.spawnEnemies();
+		currLevel.spawnEnemies();
 	}
 	
 	//add enemies to board
 	public void spawnNpcs() {
-		currFloor.spawnNpcs();
+		currLevel.spawnNpcs();
 	}
 	
 	//creates all the non-player characters and puts them in their starting levels
@@ -692,7 +692,7 @@ public class Board{
 	}
 	
 	//returns instance of given Level subclass
-	public Level readFloor(Class<Level> s, String id) {
+	public Level readRoom(Class<Level> s, String id) {
 		try {
 			return (s.getDeclaredConstructor(Game.class, Board.class, String.class).newInstance(game,this,id));
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -703,11 +703,11 @@ public class Board{
 		return null;
 	}
 	
-	//finds the floor belonging to the given code
-	public Level findFloor(String code) {
+	//finds the room belonging to the given code
+	public Level findRoom(String code) {
 		Level curr = firstLevel;
 		String cid = curr.getID();
-		//crawl through floors, looking for next one based on matching id
+		//crawl through rooms, looking for next one based on matching id
 		for(int i=1; i<code.length(); i++) {
 			for(int j=0; j<curr.getPassages().size(); j++) {
 				if(curr.getPassages().get(j).entranceAt(curr)) {

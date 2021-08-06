@@ -30,7 +30,7 @@ public class Music {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(game.board!=null && game.board.currFloor!=null) {
+				if(game.board!=null && game.board.currLevel!=null) {
 					//if no clip is playing or the current song doesn't fit, play new
 			        if((clip!=null && clip.isRunning() && currentSongIsValid()) || game.audio.mute) {
 			        	if(game.audio.mute && clip!=null && clip.isRunning()) {
@@ -51,7 +51,7 @@ public class Music {
 	
 	//test if the current playing song should continue
 	public boolean currentSongIsValid() {
-		if(game.board.currFloor.getName().equals("Hostile Tunnels")) {
+		if(game.board.currLevel.getName().equals("Hostile Tunnels")) {
 			return tracks[1]==file;
 		}else {
 			return tracks[0]==file;
@@ -59,7 +59,7 @@ public class Music {
 	}
 	//choose the song to play at this moment
 	public File chosenSong() {
-		if(game.board.currFloor.getName().equals("Hostile Tunnels")) {
+		if(game.board.currLevel.getName().equals("Hostile Tunnels")) {
 			return tracks[1];
 		}else {
 			return tracks[0];

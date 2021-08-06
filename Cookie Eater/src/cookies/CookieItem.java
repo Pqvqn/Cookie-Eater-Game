@@ -67,7 +67,7 @@ public class CookieItem extends CookieStore{
 		if(sprite!=null) {
 			sprite.paint(g);
 		}else {
-			g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
+			g.fillOval((int)(.5+x-radius*board.currLevel.getScale()), (int)(.5+y-radius*board.currLevel.getScale()), (int)(.5+radius*board.currLevel.getScale()*2), (int)(.5+radius*board.currLevel.getScale()*2));
 	}}
 	public Item getItem() {
 		return myItem;

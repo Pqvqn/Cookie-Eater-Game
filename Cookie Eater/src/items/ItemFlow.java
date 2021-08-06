@@ -21,7 +21,7 @@ public class ItemFlow extends Item{
 		if(checkCanceled())return;
 		double velocity = Math.sqrt(Math.pow(user.getXVel(true),2)+Math.pow(user.getYVel(true), 2)); //get user speed
 		velocity/=(game.getAdjustedCycle()/15.0);
-		velocity/=board.currFloor.getScale();
+		velocity/=board.currLevel.getScale();
 		if(velocity<1)velocity=1;
 		user.setSpecialUseSpeed(velocity/Math.pow(velocity,rate));
 	}

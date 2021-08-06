@@ -33,7 +33,7 @@ public class ItemBoost extends Item{
 		}
 		double x = initx;//==0 ? user.getXVel(true) : initx;
 		double y = inity;//==0 ? user.getYVel(true) : inity;
-		double h = (game.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale(); //speed of boost
+		double h = (game.getAdjustedCycle()/15.0)*speedy*board.currLevel.getScale(); //speed of boost
 		double r; 
 		if(x*x+y*y==0) { //ratio of normal dimensional velocity to new velocity
 			r = 0;

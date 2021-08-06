@@ -7,17 +7,17 @@ import entities.*;
 import java.awt.*;
 import java.util.*;
 
-public class Floor5 extends Level{
+public class Room5 extends Level{
 	
 	private int[][] areas = {{0,board.x_resol/2,0,board.y_resol/2}, //regions of board - one node per until all filled
 			{0,board.x_resol/2,board.y_resol/2,board.y_resol},
 			{board.x_resol/2,board.x_resol,0,board.y_resol/2},
 			{board.x_resol/2,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Floor5(Game frame, Board gameboard, String id) {
+	public Room5(Game frame, Board gameboard, String id) {
 		this(frame,gameboard,id,null);
 	}
-	public Floor5(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+	public Room5(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
 		super(frame,gameboard,id,nextFloor);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
@@ -28,7 +28,7 @@ public class Floor5 extends Level{
 		bgColor = new Color(150,90,40);
 		wallColor = new Color(50,20,10);
 	}
-	public Floor5(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public Room5(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);
 	}
 	

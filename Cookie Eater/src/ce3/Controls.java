@@ -120,7 +120,7 @@ public class Controls implements KeyListener{
 				//if(!board.inConvo())player.win();
 				break;
 			case KeyEvent.VK_SPACE:
-				if(board.currFloor.haltEnabled()) {
+				if(board.currLevel.haltEnabled()) {
 					player.setDir(Eater.NONE);
 					player.averageVels(0,0,false);
 				}

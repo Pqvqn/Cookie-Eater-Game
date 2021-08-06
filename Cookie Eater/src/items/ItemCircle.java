@@ -25,7 +25,7 @@ public class ItemCircle extends Item{
 		
 		//user.setXVel(0);
 		//user.setYVel(0);
-		radius=radiusunadjust*board.currFloor.getScale();
+		radius=radiusunadjust*board.currLevel.getScale();
 		count = 0;
 		initx=user.getXVel(true);
 		inity=-1*user.getYVel(true);

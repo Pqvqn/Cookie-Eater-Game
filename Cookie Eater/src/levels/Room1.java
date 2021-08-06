@@ -6,17 +6,17 @@ import java.util.*;
 
 import ce3.*;
 
-public class Floor1 extends Level{
+public class Room1 extends Level{
 
 	//public double scale;
 	//private Level next;
 	//private Board board;
 	//public double startx;
 	//public double starty;
-	public Floor1(Game frame, Board gameboard, String id) {
+	public Room1(Game frame, Board gameboard, String id) {
 		this(frame,gameboard,id,null);
 	}
-	public Floor1(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
+	public Room1(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
 		super(frame,gameboard,id,nextFloor);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
@@ -27,7 +27,7 @@ public class Floor1 extends Level{
 		bgColor = new Color(40,70,40);
 		wallColor = new Color(50,30,10);
 	}
-	public Floor1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public Room1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		super(frame, gameboard, prev, next, sd);
 	}
 	

@@ -30,7 +30,7 @@ public class WallDoor extends Wall{
 	}
 	
 	public void setReq(double requirement, boolean isReqProp) {
-		pointDisplay = new UIText(game, (int)(x+w/2+(board.x_resol/2-x)/15), (int)(y+h/2+(board.y_resol/2-y)/15), "", Color.WHITE, new Font("Arial",Font.BOLD,25));
+		pointDisplay = new UIText(game, (int)(x+w/2+(board.x_resol/2-x)/15), (int)(y+h/2+(board.y_resol/2-y)/10), "", Color.WHITE, new Font("Arial",Font.BOLD,25));
 		game.draw.addUI(pointDisplay);
 		if(!isReqProp) {
 			thresh = (int)requirement;

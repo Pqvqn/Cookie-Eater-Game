@@ -99,7 +99,7 @@ public abstract class Level{
 	
 	public static Level loadFromData(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		//level subclasses
-		Class[] leveltypes = {Floor1.class, Floor2.class, Floor3.class, Floor4.class, Floor5.class, FloorBiggy.class, FloorRound.class,
+		Class[] leveltypes = {Room1.class, Room2.class, Room3.class, Room4.class, Room5.class, RoomBiggy.class, RoomRound.class,
 				Store1.class, Store2.class, Store3.class, Store4.class,
 				Arena1.class, Arena2.class, ArenaRound.class,
 				Training1.class};
@@ -118,7 +118,7 @@ public abstract class Level{
 
 		}
 		//default to floor 1
-		return new Floor1(frame, gameboard, prev, next, sd);
+		return new Room1(frame, gameboard, prev, next, sd);
 	}
 	
 	public SaveData getSaveData() {
@@ -244,7 +244,7 @@ public abstract class Level{
 				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),board.wallSpace)) {
 					place = false;
 				}
-				if(Math.sqrt(Math.pow(Math.abs(pX - board.player().getX()), 2) + Math.pow(Math.abs(pY - board.player().getY()), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*board.currFloor.getScale()){
+				if(Math.sqrt(Math.pow(Math.abs(pX - board.player().getX()), 2) + Math.pow(Math.abs(pY - board.player().getY()), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*getScale()){
 					place = false;
 				}
 				if(place) { //place cookies, increment count

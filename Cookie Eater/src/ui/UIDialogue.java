@@ -29,7 +29,7 @@ public class UIDialogue extends UIElement{
 		xPos=game.board.x_resol/2;
 		yPos=game.board.y_resol-100;
 		
-		parts.add(new UIOval(game,xPos-730,yPos,(int)(.5+speaker.getRadius()/game.board.currFloor.getScale()*ratio),(int)(.5+speaker.getRadius()/game.board.currFloor.getScale()*ratio),speaker.getColor(),true)); //base
+		parts.add(new UIOval(game,xPos-730,yPos,(int)(.5+speaker.getRadius()/game.board.currLevel.getScale()*ratio),(int)(.5+speaker.getRadius()/game.board.currLevel.getScale()*ratio),speaker.getColor(),true)); //base
 
 		//display speaker by taking right-facing-neutral-expression from its sprite
 		if(speaker instanceof Explorer && ((Explorer)speaker).getSprite()!=null) {

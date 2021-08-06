@@ -27,7 +27,7 @@ public class SpriteEnemy extends Sprite{
 		imgs.add(base);
 	}
 	public void prePaint() throws IOException {
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		base = ImageIO.read(states.get(state));
 		x = (int)(.5+user.getCenterX());
 		y = (int)(.5+user.getCenterY());		

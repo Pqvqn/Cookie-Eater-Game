@@ -43,7 +43,7 @@ public class Draw extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(board.currFloor!=null)updateBG();
+		if(board.currLevel!=null)updateBG();
 	}
 	
 	public void update(Graphics g) {
@@ -137,7 +137,7 @@ public class Draw extends JPanel{
 			if(ui.get(i)!=null)ui.get(i).paint(g);
 		}
 		
-		if(board.currFloor!=null)board.currFloor.paint(g);
+		if(board.currLevel!=null)board.currLevel.paint(g);
 		
 		//update fps counter
 		if(board!=null && game.ui_fps!=null)game.ui_fps.update(lastMilliCount,System.currentTimeMillis());

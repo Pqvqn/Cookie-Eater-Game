@@ -327,7 +327,7 @@ public abstract class Entity {
 	public void runUpdate() {
 		if(ded)return;
 		countVels = 0;
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		
 		//shields
 		if(shielded && shield_tick) {
@@ -489,7 +489,7 @@ public abstract class Entity {
 
 	//sets off shield
 	public void triggerShield() {
-		if(!shielded && board.currFloor.takeDamage()) { //if out of shield and menat to take damage
+		if(!shielded && board.currLevel.takeDamage()) { //if out of shield and menat to take damage
 			shielded=true;
 			shield_frames++;
 			if(shield_stash.size()<=0) {
@@ -499,7 +499,7 @@ public abstract class Entity {
 				removeShields(1); //use shield if can
 			}
 		}
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		if(Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity)<minrec){
 			double rat = (minrec)/Math.sqrt(x_velocity*x_velocity+y_velocity*y_velocity);
 			x_velocity *= rat;
@@ -741,7 +741,7 @@ public abstract class Entity {
 	//activates special A (all powerups tied to A)
 	public void special(int index) {
 		if(this instanceof Eater && (((Eater)this).getState() == Eater.WIN || ((Eater)this).getState() == Eater.DEAD))return; //when game paused, don't special
-		if(board.currFloor.specialsEnabled()) {
+		if(board.currLevel.specialsEnabled()) {
 			if(special || special_frames.get(index)!=0 || !special_activated.get(index))return;
 			currSpecial = index;
 			ArrayList<CookieItem> powerups = item_stash.get(index);
@@ -795,7 +795,7 @@ public abstract class Entity {
 		if(ded)return;
 		if(!(c instanceof CookieStore) || ((CookieStore)c).purchase(this)) {
 			c.kill(this);
-			if(c instanceof CookieItem && !board.currFloor.installPickups()) {
+			if(c instanceof CookieItem && !board.currLevel.installPickups()) {
 				pickupItem((CookieItem)c);
 			}else {
 				giveCookie(c);

@@ -81,7 +81,7 @@ public class SpriteCookie extends Sprite{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		x = user.getX();
 		y = user.getY();
 		//g.drawImage(base,(int)(.5+x-(base.getWidth(null)/10*scale)), (int)(.5+y-(base.getHeight(null)/10*scale)), (int)(2*(.5+base.getWidth(null)/10*scale)), (int)(2*(.5+base.getHeight(null)/10*scale)), null);

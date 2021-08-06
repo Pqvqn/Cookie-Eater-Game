@@ -101,8 +101,8 @@ public class EnemySpawnerArena extends Enemy{
 	//create random enemy randomly near, with random items
 	public void spawnEnemy() {
 		double angle = Math.random()*2*Math.PI; //choose random angle, turn into position
-		double sx = x+board.currFloor.getScale()*150*Math.cos(angle);
-		double sy = y+board.currFloor.getScale()*150*Math.sin(angle);
+		double sx = x+board.currLevel.getScale()*150*Math.cos(angle);
+		double sy = y+board.currLevel.getScale()*150*Math.sin(angle);
 		
 		int reward = 1;
 		Enemy newE = null;

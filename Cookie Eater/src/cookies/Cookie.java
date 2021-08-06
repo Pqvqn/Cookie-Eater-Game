@@ -95,12 +95,12 @@ public class Cookie {
 		}
 	}
 	/*public void recalibrate() {
-		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currFloor.getStartX(),board.currFloor.getStartY()), //length to farthest corner from player
-				Level.lineLength(0,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())),
-				Math.max(Level.lineLength(board.X_RESOL,0,board.currFloor.getStartX(),board.currFloor.getStartY()), 
-						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currFloor.getStartX(),board.currFloor.getStartY())));
-		decayTime = (int)(.5+(1-(Level.lineLength(board.currFloor.getStartX(),board.currFloor.getStartY(),x,y)/farthestCorner))
-				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay())
+		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currLevel.getStartX(),board.currLevel.getStartY()), //length to farthest corner from player
+				Level.lineLength(0,board.Y_RESOL,board.currLevel.getStartX(),board.currLevel.getStartY())),
+				Math.max(Level.lineLength(board.X_RESOL,0,board.currLevel.getStartX(),board.currLevel.getStartY()), 
+						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currLevel.getStartX(),board.currLevel.getStartY())));
+		decayTime = (int)(.5+(1-(Level.lineLength(board.currLevel.getStartX(),board.currLevel.getStartY(),x,y)/farthestCorner))
+				*((board.currLevel.getMaxDecay()-board.currLevel.getMinDecay())+board.currLevel.getMinDecay())
 				*(15.0/board.getAdjustedCycle()));
 	}*/
 	//how long until cookie decays
@@ -112,7 +112,7 @@ public class Cookie {
 				Math.max(Level.lineLength(board.x_resol,0,sx,sy), 
 						Level.lineLength(board.x_resol,board.y_resol,sx,sy)));
 		decayTime = (int)(.5+(1-(Level.lineLength(sx,sy,x,y)/farthestCorner))
-				*((board.currFloor.getMaxDecay()-board.currFloor.getMinDecay())+board.currFloor.getMinDecay()));
+				*((board.currLevel.getMaxDecay()-board.currLevel.getMinDecay())+board.currLevel.getMinDecay()));
 		decayCounter = 0;
 		adjustedDecayTime = decayTime;
 		decayed=false;
@@ -125,7 +125,7 @@ public class Cookie {
 	public boolean collidesWithCircle(double oX, double oY, double oRad) {
 		double xDiff = Math.abs(oX - x);
 		double yDiff = Math.abs(oY - y);
-		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currFloor.getScale();
+		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currLevel.getScale();
 	}
 	
 	public void kill(Entity consumer) {
@@ -180,7 +180,7 @@ public class Cookie {
 	public boolean getAccess() {return accessible;}
 	public int getX() {return x;}
 	public int getY() {return y;}
-	public double getRadius() {return radius*board.currFloor.getScale();}
+	public double getRadius() {return radius*board.currLevel.getScale();}
 	public void shift(int xS, int yS) {
 		x+=xS;
 		y+=yS;

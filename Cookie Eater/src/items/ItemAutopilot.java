@@ -33,7 +33,7 @@ public class ItemAutopilot extends Item{
 				velCheck = false;
 			}else {
 				nearest = board.nearestCookie(user.getX()+user.getXVel(),user.getY()+user.getYVel());
-				if(nearest!=null && Level.lineLength(nearest.getX(),nearest.getY(),user.getX(),user.getY())<searchRadius * board.currFloor.getScale()) {
+				if(nearest!=null && Level.lineLength(nearest.getX(),nearest.getY(),user.getX(),user.getY())<searchRadius * board.currLevel.getScale()) {
 					adjustSpeeds();
 				}else {
 					nearest = null;
@@ -60,7 +60,7 @@ public class ItemAutopilot extends Item{
 		user.setAverageVelOverride(true); //prevent averageVels from interfering
 		//double rat = ((board.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale())/Level.lineLength(user.getX(), user.getY(), nearest.getX(), nearest.getY());
 		//use current velocity, with base velocity if current is too low
-		double speed = Math.max(Math.sqrt(Math.pow(user.getXVel(true),2)+Math.pow(user.getYVel(true),2)),(game.getAdjustedCycle()/15.0)*speedy*board.currFloor.getScale());
+		double speed = Math.max(Math.sqrt(Math.pow(user.getXVel(true),2)+Math.pow(user.getYVel(true),2)),(game.getAdjustedCycle()/15.0)*speedy*board.currLevel.getScale());
 		double rat = speed/Level.lineLength(user.getX(), user.getY(), nearest.getX(), nearest.getY());
 		initx = rat * (nearest.getX()-user.getX()); //update velocities towards target
 		inity = rat * (nearest.getY()-user.getY());

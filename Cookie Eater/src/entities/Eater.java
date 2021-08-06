@@ -239,7 +239,7 @@ public class Eater extends Entity{
 			try {
 				Thread.sleep(200); //movement freeze
 			}catch(InterruptedException e){};
-			board.resetFloors();
+			board.resetLevels();
 			board.resetGame();
 			score = 0;
 			cash = 0;
@@ -310,10 +310,10 @@ public class Eater extends Entity{
 			startx = (int)x;
 			starty = (int)y;
 		}else if (board.mode==Board.PVP) {
-			x = board.currFloor.getStarts()[id][0];
-			y = board.currFloor.getStarts()[id][1];
+			x = board.currLevel.getStarts()[id][0];
+			y = board.currLevel.getStarts()[id][1];
 		}
-		scale = board.currFloor.getScale();
+		scale = board.currLevel.getScale();
 		calibrateStats();
 		radius = DEFAULT_RADIUS;
 		dO = true;
