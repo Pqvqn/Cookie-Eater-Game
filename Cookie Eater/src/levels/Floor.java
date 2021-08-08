@@ -19,8 +19,23 @@ public class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor(HashMap<Level,Integer> roomWeights, int numRooms) {
-		
+	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms, ArrayList<Store> enter, ArrayList<Store> exit) {
+		entrances = enter;
+		exits = exit;
+		roomGrid[0][roomGrid.length-1] = exits.get(0);
+		String id = "";
+		for(int i=0; i<numRooms+2; i++)id+="0";
+		for(int i=1; i<=numRooms && i<roomGrid[0].length-1; i++) {
+			ArrayList<Level> nexture = new ArrayList<Level>();
+			nexture.add(roomGrid[0][numRooms-i]);
+			//TODO: choose level type
+			Level addition = new Level(game, board, id.substring(0,numRooms+1-i), nexture);
+			roomGrid[0][numRooms-i-1] = addition;
+		}
+		roomGrid[0][0] = entrances.get(0);
+		ArrayList<Level> nexture = new ArrayList<Level>();
+		nexture.add(roomGrid[0][1]);
+		roomGrid[0][0].setNextLevels(nexture);
 	}
 	
 }
