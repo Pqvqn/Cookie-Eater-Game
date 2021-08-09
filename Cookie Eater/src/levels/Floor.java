@@ -1,5 +1,6 @@
 package levels;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
@@ -25,12 +26,34 @@ public class Floor {
 		roomGrid[0][roomGrid.length-1] = exits.get(0);
 		String id = "";
 		for(int i=0; i<numRooms+2; i++)id+="0";
+		//unpack weights
+		ArrayList<Class<Level>> levels = new ArrayList<Class<Level>>();
+		ArrayList<Integer> counts = new ArrayList<Integer>();
+		Iterator<Class<Level>> it = roomWeights.keySet().iterator();
+		int sum = 0;
+		while(it.hasNext()) {
+			Class<Level> classlvl = it.next();
+			levels.add(classlvl);
+			sum += roomWeights.get(classlvl);
+			counts.add(sum);
+		}
+
 		for(int i=1; i<=numRooms && i<roomGrid[0].length-1; i++) {
 			ArrayList<Level> nexture = new ArrayList<Level>();
 			nexture.add(roomGrid[0][numRooms-i]);
-			//TODO: choose level type
-			Level addition = new Level(game, board, id.substring(0,numRooms+1-i), nexture);
-			roomGrid[0][numRooms-i-1] = addition;
+			int chosen = (int)(Math.random()*sum);
+			int find = 0;
+			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
+			Class<Level> chosenlvl = levels.get(find);
+			Level addition = null;
+			try {
+				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, String.class, ArrayList.class).newInstance(game, board, id.substring(0,numRooms+1-i), nexture));
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(addition!=null)roomGrid[0][numRooms-i-1] = addition;
 		}
 		roomGrid[0][0] = entrances.get(0);
 		ArrayList<Level> nexture = new ArrayList<Level>();
