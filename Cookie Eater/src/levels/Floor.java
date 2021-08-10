@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
+import mechanisms.*;
 
 public class Floor {
 	
@@ -58,7 +59,9 @@ public class Floor {
 		roomGrid[0][0] = entrances.get(0);
 		ArrayList<Level> nexture = new ArrayList<Level>();
 		nexture.add(roomGrid[0][1]);
-		roomGrid[0][0].setNextLevels(nexture);
+		ArrayList<Integer> dirture = new ArrayList<Integer>();
+		dirture.add(Passage.RIGHT);
+		roomGrid[0][0].setNextLevels(nexture,dirture);
 	}
 	
 }

@@ -49,7 +49,7 @@ public abstract class Level{
 		startposs = sp;
 		passageways = new ArrayList<Passage>();
 		if(next!=null && !next.isEmpty())
-			buildPassages(next, (int)(100 * scale));
+			buildPassages(next, null, (int)(100 * scale));
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -82,8 +82,8 @@ public abstract class Level{
 	}
 	public String getID() {return lvlid;}
 	public void setID(String id) {lvlid = id;}
-	public void setNextLevels(ArrayList<Level> next) {
-		buildPassages(next, (int)(200 * scale));
+	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
+		buildPassages(next, directions, (int)(200 * scale));
 	}
 	public void loadPassages(ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
 		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
@@ -199,11 +199,14 @@ public abstract class Level{
 	}
 	
 	//creates passages to next levels
-	public void buildPassages(ArrayList<Level> nextLevels, int size){
+	public void buildPassages(ArrayList<Level> nextLevels, ArrayList<Integer> directions, int size){
 		int[] dirs = {Passage.RIGHT,Passage.TOP};
-		int[] poss = {board.y_resol/2,board.x_resol/2};
-		for(int i=0; i<nextLevels.size() && i<dirs.length; i++) {
-			Passage p = new Passage(game,board,this,nextLevels.get(i),dirs[i],poss[i],size);
+		int[] poss = new int[4];
+		poss[Passage.RIGHT]=board.y_resol/2;poss[Passage.LEFT]=board.y_resol/2;poss[Passage.TOP]=board.x_resol/2;poss[Passage.BOTTOM]=board.x_resol/2;
+		
+		for(int i=0; i<nextLevels.size() && i<directions.size(); i++) {
+			int dir = (directions==null)?dirs[i]:directions.get(i);
+			Passage p = new Passage(game,board,this,nextLevels.get(i),dir,poss[dir],size);
 			passageways.add(p);
 			nextLevels.get(i).addEntrance(p);
 		}
