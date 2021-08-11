@@ -17,6 +17,7 @@ public abstract class Level{
 	protected double scale; //zoom in/out of level
 	protected Game game;
 	protected Board board;
+	protected Floor floor;
 	protected double[][] startposs;
 	protected int minDecay; //frames for cookie at edge corner to decay fully
 	protected int maxDecay; //frames for cookie at center to decay fully
@@ -32,14 +33,12 @@ public abstract class Level{
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
-	public Level(Game frame, Board gameboard, String id) {
-		this(frame,gameboard,id,new ArrayList<Level>());
-	}
 	
-	public Level(Game frame, Board gameboard, String id, ArrayList<Level> next) {
+	public Level(Game frame, Board gameboard, Floor floorlevel, String id) {
 		scale = 1;
 		game = frame;
 		board = gameboard;
+		floor = floorlevel;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		lvlid = id;
@@ -48,14 +47,13 @@ public abstract class Level{
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
 		startposs = sp;
 		passageways = new ArrayList<Passage>();
-		if(next!=null && !next.isEmpty())
-			buildPassages(next, null, (int)(100 * scale));
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
-	public Level(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public Level(Game frame, Board gameboard, Floor floorlevel, SaveData sd) {
 		game = frame;
 		board = gameboard;
+		floor = floorlevel;
 		scale = sd.getDouble("scale",0);
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
@@ -66,13 +64,13 @@ public abstract class Level{
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		
-		if(prev!=null && next!=null) {
+		/*if(prev!=null && next!=null) {
 			ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
 			passageways = new ArrayList<Passage>();
 			for(int i=0; i<passdata.size(); i++) {
 				passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
 			}
-		}
+		}*/
 		
 		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
 		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};

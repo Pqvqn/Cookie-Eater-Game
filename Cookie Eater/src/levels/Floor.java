@@ -48,13 +48,19 @@ public class Floor {
 			Class<Level> chosenlvl = levels.get(find);
 			Level addition = null;
 			try {
-				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, String.class, ArrayList.class).newInstance(game, board, id.substring(0,numRooms+1-i), nexture));
+				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,numRooms+1-i)));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(addition!=null)roomGrid[0][numRooms-i-1] = addition;
+			if(addition!=null) {
+				roomGrid[0][numRooms-i-1] = addition;
+				nexture.add(roomGrid[0][numRooms-i]);
+				ArrayList<Integer> dirture = new ArrayList<Integer>();
+				dirture.add(Passage.RIGHT);
+				addition.setNextLevels(nexture,dirture);
+			}
 		}
 		roomGrid[0][0] = entrances.get(0);
 		ArrayList<Level> nexture = new ArrayList<Level>();
