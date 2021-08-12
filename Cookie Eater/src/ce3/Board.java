@@ -33,7 +33,7 @@ public class Board{
 	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	public Class[][] levelSequence = { //order of rooms for each dungeon 
+	/*public Class[][] levelSequence = { //order of rooms for each dungeon 
 			//vaults
 			{Store1.class,Room1.class,
 			Store2.class,Room2.class,Room2.class,
@@ -46,11 +46,11 @@ public class Board{
 			Store1.class,RoomRound.class,RoomRound.class,RoomRound.class,RoomRound.class,RoomRound.class},
 			//training
 			{Training1.class}
-	};
-	public LinkedList<Level> levels; //level progression
-	public HashMap<String,Level> stores; //stores (stay the same between resets)
+	};*/
+	//public LinkedList<Level> levels; //level progression
+	//public HashMap<String,Level> stores; //stores (stay the same between resets)
 	public Level nextLevel;
-	public Level firstLevel;
+	//public Level firstLevel;
 	public Level currLevel;
 	public int currDungeon;
 	public int playerCount;
@@ -514,7 +514,7 @@ public class Board{
 	public void resetLevels() {
 		int num = currDungeon;
 		//converting list of levels to linked list
-		levels = new LinkedList<Level>();
+		/*levels = new LinkedList<Level>();
 		if(mode==LEVELS) {
 			Level last = null;
 			Level curr = null;
@@ -561,7 +561,7 @@ public class Board{
 			firstLevel = levels.getFirst();
 
 		}
-		currLevel = firstLevel;
+		currLevel = firstLevel;*/
 	}
 	
 	public void setCalibrations(double cycle) {
@@ -703,25 +703,6 @@ public class Board{
 		return null;
 	}
 	
-	//finds the room belonging to the given code
-	public Level findRoom(String code) {
-		Level curr = firstLevel;
-		String cid = curr.getID();
-		//crawl through rooms, looking for next one based on matching id
-		for(int i=1; i<code.length(); i++) {
-			for(int j=0; j<curr.getPassages().size(); j++) {
-				if(curr.getPassages().get(j).entranceAt(curr)) {
-					Level exit = curr.getPassages().get(j).getExit();
-					String oid = exit==null?cid:exit.getID();
-					if(oid.substring(0,i).equals(cid)) {
-						curr = curr.getPassages().get(j).getExit();
-						cid = oid;
-					}
-				}
-			}
-			if(cid.length() < i)return null;
-		}
-		return curr;
-	}
+	
 
 }

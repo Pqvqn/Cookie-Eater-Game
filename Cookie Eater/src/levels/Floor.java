@@ -70,4 +70,33 @@ public class Floor {
 		roomGrid[0][0].setNextLevels(nexture,dirture);
 	}
 	
+	//finds the room belonging to the given code
+	public Level findRoom(String code) {
+		/*(Level curr = firstLevel;
+		String cid = curr.getID();
+		//crawl through rooms, looking for next one based on matching id
+		for(int i=1; i<code.length(); i++) {
+			for(int j=0; j<curr.getPassages().size(); j++) {
+				if(curr.getPassages().get(j).entranceAt(curr)) {
+					Level exit = curr.getPassages().get(j).getExit();
+					String oid = exit==null?cid:exit.getID();
+					if(oid.substring(0,i).equals(cid)) {
+						curr = curr.getPassages().get(j).getExit();
+						cid = oid;
+					}
+				}
+			}
+			if(cid.length() < i)return null;
+		}
+		return curr;
+	}*/
+		for(int i=0; i<roomGrid.length; i++) {
+			for(int j=0; j<roomGrid[i].length; j++) {
+				if(roomGrid[i][j]!=null && roomGrid[i][j].getID().equals(code)) {
+					return roomGrid[i][j];
+				}
+			}
+		}
+		return null;
+	}
 }
