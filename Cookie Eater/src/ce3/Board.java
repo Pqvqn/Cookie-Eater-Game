@@ -52,6 +52,7 @@ public class Board{
 	public Level nextLevel;
 	//public Level firstLevel;
 	public Level currLevel;
+	public Floor currFloor;
 	public int currDungeon;
 	public int playerCount;
 	public boolean awaiting_start; //whether the game is paused awaiting a player input to begin

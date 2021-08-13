@@ -95,7 +95,7 @@ public class Explorer extends Entity{
 			mr[i/2][i%2] = Double.parseDouble(stats.get(i).toString());
 		}
 		
-		residence = board.findRoom(sd.getString("residence",0));
+		residence = board.currFloor.findRoom(sd.getString("residence",0));
 		
 		ArrayList<Object> spots = sd.getData("shopspots");
 		if(spots!=null) {
@@ -332,8 +332,8 @@ public class Explorer extends Entity{
 		}
 	}*/
 	//
-	public Level chooseFloor(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps) {
-		Level point = board.firstLevel;
+	public Level chooseRoom(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps, Level start) {
+		Level point = start;
 		boolean tryagain = false;
 		for(int i=0; i<steps || (storemode && !(point instanceof Store)) || tryagain; i++) {
 			tryagain = false;
