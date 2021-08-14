@@ -49,6 +49,15 @@ public class Board{
 	};*/
 	//public LinkedList<Level> levels; //level progression
 	//public HashMap<String,Level> stores; //stores (stay the same between resets)
+	public LinkedList<Floor> floors; //connections of floors
+	public Class[][][] floorSequence = { //stores floor tiers 
+			//vaults
+			{{}},
+			//inners
+			{{}},
+			//training
+			{{}},
+	}
 	public Level nextLevel;
 	//public Level firstLevel;
 	public Level currLevel;
@@ -505,7 +514,7 @@ public class Board{
 	
 	public void loadDungeon(int num) {
 		currDungeon = num;
-		stores = new HashMap<String,Level>();
+		//stores = new HashMap<String,Level>();
 		resetLevels();
 		resetNpcs();
 		//create floor 1
@@ -514,6 +523,9 @@ public class Board{
 	//recreates level progression
 	public void resetLevels() {
 		int num = currDungeon;
+		floors = new LinkedList<Floor>();
+		Class[][] dungeonSeq = floorSequence[num];
+		
 		//converting list of levels to linked list
 		/*levels = new LinkedList<Level>();
 		if(mode==LEVELS) {
