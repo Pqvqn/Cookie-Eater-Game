@@ -49,7 +49,7 @@ public class Board{
 	};*/
 	//public LinkedList<Level> levels; //level progression
 	//public HashMap<String,Level> stores; //stores (stay the same between resets)
-	public LinkedList<Floor> floors; //connections of floors
+	public ArrayList<Floor> floors; //list of floors, unordered
 	public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults
 			{{}},
@@ -57,7 +57,7 @@ public class Board{
 			{{}},
 			//training
 			{{}},
-	}
+	};
 	public Level nextLevel;
 	//public Level firstLevel;
 	public Level currLevel;
@@ -523,9 +523,20 @@ public class Board{
 	//recreates level progression
 	public void resetLevels() {
 		int num = currDungeon;
-		floors = new LinkedList<Floor>();
+		floors = new ArrayList<Floor>();
+		int searchidx = 0; //where in floors the last tier begins
 		Class[][] dungeonSeq = floorSequence[num];
-		
+		for(int i=0; i<dungeonSeq.length; i++) { //create each floor
+			int idx = floors.size();
+			for(int j=0; j<dungeonSeq[i].length; j++) {
+				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2); //read floors
+				floors.add(currf);
+				if(i>0) {//get previous floor to use as entrance
+					Floor leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
+				}
+			}
+			searchidx = idx;
+		}
 		//converting list of levels to linked list
 		/*levels = new LinkedList<Level>();
 		if(mode==LEVELS) {
@@ -708,6 +719,18 @@ public class Board{
 	public Level readRoom(Class<Level> s, String id) {
 		try {
 			return (s.getDeclaredConstructor(Game.class, Board.class, String.class).newInstance(game,this,id));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//returns instance of given Level subclass
+	public Floor readFloor(Class<Floor> s, int w, int h) {
+		try {
+			return (s.getDeclaredConstructor(Game.class, Board.class, int.class, int.class).newInstance(game,this,w,h));
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
