@@ -13,10 +13,14 @@ public class Floor {
 	protected Level[][] roomGrid; //grid of room locations
 	protected ArrayList<Store> entrances; //entrances into the floor, located in stores
 	protected ArrayList<Store> exits; //exits to other floors, located in stores
+	protected ArrayList<Floor> prevs;
+	protected ArrayList<Floor> nexts;
 
 	public Floor(Game frame, Board gameboard, int wid, int hei) {
 		game = frame;
 		board = gameboard;
+		prevs = new ArrayList<Floor>();
+		nexts = new ArrayList<Floor>();
 		roomGrid = new Level[wid][hei];
 	}
 	
@@ -99,4 +103,7 @@ public class Floor {
 		}
 		return null;
 	}
+	
+	public void addPrev(Floor f) {prevs.add(f);}
+	public void addNext(Floor f) {nexts.add(f);}
 }
