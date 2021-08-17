@@ -520,6 +520,18 @@ public class Board{
 		//create floor 1
 		resetGame();	
 	}	
+	//generate next floor
+	public void generateFloor(Floor f) {
+		ArrayList<Store> enter = new ArrayList<Store>();
+		ArrayList<Store> exit = new ArrayList<Store>();
+		for(int i=0; i<f.getPrev().size(); i++) {
+			
+		}
+		for(int i=0; i<f.getNext().size(); i++) {
+			exit.add(f.createStore());
+		}
+		f.generateFloor(roomWeights, numRooms, enter, exit);
+	}
 	//recreates level progression
 	public void resetLevels() {
 		int num = currDungeon;

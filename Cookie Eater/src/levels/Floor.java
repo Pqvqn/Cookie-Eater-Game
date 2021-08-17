@@ -104,6 +104,12 @@ public class Floor {
 		return null;
 	}
 	
+	public Store createStore() {
+		return new Store();
+	}
+	
 	public void addPrev(Floor f) {prevs.add(f);}
 	public void addNext(Floor f) {nexts.add(f);}
+	public ArrayList<Floor> getPrev() {return prevs;}
+	public ArrayList<Floor> getNext() {return nexts;}
 }
