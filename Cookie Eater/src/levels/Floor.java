@@ -11,8 +11,6 @@ public class Floor {
 	protected Game game;
 	protected Board board;
 	protected Level[][] roomGrid; //grid of room locations
-	protected ArrayList<Store> entrances; //entrances into the floor, located in stores
-	protected ArrayList<Store> exits; //exits to other floors, located in stores
 	protected ArrayList<Floor> prevs;
 	protected ArrayList<Floor> nexts;
 
@@ -25,10 +23,7 @@ public class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms, ArrayList<Store> enter, ArrayList<Store> exit) {
-		entrances = enter;
-		exits = exit;
-		roomGrid[0][roomGrid.length-1] = exits.get(0);
+	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms, int entrances, int exits) {
 		String id = "";
 		for(int i=0; i<numRooms+2; i++)id+="0";
 		//unpack weights
@@ -43,7 +38,7 @@ public class Floor {
 			counts.add(sum);
 		}
 
-		for(int i=1; i<=numRooms && i<roomGrid[0].length-1; i++) {
+		for(int i=0; i<=numRooms && i<roomGrid[0].length; i++) {
 			ArrayList<Level> nexture = new ArrayList<Level>();
 			nexture.add(roomGrid[0][numRooms-i]);
 			int chosen = (int)(Math.random()*sum);
@@ -60,18 +55,14 @@ public class Floor {
 			}
 			if(addition!=null) {
 				roomGrid[0][numRooms-i-1] = addition;
-				nexture.add(roomGrid[0][numRooms-i]);
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
-				dirture.add(Passage.RIGHT);
+				if(numRooms-i<numRooms) {
+					nexture.add(roomGrid[0][numRooms-i]);
+					dirture.add(Passage.RIGHT);
+				}
 				addition.setNextLevels(nexture,dirture);
 			}
 		}
-		roomGrid[0][0] = entrances.get(0);
-		ArrayList<Level> nexture = new ArrayList<Level>();
-		nexture.add(roomGrid[0][1]);
-		ArrayList<Integer> dirture = new ArrayList<Integer>();
-		dirture.add(Passage.RIGHT);
-		roomGrid[0][0].setNextLevels(nexture,dirture);
 	}
 	
 	//finds the room belonging to the given code
@@ -102,10 +93,6 @@ public class Floor {
 			}
 		}
 		return null;
-	}
-	
-	public Store createStore() {
-		return new Store();
 	}
 	
 	public void addPrev(Floor f) {prevs.add(f);}
