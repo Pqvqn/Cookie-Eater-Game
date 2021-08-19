@@ -23,7 +23,9 @@ public class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms, int entrances, int exits) {
+	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms) {
+		int entrances = prevs.size();
+		int exits = nexts.size();
 		String id = "";
 		for(int i=0; i<numRooms+2; i++)id+="0";
 		//unpack weights

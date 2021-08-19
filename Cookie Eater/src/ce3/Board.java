@@ -48,7 +48,7 @@ public class Board{
 			{Training1.class}
 	};*/
 	//public LinkedList<Level> levels; //level progression
-	//public HashMap<String,Level> stores; //stores (stay the same between resets)
+	public HashMap<String,Store> stores; //stores (stay the same between resets)
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults
@@ -522,14 +522,7 @@ public class Board{
 	}	
 	//generate next floor
 	public void generateFloor(Floor f) {
-		ArrayList<Store> enter = new ArrayList<Store>();
-		ArrayList<Store> exit = new ArrayList<Store>();
-		for(int i=0; i<f.getPrev().size(); i++) {
-			
-		}
-		for(int i=0; i<f.getNext().size(); i++) {
-			exit.add(f.createStore());
-		}
+		
 		f.generateFloor(roomWeights, numRooms, enter, exit);
 	}
 	//recreates level progression
