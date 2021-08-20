@@ -10,7 +10,7 @@ public class Passage extends Mechanism{
 
 	private Level entranceFloor; //where passage opens from
 	private Level exitFloor; //where player goes into
-	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3; //the location of the wall that has the entrance
+	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3, FLOOR=4, CEILING=5; //the location of the wall that has the entrance
 	private int width; //how wide the opening is
 	private int inx,iny,outx,outy; //positions
 	private int direction; //direction of passage entrance
@@ -94,6 +94,11 @@ public class Passage extends Mechanism{
 			inx = board.x_resol+gap;
 			iny = offset;
 			outy = offset;
+		}else if(dir==FLOOR || dir==CEILING) {
+			inx = board.x_resol/2;
+			outx = board.x_resol/2;
+			iny = board.y_resol/2;
+			outy = board.y_resol/2;
 		}
 	}
 	
@@ -166,6 +171,10 @@ public class Passage extends Mechanism{
 			return RIGHT;
 		case RIGHT:
 			return LEFT;
+		case CEILING:
+			return FLOOR;
+		case FLOOR:
+			return CEILING;
 		}
 		return dir;
 	}
