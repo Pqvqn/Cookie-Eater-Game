@@ -52,7 +52,7 @@ public class Board{
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults
-			{{}},
+			{{Floor1.class}},
 			//inners
 			{{}},
 			//training
@@ -520,11 +520,7 @@ public class Board{
 		//create floor 1
 		resetGame();	
 	}	
-	//generate next floor
-	public void generateFloor(Floor f) {
-		
-		f.generateFloor(roomWeights, numRooms, enter, exit);
-	}
+
 	//recreates level progression
 	public void resetLevels() {
 		int num = currDungeon;

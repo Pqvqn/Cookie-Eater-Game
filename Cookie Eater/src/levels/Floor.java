@@ -6,13 +6,15 @@ import java.util.*;
 import ce3.*;
 import mechanisms.*;
 
-public class Floor {
+public abstract class Floor {
 	
 	protected Game game;
 	protected Board board;
 	protected Level[][] roomGrid; //grid of room locations
 	protected ArrayList<Floor> prevs;
 	protected ArrayList<Floor> nexts;
+	protected HashMap<Class,Integer> roomWeights;
+	protected int numRooms;
 
 	public Floor(Game frame, Board gameboard, int wid, int hei) {
 		game = frame;
@@ -23,15 +25,15 @@ public class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor(HashMap<Class<Level>,Integer> roomWeights, int numRooms) {
+	public void generateFloor() {
 		int entrances = prevs.size();
 		int exits = nexts.size();
 		String id = "";
 		for(int i=0; i<numRooms+2; i++)id+="0";
 		//unpack weights
-		ArrayList<Class<Level>> levels = new ArrayList<Class<Level>>();
+		ArrayList<Class> levels = new ArrayList<Class>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
-		Iterator<Class<Level>> it = roomWeights.keySet().iterator();
+		Iterator<Class> it = roomWeights.keySet().iterator();
 		int sum = 0;
 		while(it.hasNext()) {
 			Class<Level> classlvl = it.next();
