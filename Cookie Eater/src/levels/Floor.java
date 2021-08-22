@@ -25,7 +25,7 @@ public abstract class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor() {
+	public void generateFloor(Store entrance, Store exit) {
 		int entrances = prevs.size();
 		int exits = nexts.size();
 		String id = "";

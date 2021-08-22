@@ -8,14 +8,14 @@ import entities.*;
 
 public class Passage extends Mechanism{
 
-	private Level entranceFloor; //where passage opens from
-	private Level exitFloor; //where player goes into
+	protected Level entranceFloor; //where passage opens from
+	protected Level exitFloor; //where player goes into
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3, FLOOR=4, CEILING=5; //the location of the wall that has the entrance
-	private int width; //how wide the opening is
-	private int inx,iny,outx,outy; //positions
-	private int direction; //direction of passage entrance
-	private boolean mode; //whether the passage is an entrance
-	private final int gap = 30; //gap between screen edge and passage point
+	protected int width; //how wide the opening is
+	protected int inx,iny,outx,outy; //positions
+	protected int direction; //direction of passage entrance
+	protected boolean mode; //whether the passage is an entrance
+	protected final int gap = 30; //gap between screen edge and passage point
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset, int wid) {
 		super(frame,gameboard,0,0);

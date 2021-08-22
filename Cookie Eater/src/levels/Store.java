@@ -142,15 +142,15 @@ public abstract class Store extends Level{
 			}
 		}
 		
-		board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
-		board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol/2+100));
+		//board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
+		//board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol/2+100));
 
 		for(int i=0; i<passageways.size(); i++) {
 			passageways.get(i).setMode(this);
 			addMechanism(passageways.get(i));
 		}
 		
-		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
+		//board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
 		
 	}
 	
