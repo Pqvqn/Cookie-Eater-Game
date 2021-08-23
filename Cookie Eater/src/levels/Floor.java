@@ -11,23 +11,25 @@ public abstract class Floor {
 	protected Game game;
 	protected Board board;
 	protected Level[][] roomGrid; //grid of room locations
-	protected ArrayList<Floor> prevs;
-	protected ArrayList<Floor> nexts;
+	//protected ArrayList<Floor> prevs;
+	//protected ArrayList<Floor> nexts;
+	protected ArrayList<Store> stores;
 	protected HashMap<Class,Integer> roomWeights;
 	protected int numRooms;
 
 	public Floor(Game frame, Board gameboard, int wid, int hei) {
 		game = frame;
 		board = gameboard;
-		prevs = new ArrayList<Floor>();
-		nexts = new ArrayList<Floor>();
+		//prevs = new ArrayList<Floor>();
+		//nexts = new ArrayList<Floor>();
+		stores = new ArrayList<Store>();
 		roomGrid = new Level[wid][hei];
 	}
 	
 	//creates and connects levels in paths
 	public void generateFloor(Store entrance, Store exit) {
-		int entrances = prevs.size();
-		int exits = nexts.size();
+		//int entrances = prevs.size();
+		//int exits = nexts.size();
 		String id = "";
 		for(int i=0; i<numRooms+2; i++)id+="0";
 		//unpack weights
@@ -67,6 +69,12 @@ public abstract class Floor {
 				addition.setNextLevels(nexture,dirture);
 			}
 		}
+		ArrayList<Level> nexture = new ArrayList<Level>();
+		ArrayList<Integer> dirture = new ArrayList<Integer>();
+		nexture.add(stores.get(0));
+		dirture.add(Passage.FLOOR);
+		roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
+		
 	}
 	
 	//finds the room belonging to the given code
@@ -99,8 +107,12 @@ public abstract class Floor {
 		return null;
 	}
 	
-	public void addPrev(Floor f) {prevs.add(f);}
+	public void addStore(Store s) {
+		stores.add(s);
+	}
+	
+	/*public void addPrev(Floor f) {prevs.add(f);}
 	public void addNext(Floor f) {nexts.add(f);}
 	public ArrayList<Floor> getPrev() {return prevs;}
-	public ArrayList<Floor> getNext() {return nexts;}
+	public ArrayList<Floor> getNext() {return nexts;}*/
 }
