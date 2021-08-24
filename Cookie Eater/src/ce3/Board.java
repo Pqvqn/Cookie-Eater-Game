@@ -534,8 +534,9 @@ public class Board{
 				floors.add(currf);
 				if(i>0) {//get previous floor to use as entrance
 					Floor leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
-					leadin.addNext(currf);
-					currf.addPrev(leadin);
+					Store nextStore = leadin.generateStore();
+					currf.addStore(nextStore);
+					currf.generateFloor();
 				}
 			}
 			searchidx = idx;

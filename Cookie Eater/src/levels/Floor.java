@@ -27,7 +27,7 @@ public abstract class Floor {
 	}
 	
 	//creates and connects levels in paths
-	public void generateFloor(Store entrance, Store exit) {
+	public void generateFloor() {
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		String id = "";
@@ -75,6 +75,11 @@ public abstract class Floor {
 		dirture.add(Passage.FLOOR);
 		roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
 		
+	}
+	
+	//return Store to use before this Floor
+	public Store generateStore() {
+		return new Store1(game, board, id);
 	}
 	
 	//finds the room belonging to the given code
