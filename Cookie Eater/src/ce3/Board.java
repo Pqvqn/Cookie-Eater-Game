@@ -530,10 +530,14 @@ public class Board{
 		for(int i=0; i<dungeonSeq.length; i++) { //create each floor
 			int idx = floors.size();
 			for(int j=0; j<dungeonSeq[i].length; j++) {
-				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2); //read floors
-				floors.add(currf);
+				Floor leadin=null;
 				if(i>0) {//get previous floor to use as entrance
-					Floor leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
+					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
+				}
+				String id = ((leadin==null)?"":leadin.getID());
+				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2,id); //read floors
+				floors.add(currf);
+				if(leadin!=null) {
 					Store nextStore = leadin.generateStore();
 					currf.addStore(nextStore);
 					currf.generateFloor();
@@ -732,9 +736,9 @@ public class Board{
 	}
 	
 	//returns instance of given Level subclass
-	public Floor readFloor(Class<Floor> s, int w, int h) {
+	public Floor readFloor(Class<Floor> s, int w, int h, String id) {
 		try {
-			return (s.getDeclaredConstructor(Game.class, Board.class, int.class, int.class).newInstance(game,this,w,h));
+			return (s.getDeclaredConstructor(Game.class, Board.class, int.class, int.class, String.class)).newInstance(game,this,w,h,id);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block

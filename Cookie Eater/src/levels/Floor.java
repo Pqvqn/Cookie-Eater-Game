@@ -13,13 +13,16 @@ public abstract class Floor {
 	protected Level[][] roomGrid; //grid of room locations
 	//protected ArrayList<Floor> prevs;
 	//protected ArrayList<Floor> nexts;
-	protected ArrayList<Store> stores;
+	protected ArrayList<Store> entrances;
+	protected ArrayList<Store> exits;
 	protected HashMap<Class,Integer> roomWeights;
 	protected int numRooms;
+	protected String id;
 
-	public Floor(Game frame, Board gameboard, int wid, int hei) {
+	public Floor(Game frame, Board gameboard, int wid, int hei, String floorid) {
 		game = frame;
 		board = gameboard;
+		id = floorid;
 		//prevs = new ArrayList<Floor>();
 		//nexts = new ArrayList<Floor>();
 		stores = new ArrayList<Store>();
