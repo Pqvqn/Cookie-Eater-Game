@@ -25,7 +25,8 @@ public abstract class Floor {
 		id = floorid;
 		//prevs = new ArrayList<Floor>();
 		//nexts = new ArrayList<Floor>();
-		stores = new ArrayList<Store>();
+		entrances = new ArrayList<Store>();
+		exits = new ArrayList<Store>();
 		roomGrid = new Level[wid][hei];
 	}
 	
@@ -74,7 +75,7 @@ public abstract class Floor {
 		}
 		ArrayList<Level> nexture = new ArrayList<Level>();
 		ArrayList<Integer> dirture = new ArrayList<Integer>();
-		nexture.add(stores.get(0));
+		nexture.add(exits.get(0));
 		dirture.add(Passage.FLOOR);
 		roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
 		
@@ -115,10 +116,14 @@ public abstract class Floor {
 		return null;
 	}
 	
-	public void addStore(Store s) {
-		stores.add(s);
+	public void addEntrance(Store s) {
+		entrances.add(s);
 	}
-	
+	public void addExit(Store s) {
+		exits.add(s);
+	}
+	public int numExits() {return exits.size();}
+	public String getID() {return id;}
 	/*public void addPrev(Floor f) {prevs.add(f);}
 	public void addNext(Floor f) {nexts.add(f);}
 	public ArrayList<Floor> getPrev() {return prevs;}

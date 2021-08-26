@@ -534,12 +534,13 @@ public class Board{
 				if(i>0) {//get previous floor to use as entrance
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
-				String id = ((leadin==null)?"":leadin.getID());
+				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
 				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2,id); //read floors
 				floors.add(currf);
 				if(leadin!=null) {
 					Store nextStore = leadin.generateStore();
-					currf.addStore(nextStore);
+					leadin.addExit(nextStore);
+					currf.addEntrance(nextStore);
 					currf.generateFloor();
 				}
 			}
