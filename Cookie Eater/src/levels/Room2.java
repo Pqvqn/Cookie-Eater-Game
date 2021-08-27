@@ -16,11 +16,8 @@ public class Room2 extends Level{
 	//public double startx;
 	//public double starty;
 	
-	public Room2(Game frame, Board gameboard, String id) {
-		this(frame,gameboard,id,null);
-	}
-	public Room2(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
-		super(frame,gameboard,id,nextFloor);
+	public Room2(Game frame, Board gameboard, Floor floor, String id) {
+		super(frame,gameboard,floor,id);
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
 		scale = .95;

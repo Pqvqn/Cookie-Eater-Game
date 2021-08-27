@@ -7,8 +7,8 @@ import cookies.*;
 
 public class Training1 extends Training{
 
-	public Training1(Game frame, Board gameboard, String id) {
-		super(frame,gameboard,id);
+	public Training1(Game frame, Board gameboard, Floor floor, String id) {
+		super(frame,gameboard,floor,id);
 		name = "Forest Entrance";
 		nameAbbrev = "for";
 	}

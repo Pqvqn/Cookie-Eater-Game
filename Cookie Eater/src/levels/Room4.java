@@ -18,11 +18,8 @@ public class Room4 extends Level{
 			{2*board.x_resol/3,board.x_resol,0,board.y_resol/2},
 			{2*board.x_resol/3,board.x_resol,board.y_resol/2,board.y_resol}};
 	
-	public Room4(Game frame, Board gameboard, String id) {
-		this(frame,gameboard,id,null);
-	}
-	public Room4(Game frame, Board gameboard, String id, ArrayList<Level> nextFloor) {
-		super(frame,gameboard,id,nextFloor);
+	public Room4(Game frame, Board gameboard, Floor floor, String id) {
+		super(frame,gameboard,floor,id);
 		name = "Frozen Chambers";
 		nameAbbrev = "ice";
 		scale = .85;

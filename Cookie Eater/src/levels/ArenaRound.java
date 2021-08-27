@@ -6,8 +6,8 @@ import ce3.*;
 
 public class ArenaRound extends Arena{
 
-	public ArenaRound(Game frame, Board gameboard, String id) {
-		super(frame,gameboard,id);
+	public ArenaRound(Game frame, Board gameboard, Floor floor, String id) {
+		super(frame,gameboard,floor,id);
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 	}

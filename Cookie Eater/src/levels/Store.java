@@ -15,7 +15,7 @@ public abstract class Store extends Level{
 	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
 	public Store(Game frame, Board gameboard, String id) {
-		super(frame,gameboard,id);
+		super(frame,gameboard,null,id);
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 		exitProportion = 1;

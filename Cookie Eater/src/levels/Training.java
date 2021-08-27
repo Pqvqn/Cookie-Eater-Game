@@ -7,8 +7,8 @@ import mechanisms.*;
 
 public abstract class Training extends Level{
 	
-	public Training(Game frame, Board gameboard, String id) {
-		super(frame,gameboard,id);
+	public Training(Game frame, Board gameboard, Floor floor, String id) {
+		super(frame,gameboard,floor,id);
 		minDecay = Integer.MAX_VALUE;
 		maxDecay = Integer.MAX_VALUE;
 	}
