@@ -48,7 +48,7 @@ public abstract class Floor {
 			counts.add(sum);
 		}
 
-		for(int i=0; i<=numRooms && i<roomGrid[0].length; i++) {
+		for(int i=0; i<=numRooms && numRooms-i<roomGrid[0].length; i++) {
 			ArrayList<Level> nexture = new ArrayList<Level>();
 			nexture.add(roomGrid[0][numRooms-i]);
 			int chosen = (int)(Math.random()*sum);
@@ -73,11 +73,13 @@ public abstract class Floor {
 				addition.setNextLevels(nexture,dirture);
 			}
 		}
-		ArrayList<Level> nexture = new ArrayList<Level>();
-		ArrayList<Integer> dirture = new ArrayList<Integer>();
-		nexture.add(exits.get(0));
-		dirture.add(Passage.FLOOR);
-		roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
+		if(!exits.isEmpty()) {
+			ArrayList<Level> nexture = new ArrayList<Level>();
+			ArrayList<Integer> dirture = new ArrayList<Integer>();
+			nexture.add(exits.get(0));
+			dirture.add(Passage.FLOOR);
+			roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
+		}
 		
 	}
 	

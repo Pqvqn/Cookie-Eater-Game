@@ -430,7 +430,7 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		currLevel.removeNpcs();
+		if(currLevel!=null)currLevel.removeNpcs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
@@ -538,10 +538,15 @@ public class Board{
 				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2,id); //read floors
 				floors.add(currf);
 				if(leadin!=null) {
-					Store nextStore = leadin.generateStore();
+					Store nextStore = currf.generateStore();
 					leadin.addExit(nextStore);
 					currf.addEntrance(nextStore);
 					currf.generateFloor();
+				}else {
+					Store nextStore = currf.generateStore();
+					currf.addEntrance(nextStore);
+					currf.generateFloor();
+					currLevel = nextStore;
 				}
 			}
 			searchidx = idx;
@@ -642,11 +647,11 @@ public class Board{
 	
 	//creates all the non-player characters and puts them in their starting levels
 	public void createNpcs(int cycle) {
-		npcs.add(new ExplorerMechanic(game,this,cycletime));
-		npcs.add(new ExplorerShopkeep(game,this,cycletime));
-		npcs.add(new ExplorerVendor(game,this,cycletime));
-		npcs.add(new ExplorerSidekick(game,this,cycletime));
-		npcs.add(new ExplorerMystery(game,this,cycletime));
+		//npcs.add(new ExplorerMechanic(game,this,cycletime));
+		//npcs.add(new ExplorerShopkeep(game,this,cycletime));
+		//npcs.add(new ExplorerVendor(game,this,cycletime));
+		//npcs.add(new ExplorerSidekick(game,this,cycletime));
+		//npcs.add(new ExplorerMystery(game,this,cycletime));
 	}
 	//resets npcs for new dungeon
 	public void resetNpcs() {
