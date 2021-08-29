@@ -542,10 +542,20 @@ public class Board{
 					leadin.addExit(nextStore);
 					currf.addEntrance(nextStore);
 					currf.generateFloor();
+					ArrayList<Level> nexts = new ArrayList<Level>();
+					ArrayList<Integer> dirs = new ArrayList<Integer>();
+					nexts.add(currf.findRoom("0"));
+					dirs.add(Passage.BOTTOM);
+					nextStore.setNextLevels(nexts,dirs);
 				}else {
 					Store nextStore = currf.generateStore();
 					currf.addEntrance(nextStore);
 					currf.generateFloor();
+					ArrayList<Level> nexts = new ArrayList<Level>();
+					ArrayList<Integer> dirs = new ArrayList<Integer>();
+					nexts.add(currf.findRoom("0"));
+					dirs.add(Passage.BOTTOM);
+					nextStore.setNextLevels(nexts,dirs);
 					currLevel = nextStore;
 				}
 			}
