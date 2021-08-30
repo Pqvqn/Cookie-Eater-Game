@@ -35,7 +35,7 @@ public abstract class Floor {
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		String id = "";
-		for(int i=0; i<numRooms+2; i++)id+="0";
+		for(int i=0; i<Math.min(numRooms,roomGrid[0].length); i++)id+="0";
 		//unpack weights
 		ArrayList<Class> levels = new ArrayList<Class>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
@@ -47,27 +47,25 @@ public abstract class Floor {
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
 		}
-
-		for(int i=0; i<=numRooms && numRooms-i<roomGrid[0].length; i++) {
-			ArrayList<Level> nexture = new ArrayList<Level>();
-			nexture.add(roomGrid[0][numRooms-i]);
+		for(int i=Math.min(numRooms,roomGrid[0].length)-1; i>=0; i--) {
 			int chosen = (int)(Math.random()*sum);
 			int find = 0;
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 			Class<Level> chosenlvl = levels.get(find);
 			Level addition = null;
 			try {
-				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,numRooms+1-i)));
+				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,i+1)));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(addition!=null) {
-				roomGrid[0][numRooms-i-1] = addition;
+				roomGrid[0][i] = addition;
+				ArrayList<Level> nexture = new ArrayList<Level>();
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
-				if(numRooms-i<numRooms) {
-					nexture.add(roomGrid[0][numRooms-i]);
+				if(i<Math.min(numRooms,roomGrid[0].length)-1) {
+					nexture.add(roomGrid[0][i+1]);
 					dirture.add(Passage.RIGHT);
 				}
 				addition.setNextLevels(nexture,dirture);

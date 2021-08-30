@@ -233,7 +233,8 @@ public class Board{
 	}
 	//write data tp 
 	public void createSave() {
-		if(savename.isBlank())return;
+		return;
+		/*if(savename.isBlank())return;
 		data = new SaveData();
 		data.addData("savename",savename);
 		data.addData("mode",mode);
@@ -302,7 +303,7 @@ public class Board{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	//load board back up after closing out
