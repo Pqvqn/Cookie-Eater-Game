@@ -122,6 +122,13 @@ public abstract class Floor {
 	public void addExit(Store s) {
 		exits.add(s);
 	}
+	public void buildExit(Store s) {
+		exits.add(s);
+		int dir = Passage.BOTTOM;
+		Passage p = new Passage(game,board,roomGrid[0][roomGrid.length-1],s,Passage.FLOOR,0,20);
+		roomGrid[0][roomGrid.length-1].passageways.add(p);
+		s.addEntrance(p);
+	}
 	public int numExits() {return exits.size();}
 	public String getID() {return id;}
 	/*public void addPrev(Floor f) {prevs.add(f);}

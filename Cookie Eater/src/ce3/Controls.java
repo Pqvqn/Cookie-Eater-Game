@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.*;
 
 import entities.*;
+import mechanisms.Mechanism;
+import mechanisms.Passage;
 import menus.*;
 
 //import javax.swing.*;
@@ -141,7 +143,10 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println(board.mechanisms);
+				for(int i=0;i<board.mechanisms.size();i++) {
+					Passage mech = (Passage)board.mechanisms.get(i);
+					System.out.println(mech+"  "+mech.getX()+"  "+mech.getY()+" "+mech.getDirection());
+				}
 				break;
 		}
 		

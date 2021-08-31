@@ -541,6 +541,7 @@ public class Board{
 				if(leadin!=null) {
 					Store nextStore = currf.generateStore();
 					leadin.addExit(nextStore);
+					leadin.buildExit(nextStore);
 					currf.addEntrance(nextStore);
 					currf.generateFloor();
 					ArrayList<Level> nexts = new ArrayList<Level>();
