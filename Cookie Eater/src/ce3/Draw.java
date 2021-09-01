@@ -105,7 +105,7 @@ public class Draw extends JPanel{
 		
 		g2.scale(screen_bounds.getWidth()/Board.DEF_X_RESOL,screen_bounds.getHeight()/Board.DEF_Y_RESOL);
 		
-		if(board==null || board.isPaused() && game.ui_tis!=null && game.ui_tis.isVisible()) {
+		if(game!=null && (board==null || board.isPaused()) && game.ui_tis!=null && game.ui_tis.isVisible()) {
 			game.ui_tis.paint(g);
 			return;
 		}
