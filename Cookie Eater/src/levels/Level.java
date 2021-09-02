@@ -333,6 +333,7 @@ public abstract class Level{
 	public boolean installPickups() {return false;} //if picked up items are automatically installed
 	public boolean takeDamage() {return true;} //if shields are used/player is killed when hits wall
 	public double getExitProportion() {return exitProportion;}
+	public Floor getFloor() {return floor;}
 	
 	public double[][] getStarts(){return startposs;}
 	//returns the first found exit passageway

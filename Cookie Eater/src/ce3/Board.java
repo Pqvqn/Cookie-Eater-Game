@@ -61,7 +61,6 @@ public class Board{
 	public Level nextLevel;
 	//public Level firstLevel;
 	public Level currLevel;
-	public Floor currFloor;
 	public int currDungeon;
 	public int playerCount;
 	public boolean awaiting_start; //whether the game is paused awaiting a player input to begin
@@ -526,6 +525,7 @@ public class Board{
 	public void resetLevels() {
 		int num = currDungeon;
 		floors = new ArrayList<Floor>();
+		stores = new HashMap<String,Store>();
 		int searchidx = 0; //where in floors the last tier begins
 		Class[][] dungeonSeq = floorSequence[num];
 		for(int i=0; i<dungeonSeq.length; i++) { //create each floor
@@ -538,28 +538,21 @@ public class Board{
 				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
 				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2,id); //read floors
 				floors.add(currf);
+				Store nextStore = currf.generateStore();
 				if(leadin!=null) {
-					Store nextStore = currf.generateStore();
 					leadin.addExit(nextStore);
 					leadin.buildExit(nextStore);
-					currf.addEntrance(nextStore);
-					currf.generateFloor();
-					ArrayList<Level> nexts = new ArrayList<Level>();
-					ArrayList<Integer> dirs = new ArrayList<Integer>();
-					nexts.add(currf.findRoom("0"));
-					dirs.add(Passage.BOTTOM);
-					nextStore.setNextLevels(nexts,dirs);
 				}else {
-					Store nextStore = currf.generateStore();
-					currf.addEntrance(nextStore);
-					currf.generateFloor();
-					ArrayList<Level> nexts = new ArrayList<Level>();
-					ArrayList<Integer> dirs = new ArrayList<Integer>();
-					nexts.add(currf.findRoom("0"));
-					dirs.add(Passage.BOTTOM);
-					nextStore.setNextLevels(nexts,dirs);
 					currLevel = nextStore;
 				}
+				stores.put(nextStore.getID(),nextStore);
+				currf.addEntrance(nextStore);
+				currf.generateFloor();
+				ArrayList<Level> nexts = new ArrayList<Level>();
+				ArrayList<Integer> dirs = new ArrayList<Integer>();
+				nexts.add(currf.findRoom("0"));
+				dirs.add(Passage.BOTTOM);
+				nextStore.setNextLevels(nexts,dirs);
 			}
 			searchidx = idx;
 		}
@@ -659,7 +652,7 @@ public class Board{
 	
 	//creates all the non-player characters and puts them in their starting levels
 	public void createNpcs(int cycle) {
-		//npcs.add(new ExplorerMechanic(game,this,cycletime));
+		npcs.add(new ExplorerMechanic(game,this,cycletime));
 		//npcs.add(new ExplorerShopkeep(game,this,cycletime));
 		//npcs.add(new ExplorerVendor(game,this,cycletime));
 		//npcs.add(new ExplorerSidekick(game,this,cycletime));

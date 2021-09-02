@@ -312,7 +312,7 @@ public class Explorer extends Entity{
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
-		
+		residence = board.stores.get(board.floors.get(0).getID());
 	}
 	/*//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
 	public Level findFloor(String type, boolean store, int num, int backup) {

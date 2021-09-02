@@ -91,11 +91,11 @@ public class ExplorerMechanic extends Explorer{
 	public int doSpecial() {
 		return -1;
 	}
-	public void chooseResidence() {
+	/*public void chooseResidence() {
 		String[] levels = {};
 		int[] weights = {};
-		residence = chooseFloor(convertToMap(levels,weights), 100, true, 1);
-	}
+		residence = chooseRoom(convertToMap(levels,weights), 100, true, 1);
+	}*/
 
 	public void levelComplete() {
 		super.levelComplete();

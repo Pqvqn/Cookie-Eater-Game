@@ -56,6 +56,7 @@ public class Store1 extends Store{
 		board.walls.add(breakWall(rig2,false,board.y_resol/2-100,board.y_resol/2+100));
 		
 		for(int i=0; i<passageways.size(); i++) {
+			passageways.get(i).setMode(this);
 			addMechanism(passageways.get(i));
 		}
 		
