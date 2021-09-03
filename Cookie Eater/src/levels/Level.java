@@ -199,8 +199,8 @@ public abstract class Level{
 	//creates passages to next levels
 	public void buildPassages(ArrayList<Level> nextLevels, ArrayList<Integer> directions, int size){
 		int[] dirs = {Passage.RIGHT,Passage.TOP};
-		int[] poss = new int[4];
-		poss[Passage.RIGHT]=board.y_resol/2;poss[Passage.LEFT]=board.y_resol/2;poss[Passage.TOP]=board.x_resol/2;poss[Passage.BOTTOM]=board.x_resol/2;
+		int[] poss = new int[6];
+		poss[Passage.RIGHT]=board.y_resol/2;poss[Passage.LEFT]=board.y_resol/2;poss[Passage.TOP]=board.x_resol/2;poss[Passage.BOTTOM]=board.x_resol/2;poss[Passage.FLOOR]=0;poss[Passage.CEILING]=0;
 		
 		for(int i=0; i<nextLevels.size() && i<directions.size(); i++) {
 			int dir = (directions==null)?dirs[i]:directions.get(i);

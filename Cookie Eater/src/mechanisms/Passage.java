@@ -1,5 +1,6 @@
 package mechanisms;
 
+import java.awt.*;
 import java.util.*;
 
 import ce3.*;
@@ -94,9 +95,14 @@ public class Passage extends Mechanism{
 			inx = board.x_resol+gap;
 			iny = offset;
 			outy = offset;
-		}else if(dir==FLOOR || dir==CEILING) {
-			inx = board.x_resol/2;
-			outx = board.x_resol/2;
+		}else if(dir==CEILING) {
+			inx = board.x_resol/4;
+			outx = 3*board.x_resol/4;
+			iny = board.y_resol/2;
+			outy = board.y_resol/2;
+		}else if(dir==FLOOR) {
+			inx = 3*board.x_resol/4;
+			outx = board.x_resol/4;
 			iny = board.y_resol/2;
 			outy = board.y_resol/2;
 		}
@@ -151,6 +157,7 @@ public class Passage extends Mechanism{
 	}
 	
 	public boolean isHorizontal() {return direction==TOP || direction==BOTTOM;}
+	public boolean isVertical() {return direction==LEFT || direction==RIGHT;}
 	public int getDirection() {
 		if(mode) {
 			return direction;
@@ -187,6 +194,11 @@ public class Passage extends Mechanism{
 	
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {
+		
+		if(!isHorizontal() && !isVertical()) {
+			return Math.sqrt(Math.pow(xp-x,2)+Math.pow(yp-y,2))<width/2;
+		}
+		
 		boolean horiz = isHorizontal();
 		int dir = getDirection();
 		boolean less = dir == LEFT || dir == TOP;
@@ -212,5 +224,9 @@ public class Passage extends Mechanism{
 				p.win(this);
 			}
 		}
+	}
+	public void paint(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.drawOval((int)(x-width/2),(int)(y-width/2),width,width);
 	}
 }

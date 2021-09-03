@@ -551,7 +551,7 @@ public class Board{
 				ArrayList<Level> nexts = new ArrayList<Level>();
 				ArrayList<Integer> dirs = new ArrayList<Integer>();
 				nexts.add(currf.findRoom("0"));
-				dirs.add(Passage.BOTTOM);
+				dirs.add(Passage.FLOOR);
 				nextStore.setNextLevels(nexts,dirs);
 			}
 			searchidx = idx;
