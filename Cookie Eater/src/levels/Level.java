@@ -168,8 +168,8 @@ public abstract class Level{
 			}
 			addMechanism(p);
 			if(enter) { //place door
-				int wid = (!p.isHorizontal())?BORDER_THICKNESS*2:p.getWidth();
-				int hei = (!p.isHorizontal())?p.getWidth():BORDER_THICKNESS*2;
+				int wid = (!p.isHorizontal())?((!p.isVertical())?p.getWidth():BORDER_THICKNESS*2):p.getWidth();
+				int hei = (!p.isHorizontal())?((!p.isVertical())?p.getWidth():p.getWidth()):BORDER_THICKNESS*2;
 				board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:-wid/2),
 						p.getUp(enter)+(!p.isHorizontal()?0:-hei/2),wid,hei,p.cookieProportion(),true));
 			}

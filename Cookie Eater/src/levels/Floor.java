@@ -125,7 +125,7 @@ public abstract class Floor {
 	public void buildExit(Store s) {
 		exits.add(s);
 		int dir = Passage.BOTTOM;
-		Passage p = new Passage(game,board,roomGrid[0][roomGrid.length-1],s,Passage.FLOOR,0,20);
+		Passage p = new Passage(game,board,roomGrid[0][roomGrid.length-1],s,Passage.FLOOR,0,50);
 		roomGrid[0][roomGrid.length-1].passageways.add(p);
 		s.addEntrance(p);
 	}
