@@ -12,10 +12,10 @@ public class WallDoor extends Wall{
 	private double prop; //proportion of cookies on board to use
 	private UIText pointDisplay; //displays number of cookies left to be collected
 	
-	public WallDoor(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double requirement, boolean isReqProp) {
+	/*public WallDoor(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double requirement, boolean isReqProp) {
 		super(frame, gameboard, xPos, yPos, width, height);
 		setReq(requirement,isReqProp);
-	}
+	}*/
 	
 	public WallDoor(Game frame, Board gameboard, int xPos, int yPos, int radius, double requirement, boolean isReqProp) {
 		super(frame, gameboard, xPos, yPos, radius); 

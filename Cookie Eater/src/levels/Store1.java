@@ -56,11 +56,13 @@ public class Store1 extends Store{
 		board.walls.add(breakWall(rig2,false,board.y_resol/2-100,board.y_resol/2+100));
 		
 		for(int i=0; i<passageways.size(); i++) {
-			passageways.get(i).setMode(this);
-			addMechanism(passageways.get(i));
+			Passage p = passageways.get(i);
+			p.setMode(this);
+			addMechanism(p);
+			if(p.isEntrance())board.mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,2,false));
 		}
 		
-		board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
+		//board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
 	}
 	
 }

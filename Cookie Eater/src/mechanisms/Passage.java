@@ -195,7 +195,9 @@ public class Passage extends Mechanism{
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {
 		
-		if(!isHorizontal() && !isVertical()) {
+		return Math.sqrt(Math.pow(xp-x,2)+Math.pow(yp-y,2))<width/2;
+		
+		/*if(!isHorizontal() && !isVertical()) {
 			return Math.sqrt(Math.pow(xp-x,2)+Math.pow(yp-y,2))<width/2;
 		}
 		
@@ -208,7 +210,7 @@ public class Passage extends Mechanism{
 		double theirb = (horiz)?xp:yp;
 		boolean pass = (less)?theirf<=myf:theirf>=myf;
 		boolean within = Math.abs(myb - theirb) < width/2;
-		return pass && within;
+		return pass && within;*/
 	}
 	
 	//proportion of cookies needed to open gate
