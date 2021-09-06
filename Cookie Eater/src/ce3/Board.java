@@ -52,7 +52,7 @@ public class Board{
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults
-			{{Floor1.class},{Floor1.class}},
+			{{Floor1.class},{Floor2.class},{Floor3.class}},
 			//inners
 			{{}},
 			//training
@@ -536,7 +536,7 @@ public class Board{
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
 				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
-				Floor currf = readFloor(dungeonSeq[i][j],(i+1)*2,(i+1)*2,id); //read floors
+				Floor currf = readFloor(dungeonSeq[i][j],(i*2)+1,(i*2)+1,id); //read floors
 				floors.add(currf);
 				Store nextStore = currf.generateStore();
 				if(leadin!=null) {
