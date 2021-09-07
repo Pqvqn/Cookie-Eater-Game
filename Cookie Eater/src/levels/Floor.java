@@ -34,8 +34,9 @@ public abstract class Floor {
 	public void generateFloor() {
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
+		int[] currCoord = {0,0};
 		String id = "";
-		for(int i=0; i<Math.min(numRooms,roomGrid[0].length); i++)id+="0";
+		for(int i=0; i<Math.min(numRooms,roomGrid.length*roomGrid[0].length); i++)id+="0";
 		//unpack weights
 		ArrayList<Class> levels = new ArrayList<Class>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
@@ -47,7 +48,7 @@ public abstract class Floor {
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
 		}
-		for(int i=Math.min(numRooms,roomGrid[0].length)-1; i>=0; i--) {
+		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			int chosen = (int)(Math.random()*sum);
 			int find = 0;
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
@@ -61,12 +62,20 @@ public abstract class Floor {
 				e.printStackTrace();
 			}
 			if(addition!=null) {
+				ArrayList<Integer> dirs = new ArrayList<Integer>();
+				for(int d=-1; d<4; d++)dirs.add(d);
+				if(currCoord[0]==0)dirs.remove(dirs.indexOf(Passage.LEFT));
+				if(currCoord[1]==0)dirs.remove(dirs.indexOf(Passage.TOP));
+				if(currCoord[0]==roomGrid[0].length-1)dirs.remove(dirs.indexOf(Passage.RIGHT));
+				if(currCoord[1]==roomGrid.length-1)dirs.remove(dirs.indexOf(Passage.BOTTOM));
+				int chosenDir = dirs.get((int)(Math.random()*dirs.size()));
+				
 				roomGrid[0][i] = addition;
 				ArrayList<Level> nexture = new ArrayList<Level>();
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
 				if(i<Math.min(numRooms,roomGrid[0].length)-1) {
 					nexture.add(roomGrid[0][i+1]);
-					dirture.add(Passage.RIGHT);
+					dirture.add(chosenDir);
 				}
 				addition.setNextLevels(nexture,dirture);
 			}
