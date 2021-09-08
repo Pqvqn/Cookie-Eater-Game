@@ -62,12 +62,20 @@ public abstract class Floor {
 				e.printStackTrace();
 			}
 			if(addition!=null) {
+				//create list of all dirs to move into and remove unavailable ones
 				ArrayList<Integer> dirs = new ArrayList<Integer>();
 				for(int d=-1; d<4; d++)dirs.add(d);
 				if(currCoord[0]==0)dirs.remove(dirs.indexOf(Passage.LEFT));
 				if(currCoord[1]==0)dirs.remove(dirs.indexOf(Passage.TOP));
 				if(currCoord[0]==roomGrid[0].length-1)dirs.remove(dirs.indexOf(Passage.RIGHT));
 				if(currCoord[1]==roomGrid.length-1)dirs.remove(dirs.indexOf(Passage.BOTTOM));
+				for(int d=dirs.size()-1; d>=0; d--) {
+					int[] change = passageVector(dirs.get(d));
+					if(roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]]!=null) {
+						dirs.remove(d);
+					}
+				}
+				//select direction randomly
 				int chosenDir = dirs.get((int)(Math.random()*dirs.size()));
 				
 				roomGrid[0][i] = addition;
@@ -144,4 +152,20 @@ public abstract class Floor {
 	public void addNext(Floor f) {nexts.add(f);}
 	public ArrayList<Floor> getPrev() {return prevs;}
 	public ArrayList<Floor> getNext() {return nexts;}*/
+	
+	//get the change in x and y indices for a given direction
+	public int[] passageVector(int dir) {
+		if(dir==Passage.TOP) {
+			return new int[]{0,-1};
+		}else if(dir==Passage.BOTTOM) {
+			return new int[] {0,1};
+		}else if(dir==Passage.RIGHT) {
+			return new int[] {1,0};
+		}else if(dir==Passage.LEFT) {
+			return new int[] {-1,0};
+		}else {
+			return new int[] {0,0};
+		}
+		
+	}
 }
