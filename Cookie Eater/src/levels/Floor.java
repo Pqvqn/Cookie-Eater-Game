@@ -62,30 +62,20 @@ public abstract class Floor {
 				e.printStackTrace();
 			}
 			if(addition!=null) {
-				//create list of all dirs to move into and remove unavailable ones
-				ArrayList<Integer> dirs = new ArrayList<Integer>();
-				for(int d=-1; d<4; d++)dirs.add(d);
-				if(currCoord[0]==0)dirs.remove(dirs.indexOf(Passage.LEFT));
-				if(currCoord[1]==0)dirs.remove(dirs.indexOf(Passage.TOP));
-				if(currCoord[0]==roomGrid[0].length-1)dirs.remove(dirs.indexOf(Passage.RIGHT));
-				if(currCoord[1]==roomGrid.length-1)dirs.remove(dirs.indexOf(Passage.BOTTOM));
-				for(int d=dirs.size()-1; d>=0; d--) {
-					int[] change = passageVector(dirs.get(d));
-					if(roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]]!=null) {
-						dirs.remove(d);
-					}
-				}
-				//select direction randomly
-				int chosenDir = dirs.get((int)(Math.random()*dirs.size()));
 				
-				roomGrid[0][i] = addition;
+				int chosenDir = moveDirection(currCoord);
+				int[] change = passageVector(chosenDir);
+				
+				roomGrid[currCoord[0]][currCoord[1]] = addition;
 				ArrayList<Level> nexture = new ArrayList<Level>();
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
-				if(i<Math.min(numRooms,roomGrid[0].length)-1) {
-					nexture.add(roomGrid[0][i+1]);
+				if(chosenDir>=0) {
+					nexture.add(roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]]);
 					dirture.add(chosenDir);
 				}
 				addition.setNextLevels(nexture,dirture);
+				currCoord[0] += change[0];
+				currCoord[1] += change[1];
 			}
 		}
 		if(!exits.isEmpty()) {
@@ -93,10 +83,34 @@ public abstract class Floor {
 			ArrayList<Integer> dirture = new ArrayList<Integer>();
 			nexture.add(exits.get(0));
 			dirture.add(Passage.FLOOR);
-			roomGrid[0][roomGrid.length-1].setNextLevels(nexture,dirture);
+			roomGrid[currCoord[0]][currCoord[1]].setNextLevels(nexture,dirture);
 		}
 		
 	}
+	
+	//choose direction to move into
+	private int moveDirection(int[] coords) {
+		//create list of all dirs to move into and remove unavailable ones
+		ArrayList<Integer> dirs = new ArrayList<Integer>();
+		for(int d=-1; d<4; d++)dirs.add(d);
+		if(coords[0]==0)dirs.remove(dirs.indexOf(Passage.LEFT));
+		if(coords[1]==0)dirs.remove(dirs.indexOf(Passage.TOP));
+		if(coords[0]==roomGrid[0].length-1)dirs.remove(dirs.indexOf(Passage.RIGHT));
+		if(coords[1]==roomGrid.length-1)dirs.remove(dirs.indexOf(Passage.BOTTOM));
+		for(int d=dirs.size()-1; d>=0; d--) {
+			int[] change = passageVector(dirs.get(d));
+			if(roomGrid[coords[0]+change[0]][coords[1]+change[1]]!=null) {
+				dirs.remove(d);
+			}
+		}
+		//select direction randomly
+		if(dirs.isEmpty()) {
+			return -1;
+		}else {
+			return dirs.get((int)(Math.random()*dirs.size()));
+		}
+	}
+	
 	
 	//return Store to use before this Floor
 	public Store generateStore() {
