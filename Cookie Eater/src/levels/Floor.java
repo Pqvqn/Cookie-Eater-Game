@@ -35,8 +35,7 @@ public abstract class Floor {
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		int[] currCoord = {0,0};
-		String id = "";
-		for(int i=0; i<Math.min(numRooms,roomGrid.length*roomGrid[0].length); i++)id+="0";
+		ArrayList<Integer[]> open = new ArrayList<Integer[]>();
 		//unpack weights
 		ArrayList<Class> levels = new ArrayList<Class>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
@@ -54,6 +53,7 @@ public abstract class Floor {
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 			Class<Level> chosenlvl = levels.get(find);
 			Level addition = null;
+			Level current = roomGrid[currCoord[0]][currCoord[1]];
 			try {
 				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,i+1)));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -63,17 +63,23 @@ public abstract class Floor {
 			}
 			if(addition!=null) {
 				
-				int chosenDir = moveDirection(currCoord);
-				int[] change = passageVector(chosenDir);
+				int[] moveData = moveDirection(currCoord);
+				int chosenDir = moveData[0];
+				int[] change = {moveData[1], moveData[2]};
+				int count = moveData[2];
 				
-				roomGrid[currCoord[0]][currCoord[1]] = addition;
+				//move to chosen cell
+				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;
 				ArrayList<Level> nexture = new ArrayList<Level>();
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
-				if(chosenDir>=0) {
-					nexture.add(roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]]);
+				if(count>0) {
+					nexture.add(addition);
 					dirture.add(chosenDir);
+					if(count>1) {
+						open.add(new Integer[] {currCoord[0], currCoord[1]});
+					}
 				}
-				addition.setNextLevels(nexture,dirture);
+				current.setNextLevels(nexture,dirture);
 				currCoord[0] += change[0];
 				currCoord[1] += change[1];
 			}
@@ -89,7 +95,7 @@ public abstract class Floor {
 	}
 	
 	//choose direction to move into
-	private int moveDirection(int[] coords) {
+	private int[] moveDirection(int[] coords) {
 		//create list of all dirs to move into and remove unavailable ones
 		ArrayList<Integer> dirs = new ArrayList<Integer>();
 		for(int d=-1; d<4; d++)dirs.add(d);
@@ -103,12 +109,17 @@ public abstract class Floor {
 				dirs.remove(d);
 			}
 		}
-		//select direction randomly
-		if(dirs.isEmpty()) {
-			return -1;
-		}else {
-			return dirs.get((int)(Math.random()*dirs.size()));
+		// {direction, x change, y change, num options}
+		int[] result = new int[4];
+		if(!dirs.isEmpty()) {
+			//select direction randomly
+			result[0]=dirs.get((int)(Math.random()*dirs.size()));
+			int[] vec = passageVector(result[0]);
+			result[1] = vec[0];
+			result[2] = vec[1];
+			result[3] = dirs.size();
 		}
+		return result;
 	}
 	
 	
