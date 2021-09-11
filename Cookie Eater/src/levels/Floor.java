@@ -48,40 +48,49 @@ public abstract class Floor {
 			counts.add(sum);
 		}
 		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
-			int chosen = (int)(Math.random()*sum);
-			int find = 0;
-			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
-			Class<Level> chosenlvl = levels.get(find);
-			Level addition = null;
+			//test directions to move in
+			int[] moveData = moveDirection(currCoord);
+			int chosenDir = moveData[0];
+			int[] change = {moveData[1], moveData[2]};
+			int count = moveData[2];
 			Level current = roomGrid[currCoord[0]][currCoord[1]];
-			try {
-				addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,i+1)));
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(addition!=null) {
+			//test if there are available directions
+			if(count>0) { //move in chosen direction
+				//generate a new room
+				int chosen = (int)(Math.random()*sum);
+				int find = 0;
+				for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
+				Class<Level> chosenlvl = levels.get(find);
+				Level addition = null;
+				try {
+					addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,i+1)));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				int[] moveData = moveDirection(currCoord);
-				int chosenDir = moveData[0];
-				int[] change = {moveData[1], moveData[2]};
-				int count = moveData[2];
-				
-				//move to chosen cell
+				//add room connection
 				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;
 				ArrayList<Level> nexture = new ArrayList<Level>();
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
-				if(count>0) {
-					nexture.add(addition);
-					dirture.add(chosenDir);
-					if(count>1) {
-						open.add(new Integer[] {currCoord[0], currCoord[1]});
-					}
+				nexture.add(addition);
+				dirture.add(chosenDir);
+				if(count>1) {
+					open.add(new Integer[] {currCoord[0], currCoord[1]});
 				}
 				current.setNextLevels(nexture,dirture);
 				currCoord[0] += change[0];
 				currCoord[1] += change[1];
+			}else { //find cell to backtrack to
+				for(int k=open.size()-1; k>=0; k--) {
+					if(open.get(k)[0] == currCoord[0] && open.get(k)[1] == currCoord[1]) {
+						open.remove(k);
+					}
+				}
+				int j = (int)(Math.random()*open.size());
+				currCoord[0] = open.get(j)[0];
+				currCoord[1] = open.get(j)[1];
 			}
 		}
 		if(!exits.isEmpty()) {
