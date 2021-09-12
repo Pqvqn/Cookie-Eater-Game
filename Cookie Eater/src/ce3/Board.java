@@ -536,7 +536,7 @@ public class Board{
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
 				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
-				Floor currf = readFloor(dungeonSeq[i][j],(i*2)+1,(i*2)+1,id); //read floors
+				Floor currf = readFloor(dungeonSeq[i][j],7,7,id); //read floors
 				floors.add(currf);
 				Store nextStore = currf.generateStore();
 				if(leadin!=null) {

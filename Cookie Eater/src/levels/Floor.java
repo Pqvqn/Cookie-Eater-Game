@@ -47,6 +47,7 @@ public abstract class Floor {
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
 		}
+		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,"0");
 		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
 			int[] moveData = moveDirection(currCoord);
@@ -57,18 +58,7 @@ public abstract class Floor {
 			//test if there are available directions
 			if(count>0) { //move in chosen direction
 				//generate a new room
-				int chosen = (int)(Math.random()*sum);
-				int find = 0;
-				for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
-				Class<Level> chosenlvl = levels.get(find);
-				Level addition = null;
-				try {
-					addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id.substring(0,i+1)));
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Level addition = generateRoom(levels,counts,sum,currCoord+"");
 				
 				//add room connection
 				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;
@@ -88,9 +78,11 @@ public abstract class Floor {
 						open.remove(k);
 					}
 				}
-				int j = (int)(Math.random()*open.size());
-				currCoord[0] = open.get(j)[0];
-				currCoord[1] = open.get(j)[1];
+				if(!open.isEmpty()) {
+					int j = (int)(Math.random()*open.size());
+					currCoord[0] = open.get(j)[0];
+					currCoord[1] = open.get(j)[1];
+				}
 			}
 		}
 		if(!exits.isEmpty()) {
@@ -201,5 +193,44 @@ public abstract class Floor {
 			return new int[] {0,0};
 		}
 		
+	}
+	
+	public Level generateRoom(ArrayList<Class> levels, ArrayList<Integer> counts, int sum, String id) {
+		int chosen = (int)(Math.random()*sum);
+		int find = 0;
+		for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
+		Class<Level> chosenlvl = levels.get(find);
+		Level addition = null;
+		try {
+			addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return addition;
+	}
+	
+	public String toString() {
+		String ret = "";
+		String[] dirs = {"^","v",">","<","x","."};
+		for(int i=0; i<roomGrid.length; i++) {
+			for(int j=0; j<roomGrid[i].length; j++) {
+				Level room = roomGrid[i][j];
+				if(room==null) {
+					ret += "[ ]";
+				}else {
+					ret += room;
+					ArrayList<Passage> passs = room.getPassages();
+					for(int p=0; p<passs.size(); p++) {
+						Passage pass = passs.get(p);
+						if(pass.entranceAt(room))ret += dirs[pass.getEntranceDirection()];
+					}
+				}
+				ret+="\t\t";
+			}
+			ret += "\n";
+		}
+		return ret;
 	}
 }

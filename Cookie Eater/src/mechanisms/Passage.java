@@ -165,6 +165,9 @@ public class Passage extends Mechanism{
 			return opposite(direction);
 		}
 	}
+	public int getEntranceDirection() {
+		return direction;
+	}
 	public int getWidth() {return width;}
 	
 	//the opposite direction from the given one
