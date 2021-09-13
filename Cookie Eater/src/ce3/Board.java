@@ -541,7 +541,6 @@ public class Board{
 				Store nextStore = currf.generateStore();
 				if(leadin!=null) {
 					leadin.addExit(nextStore);
-					leadin.buildExit(nextStore);
 				}else {
 					currLevel = nextStore;
 				}
@@ -555,6 +554,9 @@ public class Board{
 				nextStore.setNextLevels(nexts,dirs);
 			}
 			searchidx = idx;
+		}
+		for(int i=0; i<floors.size(); i++) {
+			floors.get(i).buildExits();
 		}
 		//converting list of levels to linked list
 		/*levels = new LinkedList<Level>();

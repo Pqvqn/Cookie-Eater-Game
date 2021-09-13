@@ -16,6 +16,7 @@ public abstract class Floor {
 	protected ArrayList<Store> entrances;
 	protected ArrayList<Store> exits;
 	protected HashMap<Class,Integer> roomWeights;
+	protected ArrayList<Level> ends; //terminal rooms
 	protected int numRooms;
 	protected String id;
 
@@ -27,6 +28,7 @@ public abstract class Floor {
 		//nexts = new ArrayList<Floor>();
 		entrances = new ArrayList<Store>();
 		exits = new ArrayList<Store>();
+		ends = new ArrayList<Level>();
 		roomGrid = new Level[wid][hei];
 	}
 	
@@ -73,6 +75,7 @@ public abstract class Floor {
 				currCoord[0] += change[0];
 				currCoord[1] += change[1];
 			}else { //find cell to backtrack to
+				ends.add(current);
 				for(int k=open.size()-1; k>=0; k--) {
 					if(open.get(k)[0] == currCoord[0] && open.get(k)[1] == currCoord[1]) {
 						open.remove(k);
@@ -85,6 +88,7 @@ public abstract class Floor {
 				}
 			}
 		}
+		ends.add(roomGrid[currCoord[0]][currCoord[1]]);
 		if(!exits.isEmpty()) {
 			ArrayList<Level> nexture = new ArrayList<Level>();
 			ArrayList<Integer> dirture = new ArrayList<Integer>();
@@ -165,12 +169,16 @@ public abstract class Floor {
 	public void addExit(Store s) {
 		exits.add(s);
 	}
-	public void buildExit(Store s) {
-		exits.add(s);
-		int dir = Passage.BOTTOM;
-		Passage p = new Passage(game,board,roomGrid[0][roomGrid.length-1],s,Passage.FLOOR,0,50);
-		roomGrid[0][roomGrid.length-1].passageways.add(p);
-		s.addEntrance(p);
+	//add an exit into a store to every dead end
+	public void buildExits() {
+		for(int i=0; i<ends.size(); i++) {
+			int dir = Passage.BOTTOM;
+			Store choice = exits.get((int)(Math.random()*exits.size()));
+			Passage p = new Passage(game,board,ends.get(i),choice,Passage.FLOOR,0,50);
+			ends.get(i).passageways.add(p);
+			choice.addEntrance(p);
+		}
+
 	}
 	public int numExits() {return exits.size();}
 	public String getID() {return id;}
