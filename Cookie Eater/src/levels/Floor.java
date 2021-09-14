@@ -171,8 +171,8 @@ public abstract class Floor {
 	}
 	//add an exit into a store to every dead end
 	public void buildExits() {
+		if(exits.isEmpty())return;
 		for(int i=0; i<ends.size(); i++) {
-			int dir = Passage.BOTTOM;
 			Store choice = exits.get((int)(Math.random()*exits.size()));
 			Passage p = new Passage(game,board,ends.get(i),choice,Passage.FLOOR,0,50);
 			ends.get(i).passageways.add(p);
@@ -224,7 +224,7 @@ public abstract class Floor {
 		String[] dirs = {"^","v",">","<","x","."};
 		for(int i=0; i<roomGrid.length; i++) {
 			for(int j=0; j<roomGrid[i].length; j++) {
-				Level room = roomGrid[i][j];
+				Level room = roomGrid[j][i];
 				if(room==null) {
 					ret += "[ ]";
 				}else {
