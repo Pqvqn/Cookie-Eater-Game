@@ -52,10 +52,13 @@ public abstract class Floor {
 		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,"0");
 		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
+
 			int[] moveData = moveDirection(currCoord);
 			int chosenDir = moveData[0];
 			int[] change = {moveData[1], moveData[2]};
-			int count = moveData[2];
+			int count = moveData[3];
+			
+			
 			Level current = roomGrid[currCoord[0]][currCoord[1]];
 			//test if there are available directions
 			if(count>0) { //move in chosen direction
@@ -103,11 +106,11 @@ public abstract class Floor {
 	private int[] moveDirection(int[] coords) {
 		//create list of all dirs to move into and remove unavailable ones
 		ArrayList<Integer> dirs = new ArrayList<Integer>();
-		for(int d=-1; d<4; d++)dirs.add(d);
-		if(coords[0]==0)dirs.remove(dirs.indexOf(Passage.LEFT));
-		if(coords[1]==0)dirs.remove(dirs.indexOf(Passage.TOP));
-		if(coords[0]==roomGrid[0].length-1)dirs.remove(dirs.indexOf(Passage.RIGHT));
-		if(coords[1]==roomGrid.length-1)dirs.remove(dirs.indexOf(Passage.BOTTOM));
+		for(int d=0; d<4; d++)dirs.add(d);
+		if(coords[0]==0)dirs.remove(Integer.valueOf(Passage.LEFT));
+		if(coords[1]==0)dirs.remove(Integer.valueOf(Passage.TOP));
+		if(coords[0]==roomGrid[0].length-1)dirs.remove(Integer.valueOf(Passage.RIGHT));
+		if(coords[1]==roomGrid.length-1)dirs.remove(Integer.valueOf(Passage.BOTTOM));
 		for(int d=dirs.size()-1; d>=0; d--) {
 			int[] change = passageVector(dirs.get(d));
 			if(roomGrid[coords[0]+change[0]][coords[1]+change[1]]!=null) {
@@ -226,7 +229,7 @@ public abstract class Floor {
 			for(int j=0; j<roomGrid[i].length; j++) {
 				Level room = roomGrid[j][i];
 				if(room==null) {
-					ret += "[ ]";
+					ret += "[ ]\t\t";
 				}else {
 					ret += room;
 					ArrayList<Passage> passs = room.getPassages();
@@ -235,7 +238,7 @@ public abstract class Floor {
 						if(pass.entranceAt(room))ret += dirs[pass.getEntranceDirection()];
 					}
 				}
-				ret+="\t\t";
+				ret+="\t";
 			}
 			ret += "\n";
 		}
