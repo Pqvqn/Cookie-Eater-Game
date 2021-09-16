@@ -229,16 +229,16 @@ public abstract class Floor {
 			for(int j=0; j<roomGrid[i].length; j++) {
 				Level room = roomGrid[j][i];
 				if(room==null) {
-					ret += "[ ]\t\t";
+					ret += "-";
 				}else {
-					ret += room;
+					//ret += room;
 					ArrayList<Passage> passs = room.getPassages();
 					for(int p=0; p<passs.size(); p++) {
 						Passage pass = passs.get(p);
 						if(pass.entranceAt(room))ret += dirs[pass.getEntranceDirection()];
 					}
 				}
-				ret+="\t";
+				ret+="  ";
 			}
 			ret += "\n";
 		}
