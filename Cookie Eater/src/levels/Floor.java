@@ -60,8 +60,9 @@ public abstract class Floor {
 			
 			
 			Level current = roomGrid[currCoord[0]][currCoord[1]];
+			if(ends.contains(current) && !current.getPassages().isEmpty())ends.remove(current);
 			//test if there are available directions
-			if(count>0) { //move in chosen direction
+			if(count>0) { //move in chosen direction				
 				//generate a new room
 				Level addition = generateRoom(levels,counts,sum,currCoord+"");
 				
