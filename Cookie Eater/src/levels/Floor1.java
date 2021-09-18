@@ -10,7 +10,7 @@ public class Floor1 extends Floor{
 		super(frame,gameboard,wid,hei,floorid);
 		roomWeights = new HashMap<Class,Integer>();
 		roomWeights.put(Room1.class,1);
-		numRooms = 49;
+		numRooms = 3;
 	}
 	
 	public Store generateStore() {

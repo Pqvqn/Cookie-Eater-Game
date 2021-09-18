@@ -32,6 +32,30 @@ public abstract class Floor {
 		roomGrid = new Level[wid][hei];
 	}
 	
+	public Floor(Game frame, Board gameboard, SaveData sd) {
+		game = frame;
+		board = gameboard;
+		id = sd.getString("id",0);
+		entrances = new ArrayList<Store>();
+		exits = new ArrayList<Store>();
+		ends = new ArrayList<Level>();
+		roomGrid = new Level[sd.getInteger("dims",0)][sd.getInteger("dims",1)];
+		
+		ArrayList<SaveData> roomData = sd.getData("rooms");
+		for(int i=0; i<roomData.size(); i++) {
+			SaveData rd = roomData.get(i);
+			//Level room = Level.loadFromData(game, board, this rd.getData("data",0));
+			Level room;
+			roomGrid[rd.getInteger("index",0)][rd.getInteger("index",1)] = room;
+		}
+	}
+	
+	public SaveData getSaveData() {
+		SaveData data = new SaveData();
+		
+		return data;
+	}
+	
 	//creates and connects levels in paths
 	public void generateFloor() {
 		//int entrances = prevs.size();
