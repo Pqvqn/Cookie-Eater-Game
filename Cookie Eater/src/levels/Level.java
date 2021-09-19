@@ -95,7 +95,7 @@ public abstract class Level{
 		return passageways;
 	}
 	
-	public static Level loadFromData(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
+	public static Level loadFromData(Game frame, Board gameboard, Floor floor, SaveData sd) {
 		//level subclasses
 		Class[] leveltypes = {Room1.class, Room2.class, Room3.class, Room4.class, Room5.class, RoomBiggy.class, RoomRound.class,
 				Store1.class, Store2.class, Store3.class, Store4.class,
@@ -106,7 +106,7 @@ public abstract class Level{
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(leveltypes[i].getName())){
 				try {
-					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, ArrayList.class, ArrayList.class, SaveData.class).newInstance(frame, gameboard, prev, next, sd));
+					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, Floor.class, SaveData.class).newInstance(frame, gameboard, floor, sd));
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -116,7 +116,7 @@ public abstract class Level{
 
 		}
 		//default to floor 1
-		return new Room1(frame, gameboard, prev, next, sd);
+		return new Room1(frame, gameboard, floor, sd);
 	}
 	
 	public SaveData getSaveData() {

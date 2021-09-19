@@ -11,7 +11,7 @@ public class ArenaRound extends Arena{
 		name = "Hostile Tunnels";
 		nameAbbrev = "enm";
 	}
-	public ArenaRound(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		super(frame, gameboard, prev, next, sd);
+	public ArenaRound(Game frame, Board gameboard, Floor floor, SaveData sd) {
+		super(frame, gameboard, floor, sd);
 	}
 }

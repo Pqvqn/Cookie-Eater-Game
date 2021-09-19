@@ -24,8 +24,8 @@ public class RoomBiggy extends Level{
 		bgColor = new Color(30,0,30);
 		wallColor = new Color(200,50,0);
 	}
-	public RoomBiggy(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		super(frame, gameboard, prev, next, sd);
+	public RoomBiggy(Game frame, Board gameboard, Floor floor, SaveData sd) {
+		super(frame, gameboard, floor, sd);
 	}
 	
 	public void build() {

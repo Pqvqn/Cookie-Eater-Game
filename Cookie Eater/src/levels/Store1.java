@@ -20,8 +20,8 @@ public class Store1 extends Store{
 		vendorSpaces = new int[0][1][2];
 		
 	}
-	public Store1(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		super(frame, gameboard, prev, next, sd);
+	public Store1(Game frame, Board gameboard, Floor floor, SaveData sd) {
+		super(frame, gameboard, floor, sd);
 	}
 	
 	public void placeCookies(){

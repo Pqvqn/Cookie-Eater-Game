@@ -20,8 +20,8 @@ public abstract class Store extends Level{
 		maxDecay = Integer.MAX_VALUE;
 		exitProportion = 1;
 	}
-	public Store(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		super(frame, gameboard, prev, next, sd);
+	public Store(Game frame, Board gameboard, Floor floor, SaveData sd) {
+		super(frame, gameboard, floor, sd);
 		ArrayList<Object> vendor_space_data = sd.getData("vendorspaces");
 		if(vendor_space_data!=null) {
 			int vn = sd.getInteger("vendorspacenum",0);

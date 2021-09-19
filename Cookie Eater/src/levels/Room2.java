@@ -27,8 +27,8 @@ public class Room2 extends Level{
 		bgColor = new Color(100,100,100);
 		wallColor = new Color(50,40,30);
 	}
-	public Room2(Game frame, Board gameboard, ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		super(frame, gameboard, prev, next, sd);
+	public Room2(Game frame, Board gameboard, Floor floor, SaveData sd) {
+		super(frame, gameboard, floor, sd);
 	}
 	
 	public void build() {
