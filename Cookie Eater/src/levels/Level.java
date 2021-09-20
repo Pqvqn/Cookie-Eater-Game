@@ -83,12 +83,8 @@ public abstract class Level{
 	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
 		buildPassages(next, directions, (int)(200 * scale));
 	}
-	public void loadPassages(ArrayList<Level> prev, ArrayList<Level> next, SaveData sd) {
-		ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
-		passageways = new ArrayList<Passage>();
-		for(int i=0; i<passdata.size(); i++) {
-			passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
-		}
+	public void addPassage(Passage p) {
+		passageways.add(p);
 	}
 	
 	public ArrayList<Passage> getPassages(){
@@ -130,9 +126,9 @@ public abstract class Level{
 		data.addData("requirement",exitProportion);
 		data.addData("type",this.getClass().getName());
 
-		for(int i=0; i<passageways.size(); i++) {
+		/*for(int i=0; i<passageways.size(); i++) {
 			data.addData("passages",passageways.get(i).getSaveData(),i);
-		}
+		}*/
 		return data;
 	}
 	

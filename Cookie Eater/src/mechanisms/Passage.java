@@ -31,10 +31,20 @@ public class Passage extends Mechanism{
 		setMode(true);
 	}
 	
-	public Passage(Game frame, Board gameboard, Level current, ArrayList<Level> prevOptions, ArrayList<Level> nextOptions, SaveData sd) {
+	public Passage(Game frame, Board gameboard, ArrayList<Level> options, SaveData sd) {
 		super(frame,gameboard,sd);
 		mode = sd.getBoolean("mode",0);
-		if(current.getID().equals(sd.getString("floors",0))) {
+		
+		for(int i=0; i<options.size(); i++) {
+			String id = options.get(i).getID();
+			if(sd.getString("floors",0).equals(id)) {
+				entranceFloor = options.get(i);
+			}
+			if(sd.getString("floors",1).equals(id)) {
+				exitFloor = options.get(i);
+			}
+		}
+		/*if(current.getID().equals(sd.getString("floors",0))) {
 			entranceFloor = current;
 			for(int i=0; i<nextOptions.size(); i++) {
 				if(nextOptions.get(i).getID().equals(sd.getString("floors",1))) {
@@ -48,7 +58,7 @@ public class Passage extends Mechanism{
 					entranceFloor = prevOptions.get(i);
 				}
 			}
-		}
+		}*/
 		
 		direction = sd.getInteger("direction",0);
 		inx = sd.getInteger("position",0);

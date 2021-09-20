@@ -41,11 +41,21 @@ public abstract class Floor {
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[sd.getInteger("dims",0)][sd.getInteger("dims",1)];
 		
+		ArrayList<Level> loadedLevels = new ArrayList<Level>();
 		ArrayList<SaveData> roomData = sd.getSaveDataList("rooms");
 		for(int i=0; i<roomData.size(); i++) {
 			SaveData rd = roomData.get(i);
 			Level room = Level.loadFromData(game, board, this, rd.getSaveDataList("data").get(0));
+			loadedLevels.add(room);
 			roomGrid[rd.getInteger("index",0)][rd.getInteger("index",1)] = room;
+		}
+		
+		ArrayList<SaveData> passData = sd.getSaveDataList("passages");
+		for(int i=0; i<passData.size(); i++) {
+			SaveData pd = passData.get(i);
+			Passage pass = new Passage(game, board, loadedLevels, pd);
+			pass.getEntrance().addPassage(pass);
+			pass.getExit().addPassage(pass);
 		}
 	}
 	
