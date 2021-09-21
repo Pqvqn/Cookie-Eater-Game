@@ -61,7 +61,30 @@ public abstract class Floor {
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
-		
+		data.addData("id",id);
+		data.addData("dims",roomGrid.length,0);
+		data.addData("dims",roomGrid[0].length,1);
+		ArrayList<SaveData> roomData = new ArrayList<SaveData>();
+		ArrayList<Passage> passages = new ArrayList<Passage>();
+		for(int i=0; i<roomGrid.length; i++) {
+			for(int j=0; j<roomGrid[j].length; j++) {
+				if(roomGrid[i][j] != null) {
+					SaveData room = new SaveData();
+					room.addData("data",roomGrid[i][j].getSaveData());
+					room.addData("index",i,0);
+					room.addData("index",j,1);
+					roomData.add(room);
+					ArrayList<Passage> ps = roomGrid[i][j].getPassages();
+					for(int k=0; k<ps.size(); k++) {
+						if(!passages.contains(ps.get(k))) {
+							passages.add(ps.get(k));
+						}
+					}
+				}
+			}
+		}
+		for(int i=0; i<passages.size(); i++)data.addData("passages",passages.get(i).getSaveData(),i);
+		data.addData("rooms",roomData);
 		return data;
 	}
 	
