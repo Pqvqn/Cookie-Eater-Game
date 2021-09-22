@@ -123,9 +123,15 @@ public class Board{
 		awaiting_start = data.getBoolean("awaiting",0);
 		
 
-		stores = new HashMap<String,Level>();
+		stores = new HashMap<String,Store>();
+		ArrayList<SaveData> storeData = data.getSaveDataList("stores");
+		for(int i=0; i<storeData.size(); i++) {
+			Store str = (Store)Level.loadFromData(game,this,null,storeData.get(i));
+			stores.put(str.getID(),str);
+		}
+		
 		floors = new ArrayList<Floor>();
-		ArrayList<SaveData> floorData = new ArrayList<SaveData>();
+		ArrayList<SaveData> floorData = data.getSaveDataList("floors");
 		for(int i=0; i<floorData.size(); i++) {
 			floors.add(Floor.loadFromData(game, this, floorData.get(i)));
 		}
@@ -251,13 +257,13 @@ public class Board{
 		data.addData("awaiting",awaiting_start);
 		
 		
-		Iterator<Level> it = levels.descendingIterator();
+		/*Iterator<Level> it = levels.descendingIterator();
 		while(it.hasNext()) {
 			Level curr = it.next();
 			data.addData("levels",curr.getSaveData(),0);
 		}
 		data.addData("currentlevel",currLevel.getID());
-		data.addData("firstlevel",firstLevel.getID());
+		data.addData("firstlevel",firstLevel.getID());*/
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
