@@ -123,13 +123,20 @@ public class Board{
 		awaiting_start = data.getBoolean("awaiting",0);
 		
 
-		ArrayList<SaveData> levelsData = data.getSaveDataList("levels");
+		stores = new HashMap<String,Level>();
+		floors = new ArrayList<Floor>();
+		ArrayList<SaveData> floorData = new ArrayList<SaveData>();
+		for(int i=0; i<floorData.size(); i++) {
+			floors.add(Floor.loadFromData(game, this, floorData.get(i)));
+		}
+		
+		/*ArrayList<SaveData> levelsData = data.getSaveDataList("levels");
 		ArrayList<Level> tempLevels = new ArrayList<Level>();
 		for(int i=0; i<levelsData.size(); i++) {
 			tempLevels.add(Level.loadFromData(game, this, null, null, levelsData.get(i)));
-		}
+		}*/
 		
-		levels = new LinkedList<Level>();
+		/*levels = new LinkedList<Level>();
 		stores = new HashMap<String,Level>();
 		for(int i=tempLevels.size()-1; i>=0; i--) {
 			Level addlevel = tempLevels.get(i);
@@ -152,7 +159,8 @@ public class Board{
 			}
 			if(addlevel instanceof Store)stores.put(addlevel.getName(),addlevel);
 		}
-		currLevel = findRoom(data.getString("currentlevel",0));
+		currLevel = findRoom(data.getString("currentlevel",0));*/
+		
 
 		
 		
@@ -232,8 +240,7 @@ public class Board{
 	}
 	//write data tp 
 	public void createSave() {
-		return;
-		/*if(savename.isBlank())return;
+		if(savename.isBlank())return;
 		data = new SaveData();
 		data.addData("savename",savename);
 		data.addData("mode",mode);
@@ -302,7 +309,7 @@ public class Board{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	//load board back up after closing out

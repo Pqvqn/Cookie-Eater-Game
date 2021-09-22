@@ -78,19 +78,7 @@ public abstract class Level{
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
-	public String getID() {return lvlid;}
-	public void setID(String id) {lvlid = id;}
-	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
-		buildPassages(next, directions, (int)(200 * scale));
-	}
-	public void addPassage(Passage p) {
-		passageways.add(p);
-	}
-	
-	public ArrayList<Passage> getPassages(){
-		return passageways;
-	}
-	
+
 	public static Level loadFromData(Game frame, Board gameboard, Floor floor, SaveData sd) {
 		//level subclasses
 		Class[] leveltypes = {Room1.class, Room2.class, Room3.class, Room4.class, Room5.class, RoomBiggy.class, RoomRound.class,
@@ -131,6 +119,20 @@ public abstract class Level{
 		}*/
 		return data;
 	}
+	
+	public String getID() {return lvlid;}
+	public void setID(String id) {lvlid = id;}
+	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
+		buildPassages(next, directions, (int)(200 * scale));
+	}
+	public void addPassage(Passage p) {
+		passageways.add(p);
+	}
+	
+	public ArrayList<Passage> getPassages(){
+		return passageways;
+	}
+	
 	
 	//returns string that names the floor
 	public String getName() {return name;}

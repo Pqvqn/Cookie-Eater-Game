@@ -13,6 +13,10 @@ public class Floor3 extends Floor{
 		numRooms = 10;
 	}
 	
+	public Floor3(Game frame, Board gameboard, SaveData sd) {
+		super(frame, gameboard, sd);
+	}
+	
 	public Store generateStore() {
 		return new Store3(game, board, id);
 	}
