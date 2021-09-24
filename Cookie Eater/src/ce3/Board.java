@@ -265,6 +265,17 @@ public class Board{
 		data.addData("currentlevel",currLevel.getID());
 		data.addData("firstlevel",firstLevel.getID());*/
 		
+		Iterator<String> it = stores.keySet().iterator();
+		while(it.hasNext()) {
+			Store curr = stores.get(it.next());
+			data.addData("stores",curr.getSaveData(),0);
+		}
+		
+		for(int i=0; i<floors.size(); i++) {
+			data.addData("floors",floors.get(i).getSaveData(),i);
+		}
+		
+		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
 			Cookie toSave = cookies.get(i);
