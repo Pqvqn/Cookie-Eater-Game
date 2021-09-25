@@ -63,6 +63,7 @@ public abstract class Level{
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
+		passageways = new ArrayList<Passage>();
 		
 		/*if(prev!=null && next!=null) {
 			ArrayList<SaveData> passdata = sd.getSaveDataList("passages");

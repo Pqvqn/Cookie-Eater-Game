@@ -54,8 +54,8 @@ public abstract class Floor {
 		for(int i=0; i<passData.size(); i++) {
 			SaveData pd = passData.get(i);
 			Passage pass = new Passage(game, board, loadedLevels, pd);
-			pass.getEntrance().addPassage(pass);
-			pass.getExit().addPassage(pass);
+			if(pass.getEntrance()!=null)pass.getEntrance().addPassage(pass);
+			if(pass.getExit()!=null)pass.getExit().addPassage(pass);
 		}
 	}
 	
@@ -67,7 +67,7 @@ public abstract class Floor {
 		ArrayList<SaveData> roomData = new ArrayList<SaveData>();
 		ArrayList<Passage> passages = new ArrayList<Passage>();
 		for(int i=0; i<roomGrid.length; i++) {
-			for(int j=0; j<roomGrid[j].length; j++) {
+			for(int j=0; j<roomGrid[i].length; j++) {
 				if(roomGrid[i][j] != null) {
 					SaveData room = new SaveData();
 					room.addData("data",roomGrid[i][j].getSaveData());
@@ -84,7 +84,7 @@ public abstract class Floor {
 			}
 		}
 		for(int i=0; i<passages.size(); i++)data.addData("passages",passages.get(i).getSaveData(),i);
-		data.addData("rooms",roomData);
+		for(int i=0; i<roomData.size(); i++)data.addData("rooms",roomData.get(i));
 		data.addData("type",this.getClass().getName());
 		return data;
 	}
