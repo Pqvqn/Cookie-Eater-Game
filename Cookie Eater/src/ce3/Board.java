@@ -167,7 +167,11 @@ public class Board{
 		}
 		currLevel = findRoom(data.getString("currentlevel",0));*/
 		
-
+		if(data.getBoolean("currentlevel",0)) {
+			currLevel = findFloor(data.getString("currentlevel",1)).findRoom(data.getString("currentlevel",2));
+		}else {
+			currLevel = stores.get(data.getString("currentlevel",2));
+		}
 		
 		
 		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
@@ -275,6 +279,9 @@ public class Board{
 			data.addData("floors",floors.get(i).getSaveData(),i);
 		}
 		
+		data.addData("currentlevel",currLevel.getFloor()!=null,0);
+		data.addData("currentlevel",currLevel.getFloor()==null?"0":currLevel.getFloor().getID(),1);
+		data.addData("currentlevel",currLevel.getID(),2);
 		
 		int ci = 0;
 		for(int i=0; i<cookies.size(); i++) {
@@ -559,7 +566,7 @@ public class Board{
 				if(i>0) {//get previous floor to use as entrance
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
-				String id = ((leadin==null)?Floor.startCode:leadin.getID()+leadin.numExits());
+				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
 				Floor currf = readFloor(dungeonSeq[i][j],7,7,id); //read floors
 				floors.add(currf);
 				Store nextStore = currf.generateStore();
