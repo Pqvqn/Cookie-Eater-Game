@@ -8,6 +8,7 @@ import mechanisms.*;
 
 public abstract class Floor {
 	
+	public static final String startCode = "beg";
 	protected Game game;
 	protected Board board;
 	protected Level[][] roomGrid; //grid of room locations
@@ -127,7 +128,7 @@ public abstract class Floor {
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
 		}
-		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,"0");
+		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,startCode);
 		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
 

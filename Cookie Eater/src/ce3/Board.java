@@ -559,7 +559,7 @@ public class Board{
 				if(i>0) {//get previous floor to use as entrance
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
-				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
+				String id = ((leadin==null)?Floor.startCode:leadin.getID()+leadin.numExits());
 				Floor currf = readFloor(dungeonSeq[i][j],7,7,id); //read floors
 				floors.add(currf);
 				Store nextStore = currf.generateStore();
@@ -573,7 +573,7 @@ public class Board{
 				currf.generateFloor();
 				ArrayList<Level> nexts = new ArrayList<Level>();
 				ArrayList<Integer> dirs = new ArrayList<Integer>();
-				nexts.add(currf.findRoom("0"));
+				nexts.add(currf.findRoom(Floor.startCode));
 				dirs.add(Passage.FLOOR);
 				nextStore.setNextLevels(nexts,dirs);
 			}
@@ -784,6 +784,14 @@ public class Board{
 		return null;
 	}
 	
-	
+	//returns a loaded floor of a given ID
+	public Floor findFloor(String id){
+		for(int i=0; i<floors.size(); i++) {
+			if(floors.get(i).getID().equals(id)) {
+				return floors.get(i);
+			}
+		}
+		return null;
+	}
 
 }
