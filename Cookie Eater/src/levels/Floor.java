@@ -143,7 +143,7 @@ public abstract class Floor {
 			//test if there are available directions
 			if(count>0) { //move in chosen direction				
 				//generate a new room
-				Level addition = generateRoom(levels,counts,sum,currCoord+"");
+				Level addition = generateRoom(levels,counts,sum,currCoord[0]+"u"+currCoord[1]);
 				
 				//add room connection
 				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;

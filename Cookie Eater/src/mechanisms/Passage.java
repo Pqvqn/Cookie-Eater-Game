@@ -9,8 +9,8 @@ import entities.*;
 
 public class Passage extends Mechanism{
 
-	protected Level entranceFloor; //where passage opens from
-	protected Level exitFloor; //where player goes into
+	protected Level entranceRoom; //where passage opens from
+	protected Level exitRoom; //where player goes into
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3, FLOOR=4, CEILING=5; //the location of the wall that has the entrance
 	protected int width; //how wide the opening is
 	protected int inx,iny,outx,outy; //positions
@@ -23,8 +23,8 @@ public class Passage extends Mechanism{
 		mass = 0;
 		game = frame;
 		board = gameboard;
-		entranceFloor = entrance;
-		exitFloor = exit;
+		entranceRoom = entrance;
+		exitRoom = exit;
 		width = wid;
 		direction = dir;
 		build(dir,offset);
@@ -37,11 +37,11 @@ public class Passage extends Mechanism{
 		
 		for(int i=0; i<options.size(); i++) {
 			String id = options.get(i).getID();
-			if(sd.getString("floors",0).equals(id)) {
-				entranceFloor = options.get(i);
+			if(sd.getString("rooms",0).equals(id)) {
+				entranceRoom = options.get(i);
 			}
-			if(sd.getString("floors",1).equals(id)) {
-				exitFloor = options.get(i);
+			if(sd.getString("rooms",1).equals(id)) {
+				exitRoom = options.get(i);
 			}
 		}
 		/*if(current.getID().equals(sd.getString("floors",0))) {
@@ -78,8 +78,8 @@ public class Passage extends Mechanism{
 		data.addData("position",outx,2);
 		data.addData("position",outy,3);
 		data.addData("width",width);
-		data.addData("floors",entranceFloor.getID(),0);
-		data.addData("floors",exitFloor.getID(),1);
+		data.addData("rooms",entranceRoom.getID(),0);
+		data.addData("rooms",exitRoom.getID(),1);
 		return data;
 	}
 	
@@ -153,16 +153,16 @@ public class Passage extends Mechanism{
 		y = (mode)?iny:outy;
 	}
 	public void setMode(Level level) {
-		if(level.equals(entranceFloor)) {
+		if(level.equals(entranceRoom)) {
 			setMode(true);
 		}
-		if(level.equals(exitFloor)) {
+		if(level.equals(exitRoom)) {
 			setMode(false);
 		}
 	}
 	public boolean entranceAt(Level l) {
-		if(l==entranceFloor)return true;
-		if(l==exitFloor)return false;
+		if(l==entranceRoom)return true;
+		if(l==exitRoom)return false;
 		return false;
 	}
 	
@@ -202,8 +202,8 @@ public class Passage extends Mechanism{
 	public int[] oppositeCoordinates() {
 		return new int[] {(!mode)?inx:outx, (!mode)?iny:outy};
 	}
-	public Level getExit() {return exitFloor;}
-	public Level getEntrance() {return entranceFloor;}
+	public Level getExit() {return exitRoom;}
+	public Level getEntrance() {return entranceRoom;}
 	
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {
@@ -228,14 +228,14 @@ public class Passage extends Mechanism{
 	
 	//proportion of cookies needed to open gate
 	public double cookieProportion() {
-		return (entranceFloor.getExitProportion() + exitFloor.getExitProportion())/2;
+		return (entranceRoom.getExitProportion() + exitRoom.getExitProportion())/2;
 	}
 	
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
 			if(mode && passed(p.getX(),p.getY())) {
-				board.setNext(exitFloor);
+				board.setNext(exitRoom);
 				p.win(this);
 			}
 		}
