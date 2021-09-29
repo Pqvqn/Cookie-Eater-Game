@@ -9,6 +9,7 @@ import mechanisms.*;
 public abstract class Floor {
 	
 	public static final String startCode = "beg";
+	public static final String blankCode = "no";
 	protected Game game;
 	protected Board board;
 	protected Level[][] roomGrid; //grid of room locations
@@ -85,7 +86,7 @@ public abstract class Floor {
 			}
 		}
 		for(int i=0; i<passages.size(); i++)data.addData("passages",passages.get(i).getSaveData(),i);
-		for(int i=0; i<roomData.size(); i++)data.addData("rooms",roomData.get(i));
+		for(int i=0; i<roomData.size(); i++)data.addData("rooms",roomData.get(i),i);
 		data.addData("type",this.getClass().getName());
 		return data;
 	}

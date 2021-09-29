@@ -78,8 +78,8 @@ public class Passage extends Mechanism{
 		data.addData("position",outx,2);
 		data.addData("position",outy,3);
 		data.addData("width",width);
-		data.addData("rooms",entranceRoom.getID(),0);
-		data.addData("rooms",exitRoom.getID(),1);
+		data.addData("rooms",entranceRoom!=null?entranceRoom.getID():Floor.blankCode,0);
+		data.addData("rooms",exitRoom!=null?exitRoom.getID():Floor.blankCode,1);
 		return data;
 	}
 	

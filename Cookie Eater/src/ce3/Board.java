@@ -280,7 +280,7 @@ public class Board{
 		}
 		
 		data.addData("currentlevel",currLevel.getFloor()!=null,0);
-		data.addData("currentlevel",currLevel.getFloor()==null?"0":currLevel.getFloor().getID(),1);
+		data.addData("currentlevel",currLevel.getFloor()==null?Floor.blankCode:currLevel.getFloor().getID(),1);
 		data.addData("currentlevel",currLevel.getID(),2);
 		
 		int ci = 0;
