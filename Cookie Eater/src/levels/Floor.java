@@ -44,6 +44,8 @@ public abstract class Floor {
 		roomGrid = new Level[sd.getInteger("dims",0)][sd.getInteger("dims",1)];
 		
 		ArrayList<Level> loadedLevels = new ArrayList<Level>();
+		Iterator<Store> it = board.stores.values().iterator();
+		while(it.hasNext())loadedLevels.add(it.next());
 		ArrayList<SaveData> roomData = sd.getSaveDataList("rooms");
 		for(int i=0; i<roomData.size(); i++) {
 			SaveData rd = roomData.get(i);
