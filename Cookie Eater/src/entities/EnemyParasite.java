@@ -26,7 +26,7 @@ public class EnemyParasite extends Enemy{
 	}
 	public EnemyParasite(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blobMad","blobMad"});
 		for(Segment testPart : parts){
 			if(testPart.name.equals("body")) {
 				blob = (SegmentCircle)testPart;

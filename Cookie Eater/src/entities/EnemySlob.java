@@ -34,7 +34,7 @@ public class EnemySlob extends Enemy{
 	}
 	public EnemySlob(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
-		setImgs(new String[] {"blob","blobMad"});
+		setImgs(new String[] {"blob","blobMad","blobEmpty","blobMadEmpty"});
 		for(Segment testPart : parts){
 			if(testPart.name.equals("front")) {
 				blob = (SegmentCircle)testPart;

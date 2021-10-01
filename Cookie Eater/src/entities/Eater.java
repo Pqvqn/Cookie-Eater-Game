@@ -90,7 +90,6 @@ public class Eater extends Entity{
 		id = sd.getInteger("id",0);
 		direction = sd.getInteger("direction",0);
 		startShields = sd.getInteger("startshields",0);
-		addShields(startShields);
 		state = sd.getInteger("state",0);
 		cash = sd.getDouble("cash",0);
 		coloration = new Color(sd.getInteger("color",0));
