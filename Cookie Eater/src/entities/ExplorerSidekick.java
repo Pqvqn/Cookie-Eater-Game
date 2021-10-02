@@ -215,9 +215,7 @@ public class ExplorerSidekick extends Explorer{
 		}
 	}
 	public void chooseResidence() {
-		String[] levels = {"Dungeon Foyer","Descending Labyrinths"};
-		int[] weights = {3,5};
-		residence = chooseFloor(convertToMap(levels,weights), 3, true, 3);
+		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(2).getID());
 	}
 	public void setConvo() {
 		convo = new Conversation(board,this,"Recruit1","begin");

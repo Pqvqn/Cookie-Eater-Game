@@ -86,9 +86,7 @@ public class ExplorerVendor extends Explorer{
 		return -1;
 	}
 	public void chooseResidence() {
-		String[] levels = {};
-		int[] weights = {};
-		residence = chooseFloor(convertToMap(levels,weights), 100, true, 2);
+		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(1).getID());
 	}
 
 	public void createStash() {
