@@ -14,20 +14,10 @@ import mechanisms.*;
 public abstract class Level{
 	
 	public final int BORDER_THICKNESS = 40;
-	protected double scale; //zoom in/out of level
 	protected Game game;
 	protected Board board;
 	protected Floor floor;
-	protected double[][] startposs;
-	protected int minDecay; //frames for cookie at edge corner to decay fully
-	protected int maxDecay; //frames for cookie at center to decay fully
-	protected Color bgColor;
-	protected Color wallColor;
-	protected String name; //name for files
-	protected String nameAbbrev; //name for display
-	protected String lvlid; //id code for this level's path
 	protected ArrayList<Passage> passageways; //entrances and exits
-	protected double exitProportion; //proportion of cookies that must be collected to open doors
 
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -54,15 +44,6 @@ public abstract class Level{
 		game = frame;
 		board = gameboard;
 		floor = floorlevel;
-		scale = sd.getDouble("scale",0);
-		minDecay = sd.getInteger("decay",0);
-		maxDecay = sd.getInteger("decay",1);
-		name = sd.getString("name",0);
-		nameAbbrev = sd.getString("name",1);
-		lvlid = sd.getString("name",2);
-		exitProportion = sd.getDouble("requirement",0);
-		bgColor = Color.GRAY;
-		wallColor = Color.red.darker();
 		passageways = new ArrayList<Passage>();
 		
 		/*if(prev!=null && next!=null) {
@@ -106,13 +87,6 @@ public abstract class Level{
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
-		data.addData("scale",scale);
-		data.addData("decay",minDecay,0);
-		data.addData("decay",maxDecay,1);
-		data.addData("name",name,0);
-		data.addData("name",nameAbbrev,1);
-		data.addData("name",lvlid,2);
-		data.addData("requirement",exitProportion);
 		data.addData("type",this.getClass().getName());
 
 		/*for(int i=0; i<passageways.size(); i++) {
