@@ -30,8 +30,8 @@ public class ItemRepeat extends Item{
 		if(count++>=time) {
 			//execute the items after this one before ending all
 			int index;
-			for(index=0;index<items.size() && items.get(index).getItem() instanceof ItemRepeat;index++);
-			for(int i = index; i<items.size(); i++) {
+			for(index=0;index<items.size() && !(items.get(index).getItem() instanceof ItemRepeat);index++);
+			for(int i = index+1; i<items.size(); i++) {
 				items.get(i).getItem().execute();
 			}
 			//end all items

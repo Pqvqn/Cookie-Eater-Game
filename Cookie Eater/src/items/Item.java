@@ -22,8 +22,8 @@ public abstract class Item {
 												"Melee","Projectile","Rebound","Recharge","Recycle","Repeat","Return",
 												"Ricochet","Shield","Shrink","Slowmo","Teleport"};
 	public static final Class[] item_classes = {
-			ItemAutopilot.class,ItemBoost.class,ItemCookieChain.class,ItemClone.class,ItemField.class,ItemFlow.class,ItemGhost.class,ItemHold.class,
-			ItemSummonMelee.class,ItemSummonProjectile.class,ItemRebound.class,ItemRecharge.class,ItemRecycle.class,ItemRecycle.class,ItemRepeat.class,ItemReturn.class,
+			ItemAutopilot.class,ItemBoost.class,ItemCookieChain.class,ItemCircle.class,ItemClone.class,ItemField.class,ItemFlow.class,ItemGhost.class,ItemHold.class,
+			ItemSummonMelee.class,ItemSummonProjectile.class,ItemRebound.class,ItemRecharge.class,ItemRecycle.class,ItemRepeat.class,ItemReturn.class,
 			ItemRicochet.class,ItemShield.class,ItemShrink.class,ItemSlowmo.class,ItemTeleport.class};
 	
 	public Item(Game frame, Board gameboard) {
