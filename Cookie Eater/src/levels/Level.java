@@ -17,25 +17,22 @@ public abstract class Level{
 	protected Game game;
 	protected Board board;
 	protected Floor floor;
+	protected Room room; //stores data used to make this type of level
 	protected ArrayList<Passage> passageways; //entrances and exits
-
+	protected String lvlid; //id code for this level's path
+	
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
 	
-	public Level(Game frame, Board gameboard, Floor floorlevel, String id) {
-		scale = 1;
+	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, String id) {
 		game = frame;
 		board = gameboard;
 		floor = floorlevel;
-		bgColor = Color.GRAY;
-		wallColor = Color.red.darker();
+		room = roomtemplate;
 		lvlid = id;
-		exitProportion = .5;
-		double distToWall = BORDER_THICKNESS+Eater.DEFAULT_RADIUS*scale*5;
-		double[][] sp = {{board.x_resol-distToWall,board.y_resol-distToWall},{distToWall,distToWall},{distToWall,board.y_resol-distToWall},{board.x_resol-distToWall,distToWall}};
-		startposs = sp;
+		
 		passageways = new ArrayList<Passage>();
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -45,7 +42,7 @@ public abstract class Level{
 		board = gameboard;
 		floor = floorlevel;
 		passageways = new ArrayList<Passage>();
-		
+		lvlid = sd.getString("id",0);
 		/*if(prev!=null && next!=null) {
 			ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
 			passageways = new ArrayList<Passage>();
@@ -86,7 +83,7 @@ public abstract class Level{
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("type",this.getClass().getName());
-
+		data.addData("id",lvlid);
 		/*for(int i=0; i<passageways.size(); i++) {
 			data.addData("passages",passageways.get(i).getSaveData(),i);
 		}*/
@@ -96,7 +93,7 @@ public abstract class Level{
 	public String getID() {return lvlid;}
 	public void setID(String id) {lvlid = id;}
 	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
-		buildPassages(next, directions, (int)(200 * scale));
+		buildPassages(next, directions, (int)(200 * room.scale));
 	}
 	public void addPassage(Passage p) {
 		passageways.add(p);
@@ -108,9 +105,9 @@ public abstract class Level{
 	
 	
 	//returns string that names the floor
-	public String getName() {return name;}
+	public String getName() {return room.name;}
 	//returns shortened string that names the floor for file purposes
-	public String getAbbrev() {return nameAbbrev;}
+	public String getAbbrev() {return room.nameAbbrev;}
 	
 	//put walls in floor
 	public void build() {
@@ -200,7 +197,7 @@ public abstract class Level{
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
 		//vars for first/last cookie in line
-		int xOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1, yOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*scale)+1;
+		int xOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1, yOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1;
 		int tY = 0, tX = 0;
 		//adjust cookie grid to be centered
 		for(tY = yOrig; tY<board.y_resol-BORDER_THICKNESS-clearance; tY+=separation);
@@ -214,7 +211,7 @@ public abstract class Level{
 					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA(),w.getOX(),w.getOY())) 
 						place = false;
 				}*/
-				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),board.wallSpace)) {
+				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*room.scale+clearance+.5),board.wallSpace)) {
 					place = false;
 				}
 				if(Math.sqrt(Math.pow(Math.abs(pX - board.player().getX()), 2) + Math.pow(Math.abs(pY - board.player().getY()), 2)) < board.player().getRadius() + Cookie.DEFAULT_RADIUS*getScale()){
@@ -229,7 +226,7 @@ public abstract class Level{
 		//remove cookies that player can't access
 		for(int i=0; i<board.cookies.size(); i++) {
 			Cookie currCookie = board.cookies.get(i);
-			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player().getX()),(int)(.5+board.player().getY()),(int)(board.player().getRadius()*scale*1.5),board.wallSpace)) {
+			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player().getX()),(int)(.5+board.player().getY()),(int)(board.player().getRadius()*room.scale*1.5),board.wallSpace)) {
 				currCookie.setAccess(true);
 				
 			}
@@ -243,7 +240,7 @@ public abstract class Level{
 				if(!currCookie.getAccess()) {
 					for(int j=0; j<board.cookies.size(); j++) {
 						Cookie testCookie = board.cookies.get(j);
-						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player().getRadius()*scale*1.5),board.wallSpace)) {
+						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player().getRadius()*room.scale*1.5),board.wallSpace)) {
 							currCookie.setAccess(true);
 							did=true;
 							j=board.cookies.size();
@@ -295,19 +292,19 @@ public abstract class Level{
 		e.giveCookie(c);
 	}
 	
-	public double getScale() {return scale;}
-	public int getMinDecay() {return minDecay;}
-	public int getMaxDecay() {return maxDecay;}
-	public Color getBGColor() {return bgColor;}
-	public Color getWallColor() {return wallColor;}
+	public double getScale() {return room.scale;}
+	public int getMinDecay() {return room.minDecay;}
+	public int getMaxDecay() {return room.maxDecay;}
+	public Color getBGColor() {return room.bgColor;}
+	public Color getWallColor() {return room.wallColor;}
 	public boolean haltEnabled() {return false;} //if the player can press button to stop movement
 	public boolean specialsEnabled() {return true;} //if specials are allowed
 	public boolean installPickups() {return false;} //if picked up items are automatically installed
 	public boolean takeDamage() {return true;} //if shields are used/player is killed when hits wall
-	public double getExitProportion() {return exitProportion;}
+	public double getExitProportion() {return room.exitProportion;}
 	public Floor getFloor() {return floor;}
 	
-	public double[][] getStarts(){return startposs;}
+	public double[][] getStarts(){return room.startposs;}
 	//returns the first found exit passageway
 	public Passage firstExit() {
 		for(int i=0; i<passageways.size(); i++) {

@@ -10,22 +10,21 @@ import mechanisms.*;
 
 public class Room{
 	
-	protected double scale; //zoom in/out of level
-	protected double[][] startposs; //start positions for players
-	protected int minDecay; //frames for cookie at edge corner to decay fully
-	protected int maxDecay; //frames for cookie at center to decay fully
-	protected Color bgColor;
-	protected Color wallColor;
-	protected String name; //name for files
-	protected String nameAbbrev; //name for display
-	protected String lvlid; //id code for this level's path
-	protected double exitProportion; //proportion of cookies that must be collected to open doors
+	public double scale; //zoom in/out of level
+	public double[][] startposs; //start positions for players
+	public int minDecay; //frames for cookie at edge corner to decay fully
+	public int maxDecay; //frames for cookie at center to decay fully
+	public Color bgColor;
+	public Color wallColor;
+	public String name; //name for files
+	public String nameAbbrev; //name for display
+	public double exitProportion; //proportion of cookies that must be collected to open doors
 	
-	protected int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line
-	protected int[] wallGen; //wall separation, wall min size, wall max size
-	protected int[] cookieGen; //clearance between cookies and walls, separation between cookies
-	protected int[][] regions; //board regions to fill when generating nodes
-	protected boolean angledWalls; //whether angled walls generate
+	public int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line
+	public int[] wallGen; //wall separation, wall min size, wall max size
+	public int[] cookieGen; //clearance between cookies and walls, separation between cookies
+	public int[][] regions; //board regions to fill when generating nodes
+	public boolean angledWalls; //whether angled walls generate
 	
 	public Room(SaveData sd) {
 		scale = sd.getDouble("scale",0);
@@ -33,7 +32,6 @@ public class Room{
 		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
-		lvlid = sd.getString("name",2);
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
@@ -70,41 +68,27 @@ public class Room{
 		data.addData("decay",maxDecay,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
-		data.addData("name",lvlid,2);
 		data.addData("requirement",exitProportion);
-		for(int i=0; i<8; i++) {
-			data.addData("startpositions",startposs[i/2][i%2],i);
-		}
-		return data;
-	}
-	
-	public void build() {
-		/*super.build();
-		genPaths(1, 100, 200, 100, 10, null);
-		genWalls(400, 300, 600, false); 
-		*/
-	}
-	public void placeCookies() {
-		//super.placeCookies(50,(int)(100*scale));
-	}
-	public void spawnEnemies() { 
-		/*int cycle = game.getCycle();
-		//ArrayList<String> possible = new ArrayList<String>();
-		//possible.add("Field");
-		for(int i=0;i<Math.random()*3-1;i++) {
-			//Enemy e;
-			spawnAtRandom(new EnemyBlob(game,board,cycle,0,0));
-			//e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
-		}
-		for(int i=0;i<Math.random()*2-1;i++) {
-			//Enemy e;
-			spawnAtRandom(new EnemyBloc(game,board,cycle,0,0));
-			//e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
+		for(int i=0; i<startposs.length * startposs[i].length; i++) {
+			data.addData("startpositions",startposs[i/startposs[i].length][i%startposs[i].length],i);
 		}
 		
-		for(int i=0;i<Math.random()*3-1;i++) {
-			//Enemy e;
-			spawnAtRandom(new EnemyParasite(game,board,cycle,0,0));}*/
+		data.addData("angled",angledWalls);
+		
+		for(int i=0; i<pathGen.length; i++) {
+			data.addData("pathgen",pathGen[i],i);
+		}
+		for(int i=0; i<wallGen.length; i++) {
+			data.addData("wallgen",wallGen[i],i);
+		}
+		for(int i=0; i<cookieGen.length; i++) {
+			data.addData("cookiegen",cookieGen[i],i);
+		}
+		for(int i=0; i<regions.length * regions[i].length; i++) {
+			data.addData("regions",regions[i/regions[i].length][i%regions[i].length],i);
+		}
+		
+		return data;
 	}
 	
 }
