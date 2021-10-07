@@ -43,20 +43,13 @@ public abstract class Level{
 		floor = floorlevel;
 		passageways = new ArrayList<Passage>();
 		lvlid = sd.getString("id",0);
-		/*if(prev!=null && next!=null) {
-			ArrayList<SaveData> passdata = sd.getSaveDataList("passages");
-			passageways = new ArrayList<Passage>();
-			for(int i=0; i<passdata.size(); i++) {
-				passageways.add(new Passage(game,board,this,prev,next,passdata.get(i)));
-			}
-		}*/
-		
+		room = board.getRoom(sd.getString("roomid",0));
 
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
 
-	public static Level loadFromData(Game frame, Board gameboard, Floor floor, SaveData sd) {
+	/*public static Level loadFromData(Game frame, Board gameboard, Floor floor, SaveData sd) {
 		//level subclasses
 		Class[] leveltypes = {Room1.class, Room2.class, Room3.class, Room4.class, Room5.class, RoomBiggy.class, RoomRound.class,
 				Store1.class, Store2.class, Store3.class, Store4.class,
@@ -78,15 +71,13 @@ public abstract class Level{
 		}
 		//default to floor 1
 		return new Room1(frame, gameboard, floor, sd);
-	}
+	}*/
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
-		data.addData("type",this.getClass().getName());
+		//data.addData("type",this.getClass().getName());
 		data.addData("id",lvlid);
-		/*for(int i=0; i<passageways.size(); i++) {
-			data.addData("passages",passageways.get(i).getSaveData(),i);
-		}*/
+		data.addData("roomid",room.nameSub);
 		return data;
 	}
 	

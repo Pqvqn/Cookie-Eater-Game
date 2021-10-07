@@ -16,8 +16,9 @@ public class Room{
 	public int maxDecay; //frames for cookie at center to decay fully
 	public Color bgColor;
 	public Color wallColor;
-	public String name; //name for files
-	public String nameAbbrev; //name for display
+	public String name; //name for display
+	public String nameAbbrev; //name for files
+	public String nameSub; //name for identification
 	public double exitProportion; //proportion of cookies that must be collected to open doors
 	
 	public int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line
@@ -32,6 +33,7 @@ public class Room{
 		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
+		nameSub = sd.getString("name",2);
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
@@ -68,6 +70,7 @@ public class Room{
 		data.addData("decay",maxDecay,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
+		data.addData("name",nameSub,2);
 		data.addData("requirement",exitProportion);
 		for(int i=0; i<startposs.length * startposs[i].length; i++) {
 			data.addData("startpositions",startposs[i/startposs[i].length][i%startposs[i].length],i);
