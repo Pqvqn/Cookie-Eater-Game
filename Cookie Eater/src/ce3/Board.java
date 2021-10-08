@@ -35,6 +35,7 @@ public class Board{
 
 	//public LinkedList<Level> levels; //level progression
 	public HashMap<String,Store> stores; //stores (stay the same between resets)
+	public HashMap<String,Room> rooms; //room templates that may be placed within floors
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults

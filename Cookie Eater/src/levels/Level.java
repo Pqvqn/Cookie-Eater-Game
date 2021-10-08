@@ -43,7 +43,7 @@ public abstract class Level{
 		floor = floorlevel;
 		passageways = new ArrayList<Passage>();
 		lvlid = sd.getString("id",0);
-		room = board.getRoom(sd.getString("roomid",0));
+		room = board.rooms.get(sd.getString("roomid",0));
 
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -75,7 +75,6 @@ public abstract class Level{
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
-		//data.addData("type",this.getClass().getName());
 		data.addData("id",lvlid);
 		data.addData("roomid",room.nameSub);
 		return data;
@@ -135,6 +134,8 @@ public abstract class Level{
 			}
 
 		}
+		genPaths(room.pathGen[0], room.pathGen[1], room.pathGen[2], room.pathGen[3], room.pathGen[4], room.regions);
+		genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
 		
 	}
 	//puts a gap in a wall and returns a second wall for the other side
@@ -179,7 +180,7 @@ public abstract class Level{
 		board.mechanisms.add(m);
 	}
 	public void placeCookies() {
-		placeCookies(100,100);
+		placeCookies(room.cookieGen[0], room.cookieGen[1]);
 	}
 
 	
