@@ -9,96 +9,13 @@ import items.*;
 import mechanisms.*;
 
 public abstract class Store extends Level{
-
-	protected int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
-	protected int[][] passerbySpaces; //spaces for passerbys
-	protected int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
 	
-	public Store(Game frame, Board gameboard, String id) {
-		super(frame,gameboard,null,id);
-		minDecay = Integer.MAX_VALUE;
-		maxDecay = Integer.MAX_VALUE;
-		exitProportion = 1;
+	public Store(Game frame, Board gameboard, Room roomtemplate, String id) {
+		super(frame,gameboard,null,roomtemplate,id);
 	}
 	public Store(Game frame, Board gameboard, Floor floor, SaveData sd) {
 		super(frame, gameboard, floor, sd);
-		ArrayList<Object> vendor_space_data = sd.getData("vendorspaces");
-		if(vendor_space_data!=null) {
-			int vn = sd.getInteger("vendorspacenum",0);
-			int[][][] vs = new int[vn][vendor_space_data.size()/vn/2][2];
-			int count = 0;
-			for(int i=0; i<vs.length; i++) {
-				for(int j=0; j<vs[i].length; j++) {
-					for(int h=0; h<vs[i][j].length; h++) {
-						vs[i][j][h] = Integer.parseInt(vendor_space_data.get(count).toString());
-						count++;
-					}
-				}
-			}
-			vendorSpaces = vs;
-		}
-		ArrayList<Object> passerby_space_data = sd.getData("passerbyspaces");
-		if(passerby_space_data!=null) {
-			int[][] ps = new int[passerby_space_data.size()/2][2];
-			int count = 0;
-			for(int i=0; i<ps.length; i++) {
-				for(int j=0; j<ps[i].length; j++) {
-					ps[i][j] = Integer.parseInt(passerby_space_data.get(count).toString());
-					count++;
-				}
-			}
-			passerbySpaces = ps;
-		}
-		ArrayList<Object> mechanic_space_data = sd.getData("mechanicspaces");
-		if(mechanic_space_data!=null) {
-			int[][] ms = new int[mechanic_space_data.size()/2][2];
-			int count = 0;
-			for(int i=0; i<ms.length; i++) {
-				for(int j=0; j<ms[i].length; j++) {
-					ms[i][j] = Integer.parseInt(mechanic_space_data.get(count).toString());
-					count++;
-				}
-			}
-			mechanicSpaces = ms;
-		}
 	}
-
-	public SaveData getSaveData() {
-		SaveData data = super.getSaveData();
-		int ci = 0;
-		if(vendorSpaces!=null) {
-			data.addData("vendorspacenum",vendorSpaces.length);
-			for(int i=0; i<vendorSpaces.length; i++) {
-				for(int j=0; j<vendorSpaces[i].length; j++) {
-					for(int h=0; h<vendorSpaces[i][j].length; h++) {
-						data.addData("vendorspaces",vendorSpaces[i][j][h],ci++);
-					}
-				}
-			}
-		}
-		ci=0;
-		if(passerbySpaces!=null) {
-			for(int i=0; i<passerbySpaces.length; i++) {
-				for(int j=0; j<passerbySpaces[i].length; j++) {
-					data.addData("passerbyspaces",passerbySpaces[i][j],ci++);
-				}
-			}
-		}
-		ci=0;
-		if(mechanicSpaces!=null) {
-			for(int i=0; i<mechanicSpaces.length; i++) {
-				for(int j=0; j<mechanicSpaces[i].length; j++) {
-					data.addData("mechanicspaces",mechanicSpaces[i][j],ci++);
-				}
-			}
-		}
-
-		return data;
-	}
-	public boolean haltEnabled() {return true;}
-	public boolean specialsEnabled() {return false;}
-	public boolean installPickups() {return true;}
-	public boolean takeDamage() {return false;}
 	
 	//places not-npc owned purchasable cookies on the board
 	public void placeCookies(){
@@ -135,10 +52,10 @@ public abstract class Store extends Level{
 		
 		//add cases to every item
 		int caseWidth = 80;
-		for(int i=0; i<vendorSpaces.length; i++) {
-			for(int j=1; j<vendorSpaces[i].length; j++) {
+		for(int i=0; i<room.vendorSpaces.length; i++) {
+			for(int j=1; j<room.vendorSpaces[i].length; j++) {
 				//board.walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));
-				board.mechanisms.add(new WallCase(game,board,vendorSpaces[i][j][0],vendorSpaces[i][j][1],caseWidth/2));
+				board.mechanisms.add(new WallCase(game,board,room.vendorSpaces[i][j][0],room.vendorSpaces[i][j][1],caseWidth/2));
 			}
 		}
 		
@@ -191,13 +108,13 @@ public abstract class Store extends Level{
 			Explorer e = board.present_npcs.get(i);
 			if(e==null) {
 				
-			}else if(e.getState()==Explorer.MECHANIC && mechanics<mechanicSpaces.length) { //put mechanic in right place
-				e.sellWares(mechanicSpaces);
+			}else if(e.getState()==Explorer.MECHANIC && mechanics<room.mechanicSpaces.length) { //put mechanic in right place
+				e.sellWares(room.mechanicSpaces);
 				mechanics++;
-			}else if(e.getState()==Explorer.VENDOR && vendors<vendorSpaces.length) { //put vendors in shop locations
-				e.sellWares(vendorSpaces[vendors++]);
-			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND && passerbys<passerbySpaces.length) { //put npcs that are passing through in standby areas
-				e.standBy(passerbySpaces[passerbys++]);
+			}else if(e.getState()==Explorer.VENDOR && vendors<room.vendorSpaces.length) { //put vendors in shop locations
+				e.sellWares(room.vendorSpaces[vendors++]);
+			}else if(e.getState()==Explorer.VENTURE || e.getState()==Explorer.STOP || e.getState()==Explorer.STAND && passerbys<room.passerbySpaces.length) { //put npcs that are passing through in standby areas
+				e.standBy(room.passerbySpaces[passerbys++]);
 			}else {
 
 			}
@@ -218,7 +135,7 @@ public abstract class Store extends Level{
 				}
 			}
 		}
-		int max = mechanic?1:(vendor?vendorSpaces.length:(passerby?passerbySpaces.length:0));
+		int max = mechanic?1:(vendor?room.vendorSpaces.length:(passerby?room.passerbySpaces.length:0));
 		return count >= max;
 	}
 	public void removeNpcs() {

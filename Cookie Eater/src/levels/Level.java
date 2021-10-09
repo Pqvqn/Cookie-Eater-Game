@@ -289,10 +289,10 @@ public abstract class Level{
 	public int getMaxDecay() {return room.maxDecay;}
 	public Color getBGColor() {return room.bgColor;}
 	public Color getWallColor() {return room.wallColor;}
-	public boolean haltEnabled() {return false;} //if the player can press button to stop movement
-	public boolean specialsEnabled() {return true;} //if specials are allowed
-	public boolean installPickups() {return false;} //if picked up items are automatically installed
-	public boolean takeDamage() {return true;} //if shields are used/player is killed when hits wall
+	public boolean haltEnabled() {return room.haltEnabled;} //if the player can press button to stop movement
+	public boolean specialsEnabled() {return room.specialsEnabled;} //if specials are allowed
+	public boolean installPickups() {return room.installPickups;} //if picked up items are automatically installed
+	public boolean takeDamage() {return room.takeDamage;} //if shields are used/player is killed when hits wall
 	public double getExitProportion() {return room.exitProportion;}
 	public Floor getFloor() {return floor;}
 	
