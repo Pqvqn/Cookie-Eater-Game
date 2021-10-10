@@ -258,7 +258,19 @@ public abstract class Level{
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
-		
+		int cycle = game.getCycle();
+		for(int i=0; i<room.enemyGen.size(); i++) {
+			SaveData genData = room.enemyGen.get(i);
+			int min = genData.getInteger("chance",0);
+			int max = genData.getInteger("chance",1);
+			String type = genData.getString("type",0);
+			int spawnCount = (int)(Math.random()*(max-min)) + min;
+			for(int j=0; j<spawnCount; j++) {
+				Enemy e = Enemy.loadNewInstance(game, board, cycle, 0, 0, type);
+				spawnAtRandom(e);
+				//e.giveCookie(new CookieItem(board,0,0,Level.generateItem(board,possible.get((int)(Math.random()*possible.size()))),0));
+			}
+		}
 	}
 	
 	//put all Npcs meant to be on this floor in their place

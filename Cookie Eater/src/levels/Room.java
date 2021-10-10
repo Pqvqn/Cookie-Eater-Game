@@ -5,8 +5,6 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
-import entities.*;
-import mechanisms.*;
 
 public class Room{
 	
@@ -36,6 +34,8 @@ public class Room{
 	public boolean specialsEnabled;
 	public boolean installPickups;
 	public boolean takeDamage;
+	
+	public ArrayList<SaveData> enemyGen;
 	
 	
 	public Room(SaveData sd) {
@@ -77,6 +77,8 @@ public class Room{
 		for(int i=0; i<regions.length * regions[i].length; i++) {
 			regions[i/regions[i].length][i%regions[i].length] = sd.getInteger("regions",i);
 		}
+		
+		enemyGen = sd.getSaveDataList("enemies");
 		
 		if(isStore) {
 			readStoreData(sd);
@@ -158,6 +160,8 @@ public class Room{
 		data.addData("canspecial",specialsEnabled);
 		data.addData("caninstall",installPickups);
 		data.addData("candamage",takeDamage);
+		
+		data.addData("enemies",enemyGen);
 		
 		if(isStore) {
 			writeStoreData(data);

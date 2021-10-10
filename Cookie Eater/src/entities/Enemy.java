@@ -16,6 +16,7 @@ public abstract class Enemy extends Entity{
 	protected ArrayList<String> imgs;
 	protected double targetx, targety;
 	protected int shieldBounces; //number of bounces before this shield expires
+	public static Class[] enemytypes = {EnemyBlob.class, EnemyBloc.class, EnemyCrawler.class, EnemyGlob.class, EnemyParasite.class, EnemySlob.class, EnemySpawner.class, EnemySpawnerArena.class};
 	
 	public Enemy(Game frame, Board gameboard, int cycletime, double xp, double yp) {
 		super(frame,gameboard,cycletime);
@@ -52,7 +53,7 @@ public abstract class Enemy extends Entity{
 	//return Enemy created by SaveData, testing for correct type of Enemy
 	public static Enemy loadFromData(Game frame, Board gameboard, SaveData sd, int cycle) {
 		//enemy subclasses
-		Class[] enemytypes = {EnemyBlob.class, EnemyBloc.class, EnemyCrawler.class, EnemyGlob.class, EnemyParasite.class, EnemySlob.class, EnemySpawner.class, EnemySpawnerArena.class};
+		
 		String thistype = sd.getString("type",0);
 		for(int i=0; i<enemytypes.length; i++) {
 			//if class type matches type from file, instantiate and return it
@@ -69,6 +70,25 @@ public abstract class Enemy extends Entity{
 		}
 		//default to blob
 		return new EnemyBlob(frame, gameboard, sd, cycle);
+	}
+	//return Enemy newly created, testing for correct type of Enemy
+	public static Enemy loadNewInstance(Game frame, Board gameboard, int cycle, int xp, int yp, String thistype) {
+		//enemy subclasses
+		for(int i=0; i<enemytypes.length; i++) {
+			//if class type matches type from file, instantiate and return it
+			if(thistype.equals(enemytypes[i].getName())){
+				try {
+					return (Enemy) (enemytypes[i].getDeclaredConstructor(Game.class, Board.class, int.class, int.class, int.class).newInstance(frame, gameboard, cycle, xp, yp));
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		//default to blob
+		return new EnemyBlob(frame, gameboard, cycle, xp, yp);
 	}
 	//transfer array into arraylist
 	protected void setImgs(String[] imgList) {
