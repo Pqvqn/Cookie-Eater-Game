@@ -11,7 +11,7 @@ import cookies.*;
 import entities.*;
 import mechanisms.*;
 
-public abstract class Level{
+public class Level{
 	
 	public final int BORDER_THICKNESS = 40;
 	protected Game game;

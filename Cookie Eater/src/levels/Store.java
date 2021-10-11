@@ -80,8 +80,6 @@ public abstract class Store extends Level{
 		nextLevels.get(0).addEntrance(p);
 	}
 	
-	public void spawnEnemies() {}
-	
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
 		Item b = Item.generateItem(game,board,i);

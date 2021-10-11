@@ -17,7 +17,7 @@ public abstract class Floor {
 	//protected ArrayList<Floor> nexts;
 	protected ArrayList<Store> entrances;
 	protected ArrayList<Store> exits;
-	protected HashMap<Class,Integer> roomWeights;
+	protected HashMap<Room,Integer> roomWeights;
 	protected ArrayList<Level> ends; //terminal rooms
 	protected int numRooms;
 	protected String id;
@@ -121,12 +121,12 @@ public abstract class Floor {
 		int[] currCoord = {0,0};
 		ArrayList<Integer[]> open = new ArrayList<Integer[]>();
 		//unpack weights
-		ArrayList<Class> levels = new ArrayList<Class>();
+		ArrayList<Room> levels = new ArrayList<Room>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
-		Iterator<Class> it = roomWeights.keySet().iterator();
+		Iterator<Room> it = roomWeights.keySet().iterator();
 		int sum = 0;
 		while(it.hasNext()) {
-			Class<Level> classlvl = it.next();
+			Room classlvl = it.next();
 			levels.add(classlvl);
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
@@ -289,20 +289,20 @@ public abstract class Floor {
 		
 	}
 	
-	public Level generateRoom(ArrayList<Class> levels, ArrayList<Integer> counts, int sum, String id) {
+	public Level generateRoom(ArrayList<Room> levels, ArrayList<Integer> counts, int sum, String id) {
 		int chosen = (int)(Math.random()*sum);
 		int find = 0;
 		for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
-		Class<Level> chosenlvl = levels.get(find);
-		Level addition = null;
-		try {
-			addition = (Level)(chosenlvl.getDeclaredConstructor(Game.class, Board.class, Floor.class, String.class).newInstance(game, board, this, id));
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Room chosenlvl = levels.get(find);
+		Level addition = new Level(game, board, this, chosenlvl, id);
 		return addition;
+	}
+	
+	public ArrayList<Room> possibleRooms(){
+		ArrayList<Room> ret = new ArrayList<Room>();
+		Iterator<Room> it = roomWeights.keySet().iterator();
+		while(it.hasNext())ret.add(it.next());
+		return ret;
 	}
 	
 	public String toString() {
