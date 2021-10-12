@@ -84,6 +84,13 @@ public class Board{
 		effects = new ArrayList<Effect>();
 		menus = new ArrayList<Menu>();
 		
+		try {
+			readRooms();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		game.draw.setBoard(this);
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
@@ -108,6 +115,7 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
+		readRooms();
 
 		stores = new HashMap<String,Store>();
 		ArrayList<SaveData> storeData = data.getSaveDataList("stores");
@@ -291,6 +299,20 @@ public class Board{
 		}
 		if(ui_cnf!=null)endConfirmation(ui_cnf.getSelection()); //remove lingering ui
 	}
+	
+	//load room templates from room file
+	public void readRooms() throws IOException {
+		rooms = new HashMap<String,Room>();
+		File f = new File("Cookie Eater/src/resources/rooms.txt");
+		SaveData sd = new SaveData(f);
+		Iterator<String> it = sd.dataMap().keySet().iterator();
+		while(it.hasNext()) {
+			String n = it.next();
+			Room r = new Room(sd.getSaveDataList(n).get(0));
+			rooms.put(n,r);
+		}
+	}
+	
 	
 	public void updateUI() {
 		//level display
