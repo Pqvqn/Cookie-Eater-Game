@@ -8,7 +8,7 @@ import entities.*;
 import items.*;
 import mechanisms.*;
 
-public abstract class Store extends Level{
+public class Store extends Level{
 	
 	public Store(Game frame, Board gameboard, Room roomtemplate, String id) {
 		super(frame,gameboard,null,roomtemplate,id);

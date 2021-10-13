@@ -38,13 +38,13 @@ public class Room{
 	public ArrayList<SaveData> enemyGen;
 	
 	
-	public Room(SaveData sd) {
+	public Room(String name, SaveData sd) {
 		scale = sd.getDouble("scale",0);
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
-		nameSub = sd.getString("name",2);
+		nameSub = name;
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
@@ -134,7 +134,6 @@ public class Room{
 		data.addData("decay",maxDecay,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
-		data.addData("name",nameSub,2);
 		data.addData("requirement",exitProportion);
 		data.addData("isstore",isStore);
 		for(int i=0; i<startposs.length * startposs[i].length; i++) {

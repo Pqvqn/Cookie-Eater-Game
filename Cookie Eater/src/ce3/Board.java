@@ -115,12 +115,17 @@ public class Board{
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
 		
-		readRooms();
+		try {
+			readRooms();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		stores = new HashMap<String,Store>();
 		ArrayList<SaveData> storeData = data.getSaveDataList("stores");
 		for(int i=0; i<storeData.size(); i++) {
-			Store str = (Store)Level.loadFromData(game,this,null,storeData.get(i));
+			Store str = new Store(game, this, null, storeData.get(i));
 			stores.put(str.getID(),str);
 		}
 		
@@ -308,7 +313,7 @@ public class Board{
 		Iterator<String> it = sd.dataMap().keySet().iterator();
 		while(it.hasNext()) {
 			String n = it.next();
-			Room r = new Room(sd.getSaveDataList(n).get(0));
+			Room r = new Room(n,sd.getSaveDataList(n).get(0));
 			rooms.put(n,r);
 		}
 	}
@@ -683,17 +688,6 @@ public class Board{
 		ui_cnf = null;
 	}
 	
-	//returns instance of given Level subclass
-	public Level readRoom(Class<Level> s, String id) {
-		try {
-			return (s.getDeclaredConstructor(Game.class, Board.class, String.class).newInstance(game,this,id));
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	//returns instance of given Level subclass
 	public Floor readFloor(Class<Floor> s, int w, int h, String id) {

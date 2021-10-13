@@ -49,7 +49,7 @@ public abstract class Floor {
 		ArrayList<SaveData> roomData = sd.getSaveDataList("rooms");
 		for(int i=0; i<roomData.size(); i++) {
 			SaveData rd = roomData.get(i);
-			Level room = Level.loadFromData(game, board, this, rd.getSaveDataList("data").get(0));
+			Level room = new Level(game, board, this, rd.getSaveDataList("data").get(0));
 			loadedLevels.add(room);
 			roomGrid[rd.getInteger("index",0)][rd.getInteger("index",1)] = room;
 		}
