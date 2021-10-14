@@ -308,7 +308,7 @@ public class Board{
 	//load room templates from room file
 	public void readRooms() throws IOException {
 		rooms = new HashMap<String,Room>();
-		File f = new File("Cookie Eater/src/resources/rooms.txt");
+		File f = new File("Cookie Eater/src/resources/level/rooms.txt");
 		SaveData sd = new SaveData(f);
 		Iterator<String> it = sd.dataMap().keySet().iterator();
 		while(it.hasNext()) {

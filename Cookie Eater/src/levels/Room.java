@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
+/*import entities.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;*/
 
 public class Room{
 	
@@ -37,14 +41,78 @@ public class Room{
 	
 	public ArrayList<SaveData> enemyGen;
 	
+	/*public static void main(String[] args) {
+		Room thisRoom = new Room();
+		File f = new File("Cookie Eater/src/resources/level/rooms.txt");
+		try {
+			f.getParentFile().mkdirs();
+			f.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			thisRoom.getSaveData().saveToFile(f);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(f);
+	}
+	public Room() {
+		scale = .95;
+		minDecay = 90;
+		maxDecay = 30000;
+		name = "Dungeon Foyer";
+		nameAbbrev = "dun";
+		nameSub = name;
+		exitProportion = .5;
+		bgColor = Color.GRAY;
+		wallColor = Color.red.darker();
+		isStore = false;
+		haltEnabled = false;
+		specialsEnabled = true;
+		installPickups = false;
+		takeDamage = true;
+		
+		final int BORDER_THICKNESS = 40;
+		double distToWall = BORDER_THICKNESS+40*scale*5;
+		double[][] sp = {{1920-distToWall,1020-distToWall},{distToWall,distToWall},{distToWall,1020-distToWall},{1920-distToWall,distToWall}};
+		startposs = sp;
+		
+		angledWalls = false;
+		
+		pathGen = new int[] {1, 100, 200, 100, 10};
+		wallGen = new int[] {400, 300, 600};
+		cookieGen = new int[] {50, 95};
+		regions = null;
+		ArrayList<SaveData> enemies = new ArrayList<SaveData>();
+		SaveData blob = new SaveData();
+		blob.addData("chance",-1);
+		blob.addData("chance",3);
+		blob.addData("type",EnemyBlob.class.getName());
+		enemies.add(blob);
+		SaveData bloc = new SaveData();
+		bloc.addData("chance",-1);
+		bloc.addData("chance",2);
+		bloc.addData("type",EnemyBloc.class.getName());
+		enemies.add(bloc);
+		SaveData para = new SaveData();
+		para.addData("chance",-1);
+		para.addData("chance",3);
+		para.addData("type",EnemyParasite.class.getName());
+		enemies.add(para);
+		
+		enemyGen = enemies;
+	}*/
 	
-	public Room(String name, SaveData sd) {
+	public Room(String roomname, SaveData sd) {
 		scale = sd.getDouble("scale",0);
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
-		nameSub = name;
+		nameSub = roomname;
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
@@ -55,8 +123,8 @@ public class Room{
 		takeDamage = sd.getBoolean("candamage",0);
 		
 		startposs = new double[4][2];
-		for(int i=0; i<startposs.length * startposs[i].length; i++) {
-			startposs[i/startposs[i].length][i%startposs[i].length] = sd.getDouble("startpositions",i);
+		for(int i=0; i<startposs.length * startposs[0].length; i++) {
+			startposs[i/startposs[0].length][i%startposs[0].length] = sd.getDouble("startpositions",i);
 		}
 		
 		angledWalls = sd.getBoolean("angled",0);
@@ -74,8 +142,8 @@ public class Room{
 			cookieGen[i] = sd.getInteger("cookiegen",i);
 		}
 		regions = new int[sd.getData("regions").size()][4];
-		for(int i=0; i<regions.length * regions[i].length; i++) {
-			regions[i/regions[i].length][i%regions[i].length] = sd.getInteger("regions",i);
+		for(int i=0; i<regions.length * regions[0].length; i++) {
+			regions[i/regions[0].length][i%regions[0].length] = sd.getInteger("regions",i);
 		}
 		
 		enemyGen = sd.getSaveDataList("enemies");
@@ -136,8 +204,8 @@ public class Room{
 		data.addData("name",nameAbbrev,1);
 		data.addData("requirement",exitProportion);
 		data.addData("isstore",isStore);
-		for(int i=0; i<startposs.length * startposs[i].length; i++) {
-			data.addData("startpositions",startposs[i/startposs[i].length][i%startposs[i].length],i);
+		for(int i=0; i<startposs.length * startposs[0].length; i++) {
+			data.addData("startpositions",startposs[i/startposs[0].length][i%startposs[0].length],i);
 		}
 		
 		data.addData("angled",angledWalls);
@@ -151,8 +219,10 @@ public class Room{
 		for(int i=0; i<cookieGen.length; i++) {
 			data.addData("cookiegen",cookieGen[i],i);
 		}
-		for(int i=0; i<regions.length * regions[i].length; i++) {
-			data.addData("regions",regions[i/regions[i].length][i%regions[i].length],i);
+		if(regions!=null) {
+			for(int i=0; i<regions.length * regions[0].length; i++) {
+				data.addData("regions",regions[i/regions[0].length][i%regions[0].length],i);
+			}
 		}
 		
 		data.addData("canhalt",haltEnabled);

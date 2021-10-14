@@ -1,0 +1,22 @@
+{
+]isstore:false
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.95
+]decay:90;30000
+]enemies:[{
+]chance:3
+]type:entities.EnemyBlob]}, {
+]chance:2
+]type:entities.EnemyBloc]}, {
+]chance:3
+]type:entities.EnemyParasite]}]
+]requirement:0.5
+]caninstall:false
+]angled:false
+]wallgen:400;300;600
+]cookiegen:50;95
+]canspecial:true
+]name:Dungeon Foyer;dun
+]pathgen:1;100;200;100;10
+]candamage:true
+]canhalt:false]}
