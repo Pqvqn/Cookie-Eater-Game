@@ -18,6 +18,7 @@ public abstract class Floor {
 	protected ArrayList<Store> entrances;
 	protected ArrayList<Store> exits;
 	protected HashMap<Room,Integer> roomWeights;
+	protected Store store;
 	protected ArrayList<Level> ends; //terminal rooms
 	protected int numRooms;
 	protected String id;
@@ -42,6 +43,7 @@ public abstract class Floor {
 		exits = new ArrayList<Store>();
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[sd.getInteger("dims",0)][sd.getInteger("dims",1)];
+		store = board.stores.get(sd.getString("store",0));
 		
 		ArrayList<Level> loadedLevels = new ArrayList<Level>();
 		Iterator<Store> it = board.stores.values().iterator();
@@ -68,6 +70,7 @@ public abstract class Floor {
 		data.addData("id",id);
 		data.addData("dims",roomGrid.length,0);
 		data.addData("dims",roomGrid[0].length,1);
+		data.addData("store",store.getID());
 		ArrayList<SaveData> roomData = new ArrayList<SaveData>();
 		ArrayList<Passage> passages = new ArrayList<Passage>();
 		for(int i=0; i<roomGrid.length; i++) {
@@ -213,11 +216,7 @@ public abstract class Floor {
 		return result;
 	}
 	
-	
-	//return Store to use before this Floor
-	public Store generateStore() {
-		return new Store1(game, board, id);
-	}
+	public Store getStore() {return store;}
 	
 	//finds the room belonging to the given code
 	public Level findRoom(String code) {

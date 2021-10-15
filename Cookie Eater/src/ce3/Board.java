@@ -539,7 +539,7 @@ public class Board{
 				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
 				Floor currf = readFloor(dungeonSeq[i][j],7,7,id); //read floors
 				floors.add(currf);
-				Store nextStore = currf.generateStore();
+				Store nextStore = currf.getStore();
 				if(leadin!=null) {
 					leadin.addExit(nextStore);
 				}else {
