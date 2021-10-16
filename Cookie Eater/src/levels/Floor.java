@@ -6,7 +6,7 @@ import java.util.*;
 import ce3.*;
 import mechanisms.*;
 
-public abstract class Floor {
+public class Floor {
 	
 	public static final String startCode = "beg";
 	public static final String blankCode = "no";
@@ -17,33 +17,34 @@ public abstract class Floor {
 	//protected ArrayList<Floor> nexts;
 	protected ArrayList<Store> entrances;
 	protected ArrayList<Store> exits;
-	protected HashMap<Room,Integer> roomWeights;
-	protected Store store;
 	protected ArrayList<Level> ends; //terminal rooms
-	protected int numRooms;
+	protected Store store;
 	protected String id;
+	protected Layout layout; //stores data to make this type of Floor
 
-	public Floor(Game frame, Board gameboard, int wid, int hei, String floorid) {
+	public Floor(Game frame, Board gameboard, Layout layouttemplate, String floorid) {
 		game = frame;
 		board = gameboard;
 		id = floorid;
+		layout = layouttemplate;
 		//prevs = new ArrayList<Floor>();
 		//nexts = new ArrayList<Floor>();
 		entrances = new ArrayList<Store>();
 		exits = new ArrayList<Store>();
 		ends = new ArrayList<Level>();
-		roomGrid = new Level[wid][hei];
+		roomGrid = new Level[layout.rows][layout.cols];
 	}
 	
 	public Floor(Game frame, Board gameboard, SaveData sd) {
 		game = frame;
 		board = gameboard;
 		id = sd.getString("id",0);
+		layout = board.layouts.get(sd.getString("layoutid",0));
 		entrances = new ArrayList<Store>();
 		exits = new ArrayList<Store>();
 		ends = new ArrayList<Level>();
-		roomGrid = new Level[sd.getInteger("dims",0)][sd.getInteger("dims",1)];
-		store = board.stores.get(sd.getString("store",0));
+		roomGrid = new Level[layout.rows][layout.cols];
+		store = board.stores.get(layout.store);
 		
 		ArrayList<Level> loadedLevels = new ArrayList<Level>();
 		Iterator<Store> it = board.stores.values().iterator();
@@ -68,9 +69,6 @@ public abstract class Floor {
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("id",id);
-		data.addData("dims",roomGrid.length,0);
-		data.addData("dims",roomGrid[0].length,1);
-		data.addData("store",store.getID());
 		ArrayList<SaveData> roomData = new ArrayList<SaveData>();
 		ArrayList<Passage> passages = new ArrayList<Passage>();
 		for(int i=0; i<roomGrid.length; i++) {
@@ -92,11 +90,11 @@ public abstract class Floor {
 		}
 		for(int i=0; i<passages.size(); i++)data.addData("passages",passages.get(i).getSaveData(),i);
 		for(int i=0; i<roomData.size(); i++)data.addData("rooms",roomData.get(i),i);
-		data.addData("type",this.getClass().getName());
+		data.addData("layoutid",layout.nameSub);
 		return data;
 	}
 	
-	public static Floor loadFromData(Game frame, Board gameboard, SaveData sd) {
+	/*public static Floor loadFromData(Game frame, Board gameboard, SaveData sd) {
 		//floor subclasses
 		Class[] floortypes = {Floor1.class, Floor2.class, Floor3.class};
 		String thistype = sd.getString("type",0);
@@ -115,7 +113,7 @@ public abstract class Floor {
 		}
 		//default to floor 1
 		return new Floor1(frame, gameboard, sd);
-	}
+	}*/
 	
 	//creates and connects levels in paths
 	public void generateFloor() {

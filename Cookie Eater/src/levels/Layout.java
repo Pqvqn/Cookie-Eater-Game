@@ -10,6 +10,7 @@ public class Layout {
 	public int numRooms;
 	public String store;
 	public int rows, cols;
+	public String nameSub;
 	
 	public Layout(String layoutname, SaveData sd) {
 		numRooms = sd.getInteger("length",0);
@@ -17,6 +18,7 @@ public class Layout {
 		cols = sd.getInteger("dimensions",1);
 		store = sd.getString("store",0);
 		roomGen = sd.getSaveDataList("rooms");
+		nameSub = layoutname;
 	}
 	
 	public SaveData getSaveData() {

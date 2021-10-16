@@ -36,15 +36,16 @@ public class Board{
 	//public LinkedList<Level> levels; //level progression
 	public HashMap<String,Store> stores; //stores (stay the same between resets)
 	public HashMap<String,Room> rooms; //room templates that may be placed within floors
+	public HashMap<String,Layout> layouts; //layout templates that may be used to create floors
 	public ArrayList<Floor> floors; //list of floors, unordered
-	public Class[][][] floorSequence = { //stores floor tiers 
+	/*public Class[][][] floorSequence = { //stores floor tiers 
 			//vaults
 			{{Floor1.class},{Floor2.class},{Floor3.class}},
 			//inners
 			{{}},
 			//training
 			{{}},
-	};
+	};*/
 	public Level nextLevel;
 	public Level currLevel;
 	public int currDungeon;
@@ -85,7 +86,7 @@ public class Board{
 		menus = new ArrayList<Menu>();
 		
 		try {
-			readRooms();
+			readLayoutsAndRooms();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,7 +117,7 @@ public class Board{
 		awaiting_start = data.getBoolean("awaiting",0);
 		
 		try {
-			readRooms();
+			readLayoutsAndRooms();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,7 +133,8 @@ public class Board{
 		floors = new ArrayList<Floor>();
 		ArrayList<SaveData> floorData = data.getSaveDataList("floors");
 		for(int i=0; i<floorData.size(); i++) {
-			floors.add(Floor.loadFromData(game, this, floorData.get(i)));
+			Floor flr = new Floor(game, this, floorData.get(i));
+			floors.add(flr);
 		}
 		
 		if(data.getBoolean("currentlevel",0)) {
@@ -306,7 +308,7 @@ public class Board{
 	}
 	
 	//load room templates from room file
-	public void readRooms() throws IOException {
+	public void readLayoutsAndRooms() throws IOException {
 		rooms = new HashMap<String,Room>();
 		File f = new File("Cookie Eater/src/resources/level/rooms.txt");
 		SaveData sd = new SaveData(f);
@@ -315,6 +317,16 @@ public class Board{
 			String n = it.next();
 			Room r = new Room(n,sd.getSaveDataList(n).get(0));
 			rooms.put(n,r);
+		}
+		
+		layouts = new HashMap<String,Layout>();
+		File f2 = new File("Cookie Eater/src/resources/level/layouts.txt");
+		SaveData sd2 = new SaveData(f2);
+		Iterator<String> it2 = sd2.dataMap().keySet().iterator();
+		while(it2.hasNext()) {
+			String n = it2.next();
+			Layout l = new Layout(n,sd2.getSaveDataList(n).get(0));
+			layouts.put(n,l);
 		}
 	}
 	
