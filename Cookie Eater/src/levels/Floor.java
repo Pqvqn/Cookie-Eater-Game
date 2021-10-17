@@ -124,6 +124,15 @@ public class Floor {
 		//unpack weights
 		ArrayList<Room> levels = new ArrayList<Room>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
+		
+		HashMap<Room,Integer> roomWeights = new HashMap<Room,Integer>();
+		for(int i=0; i<layout.roomGen.size(); i++) {
+			SaveData sd = layout.roomGen.get(i);
+			Room r = board.rooms.get(sd.getString("room",0));
+			int weight = sd.getInteger("weight",0);
+			roomWeights.put(r,weight);
+		}
+		
 		Iterator<Room> it = roomWeights.keySet().iterator();
 		int sum = 0;
 		while(it.hasNext()) {
@@ -133,7 +142,7 @@ public class Floor {
 			counts.add(sum);
 		}
 		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,startCode);
-		for(int i=Math.min(numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
+		for(int i=Math.min(layout.numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
 
 			int[] moveData = moveDirection(currCoord);
@@ -293,13 +302,6 @@ public class Floor {
 		Room chosenlvl = levels.get(find);
 		Level addition = new Level(game, board, this, chosenlvl, id);
 		return addition;
-	}
-	
-	public ArrayList<Room> possibleRooms(){
-		ArrayList<Room> ret = new ArrayList<Room>();
-		Iterator<Room> it = roomWeights.keySet().iterator();
-		while(it.hasNext())ret.add(it.next());
-		return ret;
 	}
 	
 	public String toString() {
