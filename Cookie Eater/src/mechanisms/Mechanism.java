@@ -5,15 +5,6 @@ import java.awt.geom.Area;
 import java.lang.reflect.InvocationTargetException;
 
 import ce3.*;
-import entities.Enemy;
-import entities.EnemyBlob;
-import entities.EnemyBloc;
-import entities.EnemyCrawler;
-import entities.EnemyGlob;
-import entities.EnemyParasite;
-import entities.EnemySlob;
-import entities.EnemySpawner;
-import entities.EnemySpawnerArena;
 
 public abstract class Mechanism {
 

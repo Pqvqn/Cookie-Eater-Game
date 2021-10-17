@@ -1,6 +1,5 @@
 package levels;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;
@@ -93,27 +92,6 @@ public class Floor {
 		data.addData("layoutid",layout.nameSub);
 		return data;
 	}
-	
-	/*public static Floor loadFromData(Game frame, Board gameboard, SaveData sd) {
-		//floor subclasses
-		Class[] floortypes = {Floor1.class, Floor2.class, Floor3.class};
-		String thistype = sd.getString("type",0);
-		for(int i=0; i<floortypes.length; i++) {
-			//if class type matches type from file, instantiate and return it
-			if(thistype.equals(floortypes[i].getName())){
-				try {
-					return (Floor) (floortypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}
-		//default to floor 1
-		return new Floor1(frame, gameboard, sd);
-	}*/
 	
 	//creates and connects levels in paths
 	public void generateFloor() {

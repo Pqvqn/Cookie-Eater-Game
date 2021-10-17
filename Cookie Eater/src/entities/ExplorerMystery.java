@@ -1,7 +1,6 @@
 package entities;
 
 import java.awt.*;
-import java.util.HashMap;
 
 import ce3.*;
 import cookies.*;

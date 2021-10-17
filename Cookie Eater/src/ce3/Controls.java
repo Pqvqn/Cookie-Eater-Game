@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.util.*;
 
 import entities.*;
-import mechanisms.Mechanism;
-import mechanisms.Passage;
 import menus.*;
 
 //import javax.swing.*;

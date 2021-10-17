@@ -3,7 +3,6 @@ package levels;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ce3.*;

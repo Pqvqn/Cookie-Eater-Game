@@ -10,7 +10,6 @@ import menus.Menu;
 
 import java.awt.geom.*;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Board{
@@ -38,14 +37,14 @@ public class Board{
 	public HashMap<String,Room> rooms; //room templates that may be placed within floors
 	public HashMap<String,Layout> layouts; //layout templates that may be used to create floors
 	public ArrayList<Floor> floors; //list of floors, unordered
-	/*public Class[][][] floorSequence = { //stores floor tiers 
+	public String[][][] floorSequence = { //stores floor tiers 
 			//vaults
-			{{Floor1.class},{Floor2.class},{Floor3.class}},
+			{{"Floor1"},{"Floor2"},{"Floor3"}},
 			//inners
 			{{}},
 			//training
 			{{}},
-	};*/
+	};
 	public Level nextLevel;
 	public Level currLevel;
 	public int currDungeon;
@@ -540,7 +539,7 @@ public class Board{
 		floors = new ArrayList<Floor>();
 		stores = new HashMap<String,Store>();
 		int searchidx = 0; //where in floors the last tier begins
-		Class[][] dungeonSeq = floorSequence[num];
+		String[][] dungeonSeq = floorSequence[num];
 		for(int i=0; i<dungeonSeq.length; i++) { //create each floor
 			int idx = floors.size();
 			for(int j=0; j<dungeonSeq[i].length; j++) {
@@ -549,7 +548,7 @@ public class Board{
 					leadin = floors.get((int)(Math.random() * (dungeonSeq[i-1].length) + searchidx));
 				}
 				String id = ((leadin==null)?"0":leadin.getID()+leadin.numExits());
-				Floor currf = readFloor(dungeonSeq[i][j],7,7,id); //read floors
+				Floor currf = new Floor(game, this, layouts.get(dungeonSeq[i][j]), id);
 				floors.add(currf);
 				Store nextStore = currf.getStore();
 				if(leadin!=null) {
@@ -698,19 +697,6 @@ public class Board{
 		s.close();
 		game.draw.removeUI(ui_cnf);
 		ui_cnf = null;
-	}
-	
-	
-	//returns instance of given Level subclass
-	public Floor readFloor(Class<Floor> s, int w, int h, String id) {
-		try {
-			return (s.getDeclaredConstructor(Game.class, Board.class, int.class, int.class, String.class)).newInstance(game,this,w,h,id);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	//returns a loaded floor of a given ID
