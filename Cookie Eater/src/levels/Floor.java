@@ -43,7 +43,8 @@ public class Floor {
 		exits = new ArrayList<Store>();
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[layout.rows][layout.cols];
-		store = board.stores.get(layout.store);
+		Room storeRoom = board.rooms.get(sd.getString("store",0));
+		store = new Store(game, board, storeRoom, id);
 		
 		ArrayList<Level> loadedLevels = new ArrayList<Level>();
 		Iterator<Store> it = board.stores.values().iterator();

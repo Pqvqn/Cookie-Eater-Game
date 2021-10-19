@@ -1,0 +1,9 @@
+{
+]Layout2:{
+]rooms:[{
+]weight:1
+]room:Room2]}]
+]length:10
+]store:teststore
+]dimensions:4;4]}
+]}

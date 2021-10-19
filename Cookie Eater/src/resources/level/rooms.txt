@@ -1,4 +1,5 @@
 {
+]Room2:{
 ]isstore:false
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.95
@@ -20,3 +21,4 @@
 ]pathgen:1;100;200;100;10
 ]candamage:true
 ]canhalt:false]}
+]}
