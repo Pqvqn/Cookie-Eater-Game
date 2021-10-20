@@ -39,7 +39,7 @@ public class Board{
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public String[][][] floorSequence = { //stores floor tiers 
 			//vaults
-			{{"Floor1"},{"Floor2"},{"Floor3"}},
+			{{"Layout2"}},
 			//inners
 			{{}},
 			//training

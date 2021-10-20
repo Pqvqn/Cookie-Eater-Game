@@ -5,10 +5,10 @@ import java.awt.*;
 import java.util.*;
 
 import ce3.*;
-/*import entities.*;
+import entities.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;*/
+import java.io.IOException;
 
 public class Room{
 	
@@ -41,7 +41,7 @@ public class Room{
 	
 	public ArrayList<SaveData> enemyGen;
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		Room thisRoom = new Room(false,"Room2");
 		Room thisStore = new Room(true,"Store2");
 		SaveData roomList = new SaveData();
@@ -97,7 +97,7 @@ public class Room{
 			pathGen = new int[] {1, 100, 200, 100, 10};
 			wallGen = new int[] {400, 300, 600};
 			cookieGen = new int[] {50, 95};
-			regions = null;
+			regions = new int[][] {{0, 1920, 0, 1020}};
 			ArrayList<SaveData> enemies = new ArrayList<SaveData>();
 			SaveData blob = new SaveData();
 			blob.addData("chance",-1);
@@ -117,7 +117,7 @@ public class Room{
 			
 			enemyGen = enemies;
 		}
-	}*/
+	}
 	
 	public Room(String roomname, SaveData sd) {
 		scale = sd.getDouble("scale",0);
@@ -162,7 +162,7 @@ public class Room{
 		for(int i=0; i<cookieGen.length; i++) {
 			cookieGen[i] = sd.getInteger("cookiegen",i);
 		}
-		regions = new int[sd.getData("regions").size()][4];
+		regions = new int[sd.getData("regions").size()/4][4];
 		for(int i=0; i<regions.length * regions[0].length; i++) {
 			regions[i/regions[0].length][i%regions[0].length] = sd.getInteger("regions",i);
 		}

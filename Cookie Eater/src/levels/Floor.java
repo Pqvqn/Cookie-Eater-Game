@@ -32,6 +32,8 @@ public class Floor {
 		exits = new ArrayList<Store>();
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[layout.rows][layout.cols];
+		Room storeRoom = board.rooms.get(layout.store);
+		store = new Store(game, board, storeRoom, id);
 	}
 	
 	public Floor(Game frame, Board gameboard, SaveData sd) {
