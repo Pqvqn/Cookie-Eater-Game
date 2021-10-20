@@ -4,6 +4,6 @@
 ]weight:1
 ]room:Room2]}]
 ]length:10
-]store:teststore
+]store:StoreTest
 ]dimensions:4;4]}
 ]}

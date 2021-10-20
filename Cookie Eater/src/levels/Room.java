@@ -42,7 +42,9 @@ public class Room{
 	public ArrayList<SaveData> enemyGen;
 	
 	/*public static void main(String[] args) {
-		Room thisRoom = new Room();
+		Room thisRoom = new Room(false,"Room2");
+		Room thisStore = new Room(true,"Store2");
+		SaveData roomList = new SaveData();
 		File f = new File("Cookie Eater/src/resources/level/rooms.txt");
 		try {
 			f.getParentFile().mkdirs();
@@ -52,64 +54,73 @@ public class Room{
 			e1.printStackTrace();
 		}
 		try {
-			thisRoom.getSaveData().saveToFile(f);
+			roomList.addData(thisRoom.nameSub,thisRoom.getSaveData());
+			roomList.addData(thisStore.nameSub,thisStore.getSaveData());
+			roomList.saveToFile(f);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(f);
 	}
-	public Room() {
+	public Room(boolean store, String roomname) {
 		scale = .95;
-		minDecay = 90;
-		maxDecay = 30000;
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
-		nameSub = name;
-		exitProportion = .5;
+		nameSub = roomname;
+		exitProportion = store?2:.5;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
-		isStore = false;
-		haltEnabled = false;
-		specialsEnabled = true;
-		installPickups = false;
-		takeDamage = true;
+		isStore = store;
+		haltEnabled = store;
+		specialsEnabled = !store;
+		installPickups = store;
+		takeDamage = !store;
 		
 		final int BORDER_THICKNESS = 40;
 		double distToWall = BORDER_THICKNESS+40*scale*5;
 		double[][] sp = {{1920-distToWall,1020-distToWall},{distToWall,distToWall},{distToWall,1020-distToWall},{1920-distToWall,distToWall}};
 		startposs = sp;
 		
-		angledWalls = false;
-		
-		pathGen = new int[] {1, 100, 200, 100, 10};
-		wallGen = new int[] {400, 300, 600};
-		cookieGen = new int[] {50, 95};
-		regions = null;
-		ArrayList<SaveData> enemies = new ArrayList<SaveData>();
-		SaveData blob = new SaveData();
-		blob.addData("chance",-1);
-		blob.addData("chance",3);
-		blob.addData("type",EnemyBlob.class.getName());
-		enemies.add(blob);
-		SaveData bloc = new SaveData();
-		bloc.addData("chance",-1);
-		bloc.addData("chance",2);
-		bloc.addData("type",EnemyBloc.class.getName());
-		enemies.add(bloc);
-		SaveData para = new SaveData();
-		para.addData("chance",-1);
-		para.addData("chance",3);
-		para.addData("type",EnemyParasite.class.getName());
-		enemies.add(para);
-		
-		enemyGen = enemies;
+		if(isStore) {
+			int[][][] vs = {{{1920/2-200,1020-110} , {1920/2+200,1020-110} , {1920/2,1020-110} , {1920/2-200,1020-280} , {1920/2+200,1020-280} , {1920/2,1020-280}} ,
+					{{1920/2-200,110} , {1920/2+200,110} , {1920/2,110} , {1920/2-200,280} , {1920/2+200,280} , {1920/2,280}} };
+			vendorSpaces = vs;
+			int[][] ps = {{1920/2-300,400}};
+			passerbySpaces = ps;
+			int[][] ms = {{1920-200,1020/2+180},{1920-390,315},{1920-390,1020-315},{1920-185,1020/2}};
+			mechanicSpaces = ms;
+		}else {
+			minDecay = 90;
+			maxDecay = 30000;
+			angledWalls = false;
+			pathGen = new int[] {1, 100, 200, 100, 10};
+			wallGen = new int[] {400, 300, 600};
+			cookieGen = new int[] {50, 95};
+			regions = null;
+			ArrayList<SaveData> enemies = new ArrayList<SaveData>();
+			SaveData blob = new SaveData();
+			blob.addData("chance",-1);
+			blob.addData("chance",3);
+			blob.addData("type",EnemyBlob.class.getName());
+			enemies.add(blob);
+			SaveData bloc = new SaveData();
+			bloc.addData("chance",-1);
+			bloc.addData("chance",2);
+			bloc.addData("type",EnemyBloc.class.getName());
+			enemies.add(bloc);
+			SaveData para = new SaveData();
+			para.addData("chance",-1);
+			para.addData("chance",3);
+			para.addData("type",EnemyParasite.class.getName());
+			enemies.add(para);
+			
+			enemyGen = enemies;
+		}
 	}*/
 	
 	public Room(String roomname, SaveData sd) {
 		scale = sd.getDouble("scale",0);
-		minDecay = sd.getInteger("decay",0);
-		maxDecay = sd.getInteger("decay",1);
 		name = sd.getString("name",0);
 		nameAbbrev = sd.getString("name",1);
 		nameSub = roomname;
@@ -127,6 +138,16 @@ public class Room{
 			startposs[i/startposs[0].length][i%startposs[0].length] = sd.getDouble("startpositions",i);
 		}
 		
+		if(isStore) {
+			readStoreData(sd);
+		}else {
+			readGenData(sd);
+		}
+	}
+	
+	public void readGenData(SaveData sd) {
+		minDecay = sd.getInteger("decay",0);
+		maxDecay = sd.getInteger("decay",1);
 		angledWalls = sd.getBoolean("angled",0);
 		
 		pathGen = new int[5];
@@ -147,10 +168,6 @@ public class Room{
 		}
 		
 		enemyGen = sd.getSaveDataList("enemies");
-		
-		if(isStore) {
-			readStoreData(sd);
-		}
 	}
 	
 	public void readStoreData(SaveData sd) {
@@ -198,8 +215,6 @@ public class Room{
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("scale",scale);
-		data.addData("decay",minDecay,0);
-		data.addData("decay",maxDecay,1);
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
 		data.addData("requirement",exitProportion);
@@ -207,6 +222,24 @@ public class Room{
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			data.addData("startpositions",startposs[i/startposs[0].length][i%startposs[0].length],i);
 		}
+		
+		data.addData("canhalt",haltEnabled);
+		data.addData("canspecial",specialsEnabled);
+		data.addData("caninstall",installPickups);
+		data.addData("candamage",takeDamage);
+		
+		if(isStore) {
+			writeStoreData(data);
+		}else {
+			writeGenData(data);
+		}
+		
+		return data;
+	}
+	
+	public void writeGenData(SaveData data) {
+		data.addData("decay",minDecay,0);
+		data.addData("decay",maxDecay,1);
 		
 		data.addData("angled",angledWalls);
 		
@@ -225,18 +258,8 @@ public class Room{
 			}
 		}
 		
-		data.addData("canhalt",haltEnabled);
-		data.addData("canspecial",specialsEnabled);
-		data.addData("caninstall",installPickups);
-		data.addData("candamage",takeDamage);
-		
 		data.addData("enemies",enemyGen);
 		
-		if(isStore) {
-			writeStoreData(data);
-		}
-		
-		return data;
 	}
 	
 	public void writeStoreData(SaveData data) {

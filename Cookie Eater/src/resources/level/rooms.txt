@@ -14,11 +14,26 @@
 ]requirement:0.5
 ]caninstall:false
 ]angled:false
+]canspecial:true
 ]wallgen:400;300;600
 ]cookiegen:50;95
-]canspecial:true
 ]name:Dungeon Foyer;dun
 ]pathgen:1;100;200;100;10
 ]candamage:true
 ]canhalt:false]}
+
+]Store2:{
+]mechanicspaces:1720;690;1530;315;1530;705;1735;510
+]isstore:true
+]passerbyspaces:660;400
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.95
+]requirement:2.0
+]caninstall:true
+]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
+]canspecial:false
+]name:Dungeon Foyer;dun
+]vendorspacenum:2
+]candamage:false
+]canhalt:true]}
 ]}

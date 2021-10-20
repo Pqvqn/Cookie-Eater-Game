@@ -1,8 +1,8 @@
 package levels;
 
-import java.io.File;
+/*import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.IOException;*/
 import java.util.*;
 
 import ce3.*;
@@ -17,7 +17,7 @@ public class Layout {
 	
 	public ArrayList<SaveData> enemyGen;
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Layout thisLayout = new Layout();
 		File f = new File("Cookie Eater/src/resources/level/layouts.txt");
 		try {
@@ -46,7 +46,7 @@ public class Layout {
 		room2.addData("weight",1);
 		roomGen.add(room2);
 		nameSub = "Layout2";
-	}
+	}*/
 	
 	public Layout(String layoutname, SaveData sd) {
 		numRooms = sd.getInteger("length",0);
