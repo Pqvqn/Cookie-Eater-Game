@@ -38,10 +38,10 @@ public class SaveData {
 		dataStorage.get(tag).add(index,data);
 	}
 	
-	//add data point (replace list with new list)
+	/*//add data point (replace list with new list)
 	public void addData(String tag, ArrayList<Object> data) {
 		dataStorage.put(tag,data);
-	}
+	}*/
 	
 	//counts number of instances of a substring
 	public int countSubstring(String open, String sub) {

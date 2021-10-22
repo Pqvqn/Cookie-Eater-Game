@@ -257,6 +257,7 @@ public class Level{
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
+		if(room.isStore)return;
 		int cycle = game.getCycle();
 		for(int i=0; i<room.enemyGen.size(); i++) {
 			SaveData genData = room.enemyGen.get(i);

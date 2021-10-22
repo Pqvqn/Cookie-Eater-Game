@@ -41,7 +41,7 @@ public class Layout {
 		numRooms = 10;
 		rows = 4;
 		cols = 4;
-		store = "teststore";
+		store = "Store2";
 		roomGen = new ArrayList<SaveData>();
 		SaveData room2 = new SaveData();
 		room2.addData("room","Room2");
@@ -66,7 +66,8 @@ public class Layout {
 		data.addData("dimensions",rows,0);
 		data.addData("dimensions",cols,1);
 		data.addData("store",store);
-		data.addData("rooms",roomGen);
+		for(int i=0; i<roomGen.size(); i++)
+			data.addData("rooms",roomGen.get(i),i);
 		
 		return data;
 	}

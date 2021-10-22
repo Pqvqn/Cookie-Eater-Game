@@ -100,18 +100,18 @@ public class Room{
 			regions = new int[][] {{0, 1920, 0, 1020}};
 			ArrayList<SaveData> enemies = new ArrayList<SaveData>();
 			SaveData blob = new SaveData();
-			blob.addData("chance",-1);
-			blob.addData("chance",3);
+			blob.addData("chance",-1,0);
+			blob.addData("chance",3,1);
 			blob.addData("type",EnemyBlob.class.getName());
 			enemies.add(blob);
 			SaveData bloc = new SaveData();
-			bloc.addData("chance",-1);
-			bloc.addData("chance",2);
+			bloc.addData("chance",-1,0);
+			bloc.addData("chance",2,1);
 			bloc.addData("type",EnemyBloc.class.getName());
 			enemies.add(bloc);
 			SaveData para = new SaveData();
-			para.addData("chance",-1);
-			para.addData("chance",3);
+			para.addData("chance",-1,0);
+			para.addData("chance",3,1);
 			para.addData("type",EnemyParasite.class.getName());
 			enemies.add(para);
 			
@@ -258,7 +258,8 @@ public class Room{
 			}
 		}
 		
-		data.addData("enemies",enemyGen);
+		for(int i=0; i<enemyGen.size(); i++)
+			data.addData("enemies",enemyGen.get(i),i);
 		
 	}
 	

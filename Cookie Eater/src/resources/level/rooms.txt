@@ -5,13 +5,16 @@
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.95
 ]decay:90;30000
-]enemies:[{
-]chance:3
-]type:entities.EnemyBlob]}, {
-]chance:2
-]type:entities.EnemyBloc]}, {
-]chance:3
-]type:entities.EnemyParasite]}]
+]enemies:{
+]chance:-1;3
+]type:entities.EnemyBlob]}
+;{
+]chance:-1;2
+]type:entities.EnemyBloc]}
+;{
+]chance:-1;3
+]type:entities.EnemyParasite]}
+
 ]requirement:0.5
 ]caninstall:false
 ]angled:false
