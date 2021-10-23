@@ -173,7 +173,7 @@ public class SaveData {
 					ret+=o.toString();
 				}
 				if(o instanceof SaveData) {
-					ret+="\n";
+					//ret+="\n";
 				}
 			}
 		}

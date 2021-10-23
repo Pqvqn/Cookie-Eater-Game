@@ -68,7 +68,7 @@ public class Room{
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
 		nameSub = roomname;
-		exitProportion = store?2:.5;
+		exitProportion = store?1:.5;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
 		isStore = store;

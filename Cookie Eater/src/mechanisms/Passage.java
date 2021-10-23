@@ -106,13 +106,13 @@ public class Passage extends Mechanism{
 			iny = offset;
 			outy = offset;
 		}else if(dir==CEILING) {
-			inx = board.x_resol/4;
-			outx = 3*board.x_resol/4;
+			inx = board.x_resol/5;
+			outx = 4*board.x_resol/5;
 			iny = board.y_resol/2;
 			outy = board.y_resol/2;
 		}else if(dir==FLOOR) {
-			inx = 3*board.x_resol/4;
-			outx = board.x_resol/4;
+			inx = 4*board.x_resol/5;
+			outx = board.x_resol/5;
 			iny = board.y_resol/2;
 			outy = board.y_resol/2;
 		}

@@ -3,8 +3,15 @@
 ]rooms:{
 ]weight:1
 ]room:Room2]}
-
 ]length:10
 ]store:Store2
 ]dimensions:4;4]}
+
+]Layout1:{
+]rooms:{
+]weight:1
+]room:Room1]}
+]length:2
+]store:Store1
+]dimensions:3;3]}
 ]}

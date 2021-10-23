@@ -257,7 +257,7 @@ public class Level{
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
-		if(room.isStore)return;
+		if(room.isStore || room.enemyGen==null)return;
 		int cycle = game.getCycle();
 		for(int i=0; i<room.enemyGen.size(); i++) {
 			SaveData genData = room.enemyGen.get(i);
@@ -379,6 +379,7 @@ public class Level{
 	//places walls that don't touch paths or nodes
 	public void genWalls(int sep, int min, int max, boolean angled) {
 		//for(int i=0; i<num; i++) { //make num of walls
+		if(sep==0)return;
 		for(int i=BORDER_THICKNESS; i<board.y_resol; i+=sep) {
 			for(int j=BORDER_THICKNESS; j<board.x_resol; j+=sep) {
 				//int cX = (int)(Math.random()*board.x_resol), cY = (int)(Math.random()*board.y_resol); //choose wall center
