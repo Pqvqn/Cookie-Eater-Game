@@ -134,8 +134,11 @@ public class Level{
 
 		}
 		genPaths(room.pathGen[0], room.pathGen[1], room.pathGen[2], room.pathGen[3], room.pathGen[4], room.regions);
-		genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
-		
+		if(room.roundWalls) {
+			genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
+		}else {
+			genRoundWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2]);
+		}
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls

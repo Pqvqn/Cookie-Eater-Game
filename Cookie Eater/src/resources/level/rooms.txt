@@ -8,6 +8,7 @@
 ]enemies:
 ]requirement:0.5
 ]caninstall:false
+]round:false
 ]angled:false
 ]canspecial:true
 ]wallgen:0;0;0
@@ -32,12 +33,86 @@
 ]type:entities.EnemyParasite]}
 ]requirement:0.5
 ]caninstall:false
+]round:false
 ]angled:false
 ]canspecial:true
 ]wallgen:400;300;600
 ]cookiegen:50;95
 ]name:Dungeon Foyer;dun
 ]pathgen:1;100;200;100;10
+]candamage:true
+]canhalt:false]}
+
+]Room3:{
+]isstore:false
+]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.9
+]decay:90;3000
+]enemies:{
+]chance:0;3
+]type:entities.EnemyBlob]};{
+]chance:0;1
+]type:entities.EnemyGlob]}
+]requirement:0.5
+]caninstall:false
+]round:false
+]angled:true
+]canspecial:true
+]wallgen:100;50;600
+]cookiegen:15;90
+]name:Descending Labyrinths;lab
+]pathgen:4;100;200;80;10
+]candamage:true
+]canhalt:false]}
+
+]Room4:{
+]isstore:false
+]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.85
+]decay:90;3000
+]enemies:{
+]chance:0;3
+]type:entities.EnemyBlob]};{
+]chance:0;2
+]type:entities.EnemyGlob]};{
+]chance:0;2
+]type:entities.EnemySlob]}
+]requirement:0.75
+]caninstall:false
+]round:false
+]angled:true
+]canspecial:true
+]wallgen:20;40;300
+]cookiegen:5;85
+]name:Frozen Chambers;ice
+]pathgen:9;100;150;80;10
+]candamage:true
+]canhalt:false]}
+
+]RoomRound:{
+]isstore:false
+]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.9
+]decay:90;3000
+]enemies:{
+]chance:0;4
+]type:entities.EnemyBlob]};{
+]chance:0;1
+]type:entities.EnemyGlob]};{
+]chance:0;2
+]type:entities.EnemyParasite]}
+]requirement:0.5
+]caninstall:false
+]round:true
+]angled:false
+]canspecial:true
+]wallgen:100;50;600
+]cookiegen:15;90
+]name:Hostile Tunnels;enm
+]pathgen:4;100;300;100;10
 ]candamage:true
 ]canhalt:false]}
 
@@ -54,7 +129,7 @@
 ]name:Forest Entrance;for
 ]vendorspacenum:2
 ]candamage:false
-]canhalt:true]}]}
+]canhalt:true]}
 
 ]Store2:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -69,4 +144,50 @@
 ]name:Dungeon Foyer;dun
 ]vendorspacenum:2
 ]candamage:false
-]canhalt:true]}]}
+]canhalt:true]}
+
+]Store3:{
+]mechanicspaces:1720;690;1530;315;1530;705;1735;510
+]isstore:true
+]passerbyspaces:660;400
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.9
+]requirement:1.0
+]caninstall:true
+]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
+]canspecial:false
+]name:Descending Labyrinths;lab
+]vendorspacenum:2
+]candamage:false
+]canhalt:true]}
+
+]Store4:{
+]mechanicspaces:1720;690;1530;315;1530;705;1735;510
+]isstore:true
+]passerbyspaces:660;400
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.85
+]requirement:1.0
+]caninstall:true
+]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
+]canspecial:false
+]name:Frozen Chambers;ice
+]vendorspacenum:2
+]candamage:false
+]canhalt:true]}
+
+]StoreRound:{
+]mechanicspaces:1720;690;1530;315;1530;705;1735;510
+]isstore:true
+]passerbyspaces:660;400
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.9
+]requirement:1.0
+]caninstall:true
+]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
+]canspecial:false
+]name:Hostile Tunnels;enm
+]vendorspacenum:2
+]candamage:false
+]canhalt:true]}
+]}

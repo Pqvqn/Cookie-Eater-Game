@@ -28,6 +28,7 @@ public class Room{
 	public int[] cookieGen; //clearance between cookies and walls, separation between cookies
 	public int[][] regions; //board regions to fill when generating nodes
 	public boolean angledWalls; //whether angled walls generate
+	public boolean roundWalls;
 	
 	public boolean isStore; //if this room is a store
 	public int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
@@ -94,6 +95,7 @@ public class Room{
 			minDecay = 90;
 			maxDecay = 30000;
 			angledWalls = false;
+			roundWalls = false;
 			pathGen = new int[] {1, 100, 200, 100, 10};
 			wallGen = new int[] {400, 300, 600};
 			cookieGen = new int[] {50, 95};
@@ -149,6 +151,7 @@ public class Room{
 		minDecay = sd.getInteger("decay",0);
 		maxDecay = sd.getInteger("decay",1);
 		angledWalls = sd.getBoolean("angled",0);
+		roundWalls = sd.getBoolean("round",0);
 		
 		pathGen = new int[5];
 		for(int i=0; i<pathGen.length; i++) {
@@ -242,6 +245,7 @@ public class Room{
 		data.addData("decay",maxDecay,1);
 		
 		data.addData("angled",angledWalls);
+		data.addData("round",roundWalls);
 		
 		for(int i=0; i<pathGen.length; i++) {
 			data.addData("pathgen",pathGen[i],i);
