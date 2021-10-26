@@ -30,7 +30,8 @@ public class Room{
 	public boolean angledWalls; //whether angled walls generate
 	public boolean roundWalls;
 	
-	public boolean isStore; //if this room is a store
+	public final static String STAGE = "stage", STORE = "store", TRAIN = "train", ARENA = "arena";
+	public String roomType;
 	public int[][][] vendorSpaces; //spaces for vendor and their items for sale (first coordinate pair for vendor)
 	public int[][] passerbySpaces; //spaces for passerbys
 	public int[][] mechanicSpaces; //spaces for mechanic and stat change cookies
@@ -43,8 +44,8 @@ public class Room{
 	public ArrayList<SaveData> enemyGen;
 	
 	public static void main(String[] args) {
-		Room thisRoom = new Room(false,"Room2");
-		Room thisStore = new Room(true,"Store2");
+		Room thisRoom = new Room(STAGE,"Room2");
+		Room thisStore = new Room(STORE,"Store2");
 		SaveData roomList = new SaveData();
 		File f = new File("Cookie Eater/src/resources/level/rooms.txt");
 		try {
@@ -64,26 +65,26 @@ public class Room{
 		}
 		System.out.println(f);
 	}
-	public Room(boolean store, String roomname) {
+	public Room(String roomtype, String roomname) {
 		scale = .95;
 		name = "Dungeon Foyer";
 		nameAbbrev = "dun";
 		nameSub = roomname;
-		exitProportion = store?1:.5;
+		roomType = roomtype;
+		exitProportion = roomType.equals(STORE)?1:.5;
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
-		isStore = store;
-		haltEnabled = store;
-		specialsEnabled = !store;
-		installPickups = store;
-		takeDamage = !store;
+		haltEnabled = roomType.equals(STORE) || roomType.equals(TRAIN);
+		specialsEnabled = roomType.equals(STAGE) || roomType.equals(ARENA) || roomType.equals(TRAIN);
+		installPickups = roomType.equals(STORE) || roomType.equals(ARENA);
+		takeDamage = roomType.equals(STAGE) || roomType.equals(ARENA);
 		
 		final int BORDER_THICKNESS = 40;
 		double distToWall = BORDER_THICKNESS+40*scale*5;
 		double[][] sp = {{1920-distToWall,1020-distToWall},{distToWall,distToWall},{distToWall,1020-distToWall},{1920-distToWall,distToWall}};
 		startposs = sp;
 		
-		if(isStore) {
+		if(roomType.equals(STORE)) {
 			int[][][] vs = {{{1920/2-200,1020-110} , {1920/2+200,1020-110} , {1920/2,1020-110} , {1920/2-200,1020-280} , {1920/2+200,1020-280} , {1920/2,1020-280}} ,
 					{{1920/2-200,110} , {1920/2+200,110} , {1920/2,110} , {1920/2-200,280} , {1920/2+200,280} , {1920/2,280}} };
 			vendorSpaces = vs;
@@ -91,7 +92,7 @@ public class Room{
 			passerbySpaces = ps;
 			int[][] ms = {{1920-200,1020/2+180},{1920-390,315},{1920-390,1020-315},{1920-185,1020/2}};
 			mechanicSpaces = ms;
-		}else {
+		}else if(roomType.equals(STAGE)){
 			minDecay = 90;
 			maxDecay = 30000;
 			angledWalls = false;
@@ -129,7 +130,7 @@ public class Room{
 		exitProportion = sd.getDouble("requirement",0);
 		bgColor = Color.GRAY;
 		wallColor = Color.red.darker();
-		isStore = sd.getBoolean("isstore",0);
+		roomType = sd.getString("type",0);
 		haltEnabled = sd.getBoolean("canhalt",0);
 		specialsEnabled = sd.getBoolean("canspecial",0);
 		installPickups = sd.getBoolean("caninstall",0);
@@ -140,9 +141,9 @@ public class Room{
 			startposs[i/startposs[0].length][i%startposs[0].length] = sd.getDouble("startpositions",i);
 		}
 		
-		if(isStore) {
+		if(roomType.equals(STORE)) {
 			readStoreData(sd);
-		}else {
+		}else if(roomType.equals(STAGE)){
 			readGenData(sd);
 		}
 	}
@@ -221,7 +222,7 @@ public class Room{
 		data.addData("name",name,0);
 		data.addData("name",nameAbbrev,1);
 		data.addData("requirement",exitProportion);
-		data.addData("isstore",isStore);
+		data.addData("type",roomType);
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			data.addData("startpositions",startposs[i/startposs[0].length][i%startposs[0].length],i);
 		}
@@ -231,9 +232,9 @@ public class Room{
 		data.addData("caninstall",installPickups);
 		data.addData("candamage",takeDamage);
 		
-		if(isStore) {
+		if(roomType.equals(STORE)) {
 			writeStoreData(data);
-		}else {
+		}else if(roomType.equals(STAGE)){
 			writeGenData(data);
 		}
 		

@@ -188,7 +188,7 @@ public class Level{
 	
 	//put cookies in floor
 	public void placeCookies(int clearance, int separation) { //clearance between cookies and walls, separation between cookies
-		if(room.isStore)return;
+		if(room.cookieGen==null)return;
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
 		//vars for first/last cookie in line
@@ -261,7 +261,7 @@ public class Level{
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
-		if(room.isStore || room.enemyGen==null)return;
+		if(room.enemyGen==null)return;
 		int cycle = game.getCycle();
 		for(int i=0; i<room.enemyGen.size(); i++) {
 			SaveData genData = room.enemyGen.get(i);

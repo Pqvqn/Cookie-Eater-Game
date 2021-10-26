@@ -1,12 +1,12 @@
 {
 ]Room1:{
-]isstore:false
 ]regions:0;1920;0;1020
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:1
 ]decay:60;1800
 ]enemies:
 ]requirement:0.5
+]type:stage
 ]caninstall:false
 ]round:false
 ]angled:false
@@ -19,7 +19,6 @@
 ]canhalt:false]}
 
 ]Room2:{
-]isstore:false
 ]regions:0;1920;0;1020
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.95
@@ -32,6 +31,7 @@
 ]chance:-1;3
 ]type:entities.EnemyParasite]}
 ]requirement:0.5
+]type:stage
 ]caninstall:false
 ]round:false
 ]angled:false
@@ -44,7 +44,6 @@
 ]canhalt:false]}
 
 ]Room3:{
-]isstore:false
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.9
@@ -55,6 +54,7 @@
 ]chance:0;1
 ]type:entities.EnemyGlob]}
 ]requirement:0.5
+]type:stage
 ]caninstall:false
 ]round:false
 ]angled:true
@@ -67,7 +67,6 @@
 ]canhalt:false]}
 
 ]Room4:{
-]isstore:false
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.85
@@ -80,6 +79,7 @@
 ]chance:0;2
 ]type:entities.EnemySlob]}
 ]requirement:0.75
+]type:stage
 ]caninstall:false
 ]round:false
 ]angled:true
@@ -92,7 +92,6 @@
 ]canhalt:false]}
 
 ]RoomRound:{
-]isstore:false
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.9
@@ -105,6 +104,7 @@
 ]chance:0;2
 ]type:entities.EnemyParasite]}
 ]requirement:0.5
+]type:stage
 ]caninstall:false
 ]round:true
 ]angled:false
@@ -118,11 +118,11 @@
 
 ]Store1:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
-]isstore:true
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:1
 ]requirement:1.0
+]type:store
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
@@ -133,11 +133,11 @@
 
 ]Store2:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
-]isstore:true
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.95
 ]requirement:1.0
+]type:store
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
@@ -148,11 +148,11 @@
 
 ]Store3:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
-]isstore:true
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.9
 ]requirement:1.0
+]type:store
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
@@ -163,11 +163,11 @@
 
 ]Store4:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
-]isstore:true
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.85
 ]requirement:1.0
+]type:store
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
@@ -178,11 +178,11 @@
 
 ]StoreRound:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
-]isstore:true
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
 ]scale:0.9
 ]requirement:1.0
+]type:store
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
