@@ -135,9 +135,9 @@ public class Level{
 		}
 		genPaths(room.pathGen[0], room.pathGen[1], room.pathGen[2], room.pathGen[3], room.pathGen[4], room.regions);
 		if(room.roundWalls) {
-			genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
-		}else {
 			genRoundWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2]);
+		}else {
+			genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
 		}
 	}
 	//puts a gap in a wall and returns a second wall for the other side
@@ -188,6 +188,7 @@ public class Level{
 	
 	//put cookies in floor
 	public void placeCookies(int clearance, int separation) { //clearance between cookies and walls, separation between cookies
+		if(room.isStore)return;
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
 		//vars for first/last cookie in line
@@ -883,6 +884,7 @@ public class Level{
 	}
 	//places walls that don't touch paths or nodes
 	public void genRoundWalls(int sep, int min, int max) {
+		if(sep==0)return;
 		for(int i=0; i<board.y_resol; i+=sep) {
 			for(int j=0; j<board.x_resol; j+=sep) {
 				int r=1;
