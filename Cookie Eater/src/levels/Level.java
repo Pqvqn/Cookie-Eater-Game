@@ -48,29 +48,6 @@ public class Level{
 		lines = new ArrayList<int[]>();
 	}
 
-	/*public static Level loadFromData(Game frame, Board gameboard, Floor floor, SaveData sd) {
-		//level subclasses
-		Class[] leveltypes = {Room1.class, Room2.class, Room3.class, Room4.class, Room5.class, RoomBiggy.class, RoomRound.class,
-				Store1.class, Store2.class, Store3.class, Store4.class,
-				Arena1.class, Arena2.class, ArenaRound.class,
-				Training1.class};
-		String thistype = sd.getString("type",0);
-		for(int i=0; i<leveltypes.length; i++) {
-			//if class type matches type from file, instantiate and return it
-			if(thistype.equals(leveltypes[i].getName())){
-				try {
-					return (Level) (leveltypes[i].getDeclaredConstructor(Game.class, Board.class, Floor.class, SaveData.class).newInstance(frame, gameboard, floor, sd));
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}
-		//default to floor 1
-		return new Room1(frame, gameboard, floor, sd);
-	}*/
 	
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
@@ -125,10 +102,6 @@ public class Level{
 			}
 			addMechanism(p);
 			if(enter) { //place door
-				/*int wid = (!p.isHorizontal())?((!p.isVertical())?p.getWidth():BORDER_THICKNESS*2):p.getWidth();
-				int hei = (!p.isHorizontal())?((!p.isVertical())?p.getWidth():p.getWidth()):BORDER_THICKNESS*2;
-				board.mechanisms.add(new WallDoor(game,board,p.getLeft(enter)+(p.isHorizontal()?0:-wid/2),
-						p.getUp(enter)+(!p.isHorizontal()?0:-hei/2),wid,hei,p.cookieProportion(),true));*/
 				board.mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,p.cookieProportion(),true));
 			}
 
@@ -202,10 +175,6 @@ public class Level{
 		for(int pY = yOrig; pY<board.y_resol-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
 			for(int pX = xOrig; pX<board.x_resol-BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
-				/*for(Wall w : board.walls) { //only place if not too close to any walls
-					if(collidesCircleAndRect(pX,pY,(int)(Cookie.DEFAULT_RADIUS*scale+clearance+.5),w.getX(),w.getY(),w.getW(),w.getH(),w.getA(),w.getOX(),w.getOY())) 
-						place = false;
-				}*/
 				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*room.scale+clearance+.5),board.wallSpace)) {
 					place = false;
 				}
@@ -325,7 +294,6 @@ public class Level{
 	
 	//creates nodes and connections
 	public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
-		//nodes.add(new int[] {(int)startx,(int)starty,(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add start area to nodes
 		if(areas == null) { //default areas to full screen
 			int[][] nareas = {{0,board.x_resol,0,board.y_resol}};
 			areas = nareas;
@@ -390,39 +358,6 @@ public class Level{
 				int x=j,y=i,w=1,h=1;
 				double a = (angled)?Math.random()*Math.PI*2:0;
 				if(rectOK(x,y,w,h,a,i,j,max)) { //if center is valid
-				
-					/*while(rectOK(x,y,w,h,a,max)) { //move corner until it cant be moved
-						x--;h++;
-					}
-					x+=10;h-=10;
-					while(rectOK(x,y,w,h,a,max)) {
-						x--;y--;
-					}
-					x+=10;y+=10;
-					while(rectOK(x,y,w,h,a,max)) {
-						w++;y--;
-					}
-					w-=10;y+=10;
-					while(rectOK(x,y,w,h,a,max)) {
-						w++;h++;
-					}
-					w-=10;h-=10;
-					while(rectOK(x,y,w,h,a,max)) { //move side until it cant be moved
-						x--;
-					}
-					x++;
-					while(rectOK(x,y,w,h,a,max)) {
-						y--;
-					}
-					y++;
-					while(rectOK(x,y,w,h,a,max)) {
-						w++;
-					}
-					w--;
-					while(rectOK(x,y,w,h,a,max)) {
-						h++;
-					}
-					h--;*/
 					while(rectOK(x,y,w,h,a,i,j,max)) {
 						x-=10;w+=10;
 					}
@@ -462,6 +397,28 @@ public class Level{
 		}
 	}  
 	
+	//places walls that don't touch paths or nodes
+	public void genRoundWalls(int sep, int min, int max) {
+		if(sep==0)return;
+		for(int i=0; i<board.y_resol; i+=sep) {
+			for(int j=0; j<board.x_resol; j+=sep) {
+				int r=1;
+				if(circOK(j,i,r,max)) { //if center is valid
+					while(circOK(j,i,r,max)) {
+						r+=10;
+					}
+					r-=10;
+					while(circOK(j,i,r,max)) {
+						r++;
+					}
+					r--;
+					if(r>=min) //remove small walls
+						board.walls.add(new Wall(game,board,j,i,r));
+				}
+			}
+		}
+	} 
+	
 	//gives length of line rom start/end points
 	public static double lineLength(double x1, double y1, double x2, double y2) {
 		return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
@@ -493,8 +450,7 @@ public class Level{
 				Level.collidesLineAndCircle(rX+wX, rY+wY, rX+wX+hX, rY+wY+hY, cX, cY, cR) || 
 				Level.collidesLineAndCircle(rX+hX, rY+hY, rX+wX+hX, rY+wY+hY, cX, cY, cR);
 	}
-	public static
-	boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA, double rOX, double rOY) { //supposed to be static
+	public static boolean collidesCircleAndRect(double cX, double cY, double cR, double rX, double rY, double rW, double rH, double rA, double rOX, double rOY) { //supposed to be static
 		
 		double[][] corners = corners(rX,rY,rW,rH,rOX,rOY,rA);
 		double[] last = corners[3];
@@ -524,32 +480,9 @@ public class Level{
 		ret[3][1] = ry - Level.lineLength(x,y+h,rx,ry) * Math.sin(a+Math.atan2(y+h-ry,x-rx));
 		return ret;
 	}
-	//double[][][] linesss = new double[100][4][8];
-	//double[] corr = null;
-	/*public void paint(Graphics g) {
-		g.setColor(Color.RED);
-		for(int i=0; i<linesss.length; i++) {
-			for(int j=0; j<linesss[i].length; j++) {
-				if(linesss[i]!=null)
-					g.drawLine((int)(.5+linesss[i][j][0]),(int)(.5+linesss[i][j][1]),(int)(.5+linesss[i][j][2]),(int)(.5+linesss[i][j][3]));
-			}
-			
-		}
-		if(corr!=null) {
-			g.setColor(Color.YELLOW);
-			g.fillOval((int)(.5+corr[0]-10),(int)(.5+corr[1]-10),20,20);
-			corr = null;
-			board.draw.repaint();
-			//try { //movement freeze
-				//Thread.sleep(200);
-			//}catch(InterruptedException e){};
-		}
-		linesss = new double[100][4][8];
-	}*/
 	
 	//if two rectangles collide (doesn't count one fully engulfing the other)
-	public //static
-	boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
+	public static boolean collidesRectAndRect(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
 		double wx1 = w1 * Math.cos(a1);
 		double wy1 = w1 * Math.sin(a1);
 		double hx1 = h1 * Math.cos(a1+Math.PI/2);
@@ -565,18 +498,6 @@ public class Level{
 		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
 		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
 		
-		/*double[][] b = {{x1, y1, x1+wx1, y1+wy1},
-				{x1, y1, x1+hx1, y1+hy1},
-				{x1+wx1, y1+wy1, x1+wx1+hx1, y1+wy1+hy1},
-				{x1+hx1, y1+hy1, x1+wx1+hx1, y1+wy1+hy1}
-		};
-		//linesss[(int)(Math.random()*100)] = b;
-		double[][] b2 = {{x2, y2, x2+wx2, y2+wy2},
-				{x2, y2, x2+hx2, y2+hy2},
-				{x2+wx2, y2+wy2, x2+wx2+hx2, y2+wy2+hy2},
-				{x2+hx2, y2+hy2, x2+wx2+hx2, y2+wy2+hy2}
-		};
-		//linesss[(int)(Math.random()*100)] = b2;*/
 		
 		boolean collision = false;
 		for(int i=1; i<=4; i++) { //all 1st rect sides
@@ -589,28 +510,7 @@ public class Level{
 	}
 	
 	//collision point of two rectangles
-	public //static
-	double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
-		/*double wx1 = h1 * Math.cos(a1);
-		double wy1 = h1 * Math.sin(a1);
-		double hx1 = w1 * Math.cos(a1-Math.PI/2);
-		double hy1 = w1 * Math.sin(a1-Math.PI/2);
-		
-		double wx2 = h2 * Math.cos(a2);
-		double wy2 = h2 * Math.sin(a2);
-		double hx2 = w2 * Math.cos(a2-Math.PI/2);
-		double hy2 = w2 * Math.sin(a2-Math.PI/2);
-		
-		double[][] corners1 = {{x1+hx1,y1+hy1},{x1,y1},{x1+wx1,y1+wy1},{x1+wx1+hx1,y1+wy1+hy1},{x1+hx1,y1+hy1}};
-		double[][] corners2 = {{x2+hx2,y2+hy2},{x2,y2},{x2+wx2,y2+wy2},{x2+wx2+hx2,y2+wy2+hy2},{x2+hx2,y2+hy2}};
-		
-		for(int i=1; i<=4; i++) { //all 1st rect sides
-			for(int j=1; j<=4; j++) { //all 2nd rect sides
-				if(collidesLineAndLine(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]))
-					return(lineIntersection(corners1[i][0],corners1[i][1],corners1[i-1][0],corners1[i-1][1],corners2[j][0],corners2[j][1],corners2[j-1][0],corners2[j-1][1]));
-			}
-		}
-		return null;*/
+	public static double[] rectAndRectHitPoint(double x1, double y1, double w1, double h1, double a1, double x2, double y2, double w2, double h2, double a2) {
 		Rectangle2D.Double c = new Rectangle2D.Double(x1,y1,w1,h1);
 		AffineTransform at = AffineTransform.getRotateInstance(a1,x1,y1);
 		Shape cc = at.createTransformedShape(c);
@@ -621,16 +521,6 @@ public class Level{
 		return aa;
 	}
 	
-	
-	//tests if there is an unbroken line between two points
-	/*public static boolean lineOfSight(int x1, int y1, int x2, int y2, ArrayList<Wall> walls) {
-		boolean hit = false;
-		for(Wall w : walls) {
-			if(collidesLineAndRect(x1, y1, x2, y2, w.getX(), w.getY(), w.getW(), w.getH(), w.getA(), w.getOX(), w.getOY())) 
-				hit = true;
-		}
-		return !hit;
-	}*/
 	public static boolean lineOfSight(int x1, int y1, int x2, int y2, int wid, Area walls) {
 		double xm = (x1+x2)/2,ym = (y1+y2)/2;
 		double am = Math.atan2(y2-y1,x2-x1);
@@ -650,18 +540,6 @@ public class Level{
 		return a.isEmpty();
 	}
 	
-	//turns one line into two, one on each side of the circle instead of center
-	/*public boolean splitSight(int rad, int x1, int y1, int x2, int y2) {
-		double x = Math.abs(y1-y2);
-		double y = Math.abs(x1-x2);
-		double h = rad;
-		double r = Math.sqrt((h*h)/(x*x+y*y));
-		if(x1==x2 || ((double)y1-y2)/(x1-x2)<0) {
-			return lineOfSight((int)(.5+x1-x*r), (int)(.5+y1-y*r), (int)(.5+x2-x*r), (int)(.5+y2-y*r), board.walls) && lineOfSight((int)(.5+x1+x*r), (int)(.5+y1+y*r), (int)(.5+x2+x*r), (int)(.5+y2+y*r), board.walls); 
-		}else {
-			return lineOfSight((int)(.5+x1+x*r), (int)(.5+y1-y*r), (int)(.5+x2+x*r), (int)(.5+y2-y*r), board.walls) && lineOfSight((int)(.5+x1-x*r), (int)(.5+y1+y*r), (int)(.5+x2-x*r), (int)(.5+y2+y*r), board.walls); 
-		}
-	}*/
 	//tests if a line and a rectangle overlap
 	public static boolean collidesLineAndRect(double x1, double y1, double x2, double y2, double rX, double rY, double rW, double rH) {
 		return collidesLineAndLine(x1,y1,x2,y2,rX,rY,rX+rW,rY) || //top
@@ -702,7 +580,6 @@ public class Level{
 				return true;
 			last = curr;
 		}
-		//return false;
 		
 		//test if each of the line points are inside the rectangle
 		return (collidesLineAndCircle(corners[0][0], corners[0][1], corners[1][0], corners[1][1], x1, y1, lineLength(corners[0][0],corners[0][1],corners[3][0],corners[3][1])) &&
@@ -849,10 +726,6 @@ public class Level{
 			return false; //false if wall too big
 		}
 		double[][] corners = corners(x,y,w,h,ox,oy,a);
-		/*if(Math.min(Math.min(x,x+hX+wX),Math.min(x+wX,x+hX))<=0 || (Math.max(Math.max(x,x+hX+wX),Math.max(x+wX,x+hX))>=board.x_resol 
-				|| Math.min(Math.min(y,y+hY+wY),Math.min(y+wY,y+hY))<=0 || (Math.max(Math.max(y,y+hY+wY),Math.max(y+wY,y+hY))>=board.y_resol))) {
-			return false; //false if some point is outside board
-		}*/
 		for(int[] node : nodes) {
 			if(collidesCircleAndRect((int)(node[0]+.5),(int)(node[1]+.5),node[2],x,y,w,h,a,ox,oy)) {
 				return false; //false if wall hits node
@@ -864,10 +737,6 @@ public class Level{
 		}
 		for(Wall wl : board.walls) {
 			int num = 0;
-			/*if( (x>wl.getX()+10 && x<wl.getX()+wl.getW()-10) && (y>wl.getY()+10 && y<wl.getY()+wl.getH()-10))num++;
-			if( (y>wl.getY()+10 && y<wl.getY()+wl.getH()-10) && (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10))num++;
-			if( (x+w>wl.getX()+10 && x+w<wl.getX()+wl.getW()-10) && (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10))num++;
-			if( (y+h>wl.getY()+10 && y+h<wl.getY()+wl.getH()-10) && (x>wl.getX()+10 && x<wl.getX()+wl.getW()-10))num++;*/
 			for(int i=0; i<4; i++) {
 				if(collidesLineAndRect(corners[i][0],corners[i][1],corners[i][0],corners[i][1],wl.getX(),wl.getY(),wl.getW(),wl.getH(),wl.getA(),wl.getOX(),wl.getOY()))num++;
 			}
@@ -882,27 +751,7 @@ public class Level{
 			return false; //false if at least 2 corners are outside
 		return true;
 	}
-	//places walls that don't touch paths or nodes
-	public void genRoundWalls(int sep, int min, int max) {
-		if(sep==0)return;
-		for(int i=0; i<board.y_resol; i+=sep) {
-			for(int j=0; j<board.x_resol; j+=sep) {
-				int r=1;
-				if(circOK(j,i,r,max)) { //if center is valid
-					while(circOK(j,i,r,max)) {
-						r+=10;
-					}
-					r-=10;
-					while(circOK(j,i,r,max)) {
-						r++;
-					}
-					r--;
-					if(r>=min) //remove small walls
-						board.walls.add(new Wall(game,board,j,i,r));
-				}
-			}
-		}
-	} 
+
 	//is the circle wall ok to generate
 	public boolean circOK(int x, int y, int r, int max) {
 		if(r>max) {
@@ -940,102 +789,14 @@ public class Level{
 		return ret;
 	}
 	//point where circle and rotated rectangle collide
-	public //static
-	double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
-		/*double angle = ra;
-		double length = rw;
-		double thickness = rh;
-		
-		double[] ret = {rx,ry};
-		double altX = rx;
-		double altY = ry;
-		
-		double wX = length * Math.cos(angle);
-		double wY = length * Math.sin(angle);
-		double hX = thickness * Math.cos(angle+Math.PI/2);
-		double hY = thickness * Math.sin(angle+Math.PI/2);
-		if(Math.abs(hX)<.0000001)hX=0;
-		
-		double x1=altX, y1=altY, x2=altX, y2=altY;
-		if(Level.collidesLineAndCircle(altX+wX, altY+wY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
-			x1 = altX+wX;
-			y1 = altY+wY;
-			x2 = altX+wX+hX;
-			y2 = altY+wY+hY;
-		}else if(Level.collidesLineAndCircle(altX, altY, altX+hX, altY+hY, cx, cy, cr)) {
-			x1 = altX;
-			y1 = altY;
-			x2 = altX+hX;
-			y2 = altY+hY;
-		}else if(Level.collidesLineAndCircle(altX, altY, altX+wX, altY+wY, cx, cy, cr)) {
-			x1 = altX;
-			y1 = altY;
-			x2 = altX+wX;
-			y2 = altY+wY;
-		}else if(Level.collidesLineAndCircle(altX+hX, altY+hY, altX+wX+hX, altY+wY+hY, cx, cy, cr)) {
-			x1 = altX+hX;
-			y1 = altY+hY;
-			x2 = altX+wX+hX;
-			y2 = altY+wY+hY;
-		}else {
-		
-		}
-		double dM = 0;
-		if(x2-x1!=0) {
-			double lM = (y2-y1)/(x2-x1);
-			dM = -1/lM;
-		}
-		double dL = Math.sqrt(1+dM*dM);
-		double ratio = cr/dL;
-		double fX = ratio;
-		double fY = ratio*dM;
-		if(y2==y1) { //avoid infinity
-			if(Level.collidesLineAndLine(x1,y1,x2,y2,cx,cy+cr,cx,cy-cr)) {
-				ret = Level.lineIntersection(x1,y1,x2,y2,cx,cy+cr,cx,cy-cr);
-			}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
-				ret[0] = x1;
-				ret[1] = y1;
-			}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
-				ret[0] = x2;
-				ret[1] = y2;
-			}
-		}
-		else if(x2==x1) { //avoid NaN
-			if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+cr,cy,cx-cr,cy)) {
-				ret = Level.lineIntersection(x1,y1,x2,y2,cx+cr,cy,cx-cr,cy);
-			}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
-				ret[0] = x1;
-				ret[1] = y1;
-			}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
-				ret[0] = x2;
-				ret[1] = y2;
-			}
-		}
-		
-		else if(Level.collidesLineAndLine(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY)) {
-			ret = Level.lineIntersection(x1,y1,x2,y2,cx+fX,cy+fY,cx-fX,cy-fY);
-		}else if(Level.lineLength(x1,y1,cx,cy)<=cr) {
-			ret[0] = x1;
-			ret[1] = y1;
-		}else if(Level.lineLength(x2,y2,cx,cy)<=cr) {
-			ret[0] = x2;
-			ret[1] = y2;
-		}
-		return ret;*/
+	public static double[] circAndRectHitPoint(double cx, double cy, double cr, double rx, double ry, double rw, double rh, double ra) {
 		Rectangle2D.Double c = new Rectangle2D.Double(rx,ry,rw,rh);
 		AffineTransform at = AffineTransform.getRotateInstance(ra,rx,ry);
 		Shape cc = at.createTransformedShape(c);
 		return areasHitPoint(new Area(new Ellipse2D.Double(cx-cr,cy-cr,cr*2,cr*2)),new Area(cc));
 	}
 	//point where two circles collide
-	public //static 
-	double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
-		/*double[] ret = {c1x,c1y};
-		double ratio = c1r/Level.lineLength(c2x, c2y, c1x, c1y);
-		ret[0] = (c2x-c1x)*ratio+c1x;
-		ret[1] = (c2y-c1y)*ratio+c1y;
-		return ret;*/
-		
+	public static double[] circAndCircHitPoint(double c1x, double c1y, double c1r, double c2x, double c2y, double c2r) {
 		return areasHitPoint(new Area(new Ellipse2D.Double(c1x-c1r,c1y-c1r,c1r*2,c1r*2)),new Area(new Ellipse2D.Double(c2x-c2r,c2y-c2r,c2r*2,c2r*2)));
 	}
 	
@@ -1044,8 +805,6 @@ public class Level{
 	double[] areasHitPoint(Area a1, Area a2) {
 		a2.intersect(a1);
 		Rectangle r = a2.getBounds();
-		//double[] b = {r.x+r.width/2,r.y+r.height/2};
-		//corr = b;
 		return new double[] {r.x+r.width/2,r.y+r.height/2};
 	}
 }

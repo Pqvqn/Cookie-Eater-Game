@@ -1,6 +1,5 @@
 package cookies;
 
-import java.awt.*;
 import java.io.IOException;
 
 import items.*;
@@ -12,7 +11,6 @@ import entities.*;
 public class CookieItem extends CookieStore{
 	
 	private Item myItem;
-	private SpriteCookie sprite;
 	
 	public CookieItem(Game frame, Board gameboard, int startx, int starty, Item i, double cost) {
 		super(frame,gameboard,startx,starty);
@@ -53,8 +51,6 @@ public class CookieItem extends CookieStore{
 	public boolean purchase(Entity buyer) {
 		if(buyer.getCash()>=price) {
 			
-			//player.addItem(player.getCurrentSpecial(), myItem);
-			//player.giveCookie(this);
 			if(vendor==null) {
 				buyer.spend(price);
 			}else {
@@ -63,12 +59,7 @@ public class CookieItem extends CookieStore{
 			return true;}
 		return false;
 	}
-	public void paint(Graphics g) {
-		if(sprite!=null) {
-			sprite.paint(g);
-		}else {
-			g.fillOval((int)(.5+x-radius*board.currLevel.getScale()), (int)(.5+y-radius*board.currLevel.getScale()), (int)(.5+radius*board.currLevel.getScale()*2), (int)(.5+radius*board.currLevel.getScale()*2));
-	}}
+	
 	public Item getItem() {
 		return myItem;
 	}

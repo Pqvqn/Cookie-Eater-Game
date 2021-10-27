@@ -22,7 +22,7 @@ public class Cookie {
 	protected double adjustedDecayTime; //decay time adjusted for fps
 	protected double decayCounter; //frames passed before decaying
 	protected boolean decayed; //if cookies is decayed (unable to earn currency from)
-	private SpriteCookie sprite;
+	protected SpriteCookie sprite;
 	private double value;
 	
 	public Cookie(Game frame, Board gameboard, int startx, int starty, boolean basic) { //basic = is a general cookie to be collected for points
@@ -94,15 +94,7 @@ public class Cookie {
 			decayed=true;
 		}
 	}
-	/*public void recalibrate() {
-		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,board.currLevel.getStartX(),board.currLevel.getStartY()), //length to farthest corner from player
-				Level.lineLength(0,board.Y_RESOL,board.currLevel.getStartX(),board.currLevel.getStartY())),
-				Math.max(Level.lineLength(board.X_RESOL,0,board.currLevel.getStartX(),board.currLevel.getStartY()), 
-						Level.lineLength(board.X_RESOL,board.Y_RESOL,board.currLevel.getStartX(),board.currLevel.getStartY())));
-		decayTime = (int)(.5+(1-(Level.lineLength(board.currLevel.getStartX(),board.currLevel.getStartY(),x,y)/farthestCorner))
-				*((board.currLevel.getMaxDecay()-board.currLevel.getMinDecay())+board.currLevel.getMinDecay())
-				*(15.0/board.getAdjustedCycle()));
-	}*/
+
 	//how long until cookie decays
 	public void setDecayTime() {
 		double sx = board.player().startx;
@@ -167,7 +159,6 @@ public class Cookie {
 					player.addScore(1);
 				}
 			}
-			//consumer.giveCookie(this);
 		}
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
@@ -205,6 +196,10 @@ public class Cookie {
 	}
 	
 	public void paint(Graphics g) {
-		sprite.paint(g);
+		if(sprite!=null) {
+			sprite.paint(g);
+		}else {
+			g.fillOval((int)(.5+x-radius*board.currLevel.getScale()), (int)(.5+y-radius*board.currLevel.getScale()), (int)(.5+radius*board.currLevel.getScale()*2), (int)(.5+radius*board.currLevel.getScale()*2));
+		}
 	}
 }

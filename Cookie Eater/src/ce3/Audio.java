@@ -15,7 +15,6 @@ public class Audio {
 	public boolean mute; //whether audio should play at all
 	
 	public Audio(Game frame) {
-		//game = frame;
 		mute = true;
 		loaded = new HashMap<String,File>();
 		volumeReduction = 0;
@@ -26,8 +25,6 @@ public class Audio {
 			playSound(p);
 			mute = true;
         }
-
-       //playSound("testmusic",VOLUME_HIGH);
 	}
 	
 	//plays clip

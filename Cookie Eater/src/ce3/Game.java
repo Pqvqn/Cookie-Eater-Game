@@ -72,8 +72,6 @@ public class Game extends JFrame {
   		setFocusable(true);
   		requestFocus();
   		setSize(Toolkit.getDefaultToolkit().getScreenSize());
-  		//setBackground(Color.GRAY);
-  		//setForeground(Color.GRAY);
   		
   		add(draw);
   		pack();

@@ -51,8 +51,6 @@ public class CookieShield extends CookieStore{
 		return false;
 	}
 	public void paint(Graphics g) {
-		//g.setColor(new Color(20,170,180,100));
-		//g.fillOval((int)(.5+x-radius*board.currFloor.getScale()), (int)(.5+y-radius*board.currFloor.getScale()), (int)(.5+radius*board.currFloor.getScale()*2), (int)(.5+radius*board.currFloor.getScale()*2));
 		sprite.paint(g);
 	}
 }
