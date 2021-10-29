@@ -6,9 +6,9 @@ import java.util.*;
 
 import ce3.*;
 import entities.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import mechanisms.*;
+
+import java.io.*;
 
 public class Room{
 	
@@ -28,7 +28,7 @@ public class Room{
 	public int[] cookieGen; //clearance between cookies and walls, separation between cookies
 	public int[][] regions; //board regions to fill when generating nodes
 	public boolean angledWalls; //whether angled walls generate
-	public boolean roundWalls;
+	public boolean roundWalls; //whether walls are rounded
 	
 	public final static String STAGE = "stage", STORE = "store", TRAIN = "train", ARENA = "arena";
 	public String roomType;
@@ -42,6 +42,7 @@ public class Room{
 	public boolean takeDamage;
 	
 	public ArrayList<SaveData> enemyGen;
+	public ArrayList<SaveData> mechanismGen;
 	
 	public static void main(String[] args) {
 		Room thisRoom = new Room(STAGE,"Room2");
@@ -119,6 +120,20 @@ public class Room{
 			enemies.add(para);
 			
 			enemyGen = enemies;
+			
+			mechanismGen = new ArrayList<SaveData>();
+			SaveData mech = new SaveData();
+			int len = 2;
+			Path path = new Path(len);
+			int x = (int)(.5+Math.random()*1920);
+			int y = (int)(.5+Math.random()*1080);
+			path.setCheckpoint(0,x,y,Path.TIME,100,0,0,0);
+			path.setCheckpoint(1,x,y,Path.TIME,100,200,0,0);
+			Mechanism moveWall = new WallMove(null, null,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path);
+			mech.addData("mechanism",moveWall);
+			mech.addData("quantity",1,0);
+			mech.addData("quantity",3,1);
+			mechanismGen.add(mech);
 		}
 	}
 	
