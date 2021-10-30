@@ -112,6 +112,19 @@ public class Level{
 		}else {
 			genWalls(room.wallGen[0], room.wallGen[1], room.wallGen[2], room.angledWalls);
 		}
+		
+		if(room.mechanismGen != null) {
+			for(int i=0; i<room.mechanismGen.size(); i++) {
+				SaveData mechData = room.mechanismGen.get(i);
+				int min = mechData.getInteger("quantity",0);
+				int max = mechData.getInteger("quantity",1);
+				int buildCount = (int)(Math.random()*(max-min)) + min;
+				for(int j=0; j<buildCount; j++) {
+					Mechanism m = Mechanism.loadFromData(game,board,mechData.getSaveDataList("mechanism").get(0));
+					addMechanism(m);
+				}
+			}
+		}
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls

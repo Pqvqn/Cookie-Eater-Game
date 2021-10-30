@@ -130,7 +130,7 @@ public class Room{
 			path.setCheckpoint(0,x,y,Path.TIME,100,0,0,0);
 			path.setCheckpoint(1,x,y,Path.TIME,100,200,0,0);
 			Mechanism moveWall = new WallMove(null, null,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path);
-			mech.addData("mechanism",moveWall);
+			mech.addData("mechanism",moveWall.getSaveData());
 			mech.addData("quantity",1,0);
 			mech.addData("quantity",3,1);
 			mechanismGen.add(mech);
@@ -187,6 +187,7 @@ public class Room{
 		}
 		
 		enemyGen = sd.getSaveDataList("enemies");
+		mechanismGen = sd.getSaveDataList("mechanisms");
 	}
 	
 	public void readStoreData(SaveData sd) {
@@ -280,6 +281,9 @@ public class Room{
 		
 		for(int i=0; i<enemyGen.size(); i++)
 			data.addData("enemies",enemyGen.get(i),i);
+		
+		for(int i=0; i<mechanismGen.size(); i++)
+			data.addData("mechanisms",mechanismGen.get(i),i);
 		
 	}
 	
