@@ -155,5 +155,15 @@ public class Path {
 	public int mode(){return modes[checkpoint()];}
 	public double[] size(){return sizes[checkpoint()];}
 	public double angle() {return angles[checkpoint()];}
+	
+	//center first checkpoint on coordinates and shift rest
+	public void recenter(double cx, double cy) {
+		double offx = positions[0][0] - cx;
+		double offy = positions[0][1] - cy;
+		for(int i=0; i<positions.length; i++) {
+			positions[i][0] -= offx;
+			positions[i][1] -= offy;
+		}
+	}
 
 }

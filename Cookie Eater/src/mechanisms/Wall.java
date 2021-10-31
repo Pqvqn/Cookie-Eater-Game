@@ -59,6 +59,15 @@ public class Wall extends Mechanism{
 		ox=x;
 		oy=y;
 	}
+	public Wall(Game frame, Board gameboard, int[] xPos, int[] yPos, int radius) {
+		super(frame, gameboard, xPos[0], yPos[0], xPos[1], yPos[1]);
+		shape = CIRCLE;
+		r = radius;
+		w=-1;h=-1;
+		a = 0;
+		ox=x;
+		oy=y;
+	}
 	public Wall(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, sd);
 		w = sd.getDouble("dimensions",0);

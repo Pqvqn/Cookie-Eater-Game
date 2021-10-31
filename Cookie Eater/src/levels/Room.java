@@ -125,11 +125,9 @@ public class Room{
 			SaveData mech = new SaveData();
 			int len = 2;
 			Path path = new Path(len);
-			int x = (int)(.5+Math.random()*1920);
-			int y = (int)(.5+Math.random()*1080);
-			path.setCheckpoint(0,x,y,Path.TIME,100,0,0,0);
-			path.setCheckpoint(1,x,y,Path.TIME,100,200,0,0);
-			Mechanism moveWall = new WallMove(null, null,(int)(.5+path.position()[0]),(int)(.5+path.position()[1]),(int)(.5+path.size()[0]),path);
+			path.setCheckpoint(0,0,0,Path.TIME,100,0,0,0);
+			path.setCheckpoint(1,0,0,Path.TIME,100,200,0,0);
+			Mechanism moveWall = new WallMove(null,null,0,0,1920,1080,path);
 			mech.addData("mechanism",moveWall.getSaveData());
 			mech.addData("quantity",1,0);
 			mech.addData("quantity",3,1);

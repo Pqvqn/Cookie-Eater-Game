@@ -21,11 +21,24 @@ public abstract class Mechanism {
 		mass = 100;
 	}
 	
+	public Mechanism(Game frame, Board gameboard, int minX, int minY, int maxX, int maxY) {
+		this(frame, gameboard, (int)(Math.random()*(maxX-minX)) + minX, (int)(Math.random()*(maxY-minY)) + minY);
+	}
+	
 	public Mechanism(Game frame, Board gameboard, SaveData sd) {
 		game = frame;
 		board = gameboard;
-		x = sd.getDouble("position",0);
-		y = sd.getDouble("position",1);
+		if(sd.getData("position").size()>=4){
+			double minX = sd.getDouble("position",0);
+			double minY = sd.getDouble("position",1);
+			double maxX = sd.getDouble("position",2);
+			double maxY = sd.getDouble("position",3);
+			x = (int)(Math.random()*(maxX-minX)) + minX;
+			y = (int)(Math.random()*(maxY-minY)) + minY;
+		}else {
+			x = sd.getDouble("position",0);
+			y = sd.getDouble("position",1);
+		}
 		mass = sd.getDouble("mass",0);
 	}
 	public SaveData getSaveData() {

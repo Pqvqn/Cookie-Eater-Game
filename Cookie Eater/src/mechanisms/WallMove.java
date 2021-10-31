@@ -30,6 +30,12 @@ public class WallMove extends Wall{
 		initPaths(path);
 	}
 	
+	public WallMove(Game frame, Board gameboard, int[] xPos, int[] yPos, int radius, Path path) {
+		super(frame,gameboard,xPos[0],yPos[0],xPos[1],yPos[1],radius);
+		path.recenter(x,y);
+		initPaths(path);
+	}
+	
 	public WallMove(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, sd);
 		moving = sd.getBoolean("moving",0);
