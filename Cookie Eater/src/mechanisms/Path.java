@@ -158,11 +158,11 @@ public class Path {
 	
 	//center first checkpoint on coordinates and shift rest
 	public void recenter(double cx, double cy) {
-		double offx = positions[0][0] - cx;
-		double offy = positions[0][1] - cy;
+		double offx =  cx - positions[0][0];
+		double offy = cy - positions[0][1];
 		for(int i=0; i<positions.length; i++) {
-			positions[i][0] -= offx;
-			positions[i][1] -= offy;
+			positions[i][0] += offx;
+			positions[i][1] += offy;
 		}
 	}
 

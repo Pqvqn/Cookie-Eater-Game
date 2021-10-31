@@ -41,7 +41,9 @@ public class WallMove extends Wall{
 		moving = sd.getBoolean("moving",0);
 		xV = sd.getDouble("velocity",0);
 		yV = sd.getDouble("velocity",1);
-		initPaths(new Path(sd.getSaveDataList("path").get(0)));
+		Path p =new Path(sd.getSaveDataList("path").get(0));
+		if(sd.getBoolean("recenter",0))p.recenter(x,y);
+		initPaths(p);
 	}
 
 	public SaveData getSaveData() {
@@ -49,6 +51,7 @@ public class WallMove extends Wall{
 		data.addData("moving",moving);
 		data.addData("velocity",xV,0);
 		data.addData("velocity",yV,1);
+		data.addData("recenter",false);
 		data.addData("path",path.getSaveData());
 		return data;
 	}

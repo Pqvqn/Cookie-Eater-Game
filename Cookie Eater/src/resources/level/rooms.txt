@@ -52,11 +52,12 @@
 ]angles:0.0;0.0
 ]rates:100.0;100.0
 ]positions:0;0;0;0]}
+]recenter:true
 ]shape:0
 ]mass:0.0
 ]origin:0;1920;0;10800
 ]angle:0.0
-]position:727.0;563.0
+]position:0;0;1920;1080
 ]velocity:0.0;0.0
 ]type:mechanisms.WallMove
 ]radius:0.0
