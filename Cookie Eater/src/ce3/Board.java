@@ -520,6 +520,11 @@ public class Board{
 		createSave();
 	}
 	
+	//moves to previously loaded level
+	public void backLevel() {
+		
+	}
+	
 	public void setNext(Level l) {
 		nextLevel = l;
 	}

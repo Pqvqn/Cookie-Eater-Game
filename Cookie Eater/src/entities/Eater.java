@@ -255,19 +255,21 @@ public class Eater extends Entity{
 		}
 	}
 	
+	//go back to previously loaded level
+	public void backtrack(Passage p) {
+		state = WIN;
+		game.draw.runUpdate();
+		dO = false;
+		if(board.mode == Board.LEVELS) {
+			reset(p);
+			board.backLevel();
+		}
+	}
+	
 	//move to next level
 	public void win(Passage p) {
-		//coloration = Color.green;
-		if(special) {
-			ArrayList<CookieItem> powerups = getPowerups();
-			for(int i=0; i<powerups.size(); i++) //stop special
-				powerups.get(i).getItem().end(true);
-		}
 		state = WIN;
-		special = false;
 		game.draw.runUpdate();
-		x_velocity = 0;
-		y_velocity = 0;
 		dO = false;
 		try { //movement freeze
 			Thread.sleep(200);
@@ -292,6 +294,11 @@ public class Eater extends Entity{
 		currSpecial = -1;
 		shielded = false;
 		shield_frames = 0;
+		if(special) {
+			ArrayList<CookieItem> powerups = getPowerups();
+			for(int i=0; i<powerups.size(); i++) //stop special
+				powerups.get(i).getItem().end(true);
+		}
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0.0);
 		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
 		colorize();

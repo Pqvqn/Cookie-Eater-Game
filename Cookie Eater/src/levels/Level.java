@@ -19,6 +19,7 @@ public class Level{
 	protected Room room; //stores data used to make this type of level
 	protected ArrayList<Passage> passageways; //entrances and exits
 	protected String lvlid; //id code for this level's path
+	protected boolean loaded; //whether this level has been entered before
 	
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -31,6 +32,7 @@ public class Level{
 		floor = floorlevel;
 		room = roomtemplate;
 		lvlid = id;
+		loaded = false;
 		
 		passageways = new ArrayList<Passage>();
 		nodes = new ArrayList<int[]>();
@@ -43,6 +45,7 @@ public class Level{
 		passageways = new ArrayList<Passage>();
 		lvlid = sd.getString("id",0);
 		room = board.rooms.get(sd.getString("roomid",0));
+		loaded = sd.getBoolean("loaded",0);
 
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -53,6 +56,7 @@ public class Level{
 		SaveData data = new SaveData();
 		data.addData("id",lvlid);
 		data.addData("roomid",room.nameSub);
+		data.addData("loaded",loaded);
 		return data;
 	}
 	
@@ -125,6 +129,8 @@ public class Level{
 				}
 			}
 		}
+		
+		loaded = true;
 	}
 	//puts a gap in a wall and returns a second wall for the other side
 	//only functions correctly for rectangular, un-angled walls
@@ -293,6 +299,7 @@ public class Level{
 	public boolean takeDamage() {return room.takeDamage;} //if shields are used/player is killed when hits wall
 	public double getExitProportion() {return room.exitProportion;}
 	public Floor getFloor() {return floor;}
+	public boolean loaded() {return loaded;}
 	
 	public double[][] getStarts(){return room.startposs;}
 	//returns the first found exit passageway

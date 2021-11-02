@@ -17,6 +17,7 @@ public class Passage extends Mechanism{
 	protected int direction; //direction of passage entrance
 	protected boolean mode; //whether the passage is an entrance
 	protected final int gap = 30; //gap between screen edge and passage point
+	protected boolean triggered; //tracking if player has stayed inside
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset, int wid) {
 		super(frame,gameboard,0,0);
@@ -27,6 +28,7 @@ public class Passage extends Mechanism{
 		exitRoom = exit;
 		width = wid;
 		direction = dir;
+		triggered = false;
 		build(dir,offset);
 		setMode(true);
 	}
@@ -44,21 +46,6 @@ public class Passage extends Mechanism{
 				exitRoom = options.get(i);
 			}
 		}
-		/*if(current.getID().equals(sd.getString("floors",0))) {
-			entranceFloor = current;
-			for(int i=0; i<nextOptions.size(); i++) {
-				if(nextOptions.get(i).getID().equals(sd.getString("floors",1))) {
-					exitFloor = nextOptions.get(i);
-				}
-			}
-		}else if(current.getID().equals(sd.getString("floors",1))) {
-			exitFloor = current;
-			for(int i=0; i<prevOptions.size(); i++) {
-				if(prevOptions.get(i).getID().equals(sd.getString("floors",0))) {
-					entranceFloor = prevOptions.get(i);
-				}
-			}
-		}*/
 		
 		direction = sd.getInteger("direction",0);
 		inx = sd.getInteger("position",0);
@@ -66,6 +53,7 @@ public class Passage extends Mechanism{
 		outx = sd.getInteger("position",2);
 		outy = sd.getInteger("position",3);
 		width = sd.getInteger("width",0);
+		triggered = sd.getBoolean("triggered",0);
 		setMode(mode);
 	}
 	
@@ -80,6 +68,7 @@ public class Passage extends Mechanism{
 		data.addData("width",width);
 		data.addData("rooms",entranceRoom!=null?entranceRoom.getID():Floor.blankCode,0);
 		data.addData("rooms",exitRoom!=null?exitRoom.getID():Floor.blankCode,1);
+		data.addData("triggered",triggered);
 		return data;
 	}
 	
@@ -207,23 +196,7 @@ public class Passage extends Mechanism{
 	
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {
-		
 		return Math.sqrt(Math.pow(xp-x,2)+Math.pow(yp-y,2))<width/2;
-		
-		/*if(!isHorizontal() && !isVertical()) {
-			return Math.sqrt(Math.pow(xp-x,2)+Math.pow(yp-y,2))<width/2;
-		}
-		
-		boolean horiz = isHorizontal();
-		int dir = getDirection();
-		boolean less = dir == LEFT || dir == TOP;
-		double myf = (horiz)?y:x;
-		double theirf = (horiz)?yp:xp;
-		double myb = (horiz)?x:y;
-		double theirb = (horiz)?xp:yp;
-		boolean pass = (less)?theirf<=myf:theirf>=myf;
-		boolean within = Math.abs(myb - theirb) < width/2;
-		return pass && within;*/
 	}
 	
 	//proportion of cookies needed to open gate
@@ -231,14 +204,27 @@ public class Passage extends Mechanism{
 		return (entranceRoom.getExitProportion() + exitRoom.getExitProportion())/2;
 	}
 	
+	//passes player through passage
+	public void trigger(Eater e) {
+		triggered=true;
+		board.setNext(mode?exitRoom:entranceRoom);
+		if(board.nextLevel.loaded()) {
+			e.backtrack(this);
+		}else{
+			e.win(this);
+		}
+	}
+	
 	public void runUpdate() {
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
-			if(mode && passed(p.getX(),p.getY())) {
-				board.setNext(exitRoom);
-				p.win(this);
+			boolean pass = passed(p.getX(),p.getY());
+			if(pass && !triggered) {
+				trigger(p);
 			}
+			triggered = pass;
 		}
+		
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);

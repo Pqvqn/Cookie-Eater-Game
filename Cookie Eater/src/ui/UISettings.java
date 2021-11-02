@@ -145,8 +145,7 @@ public class UISettings extends UIElement{
 		oc = () -> {
 			if(!board.inConvo()) {
 				Passage exit = board.currLevel.firstExit();
-				board.setNext(exit.getExit());
-				getSelectedPlayer().win(exit);
+				exit.trigger(getSelectedPlayer());
 			}
 		};
 		advance.setClick(oc);
