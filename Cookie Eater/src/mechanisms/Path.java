@@ -8,6 +8,8 @@ public class Path {
 	
 
 	public static final int SPEED=0,TIME=1; //mode options (timed based on constant speed or on set time)
+	public static final String RANDOMIZE_NONE="none",RANDOMIZE_RECENTER="recenter",
+			RANDOMIZE_CENTER="center",RANDOMIZE_POSITIONS="positions";//randomization types when loaded from SaveData
 	int checkpoint; //last passed stop on path index
 	
 	//arrays of attributes for each positions
@@ -157,12 +159,36 @@ public class Path {
 	public double angle() {return angles[checkpoint()];}
 	
 	//center first checkpoint on coordinates and shift rest
-	public void recenter(double cx, double cy) {
-		double offx =  cx - positions[0][0];
-		double offy = cy - positions[0][1];
-		for(int i=0; i<positions.length; i++) {
-			positions[i][0] += offx;
-			positions[i][1] += offy;
+	public void randomize(String mode, Mechanism m, double[] posrange) {
+		double xmin=0,xmax=1920,ymin=0,ymax=1080;
+		if(posrange!=null) {
+			xmin=posrange[0];ymin=posrange[1];xmax=posrange[2];ymax=posrange[3];
+		}
+		if(mode.equals(RANDOMIZE_CENTER)) { //center path on current mechanism position
+			double cx = m.getX();
+			double cy = m.getY();
+			double offx =  cx - positions[0][0];
+			double offy = cy - positions[0][1];
+			for(int i=0; i<positions.length; i++) {
+				positions[i][0] += offx;
+				positions[i][1] += offy;
+			}
+		}else if(mode.equals(RANDOMIZE_RECENTER)) { //randomly choose first position and shift others accordingly
+			double cx = (Math.random()*(xmax-xmin))+xmin;
+			double cy = (Math.random()*(ymax-ymin))+ymin;
+			double offx =  cx - positions[0][0];
+			double offy = cy - positions[0][1];
+			for(int i=0; i<positions.length; i++) {
+				positions[i][0] += offx;
+				positions[i][1] += offy;
+			}
+		}else if(mode.equals(RANDOMIZE_POSITIONS)) { //randomize all positions
+			for(int i=0; i<positions.length; i++) {
+				double cx = (Math.random()*(xmax-xmin))+xmin;
+				double cy = (Math.random()*(ymax-ymin))+ymin;
+				positions[i][0] = cx;
+				positions[i][1] = cy;
+			}
 		}
 	}
 

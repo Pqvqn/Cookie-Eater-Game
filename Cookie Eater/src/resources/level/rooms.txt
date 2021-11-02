@@ -52,7 +52,7 @@
 ]angles:0.0;0.0
 ]rates:100.0;100.0
 ]positions:0;0;0;0]}
-]recenter:true
+]randomize:center
 ]shape:0
 ]mass:0.0
 ]origin:0;1920;0;10800
