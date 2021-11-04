@@ -21,15 +21,15 @@ public class Board{
 	public static final int DEF_Y_RESOL = 1020, DEF_X_RESOL = 1920; //default board dimensions
 	public int y_resol = 1020, x_resol = 1920; //board dimensions
 	private Eater player;
-	public ArrayList<Cookie> cookies;
+	/*public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
-	public Area wallSpace;
 	public ArrayList<Effect> effects;
-	public ArrayList<Enemy> enemies;
+	public ArrayList<Enemy> enemies;*/
+	public Area wallSpace;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
-	public ArrayList<Explorer> present_npcs; //npcs that exist on current level
+	//public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
 	//public LinkedList<Level> levels; //level progression
@@ -74,14 +74,8 @@ public class Board{
 				players.add(new Eater(game,this,i,cycletime));
 		}
 		
-		cookies = new ArrayList<Cookie>();
-		walls = new ArrayList<Wall>();
-		mechanisms = new ArrayList<Mechanism>();
 		wallSpace = new Area();
-		enemies = new ArrayList<Enemy>();
 		npcs = new ArrayList<Explorer>();
-		present_npcs = new ArrayList<Explorer>();
-		effects = new ArrayList<Effect>();
 		menus = new ArrayList<Menu>();
 		
 		try {
@@ -143,16 +137,6 @@ public class Board{
 		}
 		
 		
-		ArrayList<SaveData> cookieData = data.getSaveDataList("cookies");
-		cookies = new ArrayList<Cookie>();
-		if(cookieData!=null) {
-			for(int i=0; i<cookieData.size(); i++) {
-				Cookie loaded = Cookie.loadFromData(game, this, cookieData.get(i));
-				if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
-					cookies.add(loaded);
-				}
-			}
-		}
 		ArrayList<SaveData> playerData = data.getSaveDataList("players");
 		players = new ArrayList<Eater>();
 		if(playerData!=null) {
@@ -168,51 +152,10 @@ public class Board{
 				npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime));
 			}
 		}
-		ArrayList<SaveData> presnpcData = data.getSaveDataList("presentexplorers");
-		present_npcs = new ArrayList<Explorer>();
-		if(presnpcData!=null) {
-			for(int i=0; i<presnpcData.size(); i++) {
-				Explorer ex = Explorer.loadFromData(game,this,presnpcData.get(i),cycletime);
-				ex.spawn();
-				npcs.add(ex);
-				present_npcs.add(ex);
-			}
-		}
-		ArrayList<SaveData> enemyData = data.getSaveDataList("enemies");
-		enemies = new ArrayList<Enemy>();
-		if(enemyData!=null) {
-			for(int i=0; i<enemyData.size(); i++) {
-				enemies.add(Enemy.loadFromData(game,this,enemyData.get(i),cycletime));
-			}
-		}
-		ArrayList<SaveData> effectData = data.getSaveDataList("effects");
-		effects = new ArrayList<Effect>();
-		if(effectData!=null) {
-			for(int i=0; i<effectData.size(); i++) {
-				effects.add(Effect.loadFromData(game,this,effectData.get(i),cycletime));
-			}
-		}
-		ArrayList<SaveData> wallData = data.getSaveDataList("walls");
-		walls = new ArrayList<Wall>();
-		if(wallData!=null) {
-			for(int i=0; i<wallData.size(); i++) {
-				walls.add(new Wall(game, this, wallData.get(i)));
-			}
-		}
+
 		wallSpace = new Area();
 		for(Wall w : walls) {
 			wallSpace.add(w.getArea());
-		}
-		ArrayList<SaveData> mechData = data.getSaveDataList("mechanisms");
-		mechanisms = new ArrayList<Mechanism>();
-		if(mechData!=null) {
-			for(int i=0; i<mechData.size(); i++) {
-				Mechanism mech = Mechanism.loadFromData(game, this, mechData.get(i));
-				if(mech!=null)mechanisms.add(mech);
-			}
-		}
-		for(int i=0; i<currLevel.getPassages().size(); i++) {
-			mechanisms.add(currLevel.getPassages().get(i));
 		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
 		game.draw.setBoard(this);
@@ -244,37 +187,11 @@ public class Board{
 		data.addData("currentlevel",currLevel.getID(),2);
 		
 		int ci = 0;
-		for(int i=0; i<cookies.size(); i++) {
-			Cookie toSave = cookies.get(i);
-			if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
-				data.addData("cookies",cookies.get(i).getSaveData(),ci++);
-			}
-		}
-		
+		for(int i=0; i<npcs.size(); i++) {
+			data.addData("explorers",npcs.get(i).getSaveData(),ci++);
+		}	
 		for(int i=0; i<playerCount; i++) {
 			data.addData("players",players.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<present_npcs.size(); i++) {
-			data.addData("presentexplorers",present_npcs.get(i).getSaveData(),i);
-		}
-		ci = 0;
-		for(int i=0; i<npcs.size(); i++) {
-			if(!present_npcs.contains(npcs.get(i))) {
-				data.addData("explorers",npcs.get(i).getSaveData(),ci++);
-			}
-		}
-		for(int i=0; i<enemies.size(); i++) {
-			data.addData("enemies",enemies.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<effects.size(); i++) {
-			data.addData("effects",effects.get(i).getSaveData(),i);
-		}
-		
-		for(int i=0; i<walls.size(); i++) {
-			data.addData("walls",walls.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<mechanisms.size(); i++) {
-			data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
 		}
 		
 		data.addData("settings",game.ui_set.getSaveData());
@@ -710,6 +627,24 @@ public class Board{
 			if(floors.get(i).getID().equals(id)) {
 				return floors.get(i);
 			}
+		}
+		return null;
+	}
+	/*public ArrayList<Cookie> cookies;
+	public ArrayList<Wall> walls;
+	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
+	public ArrayList<Effect> effects;
+	public ArrayList<Enemy> enemies;*/
+	//public ArrayList<Explorer> present_npcs; //npcs that exist on current level
+	public ArrayList<Cookie> cookies(){return currLevel.cookies;}
+	public ArrayList<Wall> walls(){return currLevel.walls;}
+	public ArrayList<Mechanism> mechanisms(){return currLevel.mechanisms;}
+	public ArrayList<Effect> effects(){return currLevel.effects;}
+	public ArrayList<Enemy> enemies(){return currLevel.enemies;}
+	public ArrayList<Explorer> presentNPCs(){return currLevel.presentnpcs;}
+	public Explorer getNPC(String name) {
+		for(int i=0; i<npcs.size(); i++) {
+			if(npcs.get(i).getName().equals(name))return npcs.get(i);
 		}
 		return null;
 	}
