@@ -149,6 +149,48 @@ public class Level{
 		return data;
 	}
 	
+	//update all moving parts in the level for this cycle
+	public void runUpdate() {
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).runUpdate();
+		}
+		for(int i=0; i<effects.size(); i++) {
+			effects.get(i).runUpdate();
+		}
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).runUpdate();
+		}
+		for(int i=0; i<cookies.size(); i++) {
+			if(i<cookies.size()) {
+				Cookie curr = cookies.get(i);
+				if(curr!=null)
+				curr.runUpdate();
+				if(i<cookies.size()&&cookies.get(i)!=null&&curr!=null&&!cookies.get(i).equals(curr))
+					i--;
+			}
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			if(i<enemies.size()) {
+				Enemy curr = enemies.get(i);
+				curr.runUpdate();
+				if(i<enemies.size()&&!enemies.get(i).equals(curr))
+					i--;
+			}
+		}
+		for(int i=0; i<effects.size(); i++) {
+			effects.get(i).endCycle();
+		}
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).endCycle();
+		}
+		for(int i=0; i<enemies.size(); i++) {
+			if(i<enemies.size()) {
+				Enemy curr = enemies.get(i);
+				curr.endCycle();
+			}
+		}
+	}
+	
 	public String getID() {return lvlid;}
 	public void setID(String id) {lvlid = id;}
 	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
@@ -171,31 +213,31 @@ public class Level{
 	//put walls in floor
 	public void build() {
 		Wall top,bot,lef,rig;
-		board.walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
-		board.walls.add(bot = new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
-		board.walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		walls.add(bot = new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
+		walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
 		//put breaks in walls for passages (works for 1 passage per wall)
 		for(Passage p : passageways) {
 			p.setMode(this);
 			boolean enter = p.isEntrance();
 			switch(p.getDirection()) {
 			case Passage.TOP:
-				board.walls.add(breakWall(top,true,p.getLeft(enter),p.getRight(enter)));
+				walls.add(breakWall(top,true,p.getLeft(enter),p.getRight(enter)));
 				break;
 			case Passage.BOTTOM:
-				board.walls.add(breakWall(bot,true,p.getLeft(enter),p.getRight(enter)));
+				walls.add(breakWall(bot,true,p.getLeft(enter),p.getRight(enter)));
 				break;
 			case Passage.LEFT:
-				board.walls.add(breakWall(lef,false,p.getUp(enter),p.getDown(enter)));
+				walls.add(breakWall(lef,false,p.getUp(enter),p.getDown(enter)));
 				break;
 			case Passage.RIGHT:
-				board.walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
+				walls.add(breakWall(rig,false,p.getUp(enter),p.getDown(enter)));
 				break;
 			}
 			addMechanism(p);
 			if(enter) { //place door
-				board.mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,p.cookieProportion(),true));
+				mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,p.cookieProportion(),true));
 			}
 
 		}
@@ -260,7 +302,7 @@ public class Level{
 	
 	//adds a level mechanism to the board
 	public void addMechanism(Mechanism m) {
-		board.mechanisms.add(m);
+		mechanisms.add(m);
 	}
 	public void placeCookies() {
 		placeCookies(room.cookieGen[0], room.cookieGen[1]);
@@ -290,14 +332,14 @@ public class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					board.cookies.add(new Cookie(game,board,pX,pY,true));
+					cookies.add(new Cookie(game,board,pX,pY,true));
 					cooks++;
 				}
 			}
 		}
 		//remove cookies that player can't access
-		for(int i=0; i<board.cookies.size(); i++) {
-			Cookie currCookie = board.cookies.get(i);
+		for(int i=0; i<cookies.size(); i++) {
+			Cookie currCookie = cookies.get(i);
 			if(lineOfSight(currCookie.getX(),currCookie.getY(),(int)(.5+board.player().getX()),(int)(.5+board.player().getY()),(int)(board.player().getRadius()*room.scale*1.5),board.wallSpace)) {
 				currCookie.setAccess(true);
 				
@@ -307,22 +349,22 @@ public class Level{
 		boolean did = false;
 		do{
 			did = false;
-			for(int i=0; i<board.cookies.size(); i++) {
-				Cookie currCookie = board.cookies.get(i);
+			for(int i=0; i<cookies.size(); i++) {
+				Cookie currCookie = cookies.get(i);
 				if(!currCookie.getAccess()) {
-					for(int j=0; j<board.cookies.size(); j++) {
-						Cookie testCookie = board.cookies.get(j);
+					for(int j=0; j<cookies.size(); j++) {
+						Cookie testCookie = cookies.get(j);
 						if(testCookie.getAccess() && lineOfSight(currCookie.getX(),currCookie.getY(),testCookie.getX(),testCookie.getY(),(int)(board.player().getRadius()*room.scale*1.5),board.wallSpace)) {
 							currCookie.setAccess(true);
 							did=true;
-							j=board.cookies.size();
+							j=cookies.size();
 						}	
 					}
 				}
 			}
 		}while(did);
-		for(int i=0; i<board.cookies.size(); i++) {
-			Cookie currCookie = board.cookies.get(i);
+		for(int i=0; i<cookies.size(); i++) {
+			Cookie currCookie = cookies.get(i);
 			if(!currCookie.getAccess()) {
 				currCookie.kill(null);
 				cooks--;
@@ -332,8 +374,8 @@ public class Level{
 		
 		board.player().setScoreToWin(cooks);
 		//update number of cookies that mechanisms use
-		for(int i=0; i<board.mechanisms.size(); i++) {
-			board.mechanisms.get(i).updateCookieTotal(cooks);
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).updateCookieTotal(cooks);
 		}
 	}
 	//put enemies on floor
@@ -356,8 +398,8 @@ public class Level{
 	
 	//put all Npcs meant to be on this floor in their place
 	public void spawnNpcs() {
-		for(int i=0; i<board.present_npcs.size(); i++) {
-			spawnAtRandom(board.present_npcs.get(i)); //put on random cookie
+		for(int i=0; i<presentnpcs.size(); i++) {
+			spawnAtRandom(presentnpcs.get(i)); //put on random cookie
 		}
 	}
 	
@@ -368,12 +410,12 @@ public class Level{
 	
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
-		Cookie c = board.cookies.remove((int)(Math.random()*board.cookies.size()));
+		Cookie c = cookies.remove((int)(Math.random()*cookies.size()));
 		if(e instanceof Explorer)board.player().setScoreToWin(board.player().getScoreToWin()-1);
 		e.setX(c.getX());
 		e.setY(c.getY());
 		e.orientParts();
-		if(e instanceof Enemy)board.enemies.add((Enemy)e);
+		if(e instanceof Enemy)enemies.add((Enemy)e);
 		e.giveCookie(c);
 	}
 	
@@ -500,7 +542,7 @@ public class Level{
 					}
 					h--;
 					if(h>=min && w>=min) //remove small walls
-						board.walls.add(new Wall(game,board,x,y,w,h,a,i,j));
+						walls.add(new Wall(game,board,x,y,w,h,a,i,j));
 				}
 			}
 		}
@@ -522,7 +564,7 @@ public class Level{
 					}
 					r--;
 					if(r>=min) //remove small walls
-						board.walls.add(new Wall(game,board,j,i,r));
+						walls.add(new Wall(game,board,j,i,r));
 				}
 			}
 		}
@@ -844,7 +886,7 @@ public class Level{
 				return false; //false if any edge is in a node radius
 			}
 		}
-		for(Wall wl : board.walls) {
+		for(Wall wl : walls) {
 			int num = 0;
 			for(int i=0; i<4; i++) {
 				if(collidesLineAndRect(corners[i][0],corners[i][1],corners[i][0],corners[i][1],wl.getX(),wl.getY(),wl.getW(),wl.getH(),wl.getA(),wl.getOX(),wl.getOY()))num++;

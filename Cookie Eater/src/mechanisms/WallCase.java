@@ -62,7 +62,7 @@ public class WallCase extends Wall{
 		//if confirmation is accepted, remove case
 		if(confirmation.hasChosen()) {
 			if(confirmation.getChosenOption().equals("Accept")) {
-				board.mechanisms.remove(this);
+				remove();
 				board.endConfirmation(confirmation);
 			}else if(confirmation.getChosenOption().equals("Deny")) {
 				board.endConfirmation(confirmation);

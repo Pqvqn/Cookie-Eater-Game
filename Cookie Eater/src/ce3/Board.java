@@ -154,7 +154,7 @@ public class Board{
 		}
 
 		wallSpace = new Area();
-		for(Wall w : walls) {
+		for(Wall w : walls()) {
 			wallSpace.add(w.getArea());
 		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
@@ -268,50 +268,15 @@ public class Board{
 		updateUI();
 		if(isPaused())//if board is paused, do not update
 			return;
-		for(int i=0; i<mechanisms.size(); i++) {
-			mechanisms.get(i).runUpdate();
-		}
-		for(int i=0; i<effects.size(); i++) {
-			effects.get(i).runUpdate();
-		}
+		
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}
-		for(int i=0; i<present_npcs.size(); i++) {
-			present_npcs.get(i).runUpdate();
-		}
-		for(int i=0; i<cookies.size(); i++) {
-			if(i<cookies.size()) {
-				Cookie curr = cookies.get(i);
-				if(curr!=null)
-				curr.runUpdate();
-				if(i<cookies.size()&&cookies.get(i)!=null&&curr!=null&&!cookies.get(i).equals(curr))
-					i--;
-			}
-		}
-		for(int i=0; i<enemies.size(); i++) {
-			if(i<enemies.size()) {
-				Enemy curr = enemies.get(i);
-				curr.runUpdate();
-				if(i<enemies.size()&&!enemies.get(i).equals(curr))
-					i--;
-			}
-		}
-		for(int i=0; i<effects.size(); i++) {
-			effects.get(i).endCycle();
-		}
+		currLevel.runUpdate();
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).endCycle();
 		}
-		for(int i=0; i<present_npcs.size(); i++) {
-			present_npcs.get(i).endCycle();
-		}
-		for(int i=0; i<enemies.size(); i++) {
-			if(i<enemies.size()) {
-				Enemy curr = enemies.get(i);
-				curr.endCycle();
-			}
-		}
+
 		game.draw.runUpdate();
 	}
 	//returns eater to be acted on by other classes
@@ -363,7 +328,7 @@ public class Board{
 	//go back to first level
 	public void resetGame() {
 		if(currLevel!=null)currLevel.removeNpcs();
-		for(int i=0; i<cookies.size(); i++) {
+		/*for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
 		}
@@ -374,7 +339,7 @@ public class Board{
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
-		effects = new ArrayList<Effect>();
+		effects = new ArrayList<Effect>();*/
 
 		buildBoard();
 		
@@ -384,18 +349,18 @@ public class Board{
 		for(int i=0; i<npcs.size(); i++)
 			npcs.get(i).runEnds();
 		
-		cookies = new ArrayList<Cookie>();
+		//cookies = new ArrayList<Cookie>();
 		if(mode==LEVELS) {
 		makeCookies();}
 		spawnEnemies();
-		for(int i=0; i<npcs.size(); i++) {
+		/*for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}else if(present_npcs.contains(npcs.get(i))) {
 				present_npcs.remove(npcs.get(i));
 			}
-		}
+		}*/
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
@@ -403,11 +368,11 @@ public class Board{
 			
 	//advances level
 	public void nextLevel() {
-		for(int i=0; i<present_npcs.size(); i++) {
+		/*for(int i=0; i<present_npcs.size(); i++) {
 			present_npcs.get(i).levelComplete();
-		}
+		}*/
 		currLevel.removeNpcs();
-		for(int i=0; i<cookies.size(); i++) {
+		/*for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
 		}
@@ -418,19 +383,19 @@ public class Board{
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
-		effects = new ArrayList<Effect>();
+		effects = new ArrayList<Effect>();*/
 		currLevel = nextLevel;
 		buildBoard();
-		cookies = new ArrayList<Cookie>();
+		//cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
-		present_npcs = new ArrayList<Explorer>();
+		/*present_npcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
 				present_npcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
-		}
+		}*/
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
@@ -498,17 +463,17 @@ public class Board{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).setCalibration(cycle); //give player more accurate cycle time
 		}
-		for(int i=0; i<enemies.size(); i++) {
-			enemies.get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		for(int i=0; i<enemies().size(); i++) {
+			enemies().get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
-		for(int i=0; i<effects.size(); i++) {
-			effects.get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		for(int i=0; i<effects().size(); i++) {
+			effects().get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
-		for(int i=0; i<present_npcs.size(); i++) {
-			present_npcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
+		for(int i=0; i<presentNPCs().size(); i++) {
+			presentNPCs().get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
-		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
+		for(int i=0; i<cookies().size(); i++) {
+			cookies().get(i).setCalibration(cycle); //give cookies more accurate cycle time
 		}
 	}
 	
@@ -517,7 +482,7 @@ public class Board{
 		currLevel.build();
 		game.draw.updateBG();
 		wallSpace = new Area();
-		for(Wall w : walls) {
+		for(Wall w : walls()) {
 			wallSpace.add(w.getArea());
 		}
 	}
@@ -567,9 +532,9 @@ public class Board{
 		ArrayList<Entity> results = new ArrayList<Entity>();
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		for(Entity e : players)entities.add(e);
-		for(Entity e : enemies)entities.add(e);
-		for(Entity e : present_npcs)entities.add(e);
-		for(Entity e : effects)entities.add(e);
+		for(Entity e : enemies())entities.add(e);
+		for(Entity e : presentNPCs())entities.add(e);
+		for(Entity e : effects())entities.add(e);
 		for(int i=0; i<entities.size(); i++) {
 			Entity e = entities.get(i);
 			if(e.connectionCode().equals(code)) {
@@ -582,11 +547,11 @@ public class Board{
 	public Cookie nearestCookie(double x, double y) {
 		double bestDist = Integer.MAX_VALUE;
 		Cookie save = null;
-		for(int i=0; i<cookies.size(); i++) {
-			if(cookies.get(i)!=null){
-				double thisDist = Level.lineLength(cookies.get(i).getX(),cookies.get(i).getY(),x,y);
+		for(int i=0; i<cookies().size(); i++) {
+			if(cookies().get(i)!=null){
+				double thisDist = Level.lineLength(cookies().get(i).getX(),cookies().get(i).getY(),x,y);
 				if(thisDist<bestDist&&thisDist!=0) {
-					save = cookies.get(i);
+					save = cookies().get(i);
 					bestDist = thisDist;
 				}
 			}

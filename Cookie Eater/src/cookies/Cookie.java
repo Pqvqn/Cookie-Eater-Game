@@ -163,7 +163,7 @@ public class Cookie {
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
 		}
-		board.cookies.remove(this);
+		board.cookies().remove(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}

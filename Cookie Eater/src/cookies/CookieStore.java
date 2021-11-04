@@ -23,7 +23,7 @@ public abstract class CookieStore extends Cookie{
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || board.cookies!=null && board.cookies.contains(this))
+		if(board==null || board.cookies()!=null && board.cookies().contains(this))
 			game.draw.addUI(info);
 	}
 	public CookieStore(Game frame, Board gameboard, SaveData sd) {
@@ -34,7 +34,7 @@ public abstract class CookieStore extends Cookie{
 		price = sd.getDouble("price",0);
 		region = sd.getInteger("region",0);
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || board.cookies!=null && board.cookies.contains(this))
+		if(board==null || board.cookies()!=null && board.cookies().contains(this))
 			game.draw.addUI(info);
 	}
 	public SaveData getSaveData() {
@@ -62,8 +62,8 @@ public abstract class CookieStore extends Cookie{
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
 		game.draw.removeUI(info);
-		if(board.cookies.contains(this))
-			board.cookies.remove(board.cookies.indexOf(this));
+		if(board.cookies().contains(this))
+			board.cookies().remove(board.cookies().indexOf(this));
 	}
 	//purchase cookie, return if purchase is successful or not
 	public boolean purchase(Entity buyer) {
@@ -86,7 +86,7 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		if(board.cookies.contains(this)) {
+		if(board.cookies().contains(this)) {
 			Eater player = board.player();
 			if(!game.draw.getUIList().contains(info))game.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,

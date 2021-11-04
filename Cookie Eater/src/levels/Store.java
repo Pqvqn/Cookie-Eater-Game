@@ -25,51 +25,51 @@ public class Store extends Level{
 	
 	public void build() {
 		//Wall rig,lef;
-		board.walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
-		board.walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol)); //lef
-		board.walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
-		board.walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol)); //rig
+		walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol)); //lef
+		walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
+		walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol)); //rig
 		
-		board.walls.add(new Wall(game,board,0,0,625,150));
-		board.walls.add(new Wall(game,board,0,board.y_resol-150,625,150));
-		board.walls.add(new Wall(game,board,board.x_resol-625,0,625,150));
-		board.walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-150,625,150));
+		walls.add(new Wall(game,board,0,0,625,150));
+		walls.add(new Wall(game,board,0,board.y_resol-150,625,150));
+		walls.add(new Wall(game,board,board.x_resol-625,0,625,150));
+		walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-150,625,150));
 		
-		board.walls.add(new Wall(game,board,625-75,0,75,350));
-		board.walls.add(new Wall(game,board,625-75,board.y_resol-350,75,350));
-		board.walls.add(new Wall(game,board,board.x_resol-625,0,75,350));
-		board.walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-350,75,350));
+		walls.add(new Wall(game,board,625-75,0,75,350));
+		walls.add(new Wall(game,board,625-75,board.y_resol-350,75,350));
+		walls.add(new Wall(game,board,board.x_resol-625,0,75,350));
+		walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-350,75,350));
 		
-		board.walls.add(new Wall(game,board,0,0,230,250));
-		board.walls.add(new Wall(game,board,board.x_resol-230,0,230,250));
-		board.walls.add(new Wall(game,board,0,board.y_resol-250,230,250));
-		board.walls.add(new Wall(game,board,board.x_resol-230,board.y_resol-250,230,250));
+		walls.add(new Wall(game,board,0,0,230,250));
+		walls.add(new Wall(game,board,board.x_resol-230,0,230,250));
+		walls.add(new Wall(game,board,0,board.y_resol-250,230,250));
+		walls.add(new Wall(game,board,board.x_resol-230,board.y_resol-250,230,250));
 		
-		board.walls.add(new Wall(game,board,0,0,130,350));
-		board.walls.add(new Wall(game,board,board.x_resol-130,0,130,350));
-		board.walls.add(new Wall(game,board,0,board.y_resol-350,130,350));
-		board.walls.add(new Wall(game,board,board.x_resol-130,board.y_resol-350,130,350));
+		walls.add(new Wall(game,board,0,0,130,350));
+		walls.add(new Wall(game,board,board.x_resol-130,0,130,350));
+		walls.add(new Wall(game,board,0,board.y_resol-350,130,350));
+		walls.add(new Wall(game,board,board.x_resol-130,board.y_resol-350,130,350));
 		
 		//add cases to every item
 		int caseWidth = 80;
 		for(int i=0; i<room.vendorSpaces.length; i++) {
 			for(int j=1; j<room.vendorSpaces[i].length; j++) {
-				//board.walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));
-				board.mechanisms.add(new WallCase(game,board,room.vendorSpaces[i][j][0],room.vendorSpaces[i][j][1],caseWidth/2));
+				//walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));
+				mechanisms.add(new WallCase(game,board,room.vendorSpaces[i][j][0],room.vendorSpaces[i][j][1],caseWidth/2));
 			}
 		}
 		
-		//board.walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
-		//board.walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol/2+100));
+		//walls.add(breakWall(rig,false,board.y_resol/2-100,board.y_resol/2+100));
+		//walls.add(breakWall(lef,false,board.y_resol/2-100,board.y_resol/2+100));
 
 		for(int i=0; i<passageways.size(); i++) {
 			Passage p = passageways.get(i);
 			p.setMode(this);
 			addMechanism(p);
-			if(p.isEntrance())board.mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,2,false));
+			if(p.isEntrance())mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,2,false));
 		}
 		
-		//board.mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
+		//mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
 		
 	}
 	
@@ -83,7 +83,7 @@ public class Store extends Level{
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
 		Item b = Item.generateItem(game,board,i);
-		board.cookies.add(new CookieItem(game, board, x, y, b, p));
+		cookies.add(new CookieItem(game, board, x, y, b, p));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);
@@ -95,15 +95,15 @@ public class Store extends Level{
 		Explorer mechanic = null;
 		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
 			Explorer testnpc = board.npcs.get(i);
-			if(testnpc.getState() == Explorer.MECHANIC && !board.present_npcs.contains(testnpc)) {
+			if(testnpc.getState() == Explorer.MECHANIC && !presentnpcs.contains(testnpc)) {
 				mechanic = testnpc;
-				board.present_npcs.add(mechanic);
+				presentnpcs.add(mechanic);
 				mechanic.spawn();
 			}
 		}
 		
-		for(int i=0; i<board.present_npcs.size(); i++) {
-			Explorer e = board.present_npcs.get(i);
+		for(int i=0; i<presentnpcs.size(); i++) {
+			Explorer e = presentnpcs.get(i);
 			if(e==null) {
 				
 			}else if(e.getState()==Explorer.MECHANIC && mechanics<room.mechanicSpaces.length) { //put mechanic in right place
@@ -137,8 +137,8 @@ public class Store extends Level{
 		return count >= max;
 	}
 	public void removeNpcs() {
-		for(int i=0; i<board.present_npcs.size(); i++) {
-			board.present_npcs.get(i).packUp(); //all npcs pick up cookies for sale
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).packUp(); //all npcs pick up cookies for sale
 		}
 	}
 	

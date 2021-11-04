@@ -94,6 +94,6 @@ public abstract class Mechanism {
 	}
 	
 	public void remove() {
-		board.mechanisms.remove(this);
+		board.mechanisms().remove(this);
 	}
 }
