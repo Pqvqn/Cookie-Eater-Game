@@ -78,14 +78,14 @@ public class EnemySpawner extends Enemy{
 		for(int i=0; i<spawns.size(); i++) { //find amount of collected cookies by spawns
 			Enemy e = spawns.get(i);
 			currCookies+=e.getStash().size();
-			if(!board.enemies.contains(e))spawns.remove(e);
+			if(!board.enemies().contains(e))spawns.remove(e);
 		}
 		if(currCookies-prevCookies>=30||spawns.size()==0) { //if enough collected, or no spawns, attempt spawn
 			double angle = Math.random()*2*Math.PI; //choose random angle, turn into position
 			Enemy newE = new EnemyBlob(game,board,game.getCycle(),x+board.currLevel.getScale()*150*Math.cos(angle),y+board.currLevel.getScale()*150*Math.sin(angle));
 			if(!newE.collidesWithAnything()) { //if won't hit something, add spawn to lists and reset cookie collection count
 				spawns.add(newE);
-				board.enemies.add(newE);
+				board.enemies().add(newE);
 				prevCookies = currCookies;
 			}
 		}

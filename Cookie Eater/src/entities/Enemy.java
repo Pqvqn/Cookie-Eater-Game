@@ -104,7 +104,7 @@ public abstract class Enemy extends Entity{
 		orientParts();
 	}
 	public void doMovement() {
-		if(explorerTarget==null || (!board.present_npcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
+		if(explorerTarget==null || (!board.presentNPCs().contains(explorerTarget) && !board.players.contains(explorerTarget)))
 			explorerTarget = targetExplorer(); //find target if none targeted or target died
 		super.doMovement();
 	}
@@ -142,10 +142,10 @@ public abstract class Enemy extends Entity{
 			if(!hit) {
 				Cookie remove = stash.remove(0);
 				remove.setPos((int)(.5+x+addx),(int)(.5+y+addy));
-				board.cookies.add(remove);
+				board.cookies().add(remove);
 			}
 		}
-		board.enemies.remove(this);
+		board.enemies().remove(this);
 		ded=true;
 		wipeStash();
 	}
@@ -166,8 +166,8 @@ public abstract class Enemy extends Entity{
 	
 	//picks an npc or player from the board to target
 	public Entity targetExplorer() {
-		int e = (int)(Math.random()*(board.players.size()+board.present_npcs.size()));
-		return e>=board.players.size() ? board.present_npcs.get(e-board.players.size()) : board.players.get(e);
+		int e = (int)(Math.random()*(board.players.size()+board.presentNPCs().size()));
+		return e>=board.players.size() ? board.presentNPCs().get(e-board.players.size()) : board.players.get(e);
 	}
 	
 	//puts cookies in stash on spawn

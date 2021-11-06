@@ -414,20 +414,16 @@ public abstract class Entity {
 	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
 			
-			for(int i=0; i<board.cookies.size(); i++) { //for every cookie, test if any parts impact
-				if(i<board.cookies.size()) {
-					Cookie c = board.cookies.get(i);
+			for(int i=0; i<board.cookies().size(); i++) { //for every cookie, test if any parts impact
+				if(i<board.cookies().size()) {
+					Cookie c = board.cookies().get(i);
 					if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
 						hitCookie(c);
 					}
 				}
 			}
 			
-			ArrayList<Entity> entities = new ArrayList<Entity>();
-			for(Entity e : board.players)entities.add(e);
-			for(Entity e : board.enemies)entities.add(e);
-			for(Entity e : board.present_npcs)entities.add(e);
-			for(Entity e : board.effects)entities.add(e);
+			ArrayList<Entity> entities = board.allEntities();
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				for(Summon s : e.getSummons())entities.add(s);
@@ -454,8 +450,8 @@ public abstract class Entity {
 			}
 			//test collision with level mechamisms
 			if(!ghost) {
-				for(int i=0; i<board.mechanisms.size(); i++) {
-					Mechanism m = board.mechanisms.get(i);
+				for(int i=0; i<board.mechanisms().size(); i++) {
+					Mechanism m = board.mechanisms().get(i);
 					Area ma = m.getArea();
 					if(collidesWithArea(false,ma)) {
 						double[] point = Level.areasHitPoint(ma,getArea(false));
@@ -530,11 +526,7 @@ public abstract class Entity {
 	//collides with anything other than cookies
 	public boolean collidesWithAnything() {
 		for(int j=0; j<parts.size(); j++) {
-			ArrayList<Entity> entities = new ArrayList<Entity>();
-			for(Entity e : board.players)entities.add(e);
-			for(Entity e : board.enemies)entities.add(e);
-			for(Entity e : board.present_npcs)entities.add(e);
-			for(Entity e : board.effects)entities.add(e);
+			ArrayList<Entity> entities = board.allEntities();
 			for(int i=0; i<entities.size(); i++) { //for every entity and its summons, test if any parts impact
 				Entity e = entities.get(i);
 				if(!e.equals(this)) {
@@ -553,7 +545,7 @@ public abstract class Entity {
 				}
 			}
 			if(collidesWithArea(false,board.wallSpace))return true;
-			for(Mechanism m : board.mechanisms) {
+			for(Mechanism m : board.mechanisms()) {
 				if(collidesWithArea(false,m.getArea()))return true;
 			}
 			/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact

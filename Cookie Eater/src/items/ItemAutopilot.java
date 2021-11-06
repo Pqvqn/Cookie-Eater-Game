@@ -43,12 +43,12 @@ public class ItemAutopilot extends Item{
 			}
 		}else {
 			adjustSpeeds();
-			if(!board.cookies.contains(nearest)) {
+			if(!board.cookies().contains(nearest)) {
 				nearest = null;
 				velCheck = true;
 				user.setAverageVelOverride(false);
 			}
-			if(!board.cookies.isEmpty())
+			if(!board.cookies().isEmpty())
 				//user.averageVels(initx,inity,true);
 				user.setXVel(initx,true);
 				user.setYVel(inity,true);

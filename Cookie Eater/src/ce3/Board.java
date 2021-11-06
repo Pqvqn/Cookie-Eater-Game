@@ -527,14 +527,19 @@ public class Board{
 			players.get(i).kill();
 		}
 	}
-	//return a list of all entities that are connected to the entity with the given code
-	public ArrayList<Entity> findEntities(String code){
-		ArrayList<Entity> results = new ArrayList<Entity>();
+	//return a list of all entities of various kinds
+	public ArrayList<Entity> allEntities(){
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		for(Entity e : players)entities.add(e);
 		for(Entity e : enemies())entities.add(e);
 		for(Entity e : presentNPCs())entities.add(e);
 		for(Entity e : effects())entities.add(e);
+		return entities;
+	}
+	//return a list of all entities that are connected to the entity with the given code
+	public ArrayList<Entity> findEntities(String code){
+		ArrayList<Entity> results = new ArrayList<Entity>();
+		ArrayList<Entity> entities = allEntities();
 		for(int i=0; i<entities.size(); i++) {
 			Entity e = entities.get(i);
 			if(e.connectionCode().equals(code)) {
@@ -595,18 +600,13 @@ public class Board{
 		}
 		return null;
 	}
-	/*public ArrayList<Cookie> cookies;
-	public ArrayList<Wall> walls;
-	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
-	public ArrayList<Effect> effects;
-	public ArrayList<Enemy> enemies;*/
-	//public ArrayList<Explorer> present_npcs; //npcs that exist on current level
-	public ArrayList<Cookie> cookies(){return currLevel.cookies;}
-	public ArrayList<Wall> walls(){return currLevel.walls;}
-	public ArrayList<Mechanism> mechanisms(){return currLevel.mechanisms;}
-	public ArrayList<Effect> effects(){return currLevel.effects;}
-	public ArrayList<Enemy> enemies(){return currLevel.enemies;}
-	public ArrayList<Explorer> presentNPCs(){return currLevel.presentnpcs;}
+
+	public ArrayList<Cookie> cookies(){return currLevel==null?null:currLevel.cookies;}
+	public ArrayList<Wall> walls(){return currLevel==null?null:currLevel.walls;}
+	public ArrayList<Mechanism> mechanisms(){return currLevel==null?null:currLevel.mechanisms;}
+	public ArrayList<Effect> effects(){return currLevel==null?null:currLevel.effects;}
+	public ArrayList<Enemy> enemies(){return currLevel==null?null:currLevel.enemies;}
+	public ArrayList<Explorer> presentNPCs(){return currLevel==null?null:currLevel.presentnpcs;}
 	public Explorer getNPC(String name) {
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getName().equals(name))return npcs.get(i);

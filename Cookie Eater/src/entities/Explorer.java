@@ -126,7 +126,7 @@ public class Explorer extends Entity{
 			for(int i=0; i<display_data.size(); i++) {
 				CookieStore disp;
 				on_display.add(disp = CookieStore.loadFromData(game, board, display_data.get(i)));
-				board.cookies.add(disp);
+				board.cookies().add(disp);
 				disp.setVendor(this);
 			}
 		}
@@ -226,8 +226,8 @@ public class Explorer extends Entity{
 			lock = true;
 		}else if(state == STAND){
 			//traverse to cookie on board to purchase it
-			if(target==null || !board.cookies.contains(target)) {
-				target = choosePurchase(board.cookies);
+			if(target==null || !board.cookies().contains(target)) {
+				target = choosePurchase(board.cookies());
 			}
 			if(target!=null) {
 				traverseShop(target);
@@ -281,7 +281,7 @@ public class Explorer extends Entity{
 	//dies on floor
 	public void kill() {
 		ded = true;
-		board.present_npcs.remove(this);
+		board.presentNPCs().remove(this);
 		if(special) {
 			ArrayList<CookieItem> powerups = getPowerups();
 			for(int i=0; i<powerups.size(); i++) //stop special
@@ -430,7 +430,7 @@ public class Explorer extends Entity{
 			CookieStore c = to_sell.remove(0);
 			c.setPos(shop_spots[i][0],shop_spots[i][1]);
 			c.setVendor(this);
-			board.cookies.add(c);
+			board.cookies().add(c);
 			on_display.add(c);
 		}
 	}
@@ -445,7 +445,7 @@ public class Explorer extends Entity{
 	//removes items from display and re-stashes them
 	public void packUp() {
 		for(int i=on_display.size()-1; i>=0; i--) {
-			if(board.cookies.contains(on_display.get(i))){
+			if(board.cookies().contains(on_display.get(i))){
 				on_display.get(i).kill(this);
 				to_sell.add(on_display.remove(i));
 			}else {

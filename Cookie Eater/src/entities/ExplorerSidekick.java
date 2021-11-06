@@ -149,8 +149,8 @@ public class ExplorerSidekick extends Explorer{
 					yeehaw = true;
 				}
 			//}
-			for(int j=0; j<board.cookies.size(); j++) { //if tester hits a cookie, prioritize this direction
-				Cookie c = board.cookies.get(j);
+			for(int j=0; j<board.cookies().size(); j++) { //if tester hits a cookie, prioritize this direction
+				Cookie c = board.cookies().get(j);
 				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
 					dos[i] += 1;
 				}

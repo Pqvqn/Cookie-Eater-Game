@@ -61,7 +61,7 @@ public abstract class Effect extends Entity{
 	//remove from board
 	public void kill() {
 		ded = true;
-		board.effects.remove(this);
+		board.effects().remove(this);
 	}
 	//whether this entity collides
 	public boolean doesCollision() {return collides;}
