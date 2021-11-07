@@ -53,9 +53,9 @@ public class WallDoor extends Wall{
 		return data;
 	}
 	
-	public void remove() {
+	public void clean() {
 		game.draw.removeUI(pointDisplay);
-		super.remove();
+		super.clean();
 	}
 	
 	public void runUpdate() {

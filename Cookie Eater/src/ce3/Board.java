@@ -327,7 +327,7 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		if(currLevel!=null)currLevel.removeNpcs();
+		if(currLevel!=null)currLevel.removeNPCs();
 		/*for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
 			i--;
@@ -368,34 +368,17 @@ public class Board{
 			
 	//advances level
 	public void nextLevel() {
-		/*for(int i=0; i<present_npcs.size(); i++) {
-			present_npcs.get(i).levelComplete();
-		}*/
-		currLevel.removeNpcs();
-		/*for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill(null);
-			i--;
-		}
-		for(int i=0; i<mechanisms.size(); i++) {
-			mechanisms.get(i).remove();
-			i--;
-		}
-		enemies = new ArrayList<Enemy>();
-		walls = new ArrayList<Wall>();
-		mechanisms = new ArrayList<Mechanism>();
-		effects = new ArrayList<Effect>();*/
+		currLevel.clean();
 		currLevel = nextLevel;
 		buildBoard();
-		//cookies = new ArrayList<Cookie>();
 		makeCookies();
 		spawnEnemies();
-		/*present_npcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
-				present_npcs.add(npcs.get(i));
+				presentNPCs().add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
-		}*/
+		}
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
@@ -499,7 +482,7 @@ public class Board{
 	
 	//add enemies to board
 	public void spawnNpcs() {
-		currLevel.spawnNpcs();
+		currLevel.spawnNPCs();
 	}
 	
 	//creates all the non-player characters and puts them in their starting levels

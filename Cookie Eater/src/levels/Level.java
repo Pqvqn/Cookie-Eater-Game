@@ -397,15 +397,26 @@ public class Level{
 	}
 	
 	//put all Npcs meant to be on this floor in their place
-	public void spawnNpcs() {
+	public void spawnNPCs() {
 		for(int i=0; i<presentnpcs.size(); i++) {
 			spawnAtRandom(presentnpcs.get(i)); //put on random cookie
 		}
 	}
 	
 	//remove all npcs from the board
-	public void removeNpcs() {
+	public void removeNPCs() {
 		
+	}
+	
+	public void clean() {
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).levelComplete();
+		}
+		removeNPCs();
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).clean();
+			i--;
+		}
 	}
 	
 	//spawns chosen enemy at random cookie

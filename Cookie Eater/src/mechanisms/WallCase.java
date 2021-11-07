@@ -46,8 +46,8 @@ public class WallCase extends Wall{
 		board.menus.remove(confirmation);
 	}
 	
-	public void remove() {
-		super.remove();
+	public void clean() {
+		super.clean();
 		board.endConfirmation(confirmation);
 	}
 	

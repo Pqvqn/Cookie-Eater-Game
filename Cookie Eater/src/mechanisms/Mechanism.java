@@ -93,7 +93,10 @@ public abstract class Mechanism {
 		
 	}
 	
+	//remove traces (ui) of the mechanism from board
+	public void clean() {}
 	public void remove() {
+		clean();
 		board.mechanisms().remove(this);
 	}
 }
