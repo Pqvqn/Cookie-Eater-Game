@@ -408,6 +408,7 @@ public class Level{
 		
 	}
 	
+	//remove traces from board to switch to other level
 	public void clean() {
 		for(int i=0; i<presentnpcs.size(); i++) {
 			presentnpcs.get(i).levelComplete();
@@ -415,8 +416,24 @@ public class Level{
 		removeNPCs();
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).clean();
+		}
+	}
+	
+	//delete all state data
+	public void remove() {
+		removeNPCs();
+		for(int i=0; i<cookies.size(); i++) {
+			cookies.get(i).kill(null);
 			i--;
 		}
+		for(int i=0; i<mechanisms.size(); i++) {
+			mechanisms.get(i).remove();
+			i--;
+		}
+		enemies = new ArrayList<Enemy>();
+		walls = new ArrayList<Wall>();
+		mechanisms = new ArrayList<Mechanism>();
+		effects = new ArrayList<Effect>();
 	}
 	
 	//spawns chosen enemy at random cookie

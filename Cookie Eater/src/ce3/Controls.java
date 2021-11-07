@@ -141,7 +141,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println(board.currLevel.getFloor());
+				System.out.println(board.getNPC("Mechanic").getResidence().getName());
 				break;
 		}
 		

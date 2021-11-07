@@ -328,19 +328,6 @@ public class Board{
 	//go back to first level
 	public void resetGame() {
 		if(currLevel!=null)currLevel.removeNPCs();
-		/*for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill(null);
-			i--;
-		}
-		for(int i=0; i<mechanisms.size(); i++) {
-			mechanisms.get(i).remove();
-			i--;
-		}
-		enemies = new ArrayList<Enemy>();
-		walls = new ArrayList<Wall>();
-		mechanisms = new ArrayList<Mechanism>();
-		effects = new ArrayList<Effect>();*/
-
 		buildBoard();
 		
 		for(int i=0; i<players.size(); i++)
@@ -349,18 +336,17 @@ public class Board{
 		for(int i=0; i<npcs.size(); i++)
 			npcs.get(i).runEnds();
 		
-		//cookies = new ArrayList<Cookie>();
 		if(mode==LEVELS) {
 		makeCookies();}
 		spawnEnemies();
-		/*for(int i=0; i<npcs.size(); i++) {
+		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
-				present_npcs.add(npcs.get(i));
+				presentNPCs().add(npcs.get(i));
 				npcs.get(i).spawn();
-			}else if(present_npcs.contains(npcs.get(i))) {
-				present_npcs.remove(npcs.get(i));
+			}else if(presentNPCs().contains(npcs.get(i))) {
+				presentNPCs().remove(npcs.get(i));
 			}
-		}*/
+		}
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
@@ -387,7 +373,17 @@ public class Board{
 	
 	//moves to previously loaded level
 	public void backLevel() {
-		
+		currLevel.clean();
+		currLevel = nextLevel;
+		for(int i=0; i<npcs.size(); i++) {
+			if(npcs.get(i).getResidence().equals(currLevel)) {
+				presentNPCs().add(npcs.get(i));
+				npcs.get(i).spawn();
+			}
+		}
+		setDialogue(null,null);
+		spawnNpcs();
+		createSave();
 	}
 	
 	public void setNext(Level l) {
