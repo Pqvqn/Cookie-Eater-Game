@@ -70,7 +70,7 @@ public class Store extends Level{
 		}
 		
 		//mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));
-		
+		loaded = true;
 	}
 	
 	//creates passages to next levels
@@ -89,7 +89,7 @@ public class Store extends Level{
 		I.add(i);
 		P.add(p);
 	}
-	public void spawnNpcs() {
+	public void spawnNPCs() {
 		int passerbys=0,mechanics=0,vendors=0;
 		//retrieve the mechanic
 		Explorer mechanic = null;
@@ -136,7 +136,7 @@ public class Store extends Level{
 		int max = mechanic?1:(vendor?room.vendorSpaces.length:(passerby?room.passerbySpaces.length:0));
 		return count >= max;
 	}
-	public void removeNpcs() {
+	public void removeNPCs() {
 		for(int i=0; i<presentnpcs.size(); i++) {
 			presentnpcs.get(i).packUp(); //all npcs pick up cookies for sale
 		}

@@ -141,7 +141,10 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println(board.getNPC("Mechanic").getResidence().getName());
+				int n = (int)(Math.random()*100);
+				for(mechanisms.Mechanism m:board.mechanisms()) {
+					System.out.println(n+" "+m);
+				}
 				break;
 		}
 		

@@ -320,26 +320,9 @@ public class Explorer extends Entity{
 	}
 	//chooses which level to go to on game start
 	public void chooseResidence() {
-		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(1).getID());
+		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(0).getID());
 	}
-	/*//given a level's name, finds the "num+1"th level of that type from the board's level progression - uses backup as index if this doesn't exist
-	public Level findFloor(String type, boolean store, int num, int backup) {
-		int count = 0;
-		Level point = board.floors.getLast();
-		while(point.getPassages().size()>0) {
-			if(point.getName().equals(type) && store==point instanceof Store) {
-				count++;
-				if(count>num)return point;
-			}
-			point = point.getPassages().get(0).getExit();
-		}
-		if(board.floors.size()>backup) {
-			return board.floors.get(backup);
-		}else {
-			return null;
-		}
-	}*/
-	//
+
 	public Level chooseRoom(HashMap<String,Integer> priorities, int storebonus, boolean storemode, int steps, Level start) {
 		Level point = start;
 		boolean tryagain = false;
