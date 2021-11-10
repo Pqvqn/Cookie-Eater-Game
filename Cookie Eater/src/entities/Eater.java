@@ -251,7 +251,7 @@ public class Eater extends Entity{
 			ghost = false;
 			offstage = 60;
 			averageStats();
-			reset(null);
+			reset(null,true);
 		}
 	}
 	
@@ -259,9 +259,9 @@ public class Eater extends Entity{
 	public void backtrack(Passage p) {
 		state = WIN;
 		game.draw.runUpdate();
-		dO = false;
+		//dO = false;
 		if(board.mode == Board.LEVELS) {
-			reset(p);
+			reset(p,false);
 			board.backLevel();
 		}
 	}
@@ -275,7 +275,7 @@ public class Eater extends Entity{
 			Thread.sleep(200);
 		}catch(InterruptedException e){};
 		if(board.mode == Board.LEVELS) {
-			reset(p);
+			reset(p,true);
 			board.nextLevel();
 		}else if(board.mode == Board.PVP) {
 			try { //movement freeze
@@ -288,7 +288,7 @@ public class Eater extends Entity{
 		}
 	}
 	//resets player to floor-beginning state
-	public void reset(Passage p) {
+	public void reset(Passage p, boolean resetVel) {
 		state = LIVE;
 		special = false;
 		currSpecial = -1;
@@ -302,8 +302,12 @@ public class Eater extends Entity{
 		for(int i=0; i<special_frames.size(); i++)special_frames.set(i,0.0);
 		for(int i=0; i<special_activated.size(); i++)special_activated.set(i,false);
 		colorize();
-		x_velocity=0;
-		y_velocity=0;
+		if(resetVel) {
+			x_velocity=0;
+			y_velocity=0;
+			direction = NONE;
+		}
+
 		if(board.mode == Board.LEVELS) {
 			if(p!=null) {
 				int[] coords = p.oppositeCoordinates();
@@ -324,7 +328,7 @@ public class Eater extends Entity{
 		radius = DEFAULT_RADIUS;
 		dO = true;
 		lock = false;
-		direction = NONE;
+
 		score = 0;
 		if(parts.isEmpty())buildBody();
 		orientParts();
@@ -342,7 +346,7 @@ public class Eater extends Entity{
 		ghost = false;
 		offstage = 60;
 		averageStats();
-		reset(null);
+		reset(null,true);
 	}
 	
 	//gives the player a random set of movement stats and colors accordingly

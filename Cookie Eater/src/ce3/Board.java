@@ -331,7 +331,7 @@ public class Board{
 		buildBoard();
 		
 		for(int i=0; i<players.size(); i++)
-			players.get(i).reset(null);
+			players.get(i).reset(null,true);
 		
 		for(int i=0; i<npcs.size(); i++)
 			npcs.get(i).runEnds();
@@ -375,12 +375,19 @@ public class Board{
 	public void backLevel() {
 		currLevel.clean();
 		currLevel = nextLevel;
+		currLevel.reload();
+		
+		wallSpace = new Area();
+		for(Wall w : walls()) {
+			wallSpace.add(w.getArea());
+		}
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
 				presentNPCs().add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
 		}
+
 		setDialogue(null,null);
 		spawnNpcs();
 		createSave();

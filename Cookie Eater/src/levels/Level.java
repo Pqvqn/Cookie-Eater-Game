@@ -403,6 +403,13 @@ public class Level{
 		}
 	}
 	
+	//reloads stored level data
+	public void reload() {
+		for(Passage p : passageways) {
+			p.setMode(this);
+		}
+	}
+	
 	//remove all npcs from the board
 	public void removeNPCs() {
 		
