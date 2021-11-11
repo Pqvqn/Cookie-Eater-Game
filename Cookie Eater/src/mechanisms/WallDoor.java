@@ -59,10 +59,12 @@ public class WallDoor extends Wall{
 	}
 	
 	public void runUpdate() {
-		if(!game.draw.getUIList().contains(pointDisplay))game.draw.addUI(pointDisplay);
-		pointDisplay.setText(thresh-board.totalScore()+""); //update display
+		if(!game.draw.getUIList().contains(pointDisplay) && board.mechanisms().contains(this)) {
+			game.draw.addUI(pointDisplay);
+		}
+		pointDisplay.setText(thresh-board.score()+""); //update display
 		//check if players have collected enough cookies to remove door
-		if(thresh>=0 && board.totalScore()>=thresh) {
+		if(thresh>=0 && board.score()>=thresh) {
 			remove();
 		}
 	}

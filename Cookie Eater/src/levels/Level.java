@@ -32,6 +32,8 @@ public class Level{
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
+	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
+	
 	
 	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, String id) {
 		game = frame;
@@ -51,6 +53,9 @@ public class Level{
 		passageways = new ArrayList<Passage>();
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
+		
+		score=0;
+		maxScore=0;
 	}
 	public Level(Game frame, Board gameboard, Floor floorlevel, SaveData sd) {
 		game = frame;
@@ -109,6 +114,9 @@ public class Level{
 			presentnpcs.add(ex);
 		}
 		
+		score = sd.getInteger("score",0);
+		maxScore = sd.getInteger("score",1);
+		
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 	}
@@ -146,6 +154,10 @@ public class Level{
 		for(int i=0; i<presentnpcs.size(); i++) {
 			data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
 		}
+		
+		data.addData("score",score,0);
+		data.addData("score",maxScore,1);
+		
 		return data;
 	}
 	
@@ -372,7 +384,7 @@ public class Level{
 			}
 		}
 		
-		board.player().setScoreToWin(cooks);
+		maxScore = cooks;
 		//update number of cookies that mechanisms use
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).updateCookieTotal(cooks);
@@ -446,7 +458,7 @@ public class Level{
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
 		Cookie c = cookies.remove((int)(Math.random()*cookies.size()));
-		if(e instanceof Explorer)board.player().setScoreToWin(board.player().getScoreToWin()-1);
+		if(e instanceof Explorer)maxScore-=1;
 		e.setX(c.getX());
 		e.setY(c.getY());
 		e.orientParts();

@@ -27,7 +27,7 @@ public class Eater extends Entity{
 	private double[][] mr; //accel min,max; maxvel min,max; fric min,max
 	private Color coloration;
 	private boolean dO; //continue movement
-	public int score, scoreToWin; //cookies eaten and amount of cookies on board
+	//public int score, scoreToWin; //cookies eaten and amount of cookies on board
 	public double cash; //cookies to spend
 	private ArrayList<CookieItem> pickups; //items picked up but not activated
 	public static final int LIVE = 0, DEAD =-1, WIN = 1; //states
@@ -60,7 +60,6 @@ public class Eater extends Entity{
 		
 		averageStats();
 		
-		score = 0;
 		cash = 0;
 		pickups = new ArrayList<CookieItem>();
 		startShields = 3;
@@ -94,8 +93,6 @@ public class Eater extends Entity{
 		cash = sd.getDouble("cash",0);
 		coloration = new Color(sd.getInteger("color",0));
 		dO = sd.getBoolean("do",0);
-		score = sd.getInteger("score",0);
-		scoreToWin = sd.getInteger("score",1);
 		
 		ArrayList<SaveData> pickup_data = sd.getSaveDataList("pickupstash");
 		if(pickup_data!=null) {
@@ -133,8 +130,6 @@ public class Eater extends Entity{
 		data.addData("cash",cash);
 		data.addData("color",coloration.getRGB());
 		data.addData("do",dO);
-		data.addData("score",score,0);
-		data.addData("score",scoreToWin,1);
 		
 		for(int i=0; i<6; i++) {
 			data.addData("statranges",mr[i/2][i%2],i);
@@ -163,10 +158,6 @@ public class Eater extends Entity{
 		}}
 	public void setDir(int dir) {direction = dir;}
 	public int getState() {return state;}
-	public int getScore() {return score;}
-	public void addScore(int s) {score+=s;}
-	public int getScoreToWin() {return scoreToWin;}
-	public void setScoreToWin(int s) {scoreToWin=s;}
 	public double getCash() {return cash;}
 	public void addCash(double c) {cash+=c;}
 	public ArrayList<CookieItem> getPickups() {return pickups;}
@@ -240,7 +231,6 @@ public class Eater extends Entity{
 			}catch(InterruptedException e){};
 			board.resetLevels();
 			board.resetGame();
-			score = 0;
 			cash = 0;
 			wipeStash();
 			setShields(startShields);
@@ -329,13 +319,11 @@ public class Eater extends Entity{
 		dO = true;
 		lock = false;
 
-		score = 0;
 		if(parts.isEmpty())buildBody();
 		orientParts();
 	}
 	//resets killed players
 	public void revive() {
-		score = 0;
 		cash = 0;
 		setShields(startShields);
 		//randomizeStats();
@@ -450,7 +438,7 @@ public class Eater extends Entity{
 		if(itemDisp==null)initUI();
 		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 		//scoreboard
-		scoreboard.update(cash,score,scoreToWin);
+		scoreboard.update(cash,board.score(),board.maxScore());
 		//shields
 		shieldDisp.update(shield_stash.size());
 	}

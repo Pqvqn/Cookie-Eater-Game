@@ -136,12 +136,11 @@ public class Cookie {
 			}
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
-				player.addScore(1);
+				board.addScore(1);
 				player.addCash(value);
 			}
 			if(consumer instanceof Explorer) {
-				Eater player = board.player();
-				player.addScore(1);
+				board.addScore(1);
 			}
 			if(consumer instanceof Summon) {
 				if(((Summon)consumer).getUser()!=null) {
@@ -155,8 +154,7 @@ public class Cookie {
 					kill(initiator);
 					return;
 				}else {
-					Eater player = board.player();
-					player.addScore(1);
+					board.addScore(1);
 				}
 			}
 		}

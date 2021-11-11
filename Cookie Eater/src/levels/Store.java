@@ -19,7 +19,7 @@ public class Store extends Level{
 	
 	//places not-npc owned purchasable cookies on the board
 	public void placeCookies(){
-		board.player().setScoreToWin(0);
+		maxScore = 0;
 	}
 	
 	

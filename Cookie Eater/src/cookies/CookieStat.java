@@ -96,7 +96,7 @@ public class CookieStat extends CookieStore{
 			if(buyer instanceof Eater) {
 				((Eater)buyer).addToMovement(accelChange,maxvelChange,fricChange);
 				//player.win();
-				((Eater)buyer).addScore(1);
+				board.addScore(1);
 			}
 			if(vendor==null) {
 				buyer.spend(price);

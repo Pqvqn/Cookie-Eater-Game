@@ -141,10 +141,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				int n = (int)(Math.random()*100);
-				for(mechanisms.Mechanism m:board.mechanisms()) {
-					System.out.println(n+" "+m);
-				}
+				System.out.println();
 				break;
 		}
 		

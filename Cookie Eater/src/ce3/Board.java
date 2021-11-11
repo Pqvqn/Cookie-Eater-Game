@@ -289,14 +289,6 @@ public class Board{
 			return null;
 		}
 	}
-	//returns the total score on the board among all players
-	public int totalScore() {
-		int sum = 0;
-		for(int i=0; i<players.size(); i++) {
-			sum += players.get(i).getScore();
-		}
-		return sum;
-	}
 	//test if board should be paused
 	public boolean isPaused() {
 		//tests if players are waiting to change direction
@@ -587,6 +579,12 @@ public class Board{
 		return null;
 	}
 
+	
+	public int score() {return currLevel.score;}
+	public int maxScore() {return currLevel.maxScore;}
+	public void addScore(int n) {currLevel.score+=n;}
+	
+	//returns level objects loaded for current level
 	public ArrayList<Cookie> cookies(){return currLevel==null?null:currLevel.cookies;}
 	public ArrayList<Wall> walls(){return currLevel==null?null:currLevel.walls;}
 	public ArrayList<Mechanism> mechanisms(){return currLevel==null?null:currLevel.mechanisms;}
