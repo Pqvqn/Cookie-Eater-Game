@@ -66,56 +66,67 @@ public class Level{
 		room = board.rooms.get(sd.getString("roomid",0));
 		loaded = sd.getBoolean("loaded",0);
 
-		ArrayList<SaveData> cookieData = sd.getSaveDataList("cookies");
-		cookies = new ArrayList<Cookie>();
-		if(cookieData!=null) {
-			for(int i=0; i<cookieData.size(); i++) {
-				Cookie loaded = Cookie.loadFromData(game, board, cookieData.get(i));
-				if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
-					cookies.add(loaded);
+		if(loaded) {
+			ArrayList<SaveData> cookieData = sd.getSaveDataList("cookies");
+			cookies = new ArrayList<Cookie>();
+			if(cookieData!=null) {
+				for(int i=0; i<cookieData.size(); i++) {
+					Cookie loaded = Cookie.loadFromData(game, board, cookieData.get(i));
+					if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
+						cookies.add(loaded);
+					}
 				}
 			}
-		}
-		ArrayList<SaveData> enemyData = sd.getSaveDataList("enemies");
-		enemies = new ArrayList<Enemy>();
-		if(enemyData!=null) {
-			for(int i=0; i<enemyData.size(); i++) {
-				enemies.add(Enemy.loadFromData(game,board,enemyData.get(i),board.cycletime));
+			ArrayList<SaveData> enemyData = sd.getSaveDataList("enemies");
+			enemies = new ArrayList<Enemy>();
+			if(enemyData!=null) {
+				for(int i=0; i<enemyData.size(); i++) {
+					enemies.add(Enemy.loadFromData(game,board,enemyData.get(i),board.cycletime));
+				}
 			}
-		}
-		ArrayList<SaveData> effectData = sd.getSaveDataList("effects");
-		effects = new ArrayList<Effect>();
-		if(effectData!=null) {
-			for(int i=0; i<effectData.size(); i++) {
-				effects.add(Effect.loadFromData(game,board,effectData.get(i),board.cycletime));
+			ArrayList<SaveData> effectData = sd.getSaveDataList("effects");
+			effects = new ArrayList<Effect>();
+			if(effectData!=null) {
+				for(int i=0; i<effectData.size(); i++) {
+					effects.add(Effect.loadFromData(game,board,effectData.get(i),board.cycletime));
+				}
 			}
-		}
-		ArrayList<SaveData> wallData = sd.getSaveDataList("walls");
-		walls = new ArrayList<Wall>();
-		if(wallData!=null) {
-			for(int i=0; i<wallData.size(); i++) {
-				walls.add(new Wall(game, board, wallData.get(i)));
+			ArrayList<SaveData> wallData = sd.getSaveDataList("walls");
+			walls = new ArrayList<Wall>();
+			if(wallData!=null) {
+				for(int i=0; i<wallData.size(); i++) {
+					walls.add(new Wall(game, board, wallData.get(i)));
+				}
 			}
-		}
-		
-		ArrayList<SaveData> mechData = sd.getSaveDataList("mechanisms");
-		mechanisms = new ArrayList<Mechanism>();
-		if(mechData!=null) {
-			for(int i=0; i<mechData.size(); i++) {
-				Mechanism mech = Mechanism.loadFromData(game, board, mechData.get(i));
-				if(mech!=null)mechanisms.add(mech);
+			
+			ArrayList<SaveData> mechData = sd.getSaveDataList("mechanisms");
+			mechanisms = new ArrayList<Mechanism>();
+			if(mechData!=null) {
+				for(int i=0; i<mechData.size(); i++) {
+					Mechanism mech = Mechanism.loadFromData(game, board, mechData.get(i));
+					if(mech!=null)mechanisms.add(mech);
+				}
 			}
+			for(int i=0; i<passageways.size(); i++) {
+				mechanisms.add(passageways.get(i));
+			}
+			for(int i=0; i<sd.getData("presentnpcs").size(); i++) {
+				Explorer ex = board.getNPC(sd.getString("presentnpcs",i));
+				presentnpcs.add(ex);
+			}
+			
+			score = sd.getInteger("score",0);
+			maxScore = sd.getInteger("score",1);
+		}else {
+			enemies = new ArrayList<Enemy>();
+			presentnpcs = new ArrayList<Explorer>();
+			effects = new ArrayList<Effect>();
+			cookies = new ArrayList<Cookie>();
+			walls = new ArrayList<Wall>();
+			mechanisms = new ArrayList<Mechanism>();			
+			score=0;
+			maxScore=0;
 		}
-		for(int i=0; i<passageways.size(); i++) {
-			mechanisms.add(passageways.get(i));
-		}
-		for(int i=0; i<sd.getData("presentnpcs").size(); i++) {
-			Explorer ex = board.getNPC(sd.getString("presentnpcs",i));
-			presentnpcs.add(ex);
-		}
-		
-		score = sd.getInteger("score",0);
-		maxScore = sd.getInteger("score",1);
 		
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
@@ -128,35 +139,37 @@ public class Level{
 		data.addData("roomid",room.nameSub);
 		data.addData("loaded",loaded);
 		
-		int ci = 0;
-		for(int i=0; i<cookies.size(); i++) {
-			Cookie toSave = cookies.get(i);
-			if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
-				data.addData("cookies",cookies.get(i).getSaveData(),ci++);
+		if(loaded) {
+			int ci = 0;
+			for(int i=0; i<cookies.size(); i++) {
+				Cookie toSave = cookies.get(i);
+				if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
+					data.addData("cookies",cookies.get(i).getSaveData(),ci++);
+				}
 			}
-		}
-		for(int i=0; i<enemies.size(); i++) {
-			data.addData("enemies",enemies.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<effects.size(); i++) {
-			data.addData("effects",effects.get(i).getSaveData(),i);
-		}
-		
-		for(int i=0; i<walls.size(); i++) {
-			data.addData("walls",walls.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<mechanisms.size(); i++) {
-			data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<mechanisms.size(); i++) {
-			data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
-		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
-		}
-		
-		data.addData("score",score,0);
-		data.addData("score",maxScore,1);
+			for(int i=0; i<enemies.size(); i++) {
+				data.addData("enemies",enemies.get(i).getSaveData(),i);
+			}
+			for(int i=0; i<effects.size(); i++) {
+				data.addData("effects",effects.get(i).getSaveData(),i);
+			}
+			
+			for(int i=0; i<walls.size(); i++) {
+				data.addData("walls",walls.get(i).getSaveData(),i);
+			}
+			for(int i=0; i<mechanisms.size(); i++) {
+				data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
+			}
+			for(int i=0; i<mechanisms.size(); i++) {
+				data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
+			}
+			for(int i=0; i<presentnpcs.size(); i++) {
+				data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
+			}
+			
+			data.addData("score",score,0);
+			data.addData("score",maxScore,1);
+	}
 		
 		return data;
 	}
@@ -453,6 +466,9 @@ public class Level{
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
 		effects = new ArrayList<Effect>();
+		score = 0;
+		maxScore = 0;
+		loaded = false;
 	}
 	
 	//spawns chosen enemy at random cookie

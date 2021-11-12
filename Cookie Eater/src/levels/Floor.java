@@ -176,6 +176,17 @@ public class Floor {
 		
 	}
 	
+	//removes data from all levels
+	public void wipeFloor() {
+		for(int i=0; i<roomGrid.length; i++) {
+			for(int j=0; j<roomGrid.length; j++) {
+				if(roomGrid[i][j]!=null) {
+					roomGrid[i][j].remove();
+				}
+			}
+		}
+	}
+	
 	//choose direction to move into
 	private int[] moveDirection(int[] coords) {
 		//create list of all dirs to move into and remove unavailable ones

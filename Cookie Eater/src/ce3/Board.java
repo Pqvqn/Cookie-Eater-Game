@@ -347,6 +347,9 @@ public class Board{
 	//advances level
 	public void nextLevel() {
 		currLevel.clean();
+		if(currLevel.getFloor() != nextLevel.getFloor() && currLevel.getFloor()!=null) {
+			currLevel.getFloor().wipeFloor();
+		}
 		currLevel = nextLevel;
 		buildBoard();
 		makeCookies();
