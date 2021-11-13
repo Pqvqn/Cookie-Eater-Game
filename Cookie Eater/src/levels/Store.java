@@ -95,15 +95,15 @@ public class Store extends Level{
 		Explorer mechanic = null;
 		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
 			Explorer testnpc = board.npcs.get(i);
-			if(testnpc.getState() == Explorer.MECHANIC && !presentnpcs.contains(testnpc)) {
+			if(testnpc.getState() == Explorer.MECHANIC && !board.presentnpcs.contains(testnpc)) {
 				mechanic = testnpc;
-				presentnpcs.add(mechanic);
+				board.presentnpcs.add(mechanic);
 				mechanic.spawn();
 			}
 		}
 		
-		for(int i=0; i<presentnpcs.size(); i++) {
-			Explorer e = presentnpcs.get(i);
+		for(int i=0; i<board.presentnpcs.size(); i++) {
+			Explorer e = board.presentnpcs.get(i);
 			if(e==null) {
 				
 			}else if(e.getState()==Explorer.MECHANIC && mechanics<room.mechanicSpaces.length) { //put mechanic in right place
@@ -137,8 +137,8 @@ public class Store extends Level{
 		return count >= max;
 	}
 	public void removeNPCs() {
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).packUp(); //all npcs pick up cookies for sale
+		for(int i=0; i<board.presentnpcs.size(); i++) {
+			board.presentnpcs.get(i).packUp(); //all npcs pick up cookies for sale
 		}
 	}
 	

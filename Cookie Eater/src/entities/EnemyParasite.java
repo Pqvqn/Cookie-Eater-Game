@@ -74,12 +74,14 @@ public class EnemyParasite extends Enemy{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		if(Math.sqrt(Math.pow(stickPoint[0],2)+Math.pow(stickPoint[1],2))<=explorerTarget.getRadius()+getRadius()) { //if too close, choose new offset point
-			double r = (explorerTarget.getRadius()*1.5 + getRadius()*1.5) / Level.lineLength(explorerTarget.getX(), explorerTarget.getY(), getX(), getY()); //ratio for point near target in same direction
-			stickPoint[0] = r*(getX()-explorerTarget.getX());
-			stickPoint[1] = r*(getY()-explorerTarget.getY());
+		if(explorerTarget!=null) {
+			if(Math.sqrt(Math.pow(stickPoint[0],2)+Math.pow(stickPoint[1],2))<=explorerTarget.getRadius()+getRadius()) { //if too close, choose new offset point
+				double r = (explorerTarget.getRadius()*1.5 + getRadius()*1.5) / Level.lineLength(explorerTarget.getX(), explorerTarget.getY(), getX(), getY()); //ratio for point near target in same direction
+				stickPoint[0] = r*(getX()-explorerTarget.getX());
+				stickPoint[1] = r*(getY()-explorerTarget.getY());
+			}
+			accelerateToTarget(explorerTarget.getX() + stickPoint[0],explorerTarget.getY() + stickPoint[1]); //move to stick point
 		}
-		accelerateToTarget(explorerTarget.getX() + stickPoint[0],explorerTarget.getY() + stickPoint[1]); //move to stick point
 		super.runUpdate();
 	}
 	public void collideWall(Wall w) {

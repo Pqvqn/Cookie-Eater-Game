@@ -32,7 +32,6 @@ public abstract class Enemy extends Entity{
 		buildBody();
 		orientParts();
 		createStash();
-		explorerTarget = targetExplorer();
 	}
 	public Enemy(Game frame, Board gameboard, SaveData sd, int cycle) {
 		super(frame,gameboard,sd,cycle);
@@ -40,7 +39,6 @@ public abstract class Enemy extends Entity{
 		targetx = sd.getDouble("target",0);
 		targety = sd.getDouble("target",1);
 		imgs = new ArrayList<String>();
-		explorerTarget = targetExplorer();
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
@@ -104,7 +102,7 @@ public abstract class Enemy extends Entity{
 		orientParts();
 	}
 	public void doMovement() {
-		if(explorerTarget==null || (!board.presentNPCs().contains(explorerTarget) && !board.players.contains(explorerTarget)))
+		if(explorerTarget==null || (!board.presentnpcs.contains(explorerTarget) && !board.players.contains(explorerTarget)))
 			explorerTarget = targetExplorer(); //find target if none targeted or target died
 		super.doMovement();
 	}
@@ -166,8 +164,8 @@ public abstract class Enemy extends Entity{
 	
 	//picks an npc or player from the board to target
 	public Entity targetExplorer() {
-		int e = (int)(Math.random()*(board.players.size()+board.presentNPCs().size()));
-		return e>=board.players.size() ? board.presentNPCs().get(e-board.players.size()) : board.players.get(e);
+		int e = (int)(Math.random()*(board.players.size()+board.presentnpcs.size()));
+		return e>=board.players.size() ? board.presentnpcs.get(e-board.players.size()) : board.players.get(e);
 	}
 	
 	//puts cookies in stash on spawn

@@ -122,8 +122,8 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.enemies().size(); i++) {
 			board.enemies().get(i).paint(g);
 		}
-		for(int i=0; i<board.presentNPCs().size(); i++) {
-			board.presentNPCs().get(i).paint(g);
+		for(int i=0; i<board.presentnpcs.size(); i++) {
+			board.presentnpcs.get(i).paint(g);
 		}
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).paint(g);

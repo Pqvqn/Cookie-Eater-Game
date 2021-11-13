@@ -29,6 +29,7 @@ public class Board{
 	public Area wallSpace;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
+	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
 	//public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
@@ -76,6 +77,7 @@ public class Board{
 		
 		wallSpace = new Area();
 		npcs = new ArrayList<Explorer>();
+		presentnpcs = new ArrayList<Explorer>();
 		menus = new ArrayList<Menu>();
 		
 		try {
@@ -152,6 +154,11 @@ public class Board{
 				npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime));
 			}
 		}
+		presentnpcs = new ArrayList<Explorer>();
+		for(int i=0; data.getData("presentnpcs")!=null && i<data.getData("presentnpcs").size(); i++) {
+			Explorer ex = getNPC(data.getString("presentnpcs",i));
+			presentnpcs.add(ex);
+		}
 
 		wallSpace = new Area();
 		for(Wall w : walls()) {
@@ -190,6 +197,9 @@ public class Board{
 		for(int i=0; i<npcs.size(); i++) {
 			data.addData("explorers",npcs.get(i).getSaveData(),ci++);
 		}	
+		for(int i=0; i<presentnpcs.size(); i++) {
+			data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
+		}
 		for(int i=0; i<playerCount; i++) {
 			data.addData("players",players.get(i).getSaveData(),i);
 		}
@@ -272,9 +282,15 @@ public class Board{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).runUpdate();
+		}
 		currLevel.runUpdate();
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).endCycle();
+		}
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).endCycle();
 		}
 
 		game.draw.runUpdate();
@@ -333,10 +349,10 @@ public class Board{
 		spawnEnemies();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentNPCs().add(npcs.get(i));
+				presentnpcs.add(npcs.get(i));
 				npcs.get(i).spawn();
-			}else if(presentNPCs().contains(npcs.get(i))) {
-				presentNPCs().remove(npcs.get(i));
+			}else if(presentnpcs.contains(npcs.get(i))) {
+				presentnpcs.remove(npcs.get(i));
 			}
 		}
 		setDialogue(null,null);
@@ -347,6 +363,9 @@ public class Board{
 	//advances level
 	public void nextLevel() {
 		currLevel.clean();
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).levelComplete();
+		}
 		if(currLevel.getFloor() != nextLevel.getFloor() && currLevel.getFloor()!=null) {
 			currLevel.getFloor().wipeFloor();
 		}
@@ -354,9 +373,10 @@ public class Board{
 		buildBoard();
 		makeCookies();
 		spawnEnemies();
+		presentnpcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentNPCs().add(npcs.get(i));
+				presentnpcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
 		}
@@ -376,9 +396,10 @@ public class Board{
 		for(Wall w : walls()) {
 			wallSpace.add(w.getArea());
 		}
+		presentnpcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentNPCs().add(npcs.get(i));
+				presentnpcs.add(npcs.get(i));
 				npcs.get(i).spawn();
 			}
 		}
@@ -450,8 +471,8 @@ public class Board{
 		for(int i=0; i<effects().size(); i++) {
 			effects().get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
-		for(int i=0; i<presentNPCs().size(); i++) {
-			presentNPCs().get(i).setCalibration(cycle); //give npcs more accurate cycle time
+		for(int i=0; i<presentnpcs.size(); i++) {
+			presentnpcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
 		for(int i=0; i<cookies().size(); i++) {
 			cookies().get(i).setCalibration(cycle); //give cookies more accurate cycle time
@@ -513,7 +534,7 @@ public class Board{
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		for(Entity e : players)entities.add(e);
 		for(Entity e : enemies())entities.add(e);
-		for(Entity e : presentNPCs())entities.add(e);
+		for(Entity e : presentnpcs)entities.add(e);
 		for(Entity e : effects())entities.add(e);
 		return entities;
 	}
@@ -593,7 +614,6 @@ public class Board{
 	public ArrayList<Mechanism> mechanisms(){return currLevel==null?null:currLevel.mechanisms;}
 	public ArrayList<Effect> effects(){return currLevel==null?null:currLevel.effects;}
 	public ArrayList<Enemy> enemies(){return currLevel==null?null:currLevel.enemies;}
-	public ArrayList<Explorer> presentNPCs(){return currLevel==null?null:currLevel.presentnpcs;}
 	public Explorer getNPC(String name) {
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getName().equals(name))return npcs.get(i);

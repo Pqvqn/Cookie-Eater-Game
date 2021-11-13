@@ -102,7 +102,7 @@ public class EnemySlob extends Enemy{
 			}
 		}else {
 			target = board.nearestCookie(x,y);
-			if(cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)) {
+			if(explorerTarget!=null && cash_stash.size()-prevCookies>=10 && Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)) {
 				max_velocity = 10;
 				chargeCoords = new double[2];
 				chargeCoords[0]=explorerTarget.getX();

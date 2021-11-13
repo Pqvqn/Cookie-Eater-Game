@@ -26,7 +26,6 @@ public class Level{
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public ArrayList<Effect> effects;
 	public ArrayList<Enemy> enemies;
-	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
 	
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -44,7 +43,6 @@ public class Level{
 		loaded = false;
 		
 		enemies = new ArrayList<Enemy>();
-		presentnpcs = new ArrayList<Explorer>();
 		effects = new ArrayList<Effect>();
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
@@ -110,16 +108,11 @@ public class Level{
 			for(int i=0; i<passageways.size(); i++) {
 				mechanisms.add(passageways.get(i));
 			}
-			for(int i=0; i<sd.getData("presentnpcs").size(); i++) {
-				Explorer ex = board.getNPC(sd.getString("presentnpcs",i));
-				presentnpcs.add(ex);
-			}
 			
 			score = sd.getInteger("score",0);
 			maxScore = sd.getInteger("score",1);
 		}else {
 			enemies = new ArrayList<Enemy>();
-			presentnpcs = new ArrayList<Explorer>();
 			effects = new ArrayList<Effect>();
 			cookies = new ArrayList<Cookie>();
 			walls = new ArrayList<Wall>();
@@ -160,12 +153,6 @@ public class Level{
 			for(int i=0; i<mechanisms.size(); i++) {
 				data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
 			}
-			for(int i=0; i<mechanisms.size(); i++) {
-				data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
-			}
-			for(int i=0; i<presentnpcs.size(); i++) {
-				data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
-			}
 			
 			data.addData("score",score,0);
 			data.addData("score",maxScore,1);
@@ -181,9 +168,6 @@ public class Level{
 		}
 		for(int i=0; i<effects.size(); i++) {
 			effects.get(i).runUpdate();
-		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).runUpdate();
 		}
 		for(int i=0; i<cookies.size(); i++) {
 			if(i<cookies.size()) {
@@ -204,9 +188,6 @@ public class Level{
 		}
 		for(int i=0; i<effects.size(); i++) {
 			effects.get(i).endCycle();
-		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).endCycle();
 		}
 		for(int i=0; i<enemies.size(); i++) {
 			if(i<enemies.size()) {
@@ -423,8 +404,8 @@ public class Level{
 	
 	//put all Npcs meant to be on this floor in their place
 	public void spawnNPCs() {
-		for(int i=0; i<presentnpcs.size(); i++) {
-			spawnAtRandom(presentnpcs.get(i)); //put on random cookie
+		for(int i=0; i<board.presentnpcs.size(); i++) {
+			spawnAtRandom(board.presentnpcs.get(i)); //put on random cookie
 		}
 	}
 	
@@ -442,9 +423,6 @@ public class Level{
 	
 	//remove traces from board to switch to other level
 	public void clean() {
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).levelComplete();
-		}
 		removeNPCs();
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).clean();
@@ -456,11 +434,9 @@ public class Level{
 		removeNPCs();
 		for(int i=0; i<cookies.size(); i++) {
 			cookies.get(i).kill(null);
-			i--;
 		}
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).remove();
-			i--;
 		}
 		enemies = new ArrayList<Enemy>();
 		walls = new ArrayList<Wall>();

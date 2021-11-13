@@ -77,17 +77,19 @@ public class EnemyGlob extends Enemy{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)){
-			max_velocity = 25;
-			calibrateStats();
-			accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
-		}else {
-			target = board.nearestCookie(x,y);
-			if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
-			if(target!=null) {
-				max_velocity = 10;
+		if(explorerTarget!=null) {
+			if(Level.lineOfSight((int)(.5+x),(int)(.5+y),(int)(.5+explorerTarget.getX()),(int)(.5+explorerTarget.getY()), (int)(radius*scale*1.5), board.wallSpace)){
+				max_velocity = 25;
 				calibrateStats();
-				accelerateToTarget(target.getX(),target.getY());
+				accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
+			}else {
+				target = board.nearestCookie(x,y);
+				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
+				if(target!=null) {
+					max_velocity = 10;
+					calibrateStats();
+					accelerateToTarget(target.getX(),target.getY());
+				}
 			}
 		}
 		super.runUpdate();
