@@ -141,7 +141,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println();
+				System.out.println(board.mechanisms().contains(board.currLevel.getPassages().get(0)));
 				break;
 		}
 		

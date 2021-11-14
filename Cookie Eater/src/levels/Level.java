@@ -156,7 +156,7 @@ public class Level{
 			
 			data.addData("score",score,0);
 			data.addData("score",maxScore,1);
-	}
+		}
 		
 		return data;
 	}
@@ -204,6 +204,7 @@ public class Level{
 	}
 	public void addPassage(Passage p) {
 		passageways.add(p);
+		addMechanism(p);
 	}
 	
 	public ArrayList<Passage> getPassages(){
