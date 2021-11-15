@@ -335,7 +335,6 @@ public class Board{
 	
 	//go back to first level
 	public void resetGame() {
-		if(currLevel!=null)currLevel.removeNPCs();
 		buildBoard();
 		
 		for(int i=0; i<players.size(); i++)
@@ -424,6 +423,11 @@ public class Board{
 
 	//recreates level progression
 	public void resetLevels() {
+		if(currLevel!=null) {
+			currLevel.clean();
+			currLevel.getFloor().wipeFloor();
+		}
+		
 		int num = currDungeon;
 		floors = new ArrayList<Floor>();
 		stores = new HashMap<String,Store>();
