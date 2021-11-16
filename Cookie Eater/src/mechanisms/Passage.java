@@ -219,7 +219,7 @@ public class Passage extends Mechanism{
 		for(int i=0; i<board.players.size(); i++) {
 			Eater p = board.players.get(i);
 			boolean pass = passed(p.getX(),p.getY());
-			if(pass && !triggered && getDirection()!=CEILING) {
+			if(pass && !triggered && getDirection()!=CEILING && board.currLevel.getPassages().contains(this)) {
 				trigger(p);
 			}
 			triggered = pass;
