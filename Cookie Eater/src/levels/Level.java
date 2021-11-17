@@ -468,6 +468,7 @@ public class Level{
 	public boolean specialsEnabled() {return room.specialsEnabled;} //if specials are allowed
 	public boolean installPickups() {return room.installPickups;} //if picked up items are automatically installed
 	public boolean takeDamage() {return room.takeDamage;} //if shields are used/player is killed when hits wall
+	public boolean saveGame() {return room.saveGame;} //if game should be saved on entrance
 	public double getExitProportion() {return room.exitProportion;}
 	public Floor getFloor() {return floor;}
 	public boolean loaded() {return loaded;}

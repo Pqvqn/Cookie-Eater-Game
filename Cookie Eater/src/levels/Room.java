@@ -40,6 +40,7 @@ public class Room{
 	public boolean specialsEnabled;
 	public boolean installPickups;
 	public boolean takeDamage;
+	public boolean saveGame;
 	
 	public ArrayList<SaveData> enemyGen;
 	public ArrayList<SaveData> mechanismGen;
@@ -79,6 +80,7 @@ public class Room{
 		specialsEnabled = roomType.equals(STAGE) || roomType.equals(ARENA) || roomType.equals(TRAIN);
 		installPickups = roomType.equals(STORE) || roomType.equals(ARENA);
 		takeDamage = roomType.equals(STAGE) || roomType.equals(ARENA);
+		saveGame = roomType.equals(STORE);
 		
 		final int BORDER_THICKNESS = 40;
 		double distToWall = BORDER_THICKNESS+40*scale*5;
@@ -148,6 +150,7 @@ public class Room{
 		specialsEnabled = sd.getBoolean("canspecial",0);
 		installPickups = sd.getBoolean("caninstall",0);
 		takeDamage = sd.getBoolean("candamage",0);
+		saveGame = sd.getBoolean("savegame",0);
 		
 		startposs = new double[4][2];
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
@@ -245,6 +248,7 @@ public class Room{
 		data.addData("canspecial",specialsEnabled);
 		data.addData("caninstall",installPickups);
 		data.addData("candamage",takeDamage);
+		data.addData("savegame",saveGame);
 		
 		if(roomType.equals(STORE)) {
 			writeStoreData(data);

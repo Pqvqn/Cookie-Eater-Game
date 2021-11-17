@@ -21,11 +21,6 @@ public class Board{
 	public static final int DEF_Y_RESOL = 1020, DEF_X_RESOL = 1920; //default board dimensions
 	public int y_resol = 1020, x_resol = 1920; //board dimensions
 	private Eater player;
-	/*public ArrayList<Cookie> cookies;
-	public ArrayList<Wall> walls;
-	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
-	public ArrayList<Effect> effects;
-	public ArrayList<Enemy> enemies;*/
 	public Area wallSpace;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
@@ -357,6 +352,7 @@ public class Board{
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
+		createSave();
 	}
 			
 	//advances level
@@ -382,7 +378,9 @@ public class Board{
 		setDialogue(null,null);
 		spawnNpcs();
 		awaiting_start = true;
-		createSave();
+		if(currLevel.saveGame()) {
+			createSave();
+		}
 	}
 	
 	//moves to previously loaded level
@@ -405,7 +403,6 @@ public class Board{
 
 		setDialogue(null,null);
 		spawnNpcs();
-		createSave();
 	}
 	
 	public void setNext(Level l) {
