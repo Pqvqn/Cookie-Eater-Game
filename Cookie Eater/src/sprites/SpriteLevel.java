@@ -32,7 +32,7 @@ public class SpriteLevel extends Sprite{
 	}
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
-		lvl = removeSpace(board.currLevel.getName());
+		lvl = board.currLevel.getTheme();
 		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D newg = wallMask.createGraphics();
 		
@@ -71,9 +71,8 @@ public class SpriteLevel extends Sprite{
 		newg.dispose();
 		//finish up wall graphics
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
-		prefix = board.currLevel.getAbbrev();
-		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallB.png"));
-		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"WallF.png"));
+		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallB.png"));
+		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();
 		for(int i=0; i<board.x_resol;i++){ //masking wallF onto wall using wallMask based on blue channel
 			for(int j=0; j<board.y_resol;j++){
@@ -88,7 +87,7 @@ public class SpriteLevel extends Sprite{
 		newg.drawImage(wallF,0,0,null);
 		newg.dispose();
 		//floor graphics
-		floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"FLOOR.png"));
+		floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"Floor.png"));
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";

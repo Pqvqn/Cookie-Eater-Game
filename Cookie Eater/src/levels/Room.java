@@ -16,11 +16,11 @@ public class Room{
 	public double[][] startposs; //start positions for players
 	public int minDecay; //frames for cookie at edge corner to decay fully
 	public int maxDecay; //frames for cookie at center to decay fully
-	public Color bgColor;
-	public Color wallColor;
-	public String name; //name for display
-	public String nameAbbrev; //name for files
-	public String nameSub; //name for identification
+	//public Color bgColor;
+	//public Color wallColor;
+	public String title; //name for display
+	public String theme; //name of theme for files
+	public String code; //name for identification
 	public double exitProportion; //proportion of cookies that must be collected to open doors
 	
 	public int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line
@@ -58,8 +58,8 @@ public class Room{
 			e1.printStackTrace();
 		}
 		try {
-			roomList.addData(thisRoom.nameSub,thisRoom.getSaveData());
-			roomList.addData(thisStore.nameSub,thisStore.getSaveData());
+			roomList.addData(thisRoom.code,thisRoom.getSaveData());
+			roomList.addData(thisStore.code,thisStore.getSaveData());
 			roomList.saveToFile(f);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -69,13 +69,13 @@ public class Room{
 	}
 	public Room(String roomtype, String roomname) {
 		scale = .95;
-		name = "Dungeon Foyer";
-		nameAbbrev = "dun";
-		nameSub = roomname;
+		title = "Dungeon Foyer";
+		theme = "dungeon";
+		code = roomname;
 		roomType = roomtype;
 		exitProportion = roomType.equals(STORE)?1:.5;
-		bgColor = Color.GRAY;
-		wallColor = Color.red.darker();
+		//bgColor = Color.GRAY;
+		//wallColor = Color.red.darker();
 		haltEnabled = roomType.equals(STORE) || roomType.equals(TRAIN);
 		specialsEnabled = roomType.equals(STAGE) || roomType.equals(ARENA) || roomType.equals(TRAIN);
 		installPickups = roomType.equals(STORE) || roomType.equals(ARENA);
@@ -139,12 +139,12 @@ public class Room{
 	
 	public Room(String roomname, SaveData sd) {
 		scale = sd.getDouble("scale",0);
-		name = sd.getString("name",0);
-		nameAbbrev = sd.getString("name",1);
-		nameSub = roomname;
+		title = sd.getString("name",0);
+		theme = sd.getString("name",1);
+		code = roomname;
 		exitProportion = sd.getDouble("requirement",0);
-		bgColor = Color.GRAY;
-		wallColor = Color.red.darker();
+		//bgColor = Color.GRAY;
+		//wallColor = Color.red.darker();
 		roomType = sd.getString("type",0);
 		haltEnabled = sd.getBoolean("canhalt",0);
 		specialsEnabled = sd.getBoolean("canspecial",0);
@@ -236,8 +236,8 @@ public class Room{
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("scale",scale);
-		data.addData("name",name,0);
-		data.addData("name",nameAbbrev,1);
+		data.addData("name",title,0);
+		data.addData("name",theme,1);
 		data.addData("requirement",exitProportion);
 		data.addData("type",roomType);
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {

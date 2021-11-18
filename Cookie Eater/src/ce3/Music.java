@@ -51,7 +51,7 @@ public class Music {
 	
 	//test if the current playing song should continue
 	public boolean currentSongIsValid() {
-		if(game.board.currLevel.getName().equals("Hostile Tunnels")) {
+		if(game.board.currLevel.getTheme().equals("harsh")) {
 			return tracks[1]==file;
 		}else {
 			return tracks[0]==file;
@@ -59,7 +59,7 @@ public class Music {
 	}
 	//choose the song to play at this moment
 	public File chosenSong() {
-		if(game.board.currLevel.getName().equals("Hostile Tunnels")) {
+		if(game.board.currLevel.getTheme().equals("harsh")) {
 			return tracks[1];
 		}else {
 			return tracks[0];

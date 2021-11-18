@@ -336,8 +336,8 @@ public class Explorer extends Entity{
 				if(p.entranceAt(point)) {
 					Level next = p.getExit();
 					nexts.add(next);
-					if(priorities.containsKey(next.getName())) {
-						chances.add(priorities.get(next.getName()));
+					if(priorities.containsKey(next.getTitle())) {
+						chances.add(priorities.get(next.getTitle()));
 					}else {
 						chances.add(1);
 					}

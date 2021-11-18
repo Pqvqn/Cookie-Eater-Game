@@ -25,10 +25,9 @@ public class Board{
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
 	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
-	//public ArrayList<Explorer> present_npcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	//public LinkedList<Level> levels; //level progression
+	public static final String[] themes = {"forest","dungeon","cave","ice","harsh"}; //art and mechanic themes for across floors
 	public HashMap<String,Store> stores; //stores (stay the same between resets)
 	public HashMap<String,Room> rooms; //room templates that may be placed within floors
 	public HashMap<String,Layout> layouts; //layout templates that may be used to create floors
@@ -254,7 +253,7 @@ public class Board{
 	
 	public void updateUI() {
 		//level display
-		ui_lvl.update(currLevel.getName());
+		ui_lvl.update(currLevel.getTitle());
 		
 		//dialogue
 		if(ui_dia!=null)ui_dia.update();

@@ -129,7 +129,7 @@ public class Level{
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("id",lvlid);
-		data.addData("roomid",room.nameSub);
+		data.addData("roomid",room.code);
 		data.addData("loaded",loaded);
 		
 		if(loaded) {
@@ -210,12 +210,6 @@ public class Level{
 	public ArrayList<Passage> getPassages(){
 		return passageways;
 	}
-	
-	
-	//returns string that names the floor
-	public String getName() {return room.name;}
-	//returns shortened string that names the floor for file purposes
-	public String getAbbrev() {return room.nameAbbrev;}
 	
 	//put walls in floor
 	public void build() {
@@ -459,11 +453,13 @@ public class Level{
 		e.giveCookie(c);
 	}
 	
+	public String getTitle() {return room.title;}
+	public String getTheme() {return room.theme;}
 	public double getScale() {return room.scale;}
 	public int getMinDecay() {return room.minDecay;}
 	public int getMaxDecay() {return room.maxDecay;}
-	public Color getBGColor() {return room.bgColor;}
-	public Color getWallColor() {return room.wallColor;}
+	//public Color getBGColor() {return room.bgColor;}
+	//public Color getWallColor() {return room.wallColor;}
 	public boolean haltEnabled() {return room.haltEnabled;} //if the player can press button to stop movement
 	public boolean specialsEnabled() {return room.specialsEnabled;} //if specials are allowed
 	public boolean installPickups() {return room.installPickups;} //if picked up items are automatically installed
