@@ -14,6 +14,7 @@ public class Layout {
 	public String store;
 	public int rows, cols;
 	public String nameSub;
+	public String[] themes;
 	
 	public ArrayList<SaveData> enemyGen;
 	
@@ -48,6 +49,8 @@ public class Layout {
 		room2.addData("weight",1);
 		roomGen.add(room2);
 		nameSub = "Layout2";
+		String[] th = {"dungeon"};
+		themes = th;
 	}
 	
 	public Layout(String layoutname, SaveData sd) {
@@ -56,6 +59,10 @@ public class Layout {
 		cols = sd.getInteger("dimensions",1);
 		store = sd.getString("store",0);
 		roomGen = sd.getSaveDataList("rooms");
+		themes = new String[sd.getData("themes").size()];
+		for(int i=0; i<themes.length; i++) {
+			themes[i] = sd.getString("themes",i);
+		}
 		nameSub = layoutname;
 	}
 	
@@ -68,7 +75,8 @@ public class Layout {
 		data.addData("store",store);
 		for(int i=0; i<roomGen.size(); i++)
 			data.addData("rooms",roomGen.get(i),i);
-		
+		for(int i=0; i<themes.length; i++)
+			data.addData("themes",themes[i],i);
 		return data;
 	}
 

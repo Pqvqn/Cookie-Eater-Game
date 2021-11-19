@@ -5,7 +5,8 @@
 ]room:Room1]}
 ]length:2
 ]store:Store1
-]dimensions:2;2]}
+]dimensions:2;2
+]themes:forest]}
 
 ]Layout2:{
 ]rooms:{
@@ -13,7 +14,8 @@
 ]room:Room2]}
 ]length:5
 ]store:Store2
-]dimensions:3;3]}
+]dimensions:3;3
+]themes:dungeon]}
 
 ]Layout3:{
 ]rooms:{
@@ -21,7 +23,8 @@
 ]room:Room3]}
 ]length:8
 ]store:Store3
-]dimensions:4;4]}
+]dimensions:4;4
+]themes:cave]}
 
 ]LayoutRound:{
 ]rooms:{
@@ -29,7 +32,8 @@
 ]room:RoomRound]}
 ]length:8
 ]store:StoreRound
-]dimensions:4;4]}
+]dimensions:4;4
+]themes:harsh]}
 
 ]Layout4:{
 ]rooms:{
@@ -37,5 +41,6 @@
 ]room:Room4]}
 ]length:12
 ]store:Store4
-]dimensions:5;5]}
+]dimensions:5;5
+]themes:ice]}
 ]}
