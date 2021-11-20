@@ -98,6 +98,7 @@ public class Floor {
 	
 	//creates and connects levels in paths
 	public void generateFloor() {
+		double[][][] themeWeights = generateTheme();
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		int[] currCoord = {0,0};
@@ -174,6 +175,22 @@ public class Floor {
 			roomGrid[currCoord[0]][currCoord[1]].setNextLevels(nexture,dirture);
 		}
 		
+	}
+	
+	//calculate weights of each theme at every cell
+	public double[][][] generateTheme(){
+		double[][][] field = new double[layout.rows][layout.cols][layout.themes.length];
+		for(int i=0; i<layout.themes.length; i++) {
+			int sr = (int)(Math.random()*layout.rows);
+			int sc = (int)(Math.random()*layout.cols);
+			for(int r=0; r<layout.rows; r++) {
+				for(int c=0; c<layout.cols; c++) {
+					field[r][c][i] = Math.min(2,1/(Math.sqrt(Math.pow(sr-r,2)+Math.pow(sc-c,2))));
+				}
+			}
+		}
+
+		return field;
 	}
 	
 	//removes data from all levels
