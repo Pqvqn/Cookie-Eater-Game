@@ -98,7 +98,7 @@ public class SpriteEater extends Sprite{
 				base = convertPalette((BufferedImage)base,0,pid);
 				face = convertPalette((BufferedImage)face,0,pid);
 				
-				Graphics compiled =  imgcombo.getGraphics();
+				Graphics compiled = imgcombo.getGraphics();
 				compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);
 				compiled.drawImage(base,(fullw-base.getWidth(null))/2,(fullh-base.getHeight(null))/2,null);
 				compiled.drawImage(helmet,(fullw-helmet.getWidth(null))/2,(fullh-helmet.getHeight(null))/2,null);

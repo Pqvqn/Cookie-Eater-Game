@@ -123,7 +123,7 @@ public class Floor {
 			sum += roomWeights.get(classlvl);
 			counts.add(sum);
 		}
-		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,startCode);
+		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,themeWeights[currCoord[0]][currCoord[1]],startCode);
 		for(int i=Math.min(layout.numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
 
@@ -138,7 +138,7 @@ public class Floor {
 			//test if there are available directions
 			if(count>0) { //move in chosen direction				
 				//generate a new room
-				Level addition = generateRoom(levels,counts,sum,currCoord[0]+"u"+currCoord[1]);
+				Level addition = generateRoom(levels,counts,sum,themeWeights[currCoord[0]+change[0]][currCoord[1]+change[1]],currCoord[0]+"u"+currCoord[1]);
 				
 				//add room connection
 				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;
@@ -304,12 +304,12 @@ public class Floor {
 		
 	}
 	
-	public Level generateRoom(ArrayList<Room> levels, ArrayList<Integer> counts, int sum, String id) {
+	public Level generateRoom(ArrayList<Room> levels, ArrayList<Integer> counts, int sum, double[] weights, String id) {
 		int chosen = (int)(Math.random()*sum);
 		int find = 0;
 		for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 		Room chosenlvl = levels.get(find);
-		Level addition = new Level(game, board, this, chosenlvl, id);
+		Level addition = new Level(game, board, this, chosenlvl, weights, id);
 		return addition;
 	}
 	

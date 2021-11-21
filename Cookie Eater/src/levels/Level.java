@@ -20,6 +20,8 @@ public class Level{
 	protected ArrayList<Passage> passageways; //entrances and exits
 	protected String lvlid; //id code for this level's path
 	protected boolean loaded; //whether this level has been entered before
+	protected String[] themes;
+	protected double[] themeWeights;
 	
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
@@ -34,13 +36,20 @@ public class Level{
 	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
 	
 	
-	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, String id) {
+	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, double[] theme, String id) {
 		game = frame;
 		board = gameboard;
 		floor = floorlevel;
 		room = roomtemplate;
 		lvlid = id;
 		loaded = false;
+		
+		if(floorlevel!=null) {
+			themes = floorlevel.layout.themes;
+		}else {
+			themes = new String[] {room.theme};
+		}
+		themeWeights = theme;
 		
 		enemies = new ArrayList<Enemy>();
 		effects = new ArrayList<Effect>();
@@ -63,7 +72,15 @@ public class Level{
 		lvlid = sd.getString("id",0);
 		room = board.rooms.get(sd.getString("roomid",0));
 		loaded = sd.getBoolean("loaded",0);
-
+		
+		int themeNum = sd.getData("themes").size();
+		themes = new String[themeNum/2];
+		themeWeights = new double[themeNum/2];
+		for(int i=0; i<themeNum; i+=2) {
+			themes[i/2] = sd.getString("themes",i);
+			themeWeights[i/2] = sd.getDouble("themes",i+1);
+		}
+		
 		if(loaded) {
 			ArrayList<SaveData> cookieData = sd.getSaveDataList("cookies");
 			cookies = new ArrayList<Cookie>();
@@ -131,6 +148,11 @@ public class Level{
 		data.addData("id",lvlid);
 		data.addData("roomid",room.code);
 		data.addData("loaded",loaded);
+		
+		for(int i=0; i<themes.length; i++) {
+			data.addData("themes",themes[i],2*i);
+			data.addData("themes",themeWeights[i],2*i+1);
+		}
 		
 		if(loaded) {
 			int ci = 0;
@@ -454,7 +476,9 @@ public class Level{
 	}
 	
 	public String getTitle() {return room.title;}
-	public String getTheme() {return room.theme;}
+	public String getKeyTheme() {return room.theme;}
+	public String[] getThemes() {return themes;}
+	public double[] getThemeWeights() {return themeWeights;}
 	public double getScale() {return room.scale;}
 	public int getMinDecay() {return room.minDecay;}
 	public int getMaxDecay() {return room.maxDecay;}

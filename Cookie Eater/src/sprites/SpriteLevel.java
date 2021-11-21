@@ -32,7 +32,7 @@ public class SpriteLevel extends Sprite{
 	}
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
-		lvl = board.currLevel.getTheme();
+		lvl = board.currLevel.getKeyTheme();
 		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D newg = wallMask.createGraphics();
 		
@@ -70,7 +70,6 @@ public class SpriteLevel extends Sprite{
 		}
 		newg.dispose();
 		//finish up wall graphics
-		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WALL.png"));
 		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallB.png"));
 		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallF.png"));
 		newg = ((BufferedImage)wall).createGraphics();
@@ -86,8 +85,20 @@ public class SpriteLevel extends Sprite{
 		}
 		newg.drawImage(wallF,0,0,null);
 		newg.dispose();
-		//floor graphics
-		floor = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"Floor.png"));
+		//blend floor images according to their weights
+		floor = null;
+		Graphics2D fg = null;
+		for(int i=0; i<board.currLevel.getThemes().length; i++) {
+			Image floorAdd = ImageIO.read(new File("Cookie Eater/src/resources/level/"+board.currLevel.getThemes()[i]+"Floor.png"));
+			if(floor == null) {
+				floor = new BufferedImage(floorAdd.getWidth(null),floorAdd.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+				fg = (Graphics2D)floor.getGraphics();
+			}
+		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights()[i])));
+		    fg.drawImage(floorAdd, 0, 0, null);
+		}
+		fg.dispose();
+
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";

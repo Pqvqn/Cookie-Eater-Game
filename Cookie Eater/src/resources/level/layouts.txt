@@ -3,10 +3,10 @@
 ]rooms:{
 ]weight:1
 ]room:Room1]}
-]length:2
+]length:16
 ]store:Store1
-]dimensions:2;2
-]themes:forest]}
+]dimensions:4;4
+]themes:forest;dungeon]}
 
 ]Layout2:{
 ]rooms:{
