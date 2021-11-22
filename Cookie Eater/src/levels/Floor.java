@@ -102,7 +102,6 @@ public class Floor {
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		int[] currCoord = {0,0};
-		ArrayList<Integer[]> open = new ArrayList<Integer[]>();
 		//unpack weights
 		ArrayList<Room> levels = new ArrayList<Room>();
 		ArrayList<Integer> counts = new ArrayList<Integer>();
@@ -126,7 +125,6 @@ public class Floor {
 		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,themeWeights[currCoord[0]][currCoord[1]],startCode);
 		for(int i=Math.min(layout.numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
-
 			int[] moveData = moveDirection(currCoord);
 			int chosenDir = moveData[0];
 			int[] change = {moveData[1], moveData[2]};
@@ -146,27 +144,21 @@ public class Floor {
 				ArrayList<Integer> dirture = new ArrayList<Integer>();
 				nexture.add(addition);
 				dirture.add(chosenDir);
-				if(count>1) {
-					open.add(new Integer[] {currCoord[0], currCoord[1]});
-				}
 				current.setNextLevels(nexture,dirture);
 				currCoord[0] += change[0];
 				currCoord[1] += change[1];
 			}else { //find cell to backtrack to
 				ends.add(current);
-				for(int k=open.size()-1; k>=0; k--) {
-					if(open.get(k)[0] == currCoord[0] && open.get(k)[1] == currCoord[1]) {
-						open.remove(k);
-					}
-				}
+				ArrayList<Integer[]> open = findOpenSpots();
 				if(!open.isEmpty()) {
 					int j = (int)(Math.random()*open.size());
 					currCoord[0] = open.get(j)[0];
 					currCoord[1] = open.get(j)[1];
+					i++;
 				}
 			}
 		}
-		ends.add(roomGrid[currCoord[0]][currCoord[1]]);
+		if(!ends.contains(roomGrid[currCoord[0]][currCoord[1]]))ends.add(roomGrid[currCoord[0]][currCoord[1]]);
 		if(!exits.isEmpty()) {
 			ArrayList<Level> nexture = new ArrayList<Level>();
 			ArrayList<Integer> dirture = new ArrayList<Integer>();
@@ -174,8 +166,52 @@ public class Floor {
 			dirture.add(Passage.FLOOR);
 			roomGrid[currCoord[0]][currCoord[1]].setNextLevels(nexture,dirture);
 		}
-		
 	}
+	
+	//choose direction to move into
+	private int[] moveDirection(int[] coords) {
+		//create list of all dirs to move into and remove unavailable ones
+		ArrayList<Integer> dirs = new ArrayList<Integer>();
+		for(int d=0; d<4; d++)dirs.add(d);
+		if(coords[0]==0)dirs.remove(Integer.valueOf(Passage.LEFT));
+		if(coords[1]==0)dirs.remove(Integer.valueOf(Passage.TOP));
+		if(coords[0]==roomGrid.length-1)dirs.remove(Integer.valueOf(Passage.RIGHT));
+		if(coords[1]==roomGrid[0].length-1)dirs.remove(Integer.valueOf(Passage.BOTTOM));
+
+		for(int d=dirs.size()-1; d>=0; d--) {
+			int[] change = passageVector(dirs.get(d));
+			if(roomGrid[coords[0]+change[0]][coords[1]+change[1]]!=null) {
+				dirs.remove(d);
+			}
+		}
+
+		// {direction, x change, y change, num options}
+		int[] result = new int[4];
+		if(!dirs.isEmpty()) {
+			//select direction randomly
+			result[0]=dirs.get((int)(Math.random()*dirs.size()));
+			int[] vec = passageVector(result[0]);
+			result[1] = vec[0];
+			result[2] = vec[1];
+			result[3] = dirs.size();
+		}
+		return result;
+	}
+	
+	//return a list of all cells that have open cells next to them
+	public ArrayList<Integer[]> findOpenSpots(){
+		ArrayList<Integer[]> open = new ArrayList<Integer[]>();
+		for(int i=0; i<roomGrid.length; i++) {
+			for(int j=0; j<roomGrid[i].length; j++) {
+				int count = moveDirection(new int[] {i, j})[3];
+				if(roomGrid[i][j]!=null && count>0) {
+					open.add(new Integer[] {i, j});
+				}
+			}
+		}
+		return open;
+	}
+	
 	
 	//calculate weights of each theme at every cell
 	public double[][][] generateTheme(){
@@ -202,34 +238,6 @@ public class Floor {
 				}
 			}
 		}
-	}
-	
-	//choose direction to move into
-	private int[] moveDirection(int[] coords) {
-		//create list of all dirs to move into and remove unavailable ones
-		ArrayList<Integer> dirs = new ArrayList<Integer>();
-		for(int d=0; d<4; d++)dirs.add(d);
-		if(coords[0]==0)dirs.remove(Integer.valueOf(Passage.LEFT));
-		if(coords[1]==0)dirs.remove(Integer.valueOf(Passage.TOP));
-		if(coords[0]==roomGrid[0].length-1)dirs.remove(Integer.valueOf(Passage.RIGHT));
-		if(coords[1]==roomGrid.length-1)dirs.remove(Integer.valueOf(Passage.BOTTOM));
-		for(int d=dirs.size()-1; d>=0; d--) {
-			int[] change = passageVector(dirs.get(d));
-			if(roomGrid[coords[0]+change[0]][coords[1]+change[1]]!=null) {
-				dirs.remove(d);
-			}
-		}
-		// {direction, x change, y change, num options}
-		int[] result = new int[4];
-		if(!dirs.isEmpty()) {
-			//select direction randomly
-			result[0]=dirs.get((int)(Math.random()*dirs.size()));
-			int[] vec = passageVector(result[0]);
-			result[1] = vec[0];
-			result[2] = vec[1];
-			result[3] = dirs.size();
-		}
-		return result;
 	}
 	
 	public Store getStore() {return store;}
@@ -323,11 +331,13 @@ public class Floor {
 					ret += "-";
 				}else {
 					//ret += room;
+					String rethere = ret;
 					ArrayList<Passage> passs = room.getPassages();
 					for(int p=0; p<passs.size(); p++) {
 						Passage pass = passs.get(p);
 						if(pass.entranceAt(room))ret += dirs[pass.getEntranceDirection()];
 					}
+					if(rethere.equals(ret))ret += "O";
 				}
 				ret+="  ";
 			}

@@ -141,10 +141,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				double n = Math.random();
-				for(mechanisms.Passage p : board.currLevel.getPassages()) {
-					System.out.println(p + " : " + board.currLevel + " : " + p.getDirection());
-				}
+				System.out.println(board.currLevel.getFloor());
 				break;
 		}
 		
