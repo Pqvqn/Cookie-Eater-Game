@@ -1,7 +1,5 @@
 package levels;
 
-
-import java.awt.*;
 import java.util.*;
 
 import ce3.*;
@@ -19,8 +17,10 @@ public class Room{
 	//public Color bgColor;
 	//public Color wallColor;
 	public String title; //name for display
-	public String theme; //name of theme for files
+	public String keyTheme; //name of theme for files
 	public String code; //name for identification
+	public String[] neededThemes;
+	public double[] neededLevels;
 	public double exitProportion; //proportion of cookies that must be collected to open doors
 	
 	public int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line
@@ -70,7 +70,9 @@ public class Room{
 	public Room(String roomtype, String roomname) {
 		scale = .95;
 		title = "Dungeon Foyer";
-		theme = "dungeon";
+		keyTheme = "dungeon";
+		neededThemes = new String[] {"dungeon"};
+		neededLevels = new double[] {.2};
 		code = roomname;
 		roomType = roomtype;
 		exitProportion = roomType.equals(STORE)?1:.5;
@@ -135,14 +137,22 @@ public class Room{
 			mech.addData("quantity",3,1);
 			mechanismGen.add(mech);
 		}
+		
 	}
 	
 	public Room(String roomname, SaveData sd) {
 		scale = sd.getDouble("scale",0);
 		title = sd.getString("name",0);
-		theme = sd.getString("name",1);
+		keyTheme = sd.getString("name",1);
 		code = roomname;
 		exitProportion = sd.getDouble("requirement",0);
+		int themeNum = sd.getData("neededthemes").size();
+		neededThemes = new String[themeNum/2];
+		neededLevels = new double[themeNum/2];
+		for(int i=0; i<themeNum; i+=2) {
+			neededThemes[i/2] = sd.getString("neededthemes",i);
+			neededLevels[i/2] = sd.getDouble("neededthemes",i+1);
+		}
 		//bgColor = Color.GRAY;
 		//wallColor = Color.red.darker();
 		roomType = sd.getString("type",0);
@@ -237,11 +247,15 @@ public class Room{
 		SaveData data = new SaveData();
 		data.addData("scale",scale);
 		data.addData("name",title,0);
-		data.addData("name",theme,1);
+		data.addData("name",keyTheme,1);
 		data.addData("requirement",exitProportion);
 		data.addData("type",roomType);
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			data.addData("startpositions",startposs[i/startposs[0].length][i%startposs[0].length],i);
+		}
+		for(int i=0; i<neededThemes.length; i++) {
+			data.addData("neededthemes",neededThemes[i],2*i);
+			data.addData("neededthemes",neededLevels[i],2*i+1);
 		}
 		
 		data.addData("canhalt",haltEnabled);

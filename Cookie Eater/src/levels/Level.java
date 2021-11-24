@@ -47,7 +47,7 @@ public class Level{
 		if(floorlevel!=null) {
 			themes = floorlevel.layout.themes;
 		}else {
-			themes = new String[] {room.theme};
+			themes = new String[] {room.keyTheme};
 		}
 		themeWeights = theme;
 		
@@ -476,7 +476,7 @@ public class Level{
 	}
 	
 	public String getTitle() {return room.title;}
-	public String getKeyTheme() {return room.theme;}
+	public String getKeyTheme() {return room.keyTheme;}
 	public String[] getThemes() {return themes;}
 	public double[] getThemeWeights() {return themeWeights;}
 	public double getScale() {return room.scale;}
