@@ -101,10 +101,8 @@ public class Floor {
 		double[][][] themeWeights = generateTheme();
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
-		int[] currCoord = {0,0};
-		//unpack weights
-		ArrayList<Room> levels = new ArrayList<Room>();
-		ArrayList<Integer> counts = new ArrayList<Integer>();
+		int[] currCoord = {(int)(Math.random()*roomGrid.length),(int)(Math.random()*roomGrid[0].length)};
+
 		
 		HashMap<Room,Integer> roomWeights = new HashMap<Room,Integer>();
 		for(int i=0; i<layout.roomGen.size(); i++) {
@@ -114,15 +112,7 @@ public class Floor {
 			roomWeights.put(r,weight);
 		}
 		
-		Iterator<Room> it = roomWeights.keySet().iterator();
-		int sum = 0;
-		while(it.hasNext()) {
-			Room classlvl = it.next();
-			levels.add(classlvl);
-			sum += roomWeights.get(classlvl);
-			counts.add(sum);
-		}
-		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(levels,counts,sum,themeWeights[currCoord[0]][currCoord[1]],startCode);
+		roomGrid[currCoord[0]][currCoord[1]] = generateRoom(roomWeights,themeWeights[currCoord[0]][currCoord[1]],startCode);
 		for(int i=Math.min(layout.numRooms,roomGrid.length*roomGrid[0].length)-1; i>=0; i--) {
 			//test directions to move in
 			int[] moveData = moveDirection(currCoord);
@@ -136,7 +126,7 @@ public class Floor {
 			//test if there are available directions
 			if(count>0) { //move in chosen direction				
 				//generate a new room
-				Level addition = generateRoom(levels,counts,sum,themeWeights[currCoord[0]+change[0]][currCoord[1]+change[1]],currCoord[0]+"u"+currCoord[1]);
+				Level addition = generateRoom(roomWeights,themeWeights[currCoord[0]+change[0]][currCoord[1]+change[1]],currCoord[0]+"u"+currCoord[1]);
 				
 				//add room connection
 				roomGrid[currCoord[0]+change[0]][currCoord[1]+change[1]] = addition;
@@ -312,12 +302,35 @@ public class Floor {
 		
 	}
 	
-	public Level generateRoom(ArrayList<Room> levels, ArrayList<Integer> counts, int sum, double[] weights, String id) {
+	public Level generateRoom(HashMap<Room,Integer> roomWeights, double[] themeWeights, String id) {
+		//unpack weights for valid rooms
+		ArrayList<Room> levels = new ArrayList<Room>();
+		ArrayList<Integer> counts = new ArrayList<Integer>();
+		Iterator<Room> it = roomWeights.keySet().iterator();
+		int sum = 0;
+		while(it.hasNext()) {
+			Room classlvl = it.next();
+			//check that theme weights are met
+			ArrayList<String> layoutThemes = new ArrayList<String>();
+			boolean meetsThemes = true;
+			for(int i=0; i<layout.themes.length; i++)layoutThemes.add(layout.themes[i]);
+			for(int i=0; i<classlvl.neededThemes.length; i++) {
+				if(classlvl.neededLevels[i] < themeWeights[i])meetsThemes = false;
+			}
+			//only add rooms to options that meet themes
+			if(meetsThemes) {
+				levels.add(classlvl);
+				sum += roomWeights.get(classlvl);
+				counts.add(sum);
+			}
+		}
+		
+		//choose a level
 		int chosen = (int)(Math.random()*sum);
 		int find = 0;
 		for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 		Room chosenlvl = levels.get(find);
-		Level addition = new Level(game, board, this, chosenlvl, weights, id);
+		Level addition = new Level(game, board, this, chosenlvl, themeWeights, id);
 		return addition;
 	}
 	
