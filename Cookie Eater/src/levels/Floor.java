@@ -313,9 +313,11 @@ public class Floor {
 			//check that theme weights are met
 			ArrayList<String> layoutThemes = new ArrayList<String>();
 			boolean meetsThemes = true;
-			for(int i=0; i<layout.themes.length; i++)layoutThemes.add(layout.themes[i]);
+			for(int i=0; i<layout.themes.length; i++) {
+				layoutThemes.add(layout.themes[i]);
+			}
 			for(int i=0; i<classlvl.neededThemes.length; i++) {
-				if(classlvl.neededLevels[i] < themeWeights[i])meetsThemes = false;
+				if(classlvl.neededLevels[i] > themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])])meetsThemes = false;
 			}
 			//only add rooms to options that meet themes
 			if(meetsThemes) {
