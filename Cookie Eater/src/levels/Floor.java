@@ -215,7 +215,15 @@ public class Floor {
 				}
 			}
 		}
-
+		/*for(int r=0; r<layout.rows; r++) {
+			for(int c=0; c<layout.cols; c++) {
+				for(int i=0; i<layout.themes.length; i++) {
+					System.out.print(((int)(field[r][c][i]*100))/100.0+",");
+				}
+				System.out.print("   ");
+			}
+			System.out.println();
+		}*/
 		return field;
 	}
 	
@@ -310,6 +318,8 @@ public class Floor {
 		int sum = 0;
 		while(it.hasNext()) {
 			Room classlvl = it.next();
+			double roomWeight = roomWeights.get(classlvl);
+			
 			//check that theme weights are met
 			ArrayList<String> layoutThemes = new ArrayList<String>();
 			boolean meetsThemes = true;
@@ -317,12 +327,17 @@ public class Floor {
 				layoutThemes.add(layout.themes[i]);
 			}
 			for(int i=0; i<classlvl.neededThemes.length; i++) {
-				if(classlvl.neededLevels[i] > themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])])meetsThemes = false;
+				if(layoutThemes.indexOf(classlvl.neededThemes[i])<0 || classlvl.neededLevels[i] > themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])]) {
+					meetsThemes = false;
+				}else {
+					roomWeight += roomWeight * (classlvl.neededLevels[i] + themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])])/2.0;
+				}
 			}
+					
 			//only add rooms to options that meet themes
 			if(meetsThemes) {
 				levels.add(classlvl);
-				sum += roomWeights.get(classlvl);
+				sum += (int)(.5+roomWeight);
 				counts.add(sum);
 			}
 		}

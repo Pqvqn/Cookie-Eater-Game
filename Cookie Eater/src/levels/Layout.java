@@ -45,9 +45,15 @@ public class Layout {
 		store = "Store2";
 		roomGen = new ArrayList<SaveData>();
 		SaveData room2 = new SaveData();
+		
 		room2.addData("room","Room2");
 		room2.addData("weight",1);
 		roomGen.add(room2);
+		SaveData room3 = new SaveData();
+		room3.addData("room","Room3");
+		room3.addData("weight",2);
+		roomGen.add(room3);
+		
 		nameSub = "Layout2";
 		String[] th = {"dungeon"};
 		themes = th;
