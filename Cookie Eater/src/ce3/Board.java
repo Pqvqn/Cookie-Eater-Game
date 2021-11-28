@@ -53,6 +53,7 @@ public class Board{
 	public UILevelInfo ui_lvl;
 	public UIDialogue ui_dia;
 	public UIConfirmation ui_cnf;
+	public UIDebugInfo ui_dbg;
 	
 	public Board(Game g, String name, int gamemode, int dungeon, int playercount, int cycle) {
 		game = g;
@@ -84,6 +85,7 @@ public class Board{
 		game.draw.setBoard(this);
 		
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
+		game.draw.addUI(ui_dbg = new UIDebugInfo(game,x_resol-200,y_resol-200));
 		if(mode == LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
@@ -159,6 +161,7 @@ public class Board{
 			wallSpace.add(w.getArea());
 		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
+		game.draw.addUI(ui_dbg = new UIDebugInfo(game,x_resol-200,y_resol-200));
 		game.draw.setBoard(this);
 	}
 	//write data tp 
@@ -254,6 +257,9 @@ public class Board{
 	public void updateUI() {
 		//level display
 		ui_lvl.update(currLevel.getTitle());
+		
+		//debug display
+		ui_dbg.update(currLevel.getThemes(),currLevel.getThemeWeights());
 		
 		//dialogue
 		if(ui_dia!=null)ui_dia.update();

@@ -215,15 +215,17 @@ public class Floor {
 				}
 			}
 		}
-		/*for(int r=0; r<layout.rows; r++) {
-			for(int c=0; c<layout.cols; c++) {
-				for(int i=0; i<layout.themes.length; i++) {
-					System.out.print(((int)(field[r][c][i]*100))/100.0+",");
+		if(layout.nameSub.equals("Layout1")){
+			for(int r=0; r<layout.rows; r++) {
+				for(int c=0; c<layout.cols; c++) {
+					for(int i=0; i<layout.themes.length; i++) {
+						System.out.print(((int)(field[r][c][i]*100))/100.0+",");
+					}
+					System.out.print("   ");
 				}
-				System.out.print("   ");
+				System.out.println();
 			}
-			System.out.println();
-		}*/
+		}
 		return field;
 	}
 	
