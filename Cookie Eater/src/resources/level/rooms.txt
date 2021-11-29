@@ -14,7 +14,7 @@
 ]wallgen:0;0;0
 ]cookiegen:90;100
 ]name:Empty Void;void
-]neededthemes:
+]neededthemes:void;0
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false

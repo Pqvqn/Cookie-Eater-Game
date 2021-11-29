@@ -4,13 +4,11 @@ rooms:{
 ]weight:1
 ]room:Room2]};{
 ]weight:1
-]room:Room1]};{
-]weight:10
-]room:RoomBlank]}
+]room:Room1]}
 ]length:16
 ]store:Store1
 ]dimensions:4;4
-]themes:forest;dungeon]}
+]themes:void]}
 
 ]Layout2:{
 ]rooms:{

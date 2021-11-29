@@ -343,13 +343,19 @@ public class Floor {
 				counts.add(sum);
 			}
 		}
-		
-		//choose a level
-		int chosen = (int)(Math.random()*sum);
-		int find = 0;
-		for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
-		Room chosenlvl = levels.get(find);
-		Level addition = new Level(game, board, this, chosenlvl, themeWeights, id);
+		Level addition;
+		//no valid rooms, use blank
+		if(sum==0) {
+			addition = new Level(game, board, this, board.rooms.get("RoomBlank"), themeWeights, id);
+		}else {
+			//choose a level
+			int chosen = (int)(Math.random()*sum);
+			int find = 0;
+			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
+			Room chosenlvl = levels.get(find);
+			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
+		}
+
 		return addition;
 	}
 	
