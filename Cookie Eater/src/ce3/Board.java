@@ -27,7 +27,7 @@ public class Board{
 	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
-	public static final String[] themes = {"forest","dungeon","cave","ice","harsh"}; //art and mechanic themes for across floors
+	public static final String[] themes = {"forest","dungeon","cave","ice","harsh","void"}; //art and mechanic themes for across floors
 	public HashMap<String,Store> stores; //stores (stay the same between resets)
 	public HashMap<String,Room> rooms; //room templates that may be placed within floors
 	public HashMap<String,Layout> layouts; //layout templates that may be used to create floors
