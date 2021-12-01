@@ -355,7 +355,7 @@ public class Floor {
 			Room chosenlvl = levels.get(find);
 			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
 		}
-
+		if(layout.nameSub.equals("Layout1"))System.out.println(addition.room.title);
 		return addition;
 	}
 	

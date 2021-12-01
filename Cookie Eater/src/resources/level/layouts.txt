@@ -8,7 +8,7 @@ rooms:{
 ]length:16
 ]store:Store1
 ]dimensions:4;4
-]themes:void]}
+]themes:forest;dungeon]}
 
 ]Layout2:{
 ]rooms:{
