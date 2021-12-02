@@ -315,9 +315,9 @@ public class Floor {
 	public Level generateRoom(HashMap<Room,Integer> roomWeights, double[] themeWeights, String id) {
 		//unpack weights for valid rooms
 		ArrayList<Room> levels = new ArrayList<Room>();
-		ArrayList<Integer> counts = new ArrayList<Integer>();
+		ArrayList<Double> counts = new ArrayList<Double>();
 		Iterator<Room> it = roomWeights.keySet().iterator();
-		int sum = 0;
+		double sum = 0;
 		while(it.hasNext()) {
 			Room classlvl = it.next();
 			double roomWeight = roomWeights.get(classlvl);
@@ -339,7 +339,7 @@ public class Floor {
 			//only add rooms to options that meet themes
 			if(meetsThemes) {
 				levels.add(classlvl);
-				sum += (int)(.5+roomWeight);
+				sum += roomWeight;
 				counts.add(sum);
 			}
 		}
@@ -350,6 +350,11 @@ public class Floor {
 		}else {
 			//choose a level
 			int chosen = (int)(Math.random()*sum);
+			if(layout.nameSub.equals("Layout1")) {
+				System.out.print(chosen+"/"+sum);
+				for(Room lvl : levels)System.out.print("    "+lvl.title);
+				System.out.println();
+			}
 			int find = 0;
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 			Room chosenlvl = levels.get(find);
