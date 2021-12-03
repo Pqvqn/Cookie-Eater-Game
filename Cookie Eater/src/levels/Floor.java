@@ -349,18 +349,12 @@ public class Floor {
 			addition = new Level(game, board, this, board.rooms.get("RoomBlank"), themeWeights, id);
 		}else {
 			//choose a level
-			int chosen = (int)(Math.random()*sum);
-			if(layout.nameSub.equals("Layout1")) {
-				System.out.print(chosen+"/"+sum);
-				for(Room lvl : levels)System.out.print("    "+lvl.title);
-				System.out.println();
-			}
+			double chosen = (Math.random()*sum);
 			int find = 0;
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
 			Room chosenlvl = levels.get(find);
 			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
 		}
-		if(layout.nameSub.equals("Layout1"))System.out.println(addition.room.title);
 		return addition;
 	}
 	
