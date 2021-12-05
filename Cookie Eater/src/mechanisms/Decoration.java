@@ -1,6 +1,10 @@
 package mechanisms;
 
+import java.awt.*;
+import java.io.IOException;
+
 import ce3.*;
+import sprites.*;
 
 public class Decoration extends Mechanism{
 
@@ -9,14 +13,24 @@ public class Decoration extends Mechanism{
 	
 	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String name) {
 		super(frame, gameboard, xPos, yPos);
-		//sprite;
 		fileName = name;
+		try {
+			sprite = new SpriteMechanism(gameboard, this, fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Decoration(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
-		//sprite;
 		fileName = sd.getString("filename",0);
+		try {
+			sprite = new SpriteMechanism(gameboard, this, fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public SaveData getSaveData() {
@@ -25,9 +39,10 @@ public class Decoration extends Mechanism{
 		return data;
 	}
 	
-	public void clean() {
-		super.clean();
-		//sprite;
+	public void paint(Graphics g) {
+		if(sprite!=null) {
+			sprite.paint(g);
+		}
 	}
 
 }

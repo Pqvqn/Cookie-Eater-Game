@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 
 import entities.*;
+import mechanisms.Decoration;
 import menus.*;
 
 //import javax.swing.*;
@@ -141,7 +142,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				System.out.println(board.currLevel.getFloor());
+				board.mechanisms().add(new Decoration(game, board, 500,500,"bush"));
 				break;
 		}
 		
