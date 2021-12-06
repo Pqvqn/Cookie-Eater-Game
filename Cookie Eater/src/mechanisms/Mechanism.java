@@ -52,15 +52,18 @@ public abstract class Mechanism {
 	
 	//return Mechanism created by SaveData, testing for correct type of Mechanism
 	public static Mechanism loadFromData(Game frame, Board gameboard, SaveData sd) {
+		SaveData randomization = sd.getSaveDataList("randomization").get(0);
 		//mechanism subclasses
-		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class,WallDoor.class};
+		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class,WallDoor.class,Decoration.class};
 		String thistype = sd.getString("type",0);
 		if(thistype.equals(Passage.class.getName()))return null; //exclude passages
 		for(int i=0; i<mechtypes.length; i++) {
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(mechtypes[i].getName())){
 				try {
-					return (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
+					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
+					if(randomization!=null)m.randomize(randomization);
+					return m;
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -72,6 +75,9 @@ public abstract class Mechanism {
 		//default to wall
 		return new Wall(frame, gameboard, sd);
 	}
+	
+	//randomize all position and stats from SaveData
+	public void randomize(SaveData randomization) { }
 	
 	public void runUpdate() {
 		
