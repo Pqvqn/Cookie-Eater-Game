@@ -30,9 +30,9 @@ public class WallMove extends Wall{
 		initPaths(path);
 	}
 	
-	public WallMove(Game frame, Board gameboard, int[] xPos, int[] yPos, int radius, String randommode, Path path) {
-		super(frame,gameboard,xPos[0],yPos[0],xPos[1],yPos[1],radius);
-		path.randomize(randommode,this,null);
+	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, SaveData randomization, Path path) {
+		super(frame,gameboard,xPos,yPos,radius);
+		randomize(randomization);
 		initPaths(path);
 	}
 	
@@ -42,8 +42,11 @@ public class WallMove extends Wall{
 		xV = sd.getDouble("velocity",0);
 		yV = sd.getDouble("velocity",1);
 		Path p =new Path(sd.getSaveDataList("path").get(0));
-		p.randomize(sd.getString("randomize",0),this,null);
 		initPaths(p);
+	}
+	
+	public void randomize(SaveData randomization) {
+		path.randomize(randomization.getString("randmode",0),this,null);
 	}
 
 	public SaveData getSaveData() {
