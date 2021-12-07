@@ -21,24 +21,12 @@ public abstract class Mechanism {
 		mass = 100;
 	}
 	
-	public Mechanism(Game frame, Board gameboard, int minX, int minY, int maxX, int maxY) {
-		this(frame, gameboard, (int)(Math.random()*(maxX-minX)) + minX, (int)(Math.random()*(maxY-minY)) + minY);
-	}
-	
 	public Mechanism(Game frame, Board gameboard, SaveData sd) {
 		game = frame;
 		board = gameboard;
-		if(sd.getData("position").size()>=4){
-			double minX = sd.getDouble("position",0);
-			double minY = sd.getDouble("position",1);
-			double maxX = sd.getDouble("position",2);
-			double maxY = sd.getDouble("position",3);
-			x = (int)(Math.random()*(maxX-minX)) + minX;
-			y = (int)(Math.random()*(maxY-minY)) + minY;
-		}else {
-			x = sd.getDouble("position",0);
-			y = sd.getDouble("position",1);
-		}
+		randomize(sd.getSaveDataList("randomization").get(0));
+		x = sd.getDouble("position",0);
+		y = sd.getDouble("position",1);
 		mass = sd.getDouble("mass",0);
 	}
 	public SaveData getSaveData() {
@@ -52,7 +40,6 @@ public abstract class Mechanism {
 	
 	//return Mechanism created by SaveData, testing for correct type of Mechanism
 	public static Mechanism loadFromData(Game frame, Board gameboard, SaveData sd) {
-		SaveData randomization = sd.getSaveDataList("randomization").get(0);
 		//mechanism subclasses
 		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class,WallDoor.class,Decoration.class};
 		String thistype = sd.getString("type",0);
@@ -62,7 +49,6 @@ public abstract class Mechanism {
 			if(thistype.equals(mechtypes[i].getName())){
 				try {
 					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
-					if(randomization!=null)m.randomize(randomization);
 					return m;
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -77,7 +63,16 @@ public abstract class Mechanism {
 	}
 	
 	//randomize all position and stats from SaveData
-	public void randomize(SaveData randomization) { }
+	public void randomize(SaveData rnd) {
+		if(rnd.getData("position").size()>=4){
+			double minX = rnd.getDouble("position",0);
+			double minY = rnd.getDouble("position",1);
+			double maxX = rnd.getDouble("position",2);
+			double maxY = rnd.getDouble("position",3);
+			x = (int)(Math.random()*(maxX-minX)) + minX;
+			y = (int)(Math.random()*(maxY-minY)) + minY;
+		}
+	}
 	
 	public void runUpdate() {
 		

@@ -45,8 +45,9 @@ public class WallMove extends Wall{
 		initPaths(p);
 	}
 	
-	public void randomize(SaveData randomization) {
-		path.randomize(randomization.getString("randmode",0),this,null);
+	public void randomize(SaveData rnd) {
+		super.randomize(rnd);
+		path.randomize(rnd.getString("randmode",0),this,null);
 	}
 
 	public SaveData getSaveData() {
