@@ -64,7 +64,7 @@ public abstract class Mechanism {
 	
 	//randomize all position and stats from SaveData
 	public void randomize(SaveData rnd) {
-		if(rnd.getData("position").size()>=4){
+		if(rnd.getData("position")!=null && rnd.getData("position").size()>=4){
 			double minX = rnd.getDouble("position",0);
 			double minY = rnd.getDouble("position",1);
 			double maxX = rnd.getDouble("position",2);

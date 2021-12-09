@@ -41,13 +41,13 @@ public class WallMove extends Wall{
 		moving = sd.getBoolean("moving",0);
 		xV = sd.getDouble("velocity",0);
 		yV = sd.getDouble("velocity",1);
-		Path p =new Path(sd.getSaveDataList("path").get(0));
+		Path p = new Path(sd.getSaveDataList("path").get(0));
+		p.randomize(sd.getSaveDataList("randomization").get(0).getString("pathrand",0),this,null);
 		initPaths(p);
 	}
 	
 	public void randomize(SaveData rnd) {
 		super.randomize(rnd);
-		path.randomize(rnd.getString("randmode",0),this,null);
 	}
 
 	public SaveData getSaveData() {
@@ -55,7 +55,6 @@ public class WallMove extends Wall{
 		data.addData("moving",moving);
 		data.addData("velocity",xV,0);
 		data.addData("velocity",yV,1);
-		data.addData("randomize",Path.RANDOMIZE_NONE);
 		data.addData("path",path.getSaveData());
 		return data;
 	}
