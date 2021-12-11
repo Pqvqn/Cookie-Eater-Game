@@ -5,6 +5,7 @@ import java.awt.geom.Area;
 import java.lang.reflect.InvocationTargetException;
 
 import ce3.*;
+import levels.*;
 
 public abstract class Mechanism {
 
@@ -24,7 +25,6 @@ public abstract class Mechanism {
 	public Mechanism(Game frame, Board gameboard, SaveData sd) {
 		game = frame;
 		board = gameboard;
-		randomize(sd.getSaveDataList("randomization").get(0));
 		x = sd.getDouble("position",0);
 		y = sd.getDouble("position",1);
 		mass = sd.getDouble("mass",0);
@@ -39,7 +39,7 @@ public abstract class Mechanism {
 	}
 	
 	//return Mechanism created by SaveData, testing for correct type of Mechanism
-	public static Mechanism loadFromData(Game frame, Board gameboard, SaveData sd) {
+	public static Mechanism loadFromData(Game frame, Board gameboard, Level currlevel, SaveData sd) {
 		//mechanism subclasses
 		Class[] mechtypes = {Wall.class, WallMove.class,WallCase.class,WallDoor.class,Decoration.class};
 		String thistype = sd.getString("type",0);
@@ -49,6 +49,9 @@ public abstract class Mechanism {
 			if(thistype.equals(mechtypes[i].getName())){
 				try {
 					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
+					if(sd.getData("randomization")!=null) {
+						m.randomize(currlevel, sd.getSaveDataList("randomization").get(0));
+					}
 					return m;
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -63,7 +66,7 @@ public abstract class Mechanism {
 	}
 	
 	//randomize all position and stats from SaveData
-	public void randomize(SaveData rnd) {
+	public void randomize(Level lvl, SaveData rnd) {
 		if(rnd.getData("position")!=null && rnd.getData("position").size()>=4){
 			double minX = rnd.getDouble("position",0);
 			double minY = rnd.getDouble("position",1);

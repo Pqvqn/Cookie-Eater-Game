@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import ce3.*;
 import sprites.*;
+import levels.*;
 
 public class Decoration extends Mechanism{
 
@@ -48,8 +49,8 @@ public class Decoration extends Mechanism{
 		return data;
 	}
 	
-	public void randomize(SaveData rnd) {
-		super.randomize(rnd);
+	public void randomize(Level lvl, SaveData rnd) {
+		super.randomize(lvl,rnd);
 	}
 	
 	public void paint(Graphics g) {

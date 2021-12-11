@@ -142,7 +142,7 @@ public class Controls implements KeyListener{
 				player.special(2); 
 				break;
 			case KeyEvent.VK_O:
-				board.mechanisms().add(new Decoration(game, board, 500,500,"bush"));
+				//board.mechanisms().add(new Decoration(game, board, 500,500,"bush"));
 				break;
 		}
 		

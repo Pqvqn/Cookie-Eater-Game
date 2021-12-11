@@ -1,8 +1,7 @@
 package mechanisms;
 
-import ce3.Board;
-import ce3.Game;
-import ce3.SaveData;
+import ce3.*;
+import levels.*;
 
 public class WallMove extends Wall{
 	
@@ -30,11 +29,11 @@ public class WallMove extends Wall{
 		initPaths(path);
 	}
 	
-	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, SaveData randomization, Path path) {
+	/*public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, SaveData randomization, Path path) {
 		super(frame,gameboard,xPos,yPos,radius);
 		randomize(randomization);
 		initPaths(path);
-	}
+	}*/
 	
 	public WallMove(Game frame, Board gameboard, SaveData sd) {
 		super(frame, gameboard, sd);
@@ -46,8 +45,8 @@ public class WallMove extends Wall{
 		initPaths(p);
 	}
 	
-	public void randomize(SaveData rnd) {
-		super.randomize(rnd);
+	public void randomize(Level lvl, SaveData rnd) {
+		super.randomize(lvl, rnd);
 	}
 
 	public SaveData getSaveData() {

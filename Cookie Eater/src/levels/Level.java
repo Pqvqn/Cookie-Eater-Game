@@ -118,7 +118,7 @@ public class Level{
 			mechanisms = new ArrayList<Mechanism>();
 			if(mechData!=null) {
 				for(int i=0; i<mechData.size(); i++) {
-					Mechanism mech = Mechanism.loadFromData(game, board, mechData.get(i));
+					Mechanism mech = Mechanism.loadFromData(game, board, this, mechData.get(i));
 					if(mech!=null)mechanisms.add(mech);
 				}
 			}
@@ -278,7 +278,7 @@ public class Level{
 				int max = mechData.getInteger("quantity",1);
 				int buildCount = (int)(Math.random()*(max-min)) + min;
 				for(int j=0; j<buildCount; j++) {
-					Mechanism m = Mechanism.loadFromData(game,board,mechData.getSaveDataList("mechanism").get(0));
+					Mechanism m = Mechanism.loadFromData(game,board,this,mechData.getSaveDataList("mechanism").get(0));
 					addMechanism(m);
 				}
 			}
