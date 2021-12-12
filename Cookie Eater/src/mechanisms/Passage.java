@@ -193,6 +193,7 @@ public class Passage extends Mechanism{
 	}
 	public Level getExit() {return exitRoom;}
 	public Level getEntrance() {return entranceRoom;}
+	public Level getOtherSide() {return mode?exitRoom:entranceRoom;}
 	
 	//whether a certain point has passed this passage
 	public boolean passed(double xp, double yp) {

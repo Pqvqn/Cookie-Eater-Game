@@ -1,6 +1,7 @@
 package mechanisms;
 
 import java.awt.*;
+import java.util.*;
 import java.io.IOException;
 
 import ce3.*;
@@ -51,6 +52,11 @@ public class Decoration extends Mechanism{
 	
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl,rnd);
+		ArrayList<Level> options = new ArrayList<Level>();
+		for(Passage p : lvl.getPassages()) {
+			options.add(p.getOtherSide());
+		}
+		
 	}
 	
 	public void paint(Graphics g) {
