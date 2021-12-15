@@ -20,8 +20,9 @@ public class Level{
 	protected ArrayList<Passage> passageways; //entrances and exits
 	protected String lvlid; //id code for this level's path
 	protected boolean loaded; //whether this level has been entered before
-	protected String[] themes;
-	protected double[] themeWeights;
+	//protected String[] themes;
+	//protected double[] themeWeights;
+	public ThemeSet weightThemes;
 	
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
@@ -477,8 +478,8 @@ public class Level{
 	
 	public String getTitle() {return room.title;}
 	public String getKeyTheme() {return room.keyTheme;}
-	public String[] getThemes() {return themes;}
-	public double[] getThemeWeights() {return themeWeights;}
+	//public String[] getThemes() {return themes;}
+	//public double[] getThemeWeights() {return themeWeights;}
 	public double getScale() {return room.scale;}
 	public int getMinDecay() {return room.minDecay;}
 	public int getMaxDecay() {return room.maxDecay;}

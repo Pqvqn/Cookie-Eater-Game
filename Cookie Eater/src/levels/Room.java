@@ -19,8 +19,9 @@ public class Room{
 	public String title; //name for display
 	public String keyTheme; //name of theme for files
 	public String code; //name for identification
-	public String[] neededThemes;
-	public double[] neededLevels;
+	//public String[] neededThemes;
+	//public double[] neededLevels;
+	public ThemeSet neededThemes;
 	public double exitProportion; //proportion of cookies that must be collected to open doors
 	
 	public int[] pathGen;  //num nodes, min radius around nodes, max radius around nodes, radius around lines, nodes per line

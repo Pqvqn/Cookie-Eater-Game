@@ -46,5 +46,6 @@ public class ThemeSet {
 	}
 	
 	public double weigh(String theme) {return tw.get(theme);}
+	public int size() {return tw.keySet().size();}
 	
 }

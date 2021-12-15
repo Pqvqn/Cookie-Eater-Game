@@ -14,7 +14,8 @@ public class Layout {
 	public String store;
 	public int rows, cols;
 	public String nameSub;
-	public String[] themes;
+	//public String[] themes;
+	public ThemeSet presentThemes;
 	
 	public ArrayList<SaveData> enemyGen;
 	

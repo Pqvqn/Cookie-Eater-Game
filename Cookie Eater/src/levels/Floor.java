@@ -98,7 +98,7 @@ public class Floor {
 	
 	//creates and connects levels in paths
 	public void generateFloor() {
-		double[][][] themeWeights = generateTheme();
+		ThemeSet[][] themeWeights = generateTheme();
 		//int entrances = prevs.size();
 		//int exits = nexts.size();
 		int[] currCoord = {(int)(Math.random()*roomGrid.length),(int)(Math.random()*roomGrid[0].length)};
@@ -204,18 +204,21 @@ public class Floor {
 	
 	
 	//calculate weights of each theme at every cell
-	public double[][][] generateTheme(){
-		double[][][] field = new double[layout.rows][layout.cols][layout.themes.length];
-		for(int i=0; i<layout.themes.length; i++) {
+	public ThemeSet[][] generateTheme(){
+		ThemeSet[][] field = new ThemeSet[layout.rows][layout.cols];
+		for(int i=0; i<Board.themes.length; i++) {
 			int sr = (int)(Math.random()*layout.rows);
 			int sc = (int)(Math.random()*layout.cols);
 			for(int r=0; r<layout.rows; r++) {
 				for(int c=0; c<layout.cols; c++) {
-					field[r][c][i] = Math.min(2,1/(Math.sqrt(Math.pow(sr-r,2)+Math.pow(sc-c,2))));
+					if(field[r][c] == null) {
+						field[r][c] = new ThemeSet();
+					}
+					field[r][c].addTheme(Board.themes[i],Math.min(2,1/(Math.sqrt(Math.pow(sr-r,2)+Math.pow(sc-c,2)))));
 				}
 			}
 		}
-		if(layout.nameSub.equals("Layout1")){
+		/*if(layout.nameSub.equals("Layout1")){
 			for(int r=0; r<layout.rows; r++) {
 				for(int c=0; c<layout.cols; c++) {
 					for(int i=0; i<layout.themes.length; i++) {
@@ -225,7 +228,7 @@ public class Floor {
 				}
 				System.out.println();
 			}
-		}
+		}*/
 		return field;
 	}
 	
