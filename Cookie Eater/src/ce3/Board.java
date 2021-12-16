@@ -259,7 +259,7 @@ public class Board{
 		ui_lvl.update(currLevel.getTitle());
 		
 		//debug display
-		ui_dbg.update(currLevel.getThemes(),currLevel.getThemeWeights());
+		ui_dbg.update(currLevel.getThemeWeights());
 		
 		//dialogue
 		if(ui_dia!=null)ui_dia.update();

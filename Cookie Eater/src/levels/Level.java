@@ -37,7 +37,7 @@ public class Level{
 	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
 	
 	
-	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, double[] theme, String id) {
+	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, ThemeSet themeWeights, String id) {
 		game = frame;
 		board = gameboard;
 		floor = floorlevel;
@@ -45,12 +45,7 @@ public class Level{
 		lvlid = id;
 		loaded = false;
 		
-		if(floorlevel!=null) {
-			themes = floorlevel.layout.themes;
-		}else {
-			themes = new String[] {room.keyTheme};
-		}
-		themeWeights = theme;
+		weightThemes = themeWeights;
 		
 		enemies = new ArrayList<Enemy>();
 		effects = new ArrayList<Effect>();
@@ -478,8 +473,7 @@ public class Level{
 	
 	public String getTitle() {return room.title;}
 	public String getKeyTheme() {return room.keyTheme;}
-	//public String[] getThemes() {return themes;}
-	//public double[] getThemeWeights() {return themeWeights;}
+	public ThemeSet getThemeWeights() {return weightThemes;}
 	public double getScale() {return room.scale;}
 	public int getMinDecay() {return room.minDecay;}
 	public int getMaxDecay() {return room.maxDecay;}

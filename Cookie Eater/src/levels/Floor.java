@@ -315,7 +315,7 @@ public class Floor {
 		
 	}
 	
-	public Level generateRoom(HashMap<Room,Integer> roomWeights, double[] themeWeights, String id) {
+	public Level generateRoom(HashMap<Room,Integer> roomWeights, ThemeSet themeWeights, String id) {
 		//unpack weights for valid rooms
 		ArrayList<Room> levels = new ArrayList<Room>();
 		ArrayList<Double> counts = new ArrayList<Double>();
@@ -323,24 +323,10 @@ public class Floor {
 		double sum = 0;
 		while(it.hasNext()) {
 			Room classlvl = it.next();
-			double roomWeight = roomWeights.get(classlvl);
+			double roomWeight = roomWeights.get(classlvl) * classlvl.neededThemes.affinityWith(themeWeights);
 			
-			//check that theme weights are met
-			ArrayList<String> layoutThemes = new ArrayList<String>();
-			boolean meetsThemes = true;
-			for(int i=0; i<layout.themes.length; i++) {
-				layoutThemes.add(layout.themes[i]);
-			}
-			for(int i=0; i<classlvl.neededThemes.length; i++) {
-				if(layoutThemes.indexOf(classlvl.neededThemes[i])<0 || classlvl.neededLevels[i] > themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])]) {
-					meetsThemes = false;
-				}else {
-					roomWeight += roomWeight * (classlvl.neededLevels[i] + themeWeights[layoutThemes.indexOf(classlvl.neededThemes[i])])/2.0;
-				}
-			}
-					
-			//only add rooms to options that meet themes
-			if(meetsThemes) {
+			//check that theme weights are met, only add rooms to options that meet themes
+			if(classlvl.neededThemes.metBy(themeWeights)) {
 				levels.add(classlvl);
 				sum += roomWeight;
 				counts.add(sum);

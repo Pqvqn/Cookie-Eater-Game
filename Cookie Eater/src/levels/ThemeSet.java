@@ -35,6 +35,7 @@ public class ThemeSet {
 	
 	public void addTheme(String theme, Double weight) {tw.put(theme, weight);}
 	
+	//calculate theme affinity by summing products of theme weights
 	public double affinityWith(ThemeSet other) {
 		double total = 0;
 		Iterator<String> it = tw.keySet().iterator();
@@ -44,8 +45,31 @@ public class ThemeSet {
 		}
 		return total;
 	}
-	
+	//whether another theme surpasses each corresponding weight value
+	public boolean metBy(ThemeSet other) {
+		Iterator<String> it = tw.keySet().iterator();
+		while(it.hasNext()) {
+			String theme = it.next();
+			if(weigh(theme) > other.weigh(theme)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	//weight given to theme
 	public double weigh(String theme) {return tw.get(theme);}
+	//number of themes used
 	public int size() {return tw.keySet().size();}
+	
+	public String text(int roundScale) {
+		String ret = "";
+		Iterator<String> it = tw.keySet().iterator();
+		while(it.hasNext()) {
+			String theme = it.next();
+			double weight = ((int)(weigh(theme)*roundScale))/((double)roundScale);
+			ret += theme +": "+weight+"`";
+		}
+		return ret;
+	}
 	
 }
