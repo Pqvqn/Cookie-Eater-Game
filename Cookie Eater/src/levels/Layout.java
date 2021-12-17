@@ -56,8 +56,9 @@ public class Layout {
 		roomGen.add(room3);
 		
 		nameSub = "Layout2";
-		String[] th = {"dungeon"};
-		themes = th;
+		
+		presentThemes = new ThemeSet();
+		presentThemes.addTheme("dungeon",1.0);
 	}
 	
 	public Layout(String layoutname, SaveData sd) {
@@ -66,10 +67,7 @@ public class Layout {
 		cols = sd.getInteger("dimensions",1);
 		store = sd.getString("store",0);
 		roomGen = sd.getSaveDataList("rooms");
-		themes = new String[sd.getData("themes").size()];
-		for(int i=0; i<themes.length; i++) {
-			themes[i] = sd.getString("themes",i);
-		}
+		presentThemes = new ThemeSet(sd.getSaveDataList("presentthemes").get(0));
 		nameSub = layoutname;
 	}
 	
@@ -82,8 +80,7 @@ public class Layout {
 		data.addData("store",store);
 		for(int i=0; i<roomGen.size(); i++)
 			data.addData("rooms",roomGen.get(i),i);
-		for(int i=0; i<themes.length; i++)
-			data.addData("themes",themes[i],i);
+		data.addData("presentthemes",presentThemes.getSaveData());
 		return data;
 	}
 

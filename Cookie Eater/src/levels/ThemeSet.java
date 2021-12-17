@@ -61,6 +61,8 @@ public class ThemeSet {
 	//number of themes used
 	public int size() {return tw.keySet().size();}
 	
+	public Iterator<String> themeIterator() {return tw.keySet().iterator();}
+	
 	public String text(int roundScale) {
 		String ret = "";
 		Iterator<String> it = tw.keySet().iterator();

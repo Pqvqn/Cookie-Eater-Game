@@ -22,7 +22,7 @@ public class Level{
 	protected boolean loaded; //whether this level has been entered before
 	//protected String[] themes;
 	//protected double[] themeWeights;
-	public ThemeSet weightThemes;
+	protected ThemeSet weightThemes;
 	
 	public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
@@ -69,13 +69,7 @@ public class Level{
 		room = board.rooms.get(sd.getString("roomid",0));
 		loaded = sd.getBoolean("loaded",0);
 		
-		int themeNum = sd.getData("themes").size();
-		themes = new String[themeNum/2];
-		themeWeights = new double[themeNum/2];
-		for(int i=0; i<themeNum; i+=2) {
-			themes[i/2] = sd.getString("themes",i);
-			themeWeights[i/2] = sd.getDouble("themes",i+1);
-		}
+		weightThemes = new ThemeSet(sd.getSaveDataList("themes").get(0));
 		
 		if(loaded) {
 			ArrayList<SaveData> cookieData = sd.getSaveDataList("cookies");
@@ -145,10 +139,7 @@ public class Level{
 		data.addData("roomid",room.code);
 		data.addData("loaded",loaded);
 		
-		for(int i=0; i<themes.length; i++) {
-			data.addData("themes",themes[i],2*i);
-			data.addData("themes",themeWeights[i],2*i+1);
-		}
+		data.addData("themes",weightThemes.getSaveData());
 		
 		if(loaded) {
 			int ci = 0;

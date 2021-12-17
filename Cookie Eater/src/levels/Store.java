@@ -11,7 +11,7 @@ import mechanisms.*;
 public class Store extends Level{
 	
 	public Store(Game frame, Board gameboard, Room roomtemplate, String id) {
-		super(frame,gameboard,null,roomtemplate,new double[] {2},id);
+		super(frame,gameboard,null,roomtemplate,new ThemeSet(),id);
 	}
 	public Store(Game frame, Board gameboard, Floor floor, SaveData sd) {
 		super(frame, gameboard, floor, sd);

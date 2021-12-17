@@ -88,13 +88,15 @@ public class SpriteLevel extends Sprite{
 		//blend floor images according to their weights
 		floor = null;
 		Graphics2D fg = null;
-		for(int i=0; i<board.currLevel.getThemes().length; i++) {
-			Image floorAdd = ImageIO.read(new File("Cookie Eater/src/resources/level/"+board.currLevel.getThemes()[i]+"Floor.png"));
+		Iterator<String> themesIt = board.currLevel.getThemeWeights().themeIterator();
+		while(themesIt.hasNext()) {
+			String theme = themesIt.next();
+			Image floorAdd = ImageIO.read(new File("Cookie Eater/src/resources/level/"+theme+"Floor.png"));
 			if(floor == null) {
 				floor = new BufferedImage(floorAdd.getWidth(null),floorAdd.getHeight(null),BufferedImage.TYPE_INT_RGB);
 				fg = (Graphics2D)floor.getGraphics();
 			}
-		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights()[i])));
+		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
 		    fg.drawImage(floorAdd, 0, 0, null);
 		}
 		fg.dispose();

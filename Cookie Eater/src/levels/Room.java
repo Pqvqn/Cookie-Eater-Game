@@ -72,8 +72,8 @@ public class Room{
 		scale = .95;
 		title = "Dungeon Foyer";
 		keyTheme = "dungeon";
-		neededThemes = new String[] {"dungeon"};
-		neededLevels = new double[] {.2};
+		neededThemes = new ThemeSet();
+		neededThemes.addTheme("dungeon",0.2);
 		code = roomname;
 		roomType = roomtype;
 		exitProportion = roomType.equals(STORE)?1:.5;
@@ -147,13 +147,7 @@ public class Room{
 		keyTheme = sd.getString("name",1);
 		code = roomname;
 		exitProportion = sd.getDouble("requirement",0);
-		int themeNum = sd.getData("neededthemes").size();
-		neededThemes = new String[themeNum/2];
-		neededLevels = new double[themeNum/2];
-		for(int i=0; i<themeNum; i+=2) {
-			neededThemes[i/2] = sd.getString("neededthemes",i);
-			neededLevels[i/2] = sd.getDouble("neededthemes",i+1);
-		}
+		neededThemes = new ThemeSet(sd.getSaveDataList("neededthemes").get(0));
 		//bgColor = Color.GRAY;
 		//wallColor = Color.red.darker();
 		roomType = sd.getString("type",0);
@@ -254,10 +248,7 @@ public class Room{
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			data.addData("startpositions",startposs[i/startposs[0].length][i%startposs[0].length],i);
 		}
-		for(int i=0; i<neededThemes.length; i++) {
-			data.addData("neededthemes",neededThemes[i],2*i);
-			data.addData("neededthemes",neededLevels[i],2*i+1);
-		}
+		data.addData("neededthemes",neededThemes.getSaveData());
 		
 		data.addData("canhalt",haltEnabled);
 		data.addData("canspecial",specialsEnabled);
