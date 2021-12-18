@@ -12,9 +12,9 @@ public class Decoration extends Mechanism{
 
 	private SpriteMechanism sprite;
 	private String fileName;
-	private String[] preferredThemes; //affects placement to make closer to theme
+	private ThemeSet preferredThemes;
 	
-	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String name, String[] themes) {
+	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String name, ThemeSet themes) {
 		super(frame, gameboard, xPos, yPos);
 		fileName = name;
 		preferredThemes = themes;
@@ -29,10 +29,7 @@ public class Decoration extends Mechanism{
 	public Decoration(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
 		fileName = sd.getString("filename",0);
-		preferredThemes = new String[sd.getData("themes").size()];
-		for(int i=0; i<preferredThemes.length; i++) {
-			preferredThemes[i] = sd.getString("themes",i);
-		}
+		preferredThemes = new ThemeSet(sd.getSaveDataList("preferredthenes").get(0));
 		try {
 			sprite = new SpriteMechanism(gameboard, this, fileName);
 		} catch (IOException e) {
@@ -44,18 +41,26 @@ public class Decoration extends Mechanism{
 	public SaveData getSaveData() {
 		SaveData data = new SaveData();
 		data.addData("filename",fileName);
-		for(int i=0; i<preferredThemes.length; i++) {
-			data.addData("themes",preferredThemes[i],i);
-		}
+		data.addData("preferredthemes",preferredThemes.getSaveData());
 		return data;
 	}
 	
+	//set position nearer to passage with best theme affinity
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl,rnd);
-		ArrayList<Level> options = new ArrayList<Level>();
-		for(Passage p : lvl.getPassages()) {
-			options.add(p.getOtherSide());
+		ArrayList<Passage> options = lvl.getPassages();
+		double bestW = 0;
+		Passage best = null;
+		for(Passage p : options) {
+			double currW = preferredThemes.affinityWith(p.getOtherSide().getThemeWeights());
+			if(currW > bestW) {
+				bestW = currW;
+				best = p;
+			}
 		}
+		
+		x = best.getX();
+		y = best.getY();
 		
 	}
 	
