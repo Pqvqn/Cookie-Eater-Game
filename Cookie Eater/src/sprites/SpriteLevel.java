@@ -99,7 +99,7 @@ public class SpriteLevel extends Sprite{
 		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
 		    fg.drawImage(floorAdd, 0, 0, null);
 		}
-		fg.dispose();
+		if(fg!=null)fg.dispose();
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";

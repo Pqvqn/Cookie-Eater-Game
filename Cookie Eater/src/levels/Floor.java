@@ -33,7 +33,7 @@ public class Floor {
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[layout.rows][layout.cols];
 		Room storeRoom = board.rooms.get(layout.store);
-		store = new Store(game, board, storeRoom, id);
+		store = new Store(game, board, storeRoom, layout.presentThemes, id);
 	}
 	
 	public Floor(Game frame, Board gameboard, SaveData sd) {
@@ -46,7 +46,7 @@ public class Floor {
 		ends = new ArrayList<Level>();
 		roomGrid = new Level[layout.rows][layout.cols];
 		Room storeRoom = board.rooms.get(sd.getString("store",0));
-		store = new Store(game, board, storeRoom, id);
+		store = new Store(game, board, storeRoom, layout.presentThemes, id);
 		
 		ArrayList<Level> loadedLevels = new ArrayList<Level>();
 		Iterator<Store> it = board.stores.values().iterator();

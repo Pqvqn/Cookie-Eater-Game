@@ -14,7 +14,8 @@
 ]wallgen:0;0;0
 ]cookiegen:90;100
 ]name:Empty Void;void
-]neededthemes:void;0
+]neededthemes:{
+]map:void;1.0]}
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
@@ -35,7 +36,8 @@
 ]wallgen:0;0;0
 ]cookiegen:90;100
 ]name:Forest Entrance;forest
-]neededthemes:forest;0.2
+]neededthemes:{
+]map:forest;1.0]}
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
@@ -62,7 +64,8 @@
 ]wallgen:400;300;600
 ]cookiegen:50;95
 ]name:Dungeon Foyer;dungeon
-]neededthemes:dungeon;0.2
+]neededthemes:{
+]map:dungeon;1.0]}
 ]pathgen:1;100;200;100;10
 ]candamage:true
 ]canhalt:false
@@ -109,7 +112,8 @@
 ]wallgen:100;50;600
 ]cookiegen:15;90
 ]name:Descending Labyrinths;cave
-]neededthemes:cave;0.2
+]neededthemes:{
+]map:cave;1.0]}
 ]pathgen:4;100;200;80;10
 ]candamage:true
 ]canhalt:false
@@ -136,7 +140,8 @@
 ]wallgen:20;40;300
 ]cookiegen:5;85
 ]name:Frozen Chambers;ice
-]neededthemes:ice;0.2
+]neededthemes:{
+]map:ice;1.0]}
 ]pathgen:9;100;150;80;10
 ]candamage:true
 ]canhalt:false
@@ -163,7 +168,8 @@
 ]wallgen:100;50;600
 ]cookiegen:15;90
 ]name:Hostile Tunnels;harsh
-]neededthemes:harsh;0.2
+]neededthemes:{
+]map:harsh;1.0]}
 ]pathgen:4;100;300;100;10
 ]candamage:true
 ]canhalt:false
@@ -180,7 +186,8 @@
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
 ]name:Forest Entrance;forest
-]neededthemes:forest;1.0
+]neededthemes:{
+]map:forest;1.0]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -197,7 +204,8 @@
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
 ]name:Dungeon Foyer;dungeon
-]neededthemes:dungeon;1.0
+]neededthemes:{
+]map:dungeon;1.0]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -214,7 +222,8 @@
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
 ]name:Descending Labyrinths;cave
-]neededthemes:cave;1.0
+]neededthemes:{
+]map:cave;1.0]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -231,7 +240,8 @@
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
 ]name:Frozen Chambers;ice
-]neededthemes:ice;1.0
+]neededthemes:{
+]map:ice;1.0]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -248,7 +258,8 @@
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
 ]name:Hostile Tunnels;harsh
-]neededthemes:harsh;1.0
+]neededthemes:{
+]map:harsh;1.0]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
