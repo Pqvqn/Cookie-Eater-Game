@@ -124,7 +124,7 @@ public class Floor {
 			Level current = roomGrid[currCoord[0]][currCoord[1]];
 			if(ends.contains(current) && !current.getPassages().isEmpty())ends.remove(current);
 			//test if there are available directions
-			if(count>0) { //move in chosen direction				
+			if(count>0) { //move in chosen direction
 				//generate a new room
 				Level addition = generateRoom(roomWeights,themeWeights[currCoord[0]+change[0]][currCoord[1]+change[1]],currCoord[0]+"u"+currCoord[1]);
 				
@@ -206,15 +206,19 @@ public class Floor {
 	//calculate weights of each theme at every cell
 	public ThemeSet[][] generateTheme(){
 		ThemeSet[][] field = new ThemeSet[layout.rows][layout.cols];
-		for(int i=0; i<Board.themes.length; i++) {
-			int sr = (int)(Math.random()*layout.rows);
-			int sc = (int)(Math.random()*layout.cols);
-			for(int r=0; r<layout.rows; r++) {
-				for(int c=0; c<layout.cols; c++) {
-					if(field[r][c] == null) {
-						field[r][c] = new ThemeSet();
+		Iterator<String> it = layout.presentThemes.themeIterator();
+		while(it.hasNext()) {
+			String theme = it.next();
+			if(layout.presentThemes.weigh(theme) > 0) {
+				int sr = (int)(Math.random()*layout.rows);
+				int sc = (int)(Math.random()*layout.cols);
+				for(int r=0; r<layout.rows; r++) {
+					for(int c=0; c<layout.cols; c++) {
+						if(field[r][c] == null) {
+							field[r][c] = new ThemeSet();
+						}
+						field[r][c].addTheme(theme,Math.min(2,1/(Math.sqrt(Math.pow(sr-r,2)+Math.pow(sc-c,2)))));
 					}
-					field[r][c].addTheme(Board.themes[i],Math.min(2,1/(Math.sqrt(Math.pow(sr-r,2)+Math.pow(sc-c,2)))));
 				}
 			}
 		}

@@ -15,7 +15,7 @@
 ]cookiegen:90;100
 ]name:Empty Void;void
 ]neededthemes:{
-]map:void;1.0]}
+]map:void;0.2]}
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
@@ -37,7 +37,7 @@
 ]cookiegen:90;100
 ]name:Forest Entrance;forest
 ]neededthemes:{
-]map:forest;1.0]}
+]map:forest;0.2]}
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
@@ -65,7 +65,7 @@
 ]cookiegen:50;95
 ]name:Dungeon Foyer;dungeon
 ]neededthemes:{
-]map:dungeon;1.0]}
+]map:dungeon;0.2]}
 ]pathgen:1;100;200;100;10
 ]candamage:true
 ]canhalt:false
@@ -113,7 +113,7 @@
 ]cookiegen:15;90
 ]name:Descending Labyrinths;cave
 ]neededthemes:{
-]map:cave;1.0]}
+]map:cave;0.2]}
 ]pathgen:4;100;200;80;10
 ]candamage:true
 ]canhalt:false
@@ -141,7 +141,7 @@
 ]cookiegen:5;85
 ]name:Frozen Chambers;ice
 ]neededthemes:{
-]map:ice;1.0]}
+]map:ice;0.2]}
 ]pathgen:9;100;150;80;10
 ]candamage:true
 ]canhalt:false
@@ -169,7 +169,7 @@
 ]cookiegen:15;90
 ]name:Hostile Tunnels;harsh
 ]neededthemes:{
-]map:harsh;1.0]}
+]map:harsh;0.2]}
 ]pathgen:4;100;300;100;10
 ]candamage:true
 ]canhalt:false
@@ -187,7 +187,7 @@
 ]canspecial:false
 ]name:Forest Entrance;forest
 ]neededthemes:{
-]map:forest;1.0]}
+]map:forest;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -205,7 +205,7 @@
 ]canspecial:false
 ]name:Dungeon Foyer;dungeon
 ]neededthemes:{
-]map:dungeon;1.0]}
+]map:dungeon;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -223,7 +223,7 @@
 ]canspecial:false
 ]name:Descending Labyrinths;cave
 ]neededthemes:{
-]map:cave;1.0]}
+]map:cave;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -241,7 +241,7 @@
 ]canspecial:false
 ]name:Frozen Chambers;ice
 ]neededthemes:{
-]map:ice;1.0]}
+]map:ice;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
@@ -259,7 +259,7 @@
 ]canspecial:false
 ]name:Hostile Tunnels;harsh
 ]neededthemes:{
-]map:harsh;1.0]}
+]map:harsh;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
