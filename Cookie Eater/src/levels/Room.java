@@ -161,7 +161,6 @@ public class Room{
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			startposs[i/startposs[0].length][i%startposs[0].length] = sd.getDouble("startpositions",i);
 		}
-		
 		if(roomType.equals(STORE)) {
 			readStoreData(sd);
 		}else if(roomType.equals(STAGE)){

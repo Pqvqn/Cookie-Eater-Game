@@ -86,7 +86,7 @@ public class SaveData {
 			ArrayList<String> parts = splitList(sections.get(i),tagSep,savedataOpen,savedataClose);
 			if(parts.size()==2) { //valid data must have tag and info
 				//split parts of information
-				ArrayList<String> info = splitList(parts.get(1),infoSep,savedataOpen,savedataClose);
+				ArrayList<String> info = splitList(parts.get(1).replaceAll("\\R", ""),infoSep,savedataOpen,savedataClose);
 				ArrayList<Object> info2 = new ArrayList<Object>();
 				//test for type of info before adding
 				for(int j=0; j<info.size(); j++) {
