@@ -29,7 +29,7 @@ public class Decoration extends Mechanism{
 	public Decoration(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
 		fileName = sd.getString("filename",0);
-		preferredThemes = new ThemeSet(sd.getSaveDataList("preferredthenes").get(0));
+		preferredThemes = new ThemeSet(sd.getSaveDataList("preferredthemes").get(0));
 		try {
 			sprite = new SpriteMechanism(gameboard, this, fileName);
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public class Decoration extends Mechanism{
 	}
 	
 	public SaveData getSaveData() {
-		SaveData data = new SaveData();
+		SaveData data = super.getSaveData();
 		data.addData("filename",fileName);
 		data.addData("preferredthemes",preferredThemes.getSaveData());
 		return data;

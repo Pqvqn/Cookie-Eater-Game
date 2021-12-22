@@ -12,6 +12,13 @@ public class ThemeSet {
 		tw = new HashMap<String, Double>();
 	}
 	
+	public ThemeSet(String[] themes, double[] weights) {
+		this();
+		for(int i=0; i<themes.length; i++) {
+			tw.put(themes[i], weights[i]);
+		}
+	}
+	
 	public ThemeSet(SaveData sd) {
 		tw = new HashMap<String, Double>();
 		for(int i=0; i<sd.getData("map").size(); i+=2) {

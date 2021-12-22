@@ -41,7 +41,16 @@
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]mechanisms:{
+]quantity:1;1
+]mechanism:{
+]filename:bush
+]mass:100.0
+]position:0.0;0.0
+]type:mechanisms.Decoration
+]preferredthemes:{
+]map:forest;1.0]}]}]}]}
 
 ]Room2:{
 ]regions:0;1920;0;1020
