@@ -48,6 +48,7 @@ public class Decoration extends Mechanism{
 	//set position nearer to passage with best theme affinity
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl,rnd);
+		if(!rnd.getBoolean("topassage",0))return;
 		ArrayList<Passage> options = lvl.getPassages();
 		double bestW = 0;
 		Passage best = null;
@@ -59,8 +60,8 @@ public class Decoration extends Mechanism{
 			}
 		}
 		
-		x = best.getX();
-		y = best.getY();
+		x = board.x_resol/4 + best.getX()/2;
+		y = board.y_resol/4 + best.getY()/2;
 		
 	}
 	
