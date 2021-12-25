@@ -49,25 +49,23 @@ public class Decoration extends Mechanism{
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl,rnd);
 		if(!rnd.getBoolean("topassage",0))return;
-		boolean goToPassage = Math.random() > rnd.getDouble("passchance",0);
-		if(goToPassage) {
-			ArrayList<Passage> options = lvl.getPassages();
-			double bestW = 0;
-			Passage best = null;
-			for(Passage p : options) {
-				double currW = preferredThemes.affinityWith(p.getOtherSide().getThemeWeights());
-				if(currW > bestW) {
-					bestW = currW;
-					best = p;
-				}
-			}
-			
-			x = board.x_resol/4 + best.getX()/2;
-			y = board.y_resol/4 + best.getY()/2;
-		}else {
-			x = Math.random() * board.x_resol;
-			y = Math.random() * board.y_resol;
+		
+		ArrayList<Passage> options = lvl.getPassages();
+		ArrayList<Double> weights = new ArrayList<Double>();
+		double total = 0;
+		for(Passage p : options) {
+			double currW = preferredThemes.affinityWith(p.getOtherSide().getThemeWeights());
+			total += currW;
+			weights.add(currW);
 		}
+		
+		double chosen = Math.random() * total;
+		int i = 0;
+		for(i=0; weights.get(i) < chosen; i++);
+		Passage selected = options.get(i);
+		
+		x = board.x_resol/4 + selected.getX()/2;
+		y = board.y_resol/4 + selected.getY()/2;
 		
 	}
 	
