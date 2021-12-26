@@ -43,12 +43,12 @@
 ]canhalt:false
 ]savegame:false
 ]mechanisms:{
-]quantity:3;7
+]quantity:700;700
 ]mechanism:{
 ]filename:bush
 ]randomization:{
 ]topassage:true
-]passchance:0.7]}
+]range:200]}
 ]mass:100.0
 ]position:0.0;0.0
 ]type:mechanisms.Decoration

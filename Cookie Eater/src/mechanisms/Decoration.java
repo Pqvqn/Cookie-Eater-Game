@@ -49,6 +49,7 @@ public class Decoration extends Mechanism{
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl,rnd);
 		if(!rnd.getBoolean("topassage",0))return;
+		int range = rnd.getInteger("range",0);
 		
 		ArrayList<Passage> options = lvl.getPassages();
 		ArrayList<Double> weights = new ArrayList<Double>();
@@ -64,8 +65,12 @@ public class Decoration extends Mechanism{
 		for(i=0; weights.get(i) < chosen; i++);
 		Passage selected = options.get(i);
 		
-		x = board.x_resol/4 + selected.getX()/2;
-		y = board.y_resol/4 + selected.getY()/2;
+		double distance = range * Math.pow(Math.random(),2);
+		double randangle = (Math.random()-1) * Math.PI;
+		double passangle = Math.atan2(-selected.getY() + board.y_resol/2, -selected.getX() + board.x_resol/2);
+		
+		x = selected.getX() + distance * Math.cos(randangle + passangle);
+		y = selected.getY() + distance * Math.sin(randangle + passangle);
 		
 	}
 	

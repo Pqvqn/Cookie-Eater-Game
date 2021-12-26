@@ -64,7 +64,13 @@ public class ThemeSet {
 		return true;
 	}
 	//weight given to theme
-	public double weigh(String theme) {return tw.get(theme);}
+	public double weigh(String theme) {
+		if(tw.keySet().contains(theme)) {
+			return tw.get(theme);
+		}else {
+			return 0;
+		}
+	}
 	//number of themes used
 	public int size() {return tw.keySet().size();}
 	
