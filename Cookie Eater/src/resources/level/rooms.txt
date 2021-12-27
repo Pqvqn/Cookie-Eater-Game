@@ -48,7 +48,7 @@
 ]filename:bush
 ]randomization:{
 ]topassage:true
-]range:200]}
+]range:1000]}
 ]mass:100.0
 ]position:0.0;0.0
 ]type:mechanisms.Decoration

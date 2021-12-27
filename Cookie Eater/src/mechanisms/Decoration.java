@@ -57,7 +57,7 @@ public class Decoration extends Mechanism{
 		for(Passage p : options) {
 			double currW = preferredThemes.affinityWith(p.getOtherSide().getThemeWeights());
 			total += currW;
-			weights.add(currW);
+			weights.add(total);
 		}
 		
 		double chosen = Math.random() * total;
@@ -66,7 +66,7 @@ public class Decoration extends Mechanism{
 		Passage selected = options.get(i);
 		
 		double distance = range * Math.pow(Math.random(),2);
-		double randangle = (Math.random()-1) * Math.PI;
+		double randangle = (Math.random()-.5) * Math.PI;
 		double passangle = Math.atan2(-selected.getY() + board.y_resol/2, -selected.getX() + board.x_resol/2);
 		
 		x = selected.getX() + distance * Math.cos(randangle + passangle);
