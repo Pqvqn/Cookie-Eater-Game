@@ -191,6 +191,36 @@ public class Passage extends Mechanism{
 	public int[] oppositeCoordinates() {
 		return new int[] {(!mode)?inx:outx, (!mode)?iny:outy};
 	}
+	//min and max angles that can be moved to from this passage
+	public double[] angleRange() {
+		double[] range = {0,Math.PI};
+		int add = rotationOrder(getDirection());
+		if(add < 0) {
+			range[1] = 2 * Math.PI;
+		}else {
+			range[0] = (range[0] + add * (Math.PI/2)) % (2 * Math.PI);
+			range[1] = (range[1] + add * (Math.PI/2)) % (2 * Math.PI);
+		}
+		return range;
+	}
+	//order passage angles from pointing up around counterclockwise
+	public int rotationOrder(int dir) {
+		switch(dir) {
+		case BOTTOM:
+			return 0;
+		case RIGHT:
+			return 1;
+		case TOP:
+			return 2;
+		case LEFT:
+			return 3;
+		case CEILING:
+			return -1;
+		case FLOOR:
+			return -1;
+		}
+		return dir;
+	}
 	public Level getExit() {return exitRoom;}
 	public Level getEntrance() {return entranceRoom;}
 	public Level getOtherSide() {return mode?exitRoom:entranceRoom;}
