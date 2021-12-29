@@ -73,7 +73,7 @@ public class Decoration extends Mechanism{
 		double selectedAngle = Math.random() * (angleRange[1] - angleRange[0]) + angleRange[0];
 		
 		x = selected.getX() + distance * Math.cos(selectedAngle);
-		y = selected.getY() + distance * Math.sin(selectedAngle);
+		y = selected.getY() - distance * Math.sin(selectedAngle);
 		
 	}
 	

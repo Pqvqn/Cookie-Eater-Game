@@ -12,6 +12,8 @@ public class Passage extends Mechanism{
 	protected Level entranceRoom; //where passage opens from
 	protected Level exitRoom; //where player goes into
 	public static final int TOP=0, BOTTOM=1, RIGHT=2, LEFT=3, FLOOR=4, CEILING=5; //the location of the wall that has the entrance
+	private static final int[] OPPOSITES = {1,0,3,2,5,4};
+	private static final int[] ROTATE_ORDER = {2,0,1,3,-1,-1};
 	protected int width; //how wide the opening is
 	protected int inx,iny,outx,outy; //positions
 	protected int direction; //direction of passage entrance
@@ -169,24 +171,11 @@ public class Passage extends Mechanism{
 	}
 	public int getWidth() {return width;}
 	
+	//order passage angles from pointing up around counterclockwise
+	public int rotationOrder(int dir) {return ROTATE_ORDER[dir];}
 	//the opposite direction from the given one
-	public int opposite(int dir) {
-		switch(dir) {
-		case TOP:
-			return BOTTOM;
-		case BOTTOM:
-			return TOP;
-		case LEFT:
-			return RIGHT;
-		case RIGHT:
-			return LEFT;
-		case CEILING:
-			return FLOOR;
-		case FLOOR:
-			return CEILING;
-		}
-		return dir;
-	}
+	public int opposite(int dir) {return OPPOSITES[dir];}
+	
 	//coordinates for the other side of the passage
 	public int[] oppositeCoordinates() {
 		return new int[] {(!mode)?inx:outx, (!mode)?iny:outy};
@@ -198,28 +187,10 @@ public class Passage extends Mechanism{
 		if(add < 0) {
 			range[1] = 2 * Math.PI;
 		}else {
-			range[0] = (range[0] + add * (Math.PI/2)) % (2 * Math.PI);
-			range[1] = (range[1] + add * (Math.PI/2)) % (2 * Math.PI);
+			range[0] = (range[0] + add * (Math.PI/2));
+			range[1] = (range[1] + add * (Math.PI/2));
 		}
 		return range;
-	}
-	//order passage angles from pointing up around counterclockwise
-	public int rotationOrder(int dir) {
-		switch(dir) {
-		case BOTTOM:
-			return 0;
-		case RIGHT:
-			return 1;
-		case TOP:
-			return 2;
-		case LEFT:
-			return 3;
-		case CEILING:
-			return -1;
-		case FLOOR:
-			return -1;
-		}
-		return dir;
 	}
 	public Level getExit() {return exitRoom;}
 	public Level getEntrance() {return entranceRoom;}
