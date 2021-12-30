@@ -43,7 +43,7 @@
 ]canhalt:false
 ]savegame:false
 ]mechanisms:{
-]quantity:2;12
+]quantity:1200;1200
 ]mechanism:{
 ]filename:bush
 ]randomization:{
