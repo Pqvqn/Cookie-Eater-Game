@@ -131,7 +131,6 @@ public class SpriteLevel extends Sprite{
 		return ret;
 	}
 	public void paint(Graphics g) {
-		super.paint(g);
 		try {
 			prePaint();
 		} catch (IOException e) {

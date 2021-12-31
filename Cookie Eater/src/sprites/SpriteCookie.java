@@ -74,7 +74,6 @@ public class SpriteCookie extends Sprite{
 		}
 	}
 	public void paint(Graphics g){
-		super.paint(g);
 		try {
 			prePaint();
 		} catch (IOException e) {

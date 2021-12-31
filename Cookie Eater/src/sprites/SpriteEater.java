@@ -136,7 +136,6 @@ public class SpriteEater extends Sprite{
 		fin = imgset[expression][(user.getDir()<-1)?0:user.getDir()+1]; //choose correct pre-rendered image
 	}
 	public void paint(Graphics g) {
-		super.paint(g);
 		try {
 			prePaint();
 		} catch (IOException e) {

@@ -140,7 +140,6 @@ public class SpriteExplorer extends Sprite{
 		return imgset[exp][dir];
 	}
 	public void paint(Graphics g) {
-		super.paint(g);
 		try {
 			prePaint();
 		} catch (IOException e) {

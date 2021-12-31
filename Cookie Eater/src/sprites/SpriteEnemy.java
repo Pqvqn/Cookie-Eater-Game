@@ -36,7 +36,6 @@ public class SpriteEnemy extends Sprite{
 		state = i;
 	}
 	public void paint(Graphics g) {
-		super.paint(g);
 		try {
 			prePaint();
 		} catch (IOException e) {
