@@ -20,8 +20,9 @@ public class SpriteLevel extends Sprite{
 	//private int wid,hei;
 	private String lvl;
 	private String prefix;
+	private SpriteCombo decoration;
 	
-	public SpriteLevel(Board frame, ArrayList<Wall> w) throws IOException {
+	public SpriteLevel(Board frame, ArrayList<Wall> w, ArrayList<Decoration> d) throws IOException {
 		super(frame);
 		wallList = w;
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
@@ -29,8 +30,12 @@ public class SpriteLevel extends Sprite{
 		imgs.add(wall);
 		lvl = "";
 		prefix = "dep";
+		ArrayList<Sprite> s = new ArrayList<Sprite>();
+		for(Decoration dec : d)s.add(dec.sprite());
+		decoration = new SpriteCombo(frame,s);
+		decoration.render();
 	}
-	public void updateStuff(ArrayList<Wall> w) throws IOException {
+	public void updateStuff(ArrayList<Wall> w, ArrayList<Decoration> d) throws IOException {
 		wallList = w;
 		lvl = board.currLevel.getKeyTheme();
 		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
@@ -100,6 +105,12 @@ public class SpriteLevel extends Sprite{
 		    fg.drawImage(floorAdd, 0, 0, null);
 		}
 		if(fg!=null)fg.dispose();
+		
+		//create combo to handle decoration layer
+		ArrayList<Sprite> s = new ArrayList<Sprite>();
+		for(Decoration dec : d)s.add(dec.sprite());
+		decoration.setParts(s);
+		decoration.render();
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";
@@ -157,5 +168,7 @@ public class SpriteLevel extends Sprite{
 		g.setClip(wallSpace);
 		g.drawImage(wall,0,0,board.x_resol,board.y_resol,null);
 		g.setClip(null);
+		
+		decoration.paint(g);
 	}
 }

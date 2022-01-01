@@ -77,10 +77,12 @@ public class Decoration extends Mechanism{
 		
 	}
 	
+	public SpriteMechanism sprite() {return sprite;}
+	
 	public void paint(Graphics g) {
-		if(sprite!=null) {
-			sprite.paint(g);
-		}
+		//if(sprite!=null) {
+		//	sprite.paint(g);
+		//}
 	}
 
 }

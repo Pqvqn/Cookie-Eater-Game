@@ -15,6 +15,8 @@ public class SpriteCombo extends Sprite {
 		parts = subsprites;
 	}
 	
+	public void setParts(ArrayList<Sprite> p) {parts = p;}
+	
 	public void render() {
 		Graphics g = img.getGraphics();
 		for(int i=0; i<parts.size(); i++) {
