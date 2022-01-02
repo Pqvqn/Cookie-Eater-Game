@@ -38,7 +38,7 @@ public class Draw extends JPanel{
 		ui = new ArrayList<UIElement>();
 		if(add_fps)ui.add(game.ui_fps);
 		try {
-			boardImage = new SpriteLevel(board,board.walls());
+			boardImage = new SpriteLevel(board,board.walls(),board.decorations());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class Draw extends JPanel{
 	public void updateBG() {
 		//setBackground(board.currFloor.getBGColor());
 		try {
-			boardImage.updateStuff(board.walls());
+			boardImage.updateStuff(board.walls(),board.decorations());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

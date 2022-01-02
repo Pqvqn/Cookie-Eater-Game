@@ -618,6 +618,12 @@ public class Board{
 	public ArrayList<Cookie> cookies(){return currLevel==null?null:currLevel.cookies;}
 	public ArrayList<Wall> walls(){return currLevel==null?null:currLevel.walls;}
 	public ArrayList<Mechanism> mechanisms(){return currLevel==null?null:currLevel.mechanisms;}
+	public ArrayList<Decoration> decorations(){
+		if(currLevel==null)return null;
+		ArrayList<Decoration> rets = new ArrayList<Decoration>();
+		for(Mechanism m : mechanisms())if(m instanceof Decoration)rets.add((Decoration)m);
+		return rets;
+	}
 	public ArrayList<Effect> effects(){return currLevel==null?null:currLevel.effects;}
 	public ArrayList<Enemy> enemies(){return currLevel==null?null:currLevel.enemies;}
 	public Explorer getNPC(String name) {

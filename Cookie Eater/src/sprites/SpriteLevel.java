@@ -31,7 +31,7 @@ public class SpriteLevel extends Sprite{
 		lvl = "";
 		prefix = "dep";
 		ArrayList<Sprite> s = new ArrayList<Sprite>();
-		for(Decoration dec : d)s.add(dec.sprite());
+		if(d!=null)for(Decoration dec : d)s.add(dec.sprite());
 		decoration = new SpriteCombo(frame,s);
 		decoration.render();
 	}
