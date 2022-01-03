@@ -264,6 +264,11 @@ public class Level{
 				int min = mechData.getInteger("quantity",0);
 				int max = mechData.getInteger("quantity",1);
 				int buildCount = (int)(Math.random()*(max-min)) + min;
+				if(mechData.getData("bonusthemes")!=null){
+					ThemeSet extras = new ThemeSet(mechData.getSaveDataList("preferredthemes").get(0));
+					double bonus = extras.affinityWith(weightThemes);
+					buildCount += bonus;
+				}
 				for(int j=0; j<buildCount; j++) {
 					Mechanism m = Mechanism.loadFromData(game,board,this,mechData.getSaveDataList("mechanism").get(0));
 					addMechanism(m);
