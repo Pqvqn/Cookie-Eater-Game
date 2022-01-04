@@ -18,8 +18,9 @@ public class SpriteCombo extends Sprite {
 	
 	public void setParts(ArrayList<Sprite> p) {parts = p;}
 	
-	public void render() {
-		img = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
+	//create single image by painting subelements, alpha determines if transparency is allowed
+	public void render(boolean alpha) {
+		img = new BufferedImage(board.x_resol,board.y_resol,(alpha)?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).paint(g);

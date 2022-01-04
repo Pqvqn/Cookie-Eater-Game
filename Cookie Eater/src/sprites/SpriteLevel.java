@@ -33,7 +33,7 @@ public class SpriteLevel extends Sprite{
 		ArrayList<Sprite> s = new ArrayList<Sprite>();
 		if(d!=null)for(Decoration dec : d)s.add(dec.sprite());
 		decoration = new SpriteCombo(frame,s);
-		decoration.render();
+		decoration.render(false);
 	}
 	public void updateStuff(ArrayList<Wall> w, ArrayList<Decoration> d) throws IOException {
 		wallList = w;
@@ -110,7 +110,7 @@ public class SpriteLevel extends Sprite{
 		ArrayList<Sprite> s = new ArrayList<Sprite>();
 		for(Decoration dec : d)s.add(dec.sprite());
 		decoration.setParts(s);
-		decoration.render();
+		decoration.render(false);
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";
