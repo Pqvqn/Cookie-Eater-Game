@@ -19,6 +19,7 @@ public class Draw extends JPanel{
 	private Board board;
 	private ArrayList<Eater> players;
 	private SpriteLevel boardImage;
+	private SpriteCombo levelBG;
 	private ArrayList<UIElement> ui;
 	private long lastMilliCount; //counting drawing framerate
 	
@@ -39,6 +40,10 @@ public class Draw extends JPanel{
 		if(add_fps)ui.add(game.ui_fps);
 		try {
 			boardImage = new SpriteLevel(board,board.walls(),board.decorations());
+			ArrayList<Sprite> s = new ArrayList<Sprite>();
+			s.add(boardImage);
+			levelBG = new SpriteCombo(board,s);
+			levelBG.render(false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,6 +80,7 @@ public class Draw extends JPanel{
 		//setBackground(board.currFloor.getBGColor());
 		try {
 			boardImage.updateStuff(board.walls(),board.decorations());
+			levelBG.render(false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,7 +116,7 @@ public class Draw extends JPanel{
 			return;
 		}
 		
-		boardImage.paint(g);
+		levelBG.paint(g);
 		
 		for(int i=0; i<board.mechanisms().size(); i++) {
 			board.mechanisms().get(i).paint(g);
