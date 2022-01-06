@@ -90,6 +90,13 @@ public class SpriteLevel extends Sprite{
 		}
 		newg.drawImage(wallF,0,0,null);
 		newg.dispose();
+		
+		//create combo to handle decoration layer
+		ArrayList<Sprite> s = new ArrayList<Sprite>();
+		for(Decoration dec : d)s.add(dec.sprite());
+		decoration.setParts(s);
+		decoration.render(true);
+		
 		//blend floor images according to their weights
 		floor = null;
 		Graphics2D fg = null;
@@ -104,13 +111,11 @@ public class SpriteLevel extends Sprite{
 		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
 		    fg.drawImage(floorAdd, 0, 0, null);
 		}
+		fg.setComposite(AlphaComposite.SrcOver.derive(1f));
+		decoration.paint(fg);
 		if(fg!=null)fg.dispose();
 		
-		//create combo to handle decoration layer
-		ArrayList<Sprite> s = new ArrayList<Sprite>();
-		for(Decoration dec : d)s.add(dec.sprite());
-		decoration.setParts(s);
-		decoration.render(false);
+
 	}
 	public String removeSpace(String s) { //formats level names to match files
 		String ret = "";
@@ -169,6 +174,6 @@ public class SpriteLevel extends Sprite{
 		g.drawImage(wall,0,0,board.x_resol,board.y_resol,null);
 		g.setClip(null);
 		
-		decoration.paint(g);
+		//decoration.paint(g);
 	}
 }
