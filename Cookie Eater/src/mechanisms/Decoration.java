@@ -11,15 +11,17 @@ import levels.*;
 public class Decoration extends Mechanism{
 
 	private SpriteMechanism sprite;
-	private String fileName;
+	private String fileNames[];
+	private int variant;
 	private ThemeSet preferredThemes;
 	
-	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String name, ThemeSet themes) {
+	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String[] names, ThemeSet themes) {
 		super(frame, gameboard, xPos, yPos);
-		fileName = name;
+		fileNames = names;
+		variant = (int)(Math.random() * fileNames.length);
 		preferredThemes = themes;
 		try {
-			sprite = new SpriteMechanism(gameboard, this, fileName);
+			sprite = new SpriteMechanism(gameboard, this, fileNames[variant]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,10 +30,14 @@ public class Decoration extends Mechanism{
 	
 	public Decoration(Game frame, Board gameboard, SaveData sd) {
 		super(frame,gameboard,sd);
-		fileName = sd.getString("filename",0);
+		fileNames = new String[sd.getData("filename").size()];
+		for(int i=0; i<fileNames.length; i++) {
+			fileNames[i] = sd.getString("filename",i);
+		}
+		variant = sd.getInteger("variant",0);
 		preferredThemes = new ThemeSet(sd.getSaveDataList("preferredthemes").get(0));
 		try {
-			sprite = new SpriteMechanism(gameboard, this, fileName);
+			sprite = new SpriteMechanism(gameboard, this, fileNames);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +46,10 @@ public class Decoration extends Mechanism{
 	
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
-		data.addData("filename",fileName);
+		for(int i=0; i<fileNames.length; i++) {
+			data.addData("filename",fileNames[i],i);
+		}
+		data.addData("variant",variant);
 		data.addData("preferredthemes",preferredThemes.getSaveData());
 		return data;
 	}
@@ -75,6 +84,9 @@ public class Decoration extends Mechanism{
 		x = selected.getX() + distance * Math.cos(selectedAngle);
 		y = selected.getY() - distance * Math.sin(selectedAngle);
 		
+		if(rnd.getBoolean("dovariant",0)) {
+			variant = (int)(Math.random() * fileNames.length);
+		}
 	}
 	
 	public SpriteMechanism sprite() {return sprite;}

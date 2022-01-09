@@ -45,9 +45,11 @@
 ]mechanisms:{
 ]quantity:2;12
 ]mechanism:{
-]filename:chair
+]filename:chair;table
+]variant:-1
 ]randomization:{
 ]topassage:true
+]dovariant:true
 ]range:100;1000]}
 ]mass:100.0
 ]position:0.0;0.0

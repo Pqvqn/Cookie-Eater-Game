@@ -13,15 +13,17 @@ public class SpriteMechanism extends Sprite{
 	private Mechanism user;
 	private Image img;
 	private double scale;
-	private File file;
+	private File[] file;
 	
-	public SpriteMechanism(Board frame, Mechanism m, String fileName) throws IOException {
+	public SpriteMechanism(Board frame, Mechanism m, String[] fileNames) throws IOException {
 		super(frame);
 		user = m;
 		file = new File("Cookie Eater/src/resources/level/"+fileName+".png");
 		img = ImageIO.read(file);
 		imgs.add(img);
 	}
+	
+	public void redraw() {}
 	
 	public void paint(Graphics g){
 	
