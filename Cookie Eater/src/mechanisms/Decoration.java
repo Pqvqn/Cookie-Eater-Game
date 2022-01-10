@@ -37,7 +37,7 @@ public class Decoration extends Mechanism{
 		variant = sd.getInteger("variant",0);
 		preferredThemes = new ThemeSet(sd.getSaveDataList("preferredthemes").get(0));
 		try {
-			sprite = new SpriteMechanism(gameboard, this, fileNames);
+			sprite = new SpriteMechanism(gameboard, this, fileNames[Math.max(variant,0)]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,6 +87,7 @@ public class Decoration extends Mechanism{
 		if(rnd.getBoolean("dovariant",0)) {
 			variant = (int)(Math.random() * fileNames.length);
 		}
+		sprite.redraw(fileNames[variant]);
 	}
 	
 	public SpriteMechanism sprite() {return sprite;}
