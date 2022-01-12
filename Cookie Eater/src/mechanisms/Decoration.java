@@ -14,7 +14,6 @@ public class Decoration extends Mechanism{
 	private String fileNames[];
 	private int variant;
 	private ThemeSet preferredThemes;
-	private int drawRad = 100;
 	
 	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String[] names, ThemeSet themes) {
 		super(frame, gameboard, xPos, yPos);
@@ -94,7 +93,8 @@ public class Decoration extends Mechanism{
 	public SpriteMechanism sprite() {return sprite;}
 	
 	public void paint(Graphics g) {
-		if(sprite!=null && board.player().getY() > y && Level.lineLength(x,y,board.player().getX(),board.player().getY()) < drawRad) {
+		int drawRad = (int)(sprite.radius() + board.player().getRadius());
+		if(sprite!=null && board.player().getY() < y && Level.lineLength(x,y,board.player().getX(),board.player().getY()) < drawRad) {
 			sprite.paint(g);
 		}
 		g.drawOval((int)x-drawRad,(int)y-drawRad,drawRad*2,drawRad*2);

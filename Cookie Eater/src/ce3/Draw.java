@@ -112,13 +112,7 @@ public class Draw extends JPanel{
 		
 		boardImage.paint(g);
 		
-		for(int i=0; i<board.mechanisms().size(); i++) {
-			board.mechanisms().get(i).paint(g);
-		}
-		for(int i=board.cookies().size()-1; i>=0; i--) {
-			if(i>=board.cookies().size())i=board.cookies().size()-1;
-			if(i>=0)board.cookies().get(i).paint(g);
-		}
+
 		for(int i=0; i<board.enemies().size(); i++) {
 			board.enemies().get(i).paint(g);
 		}
@@ -127,6 +121,14 @@ public class Draw extends JPanel{
 		}
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).paint(g);
+		}
+		
+		for(int i=0; i<board.mechanisms().size(); i++) {
+			board.mechanisms().get(i).paint(g);
+		}
+		for(int i=board.cookies().size()-1; i>=0; i--) {
+			if(i>=board.cookies().size())i=board.cookies().size()-1;
+			if(i>=0)board.cookies().get(i).paint(g);
 		}
 		
 		for(int i=0; i<board.effects().size(); i++) {

@@ -35,6 +35,10 @@ public class SpriteMechanism extends Sprite{
 		imgs.add(img);
 	}
 	
+	public double radius() {
+		return (Math.sqrt(Math.pow(img.getWidth(null),2)+Math.pow(img.getHeight(null),2)))/10*board.currLevel.getScale();
+	}
+	
 	public void paint(Graphics g){
 	
 		scale = board.currLevel.getScale();
