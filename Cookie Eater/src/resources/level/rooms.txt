@@ -43,7 +43,7 @@
 ]canhalt:false
 ]savegame:false
 ]mechanisms:{
-]quantity:2;12
+]quantity:20;120
 ]mechanism:{
 ]filename:chair;table
 ]variant:-1

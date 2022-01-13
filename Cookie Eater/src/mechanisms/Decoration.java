@@ -93,11 +93,12 @@ public class Decoration extends Mechanism{
 	public SpriteMechanism sprite() {return sprite;}
 	
 	public void paint(Graphics g) {
-		int drawRad = (int)(sprite.radius() + board.player().getRadius());
-		if(sprite!=null && board.player().getY() < y && Level.lineLength(x,y,board.player().getX(),board.player().getY()) < drawRad) {
-			sprite.paint(g);
-		}
-		g.drawOval((int)x-drawRad,(int)y-drawRad,drawRad*2,drawRad*2);
+		//int drawRad = (int)(sprite.radius() + board.player().getRadius());
+		//if(sprite!=null && board.player().getY() < y && Level.lineLength(x,y,board.player().getX(),board.player().getY()) < drawRad) {
+			//sprite.paint(g);
+		//}
+		//g.drawOval((int)x-drawRad,(int)y-drawRad,drawRad*2,drawRad*2);
+		sprite.paint(g);
 	}
 
 }
