@@ -398,6 +398,7 @@ public class Board{
 		for(Wall w : walls()) {
 			wallSpace.add(w.getArea());
 		}
+		game.draw.updateBG();
 		presentnpcs = new ArrayList<Explorer>();
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getResidence().equals(currLevel)) {

@@ -20,9 +20,9 @@ public class SpriteLevel extends Sprite{
 	//private int wid,hei;
 	private String lvl;
 	private String prefix;
-	private SpriteCombo decoration;
+	//private SpriteCombo decoration;
 	
-	public SpriteLevel(Board frame, ArrayList<Wall> w, ArrayList<Decoration> d) throws IOException {
+	public SpriteLevel(Board frame, ArrayList<Wall> w) throws IOException {
 		super(frame);
 		wallList = w;
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
@@ -30,12 +30,12 @@ public class SpriteLevel extends Sprite{
 		imgs.add(wall);
 		lvl = "";
 		prefix = "dep";
-		ArrayList<Sprite> s = new ArrayList<Sprite>();
+		/*ArrayList<Sprite> s = new ArrayList<Sprite>();
 		if(d!=null)for(Decoration dec : d)s.add(dec.sprite());
 		decoration = new SpriteCombo(frame,s);
-		decoration.render(false);
+		decoration.render(false);*/
 	}
-	public void updateStuff(ArrayList<Wall> w, ArrayList<Decoration> d) throws IOException {
+	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
 		lvl = board.currLevel.getKeyTheme();
 		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
@@ -92,10 +92,10 @@ public class SpriteLevel extends Sprite{
 		newg.dispose();
 		
 		//create combo to handle decoration layer
-		ArrayList<Sprite> s = new ArrayList<Sprite>();
+		/*ArrayList<Sprite> s = new ArrayList<Sprite>();
 		for(Decoration dec : d)s.add(dec.sprite());
 		decoration.setParts(s);
-		decoration.render(true);
+		decoration.render(true);*/
 		
 		//blend floor images according to their weights
 		floor = null;
@@ -111,8 +111,8 @@ public class SpriteLevel extends Sprite{
 		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
 		    fg.drawImage(floorAdd, 0, 0, null);
 		}
-		fg.setComposite(AlphaComposite.SrcOver.derive(1f));
-		decoration.paint(fg);
+		/*fg.setComposite(AlphaComposite.SrcOver.derive(1f));
+		decoration.paint(fg);*/
 		if(fg!=null)fg.dispose();
 		
 

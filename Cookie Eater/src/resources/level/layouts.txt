@@ -5,7 +5,7 @@ rooms:{
 ]room:Room2]};{
 ]weight:1
 ]room:Room1]}
-]length:16
+]length:4
 ]store:Store1
 ]dimensions:4;4
 ]presentthemes:{
