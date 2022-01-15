@@ -34,6 +34,9 @@ public class Level{
 	protected ArrayList<int[]> bodes;
 	protected ArrayList<int[]> lines;
 	
+	public Image bgImg;
+	public Image wallImg;
+	
 	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
 	
 	

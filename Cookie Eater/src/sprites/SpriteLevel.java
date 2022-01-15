@@ -38,58 +38,65 @@ public class SpriteLevel extends Sprite{
 	public void updateStuff(ArrayList<Wall> w) throws IOException {
 		wallList = w;
 		lvl = board.currLevel.getKeyTheme();
-		BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
-		Graphics2D newg = wallMask.createGraphics();
 		
-		//tile default image, dimensions, and offset from 0x0
-		prefix = "dep";
-		Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"12AB"+".png"));
-		int wid = (int)(.5+tile.getWidth(null)*board.currLevel.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currLevel.getScale());
-		int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
-		//list of names of all tiles on board
-		String[][] tiles = new String[(int)(2+board.y_resol/hei)][(int)(2+board.x_resol/wid)];
-		int pr = prefix.length();
-		tiles[0][0] = chooseImage(null,null); //top-left corner
-		for(int i=1; i<tiles.length; i++) { //left side
-			tiles[i][0] = chooseImage(tiles[i-1][0].substring(1+pr,2+pr),null); //make sure it meshes
-		}
-		for(int i=1; i<tiles[0].length; i++) { //top side
-			tiles[0][i] = chooseImage(null,tiles[0][i-1].substring(3+pr,4+pr));
-		}
-		for(int yi=1; yi<tiles.length; yi++) { //rest of squares
-			for(int xi=1; xi<tiles[0].length; xi++) {
-				tiles[yi][xi] = chooseImage(tiles[yi-1][xi].substring(1+pr,2+pr),tiles[yi][xi-1].substring(3+pr,4+pr));
+		if(board.currLevel.wallImg==null) {
+			BufferedImage wallMask = new BufferedImage(board.x_resol,board.y_resol,BufferedImage.TYPE_INT_ARGB);
+			Graphics2D newg = wallMask.createGraphics();
+			
+			//tile default image, dimensions, and offset from 0x0
+			prefix = "dep";
+			Image tile = ImageIO.read(new File("Cookie Eater/src/resources/level/"+prefix+"12AB"+".png"));
+			int wid = (int)(.5+tile.getWidth(null)*board.currLevel.getScale()),hei = (int)(.5+tile.getHeight(null)*board.currLevel.getScale());
+			int xOffset = (int)(.5+Math.random()*wid),yOffset = (int)(.5+Math.random()*hei);
+			//list of names of all tiles on board
+			String[][] tiles = new String[(int)(2+board.y_resol/hei)][(int)(2+board.x_resol/wid)];
+			int pr = prefix.length();
+			tiles[0][0] = chooseImage(null,null); //top-left corner
+			for(int i=1; i<tiles.length; i++) { //left side
+				tiles[i][0] = chooseImage(tiles[i-1][0].substring(1+pr,2+pr),null); //make sure it meshes
 			}
-		}
-		for(int yl=0;yl<tiles.length;yl++) { //add all tiles to the image
-			for(int xl=0;xl<tiles[0].length;xl++) {
-				File f = new File("Cookie Eater/src/resources/level/"+tiles[yl][xl]+".png");
-				if (f.exists()) {
-					tile = ImageIO.read(f);
-				}else{
-					tile = ImageIO.read(new File("Cookie Eater/src/resources/level/blank.png"));
+			for(int i=1; i<tiles[0].length; i++) { //top side
+				tiles[0][i] = chooseImage(null,tiles[0][i-1].substring(3+pr,4+pr));
+			}
+			for(int yi=1; yi<tiles.length; yi++) { //rest of squares
+				for(int xi=1; xi<tiles[0].length; xi++) {
+					tiles[yi][xi] = chooseImage(tiles[yi-1][xi].substring(1+pr,2+pr),tiles[yi][xi-1].substring(3+pr,4+pr));
 				}
-				
-				newg.drawImage(tile, xl*wid-xOffset, yl*hei-yOffset, wid, hei, null);
 			}
-		}
-		newg.dispose();
-		//finish up wall graphics
-		wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallB.png"));
-		BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallF.png"));
-		newg = ((BufferedImage)wall).createGraphics();
-		for(int i=0; i<board.x_resol;i++){ //masking wallF onto wall using wallMask based on blue channel
-			for(int j=0; j<board.y_resol;j++){
-				int rgb = wallF.getRGB(i, j);
-				int mask = wallMask.getRGB(i,j);
-				int color = rgb & 0x00ffffff;
-			    int alpha = mask << 24;
-			    rgb = color | alpha;
-				wallF.setRGB(i, j, rgb);
+			for(int yl=0;yl<tiles.length;yl++) { //add all tiles to the image
+				for(int xl=0;xl<tiles[0].length;xl++) {
+					File f = new File("Cookie Eater/src/resources/level/"+tiles[yl][xl]+".png");
+					if (f.exists()) {
+						tile = ImageIO.read(f);
+					}else{
+						tile = ImageIO.read(new File("Cookie Eater/src/resources/level/blank.png"));
+					}
+					
+					newg.drawImage(tile, xl*wid-xOffset, yl*hei-yOffset, wid, hei, null);
+				}
 			}
+			newg.dispose();
+			//finish up wall graphics
+			wall = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallB.png"));
+			BufferedImage wallF = ImageIO.read(new File("Cookie Eater/src/resources/level/"+lvl+"WallF.png"));
+			newg = ((BufferedImage)wall).createGraphics();
+			for(int i=0; i<board.x_resol;i++){ //masking wallF onto wall using wallMask based on blue channel
+				for(int j=0; j<board.y_resol;j++){
+					int rgb = wallF.getRGB(i, j);
+					int mask = wallMask.getRGB(i,j);
+					int color = rgb & 0x00ffffff;
+				    int alpha = mask << 24;
+				    rgb = color | alpha;
+					wallF.setRGB(i, j, rgb);
+				}
+			}
+			newg.drawImage(wallF,0,0,null);
+			newg.dispose();
+			board.currLevel.wallImg = wall;
+		}else {
+			//image already loaded
+			wall = board.currLevel.wallImg;
 		}
-		newg.drawImage(wallF,0,0,null);
-		newg.dispose();
 		
 		//create combo to handle decoration layer
 		/*ArrayList<Sprite> s = new ArrayList<Sprite>();
@@ -97,23 +104,30 @@ public class SpriteLevel extends Sprite{
 		decoration.setParts(s);
 		decoration.render(true);*/
 		
-		//blend floor images according to their weights
-		floor = null;
-		Graphics2D fg = null;
-		Iterator<String> themesIt = board.currLevel.getThemeWeights().themeIterator();
-		while(themesIt.hasNext()) {
-			String theme = themesIt.next();
-			Image floorAdd = ImageIO.read(new File("Cookie Eater/src/resources/level/"+theme+"Floor.png"));
-			if(floor == null) {
-				floor = new BufferedImage(floorAdd.getWidth(null),floorAdd.getHeight(null),BufferedImage.TYPE_INT_RGB);
-				fg = (Graphics2D)floor.getGraphics();
+		if(board.currLevel.bgImg==null) {
+			//blend floor images according to their weights
+			floor = null;
+			Graphics2D fg = null;
+			Iterator<String> themesIt = board.currLevel.getThemeWeights().themeIterator();
+			while(themesIt.hasNext()) {
+				String theme = themesIt.next();
+				Image floorAdd = ImageIO.read(new File("Cookie Eater/src/resources/level/"+theme+"Floor.png"));
+				if(floor == null) {
+					floor = new BufferedImage(floorAdd.getWidth(null),floorAdd.getHeight(null),BufferedImage.TYPE_INT_RGB);
+					fg = (Graphics2D)floor.getGraphics();
+				}
+			    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
+			    fg.drawImage(floorAdd, 0, 0, null);
 			}
-		    fg.setComposite(AlphaComposite.SrcOver.derive(Math.min(1f,(float)board.currLevel.getThemeWeights().weigh(theme))));
-		    fg.drawImage(floorAdd, 0, 0, null);
+			/*fg.setComposite(AlphaComposite.SrcOver.derive(1f));
+			decoration.paint(fg);*/
+			if(fg!=null)fg.dispose();
+			board.currLevel.bgImg = floor;
+		}else {
+			//image already loaded
+			floor = board.currLevel.bgImg;
 		}
-		/*fg.setComposite(AlphaComposite.SrcOver.derive(1f));
-		decoration.paint(fg);*/
-		if(fg!=null)fg.dispose();
+
 		
 
 	}
