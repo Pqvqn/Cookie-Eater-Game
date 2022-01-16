@@ -40,13 +40,13 @@ public class WallMove extends Wall{
 		moving = sd.getBoolean("moving",0);
 		xV = sd.getDouble("velocity",0);
 		yV = sd.getDouble("velocity",1);
-		Path p = new Path(sd.getSaveDataList("path").get(0));
-		p.randomize(sd.getSaveDataList("randomization").get(0).getString("pathrand",0),this,null);
-		initPaths(p);
+		path = new Path(sd.getSaveDataList("path").get(0));
 	}
 	
 	public void randomize(Level lvl, SaveData rnd) {
 		super.randomize(lvl, rnd);
+		path.randomize(rnd.getString("pathrand",0),this,null);
+		initPaths(path);
 	}
 
 	public SaveData getSaveData() {
