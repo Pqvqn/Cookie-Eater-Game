@@ -138,7 +138,7 @@ public class UISettings extends UIElement{
 			game.ui_tis.show();
 		};
 		title.setClick(oc);
-		menuHandler.addButton("DEBUG",title);
+		menuHandler.addButton("MAIN",title);
 		
 		//moves to next floor
 		MenuButton advance = new MenuButton(game, this, null, new String[] {"advance floor"}, false, 120,175,200,100);
@@ -203,7 +203,17 @@ public class UISettings extends UIElement{
 		setOptions.put("FPS",fps.getState());
 		fps.setClick(oc);
 		if(sd!=null)fps.clickTo(sd.getString("FPS",0));
-		menuHandler.addButton("DEBUG",fps);
+		menuHandler.addButton("MAIN",fps);
+		
+		//toggles intensive graphics
+		MenuButton graphic = new MenuButton(game, this, null, new String[] {"lower graphics","default graphics"}, false, 420,775,200,100);
+		oc = () -> {
+			setOptions.put("Graphics",graphic.getState());
+		};
+		setOptions.put("Graphics",graphic.getState());
+		graphic.setClick(oc);
+		if(sd!=null)graphic.clickTo(sd.getString("Graphics",0));
+		menuHandler.addButton("MAIN",graphic);
 		
 	}
 	//update controls for selected player
