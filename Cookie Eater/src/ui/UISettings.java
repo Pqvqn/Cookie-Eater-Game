@@ -208,6 +208,7 @@ public class UISettings extends UIElement{
 		//toggles intensive graphics
 		MenuButton graphic = new MenuButton(game, this, null, new String[] {"lower graphics","default graphics"}, false, 420,775,200,100);
 		oc = () -> {
+			game.draw.setGraphicsLevel(graphic.currentState()==0);
 			setOptions.put("Graphics",graphic.getState());
 		};
 		setOptions.put("Graphics",graphic.getState());

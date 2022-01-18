@@ -21,6 +21,7 @@ public class Draw extends JPanel{
 	private SpriteLevel boardImage;
 	private ArrayList<UIElement> ui;
 	private long lastMilliCount; //counting drawing framerate
+	private boolean graphicsLevel; //if graphics are not reduced
 	
 	public Draw(Game frame) {
 		super();
@@ -74,7 +75,7 @@ public class Draw extends JPanel{
 	public void updateBG() {
 		//setBackground(board.currFloor.getBGColor());
 		try {
-			boardImage.updateStuff(board.walls());
+			boardImage.updateStuff(board.walls(),!graphicsLevel);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,6 +88,12 @@ public class Draw extends JPanel{
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		Point bb = new Point((int)(.5+b.x * (Board.DEF_X_RESOL/screen.getWidth())),(int)(.5+b.y * (Board.DEF_Y_RESOL/screen.getHeight())));
 		return bb;
+	}
+	
+	//reduce or bring back costly graphics
+	public void setGraphicsLevel(boolean high) {
+		graphicsLevel = high;
+		updateBG();
 	}
 	
 	//draw all objects
