@@ -30,6 +30,7 @@ public class Draw extends JPanel{
 		setBackground(Color.BLACK);
 		ui = new ArrayList<UIElement>();
 		lastMilliCount = System.currentTimeMillis();
+		graphicsLevel = true;
 	}
 	
 	public void setBoard(Board b) {
@@ -95,7 +96,7 @@ public class Draw extends JPanel{
 		graphicsLevel = high;
 		updateBG();
 	}
-	
+	public boolean getGraphicsLevel() {return graphicsLevel;}
 	//draw all objects
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

@@ -1,10 +1,11 @@
 package sprites;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 import java.io.*;
 
 import javax.imageio.*;
+import javax.swing.*;
 
 import ce3.*;
 import cookies.*;
@@ -13,64 +14,71 @@ public class SpriteCookie extends Sprite{
 
 	private Cookie user;
 	private Image base, chip;
-	private BufferedImage finimg;
+	private Image finimg;
 	private double scale;
-	private File defBase, splBase, defChip, splChip;
+	private File defBase, defChip; //, splBase, splChip;
 	private int state;
 	private final int REG=0, SPOILED=-1, ITEM=1;
 	private int baseNum, chipNum;
 	private final int TOTALIMGS = 4;
+	private boolean graphicsLevel;
+	private int palette;
 	
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
 		this(frame,c,-1);
 	}
 	
-	public SpriteCookie(Board frame, Cookie c, int palette) throws IOException {
+	public SpriteCookie(Board frame, Cookie c, int cpalette) throws IOException {
 		super(frame);
 		user = c;
+		graphicsLevel = true;
 		baseNum = (int)((Math.random()*TOTALIMGS)+1);
 		chipNum = (int)((Math.random()*TOTALIMGS)+1);
 		defBase = new File("Cookie Eater/src/resources/cookies/cookieBN"+baseNum+".png");
-		splBase = new File("Cookie Eater/src/resources/cookies/cookieBS"+baseNum+".png");
+		//splBase = new File("Cookie Eater/src/resources/cookies/cookieBS"+baseNum+".png");
 		defChip = new File("Cookie Eater/src/resources/cookies/cookieCN"+chipNum+".png");
-		splChip = new File("Cookie Eater/src/resources/cookies/cookieCS"+chipNum+".png");
+		//splChip = new File("Cookie Eater/src/resources/cookies/cookieCS"+chipNum+".png");
 		base = ImageIO.read(defBase);
 		chip = ImageIO.read(defChip);
 		state = REG;
 
-		finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+		/*finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
 		Graphics compiled = finimg.getGraphics();
 		compiled.drawImage(base,0,0,null);
-		compiled.drawImage(chip,0,0,null);
-		
-		if(palette>=0) {
-			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
-			//base = convertPalette((BufferedImage)base,0,palette);
-			//chip = convertPalette((BufferedImage)chip,0,palette);
-			finimg = convertPalette((BufferedImage)finimg,0,palette);
-			state = ITEM;
-		}
-		
+		compiled.drawImage(chip,0,0,null);*/
 		imgs.add(base);
 		imgs.add(chip);
+		palette = cpalette;
+		if(palette>=0) {
+			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
+			base = convertPalette((BufferedImage)base,0,palette);
+			chip = convertPalette((BufferedImage)chip,0,palette);
+			state = ITEM;
+		}
 	}
+	
 	public void prePaint() throws IOException {
-		if(user.getDecayed()&&state==REG) {
-			base = ImageIO.read(splBase);
-			chip = ImageIO.read(splChip);
-			finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-			Graphics compiled = finimg.getGraphics();
-			compiled.drawImage(base,0,0,null);
-			compiled.drawImage(chip,0,0,null);
+		int initstate = state;
+		if(user.getDecayed()&&initstate==REG) {
 			state = SPOILED;
-		}else if(!user.getDecayed()&&state==SPOILED) {
-			base = ImageIO.read(defBase);
-			chip = ImageIO.read(defChip);
+		}else if(!user.getDecayed()&&initstate==SPOILED) {
+			state = REG;
+		}
+		if(finimg==null || state!=initstate || graphicsLevel!=graphicsLevel()) {
 			finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-			Graphics compiled = finimg.getGraphics();
+			Graphics2D compiled = (Graphics2D)finimg.getGraphics();
+			//make translucent for spoiled
+			if(state==SPOILED) {
+				//only do transparent if graphics high
+				if(!graphicsLevel()) {
+					finimg = GrayFilter.createDisabledImage(finimg);
+				}else {
+					compiled.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+				}
+			}
 			compiled.drawImage(base,0,0,null);
 			compiled.drawImage(chip,0,0,null);
-			state = REG;
+			graphicsLevel = graphicsLevel();
 		}
 	}
 	public void paint(Graphics g){

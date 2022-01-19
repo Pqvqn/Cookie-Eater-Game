@@ -45,6 +45,9 @@ public abstract class Sprite {
 		return img;
 	}
 	
+	//graphics level of draw
+	protected boolean graphicsLevel() {return board.game.draw.getGraphicsLevel();}
+	
 	public void paint(Graphics g) {
 		
 	}
