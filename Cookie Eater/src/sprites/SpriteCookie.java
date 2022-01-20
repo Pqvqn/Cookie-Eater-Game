@@ -71,7 +71,11 @@ public class SpriteCookie extends Sprite{
 			if(state==SPOILED) {
 				//only do transparent if graphics high
 				if(!graphicsLevel()) {
-					finimg = GrayFilter.createDisabledImage(finimg);
+					compiled.drawImage(base,0,0,null);
+					compiled.drawImage(chip,0,0,null);
+					Image omg = GrayFilter.createDisabledImage(finimg);
+					compiled.drawImage(omg,0,0,null);
+					compiled.setComposite(AlphaComposite.SrcOver.derive(0.5f));
 				}else {
 					compiled.setComposite(AlphaComposite.SrcOver.derive(0.5f));
 				}
