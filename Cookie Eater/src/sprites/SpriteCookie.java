@@ -46,8 +46,6 @@ public class SpriteCookie extends Sprite{
 		Graphics compiled = finimg.getGraphics();
 		compiled.drawImage(base,0,0,null);
 		compiled.drawImage(chip,0,0,null);*/
-		imgs.add(base);
-		imgs.add(chip);
 		palette = cpalette;
 		if(palette>=0) {
 			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
@@ -55,6 +53,8 @@ public class SpriteCookie extends Sprite{
 			chip = convertPalette((BufferedImage)chip,0,palette);
 			state = ITEM;
 		}
+		imgs.add(base);
+		imgs.add(chip);
 	}
 	
 	public void prePaint() throws IOException {

@@ -32,17 +32,18 @@ public abstract class Sprite {
 	
 	//converts image between color palettes
 	public BufferedImage convertPalette(BufferedImage img, int oldIndex, int newIndex) {
+		BufferedImage outimg = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_ARGB);
 		for(int x=0; x<img.getWidth(null); x++) {
 			for(int y=0; y<img.getHeight(null); y++) {
 				int c = img.getRGB(x,y);
 				for(int p=0; p<palettes[oldIndex].length; p++) {
 					if(palettes[oldIndex][p].getRGB() == c) {
-						img.setRGB(x,y,palettes[newIndex][p].getRGB());
+						outimg.setRGB(x,y,palettes[newIndex][p].getRGB());
 					}
 				}
 			}
 		}
-		return img;
+		return outimg;
 	}
 	
 	//graphics level of draw
