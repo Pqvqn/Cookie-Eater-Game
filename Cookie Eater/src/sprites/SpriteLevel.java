@@ -27,7 +27,7 @@ public class SpriteLevel extends Sprite{
 		wallList = w;
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
 		//floor = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
-		imgs.add(wall);
+		//imgs.add(wall);
 		lvl = "";
 		prefix = "dep";
 		/*ArrayList<Sprite> s = new ArrayList<Sprite>();

@@ -20,7 +20,7 @@ public class SpriteStoreCookie extends Sprite{
 		user = c;
 		file = new File("Cookie Eater/src/resources/cookies/"+fileName+".png");
 		img = ImageIO.read(file);
-		imgs.add(img);
+		//imgs.add(img);
 	}
 	
 	public void paint(Graphics g){

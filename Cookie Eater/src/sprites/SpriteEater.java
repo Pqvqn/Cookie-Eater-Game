@@ -15,16 +15,15 @@ import levels.*;
 public class SpriteEater extends Sprite{
 
 	private Eater user;
-	private Image base;
-	private Image face;
-	private Image helmet;
+	
 	private Color coloration;
-	private double facex,facey; //relative position of face on image
 	private double scale;
+	private Image base, face, helmet;
 	private BufferedImage fin;
 	private int fullw, fullh; //pixel size of image
-	private final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
-	private File[] expressions = {new File("Cookie Eater/src/resources/explorers/eaterFace.png"),
+	private double facex,facey; //relative position of face on image
+
+	private File[] faces = {new File("Cookie Eater/src/resources/explorers/eaterFace.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterFaceEat.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterFaceMonch.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterFaceOuch.png"),
@@ -37,31 +36,37 @@ public class SpriteEater extends Sprite{
 			new File("Cookie Eater/src/resources/explorers/eaterHelmDown.png"),
 			new File("Cookie Eater/src/resources/explorers/eaterHelmLeft.png")};
 
-	private File bases;
+	private File bases[] = {new File("Cookie Eater/src/resources/explorers/eaterBase.png")};
 	private int expression;
+	private final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
 	private final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
 	private BufferedImage[][] imgset;
 	
 	public SpriteEater(Board frame, Eater e) throws IOException {
 		super(frame);
 		user = e;
-		bases = new File("Cookie Eater/src/resources/explorers/eaterBase.png");
-		base = ImageIO.read(bases);
 		expression = NORM;
-		face = ImageIO.read(expressions[expression]);
-		helmet = ImageIO.read(helmets[NEUTRAL]);
 		fullw = 550;
 		fullh = 550;
-		imgs.add(base);
-		imgs.add(face);
-		imgs.add(helmet);
+		//imgs.add(base);
+		//imgs.add(face);
+		//imgs.add(helmet);
 		
+		//load images and set their palettes
 		readColors(ImageIO.read(new File("Cookie Eater/src/resources/explorers/eaterpalette.png")));
+		int pid = user.getID();
 		
-		imgset = new BufferedImage[expressions.length][5];
+		BufferedImage[] r_faces = new BufferedImage[faces.length];
+		for(int i=0; i<faces.length; i++)r_faces[i] = convertPalette(ImageIO.read(faces[i]),0,pid);
+		BufferedImage[] r_bases = new BufferedImage[bases.length];
+		for(int i=0; i<bases.length; i++)r_bases[i] = convertPalette(ImageIO.read(bases[i]),0,pid);
+		BufferedImage[] r_helmets = new BufferedImage[helmets.length];
+		for(int i=0; i<helmets.length; i++)r_helmets[i] = convertPalette(ImageIO.read(helmets[i]),0,pid);
+		
+		imgset = new BufferedImage[faces.length][5];
 		
 		//render all possible images and store them
-		for(int ie=0; ie<expressions.length; ie++) {
+		for(int ie=0; ie<faces.length; ie++) {
 			for(int id=-1; id<4; id++) {
 				BufferedImage imgcombo = new BufferedImage(fullw,fullh,BufferedImage.TYPE_INT_ARGB); //the image composited onto
 				facex = fullw/2; 
@@ -69,34 +74,29 @@ public class SpriteEater extends Sprite{
 				switch(id) {
 				case Eater.UP:
 					facey /= 2;
-					helmet = ImageIO.read(helmets[UP]);
+					helmet = r_helmets[UP];
 					break;
 				case Eater.DOWN:
 					facey *= 1.5;
-					helmet = ImageIO.read(helmets[DOWN]);
+					helmet = r_helmets[DOWN];
 					break;
 				case Eater.RIGHT:
 					facex *= 1.5;
-					helmet = ImageIO.read(helmets[RIGHT]);
+					helmet = r_helmets[RIGHT];
 					break;
 				case Eater.LEFT:
 					facex /= 2;
-					helmet = ImageIO.read(helmets[LEFT]);
+					helmet = r_helmets[LEFT];
 					break;
 				case Eater.NONE:
-					helmet = ImageIO.read(helmets[NEUTRAL]);
+					helmet = r_helmets[NEUTRAL];
 					break;
 				case Eater.CORPSE:
-					helmet = ImageIO.read(helmets[NEUTRAL]);
+					helmet = r_helmets[NEUTRAL];
 					break;
 				}
-				base = ImageIO.read(bases);
-				face = ImageIO.read(expressions[ie]);
-				
-				int pid = user.getID();
-				helmet = convertPalette((BufferedImage)helmet,0,pid);
-				base = convertPalette((BufferedImage)base,0,pid);
-				face = convertPalette((BufferedImage)face,0,pid);
+				base = r_bases[0];
+				face = r_faces[ie];
 				
 				Graphics compiled = imgcombo.getGraphics();
 				compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);

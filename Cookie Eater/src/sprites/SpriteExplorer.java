@@ -57,9 +57,9 @@ public class SpriteExplorer extends Sprite{
 		helmet = ImageIO.read(helmets[NEUTRAL]);
 		fullw = 550;
 		fullh = 550;
-		imgs.add(base);
-		imgs.add(face);
-		imgs.add(helmet);
+		//imgs.add(base);
+		//imgs.add(face);
+		//imgs.add(helmet);
 		
 		imgset = new BufferedImage[expressions.length][5];
 		

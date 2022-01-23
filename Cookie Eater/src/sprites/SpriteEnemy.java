@@ -24,7 +24,7 @@ public class SpriteEnemy extends Sprite{
 		states=new ArrayList<File>();
 		for(String s : imgstates)states.add(new File("Cookie Eater/src/resources/enemies/"+s+".png"));
 		base = ImageIO.read(states.get(state));
-		imgs.add(base);
+		//imgs.add(base);
 	}
 	public void prePaint() throws IOException {
 		scale = board.currLevel.getScale();

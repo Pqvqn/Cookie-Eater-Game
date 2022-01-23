@@ -20,11 +20,11 @@ public class SpriteMechanism extends Sprite{
 		user = m;
 		file = new File("Cookie Eater/src/resources/level/"+fileName+".png");
 		img = ImageIO.read(file);
-		imgs.add(img);
+		//imgs.add(img);
 	}
 	
 	public void redraw(String fileName) {
-		imgs.remove(img);
+		//imgs.remove(img);
 		file = new File("Cookie Eater/src/resources/level/"+fileName+".png");
 		try {
 			img = ImageIO.read(file);
@@ -32,7 +32,7 @@ public class SpriteMechanism extends Sprite{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		imgs.add(img);
+		//imgs.add(img);
 	}
 	
 	public double radius() {

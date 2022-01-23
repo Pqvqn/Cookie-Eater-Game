@@ -53,8 +53,8 @@ public class SpriteCookie extends Sprite{
 			chip = convertPalette((BufferedImage)chip,0,palette);
 			state = ITEM;
 		}
-		imgs.add(base);
-		imgs.add(chip);
+		//imgs.add(base);
+		//imgs.add(chip);
 	}
 	
 	public void prePaint() throws IOException {

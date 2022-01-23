@@ -10,13 +10,13 @@ public abstract class Sprite {
 	
 	protected Board board;
 	protected int x, y;
-	protected ArrayList<Image> imgs; //images to reference
+	//protected ArrayList<Image> imgs; //images to reference
 	protected int frameCount;
 	protected Color[][] palettes; //list of color palettes (others swap out first row)
 	
 	public Sprite(Board frame) {
 		board = frame;
-		imgs = new ArrayList<Image>();
+		//imgs = new ArrayList<Image>();
 		frameCount=0;
 	}
 	
