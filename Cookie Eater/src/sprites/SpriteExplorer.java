@@ -15,9 +15,7 @@ public class SpriteExplorer extends Sprite{
 
 	private Explorer user;
 	private String name;
-	private Image base;
-	private Image face;
-	private Image helmet;
+	private Image base, face, helmet;
 	private Color coloration;
 	private double facex,facey; //relative position of face on image
 	private double scale;
@@ -25,9 +23,9 @@ public class SpriteExplorer extends Sprite{
 	private int fullw, fullh; //pixel size of image
 	public static final int NORM=0, EAT=1, HIT=3, WIN=4, DIE=5, SPECIAL=6; //MUNCH = 2
 	public static final int NEUTRAL=0, UP=1, RIGHT=2, DOWN=3, LEFT=4;
-	private File[] expressions;
+	private File[] faces;
 	private File[] helmets;
-	private File bases;
+	private File[] bases;
 	private int expression;
 	private BufferedImage[][] imgset;
 	
@@ -42,70 +40,76 @@ public class SpriteExplorer extends Sprite{
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceWin.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceDie.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceSpecial.png")};
-		bases = new File("Cookie Eater/src/resources/explorers/"+name+"Base.png");
-		base = ImageIO.read(bases);
-		name = user.getName().toLowerCase();
+		File[] bas = {new File("Cookie Eater/src/resources/explorers/"+name+"Base.png")};
 		File[] helm = {new File("Cookie Eater/src/resources/explorers/"+name+"HelmNeutral.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmUp.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmRight.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmDown.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmLeft.png")};
-		expressions = exp;
+		name = user.getName().toLowerCase();
+		faces = exp;
 		helmets = helm;
+		bases = bas;
 		expression = NORM;
-		face = ImageIO.read(expressions[expression]);
-		helmet = ImageIO.read(helmets[NEUTRAL]);
 		fullw = 550;
 		fullh = 550;
 		//imgs.add(base);
 		//imgs.add(face);
 		//imgs.add(helmet);
 		
-		imgset = new BufferedImage[expressions.length][5];
+		BufferedImage[] r_faces = new BufferedImage[faces.length];
+		for(int i=0; i<faces.length; i++)r_faces[i] = ImageIO.read(faces[i]);
+		BufferedImage[] r_bases = new BufferedImage[bases.length];
+		for(int i=0; i<bases.length; i++)r_bases[i] = ImageIO.read(bases[i]);
+		BufferedImage[] r_helmets = new BufferedImage[helmets.length];
+		for(int i=0; i<helmets.length; i++)r_helmets[i] = ImageIO.read(helmets[i]);
+		
+		
+		imgset = new BufferedImage[faces.length][5];
 		
 		//render all possible images and store them
-		for(int ie=0; ie<expressions.length; ie++) {
+		for(int ie=0; ie<faces.length; ie++) {
 			for(int id=-1; id<4; id++) {
 				BufferedImage imgcombo = new BufferedImage(fullw,fullh,BufferedImage.TYPE_INT_ARGB); //the image composited onto
 				facex = fullw/2; 
 				facey = fullh/2;
 				switch(id) {
-				case Explorer.UP:
+				case Eater.UP:
 					facey /= 2;
-					helmet = ImageIO.read(helmets[UP]);
+					helmet = r_helmets[UP];
 					break;
-				case Explorer.DOWN:
+				case Eater.DOWN:
 					facey *= 1.5;
-					helmet = ImageIO.read(helmets[DOWN]);
+					helmet = r_helmets[DOWN];
 					break;
-				case Explorer.RIGHT:
+				case Eater.RIGHT:
 					facex *= 1.5;
-					helmet = ImageIO.read(helmets[RIGHT]);
+					helmet = r_helmets[RIGHT];
 					break;
-				case Explorer.LEFT:
+				case Eater.LEFT:
 					facex /= 2;
-					helmet = ImageIO.read(helmets[LEFT]);
+					helmet = r_helmets[LEFT];
 					break;
-				case Explorer.NONE:
-					helmet = ImageIO.read(helmets[NEUTRAL]);
+				case Eater.NONE:
+					helmet = r_helmets[NEUTRAL];
 					break;
-				case Explorer.CORPSE:
-					helmet = ImageIO.read(helmets[NEUTRAL]);
+				case Eater.CORPSE:
+					helmet = r_helmets[NEUTRAL];
 					break;
 				}
-				base = ImageIO.read(bases);
-				face = ImageIO.read(expressions[ie]);
-				Graphics compiled =  imgcombo.getGraphics();
+				base = r_bases[0];
+				face = r_faces[ie];
+				
+				Graphics compiled = imgcombo.getGraphics();
 				compiled.drawImage(face,(int)(.5+facex-(face.getWidth(null)/2)), (int)(.5+facey-(face.getHeight(null)/2)), null);
 				compiled.drawImage(base,(fullw-base.getWidth(null))/2,(fullh-base.getHeight(null))/2,null);
 				compiled.drawImage(helmet,(fullw-helmet.getWidth(null))/2,(fullh-helmet.getHeight(null))/2,null);
 				imgset[ie][id+1] = imgcombo;
 				
 			}
-		}
-		
-		
+		}	
 	}
+	
 	public void setColor(Color c) {coloration = c;}
 	public void prePaint() throws IOException {
 
