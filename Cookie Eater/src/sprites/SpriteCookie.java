@@ -16,13 +16,20 @@ public class SpriteCookie extends Sprite{
 	private Image base, chip;
 	private Image finimg;
 	private double scale;
-	private File defBase, defChip; //, splBase, splChip;
 	private int state;
 	private final int REG=0, SPOILED=-1, ITEM=1;
 	private int baseNum, chipNum;
-	private final int TOTALIMGS = 4;
 	private boolean graphicsLevel;
 	private int palette;
+	private static final File defBases[] = {new File("Cookie Eater/src/resources/cookies/cookieBN1.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieBN2.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieBN3.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieBN4.png")};
+	private static final File defChips[] = {new File("Cookie Eater/src/resources/cookies/cookieCN1.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieCN2.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieCN3.png"),
+			new File("Cookie Eater/src/resources/cookies/cookieCN4.png")};
+	private static final File paletteFile = new File("Cookie Eater/src/resources/cookies/itempalettes.png");
 	
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
 		this(frame,c,-1);
@@ -32,23 +39,15 @@ public class SpriteCookie extends Sprite{
 		super(frame);
 		user = c;
 		graphicsLevel = true;
-		baseNum = (int)((Math.random()*TOTALIMGS)+1);
-		chipNum = (int)((Math.random()*TOTALIMGS)+1);
-		defBase = new File("Cookie Eater/src/resources/cookies/cookieBN"+baseNum+".png");
-		//splBase = new File("Cookie Eater/src/resources/cookies/cookieBS"+baseNum+".png");
-		defChip = new File("Cookie Eater/src/resources/cookies/cookieCN"+chipNum+".png");
-		//splChip = new File("Cookie Eater/src/resources/cookies/cookieCS"+chipNum+".png");
-		base = ImageIO.read(defBase);
-		chip = ImageIO.read(defChip);
+		baseNum = (int)((Math.random()*defBases.length)+1);
+		chipNum = (int)((Math.random()*defChips.length)+1);
+		base = ImageIO.read(defBases[baseNum-1]);
+		chip = ImageIO.read(defChips[chipNum-1]);
 		state = REG;
 
-		/*finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-		Graphics compiled = finimg.getGraphics();
-		compiled.drawImage(base,0,0,null);
-		compiled.drawImage(chip,0,0,null);*/
 		palette = cpalette;
 		if(palette>=0) {
-			readColors(ImageIO.read(new File("Cookie Eater/src/resources/cookies/itempalettes.png")));
+			readColors(ImageIO.read(paletteFile));
 			base = convertPalette((BufferedImage)base,0,palette);
 			chip = convertPalette((BufferedImage)chip,0,palette);
 			state = ITEM;
