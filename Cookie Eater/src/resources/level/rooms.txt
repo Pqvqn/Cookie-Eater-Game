@@ -200,7 +200,7 @@
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
-]name:Forest Entrance;forest
+]name:Training Grounds;train
 ]neededthemes:{
 ]map:forest;0.2]}
 ]vendorspacenum:2

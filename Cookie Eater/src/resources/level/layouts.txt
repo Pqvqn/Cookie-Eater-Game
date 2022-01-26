@@ -9,7 +9,7 @@ rooms:{
 ]store:Store1
 ]dimensions:4;4
 ]presentthemes:{
-]map:forest;1.0;dungeon;0.0]}}
+]map:train;1.0;dungeon;0.0]}}
 
 ]Layout2:{
 ]rooms:{
