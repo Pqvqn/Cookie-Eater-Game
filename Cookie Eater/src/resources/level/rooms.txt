@@ -21,6 +21,28 @@
 ]canhalt:false
 ]savegame:false]}
 
+]Train1:{
+]regions:0;1920;0;1020
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:2
+]decay:0;0
+]enemies:
+]requirement:0
+]type:train
+]caninstall:false
+]round:false
+]angled:false
+]canspecial:true
+]wallgen:0;0;0
+]cookiegen:90;100
+]name:Training Grounds;train
+]neededthemes:{
+]map:train;0.2]}
+]pathgen:0;0;0;0;0
+]candamage:false
+]canhalt:true
+]savegame:true]}
+
 ]Room1:{
 ]regions:0;1920;0;1020
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
@@ -200,7 +222,7 @@
 ]caninstall:true
 ]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
 ]canspecial:false
-]name:Training Grounds;train
+]name:Forest Entrance;forest
 ]neededthemes:{
 ]map:forest;0.2]}
 ]vendorspacenum:2
@@ -275,6 +297,24 @@
 ]name:Hostile Tunnels;harsh
 ]neededthemes:{
 ]map:harsh;0.2]}
+]vendorspacenum:2
+]candamage:false
+]canhalt:true
+]savegame:true]}
+
+]StoreTrain:{
+]mechanicspaces:1720;690;1530;315;1530;705;1735;510
+]passerbyspaces:660;400
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:2
+]requirement:1.0
+]type:store
+]caninstall:true
+]vendorspaces:760;910;1160;910;960;910;760;740;1160;740;960;740;760;110;1160;110;960;110;760;280;1160;280;960;280
+]canspecial:false
+]name:Training Grounds;train
+]neededthemes:{
+]map:train;0.2]}
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true

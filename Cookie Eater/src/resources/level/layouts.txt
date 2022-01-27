@@ -1,4 +1,15 @@
 {
+]LayoutTrain:{
+rooms:{
+]weight:1
+]room:Train1]}
+]length:1
+]store:StoreTrain
+]dimensions:2;2
+]presentthemes:{
+]map:train;1.0]}}
+
+
 ]Layout1:{
 rooms:{
 ]weight:1
@@ -9,7 +20,7 @@ rooms:{
 ]store:Store1
 ]dimensions:4;4
 ]presentthemes:{
-]map:train;1.0;dungeon;0.0]}}
+]map:forest;1.0;dungeon;0.0]}}
 
 ]Layout2:{
 ]rooms:{
