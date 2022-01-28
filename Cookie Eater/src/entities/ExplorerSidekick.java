@@ -215,7 +215,7 @@ public class ExplorerSidekick extends Explorer{
 		}
 	}
 	public void chooseResidence() {
-		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(2).getID());
+		if(!board.stores.isEmpty() && board.currDungeon==0)residence = board.stores.get(board.floors.get(2).getID());
 	}
 	public void setConvo() {
 		convo = new Conversation(board,this,"Recruit1","begin");

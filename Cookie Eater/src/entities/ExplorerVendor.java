@@ -86,7 +86,7 @@ public class ExplorerVendor extends Explorer{
 		return -1;
 	}
 	public void chooseResidence() {
-		if(!board.stores.isEmpty())residence = board.stores.get(board.floors.get(1).getID());
+		if(!board.stores.isEmpty() && board.currDungeon==0)residence = board.stores.get(board.floors.get(1).getID());
 	}
 
 	public void createStash() {

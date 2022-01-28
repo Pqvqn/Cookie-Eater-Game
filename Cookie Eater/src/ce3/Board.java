@@ -34,11 +34,11 @@ public class Board{
 	public ArrayList<Floor> floors; //list of floors, unordered
 	public String[][][] floorSequence = { //stores floor tiers 
 			//vaults
-			{{"LayoutTrain"},{"Layout1"},{"Layout2"},{"LayoutRound","Layout3"},{"Layout4"}},
+			{{"Layout1"},{"Layout2"},{"LayoutRound","Layout3"},{"Layout4"}},
 			//inners
 			{{}},
 			//training
-			{{}},
+			{{"LayoutTrain"}},
 	};
 	public Level nextLevel;
 	public Level currLevel;
@@ -428,7 +428,7 @@ public class Board{
 	public void resetLevels() {
 		if(currLevel!=null) {
 			currLevel.clean();
-			currLevel.getFloor().wipeFloor();
+			if(currLevel.getFloor()!=null)currLevel.getFloor().wipeFloor();
 		}
 		
 		int num = currDungeon;
