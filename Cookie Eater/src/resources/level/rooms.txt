@@ -24,7 +24,7 @@
 ]Train1:{
 ]regions:0;1920;0;1020
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
-]scale:2
+]scale:1.5
 ]decay:0;0
 ]enemies:
 ]requirement:0
@@ -306,7 +306,7 @@
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
 ]passerbyspaces:660;400
 ]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
-]scale:2
+]scale:1.5
 ]requirement:1.0
 ]type:store
 ]caninstall:true

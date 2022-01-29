@@ -337,17 +337,28 @@ public class Floor {
 			}
 		}
 		Level addition;
+		Room chosenlvl;
 		//no valid rooms, use blank
 		if(sum==0) {
-			addition = new Level(game, board, this, board.rooms.get("RoomBlank"), themeWeights, id);
+			chosenlvl = board.rooms.get("RoomBlank");
 		}else {
 			//choose a level
 			double chosen = (Math.random()*sum);
 			int find = 0;
 			for(find = 0; find<counts.size() && counts.get(find)<chosen; find++);
-			Room chosenlvl = levels.get(find);
+			chosenlvl = levels.get(find);
+		}
+		switch(chosenlvl.roomType) {
+		case Room.STAGE:
+			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
+		case Room.STORE:
+			addition = new Store(game, board, this, chosenlvl, themeWeights, id);
+		case Room.TRAIN:
+			addition = new Training(game, board, this, chosenlvl, themeWeights, id);
+		default:
 			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
 		}
+
 		return addition;
 	}
 	

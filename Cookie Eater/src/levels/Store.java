@@ -17,6 +17,9 @@ public class Store extends Level{
 		super(frame, gameboard, floor, sd);
 	}
 	
+	public Store(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, ThemeSet themeWeights, String id) {
+		super(frame,gameboard,floorlevel,roomtemplate,themeWeights,id);
+	}
 	//places not-npc owned purchasable cookies on the board
 	public void placeCookies(){
 		maxScore = 0;
