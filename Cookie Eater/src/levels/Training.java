@@ -14,5 +14,6 @@ public class Training extends Level{
 	public void build() {
 		loaded = true;
 	}
-	
+	public void placeCookies() {
+	}
 }

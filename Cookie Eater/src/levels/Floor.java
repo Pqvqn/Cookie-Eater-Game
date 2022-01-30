@@ -351,10 +351,13 @@ public class Floor {
 		switch(chosenlvl.roomType) {
 		case Room.STAGE:
 			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
+			break;
 		case Room.STORE:
 			addition = new Store(game, board, this, chosenlvl, themeWeights, id);
+			break;
 		case Room.TRAIN:
 			addition = new Training(game, board, this, chosenlvl, themeWeights, id);
+			break;
 		default:
 			addition = new Level(game, board, this, chosenlvl, themeWeights, id);
 		}
