@@ -212,7 +212,7 @@ public class Level{
 	public String getID() {return lvlid;}
 	public void setID(String id) {lvlid = id;}
 	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
-		buildPassages(next, directions, (int)(200 * room.scale));
+		buildPassages(next, directions, 150);
 	}
 	public void addPassage(Passage p) {
 		passageways.add(p);
