@@ -518,6 +518,7 @@ public class Board{
 		npcs.add(new ExplorerVendor(game,this,cycletime));
 		npcs.add(new ExplorerSidekick(game,this,cycletime));
 		npcs.add(new ExplorerMystery(game,this,cycletime));
+		npcs.add(new ExplorerTutor(game,this,cycletime));
 	}
 	//resets npcs for new dungeon
 	public void resetNpcs() {
