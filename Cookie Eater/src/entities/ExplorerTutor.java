@@ -51,7 +51,7 @@ public class ExplorerTutor extends Explorer{
 		}
 		tester = new SegmentCircle(board,this,x,y,radius*2,0,"test");
 	}
-	public String getName() {return "Sidekick";}
+	public String getName() {return "Tutor";}
 	public void runEnds() {
 		super.runEnds();
 		state = VENTURE;

@@ -32,6 +32,7 @@ public class SpriteExplorer extends Sprite{
 	public SpriteExplorer(Board frame, Explorer e) throws IOException {
 		super(frame);
 		user = e;
+
 		name = "eater";
 		File[] exp = {new File("Cookie Eater/src/resources/explorers/"+name+"Face.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceEat.png"),
@@ -41,12 +42,14 @@ public class SpriteExplorer extends Sprite{
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceDie.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"FaceSpecial.png")};
 		File[] bas = {new File("Cookie Eater/src/resources/explorers/"+name+"Base.png")};
+		
+		name = user.getName().toLowerCase();
 		File[] helm = {new File("Cookie Eater/src/resources/explorers/"+name+"HelmNeutral.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmUp.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmRight.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmDown.png"),
 				new File("Cookie Eater/src/resources/explorers/"+name+"HelmLeft.png")};
-		name = user.getName().toLowerCase();
+
 		faces = exp;
 		helmets = helm;
 		bases = bas;
