@@ -15,6 +15,7 @@ public class Wall extends Mechanism{
 	double ox,oy; //origin to rotate around
 	double r;
 	int shape;
+	int[][] ppoints;
 	static final int CIRCLE = 0, RECTANGLE = 1, POLYGON = 2;
 	
 	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
@@ -62,10 +63,13 @@ public class Wall extends Mechanism{
 	
 	public Wall(Game frame, Board gameboard, int xPos, int yPos, int[][] points) {
 		super(frame, gameboard, xPos, yPos);
+		ppoints = new int[2][ppoints.length];
 		shape = POLYGON;
 		ox = 0;
 		oy = 0;
 		for(int i=0; i<points.length; i++) {
+			ppoints[0][i] = points[i][0];
+			ppoints[1][i] = points[i][1];
 			ox += points[i][0] / points.length;
 			oy += points[i][1] / points.length;
 		}
@@ -130,7 +134,8 @@ public class Wall extends Mechanism{
 			Ellipse2D.Double c = new Ellipse2D.Double(x-r,y-r,r*2,r*2);
 			return new Area(c);
 		}else if (shape == POLYGON){
-
+			Polygon c = new Polygon(ppoints[0],ppoints[1],ppoints[0].length);
+			return new Area(c);
 		}else {
 			return new Area();
 		}
