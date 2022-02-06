@@ -84,6 +84,11 @@ public class Wall extends Mechanism{
 		shape = sd.getInteger("shape",0);
 		ox = sd.getDouble("origin",0);
 		oy = sd.getDouble("origin",1);
+		if(sd.dataMap().containsKey("points")) {
+			for(int i=0; i<sd.getData("points").size(); i++) {
+				ppoints[(int)(i/2)][i%2] = sd.getInteger("points",i);
+			}
+		}
 	}
 	public SaveData getSaveData() {
 		SaveData data = super.getSaveData();
@@ -94,6 +99,12 @@ public class Wall extends Mechanism{
 		data.addData("shape",shape);
 		data.addData("origin",ox,0);
 		data.addData("origin",oy,1);
+		if(ppoints != null) {
+			for(int i=0; i<ppoints[0].length; i++) {
+				data.addData("points",ppoints[0][i],i*2);
+				data.addData("points",ppoints[1][i],i*2+1);
+			}
+		}
 		return data;
 	}
 	
