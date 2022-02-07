@@ -77,7 +77,18 @@
 ]position:0.0;0.0
 ]type:mechanisms.Decoration
 ]preferredthemes:{
-]map:forest;1.0]}]}]}]}
+]map:forest;1.0]}]}]};{
+]quantity:1;1
+]mechanism:{
+]shape:2
+]mass:100.0
+]origin:350.0;400.0
+]angle:0.0
+]position:500.0;500.0
+]type:mechanisms.Wall
+]radius:0.0
+]dimensions:0.0;0.0
+]points:500;400;400;300;200;200;300;700]}]}]}]}
 
 ]Room2:{
 ]regions:0;1920;0;1020

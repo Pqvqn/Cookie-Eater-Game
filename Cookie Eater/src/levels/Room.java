@@ -138,6 +138,12 @@ public class Room{
 			mech.addData("quantity",1,0);
 			mech.addData("quantity",1,1);
 			mechanismGen.add(mech);
+			SaveData mech2 = new SaveData();
+			Mechanism polygon = new Wall(null, null, 500, 500, new int[][] {{500,400},{400,300},{200,200},{300,700}});
+			mech2.addData("mechanism",polygon.getSaveData());
+			mech2.addData("quantity",1,0);
+			mech2.addData("quantity",1,1);
+			mechanismGen.add(mech2);
 		}
 		
 	}

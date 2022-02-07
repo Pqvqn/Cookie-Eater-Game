@@ -63,7 +63,7 @@ public class Wall extends Mechanism{
 	
 	public Wall(Game frame, Board gameboard, int xPos, int yPos, int[][] points) {
 		super(frame, gameboard, xPos, yPos);
-		ppoints = new int[2][ppoints.length];
+		ppoints = new int[2][points.length];
 		shape = POLYGON;
 		ox = 0;
 		oy = 0;
@@ -85,6 +85,7 @@ public class Wall extends Mechanism{
 		ox = sd.getDouble("origin",0);
 		oy = sd.getDouble("origin",1);
 		if(sd.dataMap().containsKey("points")) {
+			ppoints = new int[sd.getData("points").size()/2][2];
 			for(int i=0; i<sd.getData("points").size(); i++) {
 				ppoints[(int)(i/2)][i%2] = sd.getInteger("points",i);
 			}
