@@ -85,9 +85,9 @@ public class Wall extends Mechanism{
 		ox = sd.getDouble("origin",0);
 		oy = sd.getDouble("origin",1);
 		if(sd.dataMap().containsKey("points")) {
-			ppoints = new int[sd.getData("points").size()/2][2];
+			ppoints = new int[2][sd.getData("points").size()/2];
 			for(int i=0; i<sd.getData("points").size(); i++) {
-				ppoints[(int)(i/2)][i%2] = sd.getInteger("points",i);
+				ppoints[i%2][(int)(i/2)] = sd.getInteger("points",i);
 			}
 		}
 	}
