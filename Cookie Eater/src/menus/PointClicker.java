@@ -1,11 +1,25 @@
 package menus;
 
-import java.awt.event.*;;
+import java.awt.event.*;
+
+import ce3.Game;
 
 public class PointClicker implements MouseListener, MouseMotionListener{
 
-	public PointClicker() {
-		
+	Game game;
+	
+	public PointClicker(Game frame) {
+		game = frame;
+	}
+	
+	public void activate(boolean yes) {
+		if(yes) {
+			game.addMouseListener(this);
+			game.addMouseMotionListener(this);
+		}else {
+			game.removeMouseListener(this);
+			game.removeMouseMotionListener(this);
+		}
 	}
 
 	@Override

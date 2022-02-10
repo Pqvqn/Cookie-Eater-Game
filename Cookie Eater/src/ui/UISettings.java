@@ -19,6 +19,7 @@ public class UISettings extends UIElement{
 	private Eater player;
 	private ArrayList<MenuButton> updateList; //buttons which need to have state updated depending on which player hit settings
 	public Map<String,Object> setOptions; //options that have been set by the player and must be set
+	public PointClicker pc;
 	
 	public UISettings(Game frame, int x, int y) {
 		super(frame,x,y);
@@ -189,6 +190,23 @@ public class UISettings extends UIElement{
 				menuHandler.addButton("DEBUG",givst);
 			}
 		}
+		
+		//gives player 10 cookies
+		MenuButton pointc = new MenuButton(game, this, null, new String[] {"Activate PointClicker","Deactivate PointClicker"}, false, 120,80,200,100);
+		oc = () -> {
+			if(pointc.currentState()-1 == 0) {
+				if(pc==null) {
+					pc = new PointClicker(game);
+				}
+				pc.activate(true);
+			}else {
+				pc.activate(false);
+			}
+
+		};
+		pointc.setClick(oc);
+		menuHandler.addButton("DEBUG",pointc);
+
 		
 		//shows fps
 		MenuButton fps = new MenuButton(game, this, null, new String[] {"show fps","hide fps"}, false, 1420,555,100,100);
