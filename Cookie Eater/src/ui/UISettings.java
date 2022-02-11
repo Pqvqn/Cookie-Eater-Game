@@ -44,7 +44,7 @@ public class UISettings extends UIElement{
 		Board board = game.board;
 		
 		//toggles which menu is selected
-		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG","TEST"}, false, 1300,700,400,200);
+		sel = new MenuButton(game, this, null, new String[] {"MAIN","DEBUG","TEST","BUILD"}, false, 1300,700,400,200);
 		oc = () -> {
 			//select menu from list based on button state
 			menuHandler.displayMenu(sel.getState());
@@ -53,6 +53,7 @@ public class UISettings extends UIElement{
 		menuHandler.addButton("MAIN",sel);
 		menuHandler.addButton("DEBUG",sel);
 		menuHandler.addButton("TEST",sel);
+		menuHandler.addButton("BUILD",sel);
 		
 		//selects which player the menu corresponds to
 		String[] opts = new String[board.players.size()];
@@ -191,7 +192,7 @@ public class UISettings extends UIElement{
 			}
 		}
 		
-		//gives player 10 cookies
+		//enables point clicking tool
 		MenuButton pointc = new MenuButton(game, this, null, new String[] {"Activate PointClicker","Deactivate PointClicker"}, false, 120,80,200,100);
 		oc = () -> {
 			if(pointc.currentState()-1 == 0) {
@@ -202,10 +203,17 @@ public class UISettings extends UIElement{
 			}else {
 				pc.activate(false);
 			}
-
 		};
 		pointc.setClick(oc);
-		menuHandler.addButton("DEBUG",pointc);
+		menuHandler.addButton("BUILD",pointc);
+		
+		//gives player 10 cookies
+		MenuButton pwall = new MenuButton(game, this, null, new String[] {"place wall"}, false, 520,775,200,100);
+		oc = () -> {
+			board.walls().add(new Wall(game,board,0,0,50,50));
+		};
+		pwall.setClick(oc);
+		menuHandler.addButton("BUILD",pwall);
 
 		
 		//shows fps
