@@ -67,7 +67,7 @@
 ]mechanisms:{
 ]quantity:20;120
 ]mechanism:{
-]filename:chair;table
+]filename:chair;bush
 ]variant:-1
 ]randomization:{
 ]topassage:true
