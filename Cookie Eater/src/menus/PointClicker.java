@@ -7,6 +7,7 @@ import ce3.Game;
 public class PointClicker implements MouseListener, MouseMotionListener{
 
 	Game game;
+	int[] lastpoint;
 	
 	public PointClicker(Game frame) {
 		game = frame;
@@ -36,8 +37,16 @@ public class PointClicker implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println(e.getX() + ","+ e.getY());
+		if(lastpoint==null || lastpoint[0]!=e.getX() || lastpoint[1]!=e.getY()){
+			System.out.print(e.getX() + ";"+ e.getY()+";");
+			if(lastpoint == null)lastpoint = new int[2];
+			lastpoint[0] = e.getX();
+			lastpoint[1] = e.getY();
+		}else {
+			System.out.println();
+			activate(false);
+		}
+
 		
 	}
 
