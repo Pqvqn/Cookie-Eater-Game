@@ -223,6 +223,32 @@
 ]canhalt:false
 ]savegame:false]}
 
+]RoomBig:{
+]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
+]startpositions:1690.0;790.0;230.0;230.0;230.0;790.0;1690.0;230.0
+]scale:0.2
+]decay:90;3000
+]enemies:{
+]chance:0;3
+]type:entities.EnemyBlob]};{
+]chance:0;1
+]type:entities.EnemyGlob]}
+]requirement:0.5
+]type:stage
+]caninstall:false
+]round:false
+]angled:true
+]canspecial:true
+]wallgen:100;50;600
+]cookiegen:15;90
+]name:Big Boy;forest
+]neededthemes:{
+]map:forest;0.2]}
+]pathgen:4;100;200;80;10
+]candamage:true
+]canhalt:false
+]savegame:false]}
+
 ]Store1:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
 ]passerbyspaces:660;400

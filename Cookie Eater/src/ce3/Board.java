@@ -55,6 +55,8 @@ public class Board{
 	public UIConfirmation ui_cnf;
 	public UIDebugInfo ui_dbg;
 	
+	public int renderDist = 1000;
+	
 	public Board(Game g, String name, int gamemode, int dungeon, int playercount, int cycle) {
 		game = g;
 		savename = name;

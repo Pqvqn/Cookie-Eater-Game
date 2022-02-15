@@ -328,12 +328,15 @@ public class Level{
 
 	
 	//put cookies in floor
-	public void placeCookies(int clearance, int separation) { //clearance between cookies and walls, separation between cookies
+	public void placeCookies(int clear, int separate) { //clearance between cookies and walls, separation between cookies
 		if(room.cookieGen==null)return;
+		double clearance = clear * room.scale;
+		double separation = separate * room.scale;
 		//place cookies so that none touch walls
 		int cooks = 0; //count of cookies placed
 		//vars for first/last cookie in line
-		int xOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1, yOrig = BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1;
+		int xOrig = (int)(BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1);
+		int yOrig = (int)(BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1);
 		int tY = 0, tX = 0;
 		//adjust cookie grid to be centered
 		for(tY = yOrig; tY<board.y_resol-BORDER_THICKNESS-clearance; tY+=separation);
