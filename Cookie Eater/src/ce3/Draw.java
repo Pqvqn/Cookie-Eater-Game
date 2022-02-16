@@ -112,7 +112,14 @@ public class Draw extends JPanel{
 		Rectangle screen_bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
 		g2.scale(screen_bounds.getWidth()/Board.DEF_X_RESOL,screen_bounds.getHeight()/Board.DEF_Y_RESOL);
-		if(board!=null && board.player()!=null)g2.translate(board.x_resol/2-board.player().getX(),board.y_resol/2-board.player().getY());
+		
+		// translate board to center on player
+		double[] translate = null;
+		if(board!=null && board.player()!=null) {
+			translate = new double[] {board.x_resol/2-board.player().getX(),board.y_resol/2-board.player().getY()};
+		}
+		if(translate!=null)g2.translate(translate[0],translate[1]);
+
 		
 		if(game!=null && (board==null || board.isPaused()) && game.ui_tis!=null && game.ui_tis.isVisible()) {
 			game.ui_tis.paint(g);
@@ -143,6 +150,9 @@ public class Draw extends JPanel{
 		for(int i=0; i<board.effects().size(); i++) {
 			board.effects().get(i).paint(g);
 		}
+		
+		//	translate board back for constants on screen
+		if(translate!=null)g2.translate(-translate[0],-translate[1]);
 		
 		for(int i=0; i<ui.size(); i++) {
 			if(ui.get(i)!=null)ui.get(i).paint(g);
