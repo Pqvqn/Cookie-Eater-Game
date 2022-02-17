@@ -19,6 +19,10 @@ public class UIText extends UIElement{
 		color = c;
 		font = f;
 	}
+	public UIText(Game frame, int x, int y, String t, Color c, Font f, boolean unpin) {
+		this(frame,x,y,t,c,f);
+		unpinned = unpin;
+	}
 
 	public String getText() {return text;}
 	public void setText(String text) {this.text = text;}

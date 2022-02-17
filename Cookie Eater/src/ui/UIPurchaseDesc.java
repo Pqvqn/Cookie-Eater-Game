@@ -16,6 +16,7 @@ public class UIPurchaseDesc extends UIElement{
 	
 	public UIPurchaseDesc(Game frame, CookieStore c) {
 		super(frame,0,0);
+		unpinned = true;
 		user=c;
 		xPos=user.getX();
 		yPos=user.getY()+60;

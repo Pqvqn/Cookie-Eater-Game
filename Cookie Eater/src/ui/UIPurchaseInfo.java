@@ -16,6 +16,7 @@ public class UIPurchaseInfo extends UIElement{
 	
 	public UIPurchaseInfo(Game frame, CookieStore c) {
 		super(frame,0,0);
+		unpinned = true;
 		user = c;
 		xPos=user.getX();
 		yPos=user.getY()-50;

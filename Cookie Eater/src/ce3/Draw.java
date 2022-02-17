@@ -151,11 +151,24 @@ public class Draw extends JPanel{
 			board.effects().get(i).paint(g);
 		}
 		
+		
+		ArrayList<UIElement> upperUI = new ArrayList<UIElement>();
+		for(int i=0; i<ui.size(); i++) {
+			UIElement uie = ui.get(i);
+			if(uie!=null) {
+				if(uie.movesWithBoard()) {
+					uie.paint(g);
+				}else {
+					upperUI.add(uie);
+				}
+			}
+		}
+		
 		//	translate board back for constants on screen
 		if(translate!=null)g2.translate(-translate[0],-translate[1]);
 		
-		for(int i=0; i<ui.size(); i++) {
-			if(ui.get(i)!=null)ui.get(i).paint(g);
+		for(int i=0; i<upperUI.size(); i++) {
+			upperUI.get(i).paint(g);
 		}
 		
 		if(board.currLevel!=null)board.currLevel.paint(g);

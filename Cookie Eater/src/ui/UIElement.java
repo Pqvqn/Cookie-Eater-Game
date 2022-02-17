@@ -10,11 +10,14 @@ public abstract class UIElement {
 	protected ArrayList<UIElement> parts; //uielements within this one
 	protected Game game;
 	protected int xPos, yPos; //location
+	protected boolean unpinned;
 
 	public UIElement(Game frame, int x, int y) {
 		parts = new ArrayList<UIElement>();
 		game = frame;
-		xPos = x; yPos = y;
+		xPos = x;
+		yPos = y;
+		unpinned = false;
 	}
 	
 	public int getxPos() {return xPos;}
@@ -24,6 +27,8 @@ public abstract class UIElement {
 
 	public void addElement(UIElement e) {parts.add(e);}
 	public void removeElement(UIElement e) {parts.remove(e);}
+	
+	public boolean movesWithBoard() {return unpinned;}
 	
 	public void paint(Graphics g) {
 		for(int i=0; i<parts.size(); i++) { //paint all uielements within
