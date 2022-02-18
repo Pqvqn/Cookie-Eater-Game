@@ -164,6 +164,8 @@ public class Draw extends JPanel{
 			}
 		}
 		
+		if(board.currLevel!=null)board.currLevel.paint(g);
+		
 		//	translate board back for constants on screen
 		if(translate!=null)g2.translate(-translate[0],-translate[1]);
 		
@@ -171,7 +173,7 @@ public class Draw extends JPanel{
 			upperUI.get(i).paint(g);
 		}
 		
-		if(board.currLevel!=null)board.currLevel.paint(g);
+
 		
 		//update fps counter
 		if(board!=null && game.ui_fps!=null)game.ui_fps.update(lastMilliCount,System.currentTimeMillis());

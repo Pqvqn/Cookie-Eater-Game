@@ -239,12 +239,12 @@
 ]round:false
 ]angled:true
 ]canspecial:true
-]wallgen:100;50;600
+]wallgen:600;50;100
 ]cookiegen:15;90
 ]name:Big Boy;forest
 ]neededthemes:{
 ]map:forest;0.2]}
-]pathgen:4;100;200;80;10
+]pathgen:15;100;500;100;20
 ]candamage:true
 ]canhalt:false
 ]savegame:false]}

@@ -502,7 +502,8 @@ public class Level{
 	}
 	
 	//creates nodes and connections
-	public void genPaths(int num, int nradmin, int nradmax, int lrad, int ldiv, int[][] areas) {
+	public void genPaths(int num, int nradminimum, int nradmaximum, int lradius, int ldiv, int[][] areas) {
+		int nradmin = (int)(nradminimum * room.scale),nradmax = (int)(nradmaximum* room.scale),lrad= (int)(lradius * room.scale);
 		if(areas == null) { //default areas to full screen
 			int[][] nareas = {{0,board.x_resol,0,board.y_resol}};
 			areas = nareas;
@@ -558,9 +559,10 @@ public class Level{
 	}
 		
 	//places walls that don't touch paths or nodes
-	public void genWalls(int sep, int min, int max, boolean angled) {
+	public void genWalls(int separation, int minimum, int maximum, boolean angled) {
 		//for(int i=0; i<num; i++) { //make num of walls
-		if(sep==0)return;
+		if(separation==0)return;
+		int sep = (int)(separation * room.scale),min = (int)(minimum * room.scale),max= (int)(maximum * room.scale);
 		for(int i=BORDER_THICKNESS; i<board.y_resol; i+=sep) {
 			for(int j=BORDER_THICKNESS; j<board.x_resol; j+=sep) {
 				//int cX = (int)(Math.random()*board.x_resol), cY = (int)(Math.random()*board.y_resol); //choose wall center
