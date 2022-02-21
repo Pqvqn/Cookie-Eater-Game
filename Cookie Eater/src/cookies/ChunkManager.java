@@ -27,17 +27,30 @@ public class ChunkManager {
 	
 	//set and sort cookies list into chunks
 	public void setCookies(ArrayList<Cookie> cookies) {
-		
+		for(int c=0; c<cookies.size(); c++) {
+			Cookie cook = cookies.get(c);
+			int xindex = (int)((cook.getX()/board.x_resol) * chunks.length);
+			int yindex = (int)((cook.getY()/board.y_resol) * chunks[0].length);
+			chunks[xindex][yindex].addCookie(cook);
+		}
 	}
 	
 	
 	public class Chunk {
 		
-		int[][] posRanges;
+		public int[][] posRanges;
+		private ArrayList<Cookie> cookies;
 		
 		public Chunk(int[][] ranges) {
 			posRanges = ranges;
+			cookies = new ArrayList<Cookie>();
 		}
+		
+		public void addCookie(Cookie c) {
+			cookies.add(c);
+		}
+		
+		public ArrayList<Cookie> getCookies(){return cookies;}
 	}
 }
 
