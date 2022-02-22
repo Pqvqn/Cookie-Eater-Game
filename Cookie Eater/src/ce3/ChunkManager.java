@@ -1,8 +1,8 @@
-package cookies;
+package ce3;
 
 import java.util.*;
 
-import ce3.*;
+import cookies.*;
 
 public class ChunkManager {
 	
@@ -29,21 +29,38 @@ public class ChunkManager {
 	public void setCookies(ArrayList<Cookie> cookies) {
 		for(int c=0; c<cookies.size(); c++) {
 			Cookie cook = cookies.get(c);
-			int xindex = (int)((cook.getX()/board.x_resol) * chunks.length);
-			int yindex = (int)((cook.getY()/board.y_resol) * chunks[0].length);
-			chunks[xindex][yindex].addCookie(cook);
+			surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
 		}
 	}
 	
+	public Chunk surroundingChunk(double x, double y) {
+		int xindex = (int)((x/board.x_resol) * chunks.length);
+		int yindex = (int)((y/board.y_resol) * chunks[0].length);
+		return chunks[xindex][yindex];
+	}
+	
+	public ArrayList<Chunk> chunksInRadius(double x, double y, double r){
+		ArrayList<Chunk> cchunks = new ArrayList<Chunk>();
+		for(int i=0; i<chunks.length; i++) {
+			for(int j=0; j<chunks[i].length; j++) {
+				if(Math.sqrt(Math.pow(x-chunks[i][j].getCenter()[0],2)+Math.pow(y-chunks[i][j].getCenter()[1],2)) <= r)
+					cchunks.add(chunks[i][j]);
+			}
+		}
+		return cchunks;
+	}
 	
 	public class Chunk {
 		
 		public int[][] posRanges;
 		private ArrayList<Cookie> cookies;
+		private int centerx, centery;
 		
 		public Chunk(int[][] ranges) {
 			posRanges = ranges;
 			cookies = new ArrayList<Cookie>();
+			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
+			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 		}
 		
 		public void addCookie(Cookie c) {
@@ -51,6 +68,7 @@ public class ChunkManager {
 		}
 		
 		public ArrayList<Cookie> getCookies(){return cookies;}
+		public int[] getCenter() {return new int[] {centerx,centery};}
 	}
 }
 
