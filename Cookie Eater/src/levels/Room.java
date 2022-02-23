@@ -46,6 +46,8 @@ public class Room{
 	public ArrayList<SaveData> enemyGen;
 	public ArrayList<SaveData> mechanismGen;
 	
+	//public int[] chunkerDims;
+	
 	public static void main(String[] args) {
 		Room thisRoom = new Room(STAGE,"Room2");
 		Room thisStore = new Room(STORE,"Store2");

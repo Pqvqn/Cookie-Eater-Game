@@ -39,6 +39,8 @@ public class Level{
 	
 	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
 	
+	public ChunkManager chunker; //manages chunks for reducing tests
+	
 	
 	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, ThemeSet themeWeights, String id) {
 		game = frame;
@@ -62,6 +64,8 @@ public class Level{
 		
 		score=0;
 		maxScore=0;
+		
+		chunker = new ChunkManager(this,room.chunkerDims);
 	}
 	public Level(Game frame, Board gameboard, Floor floorlevel, SaveData sd) {
 		game = frame;
@@ -133,6 +137,8 @@ public class Level{
 		
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
+		
+		chunker = new ChunkManager(this,room.chunkerDims);
 	}
 
 	

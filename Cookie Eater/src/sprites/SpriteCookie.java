@@ -85,8 +85,8 @@ public class SpriteCookie extends Sprite{
 		}
 	}
 	public void paint(Graphics g){
-		if(Math.sqrt(Math.pow(user.getX()-board.player().getX(),2)+Math.pow(user.getY()-board.player().getY(),2)) > board.renderDist)
-			return;
+		//if(Math.sqrt(Math.pow(user.getX()-board.player().getX(),2)+Math.pow(user.getY()-board.player().getY(),2)) > board.renderDist)
+		//	return;
 		try {
 			prePaint();
 		} catch (IOException e) {

@@ -1,4 +1,4 @@
-package ce3;
+package levels;
 
 import java.util.*;
 
@@ -6,14 +6,10 @@ import cookies.*;
 
 public class ChunkManager {
 	
-	private Game game;
-	private Board board;
 	private Chunk[][] chunks;
 	
-	public ChunkManager(Game frame, Board gameboard, int[] chunkdims) {
-		game = frame;
-		board = gameboard;
-		makeChunks(chunkdims, board.x_resol, board.y_resol);		
+	public ChunkManager(Level lvl, int[] chunkdims) {
+		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
 	}
 	
 	private void makeChunks(int[] chunkdims, int xres, int yres) {
@@ -34,8 +30,8 @@ public class ChunkManager {
 	}
 	
 	public Chunk surroundingChunk(double x, double y) {
-		int xindex = (int)((x/board.x_resol) * chunks.length);
-		int yindex = (int)((y/board.y_resol) * chunks[0].length);
+		int xindex = (int)((x/lvl.x_resol) * chunks.length);
+		int yindex = (int)((y/lvl.y_resol) * chunks[0].length);
 		return chunks[xindex][yindex];
 	}
 	
