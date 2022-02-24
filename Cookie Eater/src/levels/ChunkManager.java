@@ -6,9 +6,11 @@ import cookies.*;
 
 public class ChunkManager {
 	
+	private Level lvl;
 	private Chunk[][] chunks;
 	
-	public ChunkManager(Level lvl, int[] chunkdims) {
+	public ChunkManager(Level level, int[] chunkdims) {
+		lvl = level;
 		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
 	}
 	

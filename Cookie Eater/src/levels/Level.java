@@ -40,6 +40,7 @@ public class Level{
 	public int score, maxScore; //number of cookies picked up by player and number of cookies available in room
 	
 	public ChunkManager chunker; //manages chunks for reducing tests
+	public int x_resol, y_resol; //x and y ranges for in-bounds rectangle
 	
 	
 	public Level(Game frame, Board gameboard, Floor floorlevel, Room roomtemplate, ThemeSet themeWeights, String id) {

@@ -46,7 +46,7 @@ public class Room{
 	public ArrayList<SaveData> enemyGen;
 	public ArrayList<SaveData> mechanismGen;
 	
-	//public int[] chunkerDims;
+	public int[] chunkerDims;
 	
 	public static void main(String[] args) {
 		Room thisRoom = new Room(STAGE,"Room2");
@@ -146,6 +146,8 @@ public class Room{
 			mech2.addData("quantity",1,0);
 			mech2.addData("quantity",1,1);
 			mechanismGen.add(mech2);
+			
+			chunkerDims = new int[] {4,4};
 		}
 		
 	}
@@ -175,6 +177,8 @@ public class Room{
 		}else if(roomType.equals(STAGE)){
 			readGenData(sd);
 		}
+		
+		chunkerDims = new int[] {sd.getInteger("chunkdims",0),sd.getInteger("chunkdims",1)};
 	}
 	
 	public void readGenData(SaveData sd) {
@@ -269,6 +273,9 @@ public class Room{
 		}else if(roomType.equals(STAGE)){
 			writeGenData(data);
 		}
+		
+		data.addData("chunkdims",chunkerDims[0],0);
+		data.addData("chunkdims",chunkerDims[1],1);
 		
 		return data;
 	}
