@@ -84,12 +84,12 @@ public class Draw extends JPanel{
 	}
 	
 	//converts screen coordinate to game engine location
-	public Point convertPoint(Point b) {
+	/*public Point convertPoint(Point b) {
 		SwingUtilities.convertPointFromScreen(b, this);
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		Point bb = new Point((int)(.5+b.x * (Board.DEF_X_RESOL/screen.getWidth())),(int)(.5+b.y * (Board.DEF_Y_RESOL/screen.getHeight())));
+		Point bb = new Point((int)(.5+b.x * (Board.FRAME_X_RESOL/screen.getWidth())),(int)(.5+b.y * (Board.FRAME_Y_RESOL/screen.getHeight())));
 		return bb;
-	}
+	}*/
 	
 	//reduce or bring back costly graphics
 	public void setGraphicsLevel(boolean high) {
@@ -111,12 +111,12 @@ public class Draw extends JPanel{
 		}
 		Rectangle screen_bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
-		g2.scale(screen_bounds.getWidth()/Board.DEF_X_RESOL,screen_bounds.getHeight()/Board.DEF_Y_RESOL);
+		g2.scale(screen_bounds.getWidth()/Board.FRAME_X_RESOL,screen_bounds.getHeight()/Board.FRAME_Y_RESOL);
 		
 		// translate board to center on player
 		double[] translate = null;
 		if(board!=null && board.player()!=null) {
-			translate = new double[] {board.x_resol/2-board.player().getX(),board.y_resol/2-board.player().getY()};
+			translate = new double[] {Board.FRAME_X_RESOL/2-board.player().getX(),Board.FRAME_Y_RESOL/2-board.player().getY()};
 		}
 		if(translate!=null)g2.translate(translate[0],translate[1]);
 

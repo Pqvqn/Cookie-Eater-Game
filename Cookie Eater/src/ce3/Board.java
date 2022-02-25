@@ -86,8 +86,8 @@ public class Board{
 		
 		game.draw.setBoard(this);
 		
-		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
-		game.draw.addUI(ui_dbg = new UIDebugInfo(game,x_resol-200,y_resol-200));
+		game.draw.addUI(ui_lvl = new UILevelInfo(game,FRAME_X_RESOL/2,30));
+		game.draw.addUI(ui_dbg = new UIDebugInfo(game,FRAME_X_RESOL-200,FRAME_Y_RESOL-200));
 		if(mode == LEVELS) {
 			//create all of this game's npcs
 			createNpcs(cycletime);
@@ -103,8 +103,6 @@ public class Board{
 		
 		savename = data.getString("savename",0);
 		mode = data.getInteger("mode",0);
-		x_resol = data.getInteger("resolution",0);
-		y_resol = data.getInteger("resolution",1);
 		currDungeon = data.getInteger("currentdungeon",0);
 		playerCount = data.getInteger("playercount",0);
 		awaiting_start = data.getBoolean("awaiting",0);
@@ -162,8 +160,8 @@ public class Board{
 		for(Wall w : walls()) {
 			wallSpace.add(w.getArea());
 		}
-		game.draw.addUI(ui_lvl = new UILevelInfo(game,x_resol/2,30));
-		game.draw.addUI(ui_dbg = new UIDebugInfo(game,x_resol-200,y_resol-200));
+		game.draw.addUI(ui_lvl = new UILevelInfo(game,FRAME_X_RESOL/2,30));
+		game.draw.addUI(ui_dbg = new UIDebugInfo(game,FRAME_X_RESOL-200,FRAME_Y_RESOL-200));
 		game.draw.setBoard(this);
 	}
 	//write data tp 
@@ -172,8 +170,6 @@ public class Board{
 		data = new SaveData();
 		data.addData("savename",savename);
 		data.addData("mode",mode);
-		data.addData("resolution",x_resol,0);
-		data.addData("resolution",y_resol,1);
 		data.addData("currentdungeon",currDungeon);
 		data.addData("playercount",playerCount);
 		data.addData("awaiting",awaiting_start);

@@ -136,6 +136,7 @@ public class Level{
 			maxScore=0;
 		}
 		
+		
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 		
@@ -233,10 +234,10 @@ public class Level{
 	//put walls in floor
 	public void build() {
 		Wall top,bot,lef,rig;
-		walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS)); //add border walls
-		walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
-		walls.add(bot = new Wall(game,board,0,board.y_resol-BORDER_THICKNESS/2,board.x_resol,BORDER_THICKNESS));
-		walls.add(rig = new Wall(game,board,board.x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,board.y_resol));
+		walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
+		walls.add(bot = new Wall(game,board,0,y_resol-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS));
+		walls.add(rig = new Wall(game,board,x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
 		//put breaks in walls for passages (works for 1 passage per wall)
 		for(Passage p : passageways) {
 			p.setMode(this);
@@ -311,7 +312,7 @@ public class Level{
 	public void buildPassages(ArrayList<Level> nextLevels, ArrayList<Integer> directions, int size){
 		int[] dirs = {Passage.RIGHT,Passage.TOP};
 		int[] poss = new int[6];
-		poss[Passage.RIGHT]=board.y_resol/2;poss[Passage.LEFT]=board.y_resol/2;poss[Passage.TOP]=board.x_resol/2;poss[Passage.BOTTOM]=board.x_resol/2;poss[Passage.FLOOR]=0;poss[Passage.CEILING]=0;
+		poss[Passage.RIGHT]=y_resol/2;poss[Passage.LEFT]=y_resol/2;poss[Passage.TOP]=x_resol/2;poss[Passage.BOTTOM]=x_resol/2;poss[Passage.FLOOR]=0;poss[Passage.CEILING]=0;
 		
 		for(int i=0; i<nextLevels.size() && i<directions.size(); i++) {
 			int dir = (directions==null)?dirs[i]:directions.get(i);
@@ -346,12 +347,12 @@ public class Level{
 		int yOrig = (int)(BORDER_THICKNESS+clearance+(int)(Cookie.DEFAULT_RADIUS*room.scale)+1);
 		int tY = 0, tX = 0;
 		//adjust cookie grid to be centered
-		for(tY = yOrig; tY<board.y_resol-BORDER_THICKNESS-clearance; tY+=separation);
-		for(tX = xOrig; tX<board.x_resol-BORDER_THICKNESS-clearance; tX+=separation);
-		xOrig+=(board.x_resol-tX-xOrig)/2;
-		yOrig+=(board.y_resol-tY-yOrig)/2;
-		for(int pY = yOrig; pY<board.y_resol-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
-			for(int pX = xOrig; pX<board.x_resol-BORDER_THICKNESS-clearance; pX+=separation) {
+		for(tY = yOrig; tY<y_resol-BORDER_THICKNESS-clearance; tY+=separation);
+		for(tX = xOrig; tX<x_resol-BORDER_THICKNESS-clearance; tX+=separation);
+		xOrig+=(x_resol-tX-xOrig)/2;
+		yOrig+=(y_resol-tY-yOrig)/2;
+		for(int pY = yOrig; pY<y_resol-BORDER_THICKNESS-clearance; pY+=separation) { //make grid of cookies
+			for(int pX = xOrig; pX<x_resol-BORDER_THICKNESS-clearance; pX+=separation) {
 				boolean place = true;
 				if(!areaToPlace(pX,pY,(int)(Cookie.DEFAULT_RADIUS*room.scale+clearance+.5),board.wallSpace)) {
 					place = false;
@@ -512,7 +513,7 @@ public class Level{
 	public void genPaths(int num, int nradminimum, int nradmaximum, int lradius, int ldiv, int[][] areas) {
 		int nradmin = (int)(nradminimum * room.scale),nradmax = (int)(nradmaximum* room.scale),lrad= (int)(lradius * room.scale);
 		if(areas == null) { //default areas to full screen
-			int[][] nareas = {{0,board.x_resol,0,board.y_resol}};
+			int[][] nareas = {{0,x_resol,0,y_resol}};
 			areas = nareas;
 		}
 		ArrayList<int[]> ranges = new ArrayList<int[]>(); //put ranges into list
@@ -525,7 +526,7 @@ public class Level{
 				int[] ra = ranges.remove((int)(Math.random()*ranges.size())); //choose region
 				nodes.add(new int[] {(int)(Math.random()*(ra[1]-ra[0])+ra[0]),(int)(Math.random()*(ra[3]-ra[2])+ra[2]),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add randomly in region
 			}else{
-				nodes.add(new int[] {(int)(Math.random()*board.x_resol),(int)(Math.random()*board.y_resol),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
+				nodes.add(new int[] {(int)(Math.random()*x_resol),(int)(Math.random()*y_resol),(int)(Math.random()*(nradmax-nradmin)+nradmin)}); //add random node
 			}
 			if(nodes.size()>1) {
 				int c = (int)(Math.random()*(nodes.size()-2)); //choose random existing node but not last node
@@ -570,8 +571,8 @@ public class Level{
 		//for(int i=0; i<num; i++) { //make num of walls
 		if(separation==0)return;
 		int sep = (int)(separation * room.scale),min = (int)(minimum * room.scale),max= (int)(maximum * room.scale);
-		for(int i=BORDER_THICKNESS; i<board.y_resol; i+=sep) {
-			for(int j=BORDER_THICKNESS; j<board.x_resol; j+=sep) {
+		for(int i=BORDER_THICKNESS; i<y_resol; i+=sep) {
+			for(int j=BORDER_THICKNESS; j<x_resol; j+=sep) {
 				//int cX = (int)(Math.random()*board.x_resol), cY = (int)(Math.random()*board.y_resol); //choose wall center
 				int x=j,y=i,w=1,h=1;
 				double a = (angled)?Math.random()*Math.PI*2:0;
@@ -618,8 +619,8 @@ public class Level{
 	//places walls that don't touch paths or nodes
 	public void genRoundWalls(int sep, int min, int max) {
 		if(sep==0)return;
-		for(int i=0; i<board.y_resol; i+=sep) {
-			for(int j=0; j<board.x_resol; j+=sep) {
+		for(int i=0; i<y_resol; i+=sep) {
+			for(int j=0; j<x_resol; j+=sep) {
 				int r=1;
 				if(circOK(j,i,r,max)) { //if center is valid
 					while(circOK(j,i,r,max)) {
@@ -963,7 +964,7 @@ public class Level{
 		}
 		int num = 0;
 		for(int i=0; i<4; i++) {
-			if(corners[i][0]<=0 || corners[i][0]>=board.x_resol || corners[i][1]<=0 || corners[i][1]>=board.y_resol)num++;
+			if(corners[i][0]<=0 || corners[i][0]>=x_resol || corners[i][1]<=0 || corners[i][1]>=y_resol)num++;
 		}
 		if(num>=2) 
 			return false; //false if at least 2 corners are outside
