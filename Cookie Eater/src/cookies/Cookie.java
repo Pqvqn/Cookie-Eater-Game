@@ -16,7 +16,8 @@ public class Cookie {
 	public static final int DEFAULT_RADIUS=30;
 	protected int radius;
 	protected Game game;
-	protected Board board;
+	//protected Board board;
+	protected Level level;
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
 	protected double adjustedDecayTime; //decay time adjusted for fps
@@ -25,9 +26,10 @@ public class Cookie {
 	protected SpriteCookie sprite;
 	private double value;
 	
-	public Cookie(Game frame, Board gameboard, int startx, int starty, boolean basic) { //basic = is a general cookie to be collected for points
+	public Cookie(Game frame, Board gameboard, Level lvl, int startx, int starty, boolean basic) { //basic = is a general cookie to be collected for points
 		game = frame;
 		board = gameboard;
+		level = lvl;
 		
 		x=startx;
 		y=starty;
@@ -45,9 +47,10 @@ public class Cookie {
 		}
 	}
 	
-	public Cookie(Game frame, Board gameboard, SaveData sd, boolean basic) {
+	public Cookie(Game frame, Board gameboard, Level lvl, SaveData sd, boolean basic) {
 		game = frame;
 		board = gameboard;
+		level = lvl;
 		x = sd.getInteger("position",0);
 		y = sd.getInteger("position",1);
 		radius = sd.getInteger("radius",0);
@@ -100,11 +103,11 @@ public class Cookie {
 		double sx = board.player().startx;
 		double sy = board.player().starty;
 		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,sx,sy), //length to farthest corner from player
-				Level.lineLength(0,board.y_resol,sx,sy)),
-				Math.max(Level.lineLength(board.x_resol,0,sx,sy), 
-						Level.lineLength(board.x_resol,board.y_resol,sx,sy)));
+				Level.lineLength(0,level.y_resol,sx,sy)),
+				Math.max(Level.lineLength(level.x_resol,0,sx,sy), 
+						Level.lineLength(level.x_resol,level.y_resol,sx,sy)));
 		decayTime = (int)(.5+(1-(Level.lineLength(sx,sy,x,y)/farthestCorner))
-				*((board.currLevel.getMaxDecay()-board.currLevel.getMinDecay())+board.currLevel.getMinDecay()));
+				*((level.getMaxDecay()-level.getMinDecay())+level.getMinDecay()));
 		decayCounter = 0;
 		adjustedDecayTime = decayTime;
 		decayed=false;
@@ -117,7 +120,7 @@ public class Cookie {
 	public boolean collidesWithCircle(double oX, double oY, double oRad) {
 		double xDiff = Math.abs(oX - x);
 		double yDiff = Math.abs(oY - y);
-		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*board.currLevel.getScale();
+		return (Math.sqrt(xDiff*xDiff + yDiff*yDiff)) < oRad + radius*level.getScale();
 	}
 	
 	public void kill(Entity consumer) {
@@ -136,11 +139,11 @@ public class Cookie {
 			}
 			if(consumer instanceof Eater) {
 				Eater player = (Eater)consumer;
-				board.addScore(1);
+				level.addScore(1);
 				player.addCash(value);
 			}
 			if(consumer instanceof Explorer) {
-				board.addScore(1);
+				level.addScore(1);
 			}
 			if(consumer instanceof Summon) {
 				if(((Summon)consumer).getUser()!=null) {
@@ -154,14 +157,14 @@ public class Cookie {
 					kill(initiator);
 					return;
 				}else {
-					board.addScore(1);
+					level.addScore(1);
 				}
 			}
 		}
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
 		}
-		board.cookies().remove(this);
+		level.cookies().remove(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}
@@ -169,7 +172,7 @@ public class Cookie {
 	public boolean getAccess() {return accessible;}
 	public int getX() {return x;}
 	public int getY() {return y;}
-	public double getRadius() {return radius*board.currLevel.getScale();}
+	public double getRadius() {return radius*level.getScale();}
 	public void shift(int xS, int yS) {
 		x+=xS;
 		y+=yS;
@@ -197,7 +200,8 @@ public class Cookie {
 		if(sprite!=null) {
 			sprite.paint(g);
 		}else {
-			g.fillOval((int)(.5+x-radius*board.currLevel.getScale()), (int)(.5+y-radius*board.currLevel.getScale()), (int)(.5+radius*board.currLevel.getScale()*2), (int)(.5+radius*board.currLevel.getScale()*2));
+			double scaledr = radius*level.getScale();
+			g.fillOval((int)(.5+x-scaledr), (int)(.5+y-scaledr), (int)(.5+scaledr*2), (int)(.5+scaledr*2));
 		}
 	}
 }
