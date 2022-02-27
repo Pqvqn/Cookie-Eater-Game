@@ -28,30 +28,30 @@ public class Store extends Level{
 	
 	public void build() {
 		//Wall rig,lef;
-		walls.add(new Wall(game,board,0,0,board.x_resol,BORDER_THICKNESS)); //add border walls
-		walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,board.y_resol)); //lef
-		walls.add(new Wall(game,board,0,board.y_resol-BORDER_THICKNESS,board.x_resol,BORDER_THICKNESS));
-		walls.add(new Wall(game,board,board.x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,board.y_resol)); //rig
+		walls.add(new Wall(game,board,0,0,x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,y_resol)); //lef
+		walls.add(new Wall(game,board,0,y_resol-BORDER_THICKNESS,x_resol,BORDER_THICKNESS));
+		walls.add(new Wall(game,board,x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,y_resol)); //rig
 		
 		walls.add(new Wall(game,board,0,0,625,150));
-		walls.add(new Wall(game,board,0,board.y_resol-150,625,150));
-		walls.add(new Wall(game,board,board.x_resol-625,0,625,150));
-		walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-150,625,150));
+		walls.add(new Wall(game,board,0,y_resol-150,625,150));
+		walls.add(new Wall(game,board,x_resol-625,0,625,150));
+		walls.add(new Wall(game,board,x_resol-625,y_resol-150,625,150));
 		
 		walls.add(new Wall(game,board,625-75,0,75,350));
-		walls.add(new Wall(game,board,625-75,board.y_resol-350,75,350));
-		walls.add(new Wall(game,board,board.x_resol-625,0,75,350));
-		walls.add(new Wall(game,board,board.x_resol-625,board.y_resol-350,75,350));
+		walls.add(new Wall(game,board,625-75,y_resol-350,75,350));
+		walls.add(new Wall(game,board,x_resol-625,0,75,350));
+		walls.add(new Wall(game,board,x_resol-625,y_resol-350,75,350));
 		
 		walls.add(new Wall(game,board,0,0,230,250));
-		walls.add(new Wall(game,board,board.x_resol-230,0,230,250));
-		walls.add(new Wall(game,board,0,board.y_resol-250,230,250));
-		walls.add(new Wall(game,board,board.x_resol-230,board.y_resol-250,230,250));
+		walls.add(new Wall(game,board,x_resol-230,0,230,250));
+		walls.add(new Wall(game,board,0,y_resol-250,230,250));
+		walls.add(new Wall(game,board,x_resol-230,y_resol-250,230,250));
 		
 		walls.add(new Wall(game,board,0,0,130,350));
-		walls.add(new Wall(game,board,board.x_resol-130,0,130,350));
-		walls.add(new Wall(game,board,0,board.y_resol-350,130,350));
-		walls.add(new Wall(game,board,board.x_resol-130,board.y_resol-350,130,350));
+		walls.add(new Wall(game,board,x_resol-130,0,130,350));
+		walls.add(new Wall(game,board,0,y_resol-350,130,350));
+		walls.add(new Wall(game,board,x_resol-130,y_resol-350,130,350));
 		
 		//add cases to every item
 		int caseWidth = 80;
@@ -78,7 +78,7 @@ public class Store extends Level{
 	
 	//creates passages to next levels
 	public void buildPassages(ArrayList<Level> nextLevels, int size){
-		Passage p = new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,board.y_resol/2,size);
+		Passage p = new Passage(game,board,this,nextLevels.get(0),Passage.RIGHT,y_resol/2,size);
 		passageways.add(p);
 		nextLevels.get(0).addEntrance(p);
 	}
@@ -86,7 +86,7 @@ public class Store extends Level{
 	//puts cookie item on board
 	protected void placeItem(int x, int y, String i, double p) {
 		Item b = Item.generateItem(game,board,i);
-		cookies.add(new CookieItem(game, board, x, y, b, p));
+		cookies.add(new CookieItem(game, board, this, x, y, b, p));
 	}
 	protected void addToCatalogue(ArrayList<String> I, String i, ArrayList<Double> P, double p) {
 		I.add(i);

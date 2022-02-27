@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import ce3.*;
 import entities.*;
-//import levels.*;
+import levels.*;
 import sprites.*;
 
 public class CookieStat extends CookieStore{
@@ -17,19 +17,19 @@ public class CookieStat extends CookieStore{
 	private final double increment = .05; //stat increment
 	private SpriteStoreCookie sprite;
 	
-	public CookieStat(Game frame, Board gameboard, int startx, int starty) {
-		super(frame,gameboard,startx,starty);
+	public CookieStat(Game frame, Board gameboard, Level lvl, int startx, int starty) {
+		super(frame,gameboard,lvl,startx,starty);
 		int bonus = (int)(Math.random()+1.2);
 		int direction = (int)(Math.signum(Math.random()-.5));
 		int type = (int)(Math.random()*4);
 		setStatChanges(type, direction, bonus);
 	}
-	public CookieStat(Game frame, Board gameboard, int startx, int starty, int type, int direction, int bonus) {
-		super(frame,gameboard,startx,starty);
+	public CookieStat(Game frame, Board gameboard, Level lvl, int startx, int starty, int type, int direction, int bonus) {
+		super(frame,gameboard,lvl,startx,starty);
 		setStatChanges(type, direction, bonus);
 	}
-	public CookieStat(Game frame, Board gameboard, SaveData sd) {
-		super(frame,gameboard,sd);
+	public CookieStat(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame,gameboard,lvl,sd);
 		accelChange = sd.getDouble("stats",0);
 		maxvelChange = sd.getDouble("stats",1);
 		fricChange = sd.getDouble("stats",2);
@@ -96,7 +96,7 @@ public class CookieStat extends CookieStore{
 			if(buyer instanceof Eater) {
 				((Eater)buyer).addToMovement(accelChange,maxvelChange,fricChange);
 				//player.win();
-				board.addScore(1);
+				level.addScore(1);
 			}
 			if(vendor==null) {
 				buyer.spend(price);

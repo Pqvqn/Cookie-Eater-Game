@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import ce3.*;
-//import levels.*;
+import levels.*;
 import sprites.*;
 import entities.*;
 
@@ -12,8 +12,8 @@ public class CookieShield extends CookieStore{
 	
 	private SpriteStoreCookie sprite;
 	
-	public CookieShield(Game frame, Board gameboard, int startx, int starty, double cost) {
-		super(frame,gameboard,startx,starty);
+	public CookieShield(Game frame, Board gameboard, Level lvl, int startx, int starty, double cost) {
+		super(frame,gameboard,lvl,startx,starty);
 		price = cost;
 		name = "+1 Shield";
 		try {
@@ -25,8 +25,8 @@ public class CookieShield extends CookieStore{
 		desc = "One extra shield.`Allows player to bounce off of walls.";
 		
 	}
-	public CookieShield(Game frame, Board gameboard, SaveData sd) {
-		super(frame,gameboard,sd);
+	public CookieShield(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame,gameboard,lvl,sd);
 		try {
 			sprite = new SpriteStoreCookie(board,this,"cookieNewShield");
 		} catch (IOException e) {

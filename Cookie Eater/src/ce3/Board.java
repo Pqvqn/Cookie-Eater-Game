@@ -24,7 +24,7 @@ public class Board{
 	public Area wallSpace;
 	public ArrayList<Eater> players;
 	public ArrayList<Explorer> npcs;
-	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
+	//public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
 	public ArrayList<Menu> menus;
 
 	public static final String[] themes = {"forest","dungeon","cave","ice","harsh","void"}; //art and mechanic themes for across floors
@@ -157,7 +157,7 @@ public class Board{
 		}
 
 		wallSpace = new Area();
-		for(Wall w : walls()) {
+		for(Wall w : currLevel.walls) {
 			wallSpace.add(w.getArea());
 		}
 		game.draw.addUI(ui_lvl = new UILevelInfo(game,FRAME_X_RESOL/2,30));
@@ -393,7 +393,7 @@ public class Board{
 		currLevel.reload();
 		
 		wallSpace = new Area();
-		for(Wall w : walls()) {
+		for(Wall w : currLevel.walls) {
 			wallSpace.add(w.getArea());
 		}
 		game.draw.updateBG();
@@ -470,17 +470,17 @@ public class Board{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).setCalibration(cycle); //give player more accurate cycle time
 		}
-		for(int i=0; i<enemies().size(); i++) {
-			enemies().get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		for(int i=0; i<currLevel.enemies.size(); i++) {
+			currLevel.enemies.get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
-		for(int i=0; i<effects().size(); i++) {
-			effects().get(i).setCalibration(cycle); //give enemies more accurate cycle time
+		for(int i=0; i<currLevel.effects.size(); i++) {
+			currLevel.effects.get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
 		for(int i=0; i<presentnpcs.size(); i++) {
 			presentnpcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
-		for(int i=0; i<cookies().size(); i++) {
-			cookies().get(i).setCalibration(cycle); //give cookies more accurate cycle time
+		for(int i=0; i<currLevel.cookies.size(); i++) {
+			currLevel.cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
 		}
 	}
 	
@@ -489,7 +489,7 @@ public class Board{
 		currLevel.build();
 		game.draw.updateBG();
 		wallSpace = new Area();
-		for(Wall w : walls()) {
+		for(Wall w : currLevel.walls) {
 			wallSpace.add(w.getArea());
 		}
 	}
@@ -539,9 +539,9 @@ public class Board{
 	public ArrayList<Entity> allEntities(){
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		for(Entity e : players)entities.add(e);
-		for(Entity e : enemies())entities.add(e);
+		for(Entity e : currLevel.enemies)entities.add(e);
 		for(Entity e : presentnpcs)entities.add(e);
-		for(Entity e : effects())entities.add(e);
+		for(Entity e : currLevel.effects)entities.add(e);
 		return entities;
 	}
 	//return a list of all entities that are connected to the entity with the given code
@@ -560,11 +560,11 @@ public class Board{
 	public Cookie nearestCookie(double x, double y) {
 		double bestDist = Integer.MAX_VALUE;
 		Cookie save = null;
-		for(int i=0; i<cookies().size(); i++) {
-			if(cookies().get(i)!=null){
-				double thisDist = Level.lineLength(cookies().get(i).getX(),cookies().get(i).getY(),x,y);
+		for(int i=0; i<currLevel.cookies.size(); i++) {
+			if(currLevel.cookies.get(i)!=null){
+				double thisDist = Level.lineLength(currLevel.cookies.get(i).getX(),currLevel.cookies.get(i).getY(),x,y);
 				if(thisDist<bestDist&&thisDist!=0) {
-					save = cookies().get(i);
+					save = currLevel.cookies.get(i);
 					bestDist = thisDist;
 				}
 			}
@@ -610,7 +610,8 @@ public class Board{
 	}
 
 	
-	public int score() {return currLevel.score;}
+	/*
+	//public int score() {return currLevel.score;}
 	public int maxScore() {return currLevel.maxScore;}
 	public void addScore(int n) {currLevel.score+=n;}
 	
@@ -626,6 +627,8 @@ public class Board{
 	}
 	public ArrayList<Effect> effects(){return currLevel==null?null:currLevel.effects;}
 	public ArrayList<Enemy> enemies(){return currLevel==null?null:currLevel.enemies;}
+	*/
+	
 	public Explorer getNPC(String name) {
 		for(int i=0; i<npcs.size(); i++) {
 			if(npcs.get(i).getName().equals(name))return npcs.get(i);

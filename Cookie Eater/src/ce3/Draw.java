@@ -10,6 +10,7 @@ import javax.swing.*;
 import entities.*;
 import ui.*;
 import sprites.*;
+import levels.*;
 
 public class Draw extends JPanel{
 	
@@ -40,7 +41,7 @@ public class Draw extends JPanel{
 		ui = new ArrayList<UIElement>();
 		if(add_fps)ui.add(game.ui_fps);
 		try {
-			boardImage = new SpriteLevel(board,board.walls());
+			boardImage = new SpriteLevel(board,board.currLevel.walls);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +77,7 @@ public class Draw extends JPanel{
 	public void updateBG() {
 		//setBackground(board.currFloor.getBGColor());
 		try {
-			boardImage.updateStuff(board.walls(),!graphicsLevel);
+			boardImage.updateStuff(board.currLevel.walls,!graphicsLevel);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,9 +129,10 @@ public class Draw extends JPanel{
 		
 		boardImage.paint(g);
 		
+		Level lvl = board.currLevel;
 
-		for(int i=0; i<board.enemies().size(); i++) {
-			board.enemies().get(i).paint(g);
+		for(int i=0; i<lvl.enemies.size(); i++) {
+			lvl.enemies.get(i).paint(g);
 		}
 		for(int i=0; i<board.presentnpcs.size(); i++) {
 			board.presentnpcs.get(i).paint(g);
@@ -139,16 +141,16 @@ public class Draw extends JPanel{
 			players.get(i).paint(g);
 		}
 		
-		for(int i=0; i<board.mechanisms().size(); i++) {
-			board.mechanisms().get(i).paint(g);
+		for(int i=0; i<lvl.mechanisms.size(); i++) {
+			lvl.mechanisms.get(i).paint(g);
 		}
-		for(int i=board.cookies().size()-1; i>=0; i--) {
-			if(i>=board.cookies().size())i=board.cookies().size()-1;
-			if(i>=0)board.cookies().get(i).paint(g);
+		for(int i=lvl.cookies.size()-1; i>=0; i--) {
+			if(i>=lvl.cookies.size())i=lvl.cookies.size()-1;
+			if(i>=0)lvl.cookies.get(i).paint(g);
 		}
 		
-		for(int i=0; i<board.effects().size(); i++) {
-			board.effects().get(i).paint(g);
+		for(int i=0; i<lvl.effects.size(); i++) {
+			lvl.effects.get(i).paint(g);
 		}
 		
 		

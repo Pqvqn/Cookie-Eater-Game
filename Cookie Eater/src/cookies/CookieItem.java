@@ -3,17 +3,18 @@ package cookies;
 import java.io.IOException;
 
 import items.*;
+
 import sprites.*;
 import ce3.*;
 import entities.*;
-//import levels.*;
+import levels.*;
 
 public class CookieItem extends CookieStore{
 	
 	private Item myItem;
 	
-	public CookieItem(Game frame, Board gameboard, int startx, int starty, Item i, double cost) {
-		super(frame,gameboard,startx,starty);
+	public CookieItem(Game frame, Board gameboard, Level lvl, int startx, int starty, Item i, double cost) {
+		super(frame,gameboard,lvl,startx,starty);
 		myItem = i;
 		price = cost;
 		if(myItem!=null) {
@@ -27,8 +28,8 @@ public class CookieItem extends CookieStore{
 			desc = myItem.getDesc();
 		}
 	}
-	public CookieItem(Game frame, Board gameboard, SaveData sd) {
-		super(frame,gameboard,sd);
+	public CookieItem(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame,gameboard,lvl,sd);
 		SaveData itemsd = sd.getSaveDataList("item").get(0);
 		myItem = Item.generateItem(game,board,itemsd.getString("name",0));
 		if(myItem!=null) {

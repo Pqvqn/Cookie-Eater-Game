@@ -15,26 +15,26 @@ public abstract class CookieStore extends Cookie{
 	protected String desc;
 	protected Entity vendor;
 	
-	public CookieStore(Game frame, Board gameboard, int startx, int starty) {
-		super(frame,gameboard,startx,starty,false);
+	public CookieStore(Game frame, Board gameboard, Level lvl, int startx, int starty) {
+		super(frame,gameboard,lvl,startx,starty,false);
 		decayTime = Integer.MAX_VALUE;
 		region = 200;
 		price = 0;
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || board.cookies()!=null && board.cookies().contains(this))
+		if(board==null || level.cookies!=null && level.cookies.contains(this))
 			game.draw.addUI(info);
 	}
-	public CookieStore(Game frame, Board gameboard, SaveData sd) {
-		super(frame,gameboard,sd,false);
+	public CookieStore(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame,gameboard,lvl,sd,false);
 		decayTime = Integer.MAX_VALUE;
 		name = sd.getString("name",0);
 		desc = sd.getString("description",0);
 		price = sd.getDouble("price",0);
 		region = sd.getInteger("region",0);
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || board.cookies()!=null && board.cookies().contains(this))
+		if(board==null || level.cookies!=null && level.cookies.contains(this))
 			game.draw.addUI(info);
 	}
 	public SaveData getSaveData() {
@@ -46,24 +46,24 @@ public abstract class CookieStore extends Cookie{
 		return data;
 	}
 	//return CookieStore created by SaveData, testing for correct type of CookieStore
-	public static CookieStore loadFromData(Game frame, Board gameboard, SaveData sd) {
+	public static CookieStore loadFromData(Game frame, Board gameboard, Level lvl, SaveData sd) {
 		switch(sd.getString("type",0)) {
 		case "item":
-			return new CookieItem(frame, gameboard, sd);
+			return new CookieItem(frame, gameboard, lvl, sd);
 		case "shield":
-			return new CookieShield(frame, gameboard, sd);
+			return new CookieShield(frame, gameboard, lvl, sd);
 		case "stat":
-			return new CookieStat(frame, gameboard, sd);
+			return new CookieStat(frame, gameboard, lvl, sd);
 		default:
-			return new CookieShield(frame, gameboard, sd);
+			return new CookieShield(frame, gameboard, lvl, sd);
 		}
 	}
 	
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
 		game.draw.removeUI(info);
-		if(board.cookies().contains(this))
-			board.cookies().remove(board.cookies().indexOf(this));
+		if(level.cookies.contains(this))
+			level.cookies.remove(level.cookies.indexOf(this));
 	}
 	//purchase cookie, return if purchase is successful or not
 	public boolean purchase(Entity buyer) {
@@ -86,7 +86,7 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		if(board.cookies().contains(this)) {
+		if(level.cookies.contains(this)) {
 			Eater player = board.player();
 			if(!game.draw.getUIList().contains(info))game.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,

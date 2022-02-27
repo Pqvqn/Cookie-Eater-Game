@@ -84,7 +84,7 @@ public class Level{
 			cookies = new ArrayList<Cookie>();
 			if(cookieData!=null) {
 				for(int i=0; i<cookieData.size(); i++) {
-					Cookie loaded = Cookie.loadFromData(game, board, cookieData.get(i));
+					Cookie loaded = Cookie.loadFromData(game, board, this, cookieData.get(i));
 					if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
 						cookies.add(loaded);
 					}
@@ -219,6 +219,8 @@ public class Level{
 	
 	public String getID() {return lvlid;}
 	public void setID(String id) {lvlid = id;}
+	public void addScore(int n) {score += n;}
+	public int getScore() {return score;}
 	public void setNextLevels(ArrayList<Level> next, ArrayList<Integer> directions) {
 		buildPassages(next, directions, 150);
 	}
@@ -361,7 +363,7 @@ public class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					cookies.add(new Cookie(game,board,pX,pY,true));
+					cookies.add(new Cookie(game,board,this,pX,pY,true));
 					cooks++;
 				}
 			}

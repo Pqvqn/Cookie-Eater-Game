@@ -16,7 +16,7 @@ public class Cookie {
 	public static final int DEFAULT_RADIUS=30;
 	protected int radius;
 	protected Game game;
-	//protected Board board;
+	protected Board board;
 	protected Level level;
 	protected boolean accessible;
 	protected int decayTime; //frames passed before decaying
@@ -78,18 +78,18 @@ public class Cookie {
 		return data;
 	}
 	//return Cookie created by SaveData, testing for correct type of Cookie
-	public static Cookie loadFromData(Game frame, Board gameboard, SaveData sd) {
+	public static Cookie loadFromData(Game frame, Board gameboard, Level lvl, SaveData sd) {
 		String s = sd.getString("type",0);
-		if(s==null)return new Cookie(frame, gameboard, sd, true);
+		if(s==null)return new Cookie(frame, gameboard, lvl, sd, true);
 		switch(s) {
 		case "item":
-			return new CookieItem(frame, gameboard, sd);
+			return new CookieItem(frame, gameboard, lvl, sd);
 		case "shield":
-			return new CookieShield(frame, gameboard, sd);
+			return new CookieShield(frame, gameboard, lvl, sd);
 		case "stat":
-			return new CookieStat(frame, gameboard, sd);
+			return new CookieStat(frame, gameboard, lvl, sd);
 		default:
-			return new Cookie(frame, gameboard, sd, true);
+			return new Cookie(frame, gameboard, lvl, sd, true);
 		}
 	}
 	public void runUpdate() {
@@ -164,7 +164,7 @@ public class Cookie {
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
 		}
-		level.cookies().remove(this);
+		level.cookies.remove(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}
