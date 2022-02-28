@@ -1,5 +1,6 @@
 package menus;
 
+import java.awt.Point;
 import java.awt.event.*;
 
 import ce3.Game;
@@ -38,10 +39,11 @@ public class PointClicker implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(lastpoint==null || lastpoint[0]!=e.getX() || lastpoint[1]!=e.getY()){
-			System.out.print(e.getX() + ";"+ e.getY()+";");
+			Point p = game.draw.convertPoint(new Point(e.getX(),e.getY()),false);
+			System.out.print((int)p.getX() + ";"+ (int)p.getY()+";");
 			if(lastpoint == null)lastpoint = new int[2];
-			lastpoint[0] = e.getX();
-			lastpoint[1] = e.getY();
+			lastpoint[0] = (int)p.getX();
+			lastpoint[1] = (int)p.getY();
 		}else {
 			System.out.println();
 			activate(false);

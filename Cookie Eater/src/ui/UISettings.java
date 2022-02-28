@@ -172,7 +172,7 @@ public class UISettings extends UIElement{
 			MenuButton givit = new MenuButton(game, this, null, new String[] {"give "+pw}, false, xs+(i/rows*(wid+gap)),(ys+((hei+gap)*(i%rows))),wid,hei);
 			oc = () -> {
 				getSelectedPlayer().addItem(getSelectedPlayer().getCurrentSpecial(),
-						new CookieItem(game,board,0,0,Item.generateItem(game,board,pw),0.0));
+						new CookieItem(game,board,board.currLevel,0,0,Item.generateItem(game,board,pw),0.0));
 			};
 			givit.setClick(oc);
 			menuHandler.addButton("DEBUG",givit);
@@ -185,7 +185,7 @@ public class UISettings extends UIElement{
 				MenuButton givst = new MenuButton(game, this, null, new String[] {"give "+t+":"+d}, false, (int)(xs+(d/2.0)*(gap+wid)), ys+t*(gap+hei),wid,hei);
 				int t2 = t, d2 = d;
 				oc = () -> {
-					getSelectedPlayer().hitCookie(new CookieStat(game,board,0,0,t2+1,d2,1));
+					getSelectedPlayer().hitCookie(new CookieStat(game,board,board.currLevel,0,0,t2+1,d2,1));
 				};
 				givst.setClick(oc);
 				menuHandler.addButton("DEBUG",givst);
@@ -211,8 +211,8 @@ public class UISettings extends UIElement{
 		MenuButton pwall = new MenuButton(game, this, null, new String[] {"place wall"}, false, 520,775,200,100);
 		oc = () -> {
 			Wall wnw = new Wall(game,board,500,500,50,50);
-			board.walls().add(wnw);
-			board.mechanisms().add(wnw);
+			board.currLevel.walls.add(wnw);
+			board.currLevel.mechanisms.add(wnw);
 			game.draw.updateBG();
 		};
 		pwall.setClick(oc);

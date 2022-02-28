@@ -18,7 +18,7 @@ public class UITitleScreen extends UIElement{
 	
 	public UITitleScreen(Game frame, int x, int y) {
 		super(frame, x, y);
-		parts.add(new UIRectangle(game,0,0,Board.DEF_X_RESOL,Board.DEF_Y_RESOL,Color.GRAY,true)); //backing
+		parts.add(new UIRectangle(game,0,0,Board.FRAME_X_RESOL,Board.FRAME_Y_RESOL,Color.GRAY,true)); //backing
 		parts.add(new UIText(game,200,350,"Cookie Eater 3",Color.WHITE,new Font("Arial",Font.BOLD,160))); //title
 		makeButtons();
 	}
@@ -88,7 +88,7 @@ public class UITitleScreen extends UIElement{
 				game.removeKeyListener(textInput);
 				parts.remove(textInput);
 			};
-			textInput = new UIInputType(game, Board.DEF_X_RESOL/2,Board.DEF_Y_RESOL/2, os);
+			textInput = new UIInputType(game, Board.FRAME_X_RESOL/2,Board.FRAME_Y_RESOL/2, os);
 			parts.add(textInput);
 			textInput.startText("Savename: ");
 			game.addKeyListener(textInput);

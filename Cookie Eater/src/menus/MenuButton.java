@@ -68,7 +68,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen()))) {
+		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen(),true))) {
 			currState++;
 			if(currState >= states.length)currState = 0;
 			ui.trigger(currState);
@@ -107,7 +107,7 @@ public class MenuButton implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen()))) {
+		if(bounding.contains(game.draw.convertPoint(e.getLocationOnScreen(),true))) {
 			ui.highlight(true);
 		}else {
 			if(ui.isHighlighted()) {

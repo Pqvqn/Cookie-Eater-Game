@@ -26,8 +26,8 @@ public class UIDialogue extends UIElement{
 		ratio = 10;
 		dialogue = words;
 		speaker = dialogue.getSpeaker();
-		xPos=game.board.x_resol/2;
-		yPos=game.board.y_resol-100;
+		xPos=Board.FRAME_X_RESOL/2;
+		yPos=Board.FRAME_Y_RESOL-100;
 		
 		parts.add(new UIOval(game,xPos-730,yPos,(int)(.5+speaker.getRadius()/game.board.currLevel.getScale()*ratio),(int)(.5+speaker.getRadius()/game.board.currLevel.getScale()*ratio),speaker.getColor(),true)); //base
 

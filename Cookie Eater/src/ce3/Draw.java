@@ -85,12 +85,18 @@ public class Draw extends JPanel{
 	}
 	
 	//converts screen coordinate to game engine location
-	/*public Point convertPoint(Point b) {
+	public Point convertPoint(Point b, boolean uiLayer) {
 		SwingUtilities.convertPointFromScreen(b, this);
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		Point bb = new Point((int)(.5+b.x * (Board.FRAME_X_RESOL/screen.getWidth())),(int)(.5+b.y * (Board.FRAME_Y_RESOL/screen.getHeight())));
+		int xp = (int)(.5+b.x * (Board.FRAME_X_RESOL/screen.getWidth()));
+		int yp = (int)(.5+b.y * (Board.FRAME_Y_RESOL/screen.getHeight()));
+		if(uiLayer) {
+			xp += (Board.FRAME_X_RESOL/2-board.player().getX());
+			yp += (Board.FRAME_Y_RESOL/2-board.player().getY());
+		}
+		Point bb = new Point(xp,yp);
 		return bb;
-	}*/
+	}
 	
 	//reduce or bring back costly graphics
 	public void setGraphicsLevel(boolean high) {
