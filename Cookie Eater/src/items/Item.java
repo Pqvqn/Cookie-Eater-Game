@@ -3,9 +3,7 @@ package items;
 import java.lang.reflect.InvocationTargetException;
 
 import ce3.*;
-import entities.Eater;
-import entities.Enemy;
-import entities.Entity;
+import entities.*;
 
 public abstract class Item {
 

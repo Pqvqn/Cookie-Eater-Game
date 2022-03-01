@@ -18,8 +18,8 @@ public class Wall extends Mechanism{
 	int[][] ppoints;
 	static final int CIRCLE = 0, RECTANGLE = 1, POLYGON = 2;
 	
-	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
-		super(frame, gameboard, xPos, yPos);
+	public Wall(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height, double angle, int originX, int originY) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		shape = RECTANGLE;
 		w = width;
 		h = height;
@@ -29,8 +29,8 @@ public class Wall extends Mechanism{
 		oy=originY;
 	}
 	
-	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle) {
-		super(frame, gameboard, xPos, yPos);
+	public Wall(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height, double angle) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		shape = RECTANGLE; 
 		w = width;
 		h = height;
@@ -40,8 +40,8 @@ public class Wall extends Mechanism{
 		oy=y+h/2;
 	}
 	
-	public Wall(Game frame, Board gameboard, int xPos, int yPos, int width, int height) {
-		super(frame, gameboard, xPos, yPos);
+	public Wall(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		shape = RECTANGLE;
 		w = width;
 		h = height;
@@ -51,8 +51,8 @@ public class Wall extends Mechanism{
 		oy=y+h/2;
 	}
 	
-	public Wall(Game frame, Board gameboard, int xPos, int yPos, int radius) {
-		super(frame, gameboard, xPos, yPos);
+	public Wall(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int radius) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		shape = CIRCLE;
 		r = radius;
 		w=-1;h=-1;
@@ -61,8 +61,8 @@ public class Wall extends Mechanism{
 		oy=y;
 	}
 	
-	public Wall(Game frame, Board gameboard, int xPos, int yPos, int[][] points) {
-		super(frame, gameboard, xPos, yPos);
+	public Wall(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int[][] points) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		ppoints = new int[2][points.length];
 		shape = POLYGON;
 		ox = 0;
@@ -75,8 +75,8 @@ public class Wall extends Mechanism{
 		}
 	}
 
-	public Wall(Game frame, Board gameboard, SaveData sd) {
-		super(frame, gameboard, sd);
+	public Wall(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame, gameboard, lvl, sd);
 		w = sd.getDouble("dimensions",0);
 		h = sd.getDouble("dimensions",1);
 		r = sd.getDouble("radius",0);

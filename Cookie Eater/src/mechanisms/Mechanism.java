@@ -11,20 +11,23 @@ public abstract class Mechanism {
 
 	Game game;
 	Board board;
+	Level level;
 	double x,y;
 	double mass;
 	
-	public Mechanism(Game frame, Board gameboard, int xPos, int yPos) {
+	public Mechanism(Game frame, Board gameboard, Level lvl, int xPos, int yPos) {
 		game = frame;
 		board = gameboard;
+		level = lvl;
 		x = xPos;
 		y = yPos;
 		mass = 100;
 	}
 	
-	public Mechanism(Game frame, Board gameboard, SaveData sd) {
+	public Mechanism(Game frame, Board gameboard, Level lvl, SaveData sd) {
 		game = frame;
 		board = gameboard;
+		level = lvl;
 		x = sd.getDouble("position",0);
 		y = sd.getDouble("position",1);
 		mass = sd.getDouble("mass",0);
@@ -48,7 +51,7 @@ public abstract class Mechanism {
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(mechtypes[i].getName())){
 				try {
-					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, sd));
+					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, currlevel, sd));
 					if(sd.getData("randomization")!=null) {
 						m.randomize(currlevel, sd.getSaveDataList("randomization").get(0));
 					}
@@ -62,7 +65,7 @@ public abstract class Mechanism {
 
 		}
 		//default to wall
-		return new Wall(frame, gameboard, sd);
+		return new Wall(frame, gameboard, currlevel, sd);
 	}
 	
 	//randomize all position and stats from SaveData
@@ -101,6 +104,6 @@ public abstract class Mechanism {
 	public void clean() {}
 	public void remove() {
 		clean();
-		board.mechanisms().remove(this);
+		level.mechanisms.remove(this);
 	}
 }

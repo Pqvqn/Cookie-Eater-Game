@@ -43,7 +43,7 @@ public class ItemRicochet extends Item{
 		if(!(bouncedOff instanceof EffectExplosion)) { //dont create explosions when moved by explosions
 			EffectExplosion boom;
 			booms.add(0,boom = new EffectExplosion(game,board,game.getCycle(),(int)(.5+x),(int)(.5+y),maxRad*board.currLevel.getScale(),duration,user));
-			board.effects().add(boom);
+			board.currLevel.effects.add(boom);
 			
 			//if colliding with an area instead of an entity, get out of area before exploding
 			if(bouncedOff instanceof Area) {

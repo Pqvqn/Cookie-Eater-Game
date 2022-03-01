@@ -9,23 +9,23 @@ public class WallMove extends Wall{
 	boolean moving; //whether moving or still
 	double xV,yV; //last x and y velocity of movement
 
-	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, int originX, int originY, Path path) {
-		super(frame,gameboard,xPos,yPos,width,height,angle,originX,originY);
+	public WallMove(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height, double angle, int originX, int originY, Path path) {
+		super(frame,gameboard,lvl,xPos,yPos,width,height,angle,originX,originY);
 		initPaths(path);
 	}
 	
-	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, double angle, Path path) {
-		super(frame,gameboard,xPos,yPos,width,height,angle);
+	public WallMove(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height, double angle, Path path) {
+		super(frame,gameboard,lvl,xPos,yPos,width,height,angle);
 		initPaths(path);
 	}
 	
-	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int width, int height, Path path) {
-		super(frame,gameboard,xPos,yPos,width,height);
+	public WallMove(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height, Path path) {
+		super(frame,gameboard,lvl,xPos,yPos,width,height);
 		initPaths(path);
 	}
 	
-	public WallMove(Game frame, Board gameboard, int xPos, int yPos, int radius, Path path) {
-		super(frame,gameboard,xPos,yPos,radius);
+	public WallMove(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int radius, Path path) {
+		super(frame,gameboard,lvl,xPos,yPos,radius);
 		initPaths(path);
 	}
 	
@@ -35,8 +35,8 @@ public class WallMove extends Wall{
 		initPaths(path);
 	}*/
 	
-	public WallMove(Game frame, Board gameboard, SaveData sd) {
-		super(frame, gameboard, sd);
+	public WallMove(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame, gameboard, lvl, sd);
 		moving = sd.getBoolean("moving",0);
 		xV = sd.getDouble("velocity",0);
 		yV = sd.getDouble("velocity",1);

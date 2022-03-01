@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import ce3.*;
 import ui.*;
+import levels.*;
 
 public class WallDoor extends Wall{
 
@@ -17,20 +18,20 @@ public class WallDoor extends Wall{
 		setReq(requirement,isReqProp);
 	}*/
 	
-	public WallDoor(Game frame, Board gameboard, int xPos, int yPos, int radius, double requirement, boolean isReqProp) {
-		super(frame, gameboard, xPos, yPos, radius); 
+	public WallDoor(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int radius, double requirement, boolean isReqProp) {
+		super(frame, gameboard, lvl, xPos, yPos, radius); 
 		setReq(requirement,isReqProp);
 	}
 	
-	public WallDoor(Game frame, Board gameboard, SaveData sd) {
-		super(frame, gameboard, sd);
+	public WallDoor(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame, gameboard, lvl, sd);
 		double requirement = sd.getDouble("requirement",0);
 		boolean isReqProp = sd.getBoolean("requirement",1);
 		setReq(requirement,isReqProp);
 	}
 	
 	public void setReq(double requirement, boolean isReqProp) {
-		pointDisplay = new UIText(game, (int)(x+w/2+(board.x_resol/2-x)/15), (int)(y+h/2+(board.y_resol/2-y)/10), "", Color.WHITE, new Font("Arial",Font.BOLD,25), true);
+		pointDisplay = new UIText(game, (int)(x+w/2+(Board.FRAME_X_RESOL/2-x)/15), (int)(y+h/2+(Board.FRAME_Y_RESOL/2-y)/10), "", Color.WHITE, new Font("Arial",Font.BOLD,25), true);
 		game.draw.addUI(pointDisplay);
 		if(!isReqProp) {
 			thresh = (int)requirement;
@@ -59,12 +60,12 @@ public class WallDoor extends Wall{
 	}
 	
 	public void runUpdate() {
-		if(!game.draw.getUIList().contains(pointDisplay) && board.mechanisms().contains(this)) {
+		if(!game.draw.getUIList().contains(pointDisplay) && level.mechanisms.contains(this)) {
 			game.draw.addUI(pointDisplay);
 		}
-		pointDisplay.setText(thresh-board.score()+""); //update display
+		pointDisplay.setText(thresh-level.score+""); //update display
 		//check if players have collected enough cookies to remove door
-		if(thresh>=0 && board.score()>=thresh) {
+		if(thresh>=0 && level.score>=thresh) {
 			remove();
 		}
 	}

@@ -14,18 +14,18 @@ public class WallCase extends Wall{
 	private int dist; //distance from player to ask for confirmation from
 	private Selection confirmation; //menu confirmation to remove case
 	
-	public WallCase(Game frame, Board gameboard, int xPos, int yPos, int width, int height) {
-		super(frame, gameboard, xPos, yPos, width, height);
+	public WallCase(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int width, int height) {
+		super(frame, gameboard, lvl, xPos, yPos, width, height);
 		setUpConfirm();
 	}
 	
-	public WallCase(Game frame, Board gameboard, int xPos, int yPos, int radius) {
-		super(frame, gameboard, xPos, yPos, radius); 
+	public WallCase(Game frame, Board gameboard, Level lvl, int xPos, int yPos, int radius) {
+		super(frame, gameboard, lvl, xPos, yPos, radius); 
 		setUpConfirm();
 	}
 	
-	public WallCase(Game frame, Board gameboard, SaveData sd) {
-		super(frame, gameboard, sd);
+	public WallCase(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame, gameboard, lvl, sd);
 		dist = sd.getInteger("promptdistance",0);
 		setUpConfirm();
 	}

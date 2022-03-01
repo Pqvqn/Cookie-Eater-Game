@@ -15,8 +15,8 @@ public class Decoration extends Mechanism{
 	private int variant;
 	private ThemeSet preferredThemes;
 	
-	public Decoration(Game frame, Board gameboard, int xPos, int yPos, String[] names, ThemeSet themes) {
-		super(frame, gameboard, xPos, yPos);
+	public Decoration(Game frame, Board gameboard, Level lvl, int xPos, int yPos, String[] names, ThemeSet themes) {
+		super(frame, gameboard, lvl, xPos, yPos);
 		fileNames = names;
 		variant = (int)(Math.random() * fileNames.length);
 		preferredThemes = themes;
@@ -28,8 +28,8 @@ public class Decoration extends Mechanism{
 		}
 	}
 	
-	public Decoration(Game frame, Board gameboard, SaveData sd) {
-		super(frame,gameboard,sd);
+	public Decoration(Game frame, Board gameboard, Level lvl, SaveData sd) {
+		super(frame,gameboard,lvl,sd);
 		fileNames = new String[sd.getData("filename").size()];
 		for(int i=0; i<fileNames.length; i++) {
 			fileNames[i] = sd.getString("filename",i);
