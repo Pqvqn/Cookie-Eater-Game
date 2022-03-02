@@ -22,7 +22,7 @@ public class Passage extends Mechanism{
 	protected boolean triggered; //tracking if player has stayed inside
 	
 	public Passage(Game frame, Board gameboard, Level entrance, Level exit, int dir, int offset, int wid) {
-		super(frame,gameboard,0,0);
+		super(frame,gameboard,null,0,0);
 		mass = 0;
 		game = frame;
 		board = gameboard;
@@ -36,7 +36,7 @@ public class Passage extends Mechanism{
 	}
 	
 	public Passage(Game frame, Board gameboard, ArrayList<Level> options, SaveData sd) {
-		super(frame,gameboard,sd);
+		super(frame,gameboard,null,sd);
 		mode = sd.getBoolean("mode",0);
 		
 		for(int i=0; i<options.size(); i++) {
@@ -78,34 +78,34 @@ public class Passage extends Mechanism{
 	private void build(int dir, int offset) {
 		if(dir==TOP) {
 			iny = -gap;
-			outy = board.y_resol+gap;
+			outy = level.y_resol+gap;
 			inx = offset;
 			outx = offset;
 		}else if(dir==BOTTOM) {
 			outy = -gap;
-			iny = board.y_resol+gap;
+			iny = level.y_resol+gap;
 			inx = offset;
 			outx = offset;
 		}else if(dir==LEFT) {
 			inx = -gap;
-			outx = board.x_resol+gap;
+			outx = level.x_resol+gap;
 			iny = offset;
 			outy = offset;
 		}else if(dir==RIGHT) {
 			outx = -gap;
-			inx = board.x_resol+gap;
+			inx = level.x_resol+gap;
 			iny = offset;
 			outy = offset;
 		}else if(dir==CEILING) {
-			inx = board.x_resol/5;
-			outx = 4*board.x_resol/5;
-			iny = board.y_resol/2;
-			outy = board.y_resol/2;
+			inx = level.x_resol/5;
+			outx = 4*level.x_resol/5;
+			iny = level.y_resol/2;
+			outy = level.y_resol/2;
 		}else if(dir==FLOOR) {
-			inx = 4*board.x_resol/5;
-			outx = board.x_resol/5;
-			iny = board.y_resol/2;
-			outy = board.y_resol/2;
+			inx = 4*level.x_resol/5;
+			outx = level.x_resol/5;
+			iny = level.y_resol/2;
+			outy = level.y_resol/2;
 		}
 	}
 	
@@ -140,6 +140,7 @@ public class Passage extends Mechanism{
 	public boolean isEntrance() {return mode;}
 	public void setMode(boolean isEntrance) {
 		mode = isEntrance;
+		level = mode?entranceRoom:exitRoom;
 		x = (mode)?inx:outx;
 		y = (mode)?iny:outy;
 	}

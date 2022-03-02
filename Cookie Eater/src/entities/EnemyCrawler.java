@@ -61,8 +61,8 @@ public class EnemyCrawler extends Enemy{
 		super.orientParts();
 	}
 	public void runUpdate() {
-		double xp = (x<board.x_resol/2) ? 0 : board.x_resol; //nearest walls
-		double yp = (y<board.y_resol/2) ? 0 : board.y_resol;
+		double xp = (x<board.currLevel.x_resol/2) ? 0 : board.currLevel.x_resol; //nearest walls
+		double yp = (y<board.currLevel.y_resol/2) ? 0 : board.currLevel.y_resol;
 		Cookie tar1 = board.nearestCookie(x,y); //nearest cookies to nearest walls
 		Cookie tar2 = board.nearestCookie(x, y);
 		if(tar1!=null && tar2!=null) {

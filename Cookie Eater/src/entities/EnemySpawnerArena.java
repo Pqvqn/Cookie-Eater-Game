@@ -88,7 +88,7 @@ public class EnemySpawnerArena extends Enemy{
 			
 			for(int i=0; i<spawns.size(); i++) { //remove dead spawns
 				Enemy e = spawns.get(i);
-				if(!board.enemies().contains(e))spawns.remove(e);
+				if(!board.currLevel.enemies.contains(e))spawns.remove(e);
 			}
 			if(spawns.size()<spawnCap) { //if not enough spawns, spawn
 				spawnEnemy();
@@ -129,7 +129,7 @@ public class EnemySpawnerArena extends Enemy{
 		
 		if(newE!=null && !newE.collidesWithAnything()) { //if won't hit something, add spawn to lists and reset cookie collection count
 			spawns.add(newE);
-			board.enemies().add(newE);
+			board.currLevel.enemies.add(newE);
 			newE.addCookies(reward);
 			
 			if(Math.random()<.1) {
@@ -155,7 +155,7 @@ public class EnemySpawnerArena extends Enemy{
 				possible.add("Melee");
 				possible.add("Projectile");
 				possible.add("Teleport");
-				newE.giveCookie(new CookieItem(game,board,0,0,
+				newE.giveCookie(new CookieItem(game,board,null,0,0,
 						Item.generateItem(game,board,possible.get((int)(Math.random()*possible.size()))),(int)(Math.random()*50)+10));
 			}
 				

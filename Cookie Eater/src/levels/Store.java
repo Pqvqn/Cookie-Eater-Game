@@ -28,37 +28,37 @@ public class Store extends Level{
 	
 	public void build() {
 		//Wall rig,lef;
-		walls.add(new Wall(game,board,0,0,x_resol,BORDER_THICKNESS)); //add border walls
-		walls.add(new Wall(game,board,0,0,BORDER_THICKNESS,y_resol)); //lef
-		walls.add(new Wall(game,board,0,y_resol-BORDER_THICKNESS,x_resol,BORDER_THICKNESS));
-		walls.add(new Wall(game,board,x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,y_resol)); //rig
+		walls.add(new Wall(game,board,this,0,0,x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(new Wall(game,board,this,0,0,BORDER_THICKNESS,y_resol)); //lef
+		walls.add(new Wall(game,board,this,0,y_resol-BORDER_THICKNESS,x_resol,BORDER_THICKNESS));
+		walls.add(new Wall(game,board,this,x_resol-BORDER_THICKNESS,0,BORDER_THICKNESS,y_resol)); //rig
 		
-		walls.add(new Wall(game,board,0,0,625,150));
-		walls.add(new Wall(game,board,0,y_resol-150,625,150));
-		walls.add(new Wall(game,board,x_resol-625,0,625,150));
-		walls.add(new Wall(game,board,x_resol-625,y_resol-150,625,150));
+		walls.add(new Wall(game,board,this,0,0,625,150));
+		walls.add(new Wall(game,board,this,0,y_resol-150,625,150));
+		walls.add(new Wall(game,board,this,x_resol-625,0,625,150));
+		walls.add(new Wall(game,board,this,x_resol-625,y_resol-150,625,150));
 		
-		walls.add(new Wall(game,board,625-75,0,75,350));
-		walls.add(new Wall(game,board,625-75,y_resol-350,75,350));
-		walls.add(new Wall(game,board,x_resol-625,0,75,350));
-		walls.add(new Wall(game,board,x_resol-625,y_resol-350,75,350));
+		walls.add(new Wall(game,board,this,625-75,0,75,350));
+		walls.add(new Wall(game,board,this,625-75,y_resol-350,75,350));
+		walls.add(new Wall(game,board,this,x_resol-625,0,75,350));
+		walls.add(new Wall(game,board,this,x_resol-625,y_resol-350,75,350));
 		
-		walls.add(new Wall(game,board,0,0,230,250));
-		walls.add(new Wall(game,board,x_resol-230,0,230,250));
-		walls.add(new Wall(game,board,0,y_resol-250,230,250));
-		walls.add(new Wall(game,board,x_resol-230,y_resol-250,230,250));
+		walls.add(new Wall(game,board,this,0,0,230,250));
+		walls.add(new Wall(game,board,this,x_resol-230,0,230,250));
+		walls.add(new Wall(game,board,this,0,y_resol-250,230,250));
+		walls.add(new Wall(game,board,this,x_resol-230,y_resol-250,230,250));
 		
-		walls.add(new Wall(game,board,0,0,130,350));
-		walls.add(new Wall(game,board,x_resol-130,0,130,350));
-		walls.add(new Wall(game,board,0,y_resol-350,130,350));
-		walls.add(new Wall(game,board,x_resol-130,y_resol-350,130,350));
+		walls.add(new Wall(game,board,this,0,0,130,350));
+		walls.add(new Wall(game,board,this,x_resol-130,0,130,350));
+		walls.add(new Wall(game,board,this,0,y_resol-350,130,350));
+		walls.add(new Wall(game,board,this,x_resol-130,y_resol-350,130,350));
 		
 		//add cases to every item
 		int caseWidth = 80;
 		for(int i=0; i<room.vendorSpaces.length; i++) {
 			for(int j=1; j<room.vendorSpaces[i].length; j++) {
 				//walls.add(new WallCase(game,board,vendorSpaces[i][j][0]-caseWidth/2,vendorSpaces[i][j][1]-caseWidth/2,caseWidth,caseWidth));
-				mechanisms.add(new WallCase(game,board,room.vendorSpaces[i][j][0],room.vendorSpaces[i][j][1],caseWidth/2));
+				mechanisms.add(new WallCase(game,board,this,room.vendorSpaces[i][j][0],room.vendorSpaces[i][j][1],caseWidth/2));
 			}
 		}
 		
@@ -69,7 +69,7 @@ public class Store extends Level{
 			Passage p = passageways.get(i);
 			p.setMode(this);
 			addMechanism(p);
-			if(p.isEntrance())mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,2,false));
+			if(p.isEntrance())mechanisms.add(new WallDoor(game,board,this,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,2,false));
 		}
 		
 		//mechanisms.add(new WallDoor(game,board,board.x_resol-BORDER_THICKNESS,board.y_resol/2-100,BORDER_THICKNESS/2,200,2,false));

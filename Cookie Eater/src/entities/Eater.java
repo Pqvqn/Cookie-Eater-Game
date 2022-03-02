@@ -47,8 +47,8 @@ public class Eater extends Entity{
 		name = "Player "+id;
 		dO= true;
 		ded = false;
-		x=board.x_resol/2;
-		y=board.y_resol/2;
+		x=board.currLevel.x_resol/2;
+		y=board.currLevel.y_resol/2;
 		direction = NONE;
 		x_velocity = 0;
 		y_velocity = 0;
@@ -98,7 +98,7 @@ public class Eater extends Entity{
 		if(pickup_data!=null) {
 			pickups = new ArrayList<CookieItem>();
 			for(int i=0; i<pickup_data.size(); i++) {
-				pickups.add(new CookieItem(game, board, pickup_data.get(i)));
+				pickups.add(new CookieItem(game, board, null, pickup_data.get(i)));
 			}
 		}
 	
@@ -301,11 +301,11 @@ public class Eater extends Entity{
 		if(board.mode == Board.LEVELS) {
 			if(p!=null) {
 				int[] coords = p.oppositeCoordinates();
-				x = coords[0] + (board.x_resol/2-coords[0])/15;
-				y = coords[1] + (board.y_resol/2-coords[1])/15;
+				x = coords[0] + (board.currLevel.x_resol/2-coords[0])/15;
+				y = coords[1] + (board.currLevel.y_resol/2-coords[1])/15;
 			}else {
-				x = board.x_resol/2;
-				y = board.y_resol/2;
+				x = board.currLevel.x_resol/2;
+				y = board.currLevel.y_resol/2;
 			}
 			startx = (int)x;
 			starty = (int)y;
@@ -422,15 +422,15 @@ public class Eater extends Entity{
 	
 	public void initUI() {
 		if(board.mode == Board.LEVELS) {
-			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.y_resol-50,3,2,getSpecialColors()));
-			game.draw.addUI(scoreboard = new UIScoreCount(game,board.x_resol-170,board.y_resol-100));
-			game.draw.addUI(shieldDisp = new UIShields(game,board.x_resol-80,90+60*id,3));
+			game.draw.addUI(itemDisp = new UIItemsAll(game,50,board.currLevel.y_resol-50,3,2,getSpecialColors()));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,board.currLevel.x_resol-170,board.currLevel.y_resol-100));
+			game.draw.addUI(shieldDisp = new UIShields(game,board.currLevel.x_resol-80,90+60*id,3));
 		}else if(board.mode == Board.PVP) {
 			game.draw.addUI(itemDisp = new UIItemsAll(game,
-					(id==1||id==2)?50:board.x_resol-250,(id==1||id==3)?150:board.y_resol-50,
+					(id==1||id==2)?50:board.currLevel.x_resol-250,(id==1||id==3)?150:board.currLevel.y_resol-50,
 					1,id,getSpecialColors()));
-			game.draw.addUI(shieldDisp = new UIShields(game,(id==1||id==2)?350:board.x_resol-350,(id==1||id==3)?130:board.y_resol-70,id));
-			game.draw.addUI(scoreboard = new UIScoreCount(game,(id==1||id==2)?50:board.x_resol-100,(id==1||id==3)?200:board.y_resol-200));
+			game.draw.addUI(shieldDisp = new UIShields(game,(id==1||id==2)?350:board.currLevel.x_resol-350,(id==1||id==3)?130:board.currLevel.y_resol-70,id));
+			game.draw.addUI(scoreboard = new UIScoreCount(game,(id==1||id==2)?50:board.currLevel.x_resol-100,(id==1||id==3)?200:board.currLevel.y_resol-200));
 		}
 	}
 	public void updateUI() {
@@ -438,7 +438,7 @@ public class Eater extends Entity{
 		if(itemDisp==null)initUI();
 		itemDisp.update(false, getItems(),getSpecialFrames(),getSpecialCooldown(),getSpecialLength(),special_activated);
 		//scoreboard
-		scoreboard.update(cash,board.score(),board.maxScore());
+		scoreboard.update(cash,board.currLevel.score,board.currLevel.maxScore);
 		//shields
 		shieldDisp.update(shield_stash.size());
 	}

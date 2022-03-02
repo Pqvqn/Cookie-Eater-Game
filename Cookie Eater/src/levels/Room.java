@@ -135,13 +135,13 @@ public class Room{
 			path.setCheckpoint(0,0,0,Path.TIME,100,0,0,0);
 			path.setCheckpoint(1,0,0,Path.TIME,100,200,0,0);
 			Mechanism moveWall = new WallMove(null,null,0,0,1920,1080,path);*/
-			Mechanism decor = new Decoration(null,null,0,0,new String[] {"bush"},new ThemeSet(new String[] {"forest"}, new double[] {1.0}));
+			Mechanism decor = new Decoration(null,null,null,0,0,new String[] {"bush"},new ThemeSet(new String[] {"forest"}, new double[] {1.0}));
 			mech.addData("mechanism",decor.getSaveData());
 			mech.addData("quantity",1,0);
 			mech.addData("quantity",1,1);
 			mechanismGen.add(mech);
 			SaveData mech2 = new SaveData();
-			Mechanism polygon = new Wall(null, null, 500, 500, new int[][] {{500,400},{400,300},{200,200},{300,700}});
+			Mechanism polygon = new Wall(null,null,null,500,500,new int[][] {{500,400},{400,300},{200,200},{300,700}});
 			mech2.addData("mechanism",polygon.getSaveData());
 			mech2.addData("quantity",1,0);
 			mech2.addData("quantity",1,1);

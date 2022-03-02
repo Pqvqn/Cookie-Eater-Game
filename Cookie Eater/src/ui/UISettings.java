@@ -210,7 +210,7 @@ public class UISettings extends UIElement{
 		//gives player 10 cookies
 		MenuButton pwall = new MenuButton(game, this, null, new String[] {"place wall"}, false, 520,775,200,100);
 		oc = () -> {
-			Wall wnw = new Wall(game,board,500,500,50,50);
+			Wall wnw = new Wall(game,board,board.currLevel,500,500,50,50);
 			board.currLevel.walls.add(wnw);
 			board.currLevel.mechanisms.add(wnw);
 			game.draw.updateBG();

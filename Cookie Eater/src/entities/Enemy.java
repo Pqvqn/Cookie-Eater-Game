@@ -136,14 +136,14 @@ public abstract class Enemy extends Entity{
 			Area b = new Area(c);
 			b.intersect(board.wallSpace);
 			hit = !b.isEmpty();
-			if((int)(.5+x+addx)<0||(int)(.5+x+addx)>board.x_resol||(int)(.5+y+addy)<0||(int)(.5+y+addy)>board.y_resol)hit=true;
+			if((int)(.5+x+addx)<0||(int)(.5+x+addx)>board.currLevel.x_resol||(int)(.5+y+addy)<0||(int)(.5+y+addy)>board.currLevel.y_resol)hit=true;
 			if(!hit) {
 				Cookie remove = stash.remove(0);
 				remove.setPos((int)(.5+x+addx),(int)(.5+y+addy));
-				board.cookies().add(remove);
+				board.currLevel.cookies.add(remove);
 			}
 		}
-		board.enemies().remove(this);
+		board.currLevel.enemies.remove(this);
 		ded=true;
 		wipeStash();
 	}

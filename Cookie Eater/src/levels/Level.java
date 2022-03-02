@@ -108,7 +108,7 @@ public class Level{
 			walls = new ArrayList<Wall>();
 			if(wallData!=null) {
 				for(int i=0; i<wallData.size(); i++) {
-					walls.add(new Wall(game, board, wallData.get(i)));
+					walls.add(new Wall(game, board, this, wallData.get(i)));
 				}
 			}
 			
@@ -236,10 +236,10 @@ public class Level{
 	//put walls in floor
 	public void build() {
 		Wall top,bot,lef,rig;
-		walls.add(top = new Wall(game,board,0,-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS)); //add border walls
-		walls.add(lef = new Wall(game,board,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
-		walls.add(bot = new Wall(game,board,0,y_resol-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS));
-		walls.add(rig = new Wall(game,board,x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
+		walls.add(top = new Wall(game,board,this,0,-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS)); //add border walls
+		walls.add(lef = new Wall(game,board,this,-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
+		walls.add(bot = new Wall(game,board,this,0,y_resol-BORDER_THICKNESS/2,x_resol,BORDER_THICKNESS));
+		walls.add(rig = new Wall(game,board,this,x_resol-BORDER_THICKNESS/2,0,BORDER_THICKNESS,y_resol));
 		//put breaks in walls for passages (works for 1 passage per wall)
 		for(Passage p : passageways) {
 			p.setMode(this);
@@ -260,7 +260,7 @@ public class Level{
 			}
 			addMechanism(p);
 			if(enter) { //place door
-				mechanisms.add(new WallDoor(game,board,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,p.cookieProportion(),true));
+				mechanisms.add(new WallDoor(game,board,this,(int)(p.getX()+.5),(int)(p.getY()+.5),p.getWidth()/2,p.cookieProportion(),true));
 			}
 
 		}
@@ -299,12 +299,12 @@ public class Level{
 			int wid = (int)w.getW();
 			int xp = (int)w.getX();
 			w.setW(start-xp);
-			w2 = new Wall(game,board,xp+end,(int)w.getY(),xp+wid-end,(int)w.getH());
+			w2 = new Wall(game,board,this,xp+end,(int)w.getY(),xp+wid-end,(int)w.getH());
 		}else {
 			int hei = (int)w.getH();
 			int yp = (int)w.getY();
 			w.setH(start-yp);
-			w2 = new Wall(game,board,(int)w.getX(),yp+end,(int)w.getW(),yp+hei-end);
+			w2 = new Wall(game,board,this,(int)w.getX(),yp+end,(int)w.getW(),yp+hei-end);
 		}
 		w.resetOrigin();
 		return w2;
@@ -612,7 +612,7 @@ public class Level{
 					}
 					h--;
 					if(h>=min && w>=min) //remove small walls
-						walls.add(new Wall(game,board,x,y,w,h,a,i,j));
+						walls.add(new Wall(game,board,this,x,y,w,h,a,i,j));
 				}
 			}
 		}
@@ -634,7 +634,7 @@ public class Level{
 					}
 					r--;
 					if(r>=min) //remove small walls
-						walls.add(new Wall(game,board,j,i,r));
+						walls.add(new Wall(game,board,this,j,i,r));
 				}
 			}
 		}
