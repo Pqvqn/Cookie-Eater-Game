@@ -142,15 +142,15 @@ public class ExplorerTutor extends Explorer{
 			yeehaw = false;
 			//for(Wall w:board.walls) { //if tester hits a wall, rule this direction out
 				if(tester.collidesWithArea(false,board.wallSpace)
-						|| xs[i]<0 || xs[i]>board.x_resol || ys[i]<0 || ys[i]>board.y_resol) {
+						|| xs[i]<0 || xs[i]>board.currLevel.x_resol || ys[i]<0 || ys[i]>board.currLevel.y_resol) {
 					//[i][0] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[0];
 					//yees[i][1] = tester.rectHitPoint(false, w.getX(), w.getY(), w.getW(), w.getH(),0)[1];
 					dos[i] += -500;
 					yeehaw = true;
 				}
 			//}
-			for(int j=0; j<board.cookies().size(); j++) { //if tester hits a cookie, prioritize this direction
-				Cookie c = board.cookies().get(j);
+			for(int j=0; j<board.currLevel.cookies.size(); j++) { //if tester hits a cookie, prioritize this direction
+				Cookie c = board.currLevel.cookies.get(j);
 				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
 					dos[i] += 1;
 				}
@@ -235,7 +235,7 @@ public class ExplorerTutor extends Explorer{
 	
 	public void createStash() {
 		super.createStash();
-		giveCookie(new CookieItem(game,board,0,0,Item.generateItem(game,board,"Ghost"),0));
+		giveCookie(new CookieItem(game,board,null,0,0,Item.generateItem(game,board,"Ghost"),0));
 	}
 	public void buildBody() {
 		parts.add(part = new SegmentCircle(board,this,x,y,radius,0,"body"));

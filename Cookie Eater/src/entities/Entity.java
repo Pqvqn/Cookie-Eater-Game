@@ -166,21 +166,21 @@ public abstract class Entity {
 		cash_stash = new ArrayList<Cookie>();
 		if(cash_data!=null) {
 			for(int i=0; i<cash_data.size(); i++) {
-				cash_stash.add(new Cookie(game, board, cash_data.get(i), true));
+				cash_stash.add(new Cookie(game, board, null, cash_data.get(i), true));
 			}
 		}
 		ArrayList<SaveData> shield_data = sd.getSaveDataList("shieldstash");
 		shield_stash = new ArrayList<CookieShield>();
 		if(shield_data!=null) {
 			for(int i=0; i<shield_data.size(); i++) {
-				shield_stash.add(new CookieShield(game, board, shield_data.get(i)));
+				shield_stash.add(new CookieShield(game, board, null, shield_data.get(i)));
 			}
 		}
 		ArrayList<SaveData> stat_data = sd.getSaveDataList("statstash");
 		stat_stash = new ArrayList<CookieStat>();
 		if(stat_data!=null) {
 			for(int i=0; i<stat_data.size(); i++) {
-				stat_stash.add(new CookieStat(game, board, stat_data.get(i)));
+				stat_stash.add(new CookieStat(game, board, null, stat_data.get(i)));
 			}
 		}
 		SaveData allItemData = sd.getSaveDataList("itemstash").get(0);
@@ -191,7 +191,7 @@ public abstract class Entity {
 				if(itemData!=null) {
 					item_stash.add(i, new ArrayList<CookieItem>());
 					for(int j=0; j<itemData.size(); j++) {
-						CookieItem ci = new CookieItem(game, board, itemData.get(j));
+						CookieItem ci = new CookieItem(game, board, null, itemData.get(j));
 						item_stash.get(i).add(ci);
 						ci.getItem().setUser(this);
 					}
@@ -414,9 +414,9 @@ public abstract class Entity {
 	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
 			
-			for(int i=0; i<board.cookies().size(); i++) { //for every cookie, test if any parts impact
-				if(i<board.cookies().size()) {
-					Cookie c = board.cookies().get(i);
+			for(int i=0; i<board.currLevel.cookies.size(); i++) { //for every cookie, test if any parts impact
+				if(i<board.currLevel.cookies.size()) {
+					Cookie c = board.currLevel.cookies.get(i);
 					if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
 						hitCookie(c);
 					}
@@ -450,8 +450,8 @@ public abstract class Entity {
 			}
 			//test collision with level mechamisms
 			if(!ghost) {
-				for(int i=0; i<board.mechanisms().size(); i++) {
-					Mechanism m = board.mechanisms().get(i);
+				for(int i=0; i<board.currLevel.mechanisms.size(); i++) {
+					Mechanism m = board.currLevel.mechanisms.get(i);
 					Area ma = m.getArea();
 					if(collidesWithArea(false,ma)) {
 						double[] point = Level.areasHitPoint(ma,getArea(false));
@@ -545,7 +545,7 @@ public abstract class Entity {
 				}
 			}
 			if(collidesWithArea(false,board.wallSpace))return true;
-			for(Mechanism m : board.mechanisms()) {
+			for(Mechanism m : board.currLevel.mechanisms) {
 				if(collidesWithArea(false,m.getArea()))return true;
 			}
 			/*for(int i=0; i<board.walls.size(); i++) { //for every wall, test if any parts impact
@@ -824,7 +824,7 @@ public abstract class Entity {
 	}
 	public void addShields(int num) {
 		for(int i=0; i<num; i++) {
-			CookieShield s = new CookieShield(game,board,0,0,0);
+			CookieShield s = new CookieShield(game,board,null,0,0,0);
 			shield_stash.add(s);
 		}
 	}
@@ -850,11 +850,11 @@ public abstract class Entity {
 	}
 	public void addCookies(double num) {
 		while((int)num>0) {
-			cash_stash.add(new Cookie(game,board,(int)getX(),(int)getY(),true));
+			cash_stash.add(new Cookie(game,board,null,(int)getX(),(int)getY(),true));
 			num--;
 		}
 		if(num>0) {
-			Cookie c = new Cookie(game,board,(int)getX(),(int)getY(),true);
+			Cookie c = new Cookie(game,board,null,(int)getX(),(int)getY(),true);
 			c.setValue(num);
 			cash_stash.add(c);
 			
@@ -944,7 +944,7 @@ public abstract class Entity {
 	public void setOffstage(int d) {offstage=d;}
 	//tests if off screen
 	public boolean outOfBounds() {
-		return x<0-offstage || x>board.x_resol+offstage || y<0-offstage || y>board.y_resol+offstage;
+		return x<0-offstage || x>board.currLevel.x_resol+offstage || y<0-offstage || y>board.currLevel.y_resol+offstage;
 	}
 	//kill, but only if no bounce (on edge)
 	public void killBounceEdge(boolean breakShield) {
@@ -957,13 +957,13 @@ public abstract class Entity {
 		if(x<0) {
 			//bounce(null,-100-offstage,-100,100-(int)(.5+radius),board.Y_RESOL+100);
 			collideAt(board.wallSpace,x-radius,y,0,0,999999999);
-		}else if(x>board.x_resol) {
+		}else if(x>board.currLevel.x_resol) {
 			//bounce(null,board.X_RESOL+(int)(.5+radius*scale)+offstage,-100,100-(int)(.5+radius*scale),board.Y_RESOL+1000);
 			collideAt(board.wallSpace,x+radius,y,0,0,999999999);
 		}else if(y<0) {
 			//bounce(null,-100,-100-offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
 			collideAt(board.wallSpace,x,y-radius,0,0,999999999);
-		}else if(y>board.y_resol) {
+		}else if(y>board.currLevel.y_resol) {
 			//bounce(null,-100,board.Y_RESOL+(int)(.5+radius*scale)+offstage,board.X_RESOL+100,100-(int)(.5+radius*scale));
 			collideAt(board.wallSpace,x,y+radius,0,0,999999999);
 		}

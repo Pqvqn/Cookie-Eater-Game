@@ -55,9 +55,9 @@ public class ExplorerMystery extends Explorer{
 		for(int i=0; i<Math.random()*6-1 || to_sell.size()<min_cat; i++) {
 			double choose = Math.random()*10;
 			if(choose<=.5) {
-				addRandomly(new CookieShield(game,board,0,0,10));
+				addRandomly(new CookieShield(game,board,null,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,null,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -95,9 +95,9 @@ public class ExplorerMystery extends Explorer{
 		for(int i=0; i<5; i++) {
 			double choose = Math.random()*10;
 			if(choose<=.5) {
-				addRandomly(new CookieShield(game,board,0,0,10));
+				addRandomly(new CookieShield(game,board,null,0,0,10));
 			}else {
-				addRandomly(new CookieItem(game,board,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
+				addRandomly(new CookieItem(game,board,null,0,0,Item.generateItem(game,board,findItem()),(int)(.5+Math.random()*3)*5+35));
 			}
 
 		}
@@ -108,7 +108,7 @@ public class ExplorerMystery extends Explorer{
 		case "Test": //tests if player bought all cookies
 			setState("Pass","Yes");
 			for(Cookie c:on_display) {
-				if(board.cookies().contains(c)) {
+				if(board.currLevel.cookies.contains(c)) {
 					setState("Pass","No");
 				}
 			}
@@ -116,7 +116,7 @@ public class ExplorerMystery extends Explorer{
 			
 		case "Gib": //give reward (unimplemented)
 			for(int i=0; i<5; i++) {
-				addRandomly(new CookieShield(game,board,0,0,0));
+				addRandomly(new CookieShield(game,board,null,0,0,0));
 			}
 			sellWares(shop_spots);
 		default:

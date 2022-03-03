@@ -115,7 +115,7 @@ public class ExplorerMechanic extends Explorer{
 		//stash contains 3 random stat changing cookies each time
 		on_display = new ArrayList<CookieStore>();
 		for(int i=0; i<4; i++) {
-			to_sell.add(0,new CookieStat(game,board,0,0));
+			to_sell.add(0,new CookieStat(game,board,null,0,0));
 		}
 	}
 	
