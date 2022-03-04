@@ -74,7 +74,7 @@ public class Board{
 		
 		wallSpace = new Area();
 		npcs = new ArrayList<Explorer>();
-		presentnpcs = new ArrayList<Explorer>();
+		
 		menus = new ArrayList<Menu>();
 		
 		try {
@@ -150,11 +150,7 @@ public class Board{
 				npcs.add(Explorer.loadFromData(game,this,npcData.get(i),cycletime));
 			}
 		}
-		presentnpcs = new ArrayList<Explorer>();
-		for(int i=0; data.getData("presentnpcs")!=null && i<data.getData("presentnpcs").size(); i++) {
-			Explorer ex = getNPC(data.getString("presentnpcs",i));
-			presentnpcs.add(ex);
-		}
+
 
 		wallSpace = new Area();
 		for(Wall w : currLevel.walls) {
@@ -192,9 +188,7 @@ public class Board{
 		for(int i=0; i<npcs.size(); i++) {
 			data.addData("explorers",npcs.get(i).getSaveData(),ci++);
 		}	
-		for(int i=0; i<presentnpcs.size(); i++) {
-			data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
-		}
+
 		for(int i=0; i<playerCount; i++) {
 			data.addData("players",players.get(i).getSaveData(),i);
 		}
@@ -280,15 +274,15 @@ public class Board{
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).runUpdate();
 		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).runUpdate();
+		for(int i=0; i<currLevel.presentnpcs.size(); i++) {
+			currLevel.presentnpcs.get(i).runUpdate();
 		}
 		currLevel.runUpdate();
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).endCycle();
 		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).endCycle();
+		for(int i=0; i<currLevel.presentnpcs.size(); i++) {
+			currLevel.presentnpcs.get(i).endCycle();
 		}
 
 		game.draw.runUpdate();
@@ -476,8 +470,8 @@ public class Board{
 		for(int i=0; i<currLevel.effects.size(); i++) {
 			currLevel.effects.get(i).setCalibration(cycle); //give enemies more accurate cycle time
 		}
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
+		for(int i=0; i<currLevel.presentnpcs.size(); i++) {
+			currLevel.presentnpcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
 		for(int i=0; i<currLevel.cookies.size(); i++) {
 			currLevel.cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
@@ -540,7 +534,7 @@ public class Board{
 		ArrayList<Entity> entities = new ArrayList<Entity>();
 		for(Entity e : players)entities.add(e);
 		for(Entity e : currLevel.enemies)entities.add(e);
-		for(Entity e : presentnpcs)entities.add(e);
+		for(Entity e : currLevel.presentnpcs)entities.add(e);
 		for(Entity e : currLevel.effects)entities.add(e);
 		return entities;
 	}

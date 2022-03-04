@@ -281,7 +281,7 @@ public class Explorer extends Entity{
 	//dies on floor
 	public void kill() {
 		ded = true;
-		board.presentnpcs.remove(this);
+		board.currLevel.presentnpcs.remove(this);
 		if(special) {
 			ArrayList<CookieItem> powerups = getPowerups();
 			for(int i=0; i<powerups.size(); i++) //stop special

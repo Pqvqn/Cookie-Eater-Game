@@ -140,8 +140,8 @@ public class Draw extends JPanel{
 		for(int i=0; i<lvl.enemies.size(); i++) {
 			lvl.enemies.get(i).paint(g);
 		}
-		for(int i=0; i<board.presentnpcs.size(); i++) {
-			board.presentnpcs.get(i).paint(g);
+		for(int i=0; i<lvl.presentnpcs.size(); i++) {
+			lvl.presentnpcs.get(i).paint(g);
 		}
 		for(int i=0; i<players.size(); i++) {
 			players.get(i).paint(g);

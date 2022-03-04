@@ -29,6 +29,7 @@ public class Level{
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public ArrayList<Effect> effects;
 	public ArrayList<Enemy> enemies;
+	public ArrayList<Explorer> presentnpcs; //npcs that exist on current level
 	
 	protected ArrayList<int[]> nodes;
 	protected ArrayList<int[]> bodes;
@@ -58,6 +59,7 @@ public class Level{
 		cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
+		presentnpcs = new ArrayList<Explorer>();
 		
 		passageways = new ArrayList<Passage>();
 		nodes = new ArrayList<int[]>();
@@ -124,6 +126,12 @@ public class Level{
 				mechanisms.add(passageways.get(i));
 			}
 			
+			presentnpcs = new ArrayList<Explorer>();
+			for(int i=0; sd.getData("presentnpcs")!=null && i<sd.getData("presentnpcs").size(); i++) {
+				Explorer ex = board.getNPC(sd.getString("presentnpcs",i));
+				presentnpcs.add(ex);
+			}
+			
 			score = sd.getInteger("score",0);
 			maxScore = sd.getInteger("score",1);
 		}else {
@@ -172,6 +180,9 @@ public class Level{
 			}
 			for(int i=0; i<mechanisms.size(); i++) {
 				data.addData("mechanisms",mechanisms.get(i).getSaveData(),i);
+			}
+			for(int i=0; i<presentnpcs.size(); i++) {
+				data.addData("presentnpcs",presentnpcs.get(i).getName(),i);
 			}
 			
 			data.addData("score",score,0);
@@ -429,8 +440,8 @@ public class Level{
 	
 	//put all Npcs meant to be on this floor in their place
 	public void spawnNPCs() {
-		for(int i=0; i<board.presentnpcs.size(); i++) {
-			spawnAtRandom(board.presentnpcs.get(i)); //put on random cookie
+		for(int i=0; i<presentnpcs.size(); i++) {
+			spawnAtRandom(presentnpcs.get(i)); //put on random cookie
 		}
 	}
 	
@@ -443,7 +454,7 @@ public class Level{
 	
 	//remove all npcs from the board
 	public void removeNPCs() {
-		
+		presentnpcs = new ArrayList<Explorer>();
 	}
 	
 	//remove traces from board to switch to other level
