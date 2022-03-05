@@ -338,16 +338,9 @@ public class Board{
 		if(mode==LEVELS) {
 		makeCookies();}
 		spawnEnemies();
-		for(int i=0; i<npcs.size(); i++) {
-			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentnpcs.add(npcs.get(i));
-				npcs.get(i).spawn();
-			}else if(presentnpcs.contains(npcs.get(i))) {
-				presentnpcs.remove(npcs.get(i));
-			}
-		}
+		
 		setDialogue(null,null);
-		spawnNpcs();
+		checkNpcs();
 		awaiting_start = true;
 		createSave();
 	}
@@ -355,8 +348,8 @@ public class Board{
 	//advances level
 	public void nextLevel() {
 		currLevel.clean();
-		for(int i=0; i<presentnpcs.size(); i++) {
-			presentnpcs.get(i).levelComplete();
+		for(int i=0; i<currLevel.presentnpcs.size(); i++) {
+			currLevel.presentnpcs.get(i).levelComplete();
 		}
 		if(currLevel.getFloor() != nextLevel.getFloor() && currLevel.getFloor()!=null) {
 			currLevel.getFloor().wipeFloor();
@@ -365,15 +358,8 @@ public class Board{
 		buildBoard();
 		makeCookies();
 		spawnEnemies();
-		presentnpcs = new ArrayList<Explorer>();
-		for(int i=0; i<npcs.size(); i++) {
-			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentnpcs.add(npcs.get(i));
-				npcs.get(i).spawn();
-			}
-		}
 		setDialogue(null,null);
-		spawnNpcs();
+		checkNpcs();
 		awaiting_start = true;
 		if(currLevel.saveGame()) {
 			createSave();
@@ -391,16 +377,9 @@ public class Board{
 			wallSpace.add(w.getArea());
 		}
 		game.draw.updateBG();
-		presentnpcs = new ArrayList<Explorer>();
-		for(int i=0; i<npcs.size(); i++) {
-			if(npcs.get(i).getResidence().equals(currLevel)) {
-				presentnpcs.add(npcs.get(i));
-				npcs.get(i).spawn();
-			}
-		}
 
 		setDialogue(null,null);
-		spawnNpcs();
+		checkNpcs();
 	}
 	
 	public void setNext(Level l) {
@@ -499,8 +478,8 @@ public class Board{
 	}
 	
 	//add enemies to board
-	public void spawnNpcs() {
-		currLevel.spawnNPCs();
+	public void checkNpcs() {
+		currLevel.checkNPCs(npcs);
 	}
 	
 	//creates all the non-player characters and puts them in their starting levels

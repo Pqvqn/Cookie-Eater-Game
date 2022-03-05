@@ -439,7 +439,15 @@ public class Level{
 	}
 	
 	//put all Npcs meant to be on this floor in their place
-	public void spawnNPCs() {
+	public void checkNPCs(ArrayList<Explorer> npcs) {
+		for(int i=0; i<npcs.size(); i++) {
+			if(npcs.get(i).getResidence().equals(this)) {
+				presentnpcs.add(npcs.get(i));
+				npcs.get(i).spawn();
+			}else if(presentnpcs.contains(npcs.get(i))) {
+				presentnpcs.remove(npcs.get(i));
+			}
+		}
 		for(int i=0; i<presentnpcs.size(); i++) {
 			spawnAtRandom(presentnpcs.get(i)); //put on random cookie
 		}
@@ -459,7 +467,6 @@ public class Level{
 	
 	//remove traces from board to switch to other level
 	public void clean() {
-		removeNPCs();
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).clean();
 		}
