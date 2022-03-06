@@ -23,7 +23,7 @@ public abstract class CookieStore extends Cookie{
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || level.cookies!=null && level.cookies.contains(this))
+		if(board!=null && level!=null && level.cookies!=null && level.cookies.contains(this))
 			game.draw.addUI(info);
 	}
 	public CookieStore(Game frame, Board gameboard, Level lvl, SaveData sd) {

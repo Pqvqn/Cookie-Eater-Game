@@ -90,7 +90,7 @@ public class Draw extends JPanel{
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		int xp = (int)(.5+b.x * (Board.FRAME_X_RESOL/screen.getWidth()));
 		int yp = (int)(.5+b.y * (Board.FRAME_Y_RESOL/screen.getHeight()));
-		if(uiLayer) {
+		if(!uiLayer) {
 			xp += (Board.FRAME_X_RESOL/2-board.player().getX());
 			yp += (Board.FRAME_Y_RESOL/2-board.player().getY());
 		}

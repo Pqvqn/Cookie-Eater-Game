@@ -47,8 +47,8 @@ public class Eater extends Entity{
 		name = "Player "+id;
 		dO= true;
 		ded = false;
-		x=board.currLevel.x_resol/2;
-		y=board.currLevel.y_resol/2;
+		x=Board.FRAME_X_RESOL/2;
+		y=Board.FRAME_Y_RESOL/2;
 		direction = NONE;
 		x_velocity = 0;
 		y_velocity = 0;
