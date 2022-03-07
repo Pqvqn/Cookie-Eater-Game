@@ -68,6 +68,8 @@ public class Level{
 		score=0;
 		maxScore=0;
 		
+		x_resol = room.x_resol;
+		y_resol = room.y_resol;
 		chunker = new ChunkManager(this,room.chunkerDims);
 	}
 	public Level(Game frame, Board gameboard, Floor floorlevel, SaveData sd) {
@@ -148,6 +150,8 @@ public class Level{
 		nodes = new ArrayList<int[]>();
 		lines = new ArrayList<int[]>();
 		
+		x_resol = room.x_resol;
+		y_resol = room.y_resol;
 		chunker = new ChunkManager(this,room.chunkerDims);
 	}
 

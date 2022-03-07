@@ -19,7 +19,8 @@
 ]pathgen:0;0;0;0;0
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]chunkdims:1;1]}
 
 ]Train1:{
 ]regions:0;1920;0;1020
@@ -41,7 +42,8 @@
 ]pathgen:0;0;0;0;0
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]Room1:{
 ]regions:0;1920;0;1020
@@ -64,6 +66,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]chunkdims:1;1
 ]mechanisms:{
 ]quantity:20;120
 ]mechanism:{
@@ -117,6 +120,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]chunkdims:1;1
 ]mechanisms:{
 ]quantity:1;3
 ]mechanism:{
@@ -165,7 +169,8 @@
 ]pathgen:4;100;200;80;10
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]chunkdims:1;1]}
 
 ]Room4:{
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
@@ -193,7 +198,8 @@
 ]pathgen:9;100;150;80;10
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]chunkdims:1;1]}
 
 ]RoomRound:{
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
@@ -221,7 +227,8 @@
 ]pathgen:4;100;300;100;10
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]chunkdims:1;1]}
 
 ]RoomBig:{
 ]regions:0;960;0;540;0;960;540;1080;960;1920;0;540;960;1920;540;1080
@@ -247,7 +254,8 @@
 ]pathgen:15;100;500;100;20
 ]candamage:true
 ]canhalt:false
-]savegame:false]}
+]savegame:false
+]chunkdims:1;1]}
 
 ]Store1:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -265,7 +273,8 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]Store2:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -283,7 +292,8 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]Store3:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -301,7 +311,8 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]Store4:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -319,7 +330,8 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]StoreRound:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -337,7 +349,8 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 
 ]StoreTrain:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510
@@ -355,5 +368,6 @@
 ]vendorspacenum:2
 ]candamage:false
 ]canhalt:true
-]savegame:true]}
+]savegame:true
+]chunkdims:1;1]}
 ]}

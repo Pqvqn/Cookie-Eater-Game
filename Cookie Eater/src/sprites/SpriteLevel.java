@@ -22,9 +22,9 @@ public class SpriteLevel extends Sprite{
 	private String prefix;
 	//private SpriteCombo decoration;
 	
-	public SpriteLevel(Board frame, ArrayList<Wall> w) throws IOException {
+	public SpriteLevel(Board frame) throws IOException {
 		super(frame);
-		wallList = w;
+		wallList = new ArrayList<Wall>();
 		//wall = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
 		//floor = ImageIO.read(new File("Cookie Eater/src/resources/level/grad23.png"));
 		//imgs.add(wall);

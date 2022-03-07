@@ -12,6 +12,7 @@ public class Room{
 	
 	public double scale; //zoom in/out of level
 	public double[][] startposs; //start positions for players
+	public int x_resol, y_resol; //x and y dimensions of stage
 	public int minDecay; //frames for cookie at edge corner to decay fully
 	public int maxDecay; //frames for cookie at center to decay fully
 	//public Color bgColor;
@@ -92,6 +93,10 @@ public class Room{
 		double[][] sp = {{1920-distToWall,1020-distToWall},{distToWall,distToWall},{distToWall,1020-distToWall},{1920-distToWall,distToWall}};
 		startposs = sp;
 		
+		x_resol = Board.FRAME_X_RESOL;
+		y_resol = Board.FRAME_Y_RESOL;
+		chunkerDims = new int[] {4,4};
+		
 		if(roomType.equals(STORE)) {
 			int[][][] vs = {{{1920/2-200,1020-110} , {1920/2+200,1020-110} , {1920/2,1020-110} , {1920/2-200,1020-280} , {1920/2+200,1020-280} , {1920/2,1020-280}} ,
 					{{1920/2-200,110} , {1920/2+200,110} , {1920/2,110} , {1920/2-200,280} , {1920/2+200,280} , {1920/2,280}} };
@@ -146,8 +151,6 @@ public class Room{
 			mech2.addData("quantity",1,0);
 			mech2.addData("quantity",1,1);
 			mechanismGen.add(mech2);
-			
-			chunkerDims = new int[] {4,4};
 		}
 		
 	}
@@ -172,13 +175,17 @@ public class Room{
 		for(int i=0; i<startposs.length * startposs[0].length; i++) {
 			startposs[i/startposs[0].length][i%startposs[0].length] = sd.getDouble("startpositions",i);
 		}
+		
+		x_resol = sd.getInteger("resol",0);
+		y_resol = sd.getInteger("resol",1);
+		chunkerDims = new int[] {sd.getInteger("chunkdims",0),sd.getInteger("chunkdims",1)};
+		
 		if(roomType.equals(STORE)) {
 			readStoreData(sd);
 		}else if(roomType.equals(STAGE)){
 			readGenData(sd);
 		}
 		
-		chunkerDims = new int[] {sd.getInteger("chunkdims",0),sd.getInteger("chunkdims",1)};
 	}
 	
 	public void readGenData(SaveData sd) {
@@ -274,6 +281,8 @@ public class Room{
 			writeGenData(data);
 		}
 		
+		data.addData("resol",x_resol,0);
+		data.addData("resol",y_resol,1);
 		data.addData("chunkdims",chunkerDims[0],0);
 		data.addData("chunkdims",chunkerDims[1],1);
 		

@@ -31,8 +31,8 @@ public class Passage extends Mechanism{
 		width = wid;
 		direction = dir;
 		triggered = false;
-		build(dir,offset);
 		setMode(true);
+		build(dir,offset);
 	}
 	
 	public Passage(Game frame, Board gameboard, ArrayList<Level> options, SaveData sd) {

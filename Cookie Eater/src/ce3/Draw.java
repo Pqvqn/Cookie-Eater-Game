@@ -41,7 +41,7 @@ public class Draw extends JPanel{
 		ui = new ArrayList<UIElement>();
 		if(add_fps)ui.add(game.ui_fps);
 		try {
-			boardImage = new SpriteLevel(board,board.currLevel.walls);
+			boardImage = new SpriteLevel(board);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
