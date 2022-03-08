@@ -92,12 +92,12 @@ public class Store extends Level{
 		I.add(i);
 		P.add(p);
 	}
-	public void spawnNPCs() {
+	public void checkNPCs(ArrayList<Explorer> npcs) {
 		int passerbys=0,mechanics=0,vendors=0;
 		//retrieve the mechanic
 		Explorer mechanic = null;
-		for(int i=0; i<board.npcs.size() && mechanic==null; i++) {
-			Explorer testnpc = board.npcs.get(i);
+		for(int i=0; i<npcs.size() && mechanic==null; i++) {
+			Explorer testnpc = npcs.get(i);
 			if(testnpc.getState() == Explorer.MECHANIC && !presentnpcs.contains(testnpc)) {
 				mechanic = testnpc;
 				presentnpcs.add(mechanic);

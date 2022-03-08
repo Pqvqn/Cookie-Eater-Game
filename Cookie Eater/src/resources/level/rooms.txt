@@ -20,6 +20,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Train1:{
@@ -43,6 +44,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Room1:{
@@ -66,6 +68,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1
 ]mechanisms:{
 ]quantity:20;120
@@ -120,6 +123,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1
 ]mechanisms:{
 ]quantity:1;3
@@ -132,11 +136,11 @@
 ]rates:100.0;100.0
 ]positions:0;0;0;0]}
 ]randomization:{
-]position:0;0;1920;1080
+]position:0;0;1920;1020
 ]pathrand:center]}
 ]shape:0
 ]mass:0.0
-]origin:0;1920;0;1080
+]origin:0;1920;0;1020
 ]angle:0.0
 ]position:0;0
 ]velocity:0.0;0.0
@@ -170,6 +174,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Room4:{
@@ -199,6 +204,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]RoomRound:{
@@ -228,6 +234,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]RoomBig:{
@@ -255,6 +262,7 @@
 ]candamage:true
 ]canhalt:false
 ]savegame:false
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Store1:{
@@ -274,6 +282,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Store2:{
@@ -293,6 +302,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Store3:{
@@ -312,6 +322,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]Store4:{
@@ -331,6 +342,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]StoreRound:{
@@ -350,6 +362,7 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 
 ]StoreTrain:{
@@ -369,5 +382,6 @@
 ]candamage:false
 ]canhalt:true
 ]savegame:true
+]resol:1920;1020
 ]chunkdims:1;1]}
 ]}

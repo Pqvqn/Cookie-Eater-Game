@@ -18,7 +18,7 @@ public class Board{
 	public String savename;
 	public static final int LEVELS = 0, PVP = 1;
 	public int mode;
-	public static final int FRAME_X_RESOL = 1920, FRAME_Y_RESOL = 1080; //dimensions of board as shown on screen
+	public static final int FRAME_X_RESOL = 1920, FRAME_Y_RESOL = 1020; //dimensions of board as shown on screen
 	//public int y_resol = 1020, x_resol = 1920; //board dimensions
 	private Eater player;
 	public Area wallSpace;

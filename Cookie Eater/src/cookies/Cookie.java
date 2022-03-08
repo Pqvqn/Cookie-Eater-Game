@@ -100,6 +100,7 @@ public class Cookie {
 
 	//how long until cookie decays
 	public void setDecayTime() {
+		if(level == null)return;
 		double sx = board.player().startx;
 		double sy = board.player().starty;
 		double farthestCorner = Math.max(Math.max(Level.lineLength(0,0,sx,sy), //length to farthest corner from player
@@ -172,7 +173,7 @@ public class Cookie {
 	public boolean getAccess() {return accessible;}
 	public int getX() {return x;}
 	public int getY() {return y;}
-	public double getRadius() {return radius*level.getScale();}
+	public double getRadius() {return (level==null)?radius:radius*level.getScale();}
 	public void shift(int xS, int yS) {
 		x+=xS;
 		y+=yS;
