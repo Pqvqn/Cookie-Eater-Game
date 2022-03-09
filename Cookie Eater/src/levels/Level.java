@@ -243,6 +243,10 @@ public class Level{
 		passageways.add(p);
 		addMechanism(p);
 	}
+	public void addCookie(Cookie c) {
+		cookies.add(c);
+		c.setLevel(this);
+	}
 	
 	public ArrayList<Passage> getPassages(){
 		return passageways;

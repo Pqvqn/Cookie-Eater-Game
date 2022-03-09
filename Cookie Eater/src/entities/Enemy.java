@@ -140,7 +140,7 @@ public abstract class Enemy extends Entity{
 			if(!hit) {
 				Cookie remove = stash.remove(0);
 				remove.setPos((int)(.5+x+addx),(int)(.5+y+addy));
-				board.currLevel.cookies.add(remove);
+				board.currLevel.addCookie(remove);
 			}
 		}
 		board.currLevel.enemies.remove(this);

@@ -126,7 +126,7 @@ public class Explorer extends Entity{
 			for(int i=0; i<display_data.size(); i++) {
 				CookieStore disp;
 				on_display.add(disp = CookieStore.loadFromData(game, board, null, display_data.get(i)));
-				board.currLevel.cookies.add(disp);
+				board.currLevel.addCookie(disp);
 				disp.setVendor(this);
 			}
 		}
@@ -413,7 +413,7 @@ public class Explorer extends Entity{
 			CookieStore c = to_sell.remove(0);
 			c.setPos(shop_spots[i][0],shop_spots[i][1]);
 			c.setVendor(this);
-			board.currLevel.cookies.add(c);
+			board.currLevel.addCookie(c);
 			on_display.add(c);
 		}
 	}

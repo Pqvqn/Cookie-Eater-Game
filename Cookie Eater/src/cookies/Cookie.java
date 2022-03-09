@@ -187,6 +187,7 @@ public class Cookie {
 	}
 	public void setValue(double v) {value = v;}
 	public double getValue() {return value;}
+	public void setLevel(Level l) {level = l;}
 	
 	public Rectangle getBounds() {
 		return new Rectangle((int)(.5+x-getRadius()),(int)(.5+y-getRadius()),(int)(.5+getRadius()*2),(int)(.5+getRadius()*2));
