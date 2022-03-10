@@ -51,7 +51,7 @@ public abstract class Mechanism {
 			//if class type matches type from file, instantiate and return it
 			if(thistype.equals(mechtypes[i].getName())){
 				try {
-					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, SaveData.class).newInstance(frame, gameboard, currlevel, sd));
+					Mechanism m = (Mechanism) (mechtypes[i].getDeclaredConstructor(Game.class, Board.class, Level.class, SaveData.class).newInstance(frame, gameboard, currlevel, sd));
 					if(sd.getData("randomization")!=null) {
 						m.randomize(currlevel, sd.getSaveDataList("randomization").get(0));
 					}

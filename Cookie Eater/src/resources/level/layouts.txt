@@ -14,7 +14,7 @@ rooms:{
 rooms:{
 ]weight:1
 ]room:Room2]};{
-]weight:2
+]weight:0
 ]room:RoomBig]};{
 ]weight:1
 ]room:Room1]}
