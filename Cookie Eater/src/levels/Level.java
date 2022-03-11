@@ -246,6 +246,7 @@ public class Level{
 	public void addCookie(Cookie c) {
 		cookies.add(c);
 		c.setLevel(this);
+		chunker.addCookie(c);
 	}
 	
 	public ArrayList<Passage> getPassages(){

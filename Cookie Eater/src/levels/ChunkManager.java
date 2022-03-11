@@ -22,12 +22,16 @@ public class ChunkManager {
 			}
 		}
 	}
+	//add cookie to appropriate chunk
+	public void addCookie(Cookie cook) {
+		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
+	}
 	
 	//set and sort cookies list into chunks
 	public void setCookies(ArrayList<Cookie> cookies) {
 		for(int c=0; c<cookies.size(); c++) {
 			Cookie cook = cookies.get(c);
-			surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
+			addCookie(cook);
 		}
 	}
 	
