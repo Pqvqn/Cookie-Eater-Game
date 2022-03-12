@@ -530,7 +530,7 @@ public class Board{
 		return results;
 	}
 	//returns nearest cookie to a given point on the board
-	public Cookie nearestCookie(double x, double y) {
+	/*public Cookie nearestCookie(double x, double y) {
 		double bestDist = Integer.MAX_VALUE;
 		Cookie save = null;
 		for(int i=0; i<currLevel.cookies.size(); i++) {
@@ -543,7 +543,7 @@ public class Board{
 			}
 		}
 		return save;
-	}
+	}*/
 	
 	public void setDialogue(Entity speaker, Conversation convo) { //sets the current dialogue
 		game.draw.removeUI(ui_dia);

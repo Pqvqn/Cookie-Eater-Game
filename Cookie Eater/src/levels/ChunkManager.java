@@ -8,10 +8,18 @@ public class ChunkManager {
 	
 	private Level lvl;
 	private Chunk[][] chunks;
+	public ArrayList<Cookie> c_cookies;
+	public ArrayList<Chunk> c_chunks;
 	
 	public ChunkManager(Level level, int[] chunkdims) {
 		lvl = level;
 		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
+	}
+	
+	public void setChunk(double x, double y, double r) {
+		ArrayList<Chunk> cch = chunksInRadius(x,y,r);
+		c_cookies = new ArrayList<Cookie>();
+
 	}
 	
 	private void makeChunks(int[] chunkdims, int xres, int yres) {

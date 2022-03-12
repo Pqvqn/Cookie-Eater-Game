@@ -24,7 +24,7 @@ public class Level{
 	//protected double[] themeWeights;
 	protected ThemeSet weightThemes;
 	
-	public ArrayList<Cookie> cookies;
+	//public ArrayList<Cookie> cookies;
 	public ArrayList<Wall> walls;
 	public ArrayList<Mechanism> mechanisms; //moving or functional parts of level
 	public ArrayList<Effect> effects;
@@ -90,7 +90,7 @@ public class Level{
 				for(int i=0; i<cookieData.size(); i++) {
 					Cookie loaded = Cookie.loadFromData(game, board, this, cookieData.get(i));
 					if(!(loaded instanceof CookieStore) || ((CookieStore)loaded).getVendor()==null) {
-						cookies.add(loaded);
+						addCookie(loaded);
 					}
 				}
 			}
@@ -204,12 +204,13 @@ public class Level{
 		for(int i=0; i<effects.size(); i++) {
 			effects.get(i).runUpdate();
 		}
-		for(int i=0; i<cookies.size(); i++) {
-			if(i<cookies.size()) {
-				Cookie curr = cookies.get(i);
+		ArrayList<Cookie> chcooks = cookies();
+		for(int i=0; i<chcooks.size(); i++) {
+			if(i<chcooks.size()) {
+				Cookie curr = chcooks.get(i);
 				if(curr!=null)
 				curr.runUpdate();
-				if(i<cookies.size()&&cookies.get(i)!=null&&curr!=null&&!cookies.get(i).equals(curr))
+				if(i<chcooks.size()&&chcooks.get(i)!=null&&curr!=null&&!chcooks.get(i).equals(curr))
 					i--;
 			}
 		}
@@ -247,6 +248,9 @@ public class Level{
 		cookies.add(c);
 		c.setLevel(this);
 		chunker.addCookie(c);
+	}
+	public ArrayList<Cookie> cookies(){
+		return chunker.cookies;
 	}
 	
 	public ArrayList<Passage> getPassages(){
@@ -383,7 +387,7 @@ public class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					cookies.add(new Cookie(game,board,this,pX,pY,true));
+					addCookie(new Cookie(game,board,this,pX,pY,true));
 					cooks++;
 				}
 			}
