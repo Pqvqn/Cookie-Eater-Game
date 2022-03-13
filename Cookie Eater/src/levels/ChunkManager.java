@@ -3,23 +3,32 @@ package levels;
 import java.util.*;
 
 import cookies.*;
+import entities.*;
 
 public class ChunkManager {
 	
 	private Level lvl;
 	private Chunk[][] chunks;
-	public ArrayList<Cookie> c_cookies;
-	public ArrayList<Chunk> c_chunks;
+	public Set<Chunk> active;
+	private int chunkRad = 100;
 	
 	public ChunkManager(Level level, int[] chunkdims) {
 		lvl = level;
 		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
 	}
 	
-	public void setChunk(double x, double y, double r) {
+	/*public void setChunk(double x, double y, double r) {
 		ArrayList<Chunk> cch = chunksInRadius(x,y,r);
 		c_cookies = new ArrayList<Cookie>();
-
+	}*/
+	
+	public void updateChunkList(ArrayList<Entity> ents) {
+		active = new HashSet<Chunk>();
+		for(Entity e : ents) {
+			ArrayList<Chunk> ch = chunksInRadius(e.getX(),e.getY(),chunkRad);
+			for(Chunk c : ch)
+				active.add(c);
+		}
 	}
 	
 	private void makeChunks(int[] chunkdims, int xres, int yres) {
