@@ -8,6 +8,7 @@ import ce3.*;
 import cookies.*;
 import menus.*;
 import levels.*;
+import levels.ChunkManager.*;
 import mechanisms.*;
 
 public abstract class Entity {
@@ -72,6 +73,9 @@ public abstract class Entity {
 	protected double[] relativeFrame = {0,0}; //x,y on main coordinates of relative frame's 0,0
 	protected double[] relativeVel = {0,0}; //velocity of the frame relative to the board
 	protected boolean averageVelOverride; //whether the averageVels should be disregarded this cycle
+	
+	protected Chunk chunk;
+	protected ArrayList<Cookie> cookies;
 	
 	public Entity(Game frame, Board gameboard, int cycletime) {
 		calibration_ratio = cycletime/15.0;
@@ -414,9 +418,16 @@ public abstract class Entity {
 	//	for(int j=0; j<parts.size(); j++) {
 			if(ded)return;
 			
-			for(int i=0; i<board.currLevel.cookies.size(); i++) { //for every cookie, test if any parts impact
-				if(i<board.currLevel.cookies.size()) {
-					Cookie c = board.currLevel.cookies.get(i);
+			// update lists of potential collisions if chunk changes
+			Chunk chn = board.currLevel.chunker.surroundingChunk(x,y);
+			if(chn!=chunk || cookies==null) {
+				chunk = chn;
+				cookies = board.currLevel.chunker.cookiesNear(chunk);
+			}
+			
+			for(int i=0; i<cookies.size(); i++) { //for every cookie, test if any parts impact
+				if(i<cookies.size()) {
+					Cookie c = cookies.get(i);
 					if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
 						hitCookie(c);
 					}

@@ -69,6 +69,10 @@ public class ChunkManager {
 		return cchunks;
 	}
 	
+	public ArrayList<Chunk> chunksInGrid(Chunk c, double r){
+		
+	}
+	
 	public class Chunk {
 		
 		public int[][] posRanges;
