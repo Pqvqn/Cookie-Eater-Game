@@ -35,7 +35,7 @@ public class ChunkManager {
 		chunks = new Chunk[chunkdims[0]][chunkdims[1]];
 		for(int i=0; i<chunks.length; i++) {
 			for(int j=0; j<chunks[i].length; j++) {
-				chunks[i][j] = new Chunk(new int[][] {{(xres/chunkdims[0]) * i,(xres/chunkdims[0]) * (i+1)},{(yres/chunkdims[1]) * j,(yres/chunkdims[1]) * (j+1)}});
+				chunks[i][j] = new Chunk(new int[] {i,j},new int[][] {{(xres/chunkdims[0]) * i,(xres/chunkdims[0]) * (i+1)},{(yres/chunkdims[1]) * j,(yres/chunkdims[1]) * (j+1)}});
 			}
 		}
 	}
@@ -50,6 +50,10 @@ public class ChunkManager {
 			Cookie cook = cookies.get(c);
 			addCookie(cook);
 		}
+	}
+	
+	public ArrayList<Cookie> cookiesNear(Chunk c){
+		int i=c.getIndices()[0], j=c.getIndices()[1];
 	}
 	
 	public Chunk surroundingChunk(double x, double y) {
@@ -78,12 +82,14 @@ public class ChunkManager {
 		public int[][] posRanges;
 		private ArrayList<Cookie> cookies;
 		private int centerx, centery;
+		private int[] indices;
 		
-		public Chunk(int[][] ranges) {
+		public Chunk(int[] ind, int[][] ranges) {
 			posRanges = ranges;
 			cookies = new ArrayList<Cookie>();
 			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
+			indices = ind;
 		}
 		
 		public void addCookie(Cookie c) {
@@ -92,6 +98,7 @@ public class ChunkManager {
 		
 		public ArrayList<Cookie> getCookies(){return cookies;}
 		public int[] getCenter() {return new int[] {centerx,centery};}
+		public int[] getIndices() {return indices;}
 	}
 }
 
