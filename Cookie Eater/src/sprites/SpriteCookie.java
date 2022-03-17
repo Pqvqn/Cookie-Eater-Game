@@ -13,7 +13,7 @@ import cookies.*;
 public class SpriteCookie extends Sprite{
 
 	private Cookie user;
-	private Image base, chip;
+	//private Image base, chip;
 	private Image finimg;
 	private double scale;
 	private int state;
@@ -30,6 +30,7 @@ public class SpriteCookie extends Sprite{
 			new File("Cookie Eater/src/resources/cookies/cookieCN3.png"),
 			new File("Cookie Eater/src/resources/cookies/cookieCN4.png")};
 	private static final File paletteFile = new File("Cookie Eater/src/resources/cookies/itempalettes.png");
+	private static Image[][][] sprites;
 	
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
 		this(frame,c,-1);
@@ -41,15 +42,17 @@ public class SpriteCookie extends Sprite{
 		graphicsLevel = true;
 		baseNum = (int)((Math.random()*defBases.length)+1);
 		chipNum = (int)((Math.random()*defChips.length)+1);
-		base = ImageIO.read(defBases[baseNum-1]);
-		chip = ImageIO.read(defChips[chipNum-1]);
+		//base = ImageIO.read(defBases[baseNum-1]);
+		//chip = ImageIO.read(defChips[chipNum-1]);
+		finimg = sprites[REG][baseNum-1][chipNum-1];
 		state = REG;
 
 		palette = cpalette;
 		if(palette>=0) {
 			readColors(ImageIO.read(paletteFile));
-			base = convertPalette((BufferedImage)base,0,palette);
-			chip = convertPalette((BufferedImage)chip,0,palette);
+			finimg = convertPalette((BufferedImage)finimg,0,palette);
+			//base = convertPalette((BufferedImage)base,0,palette);
+			//chip = convertPalette((BufferedImage)chip,0,palette);
 			state = ITEM;
 		}
 		//imgs.add(base);
