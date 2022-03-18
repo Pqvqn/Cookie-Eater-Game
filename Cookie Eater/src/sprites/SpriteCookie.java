@@ -17,7 +17,7 @@ public class SpriteCookie extends Sprite{
 	private Image finimg;
 	private double scale;
 	private int state;
-	private final int REG=0, SPOILED=-1, ITEM=1;
+	private static final int REG=0, SPOILED=1, SPOILEDLOW=2, ITEM=-1;
 	private int baseNum, chipNum;
 	private boolean graphicsLevel;
 	private int palette;
@@ -32,6 +32,49 @@ public class SpriteCookie extends Sprite{
 	private static final File paletteFile = new File("Cookie Eater/src/resources/cookies/itempalettes.png");
 	private static Image[][][] sprites;
 	
+	
+	public static void main(String args[]){
+		
+		// generate all possible sprites ahead of time
+		for(int b=0; b<defBases.length; b++) {
+			Image base = null;
+			try {
+				base = ImageIO.read(defBases[b]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for(int c=0; c<defChips.length; c++) {
+				Image chip = null;
+				try {
+					chip = ImageIO.read(defChips[b]);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Image fNorm = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+				Image fClear = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+				Image fGray = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+				Graphics2D cNorm = (Graphics2D)fNorm.getGraphics();
+				Graphics2D cClear = (Graphics2D)fClear.getGraphics();
+				Graphics2D cGray = (Graphics2D)fGray.getGraphics();
+				cNorm.drawImage(base,0,0,null);
+				cNorm.drawImage(chip,0,0,null);
+				Image omg = GrayFilter.createDisabledImage(fGray);
+				cGray.drawImage(omg,0,0,null);
+				cClear.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+				cClear.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+				cClear.drawImage(base,0,0,null);
+				cClear.drawImage(chip,0,0,null);
+				
+				sprites[b][c][REG] = fNorm;
+				sprites[b][c][SPOILED] = fClear;
+				sprites[b][c][SPOILEDLOW] = fGray;
+			}
+		}
+	}
+	   
 	public SpriteCookie(Board frame, Cookie c) throws IOException {
 		this(frame,c,-1);
 	}
