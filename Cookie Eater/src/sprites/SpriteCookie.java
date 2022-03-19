@@ -17,7 +17,7 @@ public class SpriteCookie extends Sprite{
 	private Image finimg;
 	private double scale;
 	private int state;
-	private static final int REG=0, SPOILED=1, SPOILEDLOW=2, ITEM=-1;
+	private static final int REG=0, SPOILED=1, ITEM=-1;
 	private int baseNum, chipNum;
 	private boolean graphicsLevel;
 	private int palette;
@@ -70,7 +70,7 @@ public class SpriteCookie extends Sprite{
 				
 				sprites[b][c][REG] = fNorm;
 				sprites[b][c][SPOILED] = fClear;
-				sprites[b][c][SPOILEDLOW] = fGray;
+				sprites[b][c][SPOILED+1] = fGray;
 			}
 		}
 	}
@@ -110,24 +110,9 @@ public class SpriteCookie extends Sprite{
 			state = REG;
 		}
 		if(finimg==null || state!=initstate || graphicsLevel!=graphicsLevel()) {
-			finimg = new BufferedImage(base.getWidth(null),base.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-			Graphics2D compiled = (Graphics2D)finimg.getGraphics();
-			//make translucent for spoiled
-			if(state==SPOILED) {
-				//only do transparent if graphics high
-				if(!graphicsLevel()) {
-					compiled.drawImage(base,0,0,null);
-					compiled.drawImage(chip,0,0,null);
-					Image omg = GrayFilter.createDisabledImage(finimg);
-					compiled.drawImage(omg,0,0,null);
-					compiled.setComposite(AlphaComposite.SrcOver.derive(0.5f));
-				}else {
-					compiled.setComposite(AlphaComposite.SrcOver.derive(0.5f));
-				}
-			}
-			compiled.drawImage(base,0,0,null);
-			compiled.drawImage(chip,0,0,null);
 			graphicsLevel = graphicsLevel();
+			int gstate = (state==SPOILED && !graphicsLevel)?SPOILED+1:state;
+			finimg = sprites[gstate][baseNum][chipNum];
 		}
 	}
 	public void paint(Graphics g){
