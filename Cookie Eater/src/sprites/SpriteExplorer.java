@@ -3,14 +3,13 @@ package sprites;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 
 import ce3.*;
 import cookies.Cookie;
 import entities.*;
-import levels.Level;
-
 public class SpriteExplorer extends Sprite{
 
 	private Explorer user;
@@ -123,8 +122,8 @@ public class SpriteExplorer extends Sprite{
 		
 		expression = NORM;
 		
-		Cookie nearest = board.nearestCookie(user.getX(),user.getY());
-		if(nearest!=null && Level.lineLength(user.getX(),user.getY(),nearest.getX(),nearest.getY())<user.getRadius()*2.5)
+		ArrayList<Cookie> nearcs = user.nearCookies();
+		if(!nearcs.isEmpty())
 			expression = EAT;
 		if(user.getShielded())
 			expression = HIT;

@@ -951,6 +951,8 @@ public abstract class Entity {
 	public ArrayList<CookieItem> getPowerups() {return item_stash.get(currSpecial);}
 	public ArrayList<ArrayList<CookieItem>> getItems() {return item_stash;}
 	
+	public ArrayList<Cookie> nearCookies(){return cookies;}
+	
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}
 	//tests if off screen
