@@ -952,6 +952,20 @@ public abstract class Entity {
 	public ArrayList<ArrayList<CookieItem>> getItems() {return item_stash;}
 	
 	public ArrayList<Cookie> nearCookies(){return cookies;}
+	//returns the closest cookie to a point relative to the entity within its chunk
+	public Cookie nearestCookie(int dx, int dy) {
+		Cookie nc = cookies.get(0);
+		double mindist = Math.sqrt(Math.pow(nc.getX()-(x+dx),2)+Math.pow(nc.getY()-(y+dy),2));
+		for(int i=1; i<cookies.size(); i++) {
+			Cookie nnc = cookies.get(i);
+			double ndist = Math.sqrt(Math.pow(nnc.getX()-(x+dx),2)+Math.pow(nnc.getY()-(y+dy),2));
+			if(ndist < mindist) {
+				mindist = ndist;
+				nc = nnc;
+			}
+		}
+		return nc;
+	}
 	
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}
