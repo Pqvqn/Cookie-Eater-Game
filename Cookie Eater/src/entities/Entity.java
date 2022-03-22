@@ -966,6 +966,7 @@ public abstract class Entity {
 		}
 		return nc;
 	}
+	public Cookie nearestCookie() {return nearestCookie(0,0);}
 	
 	public int getOffstage() {return offstage;}
 	public void setOffstage(int d) {offstage=d;}

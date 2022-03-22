@@ -32,7 +32,7 @@ public class ItemAutopilot extends Item{
 			if(velCheck) {
 				velCheck = false;
 			}else {
-				nearest = board.nearestCookie(user.getX()+user.getXVel(),user.getY()+user.getYVel());
+				nearest = user.nearestCookie((int)user.getXVel(),(int)user.getYVel());
 				if(nearest!=null && Level.lineLength(nearest.getX(),nearest.getY(),user.getX(),user.getY())<searchRadius * board.currLevel.getScale()) {
 					adjustSpeeds();
 				}else {

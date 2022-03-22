@@ -83,7 +83,7 @@ public class EnemyGlob extends Enemy{
 				calibrateStats();
 				accelerateToTarget(explorerTarget.getX(),explorerTarget.getY());
 			}else {
-				target = board.nearestCookie(x,y);
+				target = nearestCookie();
 				if(target!=null && !Level.lineOfSight((int)(.5+x),(int)(.5+y),target.getX(),target.getY(), (int)(radius*scale*1.5), board.wallSpace))target = null;
 				if(target!=null) {
 					max_velocity = 10;

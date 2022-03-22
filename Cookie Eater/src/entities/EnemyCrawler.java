@@ -63,8 +63,8 @@ public class EnemyCrawler extends Enemy{
 	public void runUpdate() {
 		double xp = (x<board.currLevel.x_resol/2) ? 0 : board.currLevel.x_resol; //nearest walls
 		double yp = (y<board.currLevel.y_resol/2) ? 0 : board.currLevel.y_resol;
-		Cookie tar1 = board.nearestCookie(x,y); //nearest cookies to nearest walls
-		Cookie tar2 = board.nearestCookie(x, y);
+		Cookie tar1 = nearestCookie((int)(xp-x),0); //nearest cookies to nearest walls
+		Cookie tar2 = nearestCookie(0,(int)(yp-y));
 		if(tar1!=null && tar2!=null) {
 			double dist1 = Level.lineLength(tar1.getX(),tar1.getY(),x,yp);
 			double dist2 = Level.lineLength(tar2.getX(),tar2.getY(),xp,y);
