@@ -165,7 +165,7 @@ public class Cookie {
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
 		}
-		level.cookies.remove(this);
+		level.chunker.removeCookie(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}

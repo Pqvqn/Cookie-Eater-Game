@@ -44,6 +44,10 @@ public class ChunkManager {
 		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
 	}
 	
+	public void removeCookie(Cookie cook) {
+		surroundingChunk(cook.getX(),cook.getY()).removeCookie(cook);
+	}
+	
 	//set and sort cookies list into chunks
 	public void setCookies(ArrayList<Cookie> cookies) {
 		for(int c=0; c<cookies.size(); c++) {
@@ -103,6 +107,9 @@ public class ChunkManager {
 		
 		public void addCookie(Cookie c) {
 			cookies.add(c);
+		}
+		public void removeCookie(Cookie c) {
+			cookies.remove(c);
 		}
 		
 		public ArrayList<Cookie> getCookies(){return cookies;}
