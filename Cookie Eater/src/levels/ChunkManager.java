@@ -48,6 +48,10 @@ public class ChunkManager {
 		surroundingChunk(cook.getX(),cook.getY()).removeCookie(cook);
 	}
 	
+	public boolean containsCookie(Cookie cook) {
+		return surroundingChunk(cook.getX(),cook.getY()).containsCookie(cook);
+	}
+	
 	//set and sort cookies list into chunks
 	public void setCookies(ArrayList<Cookie> cookies) {
 		for(int c=0; c<cookies.size(); c++) {
@@ -113,6 +117,7 @@ public class ChunkManager {
 		}
 		
 		public ArrayList<Cookie> getCookies(){return cookies;}
+		public boolean containsCookie(Cookie c) {return cookies.contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
 		public int[] getIndices() {return indices;}
 	}

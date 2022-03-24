@@ -23,7 +23,7 @@ public abstract class CookieStore extends Cookie{
 		name = "";
 		desc = "";
 		info = new UIPurchaseInfo(game,this);
-		if(board!=null && level!=null && level.cookies!=null && level.cookies.contains(this))
+		if(board!=null && level!=null && level.chunker.containsCookie(this))
 			game.draw.addUI(info);
 	}
 	public CookieStore(Game frame, Board gameboard, Level lvl, SaveData sd) {
@@ -34,7 +34,7 @@ public abstract class CookieStore extends Cookie{
 		price = sd.getDouble("price",0);
 		region = sd.getInteger("region",0);
 		info = new UIPurchaseInfo(game,this);
-		if(board==null || level.cookies!=null && level.cookies.contains(this))
+		if(board==null || level.chunker.containsCookie(this))
 			game.draw.addUI(info);
 	}
 	public SaveData getSaveData() {
@@ -62,8 +62,8 @@ public abstract class CookieStore extends Cookie{
 	//attempt to kill cookie - consumed if being eaten
 	public void kill(Entity consumer) {
 		game.draw.removeUI(info);
-		if(level.cookies.contains(this))
-			level.cookies.remove(level.cookies.indexOf(this));
+		if(level.chunker.containsCookie(this))
+			level.chunker.removeCookie(this);
 	}
 	//purchase cookie, return if purchase is successful or not
 	public boolean purchase(Entity buyer) {
@@ -86,12 +86,12 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		if(level.cookies.contains(this)) {
+		if(level.chunker.containsCookie(this)) {
 			Eater player = board.player();
 			if(!game.draw.getUIList().contains(info))game.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,
 					Level.lineLength(x,y,player.getX(),player.getY())<=region*.75 && player.getXVel(true)==0 && player.getYVel(true)==0
-					&& board.nearestCookie(player.getX(),player.getY()).equals(this),
+					&& player.nearestCookie().equals(this),
 					price,price<=board.player().getCash(),name,desc);
 		}else {
 			info.setVisible(false);

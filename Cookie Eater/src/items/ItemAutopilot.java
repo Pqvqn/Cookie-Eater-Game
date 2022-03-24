@@ -43,7 +43,7 @@ public class ItemAutopilot extends Item{
 			}
 		}else {
 			adjustSpeeds();
-			if(!board.currLevel.cookies.contains(nearest)) {
+			if(!board.currLevel.chunker.containsCookie(nearest)) {
 				nearest = null;
 				velCheck = true;
 				user.setAverageVelOverride(false);
