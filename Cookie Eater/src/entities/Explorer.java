@@ -226,7 +226,7 @@ public class Explorer extends Entity{
 			lock = true;
 		}else if(state == STAND){
 			//traverse to cookie on board to purchase it
-			if(target==null || !board.currLevel.cookies.contains(target)) {
+			if(target==null || !board.currLevel.chunker.containsCookie(target)) {
 				target = choosePurchase(board.currLevel.cookies);
 			}
 			if(target!=null) {
@@ -428,7 +428,7 @@ public class Explorer extends Entity{
 	//removes items from display and re-stashes them
 	public void packUp() {
 		for(int i=on_display.size()-1; i>=0; i--) {
-			if(board.currLevel.cookies.contains(on_display.get(i))){
+			if(board.currLevel.chunker.containsCookie(on_display.get(i))){
 				on_display.get(i).kill(this);
 				to_sell.add(on_display.remove(i));
 			}else {

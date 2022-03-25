@@ -108,7 +108,7 @@ public class ExplorerMystery extends Explorer{
 		case "Test": //tests if player bought all cookies
 			setState("Pass","Yes");
 			for(Cookie c:on_display) {
-				if(board.currLevel.cookies.contains(c)) {
+				if(board.currLevel.chunker.containsCookie(c)) {
 					setState("Pass","No");
 				}
 			}

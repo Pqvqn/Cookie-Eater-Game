@@ -149,8 +149,9 @@ public class ExplorerSidekick extends Explorer{
 					yeehaw = true;
 				}
 			//}
-			for(int j=0; j<board.currLevel.cookies.size(); j++) { //if tester hits a cookie, prioritize this direction
-				Cookie c = board.currLevel.cookies.get(j);
+			ArrayList<Cookie> testCookies = board.currLevel.chunker.surroundingChunk(tester.getCenterX(),tester.getCenterY()).getCookies();
+			for(int j=0; j<testCookies.size(); j++) { //if tester hits a cookie, prioritize this direction
+				Cookie c = testCookies.get(j);
 				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
 					dos[i] += 1;
 				}
@@ -161,8 +162,8 @@ public class ExplorerSidekick extends Explorer{
 		if(bigind<0 || bigind>=dos.length) {bigind = 0;nearind=0;}
 		dos[nearind]+=10;
 		for(int i=0; i<dos.length; i++) {
-			Cookie near = board.nearestCookie(xs[i], ys[i]);
-			Cookie nearb = board.nearestCookie(xs[nearind], ys[nearind]);
+			Cookie near = nearestCookie((int)(xs[i]-x), (int)(ys[i]-y));
+			Cookie nearb = nearestCookie((int)(xs[nearind]-x), (int)(ys[nearind]-y));
 			if(near!=null && Level.lineLength(near.getX(),near.getY(),xs[i],ys[i]) < Level.lineLength(nearb.getX(),nearb.getY(),xs[nearind],ys[nearind])) {
 				dos[nearind]-=10;
 				dos[i]+=10;
