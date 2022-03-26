@@ -56,7 +56,7 @@ public class Level{
 		
 		enemies = new ArrayList<Enemy>();
 		effects = new ArrayList<Effect>();
-		cookies = new ArrayList<Cookie>();
+		//cookies = new ArrayList<Cookie>();
 		walls = new ArrayList<Wall>();
 		mechanisms = new ArrayList<Mechanism>();
 		presentnpcs = new ArrayList<Explorer>();
@@ -85,7 +85,7 @@ public class Level{
 		
 		if(loaded) {
 			ArrayList<SaveData> cookieData = sd.getSaveDataList("cookies");
-			cookies = new ArrayList<Cookie>();
+			//cookies = new ArrayList<Cookie>();
 			if(cookieData!=null) {
 				for(int i=0; i<cookieData.size(); i++) {
 					Cookie loaded = Cookie.loadFromData(game, board, this, cookieData.get(i));
@@ -139,7 +139,7 @@ public class Level{
 		}else {
 			enemies = new ArrayList<Enemy>();
 			effects = new ArrayList<Effect>();
-			cookies = new ArrayList<Cookie>();
+			//cookies = new ArrayList<Cookie>();
 			walls = new ArrayList<Wall>();
 			mechanisms = new ArrayList<Mechanism>();			
 			score=0;
@@ -166,6 +166,7 @@ public class Level{
 		
 		if(loaded) {
 			int ci = 0;
+			ArrayList<Cookie> cookies = chunker.cookies();
 			for(int i=0; i<cookies.size(); i++) {
 				Cookie toSave = cookies.get(i);
 				if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
@@ -245,7 +246,6 @@ public class Level{
 		addMechanism(p);
 	}
 	public void addCookie(Cookie c) {
-		cookies.add(c);
 		c.setLevel(this);
 		chunker.addCookie(c);
 	}
@@ -364,6 +364,7 @@ public class Level{
 	//put cookies in floor
 	public void placeCookies(int clear, int separate) { //clearance between cookies and walls, separation between cookies
 		if(room.cookieGen==null)return;
+		ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 		double clearance = clear * room.scale;
 		double separation = separate * room.scale;
 		//place cookies so that none touch walls
@@ -387,7 +388,7 @@ public class Level{
 					place = false;
 				}
 				if(place) { //place cookies, increment count
-					addCookie(new Cookie(game,board,this,pX,pY,true));
+					cookies.add(new Cookie(game,board,this,pX,pY,true));
 					cooks++;
 				}
 			}
@@ -432,6 +433,9 @@ public class Level{
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).updateCookieTotal(cooks);
 		}
+		
+		chunker.setCookies(cookies);
+		
 	}
 	//put enemies on floor
 	public void spawnEnemies() {
@@ -488,9 +492,7 @@ public class Level{
 	//delete all state data
 	public void remove() {
 		removeNPCs();
-		for(int i=0; i<cookies.size(); i++) {
-			cookies.get(i).kill(null);
-		}
+		chunker.kill();
 		for(int i=0; i<mechanisms.size(); i++) {
 			mechanisms.get(i).remove();
 		}
@@ -505,7 +507,7 @@ public class Level{
 	
 	//spawns chosen enemy at random cookie
 	public void spawnAtRandom(Entity e) {
-		Cookie c = cookies.remove((int)(Math.random()*cookies.size()));
+		Cookie c = chunker.removeRandomCookie();
 		if(e instanceof Explorer)maxScore-=1;
 		e.setX(c.getX());
 		e.setY(c.getY());
