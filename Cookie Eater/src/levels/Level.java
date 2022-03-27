@@ -166,7 +166,7 @@ public class Level{
 		
 		if(loaded) {
 			int ci = 0;
-			ArrayList<Cookie> cookies = chunker.cookies();
+			ArrayList<Cookie> cookies = cookies();
 			for(int i=0; i<cookies.size(); i++) {
 				Cookie toSave = cookies.get(i);
 				if(!(toSave instanceof CookieStore) || ((CookieStore)toSave).getVendor()==null) {
@@ -250,7 +250,7 @@ public class Level{
 		chunker.addCookie(c);
 	}
 	public ArrayList<Cookie> cookies(){
-		return chunker.cookies;
+		return chunker.cookies();
 	}
 	
 	public ArrayList<Passage> getPassages(){

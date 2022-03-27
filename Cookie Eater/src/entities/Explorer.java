@@ -227,7 +227,7 @@ public class Explorer extends Entity{
 		}else if(state == STAND){
 			//traverse to cookie on board to purchase it
 			if(target==null || !board.currLevel.chunker.containsCookie(target)) {
-				target = choosePurchase(board.currLevel.cookies);
+				target = choosePurchase(board.currLevel.cookies());
 			}
 			if(target!=null) {
 				traverseShop(target);

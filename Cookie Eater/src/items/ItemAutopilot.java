@@ -48,7 +48,7 @@ public class ItemAutopilot extends Item{
 				velCheck = true;
 				user.setAverageVelOverride(false);
 			}
-			if(!board.currLevel.cookies.isEmpty())
+			if(!board.currLevel.cookies().isEmpty())
 				//user.averageVels(initx,inity,true);
 				user.setXVel(initx,true);
 				user.setYVel(inity,true);

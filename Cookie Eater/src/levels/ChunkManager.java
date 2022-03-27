@@ -11,9 +11,11 @@ public class ChunkManager {
 	private Chunk[][] chunks;
 	public Set<Chunk> active;
 	private int chunkRad = 100;
+	private ArrayList<Cookie> cookies;
 	
 	public ChunkManager(Level level, int[] chunkdims) {
 		lvl = level;
+		cookies = new ArrayList<Cookie>();
 		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
 	}
 	
@@ -41,10 +43,12 @@ public class ChunkManager {
 	}
 	//add cookie to appropriate chunk
 	public void addCookie(Cookie cook) {
+		cookies.add(cook);
 		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
 	}
 	
 	public void removeCookie(Cookie cook) {
+		cookies.remove(cook);
 		surroundingChunk(cook.getX(),cook.getY()).removeCookie(cook);
 	}
 	
@@ -58,6 +62,10 @@ public class ChunkManager {
 			Cookie cook = cookies.get(c);
 			addCookie(cook);
 		}
+	}
+	
+	public ArrayList<Cookie> cookies() {
+		return cookies;
 	}
 	
 	// create list of cookies in 3 x 3 square of chunks around given chunk
