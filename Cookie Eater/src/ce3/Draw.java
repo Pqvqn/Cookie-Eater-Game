@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.swing.*;
 
+import cookies.*;
 import entities.*;
 import ui.*;
 import sprites.*;
@@ -150,9 +151,10 @@ public class Draw extends JPanel{
 		for(int i=0; i<lvl.mechanisms.size(); i++) {
 			lvl.mechanisms.get(i).paint(g);
 		}
-		for(int i=lvl.cookies.size()-1; i>=0; i--) {
-			if(i>=lvl.cookies.size())i=lvl.cookies.size()-1;
-			if(i>=0)lvl.cookies.get(i).paint(g);
+		ArrayList<Cookie> cookies = lvl.cookies();
+		for(int i=cookies.size()-1; i>=0; i--) {
+			if(i>=cookies.size())i=cookies.size()-1;
+			if(i>=0)cookies.get(i).paint(g);
 		}
 		
 		for(int i=0; i<lvl.effects.size(); i++) {

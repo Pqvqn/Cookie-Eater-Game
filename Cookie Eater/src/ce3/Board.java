@@ -452,8 +452,8 @@ public class Board{
 		for(int i=0; i<currLevel.presentnpcs.size(); i++) {
 			currLevel.presentnpcs.get(i).setCalibration(cycle); //give npcs more accurate cycle time
 		}
-		for(int i=0; i<currLevel.cookies.size(); i++) {
-			currLevel.cookies.get(i).setCalibration(cycle); //give cookies more accurate cycle time
+		for(int i=0; i<currLevel.cookies().size(); i++) {
+			currLevel.cookies().get(i).setCalibration(cycle); //give cookies more accurate cycle time
 		}
 	}
 	

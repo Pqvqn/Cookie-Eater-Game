@@ -102,6 +102,20 @@ public class ChunkManager {
 		
 	}
 	
+	public Cookie removeRandomCookie() {
+		
+		
+	}
+	
+	public void kill() {
+		for(int i=0; i<chunks.length; i++) {
+			for (int j=0; j<chunks[i].length; j++) {
+				chunks[i][j].kill();
+			}
+		}
+		cookies = new ArrayList<Cookie>();
+	}
+	
 	public class Chunk {
 		
 		public int[][] posRanges;
@@ -128,6 +142,13 @@ public class ChunkManager {
 		public boolean containsCookie(Cookie c) {return cookies.contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
 		public int[] getIndices() {return indices;}
+		public void kill() {
+			for(int c=cookies.size()-1; c>=0; c--) {
+				cookies.get(c).kill(null);
+				removeCookie(cookies.get(c));
+			}
+			cookies = new ArrayList<Cookie>();
+		}
 	}
 }
 
