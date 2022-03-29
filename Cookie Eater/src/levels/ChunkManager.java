@@ -98,13 +98,15 @@ public class ChunkManager {
 		return cchunks;
 	}
 	
-	public ArrayList<Chunk> chunksInGrid(Chunk c, double r){
+	/*public ArrayList<Chunk> chunksInGrid(Chunk c, double r){
 		
-	}
+	}*/
 	
 	public Cookie removeRandomCookie() {
-		
-		
+		int c = (int)(Math.random() * cookies.size());
+		Cookie gotten = cookies.get(c);
+		removeCookie(gotten);
+		return gotten;
 	}
 	
 	public void kill() {
