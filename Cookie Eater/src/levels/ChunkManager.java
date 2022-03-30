@@ -98,9 +98,18 @@ public class ChunkManager {
 		return cchunks;
 	}
 	
-	/*public ArrayList<Chunk> chunksInGrid(Chunk c, double r){
-		
-	}*/
+	public ArrayList<Chunk> chunksInGrid(Chunk c, double r){
+		ArrayList<Chunk> cchunks = new ArrayList<Chunk>();
+		int[] indices = c.getIndices();
+		for(int i=0; i<chunks.length; i++) {
+			for(int j=0; j<chunks.length; j++) {
+				if(Math.sqrt(Math.pow(indices[0]-i, 2)+Math.pow(indices[1]-j, 2)) <= r){
+					cchunks.add(chunks[i][j]);
+				}
+			}
+		}
+		return cchunks;
+	}
 	
 	public Cookie removeRandomCookie() {
 		int c = (int)(Math.random() * cookies.size());
