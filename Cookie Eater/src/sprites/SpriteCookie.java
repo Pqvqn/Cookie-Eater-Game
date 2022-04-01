@@ -86,7 +86,7 @@ public class SpriteCookie extends Sprite{
 		chipNum = (int)((Math.random()*defChips.length)+1);
 		//base = ImageIO.read(defBases[baseNum-1]);
 		//chip = ImageIO.read(defChips[chipNum-1]);
-		finimg = sprites[REG][baseNum-1][chipNum-1];
+		finimg = SpriteCookie.sprites[REG][baseNum-1][chipNum-1];
 		state = REG;
 
 		palette = cpalette;
@@ -111,7 +111,7 @@ public class SpriteCookie extends Sprite{
 		if(finimg==null || state!=initstate || graphicsLevel!=graphicsLevel()) {
 			graphicsLevel = graphicsLevel();
 			int gstate = (state==SPOILED && !graphicsLevel)?SPOILED+1:state;
-			finimg = sprites[gstate][baseNum][chipNum];
+			finimg = SpriteCookie.sprites[gstate][baseNum][chipNum];
 		}
 	}
 	public void paint(Graphics g){
