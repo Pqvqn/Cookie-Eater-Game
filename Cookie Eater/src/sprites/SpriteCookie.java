@@ -3,6 +3,7 @@ package sprites;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
+import java.util.ArrayList;
 
 import javax.imageio.*;
 import javax.swing.*;
@@ -30,10 +31,7 @@ public class SpriteCookie extends Sprite{
 			new File("Cookie Eater/src/resources/cookies/cookieCN3.png"),
 			new File("Cookie Eater/src/resources/cookies/cookieCN4.png")};
 	private static final File paletteFile = new File("Cookie Eater/src/resources/cookies/itempalettes.png");
-	private static Image[][][] sprites = new BufferedImage[defBases.length][defChips.length][3];
-	
-	
-	public static void main(String args[]){
+	private static ArrayList<ArrayList<ArrayList<Image>>> sprites = new ArrayList<ArrayList<ArrayList<BufferedImage>>>() {
 		// generate all possible sprites ahead of time
 		for(int b=0; b<defBases.length; b++) {
 			Image base = null;
