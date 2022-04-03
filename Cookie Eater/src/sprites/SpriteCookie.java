@@ -31,7 +31,10 @@ public class SpriteCookie extends Sprite{
 			new File("Cookie Eater/src/resources/cookies/cookieCN3.png"),
 			new File("Cookie Eater/src/resources/cookies/cookieCN4.png")};
 	private static final File paletteFile = new File("Cookie Eater/src/resources/cookies/itempalettes.png");
-	private static ArrayList<ArrayList<ArrayList<Image>>> sprites = new ArrayList<ArrayList<ArrayList<BufferedImage>>>() {
+	private static Image[][][] sprites;
+	
+	public static void makeSprites() {
+		sprites = new BufferedImage[3][defBases.length][defChips.length];
 		// generate all possible sprites ahead of time
 		for(int b=0; b<defBases.length; b++) {
 			Image base = null;
@@ -65,9 +68,9 @@ public class SpriteCookie extends Sprite{
 				cClear.drawImage(base,0,0,null);
 				cClear.drawImage(chip,0,0,null);
 				
-				sprites[b][c][REG] = fNorm;
-				sprites[b][c][SPOILED] = fClear;
-				sprites[b][c][SPOILED+1] = fGray;
+				sprites[REG][b][c] = fNorm;
+				sprites[SPOILED][b][c] = fClear;
+				sprites[SPOILED+1][b][c] = fGray;
 			}
 		}
 	}
@@ -78,6 +81,9 @@ public class SpriteCookie extends Sprite{
 	
 	public SpriteCookie(Board frame, Cookie c, int cpalette) throws IOException {
 		super(frame);
+
+		if(SpriteCookie.sprites==null)SpriteCookie.makeSprites();
+		
 		user = c;
 		graphicsLevel = true;
 		baseNum = (int)((Math.random()*defBases.length)+1);
