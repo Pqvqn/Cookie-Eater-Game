@@ -156,7 +156,6 @@ public class ChunkManager {
 		public void kill() {
 			for(int c=cookies.size()-1; c>=0; c--) {
 				cookies.get(c).kill(null);
-				removeCookie(cookies.get(c));
 			}
 			cookies = new ArrayList<Cookie>();
 		}
