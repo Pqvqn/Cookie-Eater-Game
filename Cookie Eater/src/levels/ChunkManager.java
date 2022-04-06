@@ -1,5 +1,7 @@
 package levels;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.*;
 
 import cookies.*;
@@ -127,6 +129,14 @@ public class ChunkManager {
 		cookies = new ArrayList<Cookie>();
 	}
 	
+	public void paint(Graphics g) {
+		for(int i=0; i<chunks.length; i++) {
+			for(int j=0; j<chunks[i].length; j++) {
+				chunks[i][j].paint(g);
+			}
+		}
+	}
+	
 	public class Chunk {
 		
 		public int[][] posRanges;
@@ -158,6 +168,10 @@ public class ChunkManager {
 				cookies.get(c).kill(null);
 			}
 			cookies = new ArrayList<Cookie>();
+		}
+		public void paint(Graphics g) {
+			g.setColor(Color.red);
+			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] + posRanges[0][0]),(posRanges[1][1] + posRanges[1][0]));
 		}
 	}
 }

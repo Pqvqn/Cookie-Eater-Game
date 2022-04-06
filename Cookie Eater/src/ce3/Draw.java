@@ -137,6 +137,8 @@ public class Draw extends JPanel{
 		boardImage.paint(g);
 		
 		Level lvl = board.currLevel;
+		
+		lvl.chunker.paint(g);
 
 		for(int i=0; i<lvl.enemies.size(); i++) {
 			lvl.enemies.get(i).paint(g);
