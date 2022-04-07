@@ -803,6 +803,7 @@ public abstract class Entity {
 			}else {
 				giveCookie(c);
 			}
+			if(cookies.contains(c))cookies.remove(c);
 		}
 	}
 	public ArrayList<Cookie> getStash() {
