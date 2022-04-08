@@ -560,7 +560,7 @@ public class Board{
 	public void requestConfirmation(Selection s, int x, int y, String text) {
 		if(ui_cnf!=null)return;
 		s.reopen();
-		ui_cnf = new UIConfirmation(game,x,y,text,s);
+		ui_cnf = new UIConfirmation(game,x,y,text,s,true);
 		game.draw.addUI(ui_cnf);
 	}
 	

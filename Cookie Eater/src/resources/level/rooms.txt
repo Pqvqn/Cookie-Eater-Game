@@ -69,7 +69,7 @@
 ]canhalt:false
 ]savegame:false
 ]resol:1920;1020
-]chunkdims:1;1
+]chunkdims:3;3
 ]mechanisms:{
 ]quantity:20;120
 ]mechanism:{

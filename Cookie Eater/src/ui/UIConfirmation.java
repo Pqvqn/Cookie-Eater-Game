@@ -14,7 +14,7 @@ public class UIConfirmation extends UIElement{
 	private ArrayList<UIResponse> responses;
 	private Selection selector;
 	
-	public UIConfirmation(Game frame, int x, int y, String text, Selection s) {
+	public UIConfirmation(Game frame, int x, int y, String text, Selection s, boolean unpin) {
 		super(frame, x, y);
 		selector = s;
 		parts.add(new UIRectangle(game,xPos-100,yPos-100,200,200,new Color(0,0,0,200),true)); //backing
@@ -30,6 +30,7 @@ public class UIConfirmation extends UIElement{
 			parts.add(a);
 			wid += a.getWidth() + 10;
 		}
+		unpinned = unpin;
 	}
 	
 	public boolean sameSelection(Selection s) {return selector==s;}
