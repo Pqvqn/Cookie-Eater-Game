@@ -70,12 +70,12 @@ public class ChunkManager {
 		return cookies;
 	}
 	
-	// create list of cookies in 3 x 3 square of chunks around given chunk
-	public ArrayList<Cookie> cookiesNear(Chunk c){
+	// create list of cookies in an n x n square of chunks around given chunk
+	public ArrayList<Cookie> cookiesNear(Chunk c, int n){
 		ArrayList<Cookie> cs = new ArrayList<Cookie>();
 		int i=c.getIndices()[0], j=c.getIndices()[1];
-		for(int i2=Math.max(i-1,0); i2<=i+2 && i2<chunks.length; i2++) {
-			for(int j2=Math.max(j-1,0); j2<=j+2 && j2<chunks[i2].length; j2++) {
+		for(int i2=Math.max(i-(n-1)/2,0); i2<i+n-1 && i2<chunks.length; i2++) {
+			for(int j2=Math.max(j-(n-1)/2,0); j2<j+n-1 && j2<chunks[i2].length; j2++) {
 				for(Cookie cook : chunks[i2][j2].getCookies())
 					cs.add(cook);
 			}

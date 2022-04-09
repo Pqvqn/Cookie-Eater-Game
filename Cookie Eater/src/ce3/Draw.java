@@ -146,9 +146,8 @@ public class Draw extends JPanel{
 		for(int i=0; i<lvl.presentnpcs.size(); i++) {
 			lvl.presentnpcs.get(i).paint(g);
 		}
-		for(int i=0; i<players.size(); i++) {
-			players.get(i).paint(g);
-		}
+
+		// eater
 		
 		for(int i=0; i<lvl.mechanisms.size(); i++) {
 			lvl.mechanisms.get(i).paint(g);
@@ -161,6 +160,12 @@ public class Draw extends JPanel{
 		
 		for(int i=0; i<lvl.effects.size(); i++) {
 			lvl.effects.get(i).paint(g);
+		}
+		
+		//move
+		
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).paint(g);
 		}
 		
 		
