@@ -122,7 +122,7 @@ public class SpriteExplorer extends Sprite{
 		
 		expression = NORM;
 		
-		ArrayList<Cookie> nearcs = user.nearCookies();
+		ArrayList<ArrayList<Cookie>> nearcs = user.nearCookies();
 		if(nearcs!=null && !nearcs.isEmpty())
 			expression = EAT;
 		if(user.getShielded())

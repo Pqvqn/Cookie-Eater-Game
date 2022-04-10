@@ -75,7 +75,7 @@ public abstract class Entity {
 	protected boolean averageVelOverride; //whether the averageVels should be disregarded this cycle
 	
 	protected Chunk chunk;
-	protected ArrayList<Cookie> cookies;
+	protected ArrayList<ArrayList<Cookie>> cookies;
 	
 	public Entity(Game frame, Board gameboard, int cycletime) {
 		calibration_ratio = cycletime/15.0;
@@ -427,10 +427,12 @@ public abstract class Entity {
 			}
 			
 			for(int i=0; i<cookies.size(); i++) { //for every cookie, test if any parts impact
-				if(i<cookies.size()) {
-					Cookie c = cookies.get(i);
-					if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
-						hitCookie(c);
+				for(int j=0; j<cookies.get(i).size(); j++) {
+					if(j<cookies.size()) {
+						Cookie c = cookies.get(i).get(j);
+						if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
+							hitCookie(c);
+						}
 					}
 				}
 			}
@@ -804,7 +806,8 @@ public abstract class Entity {
 			}else {
 				giveCookie(c);
 			}
-			if(cookies.contains(c))cookies.remove(c);
+			for(int i=0; i<cookies.size(); i++)
+				if(cookies.get(i).contains(c))cookies.get(i).remove(c);
 		}
 	}
 	public ArrayList<Cookie> getStash() {
@@ -953,17 +956,19 @@ public abstract class Entity {
 	public ArrayList<CookieItem> getPowerups() {return item_stash.get(currSpecial);}
 	public ArrayList<ArrayList<CookieItem>> getItems() {return item_stash;}
 	
-	public ArrayList<Cookie> nearCookies(){return cookies;}
+	public ArrayList<ArrayList<Cookie>> nearCookies(){return cookies;}
 	//returns the closest cookie to a point relative to the entity within its chunk
 	public Cookie nearestCookie(int dx, int dy) {
-		Cookie nc = cookies.get(0);
+		Cookie nc = cookies.get(0).get(0);
 		double mindist = Math.sqrt(Math.pow(nc.getX()-(x+dx),2)+Math.pow(nc.getY()-(y+dy),2));
 		for(int i=1; i<cookies.size(); i++) {
-			Cookie nnc = cookies.get(i);
-			double ndist = Math.sqrt(Math.pow(nnc.getX()-(x+dx),2)+Math.pow(nnc.getY()-(y+dy),2));
-			if(ndist < mindist) {
-				mindist = ndist;
-				nc = nnc;
+			for(int j=0; j<cookies.get(i).size(); j++) {
+				Cookie nnc = cookies.get(i).get(j);
+				double ndist = Math.sqrt(Math.pow(nnc.getX()-(x+dx),2)+Math.pow(nnc.getY()-(y+dy),2));
+				if(ndist < mindist) {
+					mindist = ndist;
+					nc = nnc;
+				}
 			}
 		}
 		return nc;
