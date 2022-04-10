@@ -76,9 +76,7 @@ public class ChunkManager {
 		int i=c.getIndices()[0], j=c.getIndices()[1];
 		for(int i2=Math.max(i-(n-1)/2,0); i2<i+n-1 && i2<chunks.length; i2++) {
 			for(int j2=Math.max(j-(n-1)/2,0); j2<j+n-1 && j2<chunks[i2].length; j2++) {
-				cs.add(new ArrayList<Cookie>());
-				for(Cookie cook : chunks[i2][j2].getCookies())
-					cs.get(cs.size()-1).add(cook);
+				cs.add(chunks[i2][j2].getCookies());
 			}
 		}
 		return cs;
