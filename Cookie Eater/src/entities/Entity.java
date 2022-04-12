@@ -423,12 +423,11 @@ public abstract class Entity {
 			if(chn!=chunk || cookies==null) {
 				chunk = chn;
 				cookies = board.currLevel.chunker.cookiesNear(chunk,3);
-				System.out.println(cookies.size());
 			}
 			
 			for(int i=0; i<cookies.size(); i++) { //for every cookie, test if any parts impact
 				for(int j=0; j<cookies.get(i).size(); j++) {
-					if(j<cookies.size()) {
+					if(j<cookies.get(i).size()) {
 						Cookie c = cookies.get(i).get(j);
 						if(c!=null && collidesWithBounds(true,c.getBounds()) && collidesWithArea(true,c.getArea())) {
 							hitCookie(c);
