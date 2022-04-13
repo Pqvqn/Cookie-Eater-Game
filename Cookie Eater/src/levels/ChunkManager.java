@@ -170,7 +170,7 @@ public class ChunkManager {
 		}
 		public void paint(Graphics g) {
 			g.setColor(Color.red);
-			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] + posRanges[0][0]),(posRanges[1][1] + posRanges[1][0]));
+			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
 		}
 	}
 }

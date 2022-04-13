@@ -114,7 +114,7 @@ public class SpriteCookie extends Sprite{
 		}
 		if(finimg==null || state!=initstate || graphicsLevel!=graphicsLevel()) {
 			graphicsLevel = graphicsLevel();
-			int gstate = (state==SPOILED && !graphicsLevel)?SPOILED+1:state;
+			int gstate = (state==SPOILED && !graphicsLevel)?state+1:state;
 			finimg = SpriteCookie.sprites[gstate][baseNum-1][chipNum-1];
 		}
 	}

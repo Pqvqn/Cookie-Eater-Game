@@ -463,8 +463,9 @@ public class Eater extends Entity{
 		for(int i=0; cookies!=null && i<cookies.size(); i++) {
 			for(int j=0; j<cookies.get(i).size(); j++) {
 				Cookie co = cookies.get(i).get(j);
-				g.setColor(Color.red);
-				g.fillOval(co.getX()-20,co.getY()-20,40,40);
+				g.setColor(Color.white);
+				int sizee = (int)(20 * board.currLevel.getScale());
+				g.fillOval(co.getX()-sizee,co.getY()-sizee,2*sizee,2*sizee);
 			}
 		}
 		

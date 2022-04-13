@@ -263,7 +263,7 @@
 ]canhalt:false
 ]savegame:false
 ]resol:1920;1020
-]chunkdims:1;1]}
+]chunkdims:30;30]}
 
 ]Store1:{
 ]mechanicspaces:1720;690;1530;315;1530;705;1735;510

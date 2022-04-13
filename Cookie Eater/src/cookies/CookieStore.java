@@ -86,7 +86,7 @@ public abstract class CookieStore extends Cookie{
 	//update cookie
 	public void runUpdate() {
 		super.runUpdate();
-		if(level.chunker.containsCookie(this)) {
+		if(level!=null && level.chunker.containsCookie(this)) {
 			Eater player = board.player();
 			if(!game.draw.getUIList().contains(info))game.draw.addUI(info);
 			info.update(Level.lineLength(x,y,player.getX(),player.getY())<=region,

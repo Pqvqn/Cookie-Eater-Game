@@ -12,11 +12,11 @@ rooms:{
 
 ]Layout1:{
 rooms:{
-]weight:1
-]room:Room2]};{
 ]weight:0
-]room:RoomBig]};{
+]room:Room2]};{
 ]weight:1
+]room:RoomBig]};{
+]weight:0
 ]room:Room1]}
 ]length:4
 ]store:Store1
