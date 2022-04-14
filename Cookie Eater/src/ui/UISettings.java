@@ -160,6 +160,14 @@ public class UISettings extends UIElement{
 		};
 		givco.setClick(oc);
 		menuHandler.addButton("DEBUG",givco);
+		
+		//removes all cookies from the board
+		MenuButton clrco = new MenuButton(game, this, null, new String[] {"clear cookies"}, false, 120,925,200,50);
+		oc = () -> {
+			board.currLevel.chunker.kill();
+		};
+		clrco.setClick(oc);
+		menuHandler.addButton("DEBUG",clrco);
 
 		//gives player item in name
 		String[] powerups = {"Boost","Circle","Chain","Field","Hold","Recycle","Shield","Slowmo","Ghost",
