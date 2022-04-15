@@ -198,12 +198,13 @@ public class Cookie {
 		return new Area(c);
 	}
 	
+	public Sprite getSprite() {return sprite;}
 	public void paint(Graphics g) {
-		if(sprite!=null) {
+		/*if(sprite!=null) {
 			sprite.paint(g);
 		}else {
 			double scaledr = radius*level.getScale();
 			g.fillOval((int)(.5+x-scaledr), (int)(.5+y-scaledr), (int)(.5+scaledr*2), (int)(.5+scaledr*2));
-		}
+		}*/
 	}
 }
