@@ -50,6 +50,7 @@ public class CookieShield extends CookieStore{
 			return true;}
 		return false;
 	}
+	public Sprite getSprite() {return sprite;}
 	public void paint(Graphics g) {
 		sprite.paint(g);
 	}

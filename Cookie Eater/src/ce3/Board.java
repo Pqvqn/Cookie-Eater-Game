@@ -215,11 +215,12 @@ public class Board{
 	//load board back up after closing out
 	public void loadUp() {
 		game.draw.setBoard(this); //update draw for new board
-		game.draw.updateBG();
 		for(int i=0; i<players.size(); i++) { //add controls to game
 			game.addControls(players.get(i).controls);
 		}
 		if(ui_cnf!=null)endConfirmation(ui_cnf.getSelection()); //remove lingering ui
+		
+		game.draw.updateBG();
 	}
 	
 	//load room templates from room file
@@ -342,6 +343,9 @@ public class Board{
 		setDialogue(null,null);
 		checkNpcs();
 		awaiting_start = true;
+		
+		game.draw.updateBG();
+		
 		createSave();
 	}
 			
@@ -361,6 +365,9 @@ public class Board{
 		setDialogue(null,null);
 		checkNpcs();
 		awaiting_start = true;
+		
+		game.draw.updateBG();
+		
 		if(currLevel.saveGame()) {
 			createSave();
 		}
@@ -376,10 +383,10 @@ public class Board{
 		for(Wall w : currLevel.walls) {
 			wallSpace.add(w.getArea());
 		}
-		game.draw.updateBG();
-
 		setDialogue(null,null);
 		checkNpcs();
+		
+		game.draw.updateBG();
 	}
 	
 	public void setNext(Level l) {
@@ -460,7 +467,6 @@ public class Board{
 	//create walls
 	public void buildBoard() {
 		currLevel.build();
-		game.draw.updateBG();
 		wallSpace = new Area();
 		for(Wall w : currLevel.walls) {
 			wallSpace.add(w.getArea());

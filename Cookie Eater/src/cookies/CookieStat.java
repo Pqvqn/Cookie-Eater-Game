@@ -140,6 +140,7 @@ public class CookieStat extends CookieStore{
 			e.printStackTrace();
 		}
 	}
+	public Sprite getSprite() {return sprite;}
 	public void paint(Graphics g) {
 		sprite.paint(g);
 	}
