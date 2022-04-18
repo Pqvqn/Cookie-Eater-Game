@@ -8,7 +8,7 @@ import ce3.*;
 
 public class SpriteCombo extends Sprite {
 
-	private Image img;
+	private BufferedImage img;
 	private ArrayList<Sprite> parts;
 	
 	public SpriteCombo(Board frame, ArrayList<Sprite> subsprites){
@@ -24,6 +24,15 @@ public class SpriteCombo extends Sprite {
 		Graphics g = img.getGraphics();
 		for(int i=0; i<parts.size(); i++) {
 			parts.get(i).paint(g);
+		}
+	}
+	
+	public void deletePortion(int x, int y, int w, int h) {
+		int transparent = new Color(0, 0, 0, 0).getRGB();
+		for(int ix=x; ix<x+w; ix++) {
+			for(int iy=y; iy<y+h; iy++) {
+				img.setRGB(ix, iy, transparent);
+			}
 		}
 	}
 	
