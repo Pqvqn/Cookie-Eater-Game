@@ -161,11 +161,13 @@ public class Cookie {
 					level.addScore(1);
 				}
 			}
+			level.chunker.removeCookie(this);
+			int rad = (int)(.5+radius*level.getScale()+1);
+			game.draw.cookieLayer.deletePortion(x-rad,y-rad,rad*2,rad*2);
 		}
 		if(!decayed && consumer!=null) {
 			consumer.activateSpecials();
 		}
-		level.chunker.removeCookie(this);
 	}
 	
 	public void setAccess(boolean a) {accessible = a;}
