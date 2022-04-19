@@ -23,8 +23,17 @@ public class SpriteCombo extends Sprite {
 		img = new BufferedImage(Board.FRAME_X_RESOL,Board.FRAME_Y_RESOL,(alpha)?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
 		for(int i=0; i<parts.size(); i++) {
-			parts.get(i).paint(g);
+			addSprite(g, parts.get(i),false);
 		}
+	}
+	
+	public void addSprite(Sprite s) {
+		addSprite(img.getGraphics(), s, true);
+	}
+	
+	public void addSprite(Graphics g, Sprite s, boolean addPart) {
+		s.paint(g);
+		if(addPart)parts.add(s);
 	}
 	
 	public void deletePortion(int x, int y, int w, int h) {
