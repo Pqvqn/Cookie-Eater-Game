@@ -10,6 +10,7 @@ public class SpriteCombo extends Sprite {
 
 	private BufferedImage img;
 	private ArrayList<Sprite> parts;
+	boolean rendered = false;
 	
 	public SpriteCombo(Board frame, ArrayList<Sprite> subsprites){
 		super(frame);
@@ -25,7 +26,10 @@ public class SpriteCombo extends Sprite {
 		for(int i=0; i<parts.size(); i++) {
 			addSprite(g, parts.get(i),false);
 		}
+		rendered = true;
 	}
+	
+	public boolean rendered() {return rendered;}
 	
 	public void addSprite(Sprite s) {
 		addSprite(img.getGraphics(), s, true);
