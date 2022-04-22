@@ -21,7 +21,7 @@ public class Draw extends JPanel{
 	private Board board;
 	private ArrayList<Eater> players;
 	private SpriteLevel boardImage;
-	public SpriteCombo cookieLayer;
+	//public SpriteCombo cookieLayer;
 	private ArrayList<UIElement> ui;
 	private long lastMilliCount; //counting drawing framerate
 	private boolean graphicsLevel; //if graphics are not reduced

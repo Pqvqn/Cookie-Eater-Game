@@ -6,6 +6,7 @@ import java.util.*;
 
 import cookies.*;
 import entities.*;
+import sprites.SpriteCombo;
 
 public class ChunkManager {
 	
@@ -14,11 +15,13 @@ public class ChunkManager {
 	public Set<Chunk> active;
 	private int chunkRad = 100;
 	private ArrayList<Cookie> cookies;
+	public SpriteCombo fullSprite;
 	
 	public ChunkManager(Level level, int[] chunkdims) {
 		lvl = level;
 		cookies = new ArrayList<Cookie>();
-		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);		
+		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);
+		fullSprite = new ComboSprite();
 	}
 	
 	/*public void setChunk(double x, double y, double r) {
@@ -142,6 +145,7 @@ public class ChunkManager {
 		private ArrayList<Cookie> cookies;
 		private int centerx, centery;
 		private int[] indices;
+		public SpriteCombo sprite;
 		
 		public Chunk(int[] ind, int[][] ranges) {
 			posRanges = ranges;
@@ -149,6 +153,7 @@ public class ChunkManager {
 			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 			indices = ind;
+			sprite = new SpriteCombo();
 		}
 		
 		public void addCookie(Cookie c) {
@@ -171,6 +176,7 @@ public class ChunkManager {
 		public void paint(Graphics g) {
 			g.setColor(Color.red);
 			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
+			sprite.paint(g);
 		}
 	}
 }
