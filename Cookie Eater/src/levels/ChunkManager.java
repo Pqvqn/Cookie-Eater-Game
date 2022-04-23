@@ -1,12 +1,11 @@
 package levels;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.*;
 
 import cookies.*;
 import entities.*;
-import sprites.SpriteCombo;
+import sprites.*;
 
 public class ChunkManager {
 	
@@ -20,8 +19,8 @@ public class ChunkManager {
 	public ChunkManager(Level level, int[] chunkdims) {
 		lvl = level;
 		cookies = new ArrayList<Cookie>();
-		makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);
-		fullSprite = new ComboSprite();
+		ArrayList<Sprite> parts = makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);
+		fullSprite = new SpriteCombo(lvl.board, parts);
 	}
 	
 	/*public void setChunk(double x, double y, double r) {
@@ -38,13 +37,16 @@ public class ChunkManager {
 		}
 	}
 	
-	private void makeChunks(int[] chunkdims, int xres, int yres) {
+	private ArrayList<Sprite> makeChunks(int[] chunkdims, int xres, int yres) {
+		ArrayList<Sprite> chunkSprites = new ArrayList<Sprite>();
 		chunks = new Chunk[chunkdims[0]][chunkdims[1]];
 		for(int i=0; i<chunks.length; i++) {
 			for(int j=0; j<chunks[i].length; j++) {
-				chunks[i][j] = new Chunk(new int[] {i,j},new int[][] {{(xres/chunkdims[0]) * i,(xres/chunkdims[0]) * (i+1)},{(yres/chunkdims[1]) * j,(yres/chunkdims[1]) * (j+1)}});
+				chunks[i][j] = new Chunk(lvl, new int[] {i,j},new int[][] {{(xres/chunkdims[0]) * i,(xres/chunkdims[0]) * (i+1)},{(yres/chunkdims[1]) * j,(yres/chunkdims[1]) * (j+1)}});
+				chunkSprites.add(chunks[i][j].sprite);
 			}
 		}
+		return chunkSprites;
 	}
 	//add cookie to appropriate chunk
 	public void addCookie(Cookie cook) {
@@ -146,14 +148,16 @@ public class ChunkManager {
 		private int centerx, centery;
 		private int[] indices;
 		public SpriteCombo sprite;
+		private Level lvl;
 		
-		public Chunk(int[] ind, int[][] ranges) {
+		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
 			cookies = new ArrayList<Cookie>();
 			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 			indices = ind;
-			sprite = new SpriteCombo();
+			lvl = level;
+			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>());
 		}
 		
 		public void addCookie(Cookie c) {
