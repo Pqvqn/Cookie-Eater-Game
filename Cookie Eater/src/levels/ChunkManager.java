@@ -134,11 +134,13 @@ public class ChunkManager {
 	}
 	
 	public void paint(Graphics g) {
-		for(int i=0; i<chunks.length; i++) {
+		/*for(int i=0; i<chunks.length; i++) {
 			for(int j=0; j<chunks[i].length; j++) {
 				chunks[i][j].paint(g);
 			}
-		}
+		}*/
+		if(!fullSprite.rendered())fullSprite.render(false);
+		fullSprite.paint(g);
 	}
 	
 	public class Chunk {
@@ -162,9 +164,11 @@ public class ChunkManager {
 		
 		public void addCookie(Cookie c) {
 			cookies.add(c);
+			sprite.addSprite(c.getSprite());
 		}
 		public void removeCookie(Cookie c) {
 			cookies.remove(c);
+			sprite.removeSprite(c.getSprite());
 		}
 		
 		public ArrayList<Cookie> getCookies(){return cookies;}
@@ -180,6 +184,7 @@ public class ChunkManager {
 		public void paint(Graphics g) {
 			g.setColor(Color.red);
 			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
+			if(!sprite.rendered())sprite.render(false);
 			sprite.paint(g);
 		}
 	}

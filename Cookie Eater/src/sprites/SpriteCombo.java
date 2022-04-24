@@ -40,6 +40,10 @@ public class SpriteCombo extends Sprite {
 		if(addPart)parts.add(s);
 	}
 	
+	public void removeSprite(Sprite s) {
+		parts.remove(s);
+	}
+	
 	public void deletePortion(int x, int y, int w, int h) {
 		int transparent = new Color(0, 0, 0, 0).getRGB();
 		for(int ix=x; ix<x+w; ix++) {
