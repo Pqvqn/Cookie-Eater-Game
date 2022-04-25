@@ -1,6 +1,7 @@
 package levels;
 
 import java.awt.*;
+import java.awt.image.*;
 import java.util.*;
 
 import cookies.*;
@@ -184,7 +185,12 @@ public class ChunkManager {
 		public void paint(Graphics g) {
 			g.setColor(Color.red);
 			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
-			if(!sprite.rendered())sprite.render(false);
+			if(!sprite.rendered()) {
+				SpriteImage bgbit = new SpriteImage(lvl.board);
+				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+				sprite.addSprite(bgbit);
+				sprite.render(false);
+			}
 			sprite.paint(g);
 		}
 	}

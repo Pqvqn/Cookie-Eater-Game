@@ -1,19 +1,18 @@
 package sprites;
 
-import java.awt.Graphics;
-import java.awt.image.*;
+import java.awt.*;
 
 import ce3.*;
 
 public class SpriteImage extends Sprite{
 	
-	BufferedImage img;
+	Image img;
 	
 	public SpriteImage(Board frame) {
 		super(frame);
 	}
 	
-	public void setImg(BufferedImage newimg) {
+	public void setImg(Image newimg) {
 		img = newimg;
 	}
 	

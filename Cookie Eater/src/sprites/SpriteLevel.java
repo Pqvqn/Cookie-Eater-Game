@@ -15,8 +15,8 @@ import mechanisms.*;
 public class SpriteLevel extends Sprite{
 
 	private ArrayList<Wall> wallList;
-	private Image wall;
-	private Image floor;
+	public Image wall;
+	public Image floor;
 	//private int wid,hei;
 	private String lvl;
 	private String prefix;
