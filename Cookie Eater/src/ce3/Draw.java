@@ -34,7 +34,6 @@ public class Draw extends JPanel{
 		ui = new ArrayList<UIElement>();
 		lastMilliCount = System.currentTimeMillis();
 		graphicsLevel = true;
-		cookieLayer = new SpriteCombo(board, new ArrayList<Sprite>());
 	}
 	
 	public void setBoard(Board b) {
@@ -87,8 +86,6 @@ public class Draw extends JPanel{
 		}
 		ArrayList<Sprite> cooksprites = new ArrayList<Sprite>();
 		for(Cookie ck : board.currLevel.cookies())cooksprites.add(ck.getSprite());
-		cookieLayer.setParts(cooksprites);
-		cookieLayer.render(true);
 	}
 	
 	//converts screen coordinate to game engine location
@@ -163,7 +160,6 @@ public class Draw extends JPanel{
 			if(i>=cookies.size())i=cookies.size()-1;
 			if(i>=0)cookies.get(i).paint(g);
 		}*/
-		cookieLayer.paint(g);
 		
 		for(int i=0; i<lvl.effects.size(); i++) {
 			lvl.effects.get(i).paint(g);

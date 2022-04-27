@@ -47,7 +47,7 @@ public class SpriteCombo extends SpriteImage {
 		int transparent = new Color(0, 0, 0, 0).getRGB();
 		for(int ix=x; ix<x+w; ix++) {
 			for(int iy=y; iy<y+h; iy++) {
-				img.setRGB(ix, iy, transparent);
+				((BufferedImage) img).setRGB(ix, iy, transparent);
 			}
 		}
 	}

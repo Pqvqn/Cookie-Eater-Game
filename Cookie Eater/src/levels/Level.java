@@ -248,9 +248,6 @@ public class Level{
 	public void addCookie(Cookie c) {
 		c.setLevel(this);
 		chunker.addCookie(c);
-		if(board.currLevel == this && game.draw.cookieLayer.rendered()) {
-			game.draw.cookieLayer.addSprite(c.getSprite());
-		}
 	}
 	public ArrayList<Cookie> cookies(){
 		return chunker.cookies();
