@@ -33,8 +33,11 @@ public class ChunkManager {
 		active = new HashSet<Chunk>();
 		for(Entity e : ents) {
 			ArrayList<Chunk> ch = chunksInRadius(e.getX(),e.getY(),chunkRad);
-			for(Chunk c : ch)
-				active.add(c);
+			for(Chunk c : ch) {
+				if(active.add(c)) {
+					c.update();
+				}
+			}
 		}
 	}
 	
@@ -152,6 +155,7 @@ public class ChunkManager {
 		private int[] indices;
 		public SpriteCombo sprite;
 		private Level lvl;
+		private boolean update;
 		
 		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
@@ -161,6 +165,7 @@ public class ChunkManager {
 			indices = ind;
 			lvl = level;
 			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>());
+			sprite.render(false);
 		}
 		
 		public void addCookie(Cookie c) {
@@ -171,7 +176,7 @@ public class ChunkManager {
 			cookies.remove(c);
 			sprite.removeSprite(c.getSprite());
 		}
-		
+		public void update() {update = true;}
 		public ArrayList<Cookie> getCookies(){return cookies;}
 		public boolean containsCookie(Cookie c) {return cookies.contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
@@ -185,11 +190,12 @@ public class ChunkManager {
 		public void paint(Graphics g) {
 			g.setColor(Color.red);
 			g.drawRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
-			if(!sprite.rendered()) {
+			if(!sprite.rendered() || update) {
 				SpriteImage bgbit = new SpriteImage(lvl.board);
 				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
 				sprite.addSprite(bgbit);
 				sprite.render(false);
+				update = false;
 			}
 			sprite.paint(g);
 		}

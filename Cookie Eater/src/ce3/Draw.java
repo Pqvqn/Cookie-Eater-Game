@@ -137,7 +137,7 @@ public class Draw extends JPanel{
 			return;
 		}
 		
-		boardImage.paint(g);
+		//boardImage.paint(g);
 		
 		Level lvl = board.currLevel;
 		
@@ -172,6 +172,7 @@ public class Draw extends JPanel{
 		}
 		
 		
+		
 		ArrayList<UIElement> upperUI = new ArrayList<UIElement>();
 		for(int i=0; i<ui.size(); i++) {
 			UIElement uie = ui.get(i);
@@ -184,7 +185,7 @@ public class Draw extends JPanel{
 			}
 		}
 		
-		if(board.currLevel!=null)board.currLevel.paint(g);
+		//if(board.currLevel!=null)board.currLevel.paint(g);
 		
 		//	translate board back for constants on screen
 		if(translate!=null)g2.translate(-translate[0],-translate[1]);
