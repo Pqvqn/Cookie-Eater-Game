@@ -21,7 +21,7 @@ public class ChunkManager {
 		lvl = level;
 		cookies = new ArrayList<Cookie>();
 		ArrayList<Sprite> parts = makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);
-		fullSprite = new SpriteCombo(lvl.board, parts);
+		fullSprite = new SpriteCombo(lvl.board, parts, ce3.Board.FRAME_X_RESOL, ce3.Board.FRAME_Y_RESOL);
 	}
 	
 	/*public void setChunk(double x, double y, double r) {
@@ -164,7 +164,7 @@ public class ChunkManager {
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 			indices = ind;
 			lvl = level;
-			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>());
+			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>(), (posRanges[0][1] - posRanges[0][0]), (posRanges[1][1] - posRanges[1][0]));
 			sprite.render(false);
 		}
 		
