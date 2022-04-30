@@ -118,7 +118,8 @@ public class SpriteCookie extends Sprite{
 			finimg = SpriteCookie.sprites[gstate][baseNum-1][chipNum-1];
 		}
 	}
-	public void paint(Graphics g){
+
+	public void paint(Graphics g, int xo, int yo){
 		//if(Math.sqrt(Math.pow(user.getX()-board.player().getX(),2)+Math.pow(user.getY()-board.player().getY(),2)) > board.renderDist)
 		//	return;
 		try {
@@ -128,8 +129,8 @@ public class SpriteCookie extends Sprite{
 			e.printStackTrace();
 		}
 		scale = board.currLevel.getScale();
-		x = user.getX();
-		y = user.getY();
+		x = user.getX() + xo;
+		y = user.getY() + yo;
 		//g.drawImage(base,(int)(.5+x-(base.getWidth(null)/10*scale)), (int)(.5+y-(base.getHeight(null)/10*scale)), (int)(2*(.5+base.getWidth(null)/10*scale)), (int)(2*(.5+base.getHeight(null)/10*scale)), null);
 		//g.drawImage(chip,(int)(.5+x-(chip.getWidth(null)/10*scale)), (int)(.5+y-(chip.getHeight(null)/10*scale)), (int)(2*(.5+chip.getWidth(null)/10*scale)), (int)(2*(.5+chip.getHeight(null)/10*scale)), null);
 		g.drawImage(finimg,(int)(.5+x-(finimg.getWidth(null)/10*scale)), (int)(.5+y-(finimg.getHeight(null)/10*scale)), (int)(2*(.5+finimg.getWidth(null)/10*scale)), (int)(2*(.5+finimg.getHeight(null)/10*scale)), null);

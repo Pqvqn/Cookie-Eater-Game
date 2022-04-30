@@ -37,7 +37,7 @@ public class SpriteCombo extends SpriteImage {
 	}
 	
 	public void addSprite(Graphics g, Sprite s, boolean addPart) {
-		s.paint(g);
+		s.paint(g,-x,-y);
 		if(addPart)parts.add(s);
 	}
 	

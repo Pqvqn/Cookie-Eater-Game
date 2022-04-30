@@ -48,7 +48,11 @@ public abstract class Sprite {
 	//graphics level of draw
 	protected boolean graphicsLevel() {return board.game.draw.getGraphicsLevel();}
 	
-	public void paint(Graphics g) {
+	//paint sprite with (xo,yo) as origin
+	public void paint(Graphics g, int xo, int yo) {
 		
+	}
+	public void paint(Graphics g) {
+		paint(g,0,0);
 	}
 }
