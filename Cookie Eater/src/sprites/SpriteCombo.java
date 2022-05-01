@@ -36,6 +36,10 @@ public class SpriteCombo extends SpriteImage {
 		addSprite(img.getGraphics(), s, true);
 	}
 	
+	public void addSprite(Sprite s, boolean addPart) {
+		addSprite(img.getGraphics(), s, addPart);
+	}
+	
 	public void addSprite(Graphics g, Sprite s, boolean addPart) {
 		s.paint(g,-x,-y);
 		if(addPart)parts.add(s);
@@ -52,6 +56,10 @@ public class SpriteCombo extends SpriteImage {
 				((BufferedImage) img).setRGB(ix, iy, transparent);
 			}
 		}
+	}
+	
+	public void paint(Graphics g, int xo, int yo) {
+		super.paint(g,xo,yo);
 	}
 	
 }
