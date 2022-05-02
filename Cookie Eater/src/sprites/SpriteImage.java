@@ -16,6 +16,11 @@ public class SpriteImage extends Sprite{
 		img = newimg;
 	}
 	
+	public void setPos(int xp, int yp) {
+		x=xp;
+		y=yp;
+	}
+	
 	public void paint(Graphics g, int xo, int yo) {
 		if(img!=null)g.drawImage(img,x+xo,y+yo,null);
 	}

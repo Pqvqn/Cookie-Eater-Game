@@ -21,7 +21,8 @@ public class ChunkManager {
 		lvl = level;
 		cookies = new ArrayList<Cookie>();
 		ArrayList<Sprite> parts = makeChunks(chunkdims, lvl.x_resol, lvl.y_resol);
-		fullSprite = new SpriteCombo(lvl.board, parts, ce3.Board.FRAME_X_RESOL, ce3.Board.FRAME_Y_RESOL);
+		fullSprite = new SpriteCombo(lvl.board, parts, lvl.x_resol, lvl.y_resol);
+		fullSprite.setPos(0,0);
 	}
 	
 	/*public void setChunk(double x, double y, double r) {
@@ -143,13 +144,14 @@ public class ChunkManager {
 				chunks[i][j].paint(g);
 			}
 		}*/
-		//if(!fullSprite.rendered())fullSprite.render(false);
-		//fullSprite.paint(g);
-		for(int i=0; i<chunks.length; i++) {
-			for (int j=0; j<chunks[i].length; j++) {
-				chunks[i][j].paint(g);
-			}
+		if(!fullSprite.rendered()) {
+			fullSprite.render(false);
+			SpriteImage simg = new SpriteImage(lvl.board);
+			simg.setImg(lvl.game.draw.boardImage.floor);
+			fullSprite.addSprite(simg);
+
 		}
+		fullSprite.paint(g);
 	}
 	
 	public class Chunk {
@@ -170,6 +172,7 @@ public class ChunkManager {
 			indices = ind;
 			lvl = level;
 			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>(), (posRanges[0][1] - posRanges[0][0]), (posRanges[1][1] - posRanges[1][0]));
+			sprite.setPos(posRanges[0][0],posRanges[1][0]);
 			sprite.render(false);
 		}
 		
