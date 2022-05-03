@@ -139,19 +139,19 @@ public class ChunkManager {
 	}
 	
 	public void paint(Graphics g) {
-		/*for(int i=0; i<chunks.length; i++) {
+		for(int i=0; i<chunks.length; i++) {
 			for(int j=0; j<chunks[i].length; j++) {
 				chunks[i][j].paint(g);
+				int[][] posRanges = chunks[i][j].posRanges;
+				SpriteImage bgbit = new SpriteImage(lvl.board);
+				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+				bgbit.paint(g,0,0);
 			}
-		}*/
-		if(!fullSprite.rendered()) {
-			fullSprite.render(false);
-			SpriteImage simg = new SpriteImage(lvl.board);
-			simg.setImg(lvl.game.draw.boardImage.floor);
-			fullSprite.addSprite(simg);
-
 		}
-		fullSprite.paint(g);
+		/*if(!fullSprite.rendered()) {
+			fullSprite.render(false);
+		}
+		fullSprite.paint(g);*/
 	}
 	
 	public class Chunk {
@@ -207,9 +207,6 @@ public class ChunkManager {
 				fullSprite.addSprite(sprite,false);
 			}
 			sprite.paint(g);
-			g.setColor(Color.red);
-			g.fillRect(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0]));
-
 		}
 	}
 }

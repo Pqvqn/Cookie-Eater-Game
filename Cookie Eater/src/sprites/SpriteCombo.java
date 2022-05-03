@@ -24,8 +24,6 @@ public class SpriteCombo extends SpriteImage {
 	public void render(boolean alpha) {
 		setImg(new BufferedImage(resol[0],resol[1],(alpha)?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB));
 		Graphics g = img.getGraphics();
-		g.setColor(Color.GREEN);
-		g.fillRect(0,0,1000,1000);
 		for(int i=0; i<parts.size(); i++) {
 			addSprite(g, parts.get(i),false);
 		}
