@@ -139,19 +139,19 @@ public class ChunkManager {
 	}
 	
 	public void paint(Graphics g) {
-		for(int i=0; i<chunks.length; i++) {
+		/*for(int i=0; i<chunks.length; i++) {
 			for(int j=0; j<chunks[i].length; j++) {
 				chunks[i][j].paint(g);
 				int[][] posRanges = chunks[i][j].posRanges;
 				SpriteImage bgbit = new SpriteImage(lvl.board);
 				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
-				bgbit.paint(g,0,0);
+				bgbit.paint(g,posRanges[0][0],posRanges[1][0]);
 			}
-		}
-		/*if(!fullSprite.rendered()) {
+		}*/
+		if(!fullSprite.rendered()) {
 			fullSprite.render(false);
 		}
-		fullSprite.paint(g);*/
+		fullSprite.paint(g);
 	}
 	
 	public class Chunk {
@@ -174,6 +174,7 @@ public class ChunkManager {
 			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>(), (posRanges[0][1] - posRanges[0][0]), (posRanges[1][1] - posRanges[1][0]));
 			sprite.setPos(posRanges[0][0],posRanges[1][0]);
 			sprite.render(false);
+			update = true;
 		}
 		
 		public void addCookie(Cookie c) {
@@ -199,8 +200,10 @@ public class ChunkManager {
 			
 			
 			if(!sprite.rendered() || update) {
+				System.out.println("chunk paint is never called is it");
 				SpriteImage bgbit = new SpriteImage(lvl.board);
 				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+				bgbit.setPos(posRanges[0][0],posRanges[1][0]);
 				sprite.addSprite(bgbit);
 				sprite.render(false);
 				update = false;
