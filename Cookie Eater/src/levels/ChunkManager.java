@@ -30,7 +30,7 @@ public class ChunkManager {
 		c_cookies = new ArrayList<Cookie>();
 	}*/
 	
-	public void updateChunkList(ArrayList<Entity> ents) {
+	/*public void updateChunkList(ArrayList<Entity> ents) {
 		active = new HashSet<Chunk>();
 		for(Entity e : ents) {
 			ArrayList<Chunk> ch = chunksInRadius(e.getX(),e.getY(),chunkRad);
@@ -40,7 +40,7 @@ public class ChunkManager {
 				}
 			}
 		}
-	}
+	}*/
 	
 	private ArrayList<Sprite> makeChunks(int[] chunkdims, int xres, int yres) {
 		ArrayList<Sprite> chunkSprites = new ArrayList<Sprite>();
@@ -122,6 +122,7 @@ public class ChunkManager {
 		return cchunks;
 	}
 	
+	// removes a random cookie from the chunk it belongs to
 	public Cookie removeRandomCookie() {
 		int c = (int)(Math.random() * cookies.size());
 		Cookie gotten = cookies.get(c);
@@ -129,6 +130,7 @@ public class ChunkManager {
 		return gotten;
 	}
 	
+	// removes all chunk information
 	public void kill() {
 		for(int i=0; i<chunks.length; i++) {
 			for (int j=0; j<chunks[i].length; j++) {
@@ -136,6 +138,17 @@ public class ChunkManager {
 			}
 		}
 		cookies = new ArrayList<Cookie>();
+	}
+	
+	// updates all chunk images
+	public void updateSprites() {
+		fullSprite.render(false);
+
+		for(int i=0; i<chunks.length; i++) {
+			for(int j=0; j<chunks[i].length; j++) {
+				chunks[i][j].updateSprite();
+			}
+		}
 	}
 	
 	public void paint(Graphics g) {
@@ -162,7 +175,6 @@ public class ChunkManager {
 		private int[] indices;
 		public SpriteCombo sprite;
 		private Level lvl;
-		private boolean update;
 		
 		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
@@ -173,8 +185,7 @@ public class ChunkManager {
 			lvl = level;
 			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>(), (posRanges[0][1] - posRanges[0][0]), (posRanges[1][1] - posRanges[1][0]));
 			sprite.setPos(posRanges[0][0],posRanges[1][0]);
-			sprite.render(false);
-			update = true;
+			//sprite.render(false);
 		}
 		
 		public void addCookie(Cookie c) {
@@ -185,7 +196,6 @@ public class ChunkManager {
 			cookies.remove(c);
 			sprite.removeSprite(c.getSprite());
 		}
-		public void update() {update = true;}
 		public ArrayList<Cookie> getCookies(){return cookies;}
 		public boolean containsCookie(Cookie c) {return cookies.contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
@@ -196,20 +206,15 @@ public class ChunkManager {
 			}
 			cookies = new ArrayList<Cookie>();
 		}
-		public void paint(Graphics g) {
-			
-			
-			if(!sprite.rendered() || update) {
-				System.out.println("chunk paint is never called is it");
+		public void updateSprite() {
+			if(!sprite.rendered()) {
 				SpriteImage bgbit = new SpriteImage(lvl.board);
 				bgbit.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
 				bgbit.setPos(posRanges[0][0],posRanges[1][0]);
 				sprite.addSprite(bgbit);
-				sprite.render(false);
-				update = false;
-				fullSprite.addSprite(sprite,false);
 			}
-			sprite.paint(g);
+			sprite.render(false);
+			fullSprite.addSprite(sprite,false);
 		}
 	}
 }

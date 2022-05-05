@@ -33,15 +33,15 @@ public class SpriteCombo extends SpriteImage {
 	public boolean rendered() {return rendered;}
 	
 	public void addSprite(Sprite s) {
-		addSprite(img.getGraphics(), s, true);
+		addSprite(img==null?null:img.getGraphics(), s, true);
 	}
 	
 	public void addSprite(Sprite s, boolean addPart) {
-		addSprite(img.getGraphics(), s, addPart);
+		addSprite(img==null?null:img.getGraphics(), s, addPart);
 	}
 	
 	public void addSprite(Graphics g, Sprite s, boolean addPart) {
-		s.paint(g,-x,-y);
+		if(g!=null)s.paint(g,-x,-y);
 		if(addPart)parts.add(s);
 	}
 	

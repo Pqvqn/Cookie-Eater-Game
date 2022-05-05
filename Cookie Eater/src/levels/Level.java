@@ -312,7 +312,7 @@ public class Level{
 				}
 			}
 		}
-		
+	
 		loaded = true;
 	}
 	//puts a gap in a wall and returns a second wall for the other side

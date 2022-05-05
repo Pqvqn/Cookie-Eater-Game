@@ -86,6 +86,7 @@ public class Draw extends JPanel{
 		}
 		ArrayList<Sprite> cooksprites = new ArrayList<Sprite>();
 		for(Cookie ck : board.currLevel.cookies())cooksprites.add(ck.getSprite());
+		board.currLevel.chunker.updateSprites();
 	}
 	
 	//converts screen coordinate to game engine location
