@@ -19,13 +19,14 @@ public class SpriteCombo extends SpriteImage {
 	}
 	
 	public void setParts(ArrayList<Sprite> p) {parts = p;}
+	public ArrayList<Sprite> getParts() {return parts;}
 	
 	//create single image by painting subelements, alpha determines if transparency is allowed
 	public void render(boolean alpha) {
 		setImg(new BufferedImage(resol[0],resol[1],(alpha)?BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB));
 		Graphics g = img.getGraphics();
 		for(int i=0; i<parts.size(); i++) {
-			addSprite(g, parts.get(i),false);
+			addSprite(g, parts.get(i), false);
 		}
 		rendered = true;
 	}

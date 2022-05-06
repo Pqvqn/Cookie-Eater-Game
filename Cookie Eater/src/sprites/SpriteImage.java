@@ -21,6 +21,8 @@ public class SpriteImage extends Sprite{
 		y=yp;
 	}
 	
+	public boolean hasImage() {return img!=null;}
+	
 	public void paint(Graphics g, int xo, int yo) {
 		if(img!=null)g.drawImage(img,x+xo,y+yo,null);
 	}
