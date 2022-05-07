@@ -175,7 +175,7 @@ public class ChunkManager {
 		private int[] indices;
 		public SpriteCombo sprite;
 		private Level lvl;
-		private SpriteImage bgSlice;
+		private SpriteImage floor, wall;
 		
 		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
@@ -186,9 +186,14 @@ public class ChunkManager {
 			lvl = level;
 			sprite = new SpriteCombo(lvl.board, new ArrayList<Sprite>(), (posRanges[0][1] - posRanges[0][0]), (posRanges[1][1] - posRanges[1][0]));
 			sprite.setPos(posRanges[0][0],posRanges[1][0]);
-			bgSlice = new SpriteImage(lvl.board);
-			bgSlice.setPos(posRanges[0][0],posRanges[1][0]);
-			sprite.addSprite(bgSlice);
+			
+			//create constant image layers
+			floor = new SpriteImage(lvl.board);
+			floor.setPos(posRanges[0][0],posRanges[1][0]);
+			sprite.addSprite(floor);
+			wall = new SpriteImage(lvl.board);
+			wall.setPos(posRanges[0][0],posRanges[1][0]);
+			sprite.addSprite(wall);
 			//sprite.render(false);
 		}
 		
@@ -211,8 +216,12 @@ public class ChunkManager {
 			cookies = new ArrayList<Cookie>();
 		}
 		public void updateSprite() {
-			if(!bgSlice.hasImage()) {
-				bgSlice.setImg(((BufferedImage)lvl.game.draw.boardImage.floor).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+			if(!floor.hasImage()) {
+				floor.setImg(((BufferedImage)lvl.bgImg).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+			}
+			if(!wall.hasImage()) {
+				wall.setImg(((BufferedImage)lvl.wallImg).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
+				wall.setClip(lvl.board.wallSpace);
 			}
 			sprite.render(false);
 			fullSprite.addSprite(sprite,false);
