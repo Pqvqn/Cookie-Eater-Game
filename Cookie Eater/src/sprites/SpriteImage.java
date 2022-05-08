@@ -19,7 +19,15 @@ public class SpriteImage extends Sprite{
 	}
 	
 	public void setClip(Area c) {
-		clip = c;
+		// set clip area to just area of chunk
+		clip = new Area(c);
+		Rectangle r = new Rectangle(x,y,img.getWidth(null),img.getHeight(null));
+		clip.intersect(new Area(r));
+		
+		// move wall area to fit chunk
+		AffineTransform t = new AffineTransform();
+		t.setToTranslation(-x, -y);
+		clip.transform(t);
 	}
 	
 	public void setPos(int xp, int yp) {
