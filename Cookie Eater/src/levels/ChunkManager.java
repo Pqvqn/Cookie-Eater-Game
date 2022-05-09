@@ -198,10 +198,12 @@ public class ChunkManager {
 		}
 		
 		public void addCookie(Cookie c) {
+			if(sprite.rendered())updateSprite();
 			cookies.add(c);
 			sprite.addSprite(c.getSprite());
 		}
 		public void removeCookie(Cookie c) {
+			if(sprite.rendered())updateSprite();
 			cookies.remove(c);
 			sprite.removeSprite(c.getSprite());
 		}
