@@ -30,17 +30,17 @@ public class ChunkManager {
 		c_cookies = new ArrayList<Cookie>();
 	}*/
 	
-	/*public void updateChunkList(ArrayList<Entity> ents) {
+	public void updateChunkList(ArrayList<Entity> ents) {
 		active = new HashSet<Chunk>();
 		for(Entity e : ents) {
 			ArrayList<Chunk> ch = chunksInRadius(e.getX(),e.getY(),chunkRad);
 			for(Chunk c : ch) {
 				if(active.add(c)) {
-					c.update();
+					c.updateSprite();
 				}
 			}
 		}
-	}*/
+	}
 	
 	private ArrayList<Sprite> makeChunks(int[] chunkdims, int xres, int yres) {
 		ArrayList<Sprite> chunkSprites = new ArrayList<Sprite>();
@@ -161,6 +161,7 @@ public class ChunkManager {
 				bgbit.paint(g,posRanges[0][0],posRanges[1][0]);
 			}
 		}*/
+		updateChunkList(lvl.board.allEntities());
 		if(!fullSprite.rendered()) {
 			fullSprite.render(false);
 		}
@@ -198,12 +199,10 @@ public class ChunkManager {
 		}
 		
 		public void addCookie(Cookie c) {
-			if(sprite.rendered())updateSprite();
 			cookies.add(c);
 			sprite.addSprite(c.getSprite());
 		}
 		public void removeCookie(Cookie c) {
-			if(sprite.rendered())updateSprite();
 			cookies.remove(c);
 			sprite.removeSprite(c.getSprite());
 		}
