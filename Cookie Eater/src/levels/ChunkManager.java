@@ -56,12 +56,12 @@ public class ChunkManager {
 	//add cookie to appropriate chunk
 	public void addCookie(Cookie cook) {
 		cookies.add(cook);
-		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook);
+		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook,Chunk.IN);
 	}
 	
 	public void removeCookie(Cookie cook) {
 		cookies.remove(cook);
-		surroundingChunk(cook.getX(),cook.getY()).removeCookie(cook);
+		surroundingChunk(cook.getX(),cook.getY()).removeCookie(cook,Chunk.IN);
 	}
 	
 	public boolean containsCookie(Cookie cook) {
@@ -86,7 +86,7 @@ public class ChunkManager {
 		int i=c.getIndices()[0], j=c.getIndices()[1];
 		for(int i2=Math.max(i-(n-1)/2,0); i2<=i+(n-1)/2 && i2<chunks.length; i2++) {
 			for(int j2=Math.max(j-(n-1)/2,0); j2<=j+(n-1)/2 && j2<chunks[i2].length; j2++) {
-				cs.add(chunks[i2][j2].getCookies());
+				cs.add(chunks[i2][j2].getCookies(Chunk.IN));
 			}
 		}
 		return cs;
@@ -171,7 +171,8 @@ public class ChunkManager {
 	public class Chunk {
 		
 		public int[][] posRanges;
-		private ArrayList<Cookie> cookies;
+		private ArrayList<ArrayList<Cookie>> cookies;
+		public static final int IN=0,BORDER=1;
 		private int centerx, centery;
 		private int[] indices;
 		public SpriteCombo sprite;
@@ -180,7 +181,7 @@ public class ChunkManager {
 		
 		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
-			cookies = new ArrayList<Cookie>();
+			cookies = new ArrayList<ArrayList<Cookie>>();
 			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 			indices = ind;
@@ -198,23 +199,26 @@ public class ChunkManager {
 			//sprite.render(false);
 		}
 		
-		public void addCookie(Cookie c) {
-			cookies.add(c);
+		public void addCookie(Cookie c, int loc) {
+			cookies.get(loc).add(c);
 			sprite.addSprite(c.getSprite());
 		}
-		public void removeCookie(Cookie c) {
-			cookies.remove(c);
+		public void removeCookie(Cookie c, int loc) {
+			cookies.get(loc).remove(c);
 			sprite.removeSprite(c.getSprite());
 		}
-		public ArrayList<Cookie> getCookies(){return cookies;}
-		public boolean containsCookie(Cookie c) {return cookies.contains(c);}
+		public ArrayList<ArrayList<Cookie>> getCookies(){return cookies;}
+		public ArrayList<Cookie> getCookies(int loc){return cookies.get(loc);}
+		public boolean containsCookie(Cookie c) {return cookies.get(0).contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
 		public int[] getIndices() {return indices;}
 		public void kill() {
-			for(int c=cookies.size()-1; c>=0; c--) {
-				cookies.get(c).kill(null);
+			ArrayList<Cookie> inC = getCookies(IN);
+			for(int c=inC.size()-1; c>=0; c--) {
+				inC.get(c).kill(null);
 			}
-			cookies = new ArrayList<Cookie>();
+			inC = new ArrayList<Cookie>();
+			cookies = new ArrayList<ArrayList<Cookie>>();
 		}
 		public void updateSprite() {
 			if(!floor.hasImage()) {
