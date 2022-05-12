@@ -173,6 +173,7 @@ public class ChunkManager {
 		public int[][] posRanges;
 		private ArrayList<ArrayList<Cookie>> cookies;
 		public static final int IN=0,BORDER=1;
+		public static final int NONE=0,UP=1,DOWN=2,LEFT=4,RIGHT=8;
 		private int centerx, centery;
 		private int[] indices;
 		public SpriteCombo sprite;
@@ -212,6 +213,23 @@ public class ChunkManager {
 		public boolean containsCookie(Cookie c) {return cookies.get(0).contains(c);}
 		public int[] getCenter() {return new int[] {centerx,centery};}
 		public int[] getIndices() {return indices;}
+		
+		// returns relative directions of chunks that a cookie overhangs into if it does
+		public int overhangs(Cookie c) {
+			int dirs = NONE;
+			if(c.getY()-c.getRadius() <= posRanges[1][0])dirs += UP;
+			if(c.getY()+c.getRadius() >= posRanges[1][1])dirs += DOWN;
+			if(c.getX()-c.getRadius() <= posRanges[0][0])dirs += LEFT;
+			if(c.getX()+c.getRadius() >= posRanges[0][1])dirs += RIGHT;
+			return dirs;
+		}
+		
+		// checks if a direction is represented in the single int combination 
+		public boolean hasDir(int dirInt, int dirToCheck) {
+			return dirInt % (dirToCheck*2) >= dirToCheck;
+		}
+		
+		
 		public void kill() {
 			ArrayList<Cookie> inC = getCookies(IN);
 			for(int c=inC.size()-1; c>=0; c--) {
@@ -220,6 +238,8 @@ public class ChunkManager {
 			inC = new ArrayList<Cookie>();
 			cookies = new ArrayList<ArrayList<Cookie>>();
 		}
+		
+		// rerenders this chunk
 		public void updateSprite() {
 			if(!floor.hasImage()) {
 				floor.setImg(((BufferedImage)lvl.bgImg).getSubimage(posRanges[0][0],posRanges[1][0],(posRanges[0][1] - posRanges[0][0]),(posRanges[1][1] - posRanges[1][0])));
