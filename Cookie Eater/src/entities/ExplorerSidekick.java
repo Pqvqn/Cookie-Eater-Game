@@ -149,11 +149,13 @@ public class ExplorerSidekick extends Explorer{
 					yeehaw = true;
 				}
 			//}
-			ArrayList<Cookie> testCookies = board.currLevel.chunker.surroundingChunk(tester.getCenterX(),tester.getCenterY()).getCookies();
-			for(int j=0; j<testCookies.size(); j++) { //if tester hits a cookie, prioritize this direction
-				Cookie c = testCookies.get(j);
-				if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
-					dos[i] += 1;
+			ArrayList<ArrayList<Cookie>> testCookies = board.currLevel.chunker.surroundingChunk(tester.getCenterX(),tester.getCenterY()).getCookies();
+			for(int j2=0; j2<testCookies.size(); j2++) {
+				for(int j=0; j<testCookies.get(j2).size(); j++) { //if tester hits a cookie, prioritize this direction
+					Cookie c = testCookies.get(j2).get(j);
+					if(tester.collidesWithBounds(false,c.getBounds()) && tester.collidesWithArea(false,c.getArea())){
+						dos[i] += 1;
+					}
 				}
 			}
 		}

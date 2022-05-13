@@ -422,7 +422,7 @@ public abstract class Entity {
 			Chunk chn = board.currLevel.chunker.surroundingChunk(x,y);
 			if(chn!=chunk || cookies==null) {
 				chunk = chn;
-				cookies = board.currLevel.chunker.cookiesNear(chunk,3);
+				cookies = chunk.getCookies(); //board.currLevel.chunker.cookiesNear(chunk,3);
 			}
 			
 			for(int i=0; i<cookies.size(); i++) { //for every cookie, test if any parts impact

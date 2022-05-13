@@ -56,7 +56,11 @@ public class ChunkManager {
 	//add cookie to appropriate chunk
 	public void addCookie(Cookie cook) {
 		cookies.add(cook);
-		surroundingChunk(cook.getX(),cook.getY()).addCookie(cook,Chunk.IN);
+		Chunk container = surroundingChunk(cook.getX(),cook.getY());
+		container.addCookie(cook,Chunk.IN);
+
+		//add to overhangers
+		
 	}
 	
 	public void removeCookie(Cookie cook) {
@@ -227,6 +231,18 @@ public class ChunkManager {
 		// checks if a direction is represented in the single int combination 
 		public boolean hasDir(int dirInt, int dirToCheck) {
 			return dirInt % (dirToCheck*2) >= dirToCheck;
+		}
+		
+		// returns list of chunk overhangs
+		public ArrayList<Chunk> overhangChunks(Cookie c){
+			ArrayList<Chunk> rets = new ArrayList<Chunk>();
+			int ovh = overhangs(c);
+			if(hasDir(ovh,UP) && indices[1]>0)rets.add(chunks[indices[0]][indices[1]-1]);
+			if(hasDir(ovh,DOWN) && indices[1]<chunks[0].length-1)rets.add(chunks[indices[0]][indices[1]+1]);
+			if(hasDir(ovh,LEFT) && indices[0]>0)rets.add(chunks[indices[0]-1][indices[1]]);
+			if(hasDir(ovh,RIGHT) && indices[0]<chunks.length-1)rets.add(chunks[indices[0]+1][indices[1]]);
+			
+			return rets;
 		}
 		
 		
