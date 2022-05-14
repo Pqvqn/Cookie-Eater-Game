@@ -177,7 +177,7 @@ public class ChunkManager {
 		public int[][] posRanges;
 		private ArrayList<ArrayList<Cookie>> cookies;
 		public static final int IN=0,BORDER=1;
-		public static final int NONE=0,UP=1,DOWN=2,LEFT=4,RIGHT=8;
+		public static final int DIRBASE=3,NONE=0,UP=1,DOWN=3,LEFT=9,RIGHT=27;
 		private int centerx, centery;
 		private int[] indices;
 		public SpriteCombo sprite;
@@ -228,9 +228,10 @@ public class ChunkManager {
 			return dirs;
 		}
 		
-		// checks if a direction is represented in the single int combination 
+		// checks if a direction is represented in the single int combination. also works if multiple dirs summed into dirToCheck
 		public boolean hasDir(int dirInt, int dirToCheck) {
-			return dirInt % (dirToCheck*2) >= dirToCheck;
+			//return dirInt % (dirToCheck*2) >= dirToCheck;
+			return Math.log(dirInt - dirToCheck)/Math.log(DIRBASE)%1==0;
 		}
 		
 		// returns list of chunk overhangs
@@ -241,6 +242,10 @@ public class ChunkManager {
 			if(hasDir(ovh,DOWN) && indices[1]<chunks[0].length-1)rets.add(chunks[indices[0]][indices[1]+1]);
 			if(hasDir(ovh,LEFT) && indices[0]>0)rets.add(chunks[indices[0]-1][indices[1]]);
 			if(hasDir(ovh,RIGHT) && indices[0]<chunks.length-1)rets.add(chunks[indices[0]+1][indices[1]]);
+			if(hasDir(ovh,UP+LEFT) && indices[1]>0 && indices[0]>0)rets.add(chunks[indices[0]-1][indices[1]-1]);
+			if(hasDir(ovh,UP+RIGHT) && indices[1]>0 && indices[0]<chunks.length-1)rets.add(chunks[indices[0]+1][indices[1]-1]);
+			if(hasDir(ovh,DOWN+LEFT) && indices[1]<chunks[0].length-1 && indices[0]>0)rets.add(chunks[indices[0]-1][indices[1]+1]);
+			if(hasDir(ovh,DOWN+RIGHT) && indices[1]<chunks[0].length-1 && indices[0]<chunks.length-1)rets.add(chunks[indices[0]+1][indices[1]+1]);
 			
 			return rets;
 		}
