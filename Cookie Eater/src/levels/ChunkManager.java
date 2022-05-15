@@ -187,6 +187,8 @@ public class ChunkManager {
 		public Chunk(Level level, int[] ind, int[][] ranges) {
 			posRanges = ranges;
 			cookies = new ArrayList<ArrayList<Cookie>>();
+			cookies.add(IN,new ArrayList<Cookie>());
+			cookies.add(BORDER,new ArrayList<Cookie>());
 			centerx = (int)((posRanges[0][1] + posRanges[0][0])/2 + .5);
 			centery = (int)((posRanges[1][1] + posRanges[1][0])/2 + .5);
 			indices = ind;
@@ -207,10 +209,22 @@ public class ChunkManager {
 		public void addCookie(Cookie c, int loc) {
 			cookies.get(loc).add(c);
 			sprite.addSprite(c.getSprite());
+			if(loc==IN) {
+				ArrayList<Chunk> overhangs = overhangChunks(c);
+				for(int i=0; i<overhangs.size(); i++) {
+					overhangs.get(i).addCookie(c, BORDER);
+				}
+			}
 		}
 		public void removeCookie(Cookie c, int loc) {
 			cookies.get(loc).remove(c);
 			sprite.removeSprite(c.getSprite());
+			if(loc==IN) {
+				ArrayList<Chunk> overhangs = overhangChunks(c);
+				for(int i=0; i<overhangs.size(); i++) {
+					overhangs.get(i).removeCookie(c, BORDER);
+				}
+			}
 		}
 		public ArrayList<ArrayList<Cookie>> getCookies(){return cookies;}
 		public ArrayList<Cookie> getCookies(int loc){return cookies.get(loc);}
