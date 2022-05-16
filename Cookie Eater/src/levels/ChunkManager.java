@@ -172,6 +172,28 @@ public class ChunkManager {
 		fullSprite.paint(g);
 	}
 	
+	public static boolean hasDir(int dirInt, int dirToCheck) {
+		//return dirInt % (dirToCheck*2) >= dirToCheck;
+		return Math.log(dirInt - dirToCheck)/Math.log(DIRBASE)%1==0;
+	}
+	public static final int DIRBASE=3,NONE=0,UP=1,DOWN=3,LEFT=9,RIGHT=27;
+	public static void main(String[] args) {
+		for(int i=0; i<=1; i++) {
+			for(int j=0; j<=1; j++) {
+				for(int k=0; k<=1; k++) {
+					for(int l=0; l<=1; l++) {
+						int dir = i*UP+j*DOWN+k*LEFT+l*RIGHT;
+						System.out.println(i+" "+j+" "+k+" "+l);
+						System.out.println((i==1) + "  :  " + hasDir(dir,UP));
+						System.out.println((j==1) + "  :  " + hasDir(dir,DOWN));
+						System.out.println((k==1) + "  :  " + hasDir(dir,LEFT));
+						System.out.println((l==1) + "  :  " + hasDir(dir,RIGHT));
+					}
+				}
+			}
+		}
+	}
+	
 	public class Chunk {
 		
 		public int[][] posRanges;
