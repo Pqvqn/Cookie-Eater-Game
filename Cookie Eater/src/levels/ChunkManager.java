@@ -174,7 +174,7 @@ public class ChunkManager {
 	
 	public static boolean hasDir(int dirInt, int dirToCheck) {
 		//return dirInt % (dirToCheck*2) >= dirToCheck;
-		return Math.log(dirInt - dirToCheck)/Math.log(DIRBASE)%1==0;
+		return (Math.log(dirInt - dirToCheck)/Math.log(DIRBASE))%1==0; //must use linear algerbra i think
 	}
 	public static final int DIRBASE=3,NONE=0,UP=1,DOWN=3,LEFT=9,RIGHT=27;
 	public static void main(String[] args) {
